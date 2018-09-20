@@ -12,6 +12,7 @@
 
     <groupId>de.freese.spring</groupId>
     <artifactId>spring</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>

@@ -25,7 +25,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
         /**
         *
         */
-        private static final Logger LOGGER = LoggerFactory.getLogger(PrimaryCommand.class);
+        private static final Logger P_LOGGER = LoggerFactory.getLogger(PrimaryCommand.class);
 
         /**
          *
@@ -58,7 +58,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
         @Override
         protected String run()
         {
-            LOGGER.info("run");
+            P_LOGGER.info("run");
 
             // perform expensive 'primary' service call
             return "responseFromPrimary-" + this.id;
@@ -73,7 +73,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
         /**
         *
         */
-        private static final Logger LOGGER = LoggerFactory.getLogger(SecondaryCommand.class);
+        private static final Logger S_LOGGER = LoggerFactory.getLogger(SecondaryCommand.class);
 
         /**
          *
@@ -105,7 +105,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
         @Override
         protected String run()
         {
-            LOGGER.info("run");
+            S_LOGGER.info("run");
 
             // perform fast 'secondary' service call
             return "responseFromSecondary-" + this.id;
@@ -115,7 +115,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
     /**
     *
     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(PrimarySecondaryCommand.class);
+    private static final Logger C_LOGGER = LoggerFactory.getLogger(PrimarySecondaryCommand.class);
 
     /**
      *
@@ -161,7 +161,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
     @Override
     protected String run() throws Exception
     {
-        LOGGER.info("run");
+        C_LOGGER.info("run");
 
         if (USE_PRIMARY.get())
         {

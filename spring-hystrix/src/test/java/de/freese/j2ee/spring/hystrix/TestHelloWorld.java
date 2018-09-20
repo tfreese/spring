@@ -51,9 +51,6 @@ public class TestHelloWorld
     @BeforeClass
     public static void beforeClass()
     {
-        // Logger root = (Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
-        // root.setLevel(Level.INFO);
-
         // // configuration from a dynamic source
         // PolledConfigurationSource source = createMyOwnSource();
         // AbstractPollingScheduler scheduler = createMyOwnScheduler();
@@ -152,7 +149,7 @@ public class TestHelloWorld
             @Override
             public void onError(final Throwable e)
             {
-                e.printStackTrace();
+                System.out.println("onError: " + e.getLocalizedMessage());
             }
 
             /**
@@ -172,7 +169,7 @@ public class TestHelloWorld
     /**
      *
      */
-    @Test
+    @Test// (expected = RuntimeException.class)
     public void test040FailSynchronous()
     {
         assertEquals("Hello Failure World!", new CommandHelloFailure("World").execute());
@@ -182,7 +179,7 @@ public class TestHelloWorld
     /**
      * @throws Exception Falls was schief geht.
      */
-    @Test // (expected = RuntimeException.class)
+    @Test// (expected = RuntimeException.class)
     public void test050FailAsynchronous() throws Exception
     {
         Future<String> fWorld = new CommandHelloFailure("World").queue();

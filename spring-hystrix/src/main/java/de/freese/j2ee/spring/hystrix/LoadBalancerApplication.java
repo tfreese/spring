@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -25,8 +24,6 @@ import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandKey;
 import com.netflix.hystrix.HystrixCommandProperties;
 import com.netflix.hystrix.HystrixThreadPoolKey;
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
 
 /**
  * @author Thomas Freese
@@ -36,7 +33,7 @@ public class LoadBalancerApplication
     /**
      * @author Thomas Freese
      */
-    private static class HttpResponseHystrixCommand extends HystrixCommand<ClientHttpResponse>
+    public static class HttpResponseHystrixCommand extends HystrixCommand<ClientHttpResponse>
     {
         /**
          *
@@ -139,7 +136,7 @@ public class LoadBalancerApplication
      *
      * @author Thomas Freese
      */
-    private static class LoadBalancerHystrixInterceptor implements ClientHttpRequestInterceptor
+    public static class LoadBalancerHystrixInterceptor implements ClientHttpRequestInterceptor
     {
         /**
          *
@@ -234,7 +231,7 @@ public class LoadBalancerApplication
      *
      * @author Thomas Freese
      */
-    private static class LoadBalancerInterceptor implements ClientHttpRequestInterceptor
+    public static class LoadBalancerInterceptor implements ClientHttpRequestInterceptor
     {
         /**
          *
@@ -369,9 +366,6 @@ public class LoadBalancerApplication
      */
     public static void main(final String[] args) throws Exception
     {
-        Logger root = (Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
-        root.setLevel(Level.INFO);
-
         // configuration from system properties
         ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
 

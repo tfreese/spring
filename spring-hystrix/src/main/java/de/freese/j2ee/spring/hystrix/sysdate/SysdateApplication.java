@@ -3,14 +3,11 @@ package de.freese.j2ee.spring.hystrix.sysdate;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 import com.netflix.config.ConcurrentCompositeConfiguration;
 import com.netflix.config.ConcurrentMapConfiguration;
 import com.netflix.config.ConfigurationManager;
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
 
 /**
  * @author Thomas Freese
@@ -23,9 +20,6 @@ public class SysdateApplication
      */
     public static void main(final String[] args) throws Exception
     {
-        Logger root = (Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
-        root.setLevel(Level.INFO);
-
         // configuration from system properties
         ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
 
