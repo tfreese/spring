@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="de"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="/fragments/head :: headFragment" />
+
+<body>
+	<div th:replace="/fragments/header :: headerMenuFragment" />
+
+	<div id="content_container">
+		<div id="content">
+			<h2>Create a Person:</h2>
+			
+			<label style="color: red; font-style: italic;" sec:authorize="!hasRole('ROLE_ADMIN')">You are NOT ADMIN !</label>
+			
+			<!-- sec:authorize="hasRole('ROLE_ADMIN')" -->
+			<form action="/web/person/personAdd" th:object="${personForm}" method="POST">
+				First Name: <input type="text" th:field="*{firstName}" />
+				<br />
+				Last Name: <input type="text" th:field="*{lastName}" />
+				<br />
+				<input type="submit" value="Create" />
+			</form>
+
+			<br>
+			<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic;">...</div>
+		</div>
+	</div>
+
+	<div th:replace="/fragments/footer :: footerFragment" />
+</body>
+</html>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+body {
+	margin: 10px auto;
+	max-width: 60em;
+	font-family: sans-serif;
+	color: #333333;
+	display: grid;
+	grid-template-columns: 1fr 3fr 1fr;
+	grid-template-rows: 150px 1fr 1fr 100px;
+	min-height: 100vh;
+}
+
+header, nav, main, article, section, aside, footer {
+	border-radius: 0px 0.5em 0.5em;
+	border: 1px solid;
+	padding: 10px;
+	margin: 10px;
+}
+
+header {
+	background: #F1F3F4;
+	border-color: #d5d5d5;
+	grid-column: 1/span 3;
+	grid-row: 1;
+}
+
+nav {
+	background: #fffbf0;
+	border-color: #e7c157;
+	grid-column: 1;
+	grid-row: 2/4;
+}
+
+article {
+	background: #ffede0;
+	border-color: #df6c20;
+	grid-column: 2;
+	grid-row: 2/4;
+}
+
+aside {
+	background: #ebf5d7;
+	border-color: #8db243;
+	grid-column: 3;
+}
+
+footer {
+	background: #e4ebf2;
+	border-color: #8a9da8;
+	grid-column: 1/span 3;
+	grid-row: 4;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<img src="/images/9/99/Selfhtml-beispiel-logo.png" alt="logo">
+<h1>Grid Layout mit feststehendem Footer</h1>
+</header>
+
+<nav>
+<h2>Navigation</h2>
+<ul>
+<li><a href="#link_1.html">Startseite</a></li>
+<li><a href="#link_2.html">Unterseite 1</a></li>
+<li><a href="#link_3.html">Unterseite 2</a></li>
+<li><a href="#link_4.html">Kontakt</a></li>
+</ul>
+</nav>
+
+<aside id="news">
+<h2>Top-News</h2>
+<p>Gestern gab's Freibier!</p>
+</aside>
+
+<article>
+<h2>CSS-basierte Grid Layouts</h2>
+<p>Grid Layout ist wie Flexbox eine sehr moderne und einfache Möglichkeit, responsive und flexible Layouts zu erstellen, ohne feste Größenangaben und
+weitere CSS-Einstellungen wie position, float oder clear nutzen zu müssen.</p>
+<p>Dabei können Elemente beliebig innerhalb eines Rasters platziert werden, wenn gewünscht, auch übereinander.</p>
+<p>Grid Layout wird in allen modernen Browsern (und mit vendor-prefix -ms- auch in IE10, IE11 und Edge) unterstützt.</p>
+</article>
+
+<aside>
+<h2>Weiterführende Links</h2>
+<ul>
+<li><a href="https://blog.selfhtml.org/">Blog</a></li>
+<li><a href="https://wiki.selfhtml.org/">Doku</a></li>
+<li><a href="https://forum.selfhtml.org/">Forum</a></li>
+</ul>
+</aside>
+
+<footer>
+<a href="#kontakt.html">Kontakt</a>
+<p>&copy; 2017 SELFHTML</p>
+</footer>
+
+</body>
+</html>

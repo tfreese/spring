@@ -1,0 +1,21 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+  
+
+debug: false
+logging:
+  config: classpath:logback.xml 
+    
+server:
+  port: 8081
+    
+spring:
+  main:
+    banner-mode: 'OFF'
+  output:
+    ansi:
+      enabled: DETECT    
+    
+    

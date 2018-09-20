@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="de"
+	xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+</head>
+
+<body>
+
+	<nav th:fragment="headerFragment">
+		<div id="header_container">
+			<div id="header">
+			<label th:utext="#{title}" />
+			<!-- span style="float:center" th:utext="#{title}" /-->
+			<span style="float:left"><a href="/">Home</a></span>
+			</div>
+		</div>
+	</nav>
+	
+	<div id="header_container" th:fragment="headerMenuFragment">
+		<div id="header">
+			<label th:utext="#{title}" />
+			<div class="menubar">
+				<a href="/">Home</a>
+				<a href="/createError" th:utext="#{error}" />
+				<a href="/rest/person/personList" th:utext="'REST - ' + #{person.list}" />
+
+				<div class="dropdown" sec:authorize="isAuthenticated()">
+					<button class="dropbtn" th:utext="#{person.add} + '&#9662;'" />
+					<div class="dropdown-content">
+						<a href="/web/person/personAdd" th:utext="#{person.add}" />					
+						<a href="#">Link 2</a>
+					</div>
+				</div>
+				
+				<!--
+				<span sec:authentication="name" />
+				${'User: ' + #authentication.getPrincipal().getUsername()}
+				
+				sec:authorize="hasRole('USER')"
+				${#authorization.expression('hasRole(''USER'')')}
+				
+				<span sec:authentication="principal.authorities" />
+				-->
+				<span style="float:right; margin-left: 0.5em; margin-right: 1em;" sec:authorize="isAuthenticated()" th:text ="${'User: ' + #authentication.getPrincipal().getUsername()}" />
+				
+				<span style="float:right" sec:authorize="!isAuthenticated()"><a href="/login">Login</a></span>
+				
+				<form id="form_logout" action="/logout" method="POST">
+					<span style="float:right" sec:authorize="isAuthenticated()">
+						<!--a href="/login">Logout</a-->					
+						<a href="javascript:{}" onclick="document.getElementById('form_logout').submit(); return false;">Logout</a>									
+					</span>
+				</form>
+			</div>
+
+		</div>
+	</div>
+	
+
+	<div class="menubar" th:fragment="headerMenu">
+		<a href="/">Home</a>
+		<a href="/">News</a>
+
+		<div class="dropdown">
+			<button class="dropbtn">Edit <i>&#9662;</i></button>
+			<div class="dropdown-content">
+				<a href="/web/person/personAdd" th:utext="#{person.add}" />
+				<a href="#">Link 2</a>
+				<a href="#">Link 3</a>
+			</div>
+		</div>
+				
+		<span style="float:right"><a href="/">Login</a></span>
+		<span style="float:right"><a href="/">Logout</a></span>
+	</div>
+        	
+</body>
+</html>

@@ -1,0 +1,35 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html#Common_Attributes
+# ===================================================================
+
+# Sich selbst nirgendwo als Client registrieren (No Replication, Standalone Mode).
+eureka:
+  client:
+    fetchRegistry: false
+    registerWithEureka: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  instance:
+    hostname: localhost
+  server:
+    waitTimeInMsWhenSyncEmpty: 0    
+        
+server:
+  #context: /netflix
+  port: 9001
+  #servlet:
+    #context-path: /netflix
+
+
+#eureka.client.lease.duration = 5
+
+#eureka.
+#eureka.instance.statusPageUrlPath = /info
+#eureka.instance.healthCheckUrlPath = /health
+#eureka.instance.leaseRenewalIntervalInSeconds = 10
+#eureka.instance.leaseExpirationDurationInSeconds = 20
+
+#eureka.server.waitTimeInMsWhenSyncEmpty = 0
+#eureka.server.renewalPercentThreshold = 0.5

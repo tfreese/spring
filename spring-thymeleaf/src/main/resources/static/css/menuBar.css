@@ -1,0 +1,71 @@
+.menubar {
+	overflow: hidden;
+	/*background-color: var(--color-background-menubar);*/
+	background-image: linear-gradient(to right, var(--color-background-menubar), var(--color-background-header));
+	font-family: sans-serif, Arial, Helvetica;
+	height: 2em;	
+}
+
+/* Einzelne Menüpunkte */
+.menubar a {
+	float: left;
+	font-size: 80%;
+	color: white;
+	text-align: center;
+	padding: 0em 1em;
+	text-decoration: none;
+	border-radius: 0.5em;
+}
+
+.dropdown {
+	float: left;
+	overflow: hidden;
+}
+
+.dropdown .dropbtn {
+	cursor: pointer;
+	font-size: 80%;
+	border: none;
+	outline: none;
+	color: white;
+	padding: 0.5em 1em;
+	background-color: inherit;
+	font-family: inherit;
+	margin: 0;
+	border-radius: 0.5em;
+}
+
+/* Buttons / Elemente der MenuBar */
+.menubar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+	background-color: red;
+}
+
+/* Panel eines DropDown-Menus */
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #F9F9F9;
+	min-width: 10em;
+	box-shadow: 0em 1em 1em 0em rgba(0, 0, 0, 0.8);
+	z-index: 1;
+}
+
+/* Hervorhebung der Links in einem DropDown-Menu */
+.dropdown-content a {
+	float: none;
+	color: black;
+	padding: 0em 1em;
+	text-decoration: none;
+	display: block;
+	text-align: left;
+}
+
+/* Hervorhebung der Links in einem DropDown-Menu */
+.dropdown-content a:hover {
+	background-color: #DDDDDD;
+}
+
+/* Automatisches öffnen bei Hover. */
+.dropdown:hover .dropdown-content {
+	display: block;
+}

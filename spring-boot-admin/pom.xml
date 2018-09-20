@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.freese.j2ee.spring</groupId>
+		<artifactId>spring</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>spring-boot-admin</artifactId>
+	<packaging>jar</packaging>
+
+	<name>${project.groupId} - ${project.artifactId}</name>
+	<description>Monitor für Spring-Boot Anwendungen</description>
+
+	<properties>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<!-- spring-boot:run, clean package spring-boot:repackage für executable
+					jar -->
+				<!--jvmArguments>
+					-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+					</jvmArguments -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
+				<configuration>
+					<mainClass>de.freese.spring.boot.admin.SpringBootAdminApplication</mainClass>
+					<layout>ZIP</layout>
+					<classifier>jar-with-dependencies</classifier>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<!-- compile scope -->
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-server</artifactId>
+			<version>${version:de.codecentric:spring-boot-admin}</version>
+		</dependency>
+
+		<!-- runtime scope -->
+        <dependency><!-- sonst meckert der admin-server das im reactor was fehlt -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <version>${version:org.springframework.boot:spring-boot}</version>
+        </dependency>		
+		<!-- provided scope -->
+		<!-- test scope -->
+	</dependencies>
+</project>

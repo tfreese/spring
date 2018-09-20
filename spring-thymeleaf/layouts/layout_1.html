@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Layout 1</title>
+        <meta charset="UTF-8" />
+        <style>
+        /*
+        	#EEEEEE
+        */
+            body {
+                background: lightgray;
+                margin: 0;
+                padding: 0;
+                font-family: sans-serif;
+                font-size: 120%;
+                font-style: normal;
+                font-weight: normal;
+            }
+
+            #header_container {
+                background: darkgray;
+                border: 1px solid #666666;
+                height: 4em;
+                left: 0;
+                position: fixed;
+                width: 100%;
+                top: 0;
+            }
+
+            #header {
+                line-height: 2em;
+                margin: 0 auto;
+                width: 100%;
+                text-align: center;
+            }
+
+            #content_container {
+                /*background: darkgray;*/
+                margin: 0 auto;
+                overflow: auto;
+                padding: 5em 0;
+                width: 90%;
+                height: 100%;
+            }
+
+            #content {
+
+            }
+
+            #footer_container {
+                background: darkgray;
+                border: 1px solid #666666;
+                bottom: 0;
+                height: 1em;
+                left: 0;
+                position: fixed;
+                width: 100%;
+            }
+
+            #footer {
+                line-height: 1em;
+                margin: 0 auto;
+                width: 100%;
+                text-align: center;
+            }
+
+            .navbar {
+                /*overflow: hidden;*/
+                background-color: #333333;
+                font-family: sans-serif, Arial, Helvetica;
+                height: 2em;
+            }
+
+            /* Einzelne Menüpunkte */
+            .navbar a {
+                float: left;
+                font-size: 80%;
+                color: white;
+                text-align: center;
+                padding: 0em 1em;
+                text-decoration: none;
+            }
+
+            .dropdown {
+                float: left;
+                overflow: hidden;
+            }
+
+            .dropdown .dropbtn {
+                cursor: pointer;
+                font-size: 80%;
+                border: none;
+                outline: none;
+                color: white;
+                padding: 0.5em 1em;
+                background-color: inherit;
+                font-family: inherit;
+                margin: 0;
+            }
+
+            /* Buttons / Elemente der MenuBar */
+            .navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+                background-color: red;
+            }
+
+            /* Panel eines DropDown-Menus */
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #F9F9F9;
+                min-width: 10em;
+                box-shadow: 0px 1em 1em 0px rgba(0,0,0,0.8);
+                z-index: 1;
+            }
+
+            /* Hervorhebung der Links in einem DropDown-Menu */
+            .dropdown-content a {
+                float: none;
+                color: black;
+                padding: 0em 1em;
+                text-decoration: none;
+                display: block;
+                text-align: left;
+            }
+
+            /* Hervorhebung der Links in einem DropDown-Menu */
+            .dropdown-content a:hover {
+                background-color: #DDDDDD;
+            }
+
+            /* Automatisches öffnen bei Hover. */
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="header_container">
+            <div id="header">Header
+
+                <div class="navbar">
+                    <a href="#home">Home</a>
+                    <a href="#news">News</a>
+
+                    <div class="dropdown">
+                        <button class="dropbtn">Dropdown-Hover
+                            <i>&#9662;</i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="#">Link 1 .................</a>
+                            <a href="#">Link 2</a>
+                            <a href="#">Link 3</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="content_container">
+            <div id="content">
+                Content Start<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content<br />
+                Content Ende<br />
+            </div>
+        </div>
+
+        <div id="footer_container">
+            <div id="footer">&copy; Thomas Freese</div>
+        </div>
+
+    </body>
+</html>

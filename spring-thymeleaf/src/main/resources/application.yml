@@ -1,0 +1,167 @@
+# =================================================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# =================================================================================================
+
+
+# =================================================================================================
+# Application Properties
+app:
+  message:
+    welcome: Hello Tommy
+
+
+# =================================================================================================
+# Spring Properties
+debug: false
+logging:
+  config: classpath:logback.xml
+  #level:
+    #de.freese.spring.thymeleaf: DEBUG
+
+spring:
+  autoconfigure:
+    #exclude: org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration
+  banner:
+    charset: UTF-8
+    location: classpath:banner.txt
+    web-environment: true
+    web-application-type: SERVLET
+  http:
+    encoding:
+      enabled: true
+      charset: UTF-8
+  jackson:
+    date-format: “yyyy-MM-dd HH:mm:ss.SSS”
+    default-property-inclusion: NON_NULL
+    deserialization:
+      ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT: false
+      ACCEPT_EMPTY_STRING_AS_NULL_OBJECT: false
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+      FAIL_ON_NULL_FOR_PRIMITIVES: true
+      UNWRAP_ROOT_VALUE: false
+    locale: de_DE
+    # SNAKE_CASE = first_name
+    # DEFAUL = firstName
+    #property-naming-strategy: SNAKE_CASE
+    serialization:
+      INDENT_OUTPUT: true
+      WRAP_ROOT_VALUE: false
+      WRITE_DATES_AS_TIMESTAMPS: false
+      WRITE_DATES_WITH_ZONE_ID: false
+    time-zone: Europe/Berlin
+  jmx:
+    enabled: false
+  main:
+    banner-mode: CONSOLE
+  mvc:
+    favicon:
+      enabled: true
+    locale: de_DE
+    throw-exception-if-no-handler-found: true
+  output:
+    ansi:
+      enabled: DETECT
+  profiles:
+    active: with-ssl
+  resources:
+    #cache:
+      #period: 0
+    #chain:
+      #cache: false
+  thymeleaf:
+    cache: false
+
+
+# =================================================================================================
+# Server Properties
+server:
+  compression:
+    enabled: false
+  error:
+    whitelabel:
+      enabled: true
+  port: 8080
+  servlet:
+    #context-path: /${project.artifactId}
+    #context-path: /thymeleaf
+    session:
+      timeout: 30
+  ssl:
+    enabled: false
+
+
+# =================================================================================================
+# ACTUATOR PROPERTIES
+# view-source:http://localhost:8080/actuator/info
+# view-source:http://localhost:8080/actuator/health
+# view-source:http://localhost:8080/actuator/metrics
+#
+#<form action="http://localhost:8088/shutdown" method="post" id="form_shutdown">
+#<form action="shutdown" method="post" id="form_shutdown">
+# <button type="submit">System shutdown</button>
+#</form>
+# curl -X POST HOST:PORT/shutdown
+#
+
+info:
+  app:
+    name: ${project.artifactId}
+    description: ${project.description}
+    version: ${project.version}
+
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+        #include: info, health, metrics, shutdown
+  endpoint:
+    shutdown:
+      enabled: true
+    info:
+      enabled: true
+    health:
+      enabled: true
+      show-details: ALWAYS
+    metrics:
+      enabled: true
+  health:
+    db:
+      enabled: false
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: false
+      path: 'C:'
+  info:
+    defaults:
+      enabled: true
+    env:
+      enabled: true
+  metrics:
+    enable:
+      all: true
+    export:
+      simple:
+        enabled: true
+
+---
+
+spring:
+  profiles: with-ssl
+
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    key-alias: localhost
+    key-password: password
+    key-store: classpath:server_keystore.p12
+    key-store-password: password
+    key-store-type: PKCS12
+    trust-store: classpath:server_truststore.p12
+    trust-store-password: password
+    trust-store-type: PKCS12  

@@ -1,0 +1,11 @@
+CACHE MANIFEST
+# v1 2018-08-30
+# Browser aktualisieren den Cache, wenn die Version sich ändert.
+
+CACHE:
+# no cache
+
+NETWORK:
+*
+
+FALLBACK:

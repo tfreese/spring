@@ -1,0 +1,107 @@
+# docker-compose build
+# docker-compose up -d --scale spring-microservice=3
+# docker-compose ps
+# docker-compose down
+
+version: '3'
+services:
+
+  admin:
+    container_name: spring-admin
+    build:
+      context: ./spring-boot-admin
+      dockerfile: Dockerfile
+    image: spring-boot-admin:latest
+    restart: always
+    #expose:
+      #- 9000
+    ports:
+      - 9000:9000    
+    networks:
+      - default
+      #default:
+          #aliases:
+            #- admin
+      
+  eureka:
+    container_name: spring-eureka
+    build:
+      context: ./eureka
+      dockerfile: Dockerfile
+    image: spring-eureka:latest
+    restart: always
+    #expose:
+      #- 9001
+    ports:
+      - 9002:9001      
+    networks:
+      - default
+      #default:
+          #aliases:
+            #- eureka                 
+  
+  microservice:
+    container_name: spring-microservice
+    build:
+      context: ./microservice
+      dockerfile: Dockerfile
+    image: spring-microservice:latest
+    restart: always
+    environment:
+      SPRING_APPLICATION_JSON:
+       '{"spring":
+          {"boot":
+            {"admin":
+               {"url": "http://admin:9000"}
+            }
+          }
+        }
+        {"eureka":
+          {"client":
+              {"serviceUrl":
+                {"defaultZone": "http://eureka:9001/eureka"}
+              }
+          }
+        }'
+      #- JAVA_OPTS="-Dspring.boot.admin.url=http://spring-admin:9000"
+    #expose:
+      #- 8081
+    ports:
+      - 8081:8081
+    depends_on:
+      - admin
+      - eureka
+    #links:
+      #- admin:spring-admin
+      #- eureka:spring-eureka
+    networks:
+      - default
+      #- dockernet
+      #default:
+          #aliases:
+            #- microservice
+            
+#  loadbalancer:
+#    container_name: spring-haproxy
+#    image: dockercloud/haproxy:latest
+#    restart: always
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    ports:
+#      - 8080:8081
+#    networks:
+#      - main      
+#    links:
+#      - microservice
+#
+#
+# Network-Bridge: Zugriff auf Services die auf dem Host 192.168.155.1 laufen.
+# docker network create -d bridge --subnet 192.168.155.0/24 --gateway 192.168.155.1 dockernet;
+# docker network rm dockernet;
+#
+# localhost im Docker-Netz finden: ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1;
+networks:
+  default:
+    driver: bridge
+  #dockernet:   
+    #external: true

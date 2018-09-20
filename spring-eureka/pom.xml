@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.freese.j2ee.spring</groupId>
+		<artifactId>spring</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>spring-eureka</artifactId>
+	<packaging>jar</packaging>
+
+	<name>${project.groupId} - ${project.artifactId}</name>
+	<description>EUREKA-Server (ServiceDiscovery) von spring-boot</description>
+
+	<properties>
+		<version.java>1.8</version.java>
+	</properties>
+
+	<build>
+		<plugins>
+			<!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
+			<!-- java -jar -D"server.port=8899" target/microservice-0.0.1-SNAPSHOT-jar-with-dependencies.jar -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
+				<configuration>
+					<mainClass>de.freese.j2ee.spring.eureka.EurekaServerApplication</mainClass>
+					<!--jvmArguments>
+						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+						</jvmArguments -->
+					<layout>ZIP</layout>
+					<classifier>jar-with-dependencies</classifier>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+					<!--execution>
+						<id>package</id>
+						<phase>package</phase>
+						<goals>
+						<goal>repackage</goal>
+						</goals>
+						</execution -->
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<!-- compile scope -->	
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+			<version>${version:org.springframework.cloud:spring-cloud}</version>
+		</dependency>
+
+		<!-- runtime scope -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>${version:javax.xml.bind:jaxb-api}</version>
+			<scope>runtime</scope>
+		</dependency>
+				
+		<!-- provided scope -->
+		<!-- test scope -->
+
+	</dependencies>
+</project>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.freese</groupId>
+        <artifactId>maven-parent</artifactId>
+        <version>0.0.1</version>
+    </parent>
+
+    <groupId>de.freese.spring</groupId>
+    <artifactId>spring</artifactId>
+    <packaging>pom</packaging>
+
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Parent für Springprojekte.</description>
+    <inceptionYear>2013</inceptionYear>
+
+    <properties>
+        <!--version:de.codecentric:spring-boot-admin>2.0.0-SNAPSHOT</version:de.codecentric:spring-boot-admin>
+        <version:org.springframework.boot:spring-boot>2.0.1.RELEASE</version:org.springframework.boot:spring-boot>
+        <version:org.springframework.cloud:spring-cloud>2.0.0.RC1</version:org.springframework.cloud:spring-cloud-->
+    </properties>
+
+    <modules>
+        <module>spring-integration</module>
+        <module>spring-web</module>
+        <module>spring-thymeleaf</module>
+        <module>spring-microservice</module>
+        <module>spring-boot-admin</module>
+        <module>spring-eureka</module>
+        <module>spring-ribbon</module>
+        <module>spring-hystrix</module>
+        <module>spring-webflux</module>
+        <module>spring-kryo</module>
+    </modules>
+
+    <dependencies>
+        <!-- compile scope -->
+        <!-- runtime scope -->
+        <!-- provided scope -->
+        <!-- test scope -->
+    </dependencies>
+
+</project>

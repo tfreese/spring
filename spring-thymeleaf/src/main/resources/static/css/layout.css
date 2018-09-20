@@ -1,0 +1,46 @@
+#header_container {
+	background: var(--color-background-header);
+	border: 1px solid #666666;
+	height: 4em;
+	left: 0;
+	position: fixed;
+	width: 100%;
+	top: 0;
+}
+
+#header {
+	line-height: 2em;
+	margin: 0 auto;
+	width: 100%;
+	text-align: center;
+}
+
+#content_container {
+	/*background: darkgray;*/
+	margin: 0 auto;
+	overflow: auto;
+	padding: 5em 0;
+	width: 90%;
+	height: 100%;
+}
+
+#content {
+	
+}
+
+#footer_container {
+	background: var(--color-background-footer);
+	border: 1px solid #666666;
+	bottom: 0;
+	height: 1em;
+	left: 0;
+	position: fixed;
+	width: 100%;
+}
+
+#footer {
+	line-height: 1em;
+	margin: 0 auto;
+	width: 100%;
+	text-align: center;
+}

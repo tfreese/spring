@@ -1,0 +1,50 @@
+:root {
+    --color-background: lightgray;
+	--color-background-header: darkgray;
+	--color-background-footer: var(--color-background-header);
+	--color-background-menubar: #333333;
+	--color-background-row-hover: #C7D4DD;
+}
+body {
+	background: var(--color-background);
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	font-size: 120%;
+	font-style: normal;
+	font-weight: normal;
+}
+
+h1 {
+	color: #0000FF;
+}
+
+h2 {
+	color: #FF0000;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table th, table td {
+	padding: 0.5em;
+}
+
+tbody tr:nth-child(odd) {
+	background-color: #EEEEEE;
+}
+
+tbody tr:nth-child(even) {
+	background-color: #FFFFFF;
+}
+
+/*
+Ganze Zeile inklusive Header
+tr:hover {
+    background: var(--color-background-row-hover) !important;
+}*/
+
+tr:hover td {
+    background: var(--color-background-row-hover) !important;
+}

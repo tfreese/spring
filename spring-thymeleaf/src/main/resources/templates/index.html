@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="de"
+	manifest="manifest.appcache"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<head th:replace="/fragments/head :: headFragment">
+<title>TITLE - Wird ersetzt</title>
+</head>
+
+<body>
+	<div th:replace="/fragments/header :: headerMenuFragment">HEADER - Wird ersetzt</div>
+
+	<div id="content_container">
+		<div id="content">
+			<h2>Welcome</h2>
+			<div th:if="${param.logout}">You have been logged out.</div>
+			
+			<h3 th:utext="${message}">Wird ersetzt</h3>
+
+			<div sec:authorize="isAuthenticated()">
+				Current User: <span sec:authentication="name" /><br />
+				Roles: <span sec:authentication="principal.authorities" /><br />
+			</div>
+			
+			<br />
+			<a th:href="@{/web/person/personList}" th:utext="#{person.list}" />
+		</div>
+	</div>
+
+	<div th:replace="/fragments/footer :: footerFragment">FOOTER - Wird ersetzt</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+spring:
+  boot:
+    admin:
+      notify:
+        hipchat:
+          enabled: false
+        letschat:
+          enabled: false
+        mail:
+          enabled: false
+        ms-teams:
+          enabled: false
+        opsgenie:
+          enabled: false
+        pagerduty:
+          enabled: false
+        telegram:
+          enabled: talse
+        slack:
+          enabled: false
+
+server:
+  port: 9000

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14675406738580" configfile="/spring-boot-web/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="newjsf.xhtml" x="122" y="178" id="pf15287274647770" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf15287316376383" path="newjsf"/>
+  <nodes xsi:type="pageflow:PFPage" name="welcomePrimefaces.xhtml" x="122" y="562" id="pf15287274647782" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" path="/welcomePrimefaces.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="welcomePrimefaces.xhtml" x="338" y="178" id="pf15287316376394" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf15287316376383" path="welcomePrimefaces.xhtml"/>
+  <links id="pf15287316376383" target="pf15287316376394" source="pf15287274647770" outcome="success" fromaction="#{pageController.processPage1}"/>
+</pageflow:Pageflow>
