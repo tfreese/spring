@@ -4,6 +4,7 @@
 
 package de.freese.spring.thymeleaf.config;
 
+import java.security.SecureRandom;
 import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLContext;
 import org.apache.http.HttpResponse;
@@ -191,6 +192,7 @@ public class HttpClientConfigSSL
         // @formatter:off
         SSLContext sslContext = SSLContextBuilder.create()
                 .setKeyStoreType("PKCS12")
+                .setSecureRandom(new SecureRandom())
                 .loadKeyMaterial(ResourceUtils.getFile("classpath:server_keystore.p12"), "password".toCharArray(), "password".toCharArray(), privateKeyStrategy)
                 .loadTrustMaterial(ResourceUtils.getFile("classpath:server_truststore.p12"), "password".toCharArray(), trustStrategy)
                 .build();
