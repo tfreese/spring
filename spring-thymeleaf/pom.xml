@@ -50,7 +50,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
-					<mainClass>de.freese.spring.thymeleaf.SpringBootThymeleafApplication</mainClass>
+					<mainClass>de.freese.spring.thymeleaf.ThymeleafApplication</mainClass>
 					<!--jvmArguments>
 						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
 						</jvmArguments -->
