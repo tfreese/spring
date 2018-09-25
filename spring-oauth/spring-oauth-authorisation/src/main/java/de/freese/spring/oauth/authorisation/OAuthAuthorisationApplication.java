@@ -7,9 +7,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
- * https://www.baeldung.com/sso-spring-security-oauth2<br>
- * https://github.com/eugenp/tutorials/tree/master/spring-security-sso<br>
- *
  * @author Thomas Freese
  */
 @SpringBootApplication

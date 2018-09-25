@@ -74,27 +74,52 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 			<version>${version:org.springframework.boot:spring-boot}</version>
-		</dependency-->
-		<dependency>
+			</dependency -->
+		<!--dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${version:org.springframework:spring}</version>
-		</dependency>			
+		</dependency-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>${version:org.springframework.boot:spring-boot}</version>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>${version:org.springframework.boot:spring-boot}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${version:org.springframework:spring}</version>
+		</dependency>
+		<!--dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-client</artifactId>
+			<version>${version:org.springframework:spring}</version>
+			</dependency>
+			<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-resource-server</artifactId>
+			<version>${version:org.springframework:spring}</version>
+			</dependency -->
 		<!--dependency>
 			<groupId>org.springframework.security.oauth.boot</groupId>
 			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
 			<version>${version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure}</version>
-		</dependency-->
+			</dependency -->
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
 			<version>${version:org.springframework.security.oauth:spring-security-oauth2}</version>
-		</dependency>		
+		</dependency>
+		<!--dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>${version:org.springframework.security.oauth:spring-security-oauth2}</version>
+			</dependency -->
 
 		<!-- runtime scope -->
 		<!-- provided scope -->

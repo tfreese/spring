@@ -2,17 +2,22 @@
  * Created: 22.09.2018
  */
 
-package de.freese.spring.oauth.authorisation;
+package de.freese.spring.oauth.authorisation.config;
 
+import javax.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerSecurityConfiguration;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.InMemoryApprovalStore;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
@@ -21,16 +26,38 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 /**
+ * Die HttpSecurity wird über die Annotation {@link EnableAuthorizationServer} in {@link AuthorizationServerSecurityConfiguration} gemacht.<br>
+ * Für die User-Passwörter benötigt der Authorisation-Server einen {@link AuthenticationManager}, {@link UserDetailsService} und {@link PasswordEncoder}.<br>
+ * Diese werden in der {@link SecurityConfig} erzeugt.
+ *
  * @author Thomas Freese
  */
 @Configuration
 @EnableAuthorizationServer
-public class AuthorisationConfig extends AuthorizationServerConfigurerAdapter
+public class OauthAuthorisationConfig extends AuthorizationServerConfigurerAdapter
 {
     /**
-     * Erstellt ein neues {@link AuthorisationConfig} Object.
+     *
      */
-    public AuthorisationConfig()
+    @Resource
+    private AuthenticationManager authenticationManager = null;
+
+    /**
+     *
+     */
+    @Resource
+    private PasswordEncoder passwordEncoder = null;
+
+    /**
+     *
+     */
+    @Resource
+    private UserDetailsService userDetailsService = null;
+
+    /**
+     * Erstellt ein neues {@link OauthAuthorisationConfig} Object.
+     */
+    public OauthAuthorisationConfig()
     {
         super();
     }
@@ -54,6 +81,29 @@ public class AuthorisationConfig extends AuthorizationServerConfigurerAdapter
     }
 
     /**
+     * @return {@link ClientDetailsService}
+     * @throws Exception Falls was schief geht.
+     */
+    @Bean
+    public ClientDetailsService clientDetailsService() throws Exception
+    {
+        // @formatter:off
+        return new InMemoryClientDetailsServiceBuilder()
+                .withClient("my-client-id")
+                    //.secret(this.passwordEncoder.encode("my-secret"))
+                    .secret("my-secret")
+                    .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token", "implicit")
+                    .scopes("user_info") // .scopes("read", "write", "trust")
+                    .autoApprove(true)
+                    //.redirectUris("http://localhost:8082/ui/login", "http://localhost:8083/ui2/login")
+                    .accessTokenValiditySeconds(300) // 5 Minuten
+                    .refreshTokenValiditySeconds(3600) // 1 Stunde
+                .and()
+                .build();
+        // @formatter:on
+    }
+
+    /**
      * @see org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter#configure(org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer)
      */
     @Override
@@ -64,6 +114,8 @@ public class AuthorisationConfig extends AuthorizationServerConfigurerAdapter
             .approvalStore(approvalStore())
             .authorizationCodeServices(authorizationCodeServices())
             .tokenStore(tokenStore())
+            .authenticationManager(this.authenticationManager)
+            .userDetailsService(this.userDetailsService)
             ;
         // @formatter:on
     }
@@ -78,6 +130,7 @@ public class AuthorisationConfig extends AuthorizationServerConfigurerAdapter
         oauthServer
             .tokenKeyAccess("permitAll()")
             .checkTokenAccess("isAuthenticated()")
+            .passwordEncoder(this.passwordEncoder)
             ;
         // @formatter:on
     }
@@ -90,28 +143,9 @@ public class AuthorisationConfig extends AuthorizationServerConfigurerAdapter
     {
         // @formatter:off
         clients
-            .inMemory()
-                .withClient("SampleClientId")
-                .secret(passwordEncoder().encode("secret"))
-                .authorizedGrantTypes("authorization_code") // "password","authorization_code", "refresh_token"
-                .scopes("user_info")
-                .autoApprove(true)
-                .redirectUris("http://localhost:8082/ui/login", "http://localhost:8083/ui2/login")
-                .accessTokenValiditySeconds(300) // 5 Minuten
-                .refreshTokenValiditySeconds(3600) // 1 Stunde
-                ;
+            .withClientDetails(clientDetailsService())
+            ;
         // @formatter:on
-    }
-
-    /**
-     * @return {@link PasswordEncoder}
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder()
-    {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
-        return bCryptPasswordEncoder;
     }
 
     /**
