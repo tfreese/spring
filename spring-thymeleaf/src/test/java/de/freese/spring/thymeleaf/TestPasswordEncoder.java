@@ -7,6 +7,7 @@ package de.freese.spring.thymeleaf;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import org.junit.runners.Parameterized.Parameters;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
 
 /**
  * @author Thomas Freese
@@ -24,6 +26,26 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestPasswordEncoder
 {
+    /**
+     *
+     */
+    private static final Pbkdf2PasswordEncoder pbkdf2_SHA1 = new Pbkdf2PasswordEncoder("mySecret");
+
+    /**
+     *
+     */
+    private static final Pbkdf2PasswordEncoder pbkdf2_SHA512 = new Pbkdf2PasswordEncoder("mySecret");
+
+    /**
+     *
+     */
+    @BeforeClass
+    public static void beforeClass()
+    {
+        pbkdf2_SHA512.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
+        pbkdf2_SHA512.setEncodeHashAsBase64(false);
+    }
+
     /**
      * @return {@link Iterable}
      * @throws Exception Falls was schief geht.
@@ -37,12 +59,11 @@ public class TestPasswordEncoder
                         "BCrypt", new BCryptPasswordEncoder(10, new SecureRandom())
                 },
                 {
-                        "Pbkdf2", new Pbkdf2PasswordEncoder()
+                        "Pbkdf2_SHA1", pbkdf2_SHA1
+                },
+                {
+                        "Pbkdf2_SHA512", pbkdf2_SHA512
                 }
-                // ,
-                // {
-                // "SCrypt", new SCryptPasswordEncoder()
-                // }
         });
     }
 
@@ -71,9 +92,10 @@ public class TestPasswordEncoder
     public void testPasswordEncoder()
     {
         String password = "gehaim";
-        String encoded = this.passwordEncoder.encode(password);
 
+        String encoded = this.passwordEncoder.encode(password);
         System.out.println(encoded);
+
         Assert.assertTrue(this.passwordEncoder.matches(password, encoded));
     }
 }

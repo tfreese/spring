@@ -91,11 +91,11 @@ public class OauthAuthorisationConfig extends AuthorizationServerConfigurerAdapt
         return new InMemoryClientDetailsServiceBuilder()
                 .withClient("my-client-id")
                     //.secret(this.passwordEncoder.encode("my-secret"))
-                    .secret("my-secret")
+                    .secret("{noop}my-secret")
                     .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token", "implicit")
                     .scopes("user_info") // .scopes("read", "write", "trust")
                     .autoApprove(true)
-                    //.redirectUris("http://localhost:8082/ui/login", "http://localhost:8083/ui2/login")
+                    //.redirectUris("http://localhost:8081/auth/rest/hello", "http://localhost:8082/auth/rest/hello")
                     .accessTokenValiditySeconds(300) // 5 Minuten
                     .refreshTokenValiditySeconds(3600) // 1 Stunde
                 .and()

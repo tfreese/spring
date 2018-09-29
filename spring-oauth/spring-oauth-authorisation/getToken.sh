@@ -3,6 +3,8 @@
 # Thomas Freese
 #
 
+clear;
+
 HOST="http://localhost:8081/auth"
 URL_TOKEN="$HOST/oauth/token"
 
@@ -11,13 +13,19 @@ URL_TOKEN="$HOST/oauth/token"
 
 #curl -v -X POST -u 'my-client-id:my-secret' -d "grant_type=password&username=user&password=pw" "$URL_TOKEN"
 curl -v -X POST -u 'my-client-id:my-secret' -d grant_type=password -d username=user -d password=pw "$URL_TOKEN"
+
+#TOKEN=$(curl -i -X POST -u 'my-client-id:my-secret' -d grant_type=password -d username=user -d password=pw "$URL_TOKEN" | jq -r .access_token)
 echo
 
-TOKEN="e5b40eed-8bf8-430a-8eef-9a540f5afbe6"
-curl -v -X GET -H "Accept: application/json" -H "Authorization: Bearer $TOKEN" "$HOST/rest/principal"
+#TOKEN="9da0b785-83de-40fb-b272-5a3ecb7fd278"
+echo "Token = $TOKEN"
+
+#curl -v -H "Accept: application/json" "$HOST/rest/hello"
+#curl -v -H "Accept: application/json" "$HOST/rest/principal"
 echo
 
-#curl -H "Accept: application/json" my-client-with-secret:secret@localhost:8080/oauth/token -d grant_type=client_credentials
-#curl -H "Authorization: Bearer $TOKEN" localhost:8080/
+#curl -v -H "Accept: application/json" -H "Authorization: Bearer $TOKEN" "$HOST/rest/hello"
+echo
 
-#curl -H "Authorization: Bearer a503faf9-45b5-4fec-8334-337284a66ea4" http://localhost:9001/rest/v1/electronics/custoers/current
+# echo '{"token":"ac07098ad59ca6f3fccea0e2a2f6cb080df55c9a52fc9d65"}' | jq -r .token
+# ac07098ad59ca6f3fccea0e2a2f6cb080df55c9a52fc9d65

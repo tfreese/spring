@@ -5,6 +5,7 @@
 package de.freese.spring.oauth.authorisation;
 
 import java.security.Principal;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +28,8 @@ public class HelloResource
     /**
      * @return String
      */
-    @GetMapping
+    @GetMapping("hello")
+    @Secured("ROLE_USER")
     public String hello()
     {
         return "Hello World";
@@ -37,7 +39,8 @@ public class HelloResource
      * @param principal {@link Principal}
      * @return {@link Principal}
      */
-    @GetMapping("/principal")
+    @GetMapping("principal")
+    @Secured("ROLE_USER")
     public Principal user(final Principal principal)
     {
         return principal;
