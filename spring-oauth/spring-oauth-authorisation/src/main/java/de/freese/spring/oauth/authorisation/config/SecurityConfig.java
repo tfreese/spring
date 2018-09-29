@@ -74,7 +74,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     {
         // @formatter:off
         http
-            //.anonymous().disable()
+            .anonymous().disable()
+            .csrf().disable()
             .authorizeRequests()
                 .antMatchers("/auth/oauth/token").permitAll()
                 .antMatchers("/auth/rest/**").authenticated() // Nur auf den /rest Pfad beschränken.

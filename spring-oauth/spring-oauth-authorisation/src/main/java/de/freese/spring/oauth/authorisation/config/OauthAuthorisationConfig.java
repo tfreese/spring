@@ -131,6 +131,7 @@ public class OauthAuthorisationConfig extends AuthorizationServerConfigurerAdapt
             .tokenKeyAccess("permitAll()")
             .checkTokenAccess("isAuthenticated()")
             .passwordEncoder(this.passwordEncoder)
+            .realm("my_realm")
             ;
         // @formatter:on
     }
