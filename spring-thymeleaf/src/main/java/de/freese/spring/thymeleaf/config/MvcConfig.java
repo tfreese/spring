@@ -100,7 +100,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
     @Override
     public void addViewControllers(final ViewControllerRegistry registry)
     {
-        // Wird schon im PersonThymeleafController gemacht.
+        // Wird schon im HomeThymeleafController gemacht.
         // registry.addViewController("/").setViewName("index");
         // registry.addViewController("/index").setViewName("index");
     }

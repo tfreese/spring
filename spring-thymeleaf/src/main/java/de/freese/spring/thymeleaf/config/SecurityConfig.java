@@ -139,11 +139,10 @@ public class SecurityConfig
         }
 
         /**
-         * @return {@link AuthenticationManager}
-         * @throws Exception Falls was schief geht.
+         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#authenticationManagerBean()
          */
-        @Bean(name = "authenticationManagerRest")
         @Override
+        @Bean(name = "authenticationManagerRest")
         public AuthenticationManager authenticationManagerBean() throws Exception
         {
             return super.authenticationManagerBean();
@@ -295,11 +294,10 @@ public class SecurityConfig
         }
 
         /**
-         * @return {@link AuthenticationManager}
-         * @throws Exception Falls was schief geht.
+         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#authenticationManagerBean()
          */
-        @Bean(name = "authenticationManagerWeb")
         @Override
+        @Bean(name = "authenticationManagerWeb")
         public AuthenticationManager authenticationManagerBean() throws Exception
         {
             return super.authenticationManagerBean();
