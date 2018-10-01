@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>spring-oauth-resource</artifactId>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
 	<description>OAuth Resource Server</description>
@@ -70,6 +70,36 @@
 
 	<dependencies>
 		<!-- compile scope -->
+		<!--dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${version:org.springframework:spring}</version>
+			</dependency>
+
+			<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<version>${version:org.springframework.boot:spring-boot}</version>
+			</dependency -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${version:org.springframework.boot:spring-boot}</version>
+			<!--exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions-->
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security.oauth.boot</groupId>
+			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
+			<version>${version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure}</version>
+		</dependency>
+
 		<!-- runtime scope -->
 		<!-- provided scope -->
 		<!-- test scope -->

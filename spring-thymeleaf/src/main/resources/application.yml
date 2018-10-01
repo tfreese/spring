@@ -25,8 +25,6 @@ spring:
   banner:
     charset: UTF-8
     location: classpath:banner.txt
-    web-environment: true
-    web-application-type: SERVLET
   http:
     encoding:
       enabled: true
@@ -54,6 +52,7 @@ spring:
     enabled: false
   main:
     banner-mode: CONSOLE
+    web-application-type: SERVLET    
   mvc:
     favicon:
       enabled: true
