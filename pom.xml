@@ -20,9 +20,9 @@
 	<inceptionYear>2013</inceptionYear>
 
 	<properties>
-		<!--version:de.codecentric:spring-boot-admin>2.0.0-SNAPSHOT</version:de.codecentric:spring-boot-admin>
-			<version:org.springframework.boot:spring-boot>2.0.1.RELEASE</version:org.springframework.boot:spring-boot>
-			<version:org.springframework.cloud:spring-cloud>2.0.0.RC1</version:org.springframework.cloud:spring-cloud -->
+		<version:org.springframework.security.oauth:spring-security-oauth2>2.3.3.RELEASE</version:org.springframework.security.oauth:spring-security-oauth2>
+		<version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>2.0.5.RELEASE</version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>	
+		<version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4>3.0.2.RELEASE</version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4>
 	</properties>
 
 	<modules>

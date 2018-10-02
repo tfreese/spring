@@ -98,7 +98,7 @@
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
-			<version>3.0.2.RELEASE</version>
+			<version>${version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4}</version>
 		</dependency>
 
 		<!-- hot swapping, disable cache for template, enable live reload -->

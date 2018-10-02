@@ -42,8 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     /**
-     * @return {@link AuthenticationManager}
-     * @throws Exception Falls was schief geht.
+     * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#authenticationManagerBean()
      */
     @Bean
     @Override
@@ -62,7 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         auth
             .eraseCredentials(true)
             .userDetailsService(userDetailsService())
-            .passwordEncoder(passwordEncoder());
+            .passwordEncoder(passwordEncoder())
+            ;
         // @formatter:on
     }
 

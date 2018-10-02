@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.freese.spring</groupId>
+		<artifactId>spring-oauth</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	
+    <artifactId>spring-oauth-sso-ui-2</artifactId>
+    <packaging>jar</packaging>
+
+	<name>${project.groupId} - ${project.artifactId}</name>
+    <description>OAuth SingleSignOn UI-2</description>
+
+    <dependencies>
+		<!-- compile scope -->  
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${version:org.springframework.boot:spring-boot}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${version:org.springframework.boot:spring-boot}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth.boot</groupId>
+            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+            <version>${version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>${version:org.springframework.boot:spring-boot}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+            <version>${version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4}</version>
+        </dependency>
+
+		<!-- runtime scope -->
+		<!-- provided scope -->
+		<!-- test scope --> 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${version:org.springframework.boot:spring-boot}</version>
+			<scope>test</scope>
+		</dependency>
+    </dependencies>
+
+</project>
