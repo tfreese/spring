@@ -1,12 +1,13 @@
-package org.spring.oauth.resource;
+package org.spring.oauth.rest.client;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
-import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
+import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.redirect.AbstractRedirectResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.web.client.RestTemplate;
@@ -33,17 +34,26 @@ public class RestOAuthApplication
     @Bean("myResourceDetails")
     public OAuth2ProtectedResourceDetails oAuth2ProtectedResourceDetails()
     {
-        AuthorizationCodeResourceDetails details = new AuthorizationCodeResourceDetails();
+        // AuthorizationCodeResourceDetails details = new AuthorizationCodeResourceDetails();
         // BaseOAuth2ProtectedResourceDetails details = new ClientCredentialsResourceDetails();
+        BaseOAuth2ProtectedResourceDetails details = new ResourceOwnerPasswordResourceDetails();
+
         details.setId("local");
         details.setClientId("my-client-id");
-        details.setClientSecret("secret");
+        details.setClientSecret("{noop}secret");
         details.setAccessTokenUri("http://localhost:8081/auth/oauth/token");
+        // details.setAuthenticationScheme(AuthenticationScheme.header);
+        // details.setClientAuthenticationScheme(AuthenticationScheme.query);
 
         if (details instanceof AbstractRedirectResourceDetails)
         {
             ((AbstractRedirectResourceDetails) details).setUserAuthorizationUri("http://localhost:8081/auth/oauth/authorize");
             ((AbstractRedirectResourceDetails) details).setPreEstablishedRedirectUri("http://localhost:8082/login");
+        }
+        else if (details instanceof ResourceOwnerPasswordResourceDetails)
+        {
+            ((ResourceOwnerPasswordResourceDetails) details).setUsername("user");
+            ((ResourceOwnerPasswordResourceDetails) details).setPassword("pw");
         }
 
         // details.setTokenName("oauth_token");
@@ -68,7 +78,7 @@ public class RestOAuthApplication
         // Arrays.asList(new ImplicitAccessTokenProvider(), new ResourceOwnerPasswordAccessTokenProvider(), new ClientCredentialsAccessTokenProvider()));
         // template.setAccessTokenProvider(accessTokenProvider);
 
-        // template.setInterceptors(Arrays.asList(new BasicAuthorizationInterceptor("john", "123")));
+        // template.setInterceptors(Arrays.asList(new BasicAuthorizationInterceptor("user", "pw")));
 
         return template;
     }

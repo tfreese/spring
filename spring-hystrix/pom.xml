@@ -15,7 +15,7 @@
     <description>Hystrix-Demo von spring-boot</description>
 
     <properties>
-    	<version.java>1.8</version.java>
+    	<version.java>10</version.java>
     </properties>
 
     <dependencies>

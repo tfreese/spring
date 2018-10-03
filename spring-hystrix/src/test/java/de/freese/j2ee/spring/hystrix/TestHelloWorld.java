@@ -4,9 +4,7 @@
 package de.freese.j2ee.spring.hystrix;
 
 import static org.junit.Assert.assertEquals;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -14,7 +12,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import com.netflix.hystrix.Hystrix;
-import com.netflix.hystrix.strategy.HystrixPlugins;
 import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import rx.Observable;
 import rx.Observer;
@@ -78,8 +75,8 @@ public class TestHelloWorld
         // ConfigurationManager.install(finalConfig);
 
         // Was eigentlich bei Hystrix NICHT sein soll, nur einen ThreadPool für alles !
-        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        HystrixPlugins.getInstance().registerConcurrencyStrategy(new MyHystrixConcurrencyStrategy(executor));
+        // ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        // HystrixPlugins.getInstance().registerConcurrencyStrategy(new MyHystrixConcurrencyStrategy(executor));
 
         // Context für Request-Caching, bei Web-Anwendungen pro Request aufrufen.
         context = HystrixRequestContext.initializeContext();

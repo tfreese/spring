@@ -10,11 +10,11 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>spring-oauth-resource</artifactId>
+	<artifactId>spring-oauth-rest-client</artifactId>
 	<packaging>jar</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>OAuth Resource Server</description>
+	<description>OAuth REST Client</description>
 
 	<properties>
 	</properties>

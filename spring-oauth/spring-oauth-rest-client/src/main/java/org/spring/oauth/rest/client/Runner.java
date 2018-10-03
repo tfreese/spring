@@ -2,7 +2,7 @@
  * Created: 01.10.2018
  */
 
-package org.spring.oauth.resource;
+package org.spring.oauth.rest.client;
 
 import javax.annotation.Resource;
 import org.springframework.boot.CommandLineRunner;
