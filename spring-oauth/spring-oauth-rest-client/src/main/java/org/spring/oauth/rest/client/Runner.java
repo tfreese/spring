@@ -35,10 +35,29 @@ public class Runner implements CommandLineRunner
     @Override
     public void run(final String...args) throws Exception
     {
-        System.out.println(this.restTemplate);
+        System.out.println();
+        String response = this.restTemplate.getForObject("http://localhost:8081/auth/rest/me", String.class);
+        System.out.println("Prinzipal = " + response);
 
-        String response = this.restTemplate.getForObject("http://localhost:8081/auth/user/me", String.class);
-
+        System.out.println();
+        response = this.restTemplate.getForObject("http://localhost:8081/auth/rest/hello", String.class);
         System.out.println(response);
+
+        System.out.println();
+
+        while (true)
+        {
+            try
+            {
+                Thread.sleep(30000);
+                response = this.restTemplate.getForObject("http://localhost:8081/auth/rest/me", String.class);
+                System.out.println(response);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+                break;
+            }
+        }
     }
 }

@@ -31,7 +31,6 @@ import de.freese.spring.thymeleaf.web.TestWebApp;
         TestRestWithJreHttpClient.class
     // @formatter:off
 })
-
 public class AllThymeleafTests
 {
     // /**

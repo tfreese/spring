@@ -91,12 +91,12 @@ public class OauthAuthorisationConfig extends AuthorizationServerConfigurerAdapt
         // @formatter:off
         return new InMemoryClientDetailsServiceBuilder()
                 .withClient("my-client-id")
-                    //.secret(this.passwordEncoder.encode("my-secret"))
-                    .secret("{noop}secret")
+                    .secret(this.passwordEncoder.encode("{noop}my-secret"))
+                    //.secret("my-secret")
                     .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token", "implicit")
                     .scopes("user_info") // .scopes("read", "write", "trust")
                     .autoApprove(true)
-                    .accessTokenValiditySeconds(300) // 5 Minuten
+                    .accessTokenValiditySeconds(120) // 2 Minuten
                     .refreshTokenValiditySeconds(3600) // 1 Stunde
                 .and()
                 .build();
@@ -155,9 +155,7 @@ public class OauthAuthorisationConfig extends AuthorizationServerConfigurerAdapt
     @Bean
     public OAuth2AccessDeniedHandler oauthAccessDeniedHandler()
     {
-
         return new OAuth2AccessDeniedHandler();
-
     }
 
     /**

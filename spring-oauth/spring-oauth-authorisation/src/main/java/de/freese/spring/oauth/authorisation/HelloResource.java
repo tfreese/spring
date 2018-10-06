@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Thomas Freese
  */
 @RestController
-@RequestMapping("user")
+@RequestMapping("rest")
 public class HelloResource
 {
     /**
@@ -40,7 +40,6 @@ public class HelloResource
      * @return {@link Principal}
      */
     @GetMapping("me")
-    @Secured("ROLE_USER")
     public Principal user(final Principal principal)
     {
         return principal;

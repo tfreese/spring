@@ -81,7 +81,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/auth/rest/**").authenticated() // Nur auf den /rest Pfad beschränken.
                 .anyRequest().denyAll()
             .and()
-            .httpBasic()
+                .formLogin().disable()
+                .httpBasic().disable()
 
 //            .antMatcher("/auth/rest/**")
 //                .authorizeRequests()
@@ -123,11 +124,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public UserDetailsService userDetailsService()
     {
-        // PasswordEncoder passwordEncoder = passwordEncoder();
+        PasswordEncoder passwordEncoder = passwordEncoder();
 
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
-        userDetailsManager.createUser(User.withUsername("admin").password("{noop}pw").roles("ADMIN", "USER").build());
-        userDetailsManager.createUser(User.withUsername("user").password("{noop}pw").roles("USER").build());
+        userDetailsManager.createUser(User.withUsername("admin").password(passwordEncoder.encode("{noop}pw")).roles("ADMIN", "USER").build());
+        userDetailsManager.createUser(User.withUsername("user").password(passwordEncoder.encode("{noop}pw")).roles("USER").build());
 
         UserDetailsService userDetailsService = userDetailsManager;
 
