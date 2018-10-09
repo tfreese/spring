@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configuration>
+<configuration debug="false" scan="false"><!-- scanPeriod="60 seconds"-->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+
+    <!--Levels are ordered: TRACE < DEBUG < INFO < WARN < ERROR -->
+    <!-- ${PID} -->
+    <!--property name="pattern" value="%date{yyyy-MM-dd HH:mm:ss.SSS} - %-5level[%thread] - %logger{0}[%method] - %message%n" /-->
+    <property name="pattern" value="%date{HH:mm:ss.SSS} - %clr(%.-1level){yellow}[%-22.-22thread] - %-35.-35logger{0} - %message%n" />
+    <property name="log.dir" value="${user.dir}/log" />
+
+    <!--if condition='isNull("log.dir")'>
+        <then>
+            <property name="log.dir" value="${user.home}/logs/eps-mailer" />
+        </then>
+        <else>
+        </else>
+    </if-->
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.out</target>
+        <immediateFlush>true</immediateFlush>
+        <encoder>
+            <pattern>${pattern}</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>            
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <immediateFlush>true</immediateFlush>
+        <encoder>
+            <pattern>${pattern}</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>            
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <!--appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.dir}/hateoas.log</file>
+        <append>true</append>
+        <immediateFlush>true</immediateFlush>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/hateoas.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${pattern}</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>            
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+    </appender-->
+
+    <logger name="org.springframework.jdbc.core.JdbcTemplate" level="INFO"/>
+    <logger name="org.springframework.boot.autoconfigure" level="INFO"/>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="STDERR" />
+        <!--appender-ref ref="FILE" /-->
+    </root>
+</configuration>

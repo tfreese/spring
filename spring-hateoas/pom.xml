@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<prerequisites>
+		<maven>3.5.0</maven>
+	</prerequisites>
+
+	<!-- versions:update-parent -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.5.RELEASE</version>
+		<relativePath />
+	</parent>
+
+	<groupId>de.freese.spring</groupId>
+	<artifactId>spring-hateoas</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<name>${project.groupId} - ${project.artifactId}</name>
+	<description>Demo für REST-HATEOAS</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+
+		<rule-set>file:${user.home}/.m2/rule-set.xml</rule-set>
+
+		<!-- Dependencies -->
+		<!--jackson.version>2.8.0</jackson.version -->
+		<!--json-path.version>${version:com.jayway.jsonpath:json}</json-path.version -->
+
+		<!-- Plugins -->
+		<!--version:org.apache.maven.plugins:maven-compiler-plugin>3.8.0</version:org.apache.maven.plugins:maven-compiler-plugin -->
+		<version:org.apache.maven.plugins:maven-toolchains-plugin>1.1</version:org.apache.maven.plugins:maven-toolchains-plugin>
+	</properties>
+
+	<build>
+		<!-- Ist spring-boot-starter-parent die Parent-POM, wird als Resource-Delimiter @ verwendet. -->
+		<!--resources>
+			<resource -->
+		<!-- Nur application.properties filtern -->
+		<!--directory>src/main/resources</directory>
+			<filtering>true</filtering>
+			<includes>
+			<include>application.properties</include>
+			</includes>
+			</resource>
+			<resource -->
+		<!-- Alles andere NICHT filtern -->
+		<!--directory>src/main/resources</directory>
+			<filtering>false</filtering>
+			<excludes>
+			<exclude>application.properties</exclude>
+			</excludes>
+			</resource>
+			</resources -->
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<!--version>${version:org.apache.maven.plugins:maven-compiler-plugin}</version -->
+				<configuration>
+					<showDeprecation>true</showDeprecation>
+					<showWarnings>true</showWarnings>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<configuration>
+					<rulesUri>${rule-set}</rulesUri>
+				</configuration>
+			</plugin>
+			<!-- spring-boot:run, spring-boot:repackage für executable jar -->
+			<!--java -jar -Dloader.main=de.freese.web.OtherMain target/test-0.0.1-SNAPSHOT.jar -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!--version>${version:org.springframework.boot:spring-boot-maven-plugin}</version -->
+				<configuration>
+					<mainClass>de.freese.spring.hateoas.HateoasApplication</mainClass>
+					<layout>ZIP</layout>
+					<classifier>jar-with-dependencies</classifier>
+					<!--jvmArguments>
+						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+						</jvmArguments -->
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-toolchains-plugin</artifactId>
+				<version>${version:org.apache.maven.plugins:maven-toolchains-plugin}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>toolchain</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<toolchains>
+						<jdk>
+							<version>${java.version}</version>
+							<vendor>openjdk</vendor>
+						</jdk>
+					</toolchains>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<!--dependencyManagement>
+		<dependencies>
+		<dependency>
+		<groupId>de.efreest</groupId>
+		<artifactId>spring-dependencies</artifactId>
+		<version>${version:org.springframework:spring}</version>
+		<scope>import</scope>
+		<type>pom</type>
+		</dependency>
+		</dependencies>
+		</dependencyManagement -->
+
+	<dependencies>
+		<!-- compile scope -->
+		<!--dependency>
+			<groupId>com.netflix.archaius</groupId>
+			<artifactId>archaius2-core</artifactId>
+			<version>${version:com.netflix.archaius:archaius2-core}</version>
+			</dependency -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-hateoas</artifactId>
+		</dependency>
+
+		<!-- runtime scope -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- provided scope -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- test scope -->
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>

@@ -16,7 +16,7 @@ services:
     #expose:
       #- 9000
     ports:
-      - 9000:9000    
+      - 9000:9000
     networks:
       - default
       #default:
@@ -33,12 +33,12 @@ services:
     #expose:
       #- 9001
     ports:
-      - 9002:9001      
+      - 9002:9001
     networks:
       - default
       #default:
           #aliases:
-            #- eureka                 
+            #- eureka
   
   microservice:
     container_name: spring-microservice
@@ -90,7 +90,7 @@ services:
 #    ports:
 #      - 8080:8081
 #    networks:
-#      - main      
+#      - main
 #    links:
 #      - microservice
 #
@@ -103,5 +103,5 @@ services:
 networks:
   default:
     driver: bridge
-  #dockernet:   
+  #dockernet:
     #external: true
