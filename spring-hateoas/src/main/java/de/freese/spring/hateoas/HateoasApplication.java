@@ -43,6 +43,7 @@ public class HateoasApplication implements WebMvcConfigurer// extends SpringBoot
      * @param args String[]
      * @throws java.lang.Exception Falls was schief geht.
      */
+    @SuppressWarnings("resource")
     public static void main(final String[] args) throws Exception
     {
         ApplicationContext context = configureApplication(new SpringApplicationBuilder()).run(args);

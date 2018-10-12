@@ -52,7 +52,7 @@
                 <version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
                 <configuration>
                     <layout>ZIP</layout>
-                    <mainClass>de.freese.web.SpringBootWebApp</mainClass>
+                    <mainClass>de.freese.spring.web.SpringBootWebApp</mainClass>
                     <classifier>jar-with-dependencies</classifier>
                     <!--jvmArguments>
                     -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005

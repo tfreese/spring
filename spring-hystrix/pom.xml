@@ -15,7 +15,6 @@
     <description>Hystrix-Demo von spring-boot</description>
 
     <properties>
-    	<version.java>10</version.java>
     </properties>
 
     <dependencies>

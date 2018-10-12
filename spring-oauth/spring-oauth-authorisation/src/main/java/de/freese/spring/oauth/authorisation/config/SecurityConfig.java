@@ -28,6 +28,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)

@@ -16,7 +16,6 @@
 	<description>MicroService von spring-boot</description>
 
 	<properties>
-		<version.java>1.8</version.java>
 	</properties>
 
 	<build>
@@ -49,7 +48,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
-					<mainClass>de.freese.j2ee.spring.Server</mainClass>
+					<mainClass>de.freese.spring.Server</mainClass>
 					<!--jvmArguments>
 						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
 						</jvmArguments -->
