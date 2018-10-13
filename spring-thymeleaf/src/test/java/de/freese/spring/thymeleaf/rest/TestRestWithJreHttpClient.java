@@ -192,7 +192,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
         try
         {
             HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-            Assert.assertEquals(HttpStatus.UNAUTHORIZED, response.statusCode());
+            Assert.assertEquals(HttpStatus.UNAUTHORIZED.value(), response.statusCode());
             // Assert.fail("sollte nicht erfolgreich sein");
         }
         catch (Exception ex)

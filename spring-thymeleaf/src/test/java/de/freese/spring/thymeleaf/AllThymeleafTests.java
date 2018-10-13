@@ -6,6 +6,7 @@ package de.freese.spring.thymeleaf;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import de.freese.spring.thymeleaf.rest.TestRestWithJreHttpClient;
 import de.freese.spring.thymeleaf.rest.TestRestWithMockMvc;
 import de.freese.spring.thymeleaf.rest.TestRestWithRestTemplate;
 import de.freese.spring.thymeleaf.rest.TestRestWithRestTemplateSSL;
@@ -26,8 +27,8 @@ import de.freese.spring.thymeleaf.web.TestWebApp;
         TestRestWithRestTemplate.class,
         TestRestWithRestTemplateSSL.class,
         TestRestWithWebClient.class,
-        TestRestWithWebClientSSL.class
-        //, TestRestWithJreHttpClient.class
+        TestRestWithWebClientSSL.class,
+        TestRestWithJreHttpClient.class
     // @formatter:off
 })
 public class AllThymeleafTests
