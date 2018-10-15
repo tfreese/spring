@@ -18,7 +18,7 @@ ext.artifactId = project.name
 // Start: gradle clean bootRun
 // Repackage: gradle clean bootRepackage
 springBoot {
-    mainClass = "de.freese.web.Main"
+    mainClass = "de.freese.spring.web.SpringBootWebApp"
     layout = "ZIP"
 
     backupSource = false
