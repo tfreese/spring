@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -17,11 +16,24 @@
 
 	<name>${project.groupId} - ${project.artifactId}</name>
 	<description>Parent für Springprojekte.</description>
+	<url>https://github.com/tfreese/spring</url>
 	<inceptionYear>2013</inceptionYear>
+	
+    <organization>
+        <name>Thomas Freese</name>
+        <url>https://github.com/tfreese/spring</url>
+    </organization>
+
+    <scm>
+        <url>${project.url}</url>
+        <connection>scm:git:git://github.com/tfreese/spring.git</connection>
+        <developerConnection>scm:git:https://github.com/tfreese/spring.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>	
 
 	<properties>
-		<version:org.springframework.security.oauth:spring-security-oauth2>2.3.3.RELEASE</version:org.springframework.security.oauth:spring-security-oauth2>
-		<version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>2.0.5.RELEASE</version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>	
+		<version:org.springframework.security.oauth:spring-security-oauth2>2.3.4.RELEASE</version:org.springframework.security.oauth:spring-security-oauth2>
+		<version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>${version:org.springframework.boot:spring-boot}</version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>	
 		<version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4>3.0.3.RELEASE</version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4>
 	</properties>
 
