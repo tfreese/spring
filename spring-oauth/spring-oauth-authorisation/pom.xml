@@ -122,6 +122,18 @@
 			</dependency -->
 
 		<!-- runtime scope -->
+		<!--dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>${version:javax.xml.bind:jaxb-api}</version>
+		</dependency-->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>${version:javax.xml.bind:jaxb-api}</version>
+            <scope>runtime</scope>
+        </dependency>
+        		
 		<!-- provided scope -->
 		<!-- test scope -->
 	</dependencies>

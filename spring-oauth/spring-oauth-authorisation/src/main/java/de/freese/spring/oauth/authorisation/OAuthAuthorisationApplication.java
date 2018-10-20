@@ -5,13 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 /**
  * @author Thomas Freese
  */
 @SpringBootApplication
-@EnableResourceServer
 public class OAuthAuthorisationApplication extends SpringBootServletInitializer
 {
     /**

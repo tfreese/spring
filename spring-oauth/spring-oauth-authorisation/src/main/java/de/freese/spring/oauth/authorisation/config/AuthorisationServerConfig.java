@@ -35,7 +35,7 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
  */
 @Configuration
 @EnableAuthorizationServer
-public class OauthAuthorisationConfig extends AuthorizationServerConfigurerAdapter
+public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdapter
 {
     /**
      *
@@ -56,9 +56,9 @@ public class OauthAuthorisationConfig extends AuthorizationServerConfigurerAdapt
     private UserDetailsService userDetailsService = null;
 
     /**
-     * Erstellt ein neues {@link OauthAuthorisationConfig} Object.
+     * Erstellt ein neues {@link AuthorisationServerConfig} Object.
      */
-    public OauthAuthorisationConfig()
+    public AuthorisationServerConfig()
     {
         super();
     }
@@ -91,10 +91,11 @@ public class OauthAuthorisationConfig extends AuthorizationServerConfigurerAdapt
         // @formatter:off
         return new InMemoryClientDetailsServiceBuilder()
                 .withClient("my-client-id")
+                    .resourceIds("my-oauth-app")
                     .secret(this.passwordEncoder.encode("{noop}my-secret"))
                     //.secret("my-secret")
                     .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token", "implicit")
-                    .scopes("user_info") // .scopes("read", "write", "trust")
+                    .scopes("user_info", "read")
                     .autoApprove(true)
                     .accessTokenValiditySeconds(120) // 2 Minuten
                     .refreshTokenValiditySeconds(3600) // 1 Stunde
