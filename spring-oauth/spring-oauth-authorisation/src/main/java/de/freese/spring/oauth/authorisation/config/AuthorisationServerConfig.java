@@ -90,9 +90,9 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     {
         // @formatter:off
         return new InMemoryClientDetailsServiceBuilder()
-                .withClient("my-client-id")
+                .withClient("my-client-id-read")
                     .resourceIds("my-oauth-app")
-                    .secret(this.passwordEncoder.encode("{noop}my-secret"))
+                    .secret("{noop}my-secret")
                     //.secret("my-secret")
                     .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token", "implicit")
                     .scopes("user_info", "read")

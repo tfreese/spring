@@ -98,14 +98,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public PasswordEncoder passwordEncoder()
     {
+        String defaultIdForEncode = "bcrypt";
+        Map<String, PasswordEncoder> encoders = new HashMap<>();
+
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
 
         Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret");
         pbkdf2passwordEncoder.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
-
-        String defaultIdForEncode = "bcrypt";
-        Map<String, PasswordEncoder> encoders = new HashMap<>();
 
         encoders.put(defaultIdForEncode, bCryptPasswordEncoder);
         encoders.put("pbkdf2", pbkdf2passwordEncoder);
@@ -113,7 +113,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         encoders.put("sha256", new StandardPasswordEncoder("mySecret"));
 
         DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder(defaultIdForEncode, encoders);
-        passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
+        // passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
 
         return passwordEncoder;
     }
@@ -125,11 +125,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public UserDetailsService userDetailsService()
     {
-        PasswordEncoder passwordEncoder = passwordEncoder();
+        // "{bcrypt}" + passwordEncoder.encode("pw")
+        // PasswordEncoder passwordEncoder = passwordEncoder();
 
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
-        userDetailsManager.createUser(User.withUsername("admin").password(passwordEncoder.encode("{noop}pw")).roles("ADMIN", "USER").build());
-        userDetailsManager.createUser(User.withUsername("user").password(passwordEncoder.encode("{noop}pw")).roles("USER").build());
+        userDetailsManager.createUser(User.withUsername("admin").password("{noop}pw").roles("ADMIN", "USER").build());
+        userDetailsManager.createUser(User.withUsername("user").password("{noop}pw").roles("USER").build());
 
         UserDetailsService userDetailsService = userDetailsManager;
 

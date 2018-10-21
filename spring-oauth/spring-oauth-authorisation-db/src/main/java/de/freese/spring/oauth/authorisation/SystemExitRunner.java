@@ -42,7 +42,7 @@ public class SystemExitRunner implements CommandLineRunner
 
         // -Drun_in_ide=true
         // In der Runtime als Default VM-Argument setzen oder in der eclipse.ini
-        if (Boolean.parseBoolean(System.getenv("run_in_ide")) || Boolean.parseBoolean(System.getProperty("run_in_ide", "false")))
+        // if (Boolean.parseBoolean(System.getenv("run_in_ide")) || Boolean.parseBoolean(System.getProperty("run_in_ide", "false")))
         {
             System.out.println();
             System.out.println("******************************************************************************************************************");

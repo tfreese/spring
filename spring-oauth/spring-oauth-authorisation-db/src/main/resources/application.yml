@@ -23,7 +23,8 @@ spring:
     locations: classpath:db/hsqldb
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:hsqldb:file:db/hsqldb/oauth;create=true;shutdown=true
+    #url: jdbc:hsqldb:file:db/hsqldb/oauth;create=true;shutdown=true
+    url: jdbc:hsqldb:mem:oauth;create=true;shutdown=true
     driver-class-name: org.hsqldb.jdbc.JDBCDriver
     username: sa
     password: 

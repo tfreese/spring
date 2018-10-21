@@ -5,12 +5,12 @@
 package de.freese.spring.oauth.authorisation.config;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerSecurityConfiguration;
@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.InMemoryApprovalStore;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
@@ -42,6 +43,12 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Resource
     private AuthenticationManager authenticationManager = null;
+
+    /**
+     *
+     */
+    @Resource
+    private DataSource dataSource = null;
 
     /**
      *
@@ -88,20 +95,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public ClientDetailsService clientDetailsService() throws Exception
     {
-        // @formatter:off
-        return new InMemoryClientDetailsServiceBuilder()
-                .withClient("my-client-id")
-                    .resourceIds("my-oauth-app")
-                    .secret(this.passwordEncoder.encode("{noop}my-secret"))
-                    //.secret("my-secret")
-                    .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token", "implicit")
-                    .scopes("user_info", "read")
-                    .autoApprove(true)
-                    .accessTokenValiditySeconds(120) // 2 Minuten
-                    .refreshTokenValiditySeconds(3600) // 1 Stunde
-                .and()
-                .build();
-        // @formatter:on
+        return new JdbcClientDetailsService(this.dataSource);
     }
 
     /**
@@ -147,6 +141,9 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
         clients
             .withClientDetails(clientDetailsService())
             ;
+//        clients
+//            .jdbc(this.dataSource)
+//        ;
         // @formatter:on
     }
 
