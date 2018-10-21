@@ -31,5 +31,6 @@ echo
 echo
 echo
 
-curl -v -H "Accept: application/json" -H "Authorization: Bearer $TOKEN" "$HOST/rest/me"
+RESPONSE=$(curl -v -H "Accept: application/json" -H "Authorization: Bearer $TOKEN" "$HOST/rest/me")
+echo $RESPONSE | jq .
 echo

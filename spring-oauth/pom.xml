@@ -21,6 +21,7 @@
 
 	<modules>
 		<module>spring-oauth-authorisation</module>
+		<module>spring-oauth-authorisation-db</module>
 		<module>spring-oauth-sso-authserver</module>
 		<module>spring-oauth-sso-ui</module>
 		<module>spring-oauth-sso-ui-2</module>
