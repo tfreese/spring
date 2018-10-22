@@ -1,10 +1,12 @@
 package de.freese.spring.oauth.authorisation.config;
 
+import javax.annotation.Resource;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
  * @author Thomas Freese
@@ -17,6 +19,12 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
      *
      */
     private static final String RESOURCE_ID = "my-oauth-app";
+
+    /**
+     *
+     */
+    @Resource
+    private TokenStore tokenStore = null;
 
     /**
      * Erstellt ein neues {@link ResourceServerConfiguration} Object.
@@ -47,6 +55,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Override
     public void configure(final ResourceServerSecurityConfigurer resources)
     {
-        resources.resourceId(RESOURCE_ID);
+        resources.resourceId(RESOURCE_ID).tokenStore(this.tokenStore);
     }
 }

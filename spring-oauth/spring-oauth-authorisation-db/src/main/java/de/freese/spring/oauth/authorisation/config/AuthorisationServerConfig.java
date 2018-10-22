@@ -19,13 +19,13 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
-import org.springframework.security.oauth2.provider.approval.InMemoryApprovalStore;
+import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 /**
  * Die HttpSecurity wird über die Annotation {@link EnableAuthorizationServer} in {@link AuthorizationServerSecurityConfiguration} gemacht.<br>
@@ -76,7 +76,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public ApprovalStore approvalStore()
     {
-        return new InMemoryApprovalStore();
+        return new JdbcApprovalStore(this.dataSource);
     }
 
     /**
@@ -85,7 +85,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public AuthorizationCodeServices authorizationCodeServices()
     {
-        return new InMemoryAuthorizationCodeServices();
+        return new JdbcAuthorizationCodeServices(this.dataSource);
     }
 
     /**
@@ -162,6 +162,6 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public TokenStore tokenStore()
     {
-        return new InMemoryTokenStore();
+        return new JdbcTokenStore(this.dataSource);
     }
 }

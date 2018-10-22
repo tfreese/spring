@@ -40,10 +40,10 @@ public class RestOAuthApplication
         BaseOAuth2ProtectedResourceDetails details = new ResourceOwnerPasswordResourceDetails();
 
         // details.setId("local");
-        details.setClientId("my-client-id");
-        details.setClientSecret("{noop}my-secret");
+        details.setClientId("my-client-id-read");
+        details.setClientSecret("my-secret");
         details.setAccessTokenUri("http://localhost:8081/auth/oauth/token");
-        details.setTokenName("tokenValue");
+        details.setTokenName("access_token");
         // details.setAuthenticationScheme(AuthenticationScheme.header);
         // details.setClientAuthenticationScheme(AuthenticationScheme.query);
 
@@ -55,7 +55,7 @@ public class RestOAuthApplication
         else if (details instanceof ResourceOwnerPasswordResourceDetails)
         {
             ((ResourceOwnerPasswordResourceDetails) details).setUsername("user");
-            ((ResourceOwnerPasswordResourceDetails) details).setPassword("{noop}pw");
+            ((ResourceOwnerPasswordResourceDetails) details).setPassword("pw");
         }
 
         // details.setTokenName("oauth_token");

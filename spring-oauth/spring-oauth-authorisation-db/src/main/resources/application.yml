@@ -23,8 +23,8 @@ spring:
     locations: classpath:db/hsqldb
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    #url: jdbc:hsqldb:file:db/hsqldb/oauth;create=true;shutdown=true
-    url: jdbc:hsqldb:mem:oauth;create=true;shutdown=true
+    url: jdbc:hsqldb:file:db/hsqldb/oauth;create=true;shutdown=true
+    #url: jdbc:hsqldb:mem:oauth;create=true;shutdown=true
     driver-class-name: org.hsqldb.jdbc.JDBCDriver
     username: sa
     password: 
@@ -33,7 +33,7 @@ spring:
       maximum-pool-size: 1
       minimum-idle: 3
       connection-timeout: 5000 
-      auto-commit: false
+      auto-commit: true
       read-only: false
       validation-timeout: 3000
       idle-timeout: 60000

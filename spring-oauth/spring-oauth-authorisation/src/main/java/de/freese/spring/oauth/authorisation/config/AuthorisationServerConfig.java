@@ -100,6 +100,16 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
                     .accessTokenValiditySeconds(120) // 2 Minuten
                     .refreshTokenValiditySeconds(3600) // 1 Stunde
                 .and()
+                .withClient("my-client-id-write")
+                    .resourceIds("my-oauth-app")
+                    .secret("{noop}my-secret")
+                    //.secret("my-secret")
+                    .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token", "implicit")
+                    .scopes("user_info", "read", "write")
+                    .autoApprove(true)
+                    .accessTokenValiditySeconds(120) // 2 Minuten
+                    .refreshTokenValiditySeconds(3600) // 1 Stunde
+                .and()
                 .build();
         // @formatter:on
     }

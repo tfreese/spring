@@ -40,7 +40,7 @@ public class Runner implements CommandLineRunner
         System.out.println("Prinzipal = " + response);
 
         System.out.println();
-        response = this.restTemplate.getForObject("http://localhost:8081/auth/rest/hello", String.class);
+        response = this.restTemplate.getForObject("http://localhost:8081/auth/rest/message", String.class);
         System.out.println(response);
 
         System.out.println();

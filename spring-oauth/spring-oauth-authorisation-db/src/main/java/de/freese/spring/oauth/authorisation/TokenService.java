@@ -5,7 +5,6 @@
 package de.freese.spring.oauth.authorisation;
 
 import java.security.Principal;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,24 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("rest")
-public class HelloResource
+public class TokenService
 {
     /**
-     * Erstellt ein neues {@link HelloResource} Object.
+     * Erstellt ein neues {@link TokenService} Object.
      */
-    public HelloResource()
+    public TokenService()
     {
         super();
-    }
-
-    /**
-     * @return String
-     */
-    @GetMapping("hello")
-    @Secured("ROLE_USER")
-    public String hello()
-    {
-        return "Hello World";
     }
 
     /**
