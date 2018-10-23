@@ -111,7 +111,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
             .tokenStore(tokenStore())
             .authenticationManager(this.authenticationManager)
             .userDetailsService(this.userDetailsService)
-            ;
+        ;
         // @formatter:on
     }
 
@@ -127,7 +127,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
             .checkTokenAccess("isAuthenticated()")
             .passwordEncoder(this.passwordEncoder)
             .realm("my_realm")
-            ;
+        ;
         // @formatter:on
     }
 
@@ -140,10 +140,8 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
         // @formatter:off
         clients
             .withClientDetails(clientDetailsService())
-            ;
-//        clients
-//            .jdbc(this.dataSource)
-//        ;
+            //.jdbc(this.dataSource)
+        ;
         // @formatter:on
     }
 

@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             .eraseCredentials(true)
             .userDetailsService(userDetailsService())
             .passwordEncoder(passwordEncoder())
-            ;
+        ;
         // @formatter:on
     }
 
@@ -87,7 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 //            .antMatcher("/auth/rest/**")
 //                .authorizeRequests()
 //                    .anyRequest().authenticated()// Alle HTTP Methoden zulässig.
-             ;
+        ;
         // @formatter:on
     }
 

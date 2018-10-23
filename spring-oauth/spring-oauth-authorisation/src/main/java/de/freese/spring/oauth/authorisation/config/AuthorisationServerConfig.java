@@ -93,8 +93,8 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient("my-client-id-read")
                     .resourceIds("my-oauth-app")
                     .secret("{noop}my-secret")
-                    //.secret("my-secret")
                     .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token", "implicit")
+                    .authorities("USER")
                     .scopes("user_info", "read")
                     .autoApprove(true)
                     .accessTokenValiditySeconds(120) // 2 Minuten
@@ -103,14 +103,15 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient("my-client-id-write")
                     .resourceIds("my-oauth-app")
                     .secret("{noop}my-secret")
-                    //.secret("my-secret")
                     .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token", "implicit")
+                    .authorities("USER", "ADMIN")
                     .scopes("user_info", "read", "write")
                     .autoApprove(true)
                     .accessTokenValiditySeconds(120) // 2 Minuten
                     .refreshTokenValiditySeconds(3600) // 1 Stunde
                 .and()
-                .build();
+                .build()
+        ;
         // @formatter:on
     }
 
@@ -127,7 +128,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
             .tokenStore(tokenStore())
             .authenticationManager(this.authenticationManager)
             .userDetailsService(this.userDetailsService)
-            ;
+        ;
         // @formatter:on
     }
 
@@ -143,7 +144,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
             .checkTokenAccess("isAuthenticated()")
             .passwordEncoder(this.passwordEncoder)
             .realm("my_realm")
-            ;
+        ;
         // @formatter:on
     }
 
@@ -156,7 +157,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
         // @formatter:off
         clients
             .withClientDetails(clientDetailsService())
-            ;
+        ;
         // @formatter:on
     }
 

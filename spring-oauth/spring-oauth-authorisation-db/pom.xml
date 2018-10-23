@@ -71,16 +71,6 @@
 	<dependencies>
 		<!-- compile scope -->
 		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-			<version>${version:org.flywaydb:flyway}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>${version:org.hsqldb:hsqldb}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 			<version>${version:org.springframework.boot:spring-boot}</version>
@@ -100,44 +90,39 @@
 			<artifactId>spring-security-core</artifactId>
 			<version>${version:org.springframework:spring}</version>
 		</dependency>
-		<!--dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-oauth2-client</artifactId>
-			<version>${version:org.springframework:spring}</version>
-			</dependency>
-			<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-oauth2-resource-server</artifactId>
-			<version>${version:org.springframework:spring}</version>
-			</dependency -->
-		<!--dependency>
-			<groupId>org.springframework.security.oauth.boot</groupId>
-			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
-			<version>${version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure}</version>
-			</dependency -->
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
 			<version>${version:org.springframework.security.oauth:spring-security-oauth2}</version>
 		</dependency>
 		<!--dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-security-oauth2</artifactId>
-			<version>${version:org.springframework.security.oauth:spring-security-oauth2}</version>
-			</dependency -->
-
-		<!-- runtime scope -->
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-oauth2</artifactId>
+			<version>2.0.0.RELEASE</version>
+		</dependency-->
+		
+		<!-- runtime scope -->			
 		<!--dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
 			<version>${version:javax.xml.bind:jaxb-api}</version>
 		</dependency-->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>${version:org.flywaydb:flyway}</version>
+		</dependency>		
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
             <version>${version:javax.xml.bind:jaxb-api}</version>
             <scope>runtime</scope>
         </dependency>
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>${version:org.hsqldb:hsqldb}</version>
+		</dependency>        
         		
 		<!-- provided scope -->
 		<!-- test scope -->

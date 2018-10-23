@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 /**
  * @author Thomas Freese
@@ -15,6 +16,18 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 {
+    /**
+     * Prüfung des Client-Requests auf OAuth Authorization.
+     */
+    private static final RequestMatcher oAuthRequestedMatcher = request -> {
+        String auth = request.getHeader("Authorization");
+
+        boolean haveOauth2Token = (auth != null) && auth.startsWith("Bearer");
+        boolean haveAccessToken = request.getParameter("access_token") != null;
+
+        return haveOauth2Token || haveAccessToken;
+    };
+
     /**
      *
      */
@@ -42,10 +55,12 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     {
         // @formatter:off
         http
+            .requestMatcher(oAuthRequestedMatcher)
             .authorizeRequests()
                 .antMatchers("/auth/oauth/token").permitAll()
-                //.antMatchers(HttpMethod.POST, "/auth/rest").access("#oauth2.hasScope('write')")
-                .anyRequest().access("#oauth2.hasScope('read')");
+                .anyRequest().hasAuthority("ROLE_USER")
+                .anyRequest().access("#oauth2.hasScope('read')")
+        ;
         // @formatter:on
     }
 
