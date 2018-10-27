@@ -47,7 +47,6 @@ import de.freese.spring.thymeleaf.model.Person;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-// @Ignore
 public class TestRestWithJreHttpClient implements RestTestCase
 {
     /**

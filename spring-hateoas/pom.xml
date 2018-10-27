@@ -29,7 +29,7 @@
 
 		<!-- Dependencies -->
 
-		<!-- Plugins -->
+		<!-- Plugins -->		
 		<version:org.apache.maven.plugins:maven-toolchains-plugin>1.1</version:org.apache.maven.plugins:maven-toolchains-plugin>
 	</properties>
 
