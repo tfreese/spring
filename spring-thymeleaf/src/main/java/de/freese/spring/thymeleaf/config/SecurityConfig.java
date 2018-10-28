@@ -320,8 +320,8 @@ public class SecurityConfig
                 .userDetailsService(userDetailsService())
                 .passwordEncoder(this.passwordEncoder)
                 .and()
-                //.authenticationProvider(daoAuthenticationProvider)
-                .authenticationProvider(this.myTokenPreauthAuthProvider)
+                    //.authenticationProvider(daoAuthenticationProvider)
+                    .authenticationProvider(this.myTokenPreauthAuthProvider)
 
 //                .inMemoryAuthentication()
 //                .withUser("admin").password("{noop}admin").roles("ADMIN","USER")

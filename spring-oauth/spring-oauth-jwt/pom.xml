@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -9,14 +9,11 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>spring-oauth-authorisation</artifactId>
+	<artifactId>spring-oauth-jwt</artifactId>
 	<packaging>jar</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>OAuth Authorisation/Resource Server</description>
-
-	<properties>
-	</properties>
+	<description>JWT-Demo</description>
 
 	<build>
 		<resources>
@@ -49,7 +46,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
-					<mainClass>de.freese.spring.oauth.OAuthAuthorisationApplication</mainClass>
+					<mainClass>org.spring.oauth.jwt.JwtAuthorisationApplication</mainClass>
 					<!--jvmArguments>
 						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
 						</jvmArguments -->
@@ -70,6 +67,22 @@
 	<dependencies>
 		<!-- compile scope -->
 		<dependency>
+			<!-- JSON Web Token Support -->
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${version:io.jsonwebtoken:jjwt}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${version:io.springfox:swagger}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${version:io.springfox:swagger}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>${version:org.springframework.boot:spring-boot}</version>
@@ -84,17 +97,6 @@
 			<artifactId>spring-security-core</artifactId>
 			<version>${version:org.springframework:spring}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.security.oauth</groupId>
-			<artifactId>spring-security-oauth2</artifactId>
-			<version>${version:org.springframework.security.oauth:spring-security-oauth2}</version>
-		</dependency>
-		<!--dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-oauth2</artifactId>
-			<version>2.0.0.RELEASE</version>
-		</dependency-->
-
 		<!-- runtime scope -->
 		<!--dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -110,6 +112,17 @@
 
 		<!-- provided scope -->
 		<!-- test scope -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>${version:org.springframework.security:spring-security-test}</version>
+			<scope>test</scope>			
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${version:org.springframework.boot:spring-boot}</version>
+			<scope>test</scope>
+		</dependency>		
 	</dependencies>
-
 </project>

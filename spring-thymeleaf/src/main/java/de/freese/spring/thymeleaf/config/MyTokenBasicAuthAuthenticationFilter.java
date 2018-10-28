@@ -5,6 +5,7 @@
 package de.freese.spring.thymeleaf.config;
 
 import java.io.IOException;
+import java.util.Objects;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -95,10 +96,8 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
     {
         super();
 
-        Assert.notNull(authenticationManager, "authenticationManager cannot be null");
-        Assert.notNull(authenticationEntryPoint, "authenticationEntryPoint cannot be null");
-        this.authenticationManager = authenticationManager;
-        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.authenticationManager = Objects.requireNonNull(authenticationManager, "authenticationManager required");
+        this.authenticationEntryPoint = Objects.requireNonNull(authenticationEntryPoint, "authenticationEntryPoint required");
 
         // setPrincipalRequestHeader("my-token");
         //
@@ -208,7 +207,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
 
             onUnsuccessfulAuthentication(request, response, failed);
 
-            if (this.ignoreFailure)
+            if (isIgnoreFailure())
             {
                 filterChain.doFilter(request, response);
             }
@@ -230,6 +229,14 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
     protected String getCredentialsCharset(final HttpServletRequest httpRequest)
     {
         return this.credentialsCharset;
+    }
+
+    /**
+     * @return boolean
+     */
+    protected boolean isIgnoreFailure()
+    {
+        return this.ignoreFailure;
     }
 
     /**
@@ -259,8 +266,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
      */
     public void setAuthenticationDetailsSource(final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource)
     {
-        Assert.notNull(authenticationDetailsSource, "AuthenticationDetailsSource required");
-        this.authenticationDetailsSource = authenticationDetailsSource;
+        this.authenticationDetailsSource = Objects.requireNonNull(authenticationDetailsSource, "authenticationDetailsSource required");
     }
 
     /**
@@ -268,8 +274,15 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
      */
     public void setCredentialsCharset(final String credentialsCharset)
     {
-        Assert.hasText(credentialsCharset, "credentialsCharset cannot be null or empty");
-        this.credentialsCharset = credentialsCharset;
+        this.credentialsCharset = Objects.requireNonNull(credentialsCharset, "credentialsCharset requried");
+    }
+
+    /**
+     * @param ignoreFailure boolean
+     */
+    public void setIgnoreFailure(final boolean ignoreFailure)
+    {
+        this.ignoreFailure = ignoreFailure;
     }
 
     /**
@@ -277,7 +290,6 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
      */
     public void setRememberMeServices(final RememberMeServices rememberMeServices)
     {
-        Assert.notNull(rememberMeServices, "rememberMeServices cannot be null");
-        this.rememberMeServices = rememberMeServices;
+        this.rememberMeServices = Objects.requireNonNull(rememberMeServices, "rememberMeServices required");
     }
 }

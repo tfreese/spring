@@ -1,0 +1,32 @@
+# =================================================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# =================================================================================================
+
+
+# =================================================================================================
+# Application Properties
+security:
+  jwt:
+    token:
+      secret-key: secret-key
+      expire-length: 3600000
+
+
+# =================================================================================================
+# Spring Properties
+logging:
+  level:
+    org.springframework: INFO
+    org.springframework.security.oauth2: DEBUG
+    org.spring.oauth.jwt: DEBUG
+          
+
+# =================================================================================================
+# Server Properties
+server:
+  port: 8081
+  servlet:
+    context-path: /jwt
+    
+
