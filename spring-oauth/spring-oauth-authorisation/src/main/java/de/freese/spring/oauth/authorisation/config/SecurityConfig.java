@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception
     {
         // @formatter:off
-        auth
+        auth//.jdbcAuthentication().userCache(userCache
             .eraseCredentials(true)
             .userDetailsService(userDetailsService())
             .passwordEncoder(passwordEncoder())

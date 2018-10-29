@@ -7,12 +7,16 @@ package org.spring.oauth.jwt.config;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.Filter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -24,8 +28,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.cache.SpringCacheBasedUserCache;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -128,6 +134,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     /**
+     * @return {@link CacheManager}
+     */
+    @Bean
+    public CacheManager cacheManager()
+    {
+        ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
+        cacheManager.setAllowNullValues(false);
+        cacheManager.setCacheNames(List.of("userCache"));
+
+        return cacheManager;
+    }
+
+    /**
      * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder)
      */
     @Override
@@ -138,8 +157,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             .eraseCredentials(true)
             .userDetailsService(userDetailsService())
             .passwordEncoder(passwordEncoder())
-            .and()
-                .authenticationProvider(jwtTokenPreauthAuthProvider())
+//            .and()
+//                .authenticationProvider(jwtTokenPreauthAuthProvider())
         ;
         // @formatter:on
     }
@@ -156,7 +175,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             .csrf().disable()
             .formLogin().disable()
             .httpBasic().disable()
-            .authenticationProvider(jwtTokenPreauthAuthProvider())
             .authorizeRequests()
                 .antMatchers("/jwt/users/login").permitAll()
                 .antMatchers("/jwt/users/register").permitAll()
@@ -200,8 +218,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public Filter jwtTokenFilter() throws Exception
     {
-        // JwtTokenFilter2 jwtTokenFilter = new JwtTokenFilter2(this.jwtTokenProvider, authenticationManager(), authenticationEntryPoint());
-        JwtTokenFilter jwtTokenFilter = new JwtTokenFilter(this.jwtTokenProvider);
+        JwtTokenFilter2 jwtTokenFilter = new JwtTokenFilter2(this.jwtTokenProvider, authenticationManager(), authenticationEntryPoint());
+        // JwtTokenFilter1 jwtTokenFilter = new JwtTokenFilter1(this.jwtTokenProvider);
 
         return jwtTokenFilter;
     }
@@ -246,6 +264,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         // passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
 
         return passwordEncoder;
+    }
+
+    /**
+     * @param cacheManager {@link CacheManager}
+     * @return {@link CacheManager}
+     * @throws Exception Falls was schief geht.
+     */
+    @Bean
+    public UserCache userCache(final CacheManager cacheManager) throws Exception
+    {
+        Cache cache = cacheManager.getCache("userCache");
+        SpringCacheBasedUserCache userCache = new SpringCacheBasedUserCache(cache);
+
+        return userCache;
     }
 
     /**

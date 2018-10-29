@@ -21,7 +21,7 @@ import org.springframework.web.filter.GenericFilterBean;
 /**
  * @author Thomas Freese
  */
-public class JwtTokenFilter extends GenericFilterBean
+public class JwtTokenFilter1 extends GenericFilterBean
 {
     /**
      *
@@ -29,11 +29,11 @@ public class JwtTokenFilter extends GenericFilterBean
     private final JwtTokenProvider jwtTokenProvider;
 
     /**
-     * Erstellt ein neues {@link JwtTokenFilter} Object.
+     * Erstellt ein neues {@link JwtTokenFilter1} Object.
      *
      * @param jwtTokenProvider {@link JwtTokenProvider}
      */
-    public JwtTokenFilter(final JwtTokenProvider jwtTokenProvider)
+    public JwtTokenFilter1(final JwtTokenProvider jwtTokenProvider)
     {
         this.jwtTokenProvider = Objects.requireNonNull(jwtTokenProvider, "jwtTokenProvider required");
     }

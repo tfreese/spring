@@ -135,7 +135,7 @@ public class TestJwtToken
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(
-                        new HttpHeaderInterceptor("Authorization", "Bearer " + this.tokenProvider.createToken("user")),
+                        new HttpHeaderInterceptor("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pw")),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .build();
         // @formatter:on

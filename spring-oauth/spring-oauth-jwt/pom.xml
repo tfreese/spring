@@ -84,6 +84,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+			<version>${version:org.springframework.boot:spring-boot}</version>
+		</dependency>		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>${version:org.springframework.boot:spring-boot}</version>
 		</dependency>
@@ -95,7 +100,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>${version:org.springframework:spring}</version>
+			<version>${version:org.springframework.security:spring-security}</version>
 		</dependency>
 		<!-- runtime scope -->
 		<!--dependency>

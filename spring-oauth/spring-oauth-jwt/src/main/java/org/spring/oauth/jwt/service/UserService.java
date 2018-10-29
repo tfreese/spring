@@ -94,9 +94,9 @@ public class UserService
         {
             this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, password));
 
-            UserDetails userDetails = this.userDetailsManager.loadUserByUsername(userName);
+            // UserDetails userDetails = this.userDetailsManager.loadUserByUsername(userName);
 
-            return this.jwtTokenProvider.createToken(userName, userDetails.getAuthorities());
+            return this.jwtTokenProvider.createToken(userName, password);
         }
         catch (AuthenticationException ex)
         {
@@ -121,7 +121,7 @@ public class UserService
 
             this.userDetailsManager.createUser(mutableUser);
 
-            return this.jwtTokenProvider.createToken(mutableUser.getUsername(), mutableUser.getAuthorities());
+            return this.jwtTokenProvider.createToken(mutableUser.getUsername(), userDetails.getPassword(), mutableUser.getAuthorities());
         }
 
         throw new MyJwtException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);

@@ -82,7 +82,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>${version:org.springframework:spring}</version>
+			<version>${version:org.springframework.security:spring-security}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
