@@ -6,9 +6,9 @@ package org.spring.oauth.jwt.service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import org.spring.oauth.jwt.config.JwtTokenProvider;
 import org.spring.oauth.jwt.exception.MyJwtException;
 import org.spring.oauth.jwt.model.MutableUser;
+import org.spring.oauth.jwt.token.JwtTokenProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -78,7 +78,9 @@ public class UserService
             throw new MyJwtException("The user doesn't exist", HttpStatus.NOT_FOUND);
         }
 
-        return userDetails;
+        MutableUser mutableUser = new MutableUser(userDetails).clearCredentials();
+
+        return mutableUser;
     }
 
     /**
@@ -136,6 +138,10 @@ public class UserService
         String jwtToken = this.jwtTokenProvider.resolveToken(req);
         String userName = this.jwtTokenProvider.getUsername(jwtToken);
 
-        return this.userDetailsManager.loadUserByUsername(userName);
+        UserDetails userDetails = this.userDetailsManager.loadUserByUsername(userName);
+
+        MutableUser mutableUser = new MutableUser(userDetails).clearCredentials();
+
+        return mutableUser;
     }
 }

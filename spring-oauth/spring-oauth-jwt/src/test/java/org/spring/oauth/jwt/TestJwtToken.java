@@ -13,7 +13,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.spring.oauth.jwt.config.JwtTokenProvider;
+import org.spring.oauth.jwt.token.JwtTokenProvider;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -151,4 +151,28 @@ public class TestJwtToken
         // Assert.assertEquals("UP", status);
     }
 
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    public void test010Me() throws Exception
+    {
+        // @formatter:off
+        RestTemplate restTemplate = this.restTemplateBuilder
+                .interceptors(
+                        new HttpHeaderInterceptor("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pw")),
+                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .build();
+        // @formatter:on
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/me", String.class);
+
+        Assert.assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
+        Assert.assertNotNull(responseEntity.getBody());
+
+        System.out.println(JsonFormatter.prettyPrint(responseEntity.getBody()));
+        //
+        // String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
+        // Assert.assertEquals("UP", status);
+    }
 }

@@ -2,7 +2,7 @@
  * Created: 28.10.2018
  */
 
-package org.spring.oauth.jwt.config;
+package org.spring.oauth.jwt.token;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

@@ -7,20 +7,20 @@ package org.spring.oauth.jwt.config;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.Filter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.spring.oauth.jwt.token.JwtTokenAuthenticationProvider;
+import org.spring.oauth.jwt.token.JwtTokenFilter;
+import org.spring.oauth.jwt.token.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -29,9 +29,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserCache;
-import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.cache.SpringCacheBasedUserCache;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -42,13 +40,12 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
@@ -105,6 +102,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     private JwtTokenProvider jwtTokenProvider = null;
 
     /**
+     *
+     */
+    @Resource
+    private UserCache userCache = null;
+
+    /**
      * Erstellt ein neues {@link SecurityConfig} Object.
      */
     public SecurityConfig()
@@ -134,19 +137,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     /**
-     * @return {@link CacheManager}
-     */
-    @Bean
-    public CacheManager cacheManager()
-    {
-        ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
-        cacheManager.setAllowNullValues(false);
-        cacheManager.setCacheNames(List.of("userCache"));
-
-        return cacheManager;
-    }
-
-    /**
      * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder)
      */
     @Override
@@ -154,11 +144,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     {
         // @formatter:off
         auth
-            .eraseCredentials(true)
-            .userDetailsService(userDetailsService())
-            .passwordEncoder(passwordEncoder())
-//            .and()
-//                .authenticationProvider(jwtTokenPreauthAuthProvider())
+            .eraseCredentials(false) // Sonst würden die Passwörter aus dem gecachetem UserDetails gelöscht werden -> kein weiterer Request wäre mehr möglich.
+            .authenticationProvider(jwtAuthenticationProvider())
         ;
         // @formatter:on
     }
@@ -184,10 +171,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             .and()
 //                .apply(new JwtTokenFilterConfigurer(this.jwtTokenProvider))
                 .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
-//            .antMatcher("/auth/rest/**")
-//                .authorizeRequests()
-//                    .anyRequest().authenticated()// Alle HTTP Methoden zulässig.
         ;
         // @formatter:on
     }
@@ -212,31 +195,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     /**
+     * @return {@link AuthenticationProvider}
+     */
+    @Bean
+    public AuthenticationProvider jwtAuthenticationProvider()
+    {
+        JwtTokenAuthenticationProvider jwtAuthenticationProvider = new JwtTokenAuthenticationProvider();
+        jwtAuthenticationProvider.setUserDetailsService(userDetailsService());
+        jwtAuthenticationProvider.setUserCache(this.userCache);
+        jwtAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        jwtAuthenticationProvider.setTokenProvider(this.jwtTokenProvider);
+
+        return jwtAuthenticationProvider;
+    }
+
+    /**
      * @return {@link Filter}
      * @throws Exception Falls was schief geht.
      */
     @Bean
     public Filter jwtTokenFilter() throws Exception
     {
-        JwtTokenFilter2 jwtTokenFilter = new JwtTokenFilter2(this.jwtTokenProvider, authenticationManager(), authenticationEntryPoint());
-        // JwtTokenFilter1 jwtTokenFilter = new JwtTokenFilter1(this.jwtTokenProvider);
+        JwtTokenFilter jwtTokenFilter = new JwtTokenFilter();
+        jwtTokenFilter.setAuthenticationManager(authenticationManager());
+        jwtTokenFilter.setAuthenticationEntryPoint(authenticationEntryPoint());
 
         return jwtTokenFilter;
-    }
-
-    /**
-     * @return {@link PreAuthenticatedAuthenticationProvider}
-     */
-    @Bean
-    public PreAuthenticatedAuthenticationProvider jwtTokenPreauthAuthProvider()
-    {
-        UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> wrapper = new UserDetailsByNameServiceWrapper<>();
-        wrapper.setUserDetailsService(userDetailsService());
-
-        PreAuthenticatedAuthenticationProvider preauthAuthProvider = new PreAuthenticatedAuthenticationProvider();
-        preauthAuthProvider.setPreAuthenticatedUserDetailsService(wrapper);
-
-        return preauthAuthProvider;
     }
 
     /**
@@ -264,20 +248,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         // passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
 
         return passwordEncoder;
-    }
-
-    /**
-     * @param cacheManager {@link CacheManager}
-     * @return {@link CacheManager}
-     * @throws Exception Falls was schief geht.
-     */
-    @Bean
-    public UserCache userCache(final CacheManager cacheManager) throws Exception
-    {
-        Cache cache = cacheManager.getCache("userCache");
-        SpringCacheBasedUserCache userCache = new SpringCacheBasedUserCache(cache);
-
-        return userCache;
     }
 
     /**

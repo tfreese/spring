@@ -2,13 +2,12 @@
  * Created: 28.10.2018
  */
 
-package org.spring.oauth.jwt.config;
+package org.spring.oauth.jwt.token;
 
 import java.util.Objects;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author Thomas Freese
@@ -38,8 +37,8 @@ public class JwtTokenFilterConfigurer extends SecurityConfigurerAdapter<DefaultS
     @Override
     public void configure(final HttpSecurity http) throws Exception
     {
-        JwtTokenFilter1 jwtTokenFilter = new JwtTokenFilter1(this.jwtTokenProvider);
-
-        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        // JwtTokenFilter1 jwtTokenFilter = new JwtTokenFilter1(this.jwtTokenProvider);
+        //
+        // http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

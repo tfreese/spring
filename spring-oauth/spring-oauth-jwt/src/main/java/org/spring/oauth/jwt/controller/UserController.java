@@ -99,7 +99,7 @@ public class UserController
 
     /**
      * @param userName String
-     * @return {@link MutableUser}
+     * @return {@link UserDetails}
      */
     @GetMapping(value = "/{userName}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -111,11 +111,11 @@ public class UserController
             @ApiResponse(code = 404, message = "The user doesn't exist"),
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")
     })
-    public MutableUser search(@ApiParam("userName") @PathVariable final String userName)
+    public UserDetails search(@ApiParam("userName") @PathVariable final String userName)
     {
         UserDetails userDetails = this.userService.search(userName);
 
-        return new MutableUser(userDetails).clearCredentials();
+        return userDetails;
     }
 
     /**
@@ -137,7 +137,7 @@ public class UserController
     // {
     // UserDetails userDetails = this.userService.whoami(req);
     //
-    // return new MutableUser(userDetails).clearCredentials();
+    // return userDetails;
     // }
     public Principal whoami(final Principal principal)
     {
