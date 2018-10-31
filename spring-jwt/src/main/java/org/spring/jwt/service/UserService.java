@@ -2,21 +2,23 @@
  * Created: 28.10.2018
  */
 
-package org.spring.oauth.jwt.service;
+package org.spring.jwt.service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import org.spring.oauth.jwt.exception.MyJwtException;
-import org.spring.oauth.jwt.model.MutableUser;
-import org.spring.oauth.jwt.token.JwtTokenProvider;
-import org.springframework.http.HttpStatus;
+import org.spring.jwt.model.MutableUser;
+import org.spring.jwt.token.JwtTokenProvider;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 
 /**
  * @author Thomas Freese
@@ -24,7 +26,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService
 {
-
     /**
        *
        */
@@ -58,24 +59,24 @@ public class UserService
     }
 
     /**
-     * @param userName String
+     * @param username String
      */
-    public void delete(final String userName)
+    public void delete(final String username)
     {
-        this.userDetailsManager.deleteUser(userName);
+        this.userDetailsManager.deleteUser(username);
     }
 
     /**
-     * @param userName String
+     * @param username String
      * @return {@link UserDetails}
      */
-    public UserDetails search(final String userName)
+    public UserDetails search(final String username)
     {
-        UserDetails userDetails = this.userDetailsManager.loadUserByUsername(userName);
+        UserDetails userDetails = this.userDetailsManager.loadUserByUsername(username);
 
         if (userDetails == null)
         {
-            throw new MyJwtException("The user doesn't exist", HttpStatus.NOT_FOUND);
+            throw new UsernameNotFoundException("The user doesn't exist");
         }
 
         MutableUser mutableUser = new MutableUser(userDetails).clearCredentials();
@@ -86,24 +87,18 @@ public class UserService
     /**
      * Login
      *
-     * @param userName String
+     * @param username String
      * @param password String
      * @return String
+     * @throws AuthenticationException Falls was schief geht.
      */
-    public String signin(final String userName, final String password)
+    public String signin(final String username, final String password) throws AuthenticationException
     {
-        try
-        {
-            this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, password));
+        this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-            // UserDetails userDetails = this.userDetailsManager.loadUserByUsername(userName);
+        // UserDetails userDetails = this.userDetailsManager.loadUserByUsername(username);
 
-            return this.jwtTokenProvider.createToken(userName, password);
-        }
-        catch (AuthenticationException ex)
-        {
-            throw new MyJwtException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
-        }
+        return this.jwtTokenProvider.createToken(username, password);
     }
 
     /**
@@ -126,7 +121,7 @@ public class UserService
             return this.jwtTokenProvider.createToken(mutableUser.getUsername(), userDetails.getPassword(), mutableUser.getAuthorities());
         }
 
-        throw new MyJwtException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
+        throw new AuthenticationServiceException("Username is already in use");
     }
 
     /**
@@ -136,9 +131,10 @@ public class UserService
     public UserDetails whoami(final HttpServletRequest req)
     {
         String jwtToken = this.jwtTokenProvider.resolveToken(req);
-        String userName = this.jwtTokenProvider.getUsername(jwtToken);
+        Jws<Claims> claims = this.jwtTokenProvider.parseToken(jwtToken);
+        String username = this.jwtTokenProvider.getUsername(claims);
 
-        UserDetails userDetails = this.userDetailsManager.loadUserByUsername(userName);
+        UserDetails userDetails = this.userDetailsManager.loadUserByUsername(username);
 
         MutableUser mutableUser = new MutableUser(userDetails).clearCredentials();
 

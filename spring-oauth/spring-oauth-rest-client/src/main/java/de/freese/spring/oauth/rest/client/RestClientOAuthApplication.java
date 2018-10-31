@@ -1,6 +1,7 @@
 package de.freese.spring.oauth.rest.client;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @SpringBootApplication
 @EnableOAuth2Client
-public class RestOAuthApplication
+public class RestClientOAuthApplication
 {
     /**
      * @param args String[]
@@ -26,8 +27,38 @@ public class RestOAuthApplication
      */
     public static void main(final String[] args) throws Exception
     {
-        SpringApplication.run(RestOAuthApplication.class, args);
+        SpringApplication.run(RestClientOAuthApplication.class, args);
     }
+
+    /**
+    *
+    */
+    @Value("${security.oauth2.client.accessTokenUri:accessTokenUri}")
+    private String accessTokenUri = null;
+
+    /**
+    *
+    */
+    @Value("${security.oauth2.client.clientId:clientId}")
+    private String clientId = null;
+
+    /**
+    *
+    */
+    @Value("${security.oauth2.client.clientSecret:clientSecret}")
+    private String clientSecret = null;
+
+    /**
+    *
+    */
+    @Value("${security.oauth2.client.tokenName:tokenName}")
+    private String tokenName = null;
+
+    /**
+    *
+    */
+    @Value("${security.oauth2.client.userAuthorizationUri:userAuthorizationUri}")
+    private String userAuthorizationUri = null;
 
     /**
      * @return {@link OAuth2ProtectedResourceDetails}
@@ -40,16 +71,16 @@ public class RestOAuthApplication
         BaseOAuth2ProtectedResourceDetails details = new ResourceOwnerPasswordResourceDetails();
 
         // details.setId("local");
-        details.setClientId("my-client-id-read");
-        details.setClientSecret("my-secret");
-        details.setAccessTokenUri("http://localhost:8081/auth/oauth/token");
-        details.setTokenName("access_token");
+        details.setClientId(this.clientId);
+        details.setClientSecret(this.clientSecret);
+        details.setAccessTokenUri(this.accessTokenUri);
+        details.setTokenName(this.tokenName);
         // details.setAuthenticationScheme(AuthenticationScheme.header);
         // details.setClientAuthenticationScheme(AuthenticationScheme.query);
 
         if (details instanceof AuthorizationCodeResourceDetails)
         {
-            ((AuthorizationCodeResourceDetails) details).setUserAuthorizationUri("http://localhost:8081/auth/oauth/authorize");
+            ((AuthorizationCodeResourceDetails) details).setUserAuthorizationUri(this.userAuthorizationUri);
             // ((AuthorizationCodeResourceDetails) details).setPreEstablishedRedirectUri("http://localhost:8082/login");
         }
         else if (details instanceof ResourceOwnerPasswordResourceDetails)

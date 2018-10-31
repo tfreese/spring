@@ -2,7 +2,7 @@
  * Created: 30.10.2018
  */
 
-package org.spring.oauth.jwt.token;
+package org.spring.jwt.token;
 
 import java.util.Collection;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -60,6 +60,17 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken
 
         this.token = token;
         this.principal = null;
+        this.credentials = null;
+    }
+
+    /**
+     * @see org.springframework.security.authentication.AbstractAuthenticationToken#eraseCredentials()
+     */
+    @Override
+    public void eraseCredentials()
+    {
+        super.eraseCredentials();
+
         this.credentials = null;
     }
 

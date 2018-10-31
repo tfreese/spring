@@ -2,7 +2,7 @@
  * Created: 07.09.2018
  */
 
-package org.spring.oauth.jwt;
+package org.spring.jwt;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -13,13 +13,15 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.spring.oauth.jwt.token.JwtTokenProvider;
+import org.spring.jwt.JwtAuthorisationApplication;
+import org.spring.jwt.token.JwtTokenProvider;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -27,6 +29,7 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 import com.jayway.jsonpath.internal.JsonFormatter;
 
@@ -86,6 +89,47 @@ public class TestJwtToken
     }
 
     /**
+     * @author Thomas Freese
+     */
+    private class NoOpResponseErrorHandler extends DefaultResponseErrorHandler
+    {
+        /**
+         * Erstellt ein neues {@link NoOpResponseErrorHandler} Object.
+         */
+        private NoOpResponseErrorHandler()
+        {
+            super();
+        }
+
+        /**
+         * @see org.springframework.web.client.DefaultResponseErrorHandler#handleError(org.springframework.http.client.ClientHttpResponse)
+         */
+        @Override
+        public void handleError(final ClientHttpResponse response) throws IOException
+        {
+            // Das Auslesen des Responses ist nur einmal möglich !
+            // Das für bei den Tests zu Fehlern.
+
+            // RestClientResponseException exception =
+            // new RestClientResponseException("Server Error: [" + response.getRawStatusCode() + "]" + " " + response.getStatusText(),
+            // response.getRawStatusCode(), response.getStatusText(), response.getHeaders(), getResponseBody(response), getCharset(response));
+            //
+            // System.err.println(exception);
+            // // exception.printStackTrace();
+            //
+            // try
+            // {
+            // ApiError apiError = TestRestApi.this.objectMapper.readValue(exception.getResponseBodyAsByteArray(), ApiError.class);
+            // // exception.setStackTrace(apiError.getStackTrace());
+            // System.err.println(apiError);
+            // }
+            // catch (Exception ex)
+            // {
+            // }
+        }
+    }
+
+    /**
     *
     */
     @LocalServerPort
@@ -122,6 +166,7 @@ public class TestJwtToken
         // @formatter:off
         this.restTemplateBuilder = this.restTemplateBuilder
                 .rootUri(rootUri)
+                .errorHandler(new NoOpResponseErrorHandler())
         ;
         // @formatter:on
     }
@@ -130,12 +175,12 @@ public class TestJwtToken
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test000Me() throws Exception
+    public void test000Fail() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(
-                        new HttpHeaderInterceptor("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pw")),
+                        //new HttpHeaderInterceptor("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pw")),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .build();
         // @formatter:on
@@ -144,11 +189,9 @@ public class TestJwtToken
 
         Assert.assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
         Assert.assertNotNull(responseEntity.getBody());
+        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.FORBIDDEN);
 
         System.out.println(JsonFormatter.prettyPrint(responseEntity.getBody()));
-        //
-        // String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
-        // Assert.assertEquals("UP", status);
     }
 
     /**
@@ -174,5 +217,27 @@ public class TestJwtToken
         //
         // String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
         // Assert.assertEquals("UP", status);
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    public void test011Me() throws Exception
+    {
+        // @formatter:off
+        RestTemplate restTemplate = this.restTemplateBuilder
+                .interceptors(
+                        new HttpHeaderInterceptor("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pw")),
+                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .build();
+        // @formatter:on
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/me", String.class);
+
+        Assert.assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
+        Assert.assertNotNull(responseEntity.getBody());
+
+        System.out.println(JsonFormatter.prettyPrint(responseEntity.getBody()));
     }
 }

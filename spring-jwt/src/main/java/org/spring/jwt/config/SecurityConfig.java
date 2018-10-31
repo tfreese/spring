@@ -2,20 +2,33 @@
  * Created: 25.09.2018
  */
 
-package org.spring.oauth.jwt.config;
+package org.spring.jwt.config;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Resource;
+import javax.servlet.Filter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.spring.jwt.token.JwtTokenAuthenticationProvider;
+import org.spring.jwt.token.JwtTokenFilter;
+import org.spring.jwt.token.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
@@ -25,6 +38,9 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
 /**
  * @author Thomas Freese
@@ -35,11 +51,79 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     /**
+     * BasicAuthenticationEntryPoint liefert die volle HTML Fehler-Seite, dies ist bei REST nicht gewünscht.<br>
+     * Aussedem wird die FilterChain weiter ausgeführt, wenn keine Credentials vorhanden sind.
+     *
+     * @author Thomas Freese
+     */
+    private static class RestJwtAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
+    {
+        /**
+         * Erstellt ein neues {@link RestJwtAuthenticationEntryPoint} Object.
+         */
+        RestJwtAuthenticationEntryPoint()
+        {
+            super();
+        }
+
+        /**
+         * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#afterPropertiesSet()
+         */
+        @Override
+        public void afterPropertiesSet() throws Exception
+        {
+            setRealmName("Tommy");
+
+            super.afterPropertiesSet();
+        }
+
+        /**
+         * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#commence(javax.servlet.http.HttpServletRequest,
+         *      javax.servlet.http.HttpServletResponse, org.springframework.security.core.AuthenticationException)
+         */
+        @Override
+        public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authEx)
+            throws IOException, ServletException
+        {
+            response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+
+            @SuppressWarnings("resource")
+            PrintWriter writer = response.getWriter();
+            writer.println("HTTP Status 401 - " + authEx.getMessage());
+        }
+    }
+
+    /**
+     *
+     */
+    @Resource
+    private JwtTokenProvider jwtTokenProvider = null;
+
+    /**
+     *
+     */
+    @Resource
+    private UserCache userCache = null;
+
+    /**
      * Erstellt ein neues {@link SecurityConfig} Object.
      */
     public SecurityConfig()
     {
         super();
+    }
+
+    /**
+     * @return {@link AuthenticationEntryPoint}
+     */
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint()
+    {
+        RestJwtAuthenticationEntryPoint authenticationEntryPoint = new RestJwtAuthenticationEntryPoint();
+
+        return authenticationEntryPoint;
     }
 
     /**
@@ -59,10 +143,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception
     {
         // @formatter:off
-        auth//.jdbcAuthentication().userCache(userCache
+        auth
             .eraseCredentials(true)
-            .userDetailsService(userDetailsService())
-            .passwordEncoder(passwordEncoder())
+            .authenticationProvider(jwtAuthenticationProvider())
+
+            // Erzeugt DaoAuthenticationProvider
+            //.userDetailsService(userDetailsService())
+            //.passwordEncoder(passwordEncoder())
         ;
         // @formatter:on
     }
@@ -77,17 +164,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         http
             .anonymous().disable()
             .csrf().disable()
+            .formLogin().disable()
+            .httpBasic().disable()
             .authorizeRequests()
-                .antMatchers("/auth/rest/**").authenticated() // Nur auf den /rest Pfad beschränken.
-                .anyRequest().denyAll()
+                .antMatchers("/jwt/users/login").permitAll()
+                .antMatchers("/jwt/users/register").permitAll()
+                .anyRequest().authenticated()
             .and()
-                .formLogin().disable()
-                .httpBasic().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
-
-//            .antMatcher("/auth/rest/**")
-//                .authorizeRequests()
-//                    .anyRequest().authenticated()// Alle HTTP Methoden zulässig.
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+//                .apply(new JwtTokenFilterConfigurer(this.jwtTokenProvider))
+                .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         ;
         // @formatter:on
     }
@@ -112,12 +199,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     /**
+     * @return {@link AuthenticationProvider}
+     */
+    @Bean
+    public AuthenticationProvider jwtAuthenticationProvider()
+    {
+        JwtTokenAuthenticationProvider jwtAuthenticationProvider = new JwtTokenAuthenticationProvider();
+        jwtAuthenticationProvider.setUserDetailsService(userDetailsService());
+        jwtAuthenticationProvider.setUserCache(this.userCache);
+        jwtAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        jwtAuthenticationProvider.setTokenProvider(this.jwtTokenProvider);
+
+        return jwtAuthenticationProvider;
+    }
+
+    /**
+     * @return {@link Filter}
+     * @throws Exception Falls was schief geht.
+     */
+    @Bean
+    public Filter jwtTokenFilter() throws Exception
+    {
+        JwtTokenFilter jwtTokenFilter = new JwtTokenFilter();
+        jwtTokenFilter.setAuthenticationManager(authenticationManager());
+        jwtTokenFilter.setAuthenticationEntryPoint(authenticationEntryPoint());
+
+        return jwtTokenFilter;
+    }
+
+    /**
      * @return {@link PasswordEncoder}
      */
     @Bean
     public PasswordEncoder passwordEncoder()
     {
-        String defaultIdForEncode = "bcrypt";
+        // String defaultIdForEncode = "bcrypt";
+        String defaultIdForEncode = "noop";
         Map<String, PasswordEncoder> encoders = new HashMap<>();
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
@@ -126,7 +243,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         pbkdf2passwordEncoder.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
-        encoders.put(defaultIdForEncode, bCryptPasswordEncoder);
+        encoders.put("bcrypt", bCryptPasswordEncoder);
         encoders.put("pbkdf2", pbkdf2passwordEncoder);
         encoders.put("noop", NoOpPasswordEncoder.getInstance());
         encoders.put("sha256", new StandardPasswordEncoder("mySecret"));
@@ -144,12 +261,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public UserDetailsService userDetailsService()
     {
-        // "{bcrypt}" + passwordEncoder.encode("pw")
-        // PasswordEncoder passwordEncoder = passwordEncoder();
-
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
-        userDetailsManager.createUser(User.withUsername("admin").password("{noop}pw").roles("ADMIN", "USER").build());
-        userDetailsManager.createUser(User.withUsername("user").password("{noop}pw").roles("USER").build());
+        // userDetailsManager.createUser(User.withUsername("admin").password("{noop}pw").roles("ADMIN", "USER").build());
+        // userDetailsManager.createUser(User.withUsername("user").password("{noop}pw").roles("USER").build());
 
         UserDetailsService userDetailsService = userDetailsManager;
 

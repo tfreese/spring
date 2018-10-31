@@ -2,13 +2,13 @@
  * Created: 12.09.2018
  */
 
-package org.spring.oauth.jwt;
+package org.spring.jwt;
 
 import java.util.Arrays;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spring.oauth.jwt.service.UserService;
+import org.spring.jwt.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

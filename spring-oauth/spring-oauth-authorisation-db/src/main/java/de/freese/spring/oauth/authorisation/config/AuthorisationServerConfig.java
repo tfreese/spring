@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerSecurityConfiguration;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
@@ -28,10 +27,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 /**
- * Die HttpSecurity wird über die Annotation {@link EnableAuthorizationServer} in {@link AuthorizationServerSecurityConfiguration} gemacht.<br>
- * Für die User-Passwörter benötigt der Authorisation-Server einen {@link AuthenticationManager}, {@link UserDetailsService} und {@link PasswordEncoder}.<br>
- * Diese werden in der {@link SecurityConfig} erzeugt.
- *
  * @author Thomas Freese
  */
 @Configuration
@@ -89,16 +84,6 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     /**
-     * @return {@link ClientDetailsService}
-     * @throws Exception Falls was schief geht.
-     */
-    @Bean
-    public ClientDetailsService clientDetailsService() throws Exception
-    {
-        return new JdbcClientDetailsService(this.dataSource);
-    }
-
-    /**
      * @see org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter#configure(org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer)
      */
     @Override
@@ -139,10 +124,20 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     {
         // @formatter:off
         clients
-            .withClientDetails(clientDetailsService())
+            .withClientDetails(myClientDetailsService())
             //.jdbc(this.dataSource)
         ;
         // @formatter:on
+    }
+
+    /**
+     * @return {@link ClientDetailsService}
+     * @throws Exception Falls was schief geht.
+     */
+    @Bean
+    public ClientDetailsService myClientDetailsService() throws Exception
+    {
+        return new JdbcClientDetailsService(this.dataSource);
     }
 
     /**

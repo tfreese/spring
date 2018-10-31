@@ -22,7 +22,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -37,6 +36,7 @@ import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.netty.http.client.HttpClient;
 
 /**
  * @author Thomas Freese
@@ -155,12 +155,13 @@ public class TestRestWithWebClientSSL implements RestTestCase
                 .trustManager(trustManagerFactory)
                 .build();
 
-        ClientHttpConnector httpConnector = new ReactorClientHttpConnector(opt -> opt.sslContext(sslContext));
+        //ClientHttpConnector httpConnector = new ReactorClientHttpConnector(opt -> opt.sslContext(sslContext));
+        HttpClient httpClient = HttpClient.create().secure(sslContextSpec -> sslContextSpec.sslContext(sslContext));
 
         this.webClientBuilder.baseUrl(rootUri)
-            .clientConnector(httpConnector)
+            .clientConnector(new ReactorClientHttpConnector(httpClient))
             //.exchangeStrategies(strategies)
-            ;
+        ;
         // @formatter:on
     }
 

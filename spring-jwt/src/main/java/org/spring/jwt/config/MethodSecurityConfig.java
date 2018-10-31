@@ -2,13 +2,11 @@
  * Created: 22.10.2018
  */
 
-package org.spring.oauth.jwt.config;
+package org.spring.jwt.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
-import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecurityExpressionHandler;
 
 /**
  * @author Thomas Freese
@@ -26,12 +24,12 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration
 
     }
 
-    /**
-     * @see org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration#createExpressionHandler()
-     */
-    @Override
-    protected MethodSecurityExpressionHandler createExpressionHandler()
-    {
-        return new OAuth2MethodSecurityExpressionHandler();
-    }
+    // /**
+    // * @see org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration#createExpressionHandler()
+    // */
+    // @Override
+    // protected MethodSecurityExpressionHandler createExpressionHandler()
+    // {
+    // return new OAuth2MethodSecurityExpressionHandler();
+    // }
 }

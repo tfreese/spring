@@ -2,13 +2,12 @@
  * Created: 28.10.2018
  */
 
-package org.spring.oauth.jwt.controller;
+package org.spring.jwt.controller;
 
 import java.security.Principal;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import org.spring.oauth.jwt.model.MutableUser;
-import org.spring.oauth.jwt.service.UserService;
+import org.spring.jwt.model.MutableUser;
+import org.spring.jwt.service.UserService;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,11 +40,12 @@ public class UserController
     private UserService userService = null;
 
     /**
-     * @param userName String
+     * @param username String
      * @return String
      */
-    @DeleteMapping(value = "/{userName}")
+    @DeleteMapping(value = "/{username}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Secured("ROLE_ADMIN")
     @ApiOperation(value = "Deletes specific user by username.")
     @ApiResponses(value =
     {
@@ -54,15 +54,15 @@ public class UserController
             @ApiResponse(code = 404, message = "The user doesn't exist"),
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")
     })
-    public String delete(@ApiParam("userName") @PathVariable final String userName)
+    public String delete(@ApiParam("username") @PathVariable final String username)
     {
-        this.userService.delete(userName);
+        this.userService.delete(username);
 
-        return userName;
+        return username;
     }
 
     /**
-     * @param userName String
+     * @param username String
      * @param password String
      * @return String
      */
@@ -73,10 +73,9 @@ public class UserController
             @ApiResponse(code = 400, message = "Something went wrong"),//
             @ApiResponse(code = 422, message = "Invalid username/password supplied")
     })
-
-    public String login(@ApiParam("userName") @RequestParam final String userName, @ApiParam("password") @RequestParam final String password)
+    public String login(@ApiParam("username") @RequestParam final String username, @ApiParam("password") @RequestParam final String password)
     {
-        return this.userService.signin(userName, password);
+        return this.userService.signin(username, password);
     }
 
     /**
@@ -98,11 +97,12 @@ public class UserController
     }
 
     /**
-     * @param userName String
+     * @param username String
      * @return {@link UserDetails}
      */
-    @GetMapping(value = "/{userName}")
+    @GetMapping(value = "/{username}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Secured("ROLE_ADMIN")
     @ApiOperation(value = "Returns specific user by username.")
     @ApiResponses(value =
     {
@@ -111,15 +111,14 @@ public class UserController
             @ApiResponse(code = 404, message = "The user doesn't exist"),
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")
     })
-    public UserDetails search(@ApiParam("userName") @PathVariable final String userName)
+    public UserDetails search(@ApiParam("userName") @PathVariable final String username)
     {
-        UserDetails userDetails = this.userService.search(userName);
+        UserDetails userDetails = this.userService.search(username);
 
         return userDetails;
     }
 
     /**
-     * @param req {@link HttpServletRequest}
      * @param principal {@link Principal}
      * @return {@link MutableUser}
      */

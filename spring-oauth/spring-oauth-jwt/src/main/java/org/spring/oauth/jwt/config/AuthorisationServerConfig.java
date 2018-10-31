@@ -2,9 +2,10 @@
  * Created: 22.09.2018
  */
 
-package de.freese.spring.oauth.authorisation.config;
+package org.spring.oauth.jwt.config;
 
 import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerSecurityConfiguration;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
@@ -22,10 +24,17 @@ import org.springframework.security.oauth2.provider.approval.InMemoryApprovalSto
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
+import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 /**
+ * Die HttpSecurity wird über die Annotation {@link EnableAuthorizationServer} in {@link AuthorizationServerSecurityConfiguration} gemacht.<br>
+ * Für die User-Passwörter benötigt der Authorisation-Server einen {@link AuthenticationManager}, {@link UserDetailsService} und {@link PasswordEncoder}.<br>
+ * Diese werden in der {@link SecurityConfig} erzeugt.
+ *
  * @author Thomas Freese
  */
 @Configuration
@@ -47,6 +56,12 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     /**
      *
      */
+    @Value("${security.jwt.token.secret-key:secret-key}")
+    private String signingKey = null;
+
+    /**
+     *
+     */
     @Resource
     private UserDetailsService userDetailsService = null;
 
@@ -56,6 +71,21 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     public AuthorisationServerConfig()
     {
         super();
+    }
+
+    /**
+     * @return {@link AccessTokenConverter}
+     */
+    @Bean
+    public JwtAccessTokenConverter accessTokenConverter()
+    {
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setSigningKey(this.signingKey);
+
+        // Für Zertifikate statt SigningKey.
+        // converter.setKeyPair(keyPair);
+
+        return converter;
     }
 
     /**
@@ -87,6 +117,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
             .approvalStore(approvalStore())
             .authorizationCodeServices(authorizationCodeServices())
             .tokenStore(tokenStore())
+            .accessTokenConverter(accessTokenConverter())
             .authenticationManager(this.authenticationManager)
             .userDetailsService(this.userDetailsService)
         ;
@@ -117,7 +148,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     {
         // @formatter:off
         clients
-            .withClientDetails(myCientDetailsService())
+            .withClientDetails(myClientDetailsService())
         ;
         // @formatter:on
     }
@@ -127,7 +158,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
      * @throws Exception Falls was schief geht.
      */
     @Bean
-    public ClientDetailsService myCientDetailsService() throws Exception
+    public ClientDetailsService myClientDetailsService() throws Exception
     {
         // @formatter:off
         return new InMemoryClientDetailsServiceBuilder()
@@ -166,11 +197,26 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     /**
+     * @return {@link DefaultTokenServices}
+     */
+    @Bean
+    // @Primary
+    public DefaultTokenServices tokenServices()
+    {
+        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        defaultTokenServices.setTokenStore(tokenStore());
+        defaultTokenServices.setSupportRefreshToken(true);
+
+        return defaultTokenServices;
+    }
+
+    /**
      * @return {@link TokenStore}
      */
     @Bean
     public TokenStore tokenStore()
     {
-        return new InMemoryTokenStore();
+        // return new InMemoryTokenStore();
+        return new JwtTokenStore(accessTokenConverter());
     }
 }

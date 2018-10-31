@@ -2,7 +2,7 @@
  * Created: 28.10.2018
  */
 
-package org.spring.oauth.jwt.config;
+package org.spring.jwt.config;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -42,7 +42,7 @@ public class SwaggerConfig
                 .apiInfo(metadata())
                 .useDefaultResponseMessages(false)
                 .securitySchemes(Arrays.asList(new ApiKey("Bearer %token", "Authorization", "Header")))
-                .tags(new Tag("demoService", "Operations secured messages")) // Verknüpfung mit SecuredService.
+                .tags(new Tag("users", "Operations about users")) // Verknüpfung mit UserController.
 //                .tags(new Tag("ping", "Just a ping"))
                 .genericModelSubstitutes(Optional.class);
         // @formatter:on

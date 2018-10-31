@@ -5,6 +5,7 @@
 package de.freese.spring.thymeleaf.rest;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Resource;
@@ -30,7 +31,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.client.support.BasicAuthorizationInterceptor;
+import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.DefaultResponseErrorHandler;
@@ -192,7 +193,7 @@ public class TestRestWithRestTemplate implements RestTestCase
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthorizationInterceptor("user", "pass"))
+                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8))
                 .build();
         // @formatter:on
 
@@ -210,7 +211,7 @@ public class TestRestWithRestTemplate implements RestTestCase
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthorizationInterceptor("invalid", "pw"))
+                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8))
                 .build();
         // @formatter:on
 
@@ -228,7 +229,7 @@ public class TestRestWithRestTemplate implements RestTestCase
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthorizationInterceptor("user", "pw"),
+                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .build();
         // @formatter:on
@@ -262,7 +263,7 @@ public class TestRestWithRestTemplate implements RestTestCase
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthorizationInterceptor("admin", "pw"),
+                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"))
                 .build();
         // @formatter:on
@@ -296,7 +297,7 @@ public class TestRestWithRestTemplate implements RestTestCase
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthorizationInterceptor("user", "pw"),
+                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .build();
         // @formatter:on
@@ -314,7 +315,7 @@ public class TestRestWithRestTemplate implements RestTestCase
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthorizationInterceptor("admin", "pw"),
+                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .build();
         // @formatter:on
@@ -325,7 +326,7 @@ public class TestRestWithRestTemplate implements RestTestCase
 
         // @formatter:off
         restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthorizationInterceptor("user", "pw"),
+                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .build();
         // @formatter:on

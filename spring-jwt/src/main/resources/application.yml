@@ -12,6 +12,7 @@ security:
       secret-key: my-secret-key
       expire-length: 36000
 
+
 # =================================================================================================
 # Spring Properties
 logging:
@@ -26,6 +27,6 @@ logging:
 server:
   port: 8081
   servlet:
-    context-path: /auth
+    context-path: /jwt
     
 

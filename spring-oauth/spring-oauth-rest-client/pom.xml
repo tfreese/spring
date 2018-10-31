@@ -78,6 +78,18 @@
 		<!-- runtime scope -->
 		<!-- provided scope -->
 		<!-- test scope -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>${version:org.springframework.security:spring-security-test}</version>
+			<scope>test</scope>	
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${version:org.springframework.boot:spring-boot}</version>
+			<scope>compile</scope>
+		</dependency>		
 	</dependencies>
 
 </project>

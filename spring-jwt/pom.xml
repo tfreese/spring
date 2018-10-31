@@ -9,11 +9,11 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>spring-oauth-jwt</artifactId>
+	<artifactId>spring-jwt</artifactId>
 	<packaging>jar</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>Oauth with JWT</description>
+	<description>JWT-Demo</description>
 
 	<build>
 		<resources>
@@ -46,7 +46,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
-					<mainClass>org.spring.oauth.jwt.OauthJwtAuthorisationApplication</mainClass>
+					<mainClass>org.spring.jwt.JwtAuthorisationApplication</mainClass>
 					<!--jvmArguments>
 						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
 						</jvmArguments -->
@@ -67,6 +67,12 @@
 	<dependencies>
 		<!-- compile scope -->
 		<dependency>
+			<!-- JSON Web Token Support -->
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${version:io.jsonwebtoken:jjwt}</version>
+		</dependency>
+		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 			<version>${version:io.springfox:swagger}</version>
@@ -80,7 +86,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>
 			<version>${version:org.springframework.boot:spring-boot}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -96,17 +102,6 @@
 			<artifactId>spring-security-core</artifactId>
 			<version>${version:org.springframework.security:spring-security}</version>
 		</dependency>
-		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-jwt</artifactId>
-		    <version>${version:org.springframework.security:spring-security-jwt}</version>
-		</dependency>		
-		<dependency>
-			<groupId>org.springframework.security.oauth</groupId>
-			<artifactId>spring-security-oauth2</artifactId>
-			<version>${version:org.springframework.security.oauth:spring-security-oauth2}</version>
-		</dependency>		
-		
 		<!-- runtime scope -->
 		<!--dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -126,13 +121,13 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<version>${version:org.springframework.security:spring-security-test}</version>
-			<scope>test</scope>			
+			<scope>test</scope>	
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<version>${version:org.springframework.boot:spring-boot}</version>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>
 	</dependencies>
 </project>

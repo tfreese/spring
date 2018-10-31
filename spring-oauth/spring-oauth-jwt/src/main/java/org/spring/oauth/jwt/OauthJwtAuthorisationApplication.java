@@ -7,17 +7,17 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
- * https://github.com/murraco/spring-boot-jwt
+ * https://www.baeldung.com/spring-security-oauth-jwt
  *
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class JwtAuthorisationApplication extends SpringBootServletInitializer
+public class OauthJwtAuthorisationApplication extends SpringBootServletInitializer
 {
     /**
     *
     */
-    public static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthorisationApplication.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(OauthJwtAuthorisationApplication.class);
 
     /**
      * Konfiguriert die SpringApplication.
@@ -30,7 +30,7 @@ public class JwtAuthorisationApplication extends SpringBootServletInitializer
         // headless(false) für Desktop
         // .bannerMode(Banner.Mode.OFF);
         // .profiles(profiles)
-        return builder.sources(JwtAuthorisationApplication.class).headless(true);// .profiles("with-ssl");
+        return builder.sources(OauthJwtAuthorisationApplication.class).headless(true);// .profiles("with-ssl");
     }
 
     /**

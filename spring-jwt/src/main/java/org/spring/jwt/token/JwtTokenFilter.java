@@ -2,7 +2,7 @@
  * Created: 30.10.2018
  */
 
-package org.spring.oauth.jwt.token;
+package org.spring.jwt.token;
 
 import java.io.IOException;
 import java.util.Objects;

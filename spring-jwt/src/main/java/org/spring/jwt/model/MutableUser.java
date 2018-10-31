@@ -2,18 +2,19 @@
  * Created: 28.10.2018
  */
 
-package org.spring.oauth.jwt.model;
+package org.spring.jwt.model;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * @author Thomas Freese
  */
-public class MutableUser implements UserDetails
+public class MutableUser implements UserDetails, CredentialsContainer
 {
     /**
      *
@@ -86,9 +87,18 @@ public class MutableUser implements UserDetails
      */
     public MutableUser clearCredentials()
     {
-        setPassword(null);
+        eraseCredentials();
 
         return this;
+    }
+
+    /**
+     * @see org.springframework.security.core.CredentialsContainer#eraseCredentials()
+     */
+    @Override
+    public void eraseCredentials()
+    {
+        setPassword(null);
     }
 
     /**

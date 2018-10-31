@@ -2,7 +2,7 @@
  * Created: 12.09.2018
  */
 
-package org.spring.oauth.jwt;
+package org.spring.jwt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

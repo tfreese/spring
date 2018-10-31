@@ -2,7 +2,7 @@
  * Created: 28.10.2018
  */
 
-package org.spring.oauth.jwt.exception;
+package org.spring.jwt.exception;
 
 import java.io.IOException;
 import java.util.Map;
@@ -12,6 +12,7 @@ import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -31,7 +32,6 @@ public class GlobalExceptionHandlerController
         // Hide exception field in the return object
         return new DefaultErrorAttributes()
         {
-
             /**
              * @see org.springframework.boot.web.servlet.error.DefaultErrorAttributes#getErrorAttributes(org.springframework.web.context.request.WebRequest,
              *      boolean)
@@ -60,13 +60,13 @@ public class GlobalExceptionHandlerController
 
     /**
      * @param res {@link HttpServletResponse}
-     * @param ex {@link MyJwtException}
+     * @param ex {@link AuthenticationException}
      * @throws IOException Falls was schief geht.
      */
-    @ExceptionHandler(MyJwtException.class)
-    public void handleCustomException(final HttpServletResponse res, final MyJwtException ex) throws IOException
+    @ExceptionHandler(AuthenticationException.class)
+    public void handleCustomException(final HttpServletResponse res, final AuthenticationException ex) throws IOException
     {
-        res.sendError(ex.getHttpStatus().value(), ex.getMessage());
+        res.sendError(HttpStatus.FORBIDDEN.value(), ex.getMessage());
     }
 
     /**
