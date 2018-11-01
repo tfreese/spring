@@ -29,6 +29,7 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
  * Die HttpSecurity wird über die Annotation {@link EnableAuthorizationServer} in {@link AuthorizationServerSecurityConfiguration} gemacht.<br>
@@ -41,6 +42,12 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableAuthorizationServer
 public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdapter
 {
+    /**
+    *
+    */
+    @Resource
+    private AuthenticationEntryPoint authenticationEntryPoint = null;
+
     /**
      *
      */
@@ -136,6 +143,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
             .checkTokenAccess("isAuthenticated()")
             .passwordEncoder(this.passwordEncoder)
             .realm("my_realm")
+            .authenticationEntryPoint(this.authenticationEntryPoint)
         ;
         // @formatter:on
     }

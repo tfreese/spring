@@ -5,7 +5,7 @@
 
 	<parent>
 		<groupId>de.freese.spring</groupId>
-		<artifactId>spring-oauth</artifactId>
+		<artifactId>spring</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 

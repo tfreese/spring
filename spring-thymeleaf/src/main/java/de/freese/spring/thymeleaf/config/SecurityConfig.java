@@ -33,6 +33,7 @@ import org.springframework.security.core.userdetails.cache.SpringCacheBasedUserC
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
@@ -55,12 +56,12 @@ public class SecurityConfig
      *
      * @author Thomas Freese
      */
-    private static class RestBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
+    private static class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
     {
         /**
-         * Erstellt ein neues {@link RestBasicAuthenticationEntryPoint} Object.
+         * Erstellt ein neues {@link RestAuthenticationEntryPoint} Object.
          */
-        RestBasicAuthenticationEntryPoint()
+        RestAuthenticationEntryPoint()
         {
             super();
         }
@@ -101,6 +102,12 @@ public class SecurityConfig
     public static class RestSecurity extends WebSecurityConfigurerAdapter
     {
         /**
+         *
+         */
+        @Resource
+        private AuthenticationEntryPoint authenticationEntryPoint = null;
+
+        /**
         *
         */
         @Resource
@@ -112,17 +119,17 @@ public class SecurityConfig
         @Resource
         private PasswordEncoder passwordEncoder = null;
 
-        /**
-        *
-        */
-        @Resource
-        private RememberMeServices rememberMeServices = null;
-
         // /**
         // *
         // */
         // @Resource
         // private UserCache userCache = null;
+
+        /**
+        *
+        */
+        @Resource
+        private RememberMeServices rememberMeServices = null;
 
         /**
         *
@@ -177,9 +184,6 @@ public class SecurityConfig
         @Override
         protected void configure(final HttpSecurity http) throws Exception
         {
-            RestBasicAuthenticationEntryPoint authenticationEntryPoint = new RestBasicAuthenticationEntryPoint();
-            authenticationEntryPoint.afterPropertiesSet();
-
             // @formatter:off
             http
                 //.anonymous().disable()
@@ -189,7 +193,7 @@ public class SecurityConfig
                     .authorizeRequests()
                         .anyRequest().authenticated()// Alle HTTP Methoden zulässig.
                 .and()
-                    .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
+                    .httpBasic().authenticationEntryPoint(this.authenticationEntryPoint)
                 .and()
                     //.formLogin().disable()
                     .csrf().disable() // .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
@@ -480,6 +484,17 @@ public class SecurityConfig
 //        // @formatter:on
     // return new UnanimousBased(decisionVoters);
     // }
+
+    /**
+     * @return {@link AuthenticationEntryPoint}
+     */
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint()
+    {
+        RestAuthenticationEntryPoint authenticationEntryPoint = new RestAuthenticationEntryPoint();
+
+        return authenticationEntryPoint;
+    }
 
     /**
      * @param auds {@link AuthenticationUserDetailsService}

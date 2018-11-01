@@ -2,7 +2,7 @@
  * Created: 28.10.2018
  */
 
-package org.spring.jwt.exception;
+package org.spring.oauth.jwt.exception;
 
 import java.io.IOException;
 import java.util.Map;
@@ -56,6 +56,13 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
             }
         };
     }
+
+    // @ExceptionHandler
+    // @ResponseStatus(value=HttpStatus.NOT_FOUND)
+    // @ResponseBody
+    // public ErrorMessageResponse requestHandlingNoHandlerFound(final NoHandlerFoundException ex) {
+    // doSomething(LOG.debug("text to log"));
+    // }
 
     /**
      * @param res {@link HttpServletResponse}

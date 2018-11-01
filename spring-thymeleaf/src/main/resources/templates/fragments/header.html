@@ -43,8 +43,12 @@
 				${#authorization.expression('hasRole(''USER'')')}
 				
 				<span sec:authentication="principal.authorities" />
+				
+				th:text ="${'User: ' + #authentication.getPrincipal().getUsername()}"
 				-->
-				<span style="float:right; margin-left: 0.5em; margin-right: 1em;" sec:authorize="isAuthenticated()" th:text ="${'User: ' + #authentication.getPrincipal().getUsername()}" />
+				<span style="float:right; margin-left: 0.5em; margin-right: 1em;" sec:authorize="isAuthenticated()">
+					<span sec:authentication="name" />
+				</span>
 				
 				<span style="float:right" sec:authorize="!isAuthenticated()"><a href="/login">Login</a></span>
 				

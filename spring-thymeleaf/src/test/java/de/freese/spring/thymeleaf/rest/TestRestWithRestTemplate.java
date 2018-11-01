@@ -211,7 +211,7 @@ public class TestRestWithRestTemplate implements RestTestCase
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8))
+                .interceptors(new BasicAuthenticationInterceptor("invalid", "pw", StandardCharsets.UTF_8))
                 .build();
         // @formatter:on
 
@@ -229,7 +229,7 @@ public class TestRestWithRestTemplate implements RestTestCase
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8),
+                .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .build();
         // @formatter:on
@@ -263,7 +263,7 @@ public class TestRestWithRestTemplate implements RestTestCase
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8),
+                .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"))
                 .build();
         // @formatter:on
@@ -297,7 +297,7 @@ public class TestRestWithRestTemplate implements RestTestCase
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8),
+                .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .build();
         // @formatter:on
@@ -315,7 +315,7 @@ public class TestRestWithRestTemplate implements RestTestCase
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8),
+                .interceptors(new BasicAuthenticationInterceptor("admin", "pw", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .build();
         // @formatter:on
@@ -326,7 +326,7 @@ public class TestRestWithRestTemplate implements RestTestCase
 
         // @formatter:off
         restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8),
+                .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .build();
         // @formatter:on

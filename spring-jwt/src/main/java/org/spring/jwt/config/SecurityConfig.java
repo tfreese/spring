@@ -56,12 +56,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
      *
      * @author Thomas Freese
      */
-    private static class RestJwtAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
+    private static class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
     {
         /**
-         * Erstellt ein neues {@link RestJwtAuthenticationEntryPoint} Object.
+         * Erstellt ein neues {@link RestAuthenticationEntryPoint} Object.
          */
-        RestJwtAuthenticationEntryPoint()
+        RestAuthenticationEntryPoint()
         {
             super();
         }
@@ -121,7 +121,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint()
     {
-        RestJwtAuthenticationEntryPoint authenticationEntryPoint = new RestJwtAuthenticationEntryPoint();
+        RestAuthenticationEntryPoint authenticationEntryPoint = new RestAuthenticationEntryPoint();
 
         return authenticationEntryPoint;
     }
@@ -174,7 +174,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
 //                .apply(new JwtTokenFilterConfigurer(this.jwtTokenProvider))
-                .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+
         ;
         // @formatter:on
     }

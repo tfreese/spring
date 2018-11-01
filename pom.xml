@@ -36,7 +36,7 @@
 		<version:io.springfox:swagger>2.9.2</version:io.springfox:swagger>
 		<version:org.springframework.security:spring-security-jwt>1.0.9.RELEASE</version:org.springframework.security:spring-security-jwt>
 		<version:org.springframework.security.oauth:spring-security-oauth2>2.3.4.RELEASE</version:org.springframework.security.oauth:spring-security-oauth2>
-		<version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>2.0.6.RELEASE</version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>	
+		<version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>2.1.0.RELEASE</version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>	
 		<version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4>3.0.4.RELEASE</version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4>
 	</properties>
 

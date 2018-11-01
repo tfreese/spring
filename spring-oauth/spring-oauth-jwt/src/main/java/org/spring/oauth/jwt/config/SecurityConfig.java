@@ -4,10 +4,16 @@
 
 package org.spring.oauth.jwt.config;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +21,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,6 +32,8 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
 /**
  * @author Thomas Freese
@@ -35,11 +44,67 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     /**
+     * BasicAuthenticationEntryPoint liefert die volle HTML Fehler-Seite, dies ist bei REST nicht gewünscht.<br>
+     * Aussedem wird die FilterChain weiter ausgeführt, wenn keine Credentials vorhanden sind.
+     *
+     * @author Thomas Freese
+     */
+    private static class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
+    {
+        /**
+         * Erstellt ein neues {@link RestAuthenticationEntryPoint} Object.
+         */
+        RestAuthenticationEntryPoint()
+        {
+            super();
+        }
+
+        /**
+         * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#afterPropertiesSet()
+         */
+        @Override
+        public void afterPropertiesSet() throws Exception
+        {
+            setRealmName("Tommy");
+
+            super.afterPropertiesSet();
+        }
+
+        /**
+         * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#commence(javax.servlet.http.HttpServletRequest,
+         *      javax.servlet.http.HttpServletResponse, org.springframework.security.core.AuthenticationException)
+         */
+        @Override
+        public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authEx)
+            throws IOException, ServletException
+        {
+            response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+
+            @SuppressWarnings("resource")
+            PrintWriter writer = response.getWriter();
+            writer.println("HTTP Status 401 - " + authEx.getMessage());
+        }
+    }
+
+    /**
      * Erstellt ein neues {@link SecurityConfig} Object.
      */
     public SecurityConfig()
     {
         super();
+    }
+
+    /**
+     * @return {@link AuthenticationEntryPoint}
+     */
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint()
+    {
+        RestAuthenticationEntryPoint authenticationEntryPoint = new RestAuthenticationEntryPoint();
+
+        return authenticationEntryPoint;
     }
 
     /**

@@ -177,7 +177,7 @@ public class TestOauthJwtToken
                 .build();
         // @formatter:on
 
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/me", String.class);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/auth/rest/me", String.class);
 
         Assert.assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
         Assert.assertNotNull(responseEntity.getBody());
