@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.freese</groupId>
-		<artifactId>maven-parent</artifactId>
-		<version>0.0.1</version>
-	</parent>
+    <parent>
+        <groupId>de.freese</groupId>
+        <artifactId>maven-parent</artifactId>
+        <version>0.0.1</version>
+    </parent> 
 
-	<groupId>de.freese.spring</groupId>
-	<artifactId>spring</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>de.freese.spring</groupId>
+    <artifactId>spring</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>Parent für Springprojekte.</description>
-	<url>https://github.com/tfreese/spring</url>
-	<inceptionYear>2013</inceptionYear>
-	
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Parent für Springprojekte.</description>
+    <url>https://github.com/tfreese/spring</url>
+    <inceptionYear>2013</inceptionYear>
+
     <organization>
         <name>Thomas Freese</name>
         <url>https://github.com/tfreese/spring</url>
@@ -29,39 +29,39 @@
         <connection>scm:git:git://github.com/tfreese/spring.git</connection>
         <developerConnection>scm:git:https://github.com/tfreese/spring.git</developerConnection>
         <tag>HEAD</tag>
-    </scm>	
+    </scm>
 
-	<properties>
-		<version:io.jsonwebtoken:jjwt>0.9.1</version:io.jsonwebtoken:jjwt>
-		<version:io.springfox:swagger>2.9.2</version:io.springfox:swagger>
-		<version:org.springframework.security:spring-security-jwt>1.0.9.RELEASE</version:org.springframework.security:spring-security-jwt>
-		<version:org.springframework.security.oauth:spring-security-oauth2>2.3.4.RELEASE</version:org.springframework.security.oauth:spring-security-oauth2>
-		<version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>2.1.0.RELEASE</version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>	
-		<version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4>3.0.4.RELEASE</version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4>
-	</properties>
+    <properties>
+        <version:io.jsonwebtoken:jjwt>0.9.1</version:io.jsonwebtoken:jjwt>
+        <version:io.springfox:swagger>2.9.2</version:io.springfox:swagger>
+        <version:org.springframework.security:spring-security-jwt>1.0.9.RELEASE</version:org.springframework.security:spring-security-jwt>
+        <version:org.springframework.security.oauth:spring-security-oauth2>2.3.4.RELEASE</version:org.springframework.security.oauth:spring-security-oauth2>
+        <version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>2.1.0.RELEASE</version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure>
+        <version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4>3.0.4.RELEASE</version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4>
+    </properties>
 
-	<modules>
-		<module>spring-boot-admin</module>
-		<module>spring-eureka</module>
-		<module>spring-hateoas</module>
-		<module>spring-hystrix</module>
-		<module>spring-integration</module>
-		<module>spring-jwt</module>
-		<module>spring-kryo</module>
-		<module>spring-microservice</module>
-		<module>spring-oauth</module>
-		<module>spring-ribbon</module>
-		<module>spring-thymeleaf</module>
-		<module>spring-web</module>
-		<module>spring-webflux</module>
+    <modules>
+        <module>spring-boot-admin</module>
+        <module>spring-eureka</module>
+        <module>spring-hateoas</module>
+        <module>spring-hystrix</module>
+        <module>spring-integration</module>
+        <module>spring-jwt</module>
+        <module>spring-kryo</module>
+        <module>spring-microservice</module>
+        <module>spring-oauth</module>
+        <module>spring-ribbon</module>
+        <module>spring-thymeleaf</module>
+        <module>spring-web</module>
+        <module>spring-webflux</module>
 
-	</modules>
+    </modules>
 
-	<dependencies>
-		<!-- compile scope -->
-		<!-- runtime scope -->
-		<!-- provided scope -->
-		<!-- test scope -->
-	</dependencies>
+    <dependencies>
+        <!-- compile scope -->
+        <!-- runtime scope -->
+        <!-- provided scope -->
+        <!-- test scope -->
+    </dependencies>
 
 </project>
