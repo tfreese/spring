@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.0.RELEASE</version>
+		<version>2.1.1.RELEASE</version>
 		<relativePath />
 	</parent>
 
@@ -29,7 +29,7 @@
 
 		<!-- Dependencies -->
 
-		<!-- Plugins -->		
+		<!-- Plugins -->
 		<version:org.apache.maven.plugins:maven-toolchains-plugin>1.1</version:org.apache.maven.plugins:maven-toolchains-plugin>
 	</properties>
 
