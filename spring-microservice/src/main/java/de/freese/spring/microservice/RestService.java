@@ -1,6 +1,8 @@
 // Created: 14.02.2017
 package de.freese.spring.microservice;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -140,11 +142,12 @@ public class RestService
      * http://localhost:PORT/service/sysdate/
      *
      * @return String
+     * @throws UnknownHostException Falls was schief geht.
      */
     @GetMapping("/sysdate")
-    public String sysdate()
+    public String sysdate() throws UnknownHostException
     {
-        String sysDate = LocalDateTime.now().toString() + " at port " + this.port;
+        String sysDate = LocalDateTime.now().toString() + " on " + InetAddress.getLocalHost() + "@" + this.port;
 
         return sysDate;
     }

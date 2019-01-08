@@ -173,6 +173,8 @@ public class LoadBalancer implements LoadBalancerPing
         @Override
         public void run()
         {
+            LoggerFactory.getLogger(getClass()).debug("Pinger");
+
             List<String> allServers = getAllServer();
 
             if (allServers.isEmpty())

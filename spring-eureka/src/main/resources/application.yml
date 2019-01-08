@@ -8,28 +8,23 @@
 eureka:
   client:
     fetchRegistry: false
+    #lease:
+      #duration: 5
     registerWithEureka: false
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
   instance:
-    hostname: localhost
+    hostname: eureka
+    #leaseRenewalIntervalInSeconds: 10
+    #leaseExpirationDurationInSeconds: 20
+    healthCheckUrlPath: health
+    statusPageUrlPath: info
   server:
-    waitTimeInMsWhenSyncEmpty: 0    
+    #renewalPercentThreshold: 0.5
+    enableSelfPreservation: true
+    #waitTimeInMsWhenSyncEmpty: 0    
         
 server:
-  #context: /netflix
   port: 9001
   #servlet:
-    #context-path: /netflix
-
-
-#eureka.client.lease.duration = 5
-
-#eureka.
-#eureka.instance.statusPageUrlPath = /info
-#eureka.instance.healthCheckUrlPath = /health
-#eureka.instance.leaseRenewalIntervalInSeconds = 10
-#eureka.instance.leaseExpirationDurationInSeconds = 20
-
-#eureka.server.waitTimeInMsWhenSyncEmpty = 0
-#eureka.server.renewalPercentThreshold = 0.5
+    #context-path: /eureka

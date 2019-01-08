@@ -9,6 +9,7 @@ spring:
     config:
       enabled: false
   main:
+    allow-bean-definition-overriding: true
     banner-mode: "OFF"
     web-environment: false
     web-application-type: NONE
@@ -46,9 +47,9 @@ eureka:
     enabled: false
     
 date-service:
-  eureka:
-    enabled: false
   ribbon:
+    eureka:
+      enabled: false
     listOfServers: ${servers}    
 
 ---

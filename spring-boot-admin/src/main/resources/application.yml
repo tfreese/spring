@@ -20,9 +20,15 @@ spring:
         pagerduty:
           enabled: false
         telegram:
-          enabled: talse
+          enabled: false
         slack:
           enabled: false
+    client:
+      prefer-ip: false
 
 server:
   port: 9000
+
+#management:
+#  security:
+#    enabled: false

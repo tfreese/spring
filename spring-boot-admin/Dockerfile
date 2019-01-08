@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM openjdk:11
 
 MAINTAINER Thomas Freese <thomas@freese-home.de>
 

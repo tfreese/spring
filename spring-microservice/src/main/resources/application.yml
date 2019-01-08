@@ -5,12 +5,16 @@
 
 eureka:
   client:
+    enabled: true
     healthcheck:
       enabled: true
+    registerWithEureka: true
     serviceUrl:
       defaultZone: http://localhost:9001/eureka
+  registration:
+    enabled: false      
   instance:
-    preferIpAddress: true
+    preferIpAddress: false
     
 info:
   app:
@@ -36,7 +40,7 @@ management:
         include: '*'
   endpoint:
     health:
-      show-details: ALWAYS        
+      show-details: ALWAYS 
     
 server:
   #context-path: /

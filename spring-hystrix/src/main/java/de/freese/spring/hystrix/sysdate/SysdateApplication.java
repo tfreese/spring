@@ -42,11 +42,9 @@ public class SysdateApplication
         RestTemplate restTemplate = new RestTemplateBuilder().build();
         String[] urls = new String[]
         {
-                "http://localhost:65501/netflix/service/sysdate/",
-                "http://localhost:65502/netflix/service/sysdate/",
-                "http://localhost:65503/netflix/service/sysdate/"
+                "http://localhost:8081/service/sysdate/", "http://localhost:8082/service/sysdate/", "http://localhost:8083/service/sysdate/"
         };
-        // System.out.println(restTemplate.getForObject("http://localhost:65503/hystrix/test/sysdate/", String.class));
+        // System.out.println(restTemplate.getForObject("http://localhost:8081/service/sysdate/", String.class));
 
         while (true)
         {
