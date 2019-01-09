@@ -3,6 +3,8 @@
 # https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+debug: false
+
 eureka:
   client:
     enabled: true
@@ -22,7 +24,6 @@ info:
     name: ${project.artifactId}
     version: ${project.version}
 
-debug: false
 logging:
   config: classpath:logback.xml 
 #  level:

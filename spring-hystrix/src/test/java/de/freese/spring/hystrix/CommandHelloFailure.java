@@ -27,7 +27,7 @@ public class CommandHelloFailure extends HystrixCommand<String>
     public CommandHelloFailure(final String name)
     {
         // CommandGroupKey = ThreadPool-Name
-        super(HystrixCommandGroupKey.Factory.asKey("ExampleGroup"));
+        super(HystrixCommandGroupKey.Factory.asKey("TestGroup"));
 
         this.name = name;
     }

@@ -27,7 +27,7 @@ public class CommandHelloWorld extends HystrixCommand<String>
     public CommandHelloWorld(final String name)
     {
         // CommandGroupKey = ThreadPool-Name
-        super(HystrixCommandGroupKey.Factory.asKey("ExampleGroup"));
+        super(HystrixCommandGroupKey.Factory.asKey("TestGroup"));
 
         this.name = name;
     }

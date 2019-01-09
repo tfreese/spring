@@ -29,11 +29,14 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 @SpringBootApplication
 @EnableHystrix
 @EnableHystrixDashboard
-@DefaultProperties(groupKey = "HystrixAppliction", commandProperties =
-{
-        @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"), // HystrixCommands im gleichen Thread ausführen
-        @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "300")
-})
+
+@DefaultProperties(groupKey = "HystrixAppliction") // Restliche Konfiguration siehe hystrix.properties
+
+// @DefaultProperties(groupKey = "HystrixAppliction", commandProperties =
+// {
+// @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"), // HystrixCommands in separaten Threads ausführen
+// @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "300")
+// })
 public class HystrixApplication
 {
     /**
@@ -154,7 +157,11 @@ public class HystrixApplication
      * @param urls String[]
      * @return String
      */
-    @HystrixCommand
+    @HystrixCommand(commandProperties =
+    {
+            // Im aktuellen Thread ausführen.
+            @HystrixProperty(name = "execution.isolation.strategy", value = "SEMAPHORE")
+    })
     public String getSysdateFallback(final RestTemplate restTemplate, final String[] urls)
     {
         String result = "fallback";
