@@ -1,0 +1,9 @@
+https://github.com/vincent-fuchs/gs-messaging-rabbitmq
+https://github.com/trishulpani/qpid-helloworld
+
+https://sivalabs.in/2018/02/springboot-messaging-rabbitmq/
+https://www.baeldung.com/spring-remoting-amqp
+https://www.baeldung.com/spring-amqp-reactive
+
+https://cwiki.apache.org/confluence/display/qpid/How+to+embed+Qpid+Broker-J
+https://github.com/RohanSingh24/Qpid-Spring-Boot-Integration
