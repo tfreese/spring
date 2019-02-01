@@ -1,0 +1,19 @@
+# docker network create my-fancy-network
+# docker run -i -t --name container1 --net=my-fancy-network --net-alias=container1 ubuntu:trusty /bin/bash
+# docker run -i -t --name container2 --net=my-fancy-network --net-alias=container2 ubuntu:trusty /bin/bash
+# Die Container können sich nun untereinander über ihre Aliasnamen ansprechen (HTTP://container1), keine IPs verwenden !
+
+# docker-compose build
+# docker-compose up [-d] --scale spring-microservice=3
+# docker-compose ps
+# docker logs ID/NAME;
+# docker-compose down
+
+version: '3'
+services:
+
+   rabbitmq:
+     image: rabbitmq:management
+     ports:
+       - "5672:5672"
+       - "15672:15672"

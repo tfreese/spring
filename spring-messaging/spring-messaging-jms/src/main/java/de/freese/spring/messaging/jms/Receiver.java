@@ -22,7 +22,7 @@ public class Receiver
     }
 
     /**
-     * @param email Email
+     * @param email {@link Email}
      */
     @JmsListener(destination = "mailbox", containerFactory = "myFactory")
     public void receiveMessage(final Email email)
