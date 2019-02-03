@@ -1,0 +1,24 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+debug: false
+
+
+spring:
+   rabbitmq:
+      dynamic: true
+      host: localhost
+      port: 5672
+      username: guest
+      password: guest
+      listener:
+         simple:
+            concurrency: 4
+            max-concurrency: 8
+      
+
+# qpid-config.json
+# "virtualHostInitialConfiguration": "{ \"type\" : \"Memory\" }"    
+

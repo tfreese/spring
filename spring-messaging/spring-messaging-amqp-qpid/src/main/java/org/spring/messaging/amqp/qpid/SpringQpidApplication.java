@@ -2,7 +2,7 @@
  * Created: 31.01.2019
  */
 
-package org.spring.messaging.amqp.rabbitmq;
+package org.spring.messaging.amqp.qpid;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Bean;
  */
 @SpringBootApplication
 @EnableRabbit
-public class SpringRabbitMqApplication
+public class SpringQpidApplication
 {
     /**
      *
@@ -37,7 +37,7 @@ public class SpringRabbitMqApplication
      */
     public static void main(final String[] args) throws Exception
     {
-        SpringApplication.run(SpringRabbitMqApplication.class, args);
+        SpringApplication.run(SpringQpidApplication.class, args);
     }
 
     /**
@@ -50,22 +50,6 @@ public class SpringRabbitMqApplication
     {
         return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
     }
-
-    // /**
-    // * @param connectionFactory {@link ConnectionFactory}
-    // * @param listenerAdapter {@link MessageListenerAdapter}
-    // * @return {@link MessageListenerContainer}
-    // */
-    // @Bean
-    // public MessageListenerContainer container(final ConnectionFactory connectionFactory, final MessageListenerAdapter listenerAdapter)
-    // {
-    // SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-    // container.setConnectionFactory(connectionFactory);
-    // container.setQueueNames(queueName);
-    // container.setMessageListener(listenerAdapter);
-    //
-    // return container;
-    // }
 
     /**
      * @return {@link TopicExchange}
@@ -80,7 +64,7 @@ public class SpringRabbitMqApplication
      * @return {@link Jackson2JsonMessageConverter}
      */
     @Bean
-    public Jackson2JsonMessageConverter jackson2MessageConverter()
+    public Jackson2JsonMessageConverter producerJackson2MessageConverter()
     {
         return new Jackson2JsonMessageConverter();
     }
@@ -93,14 +77,4 @@ public class SpringRabbitMqApplication
     {
         return new Queue(queueName, false);
     }
-
-    // /**
-    // * @param receiver {@link Receiver}
-    // * @return {@link MessageListenerAdapter}
-    // */
-    // @Bean
-    // public MessageListenerAdapter listenerAdapter(final Receiver receiver)
-    // {
-    // return new MessageListenerAdapter(receiver, "receiveMessage");
-    // }
 }

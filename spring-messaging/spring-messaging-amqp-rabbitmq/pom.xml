@@ -16,7 +16,7 @@
 
 	<properties>
 	</properties>
-	
+
 	<build>
 		<plugins>
 			<!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
@@ -42,14 +42,14 @@
 				</executions>
 			</plugin>
 		</plugins>
-	</build>	
+	</build>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${version:com.fasterxml.jackson:jackson}</version>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
@@ -62,4 +62,5 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
+	
 </project>
