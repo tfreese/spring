@@ -5,17 +5,22 @@
 
 debug: false
 
-#tcp://192.168.1.210:9876
 #vm://localhost?broker.persistent=false
 #vm://embedded?broker.persistent=false,useShutdownHook=false
 
+# Für externen Broker-Service
+#broker-url: tcp://localhost:61616
+
 spring:
    activemq:
-      broker-url: vm://embedded?broker.persistent=false,useShutdownHook=true
+      broker-url: vm://embedded?broker.persistent=false,useShutdownHook=true      
       #user:
       #password: 
       in-memory: true
       pool:
          enabled: false
-         max-connections: 10
+         max-connections: 1
+#    jms:
+#       cache:
+#          enabled: true
 
