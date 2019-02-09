@@ -2,21 +2,22 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>de.freese.spring</groupId>
-		<artifactId>spring-messaging</artifactId>
+		<artifactId>spring</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>spring-messaging-jms</artifactId>
+	<artifactId>spring-javafx</artifactId>
 	<packaging>jar</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>JMS with ActiveMQ</description>
+	<description>spring with javafx</description>
 
 	<properties>
 	</properties>
-
+	
 	<build>
 		<plugins>
 			<!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
@@ -26,7 +27,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
-					<mainClass>de.freese.spring.messaging.jms.SpringJmsApplication</mainClass>
+					<mainClass>de.freese.spring.javafx.MainSpringFxApplication</mainClass>
 					<!--jvmArguments>
 						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
 						</jvmArguments -->
@@ -42,28 +43,23 @@
 				</executions>
 			</plugin>
 		</plugins>
-	</build>
+	</build>	
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-activemq</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-controls</artifactId>
+			<version>${version:org.openjfx:openjfx}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-json</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
-		</dependency>		
-		<!--
-		<groupId>org.apache.activemq</groupId>
-		<artifactId>activemq-amqp</artifactId>
-		-->
-		<!--dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-broker</artifactId>
-			<version>${version:org.apache.activemq:activemq}</version>
-			</dependency -->
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-fxml</artifactId>
+			<version>${version:org.openjfx:openjfx}</version>
+		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${version:org.springframework.boot:spring-boot}</version>
+        </dependency>		
 	</dependencies>
-	
 </project>

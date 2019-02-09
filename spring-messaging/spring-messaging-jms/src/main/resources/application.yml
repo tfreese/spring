@@ -23,4 +23,6 @@ spring:
 #    jms:
 #       cache:
 #          enabled: true
+   main:  
+      web-application-type: NONE
 

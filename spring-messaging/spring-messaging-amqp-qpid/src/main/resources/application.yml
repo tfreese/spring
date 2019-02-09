@@ -17,6 +17,8 @@ spring:
          simple:
             concurrency: 4
             max-concurrency: 8
+   main:  
+      web-application-type: NONE            
       
 
 # qpid-config.json

@@ -45,11 +45,13 @@
 	</properties>
 
 	<modules>
-		<module>spring-boot-admin</module>
+		<module>spring-api-gateway</module>
+		<module>spring-boot-admin</module>		
 		<module>spring-eureka</module>
 		<module>spring-hateoas</module>
 		<module>spring-hystrix</module>
 		<module>spring-integration</module>
+		<module>spring-javafx</module>
 		<module>spring-jwt</module>
 		<module>spring-kryo</module>
 		<module>spring-messaging</module>

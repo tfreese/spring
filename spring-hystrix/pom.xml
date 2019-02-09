@@ -33,9 +33,9 @@
 
 		<!-- runtime scope -->
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${version:com.fasterxml.jackson:jackson}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-json</artifactId>
+			<version>${version:org.springframework.boot:spring-boot}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>

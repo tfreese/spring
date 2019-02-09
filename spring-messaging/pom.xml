@@ -24,4 +24,11 @@
 		<module>spring-messaging-amqp-qpid</module>
 	</modules>
 
+    <dependencies>
+        <!-- compile scope -->
+        <!-- runtime scope -->
+        <!-- provided scope -->
+        <!-- test scope -->
+    </dependencies>
+    
 </project>

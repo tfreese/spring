@@ -5,19 +5,10 @@
 
 debug: false
 
-
 spring:
-   rabbitmq:
-      dynamic: true
-      host: localhost
-      port: 5672
-      username: guest
-      password: guest
-      listener:
-         simple:
-            concurrency: 4
-            max-concurrency: 8
+   application:
+      ui:
+         title: Spring with JavaFx
    main:  
-      web-application-type: NONE            
-      
+      web-application-type: NONE
 

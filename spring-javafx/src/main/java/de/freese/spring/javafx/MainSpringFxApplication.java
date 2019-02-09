@@ -1,59 +1,47 @@
 /**
- * Created: 31.01.2019
+ * Created: 09.02.2019
  */
 
-package de.freese.spring.messaging.jms;
+package de.freese.spring.javafx;
 
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
-import javax.jms.ConnectionFactory;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import org.springframework.jms.annotation.EnableJms;
-import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
-import org.springframework.jms.config.JmsListenerContainerFactory;
-import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
-import org.springframework.jms.support.converter.MessageConverter;
-import org.springframework.jms.support.converter.MessageType;
 import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
+import javafx.application.Application;
 
 /**
  * @author Thomas Freese
  */
 @SpringBootApplication
-@EnableJms
-public class SpringJmsApplication
+public class MainSpringFxApplication
 {
     /**
      * @param args String[]
-     * @throws Exception Falls was schief geht.
      */
-    public static void main(final String[] args) throws Exception
+    public static void main(final String[] args)
     {
-        SpringApplication.run(SpringJmsApplication.class, args);
-
-        // try (ConfigurableApplicationContext context = SpringApplication.run(SpringJmsApplication.class, args))
-        // {
-        // JmsTemplate jmsTemplate = context.getBean(JmsTemplate.class);
-        //
-        // // Send a message with a POJO - the template reuse the message converter
-        // for (int i = 0; i < 5; i++)
-        // {
-        // System.out.println("Sending an email message: " + (i + 1));
-        // jmsTemplate.convertAndSend("mailbox", new Email("info@example.com", "Hello-" + (i + 1)));
-        // }
-        //
-        // Thread.sleep(1000);
-        // }
+        Application.launch(JavaFxApplication.class, args);
     }
 
     /**
+     * Erstellt ein neues {@link MainSpringFxApplication} Object.
+     */
+    public MainSpringFxApplication()
+    {
+        super();
+    }
+
+    /**
+     * Irrelevant, nur zum Testen.
+     *
      * @return {@link ThreadPoolExecutorFactoryBean}
      */
     @Bean
+    @ConditionalOnMissingBean(ExecutorService.class)
     @Primary
     public ThreadPoolExecutorFactoryBean executorService()
     {
@@ -74,41 +62,6 @@ public class SpringJmsApplication
         bean.setExposeUnconfigurableExecutor(true);
 
         return bean;
-    }
-
-    /**
-     * Serialize message content to json using TextMessage
-     *
-     * @return {@link MessageConverter}
-     */
-    @Bean
-    public MessageConverter jacksonJmsMessageConverter()
-    {
-        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-        converter.setTargetType(MessageType.TEXT);
-        converter.setTypeIdPropertyName("_type");
-
-        return converter;
-    }
-
-    /**
-     * @param connectionFactory {@link ConnectionFactory}
-     * @param configurer {@link DefaultJmsListenerContainerFactoryConfigurer}
-     * @param taskExecutor {@link Executor}
-     * @return {@link JmsListenerContainerFactory}
-     */
-    @Bean
-    public JmsListenerContainerFactory<?> myFactory(final ConnectionFactory connectionFactory, final DefaultJmsListenerContainerFactoryConfigurer configurer,
-                                                    final Executor taskExecutor)
-    {
-        // This provides all boot's default to this factory, including the message converter
-        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setTaskExecutor(taskExecutor);
-
-        // You could still override some of Boot's default if necessary.
-        configurer.configure(factory, connectionFactory);
-
-        return factory;
     }
 
     // /**
