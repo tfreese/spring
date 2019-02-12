@@ -48,14 +48,24 @@
 	<dependencies>
 		<!-- compile scope -->
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-gateway</artifactId>
-			<version>${version:org.springframework.cloud:spring-cloud}</version>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${version:org.apache.httpcomponents:httpclient}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-actuator</artifactId>
+			<version>${version:org.springframework.boot:spring-boot}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-json</artifactId>
 			<version>${version:org.springframework.boot:spring-boot}</version>
+		</dependency>		
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-gateway</artifactId>
+			<version>${version:org.springframework.cloud:spring-cloud}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -64,14 +74,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
+			<artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
 			<version>${version:org.springframework.cloud:spring-cloud}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>spring-boot-starter-web</artifactId>
-					<groupId>org.springframework.boot</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!-- test scope -->

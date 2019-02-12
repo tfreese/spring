@@ -3,8 +3,86 @@
 # https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+# curl http://localhost:9999/get<br>
+# curl http://localhost:9999/sysdate<br>
+# curl --dump-header - --header 'Host: www.hystrix.com' http://localhost:9999/delay/3
+ 
 debug: false
 
 server:
    port: 9999
+   
+eureka:
+   client:
+      enabled: false   
+
+gateway:
+   remoteUri: http://httpbin.org:80    
+   server1: localhost:8081
+   servers: ${gateway.server1}, localhost:8082, localhost:8083   
+
+spring:
+   cloud:
+      config:
+         enabled: false
+      gateway:
+         enabled: true
+         metrics:
+            enabled: true
+         routes:
+         
+            - id: addrequestheader_route
+              uri: ${gateway.remoteUri}
+              predicates:
+              - Path=/get
+              filters:
+              - AddRequestHeader=Hello, World
+              
+            - id: rewritepath_route
+              uri: http://${gateway.server1}
+              predicates:
+              - Path=/sysdate
+              filters:
+              #- RewritePath=/articles/(?<articleId>.*), /$\{articleId}    
+              - RewritePath=/sysdate, /service/sysdate
+              
+            - id: loadbalancer_route
+              uri: lb://date-service
+              predicates:
+              - Path=/sysdatelb
+              filters:   
+              - RewritePath=/sysdatelb, /service/sysdate
+              
+            - id: hystrix_route
+              uri: ${gateway.remoteUri}
+              predicates:
+              - Host=*.hystrix.com
+              filters:
+              - name: Hystrix
+                args:
+                  name: mycmd
+                  fallbackUri: forward:/fallback
+         
+date-service:
+   ribbon:
+      eureka:
+         enabled: false
+   listOfServers: ${gateway.servers}
+   
+management:
+   #server:
+      #port: 9998 
+   endpoints:
+      enabled-by-default: true
+      web:
+         base-path: /actuator
+         exposure:
+            #include: '*'
+            include: health, gateway
+   endpoint:
+      gateway:
+         enabled: true
+      health:
+         enabled: true
+         show-details: ALWAYS           
 

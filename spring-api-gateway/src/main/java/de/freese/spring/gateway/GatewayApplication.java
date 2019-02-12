@@ -7,17 +7,17 @@ package de.freese.spring.gateway;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.gateway.route.RouteLocator;
-import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 /**
  * curl http://localhost:9999/get<br>
- * curl --dump-header - --header 'Host: www.hystrix.com' http://localhost:9999/delay/3
- * 
+ * curl http://localhost:9999/sysdate<br>
+ * curl http://localhost:9999/sysdatelb<br>
+ * curl --dump-header - --header 'Host: www.hystrix.com' http://localhost:9999/delay/3<br>
+ * http://localhost/actuator/gateway/routes/loadbalancer_route
+ *
  * @author Thomas Freese
  */
 @SpringBootApplication
@@ -50,26 +50,43 @@ public class GatewayApplication
         return Mono.just("fallback");
     }
 
-    /**
-     * @param builder {@link RouteLocatorBuilder}
-     * @param uriConfiguration {@link UriConfiguration}
-     * @return {@link RouteLocator}
-     */
-    @Bean
-    public RouteLocator myRoutes(final RouteLocatorBuilder builder, final UriConfiguration uriConfiguration)
-    {
-        String httpUri = uriConfiguration.getHttpbin();
-
-        // @formatter:off
-        return builder.routes()
-                .route(p -> p.path("/get")
-                        .filters(f -> f.addRequestHeader("Hello", "World"))
-                        .uri(httpUri))
-                .route(p -> p.host("*.hystrix.com")
-                        .filters(f -> f.hystrix(config -> config.setName("mycmd")
-                                        .setFallbackUri("forward:/fallback")))
-                        .uri(httpUri))
-                .build();
-        // @formatter:on
-    }
+    // Routes werden in der application.yml konfiguriert
+    //
+    // /**
+    // * @param builder {@link RouteLocatorBuilder}
+    // * @param uriConfiguration {@link UriConfiguration}
+    // * @return {@link RouteLocator}
+    // */
+    // @Bean
+    // public RouteLocator myRoutes(final RouteLocatorBuilder builder, final UriConfiguration uriConfiguration)
+    // {
+    // String httpUri = uriConfiguration.getHttpbin();
+    //
+//        // @formatter:off
+//        return builder.routes()
+//                .route(p -> p.path("/get")
+//                        .filters(f -> f.addRequestHeader("Hello", "World"))
+//                        .uri(httpUri)
+//                        .id("addrequestheader_route")
+//                      )
+//                .route(p -> p.host("*.hystrix.com")
+//                        .filters(f -> f.hystrix(config -> config.setName("mycmd")
+//                                        .setFallbackUri("forward:/fallback")))
+//                        .uri(httpUri)
+//                        .id("hystrix_route")
+//                      )
+//                .route(p -> p.path("/sysdate")
+////                        .filters(f -> f.rewritePath("/sysdate/(?<segment>.*)", "/service/sysdate/${segment}"))
+//                        .filters(f -> f.rewritePath("/sysdate", "/service/sysdate"))
+//                        .uri("http://localhost:8081")
+//                        .id("rewritepath_route")
+//                      )
+//                .route(p -> p.path("/sysdatelb")
+//                      .filters(f -> f.rewritePath("/sysdate2", "/service/sysdate"))
+//                      .uri("lb://date-service")
+//                      .id("loadbalancer_route")
+//                    )
+//                .build();
+//        // @formatter:on
+    // }
 }
