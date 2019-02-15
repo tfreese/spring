@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
  * curl http://localhost:9999/sysdate<br>
  * curl http://localhost:9999/sysdatelb<br>
  * curl --dump-header - --header 'Host: www.hystrix.com' http://localhost:9999/delay/3<br>
- * http://localhost/actuator/gateway/routes/loadbalancer_route
+ * http://localhost:9999/actuator/gateway/routes/loadbalancer_route
  *
  * @author Thomas Freese
  */
