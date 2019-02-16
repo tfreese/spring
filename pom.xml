@@ -46,7 +46,7 @@
 
 	<modules>
 		<module>spring-api-gateway</module>
-		<module>spring-boot-admin</module>		
+		<module>spring-boot-admin</module>
 		<module>spring-eureka</module>
 		<module>spring-hateoas</module>
 		<module>spring-hystrix</module>
@@ -69,5 +69,9 @@
 		<!-- provided scope -->
 		<!-- test scope -->
 	</dependencies>
-
+<!--
+https://spring.io/blog/2018/12/19/spring-tips-reactive-sql-data-access-with-spring-data-r2dbc
+http://r2dbc.io
+spring-context-indexer
+-->
 </project>

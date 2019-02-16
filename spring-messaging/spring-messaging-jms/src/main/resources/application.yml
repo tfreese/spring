@@ -19,10 +19,12 @@ spring:
       in-memory: true
       pool:
          enabled: false
-         max-connections: 1
+         max-connections: 1        
 #    jms:
 #       cache:
 #          enabled: true
+   jmx:
+      enabled: false
    main:  
       web-application-type: NONE
 

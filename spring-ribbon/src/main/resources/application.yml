@@ -4,47 +4,51 @@
 # http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html#Common_Attributes
 # ===================================================================
 
-spring:
-  cloud:
-    config:
-      enabled: false
-  main:
-    allow-bean-definition-overriding: true
-    banner-mode: "OFF"
-    web-environment: false
-    web-application-type: NONE
-    
 logging:
-  level:
-    de.freese.j2ee.spring.ribbon: DEBUG
+   level:
+      de.freese.j2ee.spring.ribbon: DEBUG
+    
+spring:
+   cloud:
+      config:
+         enabled: false
+   jmx:
+      enabled: false      
+   main:
+      allow-bean-definition-overriding: true
+      banner-mode: "OFF"
+      web-environment: false
+      web-application-type: NONE
+    
+
     
 servers: localhost:8081,localhost:8082,localhost:8083
   
 date-service:
-  ribbon:
-    # Interval to refresh the server list from the source
-    ServerListRefreshInterval: 3000
-    # Max number of retries on the same server (excluding the first try)
-    MaxAutoRetries: 1
-    # Max number of next servers to retry (excluding the first server)
-    MaxAutoRetriesNextServer: 1
-    # Whether all operations can be retried for this client
-    OkToRetryOnAllOperations: true
-    # Connect timeout used by Apache HttpClient
-    ConnectTimeout: 3000
-    # Read timeout used by Apache HttpClient
-    ReadTimeout: 3000
-    #retryableStatusCodes: 500
-    #EnablePrimeConnections: true
+   ribbon:
+      # Interval to refresh the server list from the source
+      ServerListRefreshInterval: 3000
+      # Max number of retries on the same server (excluding the first try)
+      MaxAutoRetries: 1
+      # Max number of next servers to retry (excluding the first server)
+      MaxAutoRetriesNextServer: 1
+      # Whether all operations can be retried for this client
+      OkToRetryOnAllOperations: true
+      # Connect timeout used by Apache HttpClient
+      ConnectTimeout: 3000
+      # Read timeout used by Apache HttpClient
+      ReadTimeout: 3000
+      #retryableStatusCodes: 500
+      #EnablePrimeConnections: true
   
 ---
 
 spring:
-  profiles: without-eureka
+   profiles: without-eureka
   
 eureka:
-  client:
-    enabled: false
+   client:
+      enabled: false
     
 date-service:
    ribbon:
@@ -55,29 +59,29 @@ date-service:
 ---
 
 spring:
-  profiles: with-eureka
+   profiles: with-eureka
   
 eureka:
-  client:
-    enabled: true
-    registerWithEureka: false
-    serviceUrl:
-      defaultZone: http://localhost:9001/eureka            
-  registration:
-    enabled: false
+   client:
+      enabled: true
+      registerWithEureka: false
+      serviceUrl:
+         defaultZone: http://localhost:9001/eureka            
+   registration:
+      enabled: false
     
 #spring.cloud.config.discovery.enabled = false
 
 date-service:
-  ribbon:
-    eureka:
-      enabled: true
+   ribbon:
+      eureka:
+         enabled: true
       
 ---
 
 spring:
-  profiles: my-loadbalancer
+   profiles: my-loadbalancer
   
 loadbalancer:
-  servers: ${servers}
-  pingIntervall: 15000      
+   servers: ${servers}
+   pingIntervall: 15000      

@@ -9,6 +9,7 @@ spring:
    application:
       ui:
          title: Spring with JavaFx
-   main:  
+   jmx:
+      enabled: false
+   main:
       web-application-type: NONE
-

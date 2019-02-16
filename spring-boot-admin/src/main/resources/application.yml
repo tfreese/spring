@@ -4,27 +4,30 @@
 # ===================================================================
 
 spring:
-  boot:
-    admin:
-      notify:
-        hipchat:
-          enabled: false
-        letschat:
-          enabled: false
-        mail:
-          enabled: false
-        ms-teams:
-          enabled: false
-        opsgenie:
-          enabled: false
-        pagerduty:
-          enabled: false
-        telegram:
-          enabled: false
-        slack:
-          enabled: false
-    client:
-      prefer-ip: false
+   boot:
+      admin:
+         notify:
+           hipchat:
+             enabled: false
+           letschat:
+             enabled: false
+           mail:
+             enabled: false
+           ms-teams:
+             enabled: false
+           opsgenie:
+             enabled: false
+           pagerduty:
+             enabled: false
+           telegram:
+             enabled: false
+           slack:
+             enabled: false
+      client:
+         prefer-ip: false
+   jmx:
+      enabled: false 
+           
 
 server:
   port: 9000

@@ -62,6 +62,8 @@ spring:
                 args:
                   name: mycmd
                   fallbackUri: forward:/fallback
+   jmx:
+      enabled: false                  
          
 date-service:
    ribbon:
