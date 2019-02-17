@@ -33,6 +33,7 @@
 
 	<properties>
 		<version:com.esotericsoftware:kryo>4.0.2</version:com.esotericsoftware:kryo>
+		<version:com.unboundid:unboundid>4.0.9</version:com.unboundid:unboundid>
 		<version:de.javakaffee:kryo-serializers>0.45</version:de.javakaffee:kryo-serializers>
 		<version:io.jsonwebtoken:jjwt>0.9.1</version:io.jsonwebtoken:jjwt>
 		<version:io.springfox:swagger>2.9.2</version:io.springfox:swagger>
@@ -54,6 +55,7 @@
 		<module>spring-javafx</module>
 		<module>spring-jwt</module>
 		<module>spring-kryo</module>
+		<module>spring-ldap</module>
 		<module>spring-messaging</module>
 		<module>spring-microservice</module>
 		<module>spring-oauth</module>
