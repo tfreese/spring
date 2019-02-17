@@ -20,6 +20,9 @@ import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.ldap.query.LdapQuery;
+import org.springframework.ldap.query.LdapQueryBuilder;
+import org.springframework.ldap.query.SearchScope;
 import org.springframework.ldap.support.LdapNameBuilder;
 import org.springframework.stereotype.Component;
 
@@ -174,6 +177,22 @@ public class LdapQueryRunner implements CommandLineRunner
      */
     public List<String> search(final LdapTemplate ldapTemplate, final String baseDn, final String userId)
     {
-        return ldapTemplate.search("ou=people," + baseDn, "uid=" + userId, (AttributesMapper<String>) attrs -> (String) attrs.get("cn").get());
+        // return ldapTemplate.search("ou=people," + baseDn, "uid=" + userId, (AttributesMapper<String>) attrs -> (String) attrs.get("cn").get());
+
+        // @formatter:off
+        LdapQuery query = LdapQueryBuilder.query()
+                .searchScope(SearchScope.SUBTREE)
+                .timeLimit(3 * 1000)
+                .countLimit(10)
+                .attributes("cn")
+                .base("ou=people," + baseDn)
+                .where("objectclass").is("person")
+                .and("uid").isPresent()
+                .and("uid").like(userId)
+                //.and("sn").not().is(lastName)
+                ;
+        // @formatter:on
+
+        return ldapTemplate.search(query, (AttributesMapper<String>) attrs -> (String) attrs.get("cn").get());
     }
 }
