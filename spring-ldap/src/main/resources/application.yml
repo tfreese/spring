@@ -15,14 +15,16 @@ spring:
       enabled: false
    ldap:
       embedded:
-         #credential:
-            #username: uid=ben,ou=people
-            #password: bospassword
+         credential:
+            username: uid=ben,ou=people
+            password: benspassword
          base-dn: dc=springframework,dc=org
          ldif: classpath:test-server.ldif         
          port: 8389
-         #validation:
-            #enabled: true
+         validation:
+            enabled: false
             #schema: ...  
    main:
-      web-application-type: SERVLET      
+      allow-bean-definition-overriding: false
+      web-application-type: SERVLET
+       

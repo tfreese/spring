@@ -11,11 +11,10 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import de.freese.spring.ldap.dao.MyLdapDao;
 
 /**
  * @author Thomas Freese
@@ -27,21 +26,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class LdapTest
 {
     /**
-    *
-    */
-    @Value("${spring.ldap.embedded.base-dn}")
-    private String baseDn = null;
-
-    /**
-     *
-     */
-    private LdapQueryRunner ldapQueryRunner = new LdapQueryRunner();
-
-    /**
      *
      */
     @Resource
-    private LdapTemplate ldapTemplate = null;
+    private MyLdapDao ldapDao = null;
 
     /**
      * Erstellt ein neues {@link LdapTest} Object.
@@ -65,22 +53,39 @@ public class LdapTest
     @Test
     public void test020Login() throws Exception
     {
-        String principal = this.ldapQueryRunner.login(this.ldapTemplate, this.baseDn, "uid=ben,ou=people", "{SHA}nFCebWjxfaLbHHG1Qk5UU4trbvQ=");
-        Assert.assertEquals(principal, "uid=ben,ou=people,dc=springframework,dc=org");
+        String principal = this.ldapDao.login("uid=ben,ou=people", "{SHA}nFCebWjxfaLbHHG1Qk5UU4trbvQ=");
+        Assert.assertEquals("Ben Alex", principal);
+
+        principal = this.ldapDao.login("uid=joe,ou=otherpeople", "joespassword");
+        Assert.assertEquals("Joe Smeth", principal);
     }
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test030Search() throws Exception
+    public void test030SearchPeople() throws Exception
     {
-        List<String> result = this.ldapQueryRunner.search(this.ldapTemplate, this.baseDn, "b*");
+        List<String> result = this.ldapDao.searchPeople("b*");
 
         Assert.assertNotNull(result);
-        Assert.assertEquals(result.size(), 2);
-        Assert.assertEquals(result.get(0), "Ben Alex");
-        Assert.assertEquals(result.get(1), "Bob Hamilton");
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals("Ben Alex", result.get(0));
+        Assert.assertEquals("Bob Hamilton", result.get(1));
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    public void test030SearchPeopleInGroup() throws Exception
+    {
+        List<String> result = this.ldapDao.searchPeopleInGroup("developers");
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals("uid=ben,ou=people,dc=springframework,dc=org", result.get(0));
+        Assert.assertEquals("uid=bob,ou=people,dc=springframework,dc=org", result.get(1));
     }
 
     /**
@@ -89,12 +94,12 @@ public class LdapTest
     @Test
     public void test040Create() throws Exception
     {
-        this.ldapQueryRunner.create(this.ldapTemplate, "myid", "pass", "A", "B");
-        List<String> result = this.ldapQueryRunner.search(this.ldapTemplate, this.baseDn, "myid");
+        this.ldapDao.create("myid", "pass", "A", "B");
+        List<String> result = this.ldapDao.searchPeople("myid");
 
         Assert.assertNotNull(result);
-        Assert.assertEquals(result.size(), 1);
-        Assert.assertEquals(result.get(0), "A B");
+        Assert.assertEquals(1, result.size());
+        Assert.assertEquals("A B", result.get(0));
     }
 
     /**
@@ -103,11 +108,11 @@ public class LdapTest
     @Test
     public void test050Modify() throws Exception
     {
-        this.ldapQueryRunner.modify(this.ldapTemplate, "myid", "pass", "X", "Y");
-        List<String> result = this.ldapQueryRunner.search(this.ldapTemplate, this.baseDn, "myid");
+        this.ldapDao.modify("myid", "pass", "X", "Y");
+        List<String> result = this.ldapDao.searchPeople("myid");
 
         Assert.assertNotNull(result);
-        Assert.assertEquals(result.size(), 1);
-        Assert.assertEquals(result.get(0), "X Y");
+        Assert.assertEquals(1, result.size());
+        Assert.assertEquals("X Y", result.get(0));
     }
 }

@@ -5,8 +5,12 @@
 package de.freese.spring.ldap.config;
 
 import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.ldap.core.support.BaseLdapNameAware;
+import org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor;
 
 /**
  * @author Thomas Freese
@@ -14,6 +18,12 @@ import org.springframework.core.env.Environment;
 @Configuration
 public class LdapClientConfig
 {
+    /**
+    *
+    */
+    @Value("${spring.ldap.embedded.base-dn}")
+    private String baseDN = null;
+
     /**
      *
      */
@@ -28,18 +38,39 @@ public class LdapClientConfig
         super();
     }
 
+    /**
+     * @return {@link BaseLdapPathBeanPostProcessor}
+     * @see BaseLdapNameAware
+     */
+    @Bean
+    public BaseLdapPathBeanPostProcessor baseLdapPathBeanPostProcessor()
+    {
+        BaseLdapPathBeanPostProcessor postProcessor = new BaseLdapPathBeanPostProcessor();
+        postProcessor.setBasePath(this.baseDN);
+
+        return postProcessor;
+    }
+
     // /**
+    // * @param ldapProperties {@link LdapProperties}
+    // * @param embeddedLdapProperties {@link EmbeddedLdapProperties}
     // * @return {@link ContextSource}
     // */
     // @Bean
-    // public ContextSource ldapContextSource()
+    // public ContextSource ldapContextSource(final LdapProperties ldapProperties, final EmbeddedLdapProperties embeddedLdapProperties)
     // {
     // LdapContextSource contextSource = new LdapContextSource();
     //
-    // contextSource.setUrl("ldap://localhost:" + this.env.getRequiredProperty("spring.ldap.embedded.port"));
-    // contextSource.setBase(this.env.getRequiredProperty("spring.ldap.embedded.base-dn"));
-    // contextSource.setUserDn("uid=admin,ou=system");
-    // contextSource.setPassword("secret");
+    // contextSource.setUrls(ldapProperties.determineUrls(this.env));
+    // contextSource.setBase(embeddedLdapProperties.getBaseDn().get(0));
+    //
+    // Credential credential = embeddedLdapProperties.getCredential();
+    //
+    // if (StringUtils.hasText(credential.getUsername()) && StringUtils.hasText(credential.getPassword()))
+    // {
+    // contextSource.setUserDn(credential.getUsername());
+    // contextSource.setPassword(credential.getPassword());
+    // }
     //
     // return contextSource;
     // }
