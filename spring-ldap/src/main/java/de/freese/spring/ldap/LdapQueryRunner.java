@@ -45,14 +45,12 @@ public class LdapQueryRunner implements CommandLineRunner
         String prinzipal = this.ldapDao.login(userName, password);
         System.out.println(prinzipal);
 
-        this.ldapDao.searchPeople("b*").forEach(System.out::println);
+        this.ldapDao.searchPeopleByUid("b*").forEach(System.out::println);
 
         this.ldapDao.create("myid", "pass", "A", "B");
-        this.ldapDao.searchPeople("myid").forEach(System.out::println);
+        this.ldapDao.searchPeopleByUid("myid").forEach(System.out::println);
 
         this.ldapDao.modify("myid", "pass", "X", "Y");
-        this.ldapDao.searchPeople("myid").forEach(System.out::println);
-
-        // System.exit(0);
+        this.ldapDao.searchPeopleByUid("myid").forEach(System.out::println);
     }
 }

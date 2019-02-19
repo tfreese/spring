@@ -66,7 +66,7 @@ public class LdapTest
     @Test
     public void test030SearchPeople() throws Exception
     {
-        List<String> result = this.ldapDao.searchPeople("b*");
+        List<String> result = this.ldapDao.searchPeopleByUid("b*");
 
         Assert.assertNotNull(result);
         Assert.assertEquals(2, result.size());
@@ -92,10 +92,24 @@ public class LdapTest
      * @throws Exception Falls was schief geht.
      */
     @Test
+    public void test031SearchBirthday() throws Exception
+    {
+        List<String> result = this.ldapDao.searchPeopleByUid("tommy", "birthDate");
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals("1975-05-13", result.get(0));
+        Assert.assertEquals("1975-05-13", result.get(1));
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
     public void test040Create() throws Exception
     {
         this.ldapDao.create("myid", "pass", "A", "B");
-        List<String> result = this.ldapDao.searchPeople("myid");
+        List<String> result = this.ldapDao.searchPeopleByUid("myid");
 
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());
@@ -109,7 +123,7 @@ public class LdapTest
     public void test050Modify() throws Exception
     {
         this.ldapDao.modify("myid", "pass", "X", "Y");
-        List<String> result = this.ldapDao.searchPeople("myid");
+        List<String> result = this.ldapDao.searchPeopleByUid("myid");
 
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());

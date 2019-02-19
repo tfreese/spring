@@ -23,7 +23,7 @@ spring:
          port: 8389
          validation:
             enabled: false
-            #schema: ...  
+            schema: file:/usr/share/evolution-data-server/evolutionperson.schema  
    main:
       allow-bean-definition-overriding: false
       web-application-type: SERVLET

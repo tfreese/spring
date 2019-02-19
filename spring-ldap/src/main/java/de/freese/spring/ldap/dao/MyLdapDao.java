@@ -71,14 +71,23 @@ public class MyLdapDao implements BaseLdapNameAware
      *
      * @author Thomas Freese
      */
-    private static class PersonCommonNameAttributesMapper implements AttributesMapper<String>
+    private static class PersonAttributeMapper implements AttributesMapper<String>
     {
         /**
-         * Erstellt ein neues {@link PersonCommonNameAttributesMapper} Object.
+         *
          */
-        public PersonCommonNameAttributesMapper()
+        private final String attributeId;
+
+        /**
+         * Erstellt ein neues {@link PersonAttributeMapper} Object.
+         *
+         * @param attributeId String
+         */
+        public PersonAttributeMapper(final String attributeId)
         {
             super();
+
+            this.attributeId = Objects.requireNonNull(attributeId, "attributeId requried");
         }
 
         /**
@@ -87,15 +96,15 @@ public class MyLdapDao implements BaseLdapNameAware
         @Override
         public String mapFromAttributes(final Attributes attributes) throws NamingException
         {
-            Attribute attribute = attributes.get("cn");
-            String cn = null;
+            Attribute attribute = attributes.get(this.attributeId);
+            String value = null;
 
             if (attribute != null)
             {
-                cn = (String) attribute.get();
+                value = (String) attribute.get();
             }
 
-            return cn;
+            return value;
         }
     }
 
@@ -290,12 +299,24 @@ public class MyLdapDao implements BaseLdapNameAware
     }
 
     /**
-     * b*
+     * uid = b*
      *
      * @param userId String
      * @return {@link List}
      */
-    public List<String> searchPeople(final String userId)
+    public List<String> searchPeopleByUid(final String userId)
+    {
+        return searchPeopleByUid(userId, "cn");
+    }
+
+    /**
+     * uid = b*
+     *
+     * @param userId String
+     * @param attributeId String
+     * @return {@link List}
+     */
+    public List<String> searchPeopleByUid(final String userId, final String attributeId)
     {
         Name base = LdapNameBuilder.newInstance(getBaseLdapPath()).add("ou", "people").build();
 
@@ -306,7 +327,7 @@ public class MyLdapDao implements BaseLdapNameAware
                 .searchScope(SearchScope.SUBTREE)
                 .timeLimit(3 * 1000)
                 .countLimit(10)
-                .attributes("cn")
+                .attributes(attributeId)
                 .base(base)
                 .where("objectclass").is("person")
                 .and("uid").isPresent()
@@ -315,12 +336,12 @@ public class MyLdapDao implements BaseLdapNameAware
                 ;
         // @formatter:on
 
-        // return getLdapTemplate().search(query, (AttributesMapper<String>) attrs -> (String) attrs.get("cn").get());
-        return getLdapTemplate().search(query, new PersonCommonNameAttributesMapper());
+        // return getLdapTemplate().search(query, (AttributesMapper<String>) attrs -> (String) attrs.get(attributeId).get());
+        return getLdapTemplate().search(query, new PersonAttributeMapper(attributeId));
     }
 
     /**
-     * developers
+     * cn = developers
      *
      * @param groupName String
      * @return {@link List}

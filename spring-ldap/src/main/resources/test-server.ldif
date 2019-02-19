@@ -1,5 +1,8 @@
 version: 1
 
+###############################################################################
+# Structure
+##############################################################################
 dn: dc=springframework,dc=org
 objectclass: top
 objectclass: domain
@@ -36,6 +39,10 @@ objectclass: top
 objectclass: organizationalUnit
 ou: otherpeople
 
+
+###############################################################################
+# People
+###############################################################################
 dn: uid=ben,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
@@ -108,7 +115,36 @@ uid: space cadet
 userPassword: spacecadetspassword
 
 
+dn: uid=tommy,ou=people,dc=springframework,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: evolutionPerson
+cn: Freese, Thomas
+sn: Freese
+userPassword: tommyspassword
+givenName: Thomas
+displayName: Tommy
+birthDate: 1975-05-13
 
+dn: cn=Thomas Freese,ou=people,dc=springframework,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: evolutionPerson
+uid: tommy
+sn: Freese
+userPassword: tommyspassword
+givenName: Thomas
+displayName: Tommy
+birthDate: 1975-05-13
+
+
+###############################################################################
+# Groups
+###############################################################################
 dn: cn=developers,ou=groups,dc=springframework,dc=org
 objectclass: top
 objectclass: groupOfUniqueNames
@@ -131,3 +167,4 @@ objectclass: groupOfUniqueNames
 cn: submanagers
 ou: submanager
 uniqueMember: uid=ben,ou=people,dc=springframework,dc=org
+

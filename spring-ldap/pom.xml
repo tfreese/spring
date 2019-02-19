@@ -21,6 +21,11 @@
 	<dependencies>
 		<!-- compile scope -->
 		<dependency>
+			<groupId>com.unboundid</groupId>
+			<artifactId>unboundid-ldapsdk</artifactId>
+			<version>${version:com.unboundid:unboundid}</version>
+		</dependency>		
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 			<version>${version:org.springframework.boot:spring-boot}</version>
@@ -43,13 +48,6 @@
 			</dependency -->
 
 		<!-- runtime scope -->
-		<dependency>
-			<groupId>com.unboundid</groupId>
-			<artifactId>unboundid-ldapsdk</artifactId>
-			<version>${version:com.unboundid:unboundid}</version>
-			<scope>runtime</scope>
-		</dependency>
-
 		<!-- test scope -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
