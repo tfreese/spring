@@ -2,7 +2,7 @@
  * Created: 17.02.2019
  */
 
-package de.freese.spring.ldap.config;
+package de.freese.spring.ldap.unboundid.config;
 
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;

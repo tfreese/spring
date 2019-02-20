@@ -2,7 +2,7 @@
  * Created: 12.09.2018
  */
 
-package de.freese.spring.ldap;
+package de.freese.spring.ldap.unboundid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

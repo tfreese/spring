@@ -2,7 +2,7 @@
  * Created: 17.02.2019
  */
 
-package de.freese.spring.ldap;
+package de.freese.spring.ldap.unboundid;
 
 import java.util.List;
 import javax.annotation.Resource;
@@ -14,13 +14,17 @@ import org.junit.runners.MethodSorters;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import de.freese.spring.ldap.dao.MyLdapDao;
+import de.freese.spring.ldap.unboundid.LdapApplication;
+import de.freese.spring.ldap.unboundid.dao.MyLdapDao;
 
 /**
  * @author Thomas Freese
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes =
+{
+        LdapApplication.class
+})
 @ActiveProfiles("test")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class LdapTest

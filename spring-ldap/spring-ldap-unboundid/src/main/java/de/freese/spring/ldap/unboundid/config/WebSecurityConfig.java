@@ -2,7 +2,7 @@
  * Created: 17.02.2019
  */
 
-package de.freese.spring.ldap.config;
+package de.freese.spring.ldap.unboundid.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

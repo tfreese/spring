@@ -2,7 +2,7 @@
  * Created: 18.02.2019
  */
 
-package de.freese.spring.ldap.dao;
+package de.freese.spring.ldap.unboundid.dao;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

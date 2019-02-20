@@ -2,7 +2,7 @@
  * Created: 17.02.2019
  */
 
-package de.freese.spring.ldap.service;
+package de.freese.spring.ldap.unboundid.service;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -2,7 +2,7 @@
  * Created: 09.02.2019
  */
 
-package de.freese.spring.ldap;
+package de.freese.spring.ldap.unboundid;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
