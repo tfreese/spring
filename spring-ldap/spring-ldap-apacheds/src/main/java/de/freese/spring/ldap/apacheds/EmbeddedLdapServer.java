@@ -19,6 +19,7 @@ import org.apache.directory.api.ldap.model.schema.registries.Schema;
 import org.apache.directory.api.ldap.schema.loader.JarLdifSchemaLoader;
 import org.apache.directory.api.ldap.schema.loader.LdifSchemaLoader;
 import org.apache.directory.api.util.FileUtils;
+import org.apache.directory.server.core.api.CacheService;
 import org.apache.directory.server.core.api.CoreSession;
 import org.apache.directory.server.core.api.DirectoryService;
 import org.apache.directory.server.core.factory.DefaultDirectoryServiceFactory;
@@ -26,6 +27,7 @@ import org.apache.directory.server.core.factory.JdbmPartitionFactory;
 import org.apache.directory.server.core.partition.impl.btree.jdbm.JdbmIndex;
 import org.apache.directory.server.core.partition.impl.btree.jdbm.JdbmPartition;
 import org.apache.directory.server.ldap.LdapServer;
+import org.apache.directory.server.protocol.shared.store.LdifFileLoader;
 import org.apache.directory.server.protocol.shared.transport.TcpTransport;
 import org.apache.directory.server.xdbm.Index;
 import org.apache.directory.server.xdbm.IndexNotFoundException;
@@ -34,6 +36,7 @@ import org.apache.directory.server.xdbm.IndexNotFoundException;
  * API References:<br>
  * http://directory.apache.org/apacheds/gen-docs/latest/apidocs/<br>
  * http://directory.apache.org/api/gen-docs/latest/apidocs/<br>
+ * https://github.com/ztarbug/apacheds-embedded/blob/master/src/main/java/de/starwit/auth/apacheds/DirectoryRunner.java<br>
  * Call init() to start the server and destroy() to shut it down.
  */
 public class EmbeddedLdapServer
@@ -94,16 +97,32 @@ public class EmbeddedLdapServer
             ads.init();
             ads.setDeleteInstanceDirectoryOnShutdown(false);
 
+            // ads.addSchemaFromPath(new File("/home/tommy/git/spring/spring-ldap"), "evolutionperson.schema");
+
+            LdifFileLoader ldifLoader = null;
+
+            ldifLoader = new LdifFileLoader(ads.getDirectoryService().getAdminSession(), "/usr/share/evolution-data-server/evolutionperson.schema");
+            ldifLoader.execute();
+
+            ads.addPartition("people", "dc=springframework,dc=org");
+
+            ldifLoader = new LdifFileLoader(ads.getDirectoryService().getAdminSession(), "../spring-ldap-unboundid/src/main/resources/test-server.ldif");
+            ldifLoader.execute();
+
             // Read an entry
             Entry result = ads.getDirectoryService().getAdminSession().lookup(ads.getDirectoryService().getDnFactory().create("dc=mydomain,dc=org"));
+            System.out.println("Found entry : " + result);
 
-            // And print it if available
+            result = ads.getDirectoryService().getAdminSession()
+                    .lookup(ads.getDirectoryService().getDnFactory().create("uid=tommy,ou=people,dc=springframework,dc=org"));
             System.out.println("Found entry : " + result);
         }
         catch (Exception ex)
         {
             // Ok, we have something wrong going on ...
             ex.printStackTrace();
+
+            System.exit(-1);
         }
         finally
         {
@@ -138,6 +157,52 @@ public class EmbeddedLdapServer
      *
      */
     private LdapServer ldapServer;
+
+    /**
+     * @param name String; mydomain
+     * @param baseStructure String; dc=mydomain,dc=org
+     * @return
+     * @throws Exception Falls was schief geht.
+     */
+    public JdbmPartition addPartition(final String name, final String baseStructure) throws Exception
+    {
+        // JdbmPartition partition = new JdbmPartition(getDirectoryService().getSchemaManager(),getDirectoryService().getDnFactory());
+        // partition.setId( partitionId );
+        // partition.setPartitionDir( new File(getPartitionsDirectory(), partitionId ) );
+        // partition.setSuffixDn(getDirectoryService().getDnFactory().create( partitionDn ));
+        // getDirectoryService().addPartition( partition );
+
+        JdbmPartitionFactory jdbmPartitionFactory = new JdbmPartitionFactory();
+        JdbmPartition partition = jdbmPartitionFactory.createPartition(getDirectoryService().getSchemaManager(), getDirectoryService().getDnFactory(), name,
+                baseStructure, getBaseCacheSize(), new File(getPartitionsDirectory(), name));
+
+        for (String attrName : getAttrNamesToIndex())
+        {
+            partition.addIndex(createIndexObjectForAttr(attrName));
+        }
+
+        getDirectoryService().addPartition(partition);
+
+        return partition;
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    protected void addPartitionBase() throws Exception
+    {
+        JdbmPartitionFactory jdbmPartitionFactory = new JdbmPartitionFactory();
+        JdbmPartition partition = jdbmPartitionFactory.createPartition(getDirectoryService().getSchemaManager(), getDirectoryService().getDnFactory(),
+                getBasePartitionName(), getBaseStructure(), getBaseCacheSize(), getBasePartitionPath());
+
+        setBasePartition(partition);
+
+        addSchemaExtensions();
+
+        createBaseIndices();
+
+        getDirectoryService().addPartition(getBasePartition());
+    }
 
     /**
      * @throws LdapException Falls was schief geht.
@@ -204,23 +269,6 @@ public class EmbeddedLdapServer
         {
             getBasePartition().addIndex(createIndexObjectForAttr(attrName));
         }
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    protected void createBasePartition() throws Exception
-    {
-        JdbmPartitionFactory jdbmPartitionFactory = new JdbmPartitionFactory();
-
-        setBasePartition(jdbmPartitionFactory.createPartition(getDirectoryService().getSchemaManager(), getDirectoryService().getDnFactory(),
-                getBasePartitionName(), getBaseStructure(), getBaseCacheSize(), getBasePartitionPath()));
-
-        addSchemaExtensions();
-
-        createBaseIndices();
-
-        getDirectoryService().addPartition(getBasePartition());
     }
 
     /**
@@ -459,8 +507,10 @@ public class EmbeddedLdapServer
 
             getDirectoryService().getChangeLog().setEnabled(false);
             getDirectoryService().setDenormalizeOpAttrsEnabled(true);
+            getDirectoryService().setShutdownHookEnabled(true);
+            // getDirectoryService().set;
 
-            createBasePartition();
+            addPartitionBase();
 
             getDirectoryService().startup();
 
@@ -474,6 +524,11 @@ public class EmbeddedLdapServer
             getLdapServer().setTransports(new TcpTransport(getLdapServerPort()));
             getLdapServer().start();
         }
+
+        CacheService cacheService = new CacheService();
+        cacheService.initialize(getDirectoryService().getInstanceLayout());
+        getDirectoryService().setCacheService(cacheService);
+
     }
 
     /**
