@@ -47,7 +47,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
 					<mainClass>de.freese.spring.oauth.OAuthAuthorisationApplication</mainClass>
 					<!--jvmArguments>
@@ -72,17 +71,14 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>${version:org.springframework.security:spring-security}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
@@ -99,12 +95,10 @@
 		<!--dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
-			<version>${version:javax.xml.bind:jaxb-api}</version>
 			</dependency -->
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-			<version>${version:javax.xml.bind:jaxb-api}</version>
 			<scope>runtime</scope>
 		</dependency>
 

@@ -25,7 +25,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
 					<mainClass>de.freese.spring.eureka.EurekaServerApplication</mainClass>
 					<!--jvmArguments>
@@ -57,20 +56,17 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-			<version>${version:org.springframework.cloud:spring-cloud}</version>
 		</dependency>
 
 		<!-- runtime scope -->
 		<!--dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
-			<version>${version:javax.xml.bind:jaxb-api}</version>
 			<scope>runtime</scope>
 		</dependency-->
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>${version:javax.xml.bind:jaxb-api}</version>
             <scope>runtime</scope>
         </dependency>			
 				

@@ -18,8 +18,7 @@
         <!-- compile scope -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>${version:org.springframework.boot:spring-boot}</version>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         <!-- runtime scope -->
         <!-- provided scope -->

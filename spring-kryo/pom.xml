@@ -30,7 +30,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 		</dependency>
 
 		<!-- runtime scope -->
@@ -39,7 +38,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>${version:org.springframework.boot:spring-boot}</version>
             <scope>test</scope>
         </dependency>
 	</dependencies>

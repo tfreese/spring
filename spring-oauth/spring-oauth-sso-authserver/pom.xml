@@ -20,12 +20,10 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${version:org.springframework:spring}</version>
 		</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${version:org.springframework.boot:spring-boot}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
@@ -39,7 +37,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			<scope>test</scope>
 		</dependency>
     </dependencies>

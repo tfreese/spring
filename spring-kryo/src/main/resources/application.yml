@@ -6,18 +6,18 @@
 
 debug: false
 logging:
-	config: classpath:logback.xml 
+   config: classpath:logback.xml 
     
 server:
-	port: 8081
+   port: 8081
     
 spring:
    jmx:
       enabled: false
-	main:
-    	banner-mode: 'OFF'
-	output:
-    	ansi:
-      	enabled: DETECT    
+   main:
+      banner-mode: 'OFF'
+   output:
+      ansi:
+      enabled: DETECT    
     
     

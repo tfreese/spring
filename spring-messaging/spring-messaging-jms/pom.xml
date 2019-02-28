@@ -24,7 +24,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
 					<mainClass>de.freese.spring.messaging.jms.SpringJmsApplication</mainClass>
 					<!--jvmArguments>
@@ -48,12 +47,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-activemq</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-json</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 		</dependency>		
 		<!--
 		<groupId>org.apache.activemq</groupId>
@@ -62,7 +59,6 @@
 		<!--dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-broker</artifactId>
-			<version>${version:org.apache.activemq:activemq}</version>
 			</dependency -->
 	</dependencies>
 	

@@ -48,19 +48,16 @@
 		<!--dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>${version:org.springframework:spring}</version>
 			</dependency>
 
 			<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			</dependency -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			<!--exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -81,13 +78,11 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
-			<version>${version:org.springframework.security:spring-security}</version>
 			<scope>test</scope>	
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			<scope>compile</scope>
 		</dependency>		
 	</dependencies>

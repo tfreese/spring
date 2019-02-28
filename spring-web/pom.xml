@@ -49,7 +49,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
                 <configuration>
                     <layout>ZIP</layout>
                     <mainClass>de.freese.spring.web.SpringBootWebApp</mainClass>
@@ -81,7 +80,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${version:org.springframework.boot:spring-boot}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -94,25 +92,21 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>${version:org.primefaces:primefaces}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>primefaces-extensions</artifactId>
-            <version>${version:org.primefaces.extensions:primefaces-extensions}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.primefaces.themes</groupId>
             <artifactId>all-themes</artifactId>
-            <version>${version:org.primefaces.themes:all-themes}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>${version:org.springframework.boot:spring-boot}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -121,26 +115,22 @@
         <dependency>
             <groupId>com.sun.faces</groupId>
             <artifactId>jsf-api</artifactId>
-            <version>${version:com.sun.faces:jsf}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.faces</groupId>
             <artifactId>jsf-impl</artifactId>
-            <version>${version:com.sun.faces:jsf}</version>
             <scope>provided</scope>
         </dependency>
         <!--dependency>
         <groupId>javax</groupId>
         <artifactId>javaee-web-api</artifactId>
-        <version>${version:javax:javaee-api}</version>
         <scope>provided</scope>
         </dependency -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <version>${version:org.springframework.boot:spring-boot}</version>
             <scope>provided</scope>
         </dependency>
 

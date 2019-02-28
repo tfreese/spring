@@ -20,12 +20,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${version:org.springframework.boot:spring-boot}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-            <version>${version:org.springframework.boot:spring-boot}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
@@ -35,12 +33,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <version>${version:org.springframework.boot:spring-boot}</version>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-            <version>${version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4}</version>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
 
 		<!-- runtime scope -->
@@ -49,7 +45,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			<scope>test</scope>
 		</dependency>
     </dependencies>

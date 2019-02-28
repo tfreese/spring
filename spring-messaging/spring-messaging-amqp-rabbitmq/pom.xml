@@ -24,7 +24,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
 					<mainClass>org.spring.messaging.amqp.rabbitmq.SpringRabbitMqApplication</mainClass>
 					<!--jvmArguments>
@@ -48,7 +47,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -59,7 +57,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-json</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 		</dependency>		
 	</dependencies>
 	

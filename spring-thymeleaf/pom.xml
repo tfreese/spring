@@ -47,7 +47,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
 					<mainClass>de.freese.spring.thymeleaf.ThymeleafApplication</mainClass>
 					<!--jvmArguments>
@@ -72,41 +71,34 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>${version:org.apache.httpcomponents:httpclient}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-json</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
-			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
-			<version>${version:org.thymeleaf.extras:thymeleaf-extras-springsecurity4}</version>
+			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 		</dependency>
 
 		<!-- hot swapping, disable cache for template, enable live reload -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
-		</dependency>		
+		</dependency>
 
 		<!-- Optional, for bootstrap -->
 		<!--dependency>
@@ -117,36 +109,30 @@
 
 		<!-- runtime scope -->
 		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			<scope>runtime</scope>
 		</dependency>
 
 		<!-- provided scope -->
 		<!-- test scope -->
-		<!--dependency>
-			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm</artifactId>
-			<version>7.0-beta </version>
-			<scope>test</scope>
-		</dependency-->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
-			<version>${version:org.springframework.security:spring-security}</version>
-			<scope>test</scope>			
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

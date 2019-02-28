@@ -25,7 +25,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
 					<mainClass>de.freese.spring.ldap.apacheds.EmbeddedLdapServer</mainClass>
 					<!--jvmArguments>
@@ -52,6 +51,7 @@
 			<artifactId>apacheds-all</artifactId>
 			<version>${version:org.apache.directory.server:apacheds}</version>
 		</dependency>
+		
 		<!-- runtime scope -->
 		<!-- provided scope -->
 		<!-- test scope -->

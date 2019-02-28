@@ -28,7 +28,6 @@
 					</jvmArguments -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
 					<mainClass>de.freese.spring.boot.admin.SpringBootAdminApplication</mainClass>
 					<layout>ZIP</layout>
@@ -50,14 +49,12 @@
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-starter-server</artifactId>
-			<version>${version:de.codecentric:spring-boot-admin}</version>
 		</dependency>
 
 		<!-- runtime scope -->
         <dependency><!-- sonst meckert der admin-server das im reactor was fehlt -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
-            <version>${version:org.springframework.boot:spring-boot}</version>
         </dependency>		
 		<!-- provided scope -->
 		<!-- test scope -->

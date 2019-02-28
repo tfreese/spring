@@ -46,7 +46,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
 					<mainClass>de.freese.spring.Server</mainClass>
 					<!--jvmArguments>
@@ -78,42 +77,35 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
-			<version>${version:com.fasterxml.jackson:jackson}</version>
 		</dependency>		
 		<!-- Ist bereits in spring-boot-starter-json enthalten (Release 2.X)
 			Formatierung für LocaDate*Klassen, siehe JavaTimeModule -->
 		<!--dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>${version:com.fasterxml.jackson:jackson}</version>
 		</dependency-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-json</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-			<version>${version:org.springframework.cloud:spring-cloud}</version>
 		</dependency>
 
 		<!-- runtime scope -->
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-starter-client</artifactId>
-			<version>${version:de.codecentric:spring-boot-admin}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			<scope>runtime</scope>
 		</dependency>
 
@@ -122,7 +114,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

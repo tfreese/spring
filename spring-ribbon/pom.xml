@@ -23,27 +23,22 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>${version:org.apache.httpcomponents:httpclient}</version>
         </dependency>
         <!--dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>${version:org.springframework:spring}</version>
         </dependency-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${version:org.springframework.boot:spring-boot}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-            <version>${version:org.springframework.cloud:spring-cloud}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-            <version>${version:org.springframework.cloud:spring-cloud}</version>
         </dependency>
 
         <!-- runtime scope -->

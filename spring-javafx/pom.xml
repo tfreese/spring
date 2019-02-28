@@ -25,7 +25,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
 				<configuration>
 					<mainClass>de.freese.spring.javafx.MainSpringFxApplication</mainClass>
 					<!--jvmArguments>
@@ -46,20 +45,22 @@
 	</build>	
 
 	<dependencies>
+		<!-- compile scope -->
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-controls</artifactId>
-			<version>${version:org.openjfx:openjfx}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-fxml</artifactId>
-			<version>${version:org.openjfx:openjfx}</version>
 		</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version>${version:org.springframework.boot:spring-boot}</version>
-        </dependency>		
+        </dependency>
+        
+		<!-- runtime scope -->
+		<!-- provided scope -->
+		<!-- test scope -->	        	
 	</dependencies>
 </project>
