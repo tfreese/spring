@@ -62,7 +62,8 @@ spring:
     ansi:
       enabled: DETECT
   profiles:
-    active: with-ssl
+    #active: with-ssl
+    active: default
   resources:
     #cache:
       #period: 0

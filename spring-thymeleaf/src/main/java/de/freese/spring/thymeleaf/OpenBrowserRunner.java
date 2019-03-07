@@ -75,8 +75,20 @@ public class OpenBrowserRunner implements CommandLineRunner
             }
             catch (Exception ex2)
             {
-                // IE
-                Desktop.getDesktop().browse(uri);
+                try
+                {
+                    // Linux
+                    Runtime.getRuntime().exec(new String[]
+                    {
+                            // chromium %U --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media
+                            "chromium", url.toString()
+                    });
+                }
+                catch (Exception ex3)
+                {
+                    // IE
+                    Desktop.getDesktop().browse(uri);
+                }
             }
         }
     }
