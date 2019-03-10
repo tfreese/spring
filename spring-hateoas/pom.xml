@@ -114,18 +114,6 @@
 		</plugins>
 	</build>
 
-	<!--dependencyManagement>
-		<dependencies>
-		<dependency>
-		<groupId>de.efreest</groupId>
-		<artifactId>spring-dependencies</artifactId>
-		<version>${version:org.springframework:spring}</version>
-		<scope>import</scope>
-		<type>pom</type>
-		</dependency>
-		</dependencies>
-		</dependencyManagement -->
-
 	<dependencies>
 		<!-- compile scope -->
 		<!--dependency>

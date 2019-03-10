@@ -49,7 +49,6 @@
 		<dependency>
 			<groupId>org.apache.directory.server</groupId>
 			<artifactId>apacheds-all</artifactId>
-			<version>${version:org.apache.directory.server:apacheds}</version>
 		</dependency>
 		
 		<!-- runtime scope -->

@@ -8,45 +8,44 @@
 		<artifactId>spring-oauth</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
-    <artifactId>spring-oauth-sso-ui</artifactId>
-    <packaging>jar</packaging>
+
+	<artifactId>spring-oauth-sso-ui</artifactId>
+	<packaging>jar</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
-    <description>OAuth SingleSignOn UI</description>
+	<description>OAuth SingleSignOn UI</description>
 
-    <dependencies>
-		<!-- compile scope -->  
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security.oauth.boot</groupId>
-            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-            <version>${version:org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
-        </dependency>
+	<dependencies>
+		<!-- compile scope -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security.oauth.boot</groupId>
+			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
+		</dependency>
 
 		<!-- runtime scope -->
 		<!-- provided scope -->
-		<!-- test scope --> 
+		<!-- test scope -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-    </dependencies>
+	</dependencies>
 
 </project>

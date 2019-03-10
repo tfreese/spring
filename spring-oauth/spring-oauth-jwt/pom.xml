@@ -68,12 +68,10 @@
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
-			<version>${version:io.springfox:swagger}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${version:io.springfox:swagger}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -94,19 +92,16 @@
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-jwt</artifactId>
-		    <version>${version:org.springframework.security:spring-security-jwt}</version>
 		</dependency>		
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
-			<version>${version:org.springframework.security.oauth:spring-security-oauth2}</version>
 		</dependency>		
 		
 		<!-- runtime scope -->
 		<!--dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
-			<version>${version:javax.xml.bind:jaxb-api}</version>
 			</dependency -->
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
