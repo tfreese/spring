@@ -30,7 +30,7 @@
 		<!-- Dependencies -->
 
 		<!-- Plugins -->
-		<version:org.apache.maven.plugins:maven-toolchains-plugin>1.1</version:org.apache.maven.plugins:maven-toolchains-plugin>
+		<version_org.apache.maven.plugins_maven-toolchains-plugin>1.1</version_org.apache.maven.plugins_maven-toolchains-plugin>
 	</properties>
 
 	<build>
@@ -94,7 +94,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-toolchains-plugin</artifactId>
-				<version>${version:org.apache.maven.plugins:maven-toolchains-plugin}</version>
+				<version>${version_org.apache.maven.plugins_maven-toolchains-plugin}</version>
 				<executions>
 					<execution>
 						<goals>
