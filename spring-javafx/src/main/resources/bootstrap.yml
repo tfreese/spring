@@ -7,8 +7,8 @@
 # That parent ApplicationContext is loaded before the one that uses application.yml
 
 spring:
-  application:
-    name: spring-javafx
+    application:
+        name: spring-javafx
 #  cloud.:
 #    config:
 #        server:

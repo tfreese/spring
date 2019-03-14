@@ -6,10 +6,10 @@
 debug: false
 
 spring:
-   application:
-      ui:
-         title: Spring with JavaFx
-   jmx:
-      enabled: false
-   main:
-      web-application-type: NONE
+    application:
+        ui:
+            title: Spring with JavaFx
+    jmx:
+        enabled: false
+    main:
+        web-application-type: NONE

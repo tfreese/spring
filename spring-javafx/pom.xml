@@ -1,66 +1,66 @@
 <?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.freese.spring</groupId>
-		<artifactId>spring</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>de.freese.spring</groupId>
+        <artifactId>spring</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>spring-javafx</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>spring-javafx</artifactId>
+    <packaging>jar</packaging>
 
-	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>spring with javafx</description>
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>spring with javafx</description>
 
-	<properties>
-	</properties>
-	
-	<build>
-		<plugins>
-			<!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
-			<!-- java -jar -D"server.port=8899" target/service-0.0.1-SNAPSHOT-jar-with-dependencies.jar -->
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<mainClass>de.freese.spring.javafx.MainSpringFxApplication</mainClass>
-					<!--jvmArguments>
-						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
-						</jvmArguments -->
-					<layout>ZIP</layout>
-					<classifier>jar-with-dependencies</classifier>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>	
+    <properties>
+    </properties>
 
-	<dependencies>
-		<!-- compile scope -->
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-controls</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-fxml</artifactId>
-		</dependency>
+    <build>
+        <plugins>
+            <!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
+            <!-- java -jar -D"server.port=8899" target/service-0.0.1-SNAPSHOT-jar-with-dependencies.jar -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>de.freese.spring.javafx.MainSpringFxApplication</mainClass>
+                    <!--jvmArguments>
+                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+                        </jvmArguments -->
+                    <layout>ZIP</layout>
+                    <classifier>jar-with-dependencies</classifier>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- compile scope -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-        
-		<!-- runtime scope -->
-		<!-- provided scope -->
-		<!-- test scope -->	        	
-	</dependencies>
+
+        <!-- runtime scope -->
+        <!-- provided scope -->
+        <!-- test scope -->
+    </dependencies>
 </project>
