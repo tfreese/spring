@@ -12,16 +12,16 @@
 version: '3'
 services:
 
-  spring-admin:
-    container_name: spring-admin
-    build:
-      context: ./spring-boot-admin
-      dockerfile: Dockerfile
-    image: spring-admin:latest
-    restart: always
-    environment:
-      SPRING_APPLICATION_JSON:
-       '{
+    spring-admin:
+        container_name: spring-admin
+        build:
+            context: ./spring-boot-admin
+            dockerfile: Dockerfile
+        image: spring-admin:latest
+        restart: always
+        environment:
+            SPRING_APPLICATION_JSON:
+                '{
          "spring":
          {
            "boot":
@@ -32,24 +32,24 @@ services:
              }
            }
          }
-       }'       
-    ports:
-      - 9000:9000
-    networks:
-      main:
-        aliases:
-          - admin
-      
-  spring-eureka:
-    container_name: spring-eureka
-    build:
-      context: ./spring-eureka
-      dockerfile: Dockerfile
-    image: spring-eureka:latest
-    restart: always
-    environment:
-      SPRING_APPLICATION_JSON:
-       '{
+       }'
+        ports:
+            - 9000:9000
+        networks:
+            main:
+                aliases:
+                    - admin
+
+    spring-eureka:
+        container_name: spring-eureka
+        build:
+            context: ./spring-eureka
+            dockerfile: Dockerfile
+        image: spring-eureka:latest
+        restart: always
+        environment:
+            SPRING_APPLICATION_JSON:
+                '{
          "eureka":
          {
            "client":
@@ -60,24 +60,24 @@ services:
              }
            }
          }
-       }'       
-    ports:
-      - 9001:9001
-    networks:
-      main:
-        aliases:
-          - eureka
-  
-  spring-microservice:
-    #container_name: spring-microservice
-    build:
-      context: ./spring-microservice
-      dockerfile: Dockerfile
-    image: spring-microservice:latest
-    restart: always
-    environment:
-      SPRING_APPLICATION_JSON:
-       '{
+       }'
+        ports:
+            - 9001:9001
+        networks:
+            main:
+                aliases:
+                    - eureka
+
+    spring-microservice:
+        #container_name: spring-microservice
+        build:
+            context: ./spring-microservice
+            dockerfile: Dockerfile
+        image: spring-microservice:latest
+        restart: always
+        environment:
+            SPRING_APPLICATION_JSON:
+                '{
         "eureka":
         {
           "client":
@@ -114,30 +114,30 @@ services:
           }
         }
        }'
-      #- JAVA_OPTS="-Dserver.port=0"
-    #expose:
-      #- 8081
-    #ports:
-      #- 8081
-    depends_on:
-      - spring-admin
-      - spring-eureka     
-    #links:
-      #- admin:spring-admin
-      #- eureka:spring-eureka
-    networks:
-      main:
-          
-  spring-microservice_a:
-    container_name: spring-microservice_a
-    build:
-      context: ./spring-microservice
-      dockerfile: Dockerfile
-    image: spring-microservice:latest
-    restart: always
-    environment:
-      SPRING_APPLICATION_JSON:
-       '{
+            #- JAVA_OPTS="-Dserver.port=0"
+            #expose:
+            #- 8081
+            #ports:
+            #- 8081
+        depends_on:
+            - spring-admin
+            - spring-eureka
+            #links:
+            #- admin:spring-admin
+            #- eureka:spring-eureka
+        networks:
+            main:
+
+    spring-microservice_a:
+        container_name: spring-microservice_a
+        build:
+            context: ./spring-microservice
+            dockerfile: Dockerfile
+        image: spring-microservice:latest
+        restart: always
+        environment:
+            SPRING_APPLICATION_JSON:
+                '{
         "eureka":
         {
           "client":
@@ -174,17 +174,17 @@ services:
           }
         }
        }'
-    ports:
-      - 8081:8888
-    depends_on:
-      - spring-admin
-      - spring-eureka     
-    networks:
-      main:
-        aliases:
-          - service_a         
+        ports:
+            - 8081:8888
+        depends_on:
+            - spring-admin
+            - spring-eureka
+        networks:
+            main:
+                aliases:
+                    - service_a
 
-            
+
 #  loadbalancer:
 #    container_name: spring-haproxy
 #    image: dockercloud/haproxy:latest
@@ -205,8 +205,8 @@ services:
 #
 # localhost im Docker-Netz finden: ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1;
 networks:
-  main:
-  #default:
+    main:
+    #default:
     #driver: bridge
-  #dockernet:
+    #dockernet:
     #external: true
