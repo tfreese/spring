@@ -26,19 +26,19 @@ import reactor.core.publisher.Mono;
 public class GatewayApplication
 {
     /**
-     * @param args String[]
-     */
-    public static void main(final String[] args)
-    {
-        SpringApplication.run(GatewayApplication.class, args);
-    }
-
-    /**
      * Erstellt ein neues {@link GatewayApplication} Object.
      */
     public GatewayApplication()
     {
         super();
+    }
+
+    /**
+     * @param args String[]
+     */
+    public static void main(final String[] args)
+    {
+        SpringApplication.run(GatewayApplication.class, args);
     }
 
     /**
@@ -66,24 +66,24 @@ public class GatewayApplication
 //        return builder.routes()
 //                .route(p -> p.path("/get")
 //                        .filters(f -> f.addRequestHeader("Hello", "World"))
-//                        .uri(httpUri)
+//                        .repository(httpUri)
 //                        .id("addrequestheader_route")
 //                      )
 //                .route(p -> p.host("*.hystrix.com")
 //                        .filters(f -> f.hystrix(config -> config.setName("mycmd")
 //                                        .setFallbackUri("forward:/fallback")))
-//                        .uri(httpUri)
+//                        .repository(httpUri)
 //                        .id("hystrix_route")
 //                      )
 //                .route(p -> p.path("/sysdate")
 ////                        .filters(f -> f.rewritePath("/sysdate/(?<segment>.*)", "/service/sysdate/${segment}"))
 //                        .filters(f -> f.rewritePath("/sysdate", "/service/sysdate"))
-//                        .uri("http://localhost:8081")
+//                        .repository("http://localhost:8081")
 //                        .id("rewritepath_route")
 //                      )
 //                .route(p -> p.path("/sysdatelb")
 //                      .filters(f -> f.rewritePath("/sysdate2", "/service/sysdate"))
-//                      .uri("lb://date-service")
+//                      .repository("lb://date-service")
 //                      .id("loadbalancer_route")
 //                    )
 //                .build();

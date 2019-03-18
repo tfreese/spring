@@ -4,10 +4,13 @@
 
 package de.freese.spring.thymeleaf.rest;
 
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import javax.annotation.Resource;
-import javax.net.ssl.TrustManagerFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
+import de.freese.spring.thymeleaf.ThymeleafApplication;
+import de.freese.spring.thymeleaf.model.Person;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -27,30 +30,28 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClient;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
-import de.freese.spring.thymeleaf.ThymeleafApplication;
-import de.freese.spring.thymeleaf.model.Person;
-import io.netty.handler.ssl.SslContext;
-import io.netty.handler.ssl.SslContextBuilder;
-import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
+
+import javax.annotation.Resource;
+import javax.net.ssl.TrustManagerFactory;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * @author Thomas Freese
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
-{
-        ThymeleafApplication.class
-})
+        {
+                ThymeleafApplication.class
+        })
 @AutoConfigureMockMvc
 @ActiveProfiles(
-{
-        "test", "with-ssl"
-})
+        {
+                "test", "with-ssl"
+        })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRestWithWebClientSSL implements RestTestCase
 {
@@ -61,8 +62,8 @@ public class TestRestWithWebClientSSL implements RestTestCase
     private Environment environment = null;
 
     /**
-    *
-    */
+     *
+     */
     @LocalServerPort
     private int localServerPort = 0;
 
@@ -176,19 +177,19 @@ public class TestRestWithWebClientSSL implements RestTestCase
         WebClient webClient = this.webClientBuilder.build();
 
 //        RequestHeadersSpec<?> request = webClient.get()
-//                .uri("/actuator/health")
+//                .repository("/actuator/health")
 //                .accept(MediaType.APPLICATION_JSON_UTF8)
 //                ;
 
 //        Mono<String> response = webClient.get()
-//                .uri("/actuator/health")
+//                .repository("/actuator/health")
 //                .accept(MediaType.APPLICATION_JSON_UTF8)
 //                .retrieve() // Liefert nur den Body.
 //                .bodyToMono(String.class)
 //                ;
 
 //        Mono<String> response = webClient.get()
-//                .uri("/actuator/health")
+//                .repository("/actuator/health")
 //                .accept(MediaType.APPLICATION_JSON_UTF8)
 //                .exchange() // Liefert auch Header und Status.
 //                .doOnSuccess(clientResponse -> Assert.assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, clientResponse.headers().asHttpHeaders().getFirst("Content-Type")))
@@ -222,7 +223,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
 
         // @formatter:off
 //        Flux<Person> personFlux = webClient.get()
-//                .uri("/rest/person/personList")
+//                .repository("/rest/person/personList")
 //                .accept(MediaType.APPLICATION_JSON_UTF8)
 //                .retrieve()
 //                .onStatus(status ->  !HttpStatus.UNAUTHORIZED.equals(status) , response -> Mono.just(new Exception()))
@@ -258,7 +259,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
 //                .filter(ExchangeFilterFunctions.basicAuthentication("user", "pass"))
 //                .build()
 //                .get()
-//                .uri("/rest/person/personList")
+//                .repository("/rest/person/personList")
 //                .accept(MediaType.APPLICATION_JSON_UTF8)
 //                .retrieve()
 //                .onStatus(status ->  !HttpStatus.UNAUTHORIZED.equals(status), response -> Mono.just(new Exception()))

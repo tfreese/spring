@@ -1,12 +1,13 @@
 // Created: 11.08.2016
 package de.freese.spring.web;
 
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.util.Optional;
 import java.util.Properties;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 
 /**
  * Sendet das shutdown-Signal.
@@ -16,7 +17,16 @@ import org.springframework.core.io.Resource;
 public class Shutdown
 {
     /**
+     * Erzeugt eine neue Instanz von {@link Shutdown}
+     */
+    public Shutdown()
+    {
+        super();
+    }
+
+    /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception
@@ -39,20 +49,12 @@ public class Shutdown
         URI uri = URI.create("http://localhost:" + port + contextPath.orElse("") + "/actuator/shutdown");
 
         // RestTemplate restTemplate = new RestTemplate();
-        // restTemplate.exchange(uri, HttpMethod.POST, null, Void.class);
-        // restTemplate.postForLocation(uri, null);
+        // restTemplate.exchange(repository, HttpMethod.POST, null, Void.class);
+        // restTemplate.postForLocation(repository, null);
 
         HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
         connection.setRequestMethod("POST");
         connection.getResponseCode();
         connection.disconnect();
-    }
-
-    /**
-     * Erzeugt eine neue Instanz von {@link Shutdown}
-     */
-    public Shutdown()
-    {
-        super();
     }
 }

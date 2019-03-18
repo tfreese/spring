@@ -1,16 +1,16 @@
 # The bootstrap.yml is typically used for the following:
 #
-# - when using Spring Cloud Config Server, you should specify spring.application.name and spring.cloud.config.server.git.uri
+# - when using Spring Cloud Config Server, you should specify spring.application.name and spring.cloud.config.server.git.repository
 # - some encryption/decryption information
 #
 # Technically, bootstrap.yml is loaded by a parent Spring ApplicationContext.
 # That parent ApplicationContext is loaded before the one that uses application.yml
 
 spring:
-  application:
-    name: eureka-server
+    application:
+        name: eureka-server
 #  cloud.:
 #    config:
 #        server:
 #            git:
-#                uri: http://localhost:8123/
+#                repository: http://localhost:8123/

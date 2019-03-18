@@ -1,18 +1,11 @@
 // Erzeugt: 04.05.2016
 package de.freese.spring.hateoas;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
-import javax.annotation.Resource;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.freese.spring.hateoas.model.GreetingPOJO;
+import de.freese.spring.hateoas.model.GreetingResourceSupport;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,10 +31,14 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import de.freese.spring.hateoas.model.GreetingPOJO;
-import de.freese.spring.hateoas.model.GreetingResourceSupport;
+
+import javax.annotation.Resource;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Thomas Freese
@@ -52,6 +49,36 @@ import de.freese.spring.hateoas.model.GreetingResourceSupport;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestHateoas
 {
+    /**
+     *
+     */
+    @Value("${server.servlet.context-path:}")
+    private String contextPath = null;
+    /**
+     *
+     */
+    @Resource
+    private ObjectMapper objectMapper = null;
+    /**
+     *
+     */
+    // @Value("${local.server.port}") // aus application.properties für WebEnvironment.DEFINED_PORT
+    @LocalServerPort // WebEnvironment.RANDOM_PORT
+    private int port = -1;
+    /**
+     * Wird für {@link MockMvc} benötigt.
+     */
+    @Resource
+    private WebApplicationContext wac = null;
+
+    /**
+     * Erzeugt eine neue Instanz von {@link TestHateoas}
+     */
+    public TestHateoas()
+    {
+        super();
+    }
+
     /**
      * @throws Exception Falls was schief geht.
      */
@@ -73,46 +100,14 @@ public class TestHateoas
     }
 
     /**
-     *
-     */
-    @Value("${server.servlet.context-path:}")
-    private String contextPath = null;
-
-    /**
-     *
-     */
-    @Resource
-    private ObjectMapper objectMapper = null;
-
-    /**
-     *
-     */
-    // @Value("${local.server.port}") // aus application.properties für WebEnvironment.DEFINED_PORT
-    @LocalServerPort // WebEnvironment.RANDOM_PORT
-    private int port = -1;
-
-    /**
-     * Wird für {@link MockMvc} benötigt.
-     */
-    @Resource
-    private WebApplicationContext wac = null;
-
-    /**
-     * Erzeugt eine neue Instanz von {@link TestHateoas}
-     */
-    public TestHateoas()
-    {
-        super();
-    }
-
-    /**
      * @return {@link URI}
+     *
      * @throws URISyntaxException Falls was schief geht.
      */
     private URI getBaseURI() throws URISyntaxException
     {
         URI uri = new URI("http://localhost:" + this.port + this.contextPath + "/greeter/");
-        // System.out.println(uri);
+        // System.out.println(repository);
 
         return uri;
     }
@@ -227,9 +222,9 @@ public class TestHateoas
         URI uri = getBaseURI();
 
         ResponseEntity<GreetingResourceSupport> greeting = restTemplate.getForEntity(uri, GreetingResourceSupport.class);
-        // ResponseEntity<GreetingResourceSupport> greeting = restTemplate.exchange(uri, HttpMethod.GET, HttpEntity.EMPTY,
+        // ResponseEntity<GreetingResourceSupport> greeting = restTemplate.exchange(repository, HttpMethod.GET, HttpEntity.EMPTY,
         // GreetingResourceSupport.class);
-        // ResponseEntity<org.springframework.hateoas.Resource<GreetingResourceSupport>> greeting = restTemplate.exchange(uri,
+        // ResponseEntity<org.springframework.hateoas.Resource<GreetingResourceSupport>> greeting = restTemplate.exchange(repository,
         // HttpMethod.GET,
         // null, new ParameterizedTypeReference<org.springframework.hateoas.Resource<GreetingResourceSupport>>()
         // {

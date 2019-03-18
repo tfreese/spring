@@ -1,12 +1,10 @@
 // Created: 01.03.2017
 package de.freese.spring.hystrix;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import com.netflix.config.ConcurrentCompositeConfiguration;
+import com.netflix.config.ConcurrentMapConfiguration;
+import com.netflix.config.ConfigurationManager;
+import com.netflix.hystrix.*;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -16,20 +14,65 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.web.client.RestTemplate;
-import com.netflix.config.ConcurrentCompositeConfiguration;
-import com.netflix.config.ConcurrentMapConfiguration;
-import com.netflix.config.ConfigurationManager;
-import com.netflix.hystrix.HystrixCommand;
-import com.netflix.hystrix.HystrixCommandGroupKey;
-import com.netflix.hystrix.HystrixCommandKey;
-import com.netflix.hystrix.HystrixCommandProperties;
-import com.netflix.hystrix.HystrixThreadPoolKey;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Thomas Freese
  */
 public class LoadBalancerApplication
 {
+    /**
+     * @param args String[]
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    public static void main(final String[] args) throws Exception
+    {
+        // configuration from system properties
+        ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
+
+        // // configuration from local properties file
+        ConcurrentMapConfiguration configFromPropertiesFile = new ConcurrentMapConfiguration(new PropertiesConfiguration("hystrix.properties"));
+
+        // create a hierarchy of configuration that makes
+        // 1) system properties override properties file
+        ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
+        finalConfig.addConfiguration(configFromSystemProperties, "systemConfig");
+        finalConfig.addConfiguration(configFromPropertiesFile, "fileConfig");
+
+        // install with ConfigurationManager so that finalConfig becomes the source of dynamic properties
+        ConfigurationManager.install(finalConfig);
+
+        // RestTemplate restTemplate = new RestTemplateBuilder()
+        // .additionalInterceptors(new LoadBalancerInterceptor("localhost:65501", "localhost:65502", "localhost:65503")).build();
+        RestTemplate restTemplate = new RestTemplateBuilder()
+                .additionalInterceptors(new LoadBalancerHystrixInterceptor("localhost:8081", "localhost:8082", "localhost:8083")).build();
+
+        String url = new String("http://date-service/service/sysdate");
+
+        while (true)
+        {
+            String result = restTemplate.getForObject(url, String.class);
+
+            System.out.println(result);
+
+            if (result == null)
+            {
+                break;
+            }
+
+            Thread.sleep(1000);
+        }
+
+        System.exit(0);
+    }
+
     /**
      * @author Thomas Freese
      */
@@ -58,9 +101,9 @@ public class LoadBalancerApplication
         /**
          * Erzeugt eine neue Instanz von {@link HttpResponseHystrixCommand}.
          *
-         * @param uris {@link List}
-         * @param request {@link HttpRequest}
-         * @param body byte[]
+         * @param uris      {@link List}
+         * @param request   {@link HttpRequest}
+         * @param body      byte[]
          * @param execution {@link ClientHttpRequestExecution}
          */
         public HttpResponseHystrixCommand(final List<URI> uris, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution)
@@ -111,9 +154,9 @@ public class LoadBalancerApplication
             // HystrixBadRequestException
             final URI uri = this.uris.remove(0);
 
-            // System.out.println(uri.getHost());
-            // System.out.println(uri.getPath());
-            // System.out.println(uri.getFragment());
+            // System.out.println(repository.getHost());
+            // System.out.println(repository.getPath());
+            // System.out.println(repository.getFragment());
 
             HttpRequestWrapper requestWrapper = new HttpRequestWrapper(this.request)
             {
@@ -153,7 +196,7 @@ public class LoadBalancerApplication
          *
          * @param server String[]
          */
-        public LoadBalancerHystrixInterceptor(final String...server)
+        public LoadBalancerHystrixInterceptor(final String... server)
         {
             super();
 
@@ -165,8 +208,10 @@ public class LoadBalancerApplication
          * Beispiel: http://date-service/hystrix/test/sysdate -> http://localhost:65501/hystrix/test/sysdate
          *
          * @param originalUri {@link URI}
-         * @param server String
+         * @param server      String
+         *
          * @return {@link URI}
+         *
          * @throws IOException Falls was schief geht.
          */
         private URI convertURI(final URI originalUri, final String server) throws IOException
@@ -186,7 +231,7 @@ public class LoadBalancerApplication
 
         /**
          * @see org.springframework.http.client.ClientHttpRequestInterceptor#intercept(org.springframework.http.HttpRequest, byte[],
-         *      org.springframework.http.client.ClientHttpRequestExecution)
+         * org.springframework.http.client.ClientHttpRequestExecution)
          */
         @Override
         public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException
@@ -236,19 +281,18 @@ public class LoadBalancerApplication
         /**
          *
          */
-        private int index = 0;
-
+        private final String[] server;
         /**
          *
          */
-        private final String[] server;
+        private int index = 0;
 
         /**
          * Erzeugt eine neue Instanz von {@link LoadBalancerInterceptor}.
          *
          * @param server String[]
          */
-        public LoadBalancerInterceptor(final String...server)
+        public LoadBalancerInterceptor(final String... server)
         {
             super();
 
@@ -260,8 +304,10 @@ public class LoadBalancerApplication
          * Beispiel: http://date-service/hystrix/test/sysdate -> http://localhost:65501/hystrix/test/sysdate
          *
          * @param originalUri {@link URI}
-         * @param server String
+         * @param server      String
+         *
          * @return {@link URI}
+         *
          * @throws IOException Falls was schief geht.
          */
         private URI convertURI(final URI originalUri, final String server) throws IOException
@@ -281,7 +327,7 @@ public class LoadBalancerApplication
 
         /**
          * @see org.springframework.http.client.ClientHttpRequestInterceptor#intercept(org.springframework.http.HttpRequest, byte[],
-         *      org.springframework.http.client.ClientHttpRequestExecution)
+         * org.springframework.http.client.ClientHttpRequestExecution)
          */
         @Override
         public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException
@@ -317,15 +363,17 @@ public class LoadBalancerApplication
         }
 
         /**
-         * @param newUri {@link URI}
-         * @param request {@link HttpRequest}
-         * @param body byte[]
+         * @param newUri    {@link URI}
+         * @param request   {@link HttpRequest}
+         * @param body      byte[]
          * @param execution {@link ClientHttpRequestExecution}
+         *
          * @return {@link ClientHttpResponse}
+         *
          * @throws IOException Falls was schief geht.
          */
         private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution)
-            throws IOException
+                throws IOException
         {
             HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request)
             {
@@ -358,50 +406,5 @@ public class LoadBalancerApplication
 
             return host;
         }
-    }
-
-    /**
-     * @param args String[]
-     * @throws Exception Falls was schief geht.
-     */
-    public static void main(final String[] args) throws Exception
-    {
-        // configuration from system properties
-        ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
-
-        // // configuration from local properties file
-        ConcurrentMapConfiguration configFromPropertiesFile = new ConcurrentMapConfiguration(new PropertiesConfiguration("hystrix.properties"));
-
-        // create a hierarchy of configuration that makes
-        // 1) system properties override properties file
-        ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
-        finalConfig.addConfiguration(configFromSystemProperties, "systemConfig");
-        finalConfig.addConfiguration(configFromPropertiesFile, "fileConfig");
-
-        // install with ConfigurationManager so that finalConfig becomes the source of dynamic properties
-        ConfigurationManager.install(finalConfig);
-
-        // RestTemplate restTemplate = new RestTemplateBuilder()
-        // .additionalInterceptors(new LoadBalancerInterceptor("localhost:65501", "localhost:65502", "localhost:65503")).build();
-        RestTemplate restTemplate = new RestTemplateBuilder()
-                .additionalInterceptors(new LoadBalancerHystrixInterceptor("localhost:8081", "localhost:8082", "localhost:8083")).build();
-
-        String url = new String("http://date-service/service/sysdate");
-
-        while (true)
-        {
-            String result = restTemplate.getForObject(url, String.class);
-
-            System.out.println(result);
-
-            if (result == null)
-            {
-                break;
-            }
-
-            Thread.sleep(1000);
-        }
-
-        System.exit(0);
     }
 }
