@@ -2,7 +2,7 @@
  * Created: 12.09.2018
  */
 
-package de.freese.spring.ldap.unboundid;
+package de.freese.spring.hateoas;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ import java.util.Optional;
  */
 @Component
 @Profile("!test")
-@Order(20)
+@Order(1)
 public class OpenBrowserRunner implements CommandLineRunner
 {
     /**
@@ -58,12 +58,13 @@ public class OpenBrowserRunner implements CommandLineRunner
         String protocol = sslEnabled.orElse(false) ? "https" : "http";
 
         String rootUri = protocol + "://localhost:" + port + contextPath.orElse("");
+        rootUri += "/greeter";
 
         return rootUri;
     }
 
     /**
-     * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
+     * @see CommandLineRunner#run(String[])
      */
     @Override
     public void run(final String... args) throws Exception

@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -47,6 +48,7 @@ import java.util.List;
 @SpringBootTest(classes = HateoasApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 // @DirtiesContext
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@ActiveProfiles("test")
 public class TestHateoas
 {
     /**
@@ -54,17 +56,20 @@ public class TestHateoas
      */
     @Value("${server.servlet.context-path:}")
     private String contextPath = null;
+
     /**
      *
      */
     @Resource
     private ObjectMapper objectMapper = null;
+
     /**
      *
      */
     // @Value("${local.server.port}") // aus application.properties für WebEnvironment.DEFINED_PORT
     @LocalServerPort // WebEnvironment.RANDOM_PORT
     private int port = -1;
+
     /**
      * Wird für {@link MockMvc} benötigt.
      */
