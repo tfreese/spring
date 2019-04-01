@@ -3,15 +3,13 @@
  */
 package de.freese.spring.hystrix;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-import com.netflix.hystrix.Hystrix;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import rx.Observable;
 import rx.Observer;
@@ -23,8 +21,8 @@ import rx.Observer;
  *
  * @author Thomas Freese
  */
-// @Ignore
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class TestHelloWorld
 {
     /**
@@ -35,18 +33,16 @@ public class TestHelloWorld
     /**
      *
      */
-    @AfterClass
-    public static void afterClass()
+    @AfterAll
+    public static void afterAll()
     {
-        context.shutdown();
-        Hystrix.reset(1, TimeUnit.SECONDS);
     }
 
     /**
      *
      */
-    @BeforeClass
-    public static void beforeClass()
+    @BeforeAll
+    static void beforeAll()
     {
         // // configuration from a dynamic source
         // PolledConfigurationSource source = createMyOwnSource();
