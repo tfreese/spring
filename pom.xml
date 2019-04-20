@@ -59,6 +59,7 @@
 		<module>spring-microservice</module>
 		<module>spring-oauth</module>
 		<module>spring-ribbon</module>
+		<module>spring-rsocket</module>
 		<module>spring-thymeleaf</module>
 		<module>spring-web</module>
 		<module>spring-webflux</module>
