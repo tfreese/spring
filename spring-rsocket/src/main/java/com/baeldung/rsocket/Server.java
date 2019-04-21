@@ -139,7 +139,8 @@ public class Server
         super();
 
         // @formatter:off
-        this.server = RSocketFactory.receive()
+        this.server = RSocketFactory
+                .receive()
                 .acceptor((setupPayload, reactiveSocket) -> Mono.just(new RSocketImpl()))
                 .transport(TcpServerTransport.create("localhost", Constants.TCP_PORT))
                 .start()

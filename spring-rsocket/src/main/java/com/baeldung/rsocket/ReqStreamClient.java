@@ -26,7 +26,8 @@ public class ReqStreamClient
         super();
 
         // @formatter:off
-        this.socket = RSocketFactory.connect()
+        this.socket = RSocketFactory
+                .connect()
                 .transport(TcpClientTransport.create("localhost", Constants.TCP_PORT))
                 .start()
                 .block();

@@ -30,7 +30,8 @@ public class ChannelClient
         super();
 
         // @formatter:off
-        this.socket = RSocketFactory.connect()
+        this.socket = RSocketFactory
+                .connect()
                 .transport(TcpClientTransport.create("localhost", TCP_PORT))
                 .start()
                 .block();

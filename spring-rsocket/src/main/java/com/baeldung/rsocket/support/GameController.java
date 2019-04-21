@@ -110,7 +110,12 @@ public class GameController implements Publisher<Payload>
      */
     private List<Long> generateShotList()
     {
-        return Flux.range(1, Constants.SHOT_COUNT).map(x -> (long) Math.ceil(Math.random() * 1000)).collectList().block();
+        // @formatter:off
+        return Flux.range(1, Constants.SHOT_COUNT)
+                .map(x -> (long) Math.ceil(Math.random() * 1000))
+                .collectList()
+                .block();
+        // @formatter:on
     }
 
     /**

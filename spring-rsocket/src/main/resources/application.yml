@@ -1,0 +1,24 @@
+spring:
+   main:
+      lazy-initialisation: true
+      
+---
+
+spring:
+   profiles: producer
+   main:
+      web-application-type: NONE     
+   rsocket:
+      server:
+         port: 7000
+
+---
+
+spring:
+   profiles: consumer
+   
+server:
+   http2:
+      enabled: true 
+   port: 8080
+       
