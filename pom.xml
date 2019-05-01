@@ -62,7 +62,6 @@
 		<module>spring-rsocket</module>
 		<module>spring-thymeleaf</module>
 		<module>spring-web</module>
-		<module>spring-webflux</module>
 	</modules>
 
 	<dependencyManagement>

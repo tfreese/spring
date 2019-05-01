@@ -25,13 +25,12 @@ info:
     version: ${project.version}
 
 logging:
-  config: classpath:logback.xml 
+#  config: classpath:logback.xml 
 #  level:
 #    root: INFO
 #    org.springframework: INFO
-#  pattern:
-#    console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
-#    dateformat: "yyyy-MM-dd HH:mm:ss.SSS"
+   pattern:
+      console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
     
 management:
   endpoints:
