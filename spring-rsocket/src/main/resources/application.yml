@@ -21,7 +21,8 @@ logging:
    #file: ${logging.path}/application.log # ist nicht zulässig in YAML, siehe Workaround im Profile.
    file:
       max-history: 30
-      max-size: 10MB         
+      max-size: 10MB
+      total-size-cap: 1GB      
    pattern:
       console: ${pattern.logback.console}
       file: ${pattern.logback.file}
