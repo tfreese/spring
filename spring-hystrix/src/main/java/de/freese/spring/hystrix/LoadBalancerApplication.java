@@ -282,6 +282,7 @@ public class LoadBalancerApplication
          *
          */
         private final String[] server;
+        
         /**
          *
          */

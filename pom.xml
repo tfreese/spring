@@ -58,6 +58,7 @@
 		<module>spring-messaging</module>
 		<module>spring-microservice</module>
 		<module>spring-oauth</module>
+		<module>spring-resilience</module>
 		<module>spring-ribbon</module>
 		<module>spring-rsocket</module>
 		<module>spring-thymeleaf</module>

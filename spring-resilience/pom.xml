@@ -14,16 +14,16 @@
 	</parent>
 
 	<groupId>de.freese.spring</groupId>
-	<artifactId>spring-rsocket</artifactId>
+	<artifactId>spring-resilience</artifactId>
 	<packaging>jar</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>rsocket Demos</description>
+	<description>Demo project for Spring Boot</description>
 
 	<properties>
-		<version.java>11</version.java>
-		<maven.compiler.source>${version.java}</maven.compiler.source>
-		<maven.compiler.target>${version.java}</maven.compiler.target>
+		<java.version>11</java.version>
+
+		<spring-cloud.version>Greenwich.BUILD-SNAPSHOT</spring-cloud.version>
 	</properties>
 
 	<repositories>
@@ -57,16 +57,23 @@
 		</pluginRepository>
 	</pluginRepositories>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${version.java}</source>
-					<target>${version.java}</target>
-					<fork>true</fork>
-				</configuration>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
@@ -75,30 +82,34 @@
 		<!-- compile scope -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-rsocket</artifactId>
-			<!--exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions-->
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
-
-		<!--dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j2</artifactId>
-		</dependency-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+			<version>0.0.1.BUILD-SNAPSHOT</version>
+		</dependency>
 
 		<!-- runtime scope -->
 		<!-- provided scope -->
 		<!-- test scope -->
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
