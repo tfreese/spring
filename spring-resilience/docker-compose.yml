@@ -6,7 +6,7 @@
 # docker-compose build
 # docker-compose up [-d] --scale spring-microservice=3
 # docker-compose ps
-# docker logs ID/NAME;
+# docker logs ID/NAME
 # docker-compose down
 
 version: '3'
