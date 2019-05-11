@@ -26,7 +26,17 @@ logging:
    pattern:
       console: ${pattern.logback.console}
       file: ${pattern.logback.file}
-   register-shutdown-hook: false       
+   register-shutdown-hook: false
+   
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS      
 
 spring:
    main:
