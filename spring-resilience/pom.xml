@@ -71,6 +71,8 @@
 
 	<build>
 		<plugins>
+			<!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
+			<!-- java -jar -D"server.port=8899" target/***.jar -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

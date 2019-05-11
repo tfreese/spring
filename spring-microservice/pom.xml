@@ -40,8 +40,7 @@
 		</resources>
 
 		<plugins>
-			<!-- spring-boot:run, clean package spring-boot:repackage für executable
-				jar -->
+			<!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
 			<!-- java -jar -D"server.port=8899" target/microservice-0.0.1-SNAPSHOT-jar-with-dependencies.jar -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
