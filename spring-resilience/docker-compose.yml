@@ -1,0 +1,48 @@
+# docker network create my-fancy-network
+# docker run -i -t --name container1 --net=my-fancy-network --net-alias=container1 ubuntu:trusty /bin/bash
+# docker run -i -t --name container2 --net=my-fancy-network --net-alias=container2 ubuntu:trusty /bin/bash
+# Die Container können sich nun untereinander über ihre Aliasnamen ansprechen (HTTP://container1), keine IPs verwenden !
+
+# docker-compose build
+# docker-compose up [-d] --scale spring-microservice=3
+# docker-compose ps
+# docker logs ID/NAME;
+# docker-compose down
+
+version: '3'
+services:
+
+    spring-resilience:
+        container_name: spring-resilience
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: spring-resilience:latest
+        restart: always
+        ports:
+            - 8080:8080
+
+    # docker run -d --name=prometheus -p 9090:9090 -v prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
+    # docker start/stop prometheus
+    prometheus:
+        image: prom/prometheus:latest
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml        
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+        restart: always
+        ports:
+            - 9090:9090
+        depends_on:
+            - spring-resilience
+            
+    # docker run -d --name=grafana -p 3000:3000 grafana/grafana
+    # docker start/stop grafana
+    grafana:
+        image: grafana/grafana:latest
+        restart: always
+        ports:
+            - 3000:3000
+        depends_on:
+            - prometheus            
+                        

@@ -34,7 +34,6 @@ username admin and password admin
 
 
 
-
 First get the container ID:
 
 docker ps
