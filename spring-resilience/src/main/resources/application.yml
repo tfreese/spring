@@ -3,6 +3,8 @@
 # https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+debug: false
+
 pattern:
    logback:
       console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
@@ -10,6 +12,12 @@ pattern:
    log4j2:
       console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace{%-40.-40logger{0}}{ }{.} - %message%n"
       file: "%date{yyyy-MM-dd HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace{%-40.-40logger{0}}{ }{.} - %message%n"
+
+info:
+    app:
+        description: ${project.description}
+        name: ${project.artifactId}
+        version: ${project.version}
    
 logging:
 #  config: classpath:logback-default.xml
@@ -29,18 +37,25 @@ logging:
    register-shutdown-hook: false
    
 management:
-  endpoints:
-    enabled-by-default: true
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    health:
-      show-details: ALWAYS      
+    endpoints:
+        enabled-by-default: true
+        web:
+            exposure:
+                include: '*'
+    endpoint:
+        health:
+            show-details: ALWAYS      
 
 spring:
-   main:
-      lazy-initialisation: false
+    boot:
+        admin:
+            client:
+                enabled: false
+                instance:
+                    prefer-ip: false
+                url: http://localhost:9000
+    main:
+        lazy-initialisation: false
       
 server:
     http2:
@@ -50,9 +65,9 @@ server:
 ---
 
 spring:
-   profiles: default
+    profiles: default
 
 # Workaround         
 logging:
-   file: ${logging.path}/resilience.log  
+    file: ${logging.path}/resilience.log  
    
