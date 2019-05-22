@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.freese.kubernetes</groupId>
+		<artifactId>kubernetes</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>kubernetes-microservice</artifactId>
+	<packaging>jar</packaging>
+
+	<name>${project.groupId} - ${project.artifactId}</name>
+	<description>Demo project for Kubernetes</description>
+
+	<build>
+		<plugins>
+			<!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
+			<!-- java -jar -D"server.port=8899" target/***.jar -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>de.freese.kubernetes.microservice.MyApplication</mainClass>
+					<!--jvmArguments>
+						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+						</jvmArguments -->
+					<layout>ZIP</layout>
+					<classifier>jar-with-dependencies</classifier>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>				
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<!-- compile scope -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+
+		<!-- runtime scope -->
+		<!-- provided scope -->
+
+		<!-- test scope -->
+		<!--dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<scope>test</scope>
+			</dependency -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>

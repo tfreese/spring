@@ -9,3 +9,8 @@ docker build --tag=spring-boot-admin:1		spring-boot-admin;
 docker build --tag=spring-eureka:1			spring-eureka;
 docker build --tag=spring-microservice:1	spring-microservice;
 docker build --tag=spring-resilience:1		spring-resilience;
+
+docker tag spring-boot-admin:1		spring-boot-admin:latest;
+docker tag spring-eureka:1			spring-eureka:latest;
+docker tag spring-microservice:1	spring-microservice:latest;
+docker tag spring-resilience:1		spring-resilience:latest;
