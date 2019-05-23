@@ -1,0 +1,50 @@
+# PODs und Anzahl definieren
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice
+  labels:
+    run: microservice   
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
+  replicas: 3
+  minReadySeconds: 30
+  selector:
+    matchLabels:
+      app: microservice
+  template:
+    metadata:
+      name: microservice
+      labels:
+        app: microservice
+    spec:
+      containers:
+      - name: microservice
+        image: mymicroservice:latest
+        imagePullPolicy: Never
+        
+---
+
+# Service: Zugriff von außen definieren   
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice
+  labels:
+    run: microservice   
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+    name: http    
+  selector:
+    app: microservice
+  #type: NodePort
+  type: LoadBalancer
+status:
+  loadBalancer: {}  

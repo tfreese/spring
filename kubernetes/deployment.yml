@@ -1,0 +1,31 @@
+# PODs und Anzahl definieren
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice
+  labels:
+    run: microservice   
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
+  replicas: 3
+  minReadySeconds: 30
+  selector:
+    matchLabels:
+      app: microservice
+  template:
+    metadata:
+      name: microservice
+      labels:
+        app: microservice
+    spec:
+      containers:
+      - name: microservice
+        image: mymicroservice:latest
+        imagePullPolicy: Never
+
+
+   

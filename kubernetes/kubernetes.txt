@@ -17,13 +17,15 @@ curl -Lo https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 
 # Start-Parameter
 minikube config -h
-minikube config set memory 2048 [2GB]
+minikube config set memory 4096 [4GB]
 minikube config set cpus 4
+minikube config set dashboard true
 
 # minicube mit 2GB RAM, 4 CPUs starten
 minikube start [--memory=2048 --cpus=4]
 minikube status;
 minikube dashboard;
+minikube delete;
 
 
 VBoxManage list runningvms;
@@ -31,7 +33,7 @@ docker ps;
 
 Use 'minikube start -p <name>' to create a new cluster, or 'minikube delete' to delete this one.
 
-kubectl cluster-info
+kubectl cluster-info;
 
 
 # Test
@@ -44,15 +46,19 @@ kubectl delete services hello-minikube;
 kubectl delete deployment hello-minikube;
 minikube stop;
 
+eval $(minikube docker-env);
 kubectl get pod;
 kubectl get deployment;
 kubectl get service;
+minikube service list;
+for disk in {1..1000}; do curl 192.168.99.101:32652/greet; echo ""; sleep 1; done;
+minikube service microservice --url;
 
 
 Hier ist ein Beispiel einer PersistentVolume-Konfiguration, um Daten im Verzeichnis / data beizubehalten:
 
 kubectl apply -f ./persistentVolume.yml;
-ubectl get pv;
+kubectl get pv;
 
 apiVersion: v1
 kind: PersistentVolume
