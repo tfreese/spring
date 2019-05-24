@@ -1,4 +1,11 @@
-# Service: Zugriff von außen definieren   
+# Service: Zugriff von außen definieren mit dynamischer IP und Port
+# kubectl apply -f service.yml;
+# kubectl get service;
+# kubectl describe service microservice;
+# minikube service list; 
+# minikube service microservice --url;
+# for disk in {1..1000}; do curl $(minikube service microservice --url)/greet; echo ""; sleep 1; done;
+# kubectl delete services microservice;
 apiVersion: v1
 kind: Service
 metadata:
@@ -7,10 +14,10 @@ metadata:
     run: microservice  
 spec:
   ports:
-  - port: 8080
-    protocol: TCP
+  - port: 8081    
     targetPort: 8080
-    #nodePort: 8080
+    nodePort: 30123
+    protocol: TCP    
     name: http    
   selector:
     app: microservice

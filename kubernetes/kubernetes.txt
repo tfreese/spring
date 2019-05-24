@@ -23,7 +23,10 @@ minikube config set dashboard true
 
 # minicube mit 2GB RAM, 4 CPUs starten
 minikube start [--memory=2048 --cpus=4]
+minikube addons list;
+minikube addons enable ingress;
 minikube status;
+minikube ip:
 minikube dashboard;
 minikube delete;
 
@@ -41,18 +44,27 @@ kubectl run hello-minikube --image=k8s.gcr.io/echoserver:1.10 --port=8080;
 #kubectl create hello-minikube --image=k8s.gcr.io/echoserver:1.10 --port=8080;
 kubectl expose deployment hello-minikube --type=NodePort;
 curl $(minikube service hello-minikube --url);
+curl $(minikube ip);
 
 kubectl delete services hello-minikube;
 kubectl delete deployment hello-minikube;
 minikube stop;
 
 eval $(minikube docker-env);
+kubectl get all;
 kubectl get pod;
 kubectl get deployment;
 kubectl get service;
+kubectl get events;
+kubectl describe pod microservice;
+kubectl describe deployment microservice;
+kubectl describe service microservice;
+kubectl describe ingress microservice;
+kubectl config view;
+
 minikube service list;
-for disk in {1..1000}; do curl 192.168.99.101:32652/greet; echo ""; sleep 1; done;
 minikube service microservice --url;
+for disk in {1..1000}; do curl 192.168.99.101:32652/greet; echo ""; sleep 1; done;
 
 
 Hier ist ein Beispiel einer PersistentVolume-Konfiguration, um Daten im Verzeichnis / data beizubehalten:

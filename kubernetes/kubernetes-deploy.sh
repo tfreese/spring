@@ -7,10 +7,9 @@ kubectl run microservice --image=mymicroservice:latest --port=8080 --image-pull-
 kubectl expose deployment/microservice --type="LoadBalancer" --port 8080
 
 #kubectl run hello-minikube --image=k8s.gcr.io/echoserver:1.10 --port=8080;
-#kubectl create hello-minikube --image=k8s.gcr.io/echoserver:1.10 --port=8080;
 #kubectl expose deployment hello-minikube --type=NodePort;
 
 curl $(minikube service microservice --url)/greet;
 
-#kubectl delete service microservice;
-#kubectl delete deployments microservice; 
+#kubectl delete service microservice ... ;
+#kubectl delete deployments microservice ...; 

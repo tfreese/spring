@@ -1,0 +1,33 @@
+# Gateway: Zugriff von außen definieren mit fester IP und Port
+# minikube addons list;
+# minikube addons enable ingress;
+# kubectl apply -f gateway.yml;
+# kubectl get ingress microservice;
+# kubectl describe ingress microservice;
+# curl INGRESS_ADDRESS/test
+# kubectl delete ingress microservice;
+apiVersion: extensions/v1beta1
+# apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: microservice
+  #labels:
+    #run: microservice
+  #annotations:
+    #ingress.kubernetes.io/rewrite-target: /
+    #ingress.kubernetes.io/permanent-redirect: /
+    #nginx.ingress.kubernetes.io/rewrite-target: /
+    #nginx.ingress.kubernetes.io/permanent-redirect: /
+spec:
+  rules:
+  #- host: microservice.localhost.de
+  - http:
+      paths:
+      - path: /test
+        backend:
+          serviceName: microservice
+          servicePort: 8081
+      #- path: /bla
+      #  backend:
+      #    serviceName: bla 
+      #    servicePort: 8080         

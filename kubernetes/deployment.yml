@@ -1,4 +1,10 @@
 # PODs und Anzahl definieren
+# kubectl apply -f deployment.yml;
+# kubectl get pod;
+# kubectl get deployment;
+# kubectl describe pod microservice;
+# kubectl describe deployment microservice;
+# kubectl delete deployment microservice;
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,6 +32,11 @@ spec:
       - name: microservice
         image: mymicroservice:latest
         imagePullPolicy: Never
+        ports:
+        - containerPort: 8080        
+        env:
+          - name: KEY
+            value: "VALUE"        
 
 
    

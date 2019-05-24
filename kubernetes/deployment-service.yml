@@ -26,6 +26,9 @@ spec:
       - name: microservice
         image: mymicroservice:latest
         imagePullPolicy: Never
+        env:
+          - name: KEY
+            value: "VALUE"
         
 ---
 
