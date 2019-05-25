@@ -6,13 +6,18 @@
 # kubectl describe ingress microservice;
 # curl INGRESS_ADDRESS/test
 # kubectl delete ingress microservice;
+#
+#
+# !!! HAT NICHT FUNKTIONIERT !!!
+#
+#
 apiVersion: extensions/v1beta1
 # apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: microservice
-  #labels:
-    #run: microservice
+  labels:
+    app: microservice
   #annotations:
     #ingress.kubernetes.io/rewrite-target: /
     #ingress.kubernetes.io/permanent-redirect: /

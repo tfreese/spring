@@ -11,17 +11,17 @@ kind: Service
 metadata:
   name: microservice
   labels:
-    run: microservice  
+    app: microservice  
 spec:
   ports:
-  - port: 8081    
+  - name: http
+    port: 8081    
     targetPort: 8080
     nodePort: 30123
-    protocol: TCP    
-    name: http    
+    protocol: TCP            
   selector:
     app: microservice
-  #type: NodePort
-  type: LoadBalancer
-status:
-  loadBalancer: {}  
+  type: NodePort
+  #type: LoadBalancer
+#status:
+#  loadBalancer: {}  

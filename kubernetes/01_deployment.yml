@@ -1,10 +1,17 @@
 # PODs und Anzahl definieren
+# kubectl apply -f deployment.yml;
+# kubectl get pod;
+# kubectl get deployment;
+# kubectl describe pod microservice;
+# kubectl describe deployment microservice;
+# kubectl delete deployment microservice;
 apiVersion: apps/v1
+#apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: microservice
   labels:
-    run: microservice   
+    app: microservice   
 spec:
   strategy:
     type: RollingUpdate
@@ -26,28 +33,12 @@ spec:
       - name: microservice
         image: mymicroservice:latest
         imagePullPolicy: Never
+        ports:
+        - containerPort: 8080 
+          name: myweb       
         env:
           - name: KEY
-            value: "VALUE"
-        
----
+            value: "VALUE"        
 
-# Service: Zugriff von außen definieren   
-apiVersion: v1
-kind: Service
-metadata:
-  name: microservice
-  labels:
-    run: microservice   
-spec:
-  ports:
-  - port: 8080
-    protocol: TCP
-    targetPort: 8080
-    name: http    
-  selector:
-    app: microservice
-  #type: NodePort
-  type: LoadBalancer
-status:
-  loadBalancer: {}  
+#imagePullPolicy: IfNotPresent
+   
