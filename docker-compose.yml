@@ -9,6 +9,8 @@
 # docker logs ID/NAME;
 # docker-compose down
 
+#for disk in {1..1000}; do curl localhost/service/sysdate; echo ""; sleep 1; done;
+
 version: '3'
 services:
 
@@ -60,7 +62,7 @@ services:
              }
            }
          }
-       }'
+        }'
         ports:
             - 9001:9001
         networks:
@@ -69,7 +71,6 @@ services:
                     - eureka
 
     spring-microservice:
-        #container_name: spring-microservice
         build:
             context: ./spring-microservice
             dockerfile: Dockerfile
@@ -92,10 +93,6 @@ services:
             "preferIpAddress": "true"
           }
         },
-        "server":
-        {
-          "port": "9999"
-        },
         "spring":
         {
           "boot":
@@ -113,12 +110,8 @@ services:
             }
           }
         }
-       }'
-            #- JAVA_OPTS="-Dserver.port=0"
-            #expose:
-            #- 8081
-            #ports:
-            #- 8081
+        }'
+        #- JAVA_OPTS="-Dserver.port=0"
         depends_on:
             - spring-admin
             - spring-eureka
@@ -128,77 +121,18 @@ services:
         networks:
             main:
 
-    spring-microservice_a:
-        container_name: spring-microservice_a
-        build:
-            context: ./spring-microservice
-            dockerfile: Dockerfile
-        image: spring-microservice:latest
+    loadbalancer:
+        image: dockercloud/haproxy:latest
         restart: always
-        environment:
-            SPRING_APPLICATION_JSON:
-                '{
-        "eureka":
-        {
-          "client":
-          {
-            "serviceUrl":
-            {
-              "defaultZone": "http://eureka:9001/eureka"
-            }
-          },
-          "instance":
-          {
-            "preferIpAddress": "true"
-          }
-        },
-        "server":
-        {
-          "port": "8888"
-        },
-        "spring":
-        {
-          "boot":
-          {
-            "admin":
-            {
-              "client":
-              {
-                "instance":
-                {
-                  "prefer-ip": "true"
-                },   
-                "url": "http://admin:9000"
-              }
-            }
-          }
-        }
-       }'
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
         ports:
-            - 8081:8888
-        depends_on:
-            - spring-admin
-            - spring-eureka
+            - 80:80
         networks:
-            main:
-                aliases:
-                    - service_a
+            - main
+        links:
+            - spring-microservice
 
-
-#  loadbalancer:
-#    container_name: spring-haproxy
-#    image: dockercloud/haproxy:latest
-#    restart: always
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    ports:
-#      - 8080:8081
-#    networks:
-#      - main
-#    links:
-#      - microservice
-#
-#
 # Network-Bridge: Zugriff auf Services die auf dem Host 192.168.155.1 laufen.
 # docker network create -d bridge --subnet 192.168.155.0/24 --gateway 192.168.155.1 dockernet;
 # docker network rm dockernet;

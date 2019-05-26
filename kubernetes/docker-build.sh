@@ -8,5 +8,6 @@
 mvn -f kubernetes-microservice clean package;
 
 docker build --tag=mymicroservice:1	kubernetes-microservice;
+
 docker tag mymicroservice:1 mymicroservice:latest;
 
