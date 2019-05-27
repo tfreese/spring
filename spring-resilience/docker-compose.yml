@@ -18,7 +18,7 @@ services:
             context: .
             dockerfile: Dockerfile
         image: spring-resilience:latest
-        restart: always
+        #restart: always
         ports:
             - 8080:8080
 
@@ -26,11 +26,11 @@ services:
     # docker start/stop prometheus
     prometheus:
         image: prom/prometheus:latest
+        #restart: always
         volumes:
             - ./prometheus.yml:/etc/prometheus/prometheus.yml        
         command:
-            - '--config.file=/etc/prometheus/prometheus.yml'
-        restart: always
+            - '--config.file=/etc/prometheus/prometheus.yml'        
         ports:
             - 9090:9090
         depends_on:
@@ -40,7 +40,7 @@ services:
     # docker start/stop grafana
     grafana:
         image: grafana/grafana:latest
-        restart: always
+        #restart: always
         ports:
             - 3000:3000
         depends_on:
