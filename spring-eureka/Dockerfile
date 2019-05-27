@@ -14,8 +14,8 @@ WORKDIR /
 EXPOSE 9001
 
 ENTRYPOINT ["java",\
- "-Xms256m",\
- "-Xmx256m",\
+ "-Xms128m",\
+ "-Xmx128m",\
  "-XX:TieredStopAtLevel=1",\
  "-noverify",\
  "-Djava.security.egd=file:/dev/./urandom",\

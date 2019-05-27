@@ -49,7 +49,7 @@ minikube start [--memory=2048 --cpus=4]
 minikube addons list;
 minikube addons enable ingress;
 minikube status;
-minikube ip:
+minikube ip;
 minikube dashboard;
 minikube delete;
 

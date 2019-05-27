@@ -4,23 +4,24 @@
 # Die Container können sich nun untereinander über ihre Aliasnamen ansprechen (HTTP://container1), keine IPs verwenden !
 
 # docker-compose build
-# docker-compose up [-d] --scale spring-microservice=3
+# docker-compose up -d --scale spring-microservice=3
 # docker-compose ps
 # docker logs ID/NAME;
 # docker-compose down
 
-#for disk in {1..1000}; do curl localhost/service/sysdate; echo ""; sleep 1; done;
+# for disk in {1..1000}; do curl localhost/service/sysdate; echo ""; sleep 1; done;
 
 version: '3'
 services:
 
-    spring-admin:
-        container_name: spring-admin
+    spring-boot-admin:
+        container_name: spring-boot-admin
         build:
             context: ./spring-boot-admin
             dockerfile: Dockerfile
-        image: spring-admin:latest
-        restart: always
+        image: spring-boot-admin:latest
+        #image: localhost:5000/spring-boot-admin:latest
+        #restart: always
         environment:
             SPRING_APPLICATION_JSON:
                 '{
@@ -40,7 +41,16 @@ services:
         networks:
             main:
                 aliases:
-                    - admin
+                    - admin                    
+        # https://docs.docker.com/compose/compose-file/#resources                    
+        deploy:
+            resources:
+                limits:
+                    cpus: "0.5"
+                    memory: 128M
+                reservations:
+                    cpus: "0.25"
+                    memory: 64M                    
 
     spring-eureka:
         container_name: spring-eureka
@@ -48,7 +58,8 @@ services:
             context: ./spring-eureka
             dockerfile: Dockerfile
         image: spring-eureka:latest
-        restart: always
+        #image: localhost:5000/spring-eureka:latest
+        #restart: always
         environment:
             SPRING_APPLICATION_JSON:
                 '{
@@ -69,13 +80,23 @@ services:
             main:
                 aliases:
                     - eureka
+        # https://docs.docker.com/compose/compose-file/#resources                    
+        deploy:
+            resources:
+                limits:
+                    cpus: "0.5"
+                    memory: 128M
+                reservations:
+                    cpus: "0.25"
+                    memory: 64M                    
 
     spring-microservice:
         build:
             context: ./spring-microservice
             dockerfile: Dockerfile
         image: spring-microservice:latest
-        restart: always
+        #image: localhost:5000/spring-microservice:latest
+        #restart: always
         environment:
             SPRING_APPLICATION_JSON:
                 '{
@@ -113,17 +134,24 @@ services:
         }'
         #- JAVA_OPTS="-Dserver.port=0"
         depends_on:
-            - spring-admin
+            - spring-boot-admin
             - spring-eureka
-            #links:
-            #- admin:spring-admin
-            #- eureka:spring-eureka
         networks:
             main:
+        # https://docs.docker.com/compose/compose-file/#resources                    
+        deploy:
+            resources:
+                limits:
+                    cpus: "1"
+                    memory: 256M
+                reservations:
+                    cpus: "0.5"
+                    memory: 128M            
 
+    # export HAPROXY_IMAGE=haproxy:1.9.8-alpine
     loadbalancer:
-        image: dockercloud/haproxy:latest
-        restart: always
+        image: "${HAPROXY_IMAGE:-dockercloud/haproxy:latest}"
+        #restart: always
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         ports:

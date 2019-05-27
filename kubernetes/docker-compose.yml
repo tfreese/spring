@@ -4,21 +4,25 @@
 # Die Container können sich nun untereinander über ihre Aliasnamen ansprechen (HTTP://container1), keine IPs verwenden !
 
 # docker-compose build
-# docker-compose up [-d] --scale microservice=3
+# docker-compose up -d --scale microservice=3
 # docker-compose scale microservice=3 (deprecated)
 # docker-compose ps
 # docker logs ID/NAME;
 # docker-compose down
 
+# for disk in {1..1000}; do curl localhost/greet; echo ""; sleep 1; done;
+
 version: '3'
 services:
 
     microservice:
+        #container_name: kubernetes-microservice
         build:
             context: ./kubernetes-microservice
             dockerfile: Dockerfile
         image: kubernetes-microservice:latest
-        restart: always
+        #image: localhost:5000/kubernetes-microservice:latest
+        #restart: always
 #         environment:
 #             SPRING_APPLICATION_JSON:
 #                 '{
@@ -33,12 +37,20 @@ services:
 #            }
 #          }
 #        }'
-        #ports:
-            #- 8080
+        # https://docs.docker.com/compose/compose-file/#resources                    
+        deploy:
+            resources:
+                limits:
+                    cpus: "0.5"
+                    memory: 128M
+                reservations:
+                    cpus: "0.25"
+                    memory: 64M             
 
+    # export HAPROXY_IMAGE=haproxy:1.9.8-alpine
     loadbalancer:
-        image: dockercloud/haproxy:latest
-        restart: always
+        image: "${HAPROXY_IMAGE:-dockercloud/haproxy:latest}"
+        #restart: always
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         ports:
