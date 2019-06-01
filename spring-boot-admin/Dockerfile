@@ -24,3 +24,4 @@ ENTRYPOINT ["java",\
  "/spring-boot-admin.jar"]
 #ENTRYPOINT exec java $JAVA_OPTS -jar /spring-boot-admin.jar
 #CMD /usr/bin/java -Xms300m -Xmx300m -XX:TieredStopAtLevel=1 -noverify -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=default -jar /spring-boot-admin.jar
+#RUN [“java”, “...”]

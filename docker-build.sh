@@ -5,6 +5,7 @@
 # docker run [-d] --name spring-microservice -p 8080:8080 spring-microservice:1;
 # docker start/stop spring-microservice;
 #
+# multi-stage builds: https://docs.docker.com/develop/develop-images/multistage-build/
 
 mvn -f spring-boot-admin	clean package;
 mvn -f spring-eureka		clean package;

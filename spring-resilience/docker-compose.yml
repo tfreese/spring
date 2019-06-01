@@ -8,6 +8,8 @@
 # docker-compose ps
 # docker logs ID/NAME
 # docker-compose down
+#
+# multi-stage builds: https://docs.docker.com/develop/develop-images/multistage-build/
 
 version: '3'
 services:
@@ -45,4 +47,3 @@ services:
             - 3000:3000
         depends_on:
             - prometheus            
-                        

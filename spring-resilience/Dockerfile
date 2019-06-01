@@ -29,3 +29,4 @@ ENTRYPOINT ["java",\
  "/spring-resilience.jar"]
 #ENTRYPOINT exec java $JAVA_OPTS -jar /spring-resilience.jar
 #CMD /usr/bin/java -Xms300m -Xmx300m -XX:TieredStopAtLevel=1 -noverify -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=default -jar /spring-resilience.jar
+#RUN [“java”, “...”]
