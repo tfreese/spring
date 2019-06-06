@@ -1,9 +1,10 @@
 #!/bin/sh
 #
-# docker build -t spring-microservice:1 .;
-# docker build -t spring-microservice:1 -f ~/git/spring/spring-microservice/Dockerfile;
-# docker run [-d] --name spring-microservice -p 8080:8080 spring-microservice:1;
-# docker start/stop spring-microservice;
+# docker build --build-arg JAR_FILE=<JAR in target Folder> -t <IMAGE_NAME>:<VERSION> .;
+# docker build --build-arg JAR_FILE=<JAR in target Folder> -t <IMAGE_NAME>:<VERSION> -f <Dockerfile>;
+# docker run [-d] --name <CONTAINER_NAME> -p 8080:8080 <IMAGE_NAME>:<VERSION>;
+# -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"
+# docker start/stop <CONTAINER_NAME>;
 #
 # multi-stage builds: https://docs.docker.com/develop/develop-images/multistage-build/
 
@@ -42,7 +43,7 @@ docker image remove -f spring-eureka		spring-eureka:1			localhost:5000/spring-eu
 docker image remove -f spring-microservice	spring-microservice:1	localhost:5000/spring-microservice:latest;
 docker image remove -f spring-resilience	spring-resilience:1		localhost:5000/spring-resilience:latest;
 
-# Image aus lokaler Registry neu laden
+# Image aus lokaler Registry neu laden (Kontrolle)
 docker pull localhost:5000/spring-boot-admin:latest;
 docker pull localhost:5000/spring-eureka:latest;
 docker pull localhost:5000/spring-microservice:latest;
