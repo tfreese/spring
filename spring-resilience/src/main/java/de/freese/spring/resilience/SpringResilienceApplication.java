@@ -2,13 +2,16 @@ package de.freese.spring.resilience;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.NumberFormat;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.circuitbreaker.commons.ReactiveCircuitBreaker;
@@ -29,7 +32,7 @@ import reactor.core.publisher.Mono;
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class SpringResilienceApplication
+public class SpringResilienceApplication implements CommandLineRunner
 {
     /**
      * @author Thomas Freese
@@ -131,6 +134,11 @@ public class SpringResilienceApplication
     }
 
     /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpringResilienceApplication.class);
+
+    /**
      * @param args String[]
      */
     public static void main(final String[] args)
@@ -155,5 +163,31 @@ public class SpringResilienceApplication
         //@formatter:on
 
         return factory;
+    }
+
+    /**
+     * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
+     */
+    @Override
+    public void run(final String...args) throws Exception
+    {
+        final Runtime runtime = Runtime.getRuntime();
+
+        final NumberFormat format = NumberFormat.getInstance();
+
+        final long maxMemory = runtime.maxMemory();
+        final long allocatedMemory = runtime.totalMemory();
+        final long freeMemory = runtime.freeMemory();
+        final long mb = 1024 * 1024;
+        final String mega = "MB";
+
+        LOGGER.info("========================== System Info ==========================");
+        LOGGER.info("Programm-Args: " + Arrays.toString(args));
+        LOGGER.info("CPU Cores: " + runtime.availableProcessors());
+        LOGGER.info("Free memory: " + format.format(freeMemory / mb) + mega);
+        LOGGER.info("Allocated memory: " + format.format(allocatedMemory / mb) + mega);
+        LOGGER.info("Max memory: " + format.format(maxMemory / mb) + mega);
+        LOGGER.info("Total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / mb) + mega);
+        LOGGER.info("=================================================================\n");
     }
 }
