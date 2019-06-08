@@ -23,7 +23,7 @@ docker push localhost:5000/kubernetes-microservice:latest;
 # Lokale Images löschen
 docker image remove -f kubernetes-microservice	kubernetes-microservice:1	localhost:5000/kubernetes-microservice:latest;
 
-# Image aus lokaler Registry neu laden
+# Image aus lokaler Registry neu laden (Kontrolle)
 docker pull localhost:5000/kubernetes-microservice:latest;
 
 
