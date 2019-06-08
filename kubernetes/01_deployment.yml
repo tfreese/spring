@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: microservice
-        image: mymicroservice:latest
+        image: kubernetes-microservice:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 8080 
@@ -41,4 +41,3 @@ spec:
             value: "VALUE"        
 
 #imagePullPolicy: IfNotPresent
-   

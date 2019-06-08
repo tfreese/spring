@@ -17,7 +17,7 @@
 version: '3'
 services:
 
-    microservice:
+    kubernetes-microservice:
         #container_name: kubernetes-microservice
         build:
             context: ./kubernetes-microservice
@@ -58,4 +58,4 @@ services:
         ports:
             - 80:80
         links:
-            - microservice
+            - kubernetes-microservice
