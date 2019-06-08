@@ -1,29 +1,24 @@
-# docker build -t spring-resilience .;
-# docker build -t spring-resilience -f ~/git/spring/spring-resiliance/Dockerfile;
-# docker run [-d] --name spring-resilience -p 8080:8080 spring-resilience;
-# docker start/stop spring-resilience;
-#
-#FROM openjdk:11-alpine
-
+# docker build --build-arg JAR_FILE=<JAR in target Folder> -t <IMAGE_NAME>:<VERSION> .;
+# docker build --build-arg JAR_FILE=<JAR in target Folder> -t <IMAGE_NAME>:<VERSION> -f <Dockerfile>;
+# docker run [-d] --cpus="2" --name <CONTAINER_NAME> -e JAVA_OPTS="-Xms64m -Xmx128m" -p 8081:8081 <IMAGE_NAME>:<VERSION> --spring.profiles.active=test;
 FROM openjdk:11-jre-slim
-# 302 MB
 
-#FROM openjdk:11
-# 844 MB
+MAINTAINER Thomas Freese <commercial@freese-home.de>
 
-COPY target/kubernetes-microservice-0.0.1-SNAPSHOT-jar-with-dependencies.jar /kubernetes-microservice.jar
+ARG JAR_FILE=target/*-jar-with-dependencies.jar
+ENV JAVA_OPTS="-Xms64m -Xmx256m"
+
+COPY ${JAR_FILE} /app/app.jar
+
 WORKDIR /
-
+VOLUME /tmp
 EXPOSE 8080
 
-ENTRYPOINT ["java",\
- "-Xms256m",\
- "-Xmx256m",\
- "-XX:TieredStopAtLevel=1",\
- "-noverify",\
- "-Djava.security.egd=file:/dev/./urandom",\
- "-Dspring.profiles.active=default",\
- "-jar",\
- "/kubernetes-microservice.jar"]
-#ENTRYPOINT exec java $JAVA_OPTS -jar /spring-resilience.jar
-#CMD /usr/bin/java -Xms300m -Xmx300m -XX:TieredStopAtLevel=1 -noverify -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=default -jar /spring-resilience.jar
+ENTRYPOINT exec java \
+ $JAVA_OPTS \
+ -XX:TieredStopAtLevel=1 \
+ -noverify \
+ -Djava.security.egd=file:/dev/./urandom \
+ -jar \
+ /app/app.jar \
+ $0 $@
