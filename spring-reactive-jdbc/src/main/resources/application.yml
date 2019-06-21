@@ -1,0 +1,27 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+spring:
+    datasource:
+        platform: h2
+    jmx:
+        enabled: false
+    profiles:
+        active: jdbc
+
+management:
+    endpoints:
+        enabled-by-default: true
+        web:
+            exposure:
+                include: '*'
+    endpoint:
+        health:
+            show-details: ALWAYS
+
+server:
+    http2:
+        enabled: true 
+    port: 8080 

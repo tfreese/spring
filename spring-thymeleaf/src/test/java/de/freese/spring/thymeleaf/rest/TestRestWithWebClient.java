@@ -4,10 +4,9 @@
 
 package de.freese.spring.thymeleaf.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
-import de.freese.spring.thymeleaf.ThymeleafApplication;
-import de.freese.spring.thymeleaf.model.Person;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -26,21 +25,21 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
+import de.freese.spring.thymeleaf.ThymeleafApplication;
+import de.freese.spring.thymeleaf.model.Person;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import javax.annotation.Resource;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 /**
  * @author Thomas Freese
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
-        {
-                ThymeleafApplication.class
-        })
+{
+        ThymeleafApplication.class
+})
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -69,6 +68,13 @@ public class TestRestWithWebClient implements RestTestCase
      */
     @Resource
     private WebClient.Builder webClientBuilder = null;
+
+    // /**
+    // * Spring-Boot will create a `WebTestClient` for you<br>
+    // * already configure and ready to issue requests against "localhost:RANDOM_PORT"
+    // */
+    // @Resource
+    // private WebTestClient webTestClient = null;
 
     /**
      * Erstellt ein neues {@link TestRestWithWebClient} Object.
