@@ -16,6 +16,8 @@ import de.freese.spring.rsocket.GreetingResponse;
 import reactor.core.publisher.Flux;
 
 /**
+ * https://spring.io/blog/2019/04/15/spring-tips-rsocket-messaging-in-spring-boot-2-2
+ *
  * @author Thomas Freese
  */
 @SpringBootApplication(scanBasePackages = "de.freese.spring.rsocket.producer")

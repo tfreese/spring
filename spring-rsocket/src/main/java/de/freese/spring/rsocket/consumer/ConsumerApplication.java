@@ -26,6 +26,8 @@ import io.rsocket.transport.netty.client.TcpClientTransport;
 import reactor.core.publisher.Mono;
 
 /**
+ * https://spring.io/blog/2019/04/15/spring-tips-rsocket-messaging-in-spring-boot-2-2
+ *
  * @author Thomas Freese
  */
 @SpringBootApplication(scanBasePackages = "de.freese.spring.rsocket.consumer")
@@ -142,6 +144,6 @@ public class ConsumerApplication
     @Bean
     RSocketRequester rSocketRequester(final RSocket rSocket, final RSocketStrategies rSocketStrategies)
     {
-        return RSocketRequester.create(rSocket, MimeTypeUtils.APPLICATION_JSON, rSocketStrategies);
+        return RSocketRequester.wrap(rSocket, MimeTypeUtils.APPLICATION_JSON, MimeTypeUtils.APPLICATION_JSON, rSocketStrategies);
     }
 }
