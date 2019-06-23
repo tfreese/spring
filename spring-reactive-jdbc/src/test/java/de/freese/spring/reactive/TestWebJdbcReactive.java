@@ -1,11 +1,11 @@
+package de.freese.spring.reactive;
 /**
  * Created: 21.06.2019
  */
 
-package de.freese.spring.reactive;
-
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -19,8 +19,9 @@ import org.springframework.web.reactive.function.client.WebClient;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("jdbc")
-public class TestJdbc implements TestInterface
+@ActiveProfiles("reactive-jdbc")
+@Disabled
+public class TestWebJdbcReactive implements TestWebInterface
 {
     /**
     *
@@ -41,8 +42,8 @@ public class TestJdbc implements TestInterface
     private WebTestClient webTestClient = null;
 
     /**
-     *
-     */
+    *
+    */
     @BeforeEach
     void beforeEach()
     {
@@ -50,7 +51,7 @@ public class TestJdbc implements TestInterface
     }
 
     /**
-     * @see de.freese.spring.reactive.TestInterface#getWebClient()
+     * @see de.freese.spring.reactive.TestWebInterface#getWebClient()
      */
     @Override
     public WebClient getWebClient()
@@ -59,7 +60,7 @@ public class TestJdbc implements TestInterface
     }
 
     /**
-     * @see de.freese.spring.reactive.TestInterface#getWebTestClient()
+     * @see de.freese.spring.reactive.TestWebInterface#getWebTestClient()
      */
     @Override
     public WebTestClient getWebTestClient()

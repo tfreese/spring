@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -105,12 +106,21 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
     @Override
     public Mono<Employee> createNewEmployee(final Mono<Employee> employeeMono)
     {
-        Employee employee = employeeMono.block();
+        final Employee employee;
+        //
+        employee = employeeMono.block();
+        // employee = employeeMono.blockOptional().orElse(null);
+        // final AtomicReference<Employee> employeeReference = new AtomicReference<>();
+        // employeeMono.subscribe(employeeReference::set);
+        // employee = employeeReference.get();
+
+        // return employeeMono.map(employee -> {
+        LoggerFactory.getLogger(EmployeeRepository.class).info(employee.toString());
 
         StringBuilder sqlSelect = new StringBuilder();
         sqlSelect.append("SELECT department_id from department where department_name = ?");
 
-        int departmentId = this.jdbcTemplate.queryForObject(sqlSelect.toString(), Integer.class);
+        int departmentId = this.jdbcTemplate.queryForObject(sqlSelect.toString(), Integer.class, employee.getDepartment());
 
         final StringBuilder sqlInsert = new StringBuilder();
         sqlInsert.append("INSERT INTO employee (employee_firstname, employee_lastname, department_id) VALUES (?, ?, ?)");
@@ -128,6 +138,9 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
         int employeeId = keyHolder.getKey().intValue();
         employee.setId(employeeId);
 
+        // return employee;
+        // });
+
         return Mono.just(employee);
     }
 
@@ -140,7 +153,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
         StringBuilder sql = new StringBuilder();
         sql.append("DELETE FROM employee WHERE employee_id = ?");
 
-        int affectedRows = this.jdbcTemplate.update(sql.toString());
+        int affectedRows = this.jdbcTemplate.update(sql.toString(), id);
 
         return Flux.just(affectedRows).then();
     }

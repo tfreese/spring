@@ -321,6 +321,7 @@ public class TestRestWithWebClient implements RestTestCase
                 .uri("/rest/person/personList")
                 .contentType(MediaType.APPLICATION_JSON)
                 //.body(Mono.just(newPerson), Person.class)
+                // ist das gleiche wie '.body(BodyInserters.fromObject(newPerson))'
                 .syncBody(newPerson)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
@@ -353,6 +354,7 @@ public class TestRestWithWebClient implements RestTestCase
                 .uri("/rest/person/personAdd")
                 .contentType(MediaType.APPLICATION_JSON)
                 //.body(Mono.just(newPerson), Person.class)
+                // ist das gleiche wie '.body(BodyInserters.fromObject(newPerson))'
                 .syncBody(newPerson)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
