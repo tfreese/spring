@@ -1,19 +1,20 @@
 /**
- * Created: 23.06.2019
+ * Created: 24.06.2019
  */
 
-package de.freese.spring.reactive;
+package de.freese.spring.reactive.service;
 
-import javax.annotation.Resource;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import de.freese.spring.reactive.EmployeeService;
 import de.freese.spring.reactive.model.Department;
 import de.freese.spring.reactive.model.Employee;
-import de.freese.spring.reactive.repository.EmployeeRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -22,46 +23,50 @@ import reactor.test.StepVerifier;
  * @author Thomas Freese
  */
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@ActiveProfiles("jdbc")
-@Disabled
-public class TestRepositoryJdbc
+public interface TestServiceInterface
 {
     /**
      *
      */
-    @Resource
-    private EmployeeRepository repository = null;
+    @AfterEach
+    default void afterEach()
+    {
+        getJdbcTemplate().execute("DROP TABLE employee");
+        getJdbcTemplate().execute("DROP TABLE department");
+    }
 
     /**
-     * Erstellt ein neues {@link TestRepositoryJdbc} Object.
+     *
      */
-    public TestRepositoryJdbc()
+    @BeforeEach
+    default void beforeEach()
     {
-        super();
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource("sql/schema-h2.sql"));
+        populator.addScript(new ClassPathResource("sql/data.sql"));
+        populator.execute(getJdbcTemplate().getDataSource());
     }
 
     /**
       *
      */
     @Test
-    public void createNewEmployee()
+    default void createNewEmployee()
     {
         Employee newEmployee = new Employee("Foo", "Bar", "Manufacturing");
         Employee expected = new Employee(7, "Foo", "Bar", "Manufacturing");
 
-        Mono<Employee> returned = this.repository.createNewEmployee(Mono.just(newEmployee));
+        Mono<Employee> returned = getService().createNewEmployee(Mono.just(newEmployee));
 
         // @formatter:off
         returned
             .as(StepVerifier::create)
-            .expectNextCount(1)
             .expectNextMatches(emp -> emp.equals(expected))
             .verifyComplete()
             ;
         // @formatter:on
 
-        Flux<Employee> employees = this.repository.getAllEmployees();
+        Flux<Employee> employees = getService().getAllEmployees();
 
         // @formatter:off
         employees
@@ -76,9 +81,9 @@ public class TestRepositoryJdbc
      *
     */
     @Test
-    public void deleteEmployee()
+    default void deleteEmployee()
     {
-        Mono<Void> employee = this.repository.deleteEmployee(1);
+        Mono<Void> employee = getService().deleteEmployee(1);
 
         // @formatter:off
         employee
@@ -87,7 +92,7 @@ public class TestRepositoryJdbc
             ;
         // @formatter:on
 
-        Flux<Employee> employees = this.repository.getAllEmployees();
+        Flux<Employee> employees = getService().getAllEmployees();
 
         // @formatter:off
         employees
@@ -102,9 +107,9 @@ public class TestRepositoryJdbc
      *
      */
     @Test
-    public void getAllDepartments()
+    default void getAllDepartments()
     {
-        Flux<Department> departments = this.repository.getAllDepartments();
+        Flux<Department> departments = getService().getAllDepartments();
 
         // @formatter:off
         departments
@@ -119,9 +124,9 @@ public class TestRepositoryJdbc
     *
     */
     @Test
-    public void getAllEmployees()
+    default void getAllEmployees()
     {
-        Flux<Employee> employees = this.repository.getAllEmployees();
+        Flux<Employee> employees = getService().getAllEmployees();
 
         // @formatter:off
         employees
@@ -136,17 +141,26 @@ public class TestRepositoryJdbc
      *
      */
     @Test
-    public void getEmployee()
+    default void getEmployee()
     {
-        Mono<Employee> employee = this.repository.getEmployee("Sally", "Wilson");
+        Mono<Employee> employee = getService().getEmployee("Sally", "Wilson");
 
         // @formatter:off
         employee
             .as(StepVerifier::create)
-            //.expectNextCount(1)
             .expectNextMatches(emp -> emp.equals(new Employee(3, "Sally","Wilson", "Human Resources")))
             .verifyComplete()
             ;
         // @formatter:on
     }
+
+    /**
+     * @return {@link JdbcTemplate}
+     */
+    JdbcTemplate getJdbcTemplate();
+
+    /**
+     * @return {@link EmployeeService}
+     */
+    EmployeeService getService();
 }

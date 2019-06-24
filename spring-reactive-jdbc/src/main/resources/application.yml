@@ -5,6 +5,9 @@
 
 spring:
     datasource:
+        hikari:
+            auto-commit: true
+        initialization-mode: never
         platform: h2
     jmx:
         enabled: false

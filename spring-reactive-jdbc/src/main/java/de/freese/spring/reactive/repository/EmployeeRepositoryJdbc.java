@@ -6,9 +6,9 @@ package de.freese.spring.reactive.repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import javax.sql.DataSource;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -106,42 +106,30 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
     @Override
     public Mono<Employee> createNewEmployee(final Mono<Employee> employeeMono)
     {
-        final Employee employee;
-        //
-        employee = employeeMono.block();
-        // employee = employeeMono.blockOptional().orElse(null);
-        // final AtomicReference<Employee> employeeReference = new AtomicReference<>();
-        // employeeMono.subscribe(employeeReference::set);
-        // employee = employeeReference.get();
+        return employeeMono.map(employee -> {
+            StringBuilder sqlSelect = new StringBuilder();
+            sqlSelect.append("SELECT department_id from department where department_name = ?");
 
-        // return employeeMono.map(employee -> {
-        LoggerFactory.getLogger(EmployeeRepository.class).info(employee.toString());
+            int departmentId = this.jdbcTemplate.queryForObject(sqlSelect.toString(), Integer.class, employee.getDepartment());
 
-        StringBuilder sqlSelect = new StringBuilder();
-        sqlSelect.append("SELECT department_id from department where department_name = ?");
+            final StringBuilder sqlInsert = new StringBuilder();
+            sqlInsert.append("INSERT INTO employee (employee_firstname, employee_lastname, department_id) VALUES (?, ?, ?)");
 
-        int departmentId = this.jdbcTemplate.queryForObject(sqlSelect.toString(), Integer.class, employee.getDepartment());
+            KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        final StringBuilder sqlInsert = new StringBuilder();
-        sqlInsert.append("INSERT INTO employee (employee_firstname, employee_lastname, department_id) VALUES (?, ?, ?)");
+            this.jdbcTemplate.update(connection -> {
+                PreparedStatement prepStmt = connection.prepareStatement(sqlInsert.toString(), Statement.RETURN_GENERATED_KEYS);
+                prepStmt.setString(1, employee.getFirstName());
+                prepStmt.setString(2, employee.getLastName());
+                prepStmt.setInt(3, departmentId);
+                return prepStmt;
+            }, keyHolder);
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+            int employeeId = keyHolder.getKey().intValue();
+            employee.setId(employeeId);
 
-        this.jdbcTemplate.update(connection -> {
-            PreparedStatement prepStmt = connection.prepareStatement(sqlInsert.toString());
-            prepStmt.setString(1, employee.getFirstName());
-            prepStmt.setString(2, employee.getLastName());
-            prepStmt.setInt(3, departmentId);
-            return prepStmt;
-        }, keyHolder);
-
-        int employeeId = keyHolder.getKey().intValue();
-        employee.setId(employeeId);
-
-        // return employee;
-        // });
-
-        return Mono.just(employee);
+            return employee;
+        });
     }
 
     /**

@@ -6,23 +6,30 @@ package de.freese.spring.reactive;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * @author Thomas Freese
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("reactive-jdbc")
+@ActiveProfiles(
+{
+        "reactive-jdbc", "test"
+})
 @Disabled
 public class TestWebJdbcReactive implements TestWebInterface
 {
+    /**
+    *
+    */
+    @Resource
+    private JdbcTemplate jdbcTemplate = null;
+
     /**
     *
     */
@@ -48,6 +55,15 @@ public class TestWebJdbcReactive implements TestWebInterface
     void beforeEach()
     {
         this.webClient = WebClient.create("http://localhost:" + this.port);
+    }
+
+    /**
+     * @see de.freese.spring.reactive.TestWebInterface#getJdbcTemplate()
+     */
+    @Override
+    public JdbcTemplate getJdbcTemplate()
+    {
+        return this.jdbcTemplate;
     }
 
     /**
