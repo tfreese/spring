@@ -19,7 +19,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(
 {
-        "reactive-jdbc", "test"
+        "jdbc-reactive", "test"
 })
 @Disabled
 public class TestWebJdbcReactive implements TestWebInterface
