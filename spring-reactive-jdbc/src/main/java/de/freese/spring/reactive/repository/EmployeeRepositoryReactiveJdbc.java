@@ -127,14 +127,13 @@ public class EmployeeRepositoryReactiveJdbc implements EmployeeRepository
         return this.r2dbc.withHandle(handle ->
             handle
                 .select("select * from department")
-                .mapResult(result -> result.map((row, rowMetadata) -> {
-                                                    Department department = new Department();
-                                                    department.setId(row.get("department_id", Integer.class));
-                                                    department.setName(row.get("department_name", String.class));
+                .mapRow(row -> {
+                                    Department department = new Department();
+                                    department.setId(row.get("department_id", Integer.class));
+                                    department.setName(row.get("department_name", String.class));
 
-                                                    return department;
-                                                    }
-                                                )
+                                    return department;
+                               }
                 )
         )
         ;
@@ -154,16 +153,15 @@ public class EmployeeRepositoryReactiveJdbc implements EmployeeRepository
         return this.r2dbc.withHandle(handle ->
             handle
                 .select(sql.toString())
-                .mapResult(result -> result.map((row, rowMetadata) -> {
-                                                    Employee employee = new Employee();
-                                                    employee.setId(row.get("employee_id", Integer.class));
-                                                    employee.setDepartment(row.get("department_name", String.class));
-                                                    employee.setFirstName(row.get("employee_firstname", String.class));
-                                                    employee.setLastName(row.get("employee_lastname", String.class));
+                .mapRow(row -> {
+                                    Employee employee = new Employee();
+                                    employee.setId(row.get("employee_id", Integer.class));
+                                    employee.setDepartment(row.get("department_name", String.class));
+                                    employee.setFirstName(row.get("employee_firstname", String.class));
+                                    employee.setLastName(row.get("employee_lastname", String.class));
 
-                                                    return employee;
-                                                    }
-                                                )
+                                    return employee;
+                               }
                 )
         )
         ;
@@ -186,16 +184,16 @@ public class EmployeeRepositoryReactiveJdbc implements EmployeeRepository
         return this.r2dbc.withHandle(handle ->
             handle
                 .select(sql.toString(), lastName, firstName)
-                .mapResult(result -> result.map((row, rowMetadata) -> {
-                                                    Employee employee = new Employee();
-                                                    employee.setId(row.get("employee_id", Integer.class));
-                                                    employee.setDepartment(row.get("department_name", String.class));
-                                                    employee.setFirstName(row.get("employee_firstname", String.class));
-                                                    employee.setLastName(row.get("employee_lastname", String.class));
+                .mapRow(row -> {
+                                    Employee employee = new Employee();
+                                    employee.setId(row.get("employee_id", Integer.class));
+                                    employee.setDepartment(row.get("department_name", String.class));
+                                    employee.setFirstName(row.get("employee_firstname", String.class));
+                                    employee.setLastName(row.get("employee_lastname", String.class));
 
-                                                    return employee;
-                                                    }
-                                                )
+                                    return employee;
+                                }
+
                 )
        )
        .single()
