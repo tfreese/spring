@@ -22,7 +22,7 @@ import reactor.core.publisher.Mono;
  */
 @Repository
 @Profile("jdbc-reactive")
-public class EmployeeRepositoryReactiveJdbc implements EmployeeRepository
+public class EmployeeRepositoryJdbcReactive implements EmployeeRepository
 {
     /**
      *
@@ -35,11 +35,11 @@ public class EmployeeRepositoryReactiveJdbc implements EmployeeRepository
     private final R2dbc r2dbc;
 
     /**
-     * Erstellt ein neues {@link EmployeeRepositoryReactiveJdbc} Object.
+     * Erstellt ein neues {@link EmployeeRepositoryJdbcReactive} Object.
      *
      * @param dataSource {@link DataSource}
      */
-    public EmployeeRepositoryReactiveJdbc(final DataSource dataSource)
+    public EmployeeRepositoryJdbcReactive(final DataSource dataSource)
     {
         super();
 
@@ -55,50 +55,62 @@ public class EmployeeRepositoryReactiveJdbc implements EmployeeRepository
     }
 
     /**
-     * @see de.freese.spring.reactive.repository.EmployeeRepository#createNewEmployee(reactor.core.publisher.Mono)
+     * @see de.freese.spring.reactive.repository.EmployeeRepository#createNewEmployee(de.freese.spring.reactive.model.Employee)
      */
     @Override
-    public Mono<Employee> createNewEmployee(final Mono<Employee> employeeMono)
+    public Mono<Employee> createNewEmployee(final Employee newEmployee)
     {
         // @formatter:off
-        employeeMono.map(employee ->
-            this.r2dbc
+//        this.r2dbc.withHandle(handle ->
+//            handle
+//                .select("SELECT department_id from department where department_name = ?", newEmployee.getDepartment())
+//                .mapResult(result -> result.map((row, rowMetadata) -> row.get("department_id", Integer.class)))
+//                )
+//            .subscribe(System.out::println)
+//        ;
+        // Ergebnis ist 4 -> wie erwartet.
+
+//        this.r2dbc.inTransaction(handle ->
+//            handle
+//                .execute("INSERT INTO employee (employee_firstname, employee_lastname, department_id) VALUES (?, ?, ?)",
+//                    newEmployee.getFirstName()
+//                    , newEmployee.getLastName()
+//                    , 4)
+//                )
+//            .subscribe(System.out::println);
+        // Ergebnis ist 1 -> Erwartet wird 7. -> execute liefert nur die affectedRows !!!
+        // @formatter:on
+
+        // @formatter:off
+        //newEmployeeMono.map(newEmployee ->
+        return this.r2dbc
                 .withHandle(handle ->
                     handle
-                        .select("SELECT department_id from department where department_name = ?", employee.getDepartment())
+                        .select("SELECT department_id from department where department_name = ?", newEmployee.getDepartment())
                         .mapResult(result -> result.map((row, rowMetadata) -> row.get("department_id", Integer.class)))
                 )
-                .map(departmentId ->
+                //.single() // Es wird nur eine ID erwartet.
+                .next() // Es wird nur eine ID erwartet.
+                .flatMapMany(departmentId ->
                     this.r2dbc
                         .inTransaction(handle ->
                             handle
-                                .execute("INSERT INTO employee (employee_firstname, employee_lastname, department_id) VALUES (?, ?, ?)"
-                                                                                              , employee.getFirstName()
-                                                                                              , employee.getLastName()
-                                                                                              , departmentId)
+                                .createQuery("INSERT INTO employee (employee_firstname, employee_lastname, department_id) VALUES (?, ?, ?)")
+                                    .bind(0, newEmployee.getFirstName())
+                                    .bind(1, newEmployee.getLastName())
+                                    .bind(2, departmentId)
+                                    .mapRow(row -> row.get(0, Integer.class))
                                 )
                 )
-                //.then(Mono.of())
-
-
-        )
+                //.single() // Es wird nur ein Insert erwartet.
+                .next() // Es wird nur ein Insert erwartet.
+                .map(employeeId -> {
+                    newEmployee.setId(employeeId);
+                    return newEmployee;
+                })
+        //)
         ;
-
-        Employee employee = employeeMono.block();
-
-        return getEmployee(employee.getFirstName(), employee.getLastName());
         // @formatter:on
-
-        // r2dbc.inTransaction(handle ->
-        // handle.execute("INSERT INTO test VALUES ($1)", 100))
-        //
-        // .thenMany(r2dbc.inTransaction(handle ->
-        // handle.select("SELECT value FROM test")
-        // .mapResult(result -> result.map((row, rowMetadata) -> row.get("value", Integer.class)))))
-        //
-        // .subscribe(System.out::println);
-
-        // return null;
     }
 
     /**

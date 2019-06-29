@@ -102,35 +102,37 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
     }
 
     /**
-     * @see de.freese.spring.reactive.repository.EmployeeRepository#createNewEmployee(reactor.core.publisher.Mono)
+     * @see de.freese.spring.reactive.repository.EmployeeRepository#createNewEmployee(de.freese.spring.reactive.model.Employee)
      */
     @Override
-    public Mono<Employee> createNewEmployee(final Mono<Employee> employeeMono)
+    public Mono<Employee> createNewEmployee(final Employee newEmployee)
     {
-        return employeeMono.map(employee -> {
-            StringBuilder sqlSelect = new StringBuilder();
-            sqlSelect.append("SELECT department_id from department where department_name = ?");
+        // return newEmployeeMono.map(newEmployee -> {
+        StringBuilder sqlSelect = new StringBuilder();
+        sqlSelect.append("SELECT department_id from department where department_name = ?");
 
-            int departmentId = this.jdbcTemplate.queryForObject(sqlSelect.toString(), Integer.class, employee.getDepartment());
+        int departmentId = this.jdbcTemplate.queryForObject(sqlSelect.toString(), Integer.class, newEmployee.getDepartment());
 
-            final StringBuilder sqlInsert = new StringBuilder();
-            sqlInsert.append("INSERT INTO employee (employee_firstname, employee_lastname, department_id) VALUES (?, ?, ?)");
+        final StringBuilder sqlInsert = new StringBuilder();
+        sqlInsert.append("INSERT INTO employee (employee_firstname, employee_lastname, department_id) VALUES (?, ?, ?)");
 
-            KeyHolder keyHolder = new GeneratedKeyHolder();
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-            this.jdbcTemplate.update(connection -> {
-                PreparedStatement prepStmt = connection.prepareStatement(sqlInsert.toString(), Statement.RETURN_GENERATED_KEYS);
-                prepStmt.setString(1, employee.getFirstName());
-                prepStmt.setString(2, employee.getLastName());
-                prepStmt.setInt(3, departmentId);
-                return prepStmt;
-            }, keyHolder);
+        this.jdbcTemplate.update(connection -> {
+            PreparedStatement prepStmt = connection.prepareStatement(sqlInsert.toString(), Statement.RETURN_GENERATED_KEYS);
+            prepStmt.setString(1, newEmployee.getFirstName());
+            prepStmt.setString(2, newEmployee.getLastName());
+            prepStmt.setInt(3, departmentId);
+            return prepStmt;
+        }, keyHolder);
 
-            int employeeId = keyHolder.getKey().intValue();
-            employee.setId(employeeId);
+        int employeeId = keyHolder.getKey().intValue();
+        newEmployee.setId(employeeId);
 
-            return employee;
-        });
+        // return newEmployee;
+        // });
+
+        return Mono.just(newEmployee);
     }
 
     /**

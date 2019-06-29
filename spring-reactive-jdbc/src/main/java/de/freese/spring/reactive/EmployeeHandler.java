@@ -4,16 +4,19 @@
 package de.freese.spring.reactive;
 
 import javax.annotation.Resource;
+import org.reactivestreams.Publisher;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import de.freese.spring.reactive.model.Department;
 import de.freese.spring.reactive.model.Employee;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
  * Die anderen REST-Methoden sind im {@link EmployeeRestController}.
- * 
+ *
  * @author Thomas Freese
  */
 @Component
@@ -33,18 +36,18 @@ public class EmployeeHandler
         super();
     }
 
-    /**
-     * @param request {@link ServerRequest}
-     * @return {@link Mono}
-     */
-    public Mono<ServerResponse> createNewEmployee(final ServerRequest request)
-    {
-        Mono<Employee> employeeMono = request.bodyToMono(Employee.class);
-
-        Mono<Employee> employee = this.service.createNewEmployee(employeeMono);
-
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(employee, Employee.class);
-    }
+    // /**
+    // * @param request {@link ServerRequest}
+    // * @return {@link Mono}
+    // */
+    // public Mono<ServerResponse> createNewEmployee(final ServerRequest request)
+    // {
+    // Mono<Employee> employeeMono = request.bodyToMono(Employee.class);
+    //
+    // Mono<Employee> employee = this.service.createNewEmployee(employeeMono);
+    //
+    // return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(employee, Employee.class);
+    // }
 
     /**
      * @param request {@link ServerRequest}
@@ -56,7 +59,29 @@ public class EmployeeHandler
 
         Mono<Void> employee = this.service.deleteEmployee(id);
 
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).build(employee);
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON_UTF8).build(employee);
+    }
+
+    /**
+     * @param request {@link ServerRequest}
+     * @return {@link Publisher}
+     */
+    public Mono<ServerResponse> getAllDepartments(final ServerRequest request)
+    {
+        Flux<Department> departments = this.service.getAllDepartments();
+
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON_UTF8).body(departments, Department.class);
+    }
+
+    /**
+     * @param request {@link ServerRequest}
+     * @return {@link Publisher}
+     */
+    public Mono<ServerResponse> getAllEmployees(final ServerRequest request)
+    {
+        Flux<Employee> employees = this.service.getAllEmployees();
+
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON_UTF8).body(employees, Employee.class);
     }
 
     /**
@@ -70,6 +95,6 @@ public class EmployeeHandler
 
         Mono<Employee> employee = this.service.getEmployee(firstName, lastName);
 
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(employee, Employee.class);
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON_UTF8).body(employee, Employee.class);
     }
 }

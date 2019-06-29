@@ -14,10 +14,10 @@ import reactor.core.publisher.Mono;
 public interface EmployeeRepository
 {
     /**
-     * @param employeeMono {@link Mono}
+     * @param newEmployee {@link Employee}
      * @return {@link Mono}
      */
-    public Mono<Employee> createNewEmployee(Mono<Employee> employeeMono);
+    public Mono<Employee> createNewEmployee(Employee newEmployee);
 
     /**
      * @param id long

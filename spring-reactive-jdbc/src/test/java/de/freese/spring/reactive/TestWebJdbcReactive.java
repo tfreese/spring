@@ -6,6 +6,7 @@ package de.freese.spring.reactive;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,7 +22,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 {
         "jdbc-reactive", "test"
 })
-@Disabled
+// @Disabled
 public class TestWebJdbcReactive implements TestWebInterface
 {
     /**
@@ -55,6 +56,17 @@ public class TestWebJdbcReactive implements TestWebInterface
     void beforeEach()
     {
         this.webClient = WebClient.create("http://localhost:" + this.port);
+    }
+
+    /**
+     * @see de.freese.spring.reactive.TestWebInterface#createNewEmployee()
+     */
+    @Override
+    @Test
+    @Disabled
+    public void createNewEmployee()
+    {
+        TestWebInterface.super.createNewEmployee();
     }
 
     /**

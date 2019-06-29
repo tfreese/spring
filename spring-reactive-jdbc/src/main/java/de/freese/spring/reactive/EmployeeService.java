@@ -33,13 +33,13 @@ public class EmployeeService
     }
 
     /**
-     * @param employee {@link Mono}
+     * @param newEmployee {@link Employee}
      * @return {@link Mono}
      */
     @Transactional
-    public Mono<Employee> createNewEmployee(final Mono<Employee> employee)
+    public Mono<Employee> createNewEmployee(final Employee newEmployee)
     {
-        return this.repository.createNewEmployee(employee);
+        return this.repository.createNewEmployee(newEmployee);
     }
 
     /**

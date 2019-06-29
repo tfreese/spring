@@ -56,7 +56,7 @@ public interface TestServiceInterface
         Employee newEmployee = new Employee("Foo", "Bar", "Manufacturing");
         Employee expected = new Employee(7, "Foo", "Bar", "Manufacturing");
 
-        Mono<Employee> returned = getService().createNewEmployee(Mono.just(newEmployee));
+        Mono<Employee> returned = getService().createNewEmployee(newEmployee);
 
         // @formatter:off
         returned

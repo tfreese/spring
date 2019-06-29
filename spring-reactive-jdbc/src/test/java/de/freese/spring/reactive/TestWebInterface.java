@@ -66,7 +66,7 @@ public interface TestWebInterface
             .syncBody(new Employee("Foo", "Bar", "Manufacturing")) // ist das gleiche wie '.body(BodyInserters.fromObject(newEmployee))'
             .exchange() // Liefert auch Header und Status.
             .expectStatus().isOk()
-            .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+            .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
             .expectBody(Employee.class).isEqualTo(new Employee(7, "Foo", "Bar", "Manufacturing"))
             ;
         // @formatter:on
@@ -127,7 +127,7 @@ public interface TestWebInterface
             //.syncBody(newEmployee) // ist das gleiche wie '.body(BodyInserters.fromObject(newEmployee))'
             .exchange() // Liefert auch Header und Status.
             .expectStatus().isOk()
-            .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+            .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
             ;
         // @formatter:on
 
@@ -247,7 +247,7 @@ public interface TestWebInterface
             .accept(MediaType.APPLICATION_JSON).acceptCharset(StandardCharsets.UTF_8)
             .exchange() // Liefert auch Header und Status.
             .expectStatus().isOk()
-            .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+            .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
             .expectBody(Employee.class).isEqualTo(new Employee(3, "Sally","Wilson", "Human Resources"))
             ;
         // @formatter:on

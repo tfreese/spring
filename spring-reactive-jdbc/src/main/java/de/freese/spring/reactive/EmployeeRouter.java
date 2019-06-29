@@ -35,11 +35,15 @@ public class EmployeeRouter
     public RouterFunction<ServerResponse> route(final EmployeeHandler handler)
     {
         // @formatter:off
-		return RouterFunctions.
-				route(RequestPredicates.GET("/employee/fn/{fn}/ln/{ln}")
-						.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getEmployee)
-				.andRoute(RequestPredicates.PUT("/employee")
-						.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::createNewEmployee)
+		return RouterFunctions
+				.route(RequestPredicates.GET("/employee/fn/{fn}/ln/{ln}")
+						.and(RequestPredicates.accept(MediaType.APPLICATION_JSON_UTF8)), handler::getEmployee)
+                .andRoute(RequestPredicates.GET("/departments")
+                        .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getAllDepartments)
+				.andRoute(RequestPredicates.GET("/employees")
+                        .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getAllEmployees)
+//				.andRoute(RequestPredicates.PUT("/employee")
+//						.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::createNewEmployee)
 				.andRoute(RequestPredicates.DELETE("/employee/id/{id}")
 						.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::deleteEmployee);
 		// @formatter:on
