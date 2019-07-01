@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * {@link "https://github.com/netifi/webflux-rxjava2-jdbc-example"}
@@ -16,6 +17,7 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
  * @author Thomas Freese
  */
 @SpringBootApplication
+@EnableTransactionManagement
 public class SpringReactiveJdbcApplication
 {
     /**
