@@ -8,6 +8,8 @@
 #
 # multi-stage builds: https://docs.docker.com/develop/develop-images/multistage-build/
 
+# mvn -f spring-boot-admin clean package && mvn -f spring-eureka clean package && mvn -f spring-microservice clean package;
+
 mvn -f spring-boot-admin	clean package;
 mvn -f spring-eureka		clean package;
 mvn -f spring-microservice	clean package;

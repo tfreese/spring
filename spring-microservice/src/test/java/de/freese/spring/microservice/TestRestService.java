@@ -1,9 +1,11 @@
 // Created: 14.02.2017
 package de.freese.spring.microservice;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import de.freese.spring.Server;
-import de.freese.spring.microservice.RestService.Clock;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.concurrent.atomic.AtomicReference;
+import javax.annotation.Resource;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -17,16 +19,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import javax.annotation.Resource;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.freese.spring.Server;
+import de.freese.spring.microservice.RestService.Clock;
 
 /**
  * @author Thomas Freese
@@ -77,13 +76,16 @@ class Config
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
-        {
-                Server.class
-        }, properties = {})
+{
+        Server.class
+}, properties = {})
 @Import(Config.class)
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-// @Ignore
+@ActiveProfiles(
+{
+        "detailed"
+})
 public class TestRestService
 {
     // @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT, classes =

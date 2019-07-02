@@ -24,13 +24,12 @@ spring:
            slack:
              enabled: false
       client:
-         prefer-ip: false
+         prefer-ip: true
    jmx:
       enabled: false 
            
-
 server:
-  port: 9000
+    port: 9000
 
 #management:
 #  security:

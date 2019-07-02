@@ -12,11 +12,9 @@ eureka:
             enabled: true
         registerWithEureka: true
         serviceUrl:
-            defaultZone: http://localhost:9001/eureka
-        registration:
-            enabled: false      
+            defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
     instance:
-        preferIpAddress: false
+        preferIpAddress: true             
     
 info:
     app:
@@ -53,8 +51,18 @@ spring:
             client:
                 enabled: true
                 instance:
-                   prefer-ip: false
-                url: http://localhost:9000
+                   prefer-ip: true
+                url: ${ADMIN_SERVER:http://localhost:9000} 
+    
+---
+   
+eureka:
+    client:
+        registration:
+            enabled: false        
+
+spring:
+    profiles: detailed
     jackson:
         date-format: “yyyy-MM-dd HH:mm:ss”
         deserialization:
@@ -80,6 +88,4 @@ spring:
         throw-exception-if-no-handler-found: true
     output:
         ansi:
-            enabled: DETECT    
-    
-    
+            enabled: DETECT     

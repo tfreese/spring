@@ -4,12 +4,30 @@
 # http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html#Common_Attributes
 # ===================================================================
 
-# Sich selbst nirgendwo als Client registrieren (No Replication, Standalone Mode).
+eureka:
+    client:
+        fetchRegistry: false  
+        registerWithEureka: true
+        
+server:
+    port: 8761
+    #servlet:
+        #context-path: /eureka
+    
+spring:
+    jmx:
+        enabled: false    
+
+---
+
+spring:
+    profiles: detailed
+   
 eureka:
   client:
-    fetchRegistry: false
     #lease:
       #duration: 5
+    # Sich selbst nirgendwo als Client registrieren (No Replication, Standalone Mode).  
     registerWithEureka: false
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
@@ -23,12 +41,3 @@ eureka:
     #renewalPercentThreshold: 0.5
     enableSelfPreservation: true
     #waitTimeInMsWhenSyncEmpty: 0    
-        
-server:
-  port: 9001
-  #servlet:
-    #context-path: /eureka
-    
-spring:
-   jmx:
-      enabled: false    

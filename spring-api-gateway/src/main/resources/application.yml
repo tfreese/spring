@@ -3,88 +3,124 @@
 # https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-# curl http://localhost:9999/get<br>
-# curl http://localhost:9999/sysdate<br>
-# curl --dump-header - --header 'Host: www.hystrix.com' http://localhost:9999/delay/3
+# direkt: curl http://localhost:8081/service/sysdate
+# addrequestheader_route:    curl http://localhost:9999/get
+# rewritepath_route:         curl http://localhost:9999/sysdate 
+# loadbalancer_eureka:       curl http://localhost:9999/sysdatelb/service/sysdate
+# loadbalancer_manuel:       curl http://localhost:9999/sysdatelbmanuell/service/sysdate
+# hystrix_route:             curl --dump-header - --header 'Host: www.hystrix.com' http://localhost:9999/delay/3
  
 debug: false
 
 server:
    port: 9999
-   
-eureka:
-   client:
-      enabled: false   
 
 gateway:
-   remoteUri: http://httpbin.org:80    
-   server1: localhost:8081
-   servers: ${gateway.server1}, localhost:8082, localhost:8083   
+    remoteUri: http://httpbin.org:80    
+    server1: localhost:8081
+    servers: ${gateway.server1}, localhost:8082, localhost:8083
+    
+info:
+    app:
+        description: ${project.description}
+        name: ${project.artifactId}
+        version: ${project.version}    
+       
+eureka:
+    client:
+        enabled: true
+        healthcheck:
+            enabled: true
+        registerWithEureka: true
+        serviceUrl:
+            defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+    instance:
+        preferIpAddress: true        
 
 spring:
-   cloud:
-      config:
-         enabled: false
-      gateway:
-         enabled: true
-         metrics:
+    boot:
+        admin:
+            client:
+                enabled: true
+                instance:
+                   prefer-ip: true
+                url: ${ADMIN_SERVER:http://localhost:9000}
+    cloud:
+        config:
+            enabled: false
+        gateway:
             enabled: true
-         routes:
+            metrics:
+                enabled: true
+            routes:
          
-            - id: addrequestheader_route
-              uri: ${gateway.remoteUri}
-              predicates:
-              - Path=/get
-              filters:
-              - AddRequestHeader=Hello, World
+                - id: addrequestheader_route
+                  uri: ${gateway.remoteUri}
+                  predicates:
+                  - Path=/get
+                  filters:
+                  - name: Demo für httpbin.org
+                  - AddRequestHeader=Hello, World
               
-            - id: rewritepath_route
-              uri: http://${gateway.server1}
-              predicates:
-              - Path=/sysdate
-              filters:
-              #- RewritePath=/articles/(?<articleId>.*), /$\{articleId}    
-              - RewritePath=/sysdate, /service/sysdate
+                - id: rewritepath_route
+                  uri: http://${gateway.server1}
+                  predicates:
+                  - Path=/sysdate
+                  filters:
+                  - name: Einfache Weiterleitung
+                  #- RewritePath=/articles/(?<articleId>.*), /$\{articleId}    
+                  - RewritePath=/sysdate, /service/sysdate
               
-            - id: loadbalancer_route
-              uri: lb://date-service
-              predicates:
-              - Path=/sysdatelb
-              filters:   
-              - RewritePath=/sysdatelb, /service/sysdate
+                - id: loadbalancer_eureka
+                  uri: lb://date-service
+                  predicates:
+                  - Path=/sysdatelb/**
+                  filters:
+                  - name: eureka loadbalancer, nur wenn ribbon.eureka.enabled = true
+                  # /sysdatelb/service/sysdate -> /service/sysdate
+                  - StripPrefix=1 
+                                
+                - id: loadbalancer_manuel
+                  uri: lb://date-service-manuell
+                  predicates:
+                  - Path=/sysdatelbmanuell
+                  filters:
+                  - name: manueller loadbalancer, nur wenn ribbon.eureka.enabled = false
+                  # /sysdatelbmanuell -> /service/sysdate
+                  - RewritePath=/sysdatelbmanuell, /service/sysdate             
               
-            - id: hystrix_route
-              uri: ${gateway.remoteUri}
-              predicates:
-              - Host=*.hystrix.com
-              filters:
-              - name: Hystrix
-                args:
-                  name: mycmd
-                  fallbackUri: forward:/fallback
-   jmx:
-      enabled: false                  
-         
-date-service:
-   ribbon:
-      eureka:
-         enabled: false
-   listOfServers: ${gateway.servers}
+                - id: hystrix_route
+                  uri: ${gateway.remoteUri}
+                  predicates:
+                  - Host=*.hystrix.com
+                  filters:
+                  - name: Hystrix
+                    args:
+                      name: mycmd
+                      fallbackUri: forward:/fallback
+    jmx:
+        enabled: false                  
+
+ribbon:
+    eureka:
+        # Umschalten zwischen manueller und eureka LoadBalancer.
+        enabled: true
+                     
+date-service-manuell:
+    ribbon:
+        listOfServers: ${gateway.servers}
    
 management:
-   #server:
-      #port: 9998 
-   endpoints:
-      enabled-by-default: true
-      web:
-         base-path: /actuator
-         exposure:
-            #include: '*'
-            include: health, gateway
-   endpoint:
-      gateway:
-         enabled: true
-      health:
-         enabled: true
-         show-details: ALWAYS           
+    endpoints:
+        enabled-by-default: true
+        web:
+            exposure:
+                include: '*'
+                #include: health, gateway
+    endpoint:
+        gateway:
+            enabled: true
+        health:
+            enabled: true
+            show-details: ALWAYS           
 
