@@ -149,6 +149,6 @@ public class RestService
     {
         String sysDate = LocalDateTime.now().toString() + " on " + InetAddress.getLocalHost() + "@" + this.port;
 
-        return sysDate;
+        return sysDate + "\n";
     }
 }

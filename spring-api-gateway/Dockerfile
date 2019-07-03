@@ -12,7 +12,7 @@ COPY ${JAR_FILE} /app/app.jar
  
 WORKDIR /
 VOLUME /tmp
-EXPOSE 8761
+EXPOSE 9999
 
 ENTRYPOINT exec java \
  $JAVA_OPTS \
@@ -22,3 +22,5 @@ ENTRYPOINT exec java \
  -jar \
  /app/app.jar \
  $0 $@
+
+
