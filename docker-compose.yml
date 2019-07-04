@@ -34,7 +34,7 @@ services:
             dockerfile: Dockerfile
         image: spring-eureka:latests
         ports:
-            - 8761:8761                    
+            - 8761:8761                             
 
     spring-microservice:
         # Kein 'container_name' möglich wegen Scaling.
@@ -48,7 +48,18 @@ services:
                 -DADMIN_SERVER=http://spring-boot-admin:9000              
         depends_on:
             - spring-boot-admin
-            - spring-eureka
+            - spring-eureka           
+                               
+    loadbalancer:
+        image: "${HAPROXY_IMAGE:-dockercloud/haproxy:latest}"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        ports:
+            - 8081:80
+        depends_on:
+            - spring-microservice
+        links:
+            - spring-microservice          
             
     spring-api-gateway:
         build:
@@ -60,23 +71,14 @@ services:
                 -DEUREKA_SERVER=http://spring-eureka:8761/eureka
                 -DADMIN_SERVER=http://spring-boot-admin:9000
                 -DENABLE_EUREKA=true
+                -DMICRO_SERVICE=loadbalancer:80
         ports:
             - 8082:9999               
         depends_on:
             - spring-boot-admin
             - spring-eureka
-            - spring-microservice                     
-
-    loadbalancer:
-        image: "${HAPROXY_IMAGE:-dockercloud/haproxy:latest}"
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-        ports:
-            - 8081:80
-        depends_on:
             - spring-microservice
-        links:
-            - spring-microservice
+            - loadbalancer                  
 
 
 # localhost im Docker-Netz finden:
@@ -90,12 +92,12 @@ services:
 # https://docs.docker.com/compose/compose-file/#resources                    
 #         deploy:
 #             resources:
-#                 limits:
-#                     cpus: "1"
-#                     memory: 256M
 #                 reservations:
 #                     cpus: "0.5"
 #                     memory: 128M
+#                 limits:
+#                     cpus: "1"
+#                     memory: 256M
 
                     
 #         environment:

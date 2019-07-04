@@ -26,14 +26,6 @@ import reactor.core.publisher.Mono;
 public class GatewayApplication
 {
     /**
-     * Erstellt ein neues {@link GatewayApplication} Object.
-     */
-    public GatewayApplication()
-    {
-        super();
-    }
-
-    /**
      * @param args String[]
      */
     public static void main(final String[] args)
@@ -42,12 +34,20 @@ public class GatewayApplication
     }
 
     /**
+     * Erstellt ein neues {@link GatewayApplication} Object.
+     */
+    public GatewayApplication()
+    {
+        super();
+    }
+
+    /**
      * @return {@link Mono}
      */
     @RequestMapping("/fallback")
     public Mono<String> fallback()
     {
-        return Mono.just("fallback");
+        return Mono.just("fallback").map(r -> r + "\n");
     }
 
     // Routes werden in der application.yml konfiguriert

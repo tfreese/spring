@@ -120,7 +120,7 @@ public class GatewayTest
             .exchange()
             .expectStatus().isOk()
             .expectBody()
-            .consumeWith(response -> assertThat(response.getResponseBody()).isEqualTo("fallback".getBytes()));
+            .consumeWith(response -> assertThat(response.getResponseBody()).isEqualTo("fallback\n".getBytes()));
         // @formatter:on
     }
 }

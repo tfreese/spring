@@ -16,8 +16,8 @@ server:
    port: 9999
 
 gateway:
-    remoteUri: http://httpbin.org:80    
-    server1: localhost:8081
+    remoteUri: http://httpbin.org:80  
+    server1: ${MICRO_SERVICE:localhost:8081}
     servers: ${gateway.server1}, localhost:8082, localhost:8083
     
 info:
