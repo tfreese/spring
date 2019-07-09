@@ -38,7 +38,7 @@
 		<version_io.jsonwebtoken_jjwt>0.9.1</version_io.jsonwebtoken_jjwt>
 		<version_io.springfox_swagger>2.9.2</version_io.springfox_swagger>
 		<version_org.apache.directory.server>2.0.0.AM25</version_org.apache.directory.server>
-		<version_org.apache.qpid>7.1.3</version_org.apache.qpid>
+		<version_org.apache.qpid>7.1.4</version_org.apache.qpid>
 		<version_org.springframework.security>1.0.10.RELEASE</version_org.springframework.security>
 		<version_org.springframework.security.oauth>2.3.6.RELEASE</version_org.springframework.security.oauth>
 		<version_org.springframework.security.oauth.boot>2.1.6.RELEASE</version_org.springframework.security.oauth.boot>
