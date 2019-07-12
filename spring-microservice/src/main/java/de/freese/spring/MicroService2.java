@@ -8,7 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  *
  * @author Thomas Freese
  */
-public class Server1
+public class MicroService2
 {
     /**
      * @param args String[]
@@ -16,17 +16,17 @@ public class Server1
     public static void main(final String[] args)
     {
         // @formatter:off
-        new SpringApplicationBuilder(Server.class)
-                //.properties("server.port=8081") // Funktioniert nicht, wenn server.port in application.yml enthalten ist.
+        new SpringApplicationBuilder(MicroServiceApplication.class)
+                //.properties("server.port=8082") // Funktioniert nicht, wenn server.port in application.yml enthalten ist.
                 //.run(args);
-                .run(new String[]{"--server.port=8081"});
+                .run(new String[]{"--server.port=8082"});
         // @formatter:on
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link Server1}
+     * Erzeugt eine neue Instanz von {@link MicroService2}
      */
-    public Server1()
+    private MicroService2()
     {
         super();
     }

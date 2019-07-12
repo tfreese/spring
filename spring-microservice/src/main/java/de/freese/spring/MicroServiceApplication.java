@@ -25,7 +25,7 @@ import org.springframework.context.annotation.ComponentScan;
 {
         "de.freese.spring.microservice"
 })
-public class Server extends SpringBootServletInitializer // extends WebSecurityConfigurerAdapter // implements WebMvcConfigurer
+public class MicroServiceApplication extends SpringBootServletInitializer // extends WebSecurityConfigurerAdapter // implements WebMvcConfigurer
 {
     /**
      * Konfiguriert die SpringApplication.
@@ -37,7 +37,7 @@ public class Server extends SpringBootServletInitializer // extends WebSecurityC
     {
         //@formatter:off
         return builder
-            .sources(Server.class)
+            .sources(MicroServiceApplication.class)
             .bannerMode(Banner.Mode.OFF)
             .headless(true)
             .registerShutdownHook(true);
@@ -55,15 +55,13 @@ public class Server extends SpringBootServletInitializer // extends WebSecurityC
      */
     public static void main(final String[] args)
     {
-        // -D"--server.port=65501"
-
         configureApplication(new SpringApplicationBuilder()).run(args);
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link Server}
+     * Erzeugt eine neue Instanz von {@link MicroServiceApplication}
      */
-    public Server()
+    public MicroServiceApplication()
     {
         super();
     }

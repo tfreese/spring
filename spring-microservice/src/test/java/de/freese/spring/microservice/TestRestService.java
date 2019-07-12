@@ -24,8 +24,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.freese.spring.Server;
-import de.freese.spring.microservice.RestService.Clock;
+import de.freese.spring.MicroServiceApplication;
+import de.freese.spring.rest.RestService.Clock;
 
 /**
  * @author Thomas Freese
@@ -77,7 +77,7 @@ class Config
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
 {
-        Server.class
+        MicroServiceApplication.class
 }, properties = {})
 @Import(Config.class)
 @AutoConfigureMockMvc

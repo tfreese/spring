@@ -38,7 +38,7 @@ management:
                 include: '*'
     endpoint:
         health:
-            show-details: ALWAYS 
+            show-details: ALWAYS         
     
 server:
     port: 8081
@@ -52,7 +52,15 @@ spring:
                 enabled: true
                 instance:
                    prefer-ip: true
-                url: ${ADMIN_SERVER:http://localhost:9000} 
+                url: ${ADMIN_SERVER:http://localhost:9000}
+    datasource:
+        hikari:
+            auto-commit: true
+        initialization-mode: never
+        platform: HSQL
+        name: microservice                
+    jmx:
+        enabled: false                 
     
 ---
    
@@ -78,9 +86,7 @@ spring:
             WRAP_ROOT_VALUE: false
             WRITE_DATES_AS_TIMESTAMPS: false
             WRITE_DATES_WITH_ZONE_ID: false
-        time-zone: Europe/Berlin
-    jmx:
-        enabled: false    
+        time-zone: Europe/Berlin   
     main:
         banner-mode: 'OFF'
     mvc:

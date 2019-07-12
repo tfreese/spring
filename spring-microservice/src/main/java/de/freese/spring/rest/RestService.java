@@ -1,5 +1,5 @@
 // Created: 14.02.2017
-package de.freese.spring.microservice;
+package de.freese.spring.rest;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -7,19 +7,24 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * curl -X GET -H "Accept: application/json" -v "http://localhost:PORT/service/clock"<br>
- * curl -X GET "http://localhost:PORT/service/clock"
+ * curl -X GET "http://localhost:PORT/service/clock"<br>
+ * curl http://127.0.0.1:8081/actuator/metrics/hikaricp.connections.active?tag=pool:HikariPool-1
  *
  * @author Thomas Freese
  */
-// @RestController
-// @RequestMapping(path = "/service", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-@RestControllerForJSON("/service")
+@RestController
+@RequestMapping(path = "/service", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+// @RestControllerForJSON("/service")
 public class RestService
 {
     /**
@@ -99,6 +104,12 @@ public class RestService
     /**
      *
      */
+    @Resource
+    private JdbcTemplate jdbcTemplate = null;
+
+    /**
+     *
+     */
     // @LocalServerPort
     @Value("${server.port}")
     private int port = -1;
@@ -147,7 +158,10 @@ public class RestService
     @GetMapping("/sysdate")
     public String sysdate() throws UnknownHostException
     {
-        String sysDate = LocalDateTime.now().toString() + " on " + InetAddress.getLocalHost() + "@" + this.port;
+        // String sysDate = LocalDateTime.now().toString()
+        String sysDate = this.jdbcTemplate.queryForObject("VALUES (SYSDATE)", String.class);
+
+        sysDate += " on " + InetAddress.getLocalHost() + "@" + this.port;
 
         return sysDate + "\n";
     }
