@@ -44,6 +44,8 @@ services:
         image: spring-microservice:latest
         environment:
             - JAVA_OPTS=
+                -Xms64m
+                -Xmx256m
                 -DEUREKA_SERVER=http://spring-eureka:8761/eureka
                 -DADMIN_SERVER=http://spring-boot-admin:9000              
         depends_on:
@@ -68,6 +70,8 @@ services:
         image: spring-api-gateway:latest
         environment:
             - JAVA_OPTS=
+                -Xms64m
+                -Xmx256m
                 -DEUREKA_SERVER=http://spring-eureka:8761/eureka
                 -DADMIN_SERVER=http://spring-boot-admin:9000
                 -DENABLE_EUREKA=true

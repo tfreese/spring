@@ -84,7 +84,7 @@ class Config
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @ActiveProfiles(
 {
-        "detailed"
+        "test"
 })
 public class TestRestService
 {

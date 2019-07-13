@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * curl -X GET -H "Accept: application/json" -v "http://localhost:PORT/service/clock"<br>
- * curl -X GET "http://localhost:PORT/service/clock"<br>
+ * curl -X GET -H "Accept: application/json" -v "http://localhost:8081/service/clock"<br>
+ * curl -X GET "http://localhost:8081/service/clock"<br>
  * curl http://127.0.0.1:8081/actuator/metrics/hikaricp.connections.active?tag=pool:HikariPool-1
  *
  * @author Thomas Freese

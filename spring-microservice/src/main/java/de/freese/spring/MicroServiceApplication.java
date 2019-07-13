@@ -23,7 +23,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableDiscoveryClient
 @ComponentScan(basePackages =
 {
-        "de.freese.spring.microservice"
+        "de.freese.spring"
 })
 public class MicroServiceApplication extends SpringBootServletInitializer // extends WebSecurityConfigurerAdapter // implements WebMvcConfigurer
 {

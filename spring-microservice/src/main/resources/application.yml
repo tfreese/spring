@@ -66,11 +66,14 @@ spring:
    
 eureka:
     client:
-        registration:
-            enabled: false        
+        enabled: false        
 
 spring:
-    profiles: detailed
+    boot:
+        admin:
+            client:
+                enabled: false
+    profiles: test
     jackson:
         date-format: “yyyy-MM-dd HH:mm:ss”
         deserialization:
@@ -94,4 +97,4 @@ spring:
         throw-exception-if-no-handler-found: true
     output:
         ansi:
-            enabled: DETECT     
+            enabled: DETECT   
