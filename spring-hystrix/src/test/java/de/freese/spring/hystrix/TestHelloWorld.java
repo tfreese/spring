@@ -79,6 +79,14 @@ public class TestHelloWorld
     }
 
     /**
+     * @return {@link HystrixRequestContext}
+     */
+    protected static HystrixRequestContext getContext()
+    {
+        return context;
+    }
+
+    /**
      * Erstellt ein neues {@link TestHelloWorld} Object.
      */
     public TestHelloWorld()
