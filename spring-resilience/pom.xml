@@ -8,12 +8,12 @@
 		<artifactId>spring</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<!--groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-parent</artifactId>
-			<version>2.2.0.BUILD-SNAPSHOT</version -->
-		<relativePath />
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.0.BUILD-SNAPSHOT</version>
+		<relativePath /-->
 	</parent>
 
-	<!--groupId>de.freese.spring</groupId -->
+	<!--groupId>de.freese.spring</groupId-->
 	<artifactId>spring-resilience</artifactId>
 	<packaging>jar</packaging>
 
@@ -21,8 +21,8 @@
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
-		<spring-cloud.version>Greenwich.BUILD-SNAPSHOT</spring-cloud.version>
-		
+		<spring-cloud.version>Hoxton.BUILD-SNAPSHOT</spring-cloud.version>
+
 		<circuitbreaker-resilience4j>0.0.1.BUILD-SNAPSHOT</circuitbreaker-resilience4j>
 	</properties>
 
@@ -34,6 +34,11 @@
 				<version>${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+				<version>${circuitbreaker-resilience4j}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -108,7 +113,6 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
-			<version>${circuitbreaker-resilience4j}</version>
 		</dependency>
 
 		<!-- runtime scope -->

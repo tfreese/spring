@@ -59,7 +59,7 @@
 		<module>spring-microservice</module>
 		<module>spring-oauth</module>
 		<module>spring-reactive-jdbc</module>
-		<module>spring-resilience</module>
+		<!--module>spring-resilience</module-->
 		<module>spring-ribbon</module>
 		<module>spring-rsocket</module>
 		<module>spring-thymeleaf</module>
@@ -112,6 +112,17 @@
 					<exclusion>
 						<groupId>ch.qos.logback</groupId>
 						<artifactId>logback-classic</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.qpid</groupId>
+				<artifactId>qpid-bdbstore</artifactId>
+				<version>${version_org.apache.qpid}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.sleepycat</groupId>
+						<artifactId>je</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
