@@ -1,7 +1,9 @@
 # docker build --build-arg JAR_FILE=<JAR in target Folder> -t <IMAGE_NAME>:<VERSION> .;
 # docker build --build-arg JAR_FILE=<JAR in target Folder> -t <IMAGE_NAME>:<VERSION> -f <Dockerfile>;
 # docker run [-d] --cpus="2" --name <CONTAINER_NAME> -e JAVA_OPTS="-Xms64m -Xmx128m" -p 8081:8081 <IMAGE_NAME>:<VERSION> --spring.profiles.active=test;
-FROM openjdk:11-jre-slim
+
+#FROM localhost:5083/openjdk:11-jre-slim
+FROM localhost:5083/openjdk:12
  
 MAINTAINER Thomas Freese <commercial@freese-home.de>
  

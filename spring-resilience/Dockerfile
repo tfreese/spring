@@ -3,14 +3,9 @@
 # docker run [-d] --cpus="2" --name <CONTAINER_NAME> -e JAVA_OPTS="-Xms32m -Xmx128m" -p 8080:8080 <IMAGE_NAME>:<VERSION> --spring.profiles.active=test;
 # -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"
 # docker start/stop <CONTAINER_NAME>;
-#
-#FROM openjdk:11-alpine
- 
-FROM openjdk:11-jre-slim
-# 302 MB
- 
-#FROM openjdk:11
-# 844 MB1
+
+#FROM localhost:5083/openjdk:11-jre-slim
+FROM localhost:5083/openjdk:12
  
 MAINTAINER Thomas Freese <commercial@freese-home.de>
  
