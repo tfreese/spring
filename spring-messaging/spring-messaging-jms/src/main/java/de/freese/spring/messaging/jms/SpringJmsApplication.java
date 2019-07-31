@@ -34,20 +34,6 @@ public class SpringJmsApplication
     public static void main(final String[] args) throws Exception
     {
         SpringApplication.run(SpringJmsApplication.class, args);
-
-        // try (ConfigurableApplicationContext context = SpringApplication.run(SpringJmsApplication.class, args))
-        // {
-        // JmsTemplate jmsTemplate = context.getBean(JmsTemplate.class);
-        //
-        // // Send a message with a POJO - the template reuse the message converter
-        // for (int i = 0; i < 5; i++)
-        // {
-        // System.out.println("Sending an email message: " + (i + 1));
-        // jmsTemplate.convertAndSend("mailbox", new Email("info@example.com", "Hello-" + (i + 1)));
-        // }
-        //
-        // Thread.sleep(1000);
-        // }
     }
 
     /**

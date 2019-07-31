@@ -51,22 +51,6 @@ public class SpringRabbitMqApplication
         return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
     }
 
-    // /**
-    // * @param connectionFactory {@link ConnectionFactory}
-    // * @param listenerAdapter {@link MessageListenerAdapter}
-    // * @return {@link MessageListenerContainer}
-    // */
-    // @Bean
-    // public MessageListenerContainer container(final ConnectionFactory connectionFactory, final MessageListenerAdapter listenerAdapter)
-    // {
-    // SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-    // container.setConnectionFactory(connectionFactory);
-    // container.setQueueNames(queueName);
-    // container.setMessageListener(listenerAdapter);
-    //
-    // return container;
-    // }
-
     /**
      * @return {@link TopicExchange}
      */
@@ -99,8 +83,25 @@ public class SpringRabbitMqApplication
     // * @return {@link MessageListenerAdapter}
     // */
     // @Bean
-    // public MessageListenerAdapter listenerAdapter(final Receiver receiver)
+    // public MessageListenerAdapter myMessageListenerAdapter(final Receiver receiver)
     // {
     // return new MessageListenerAdapter(receiver, "receiveMessage");
+    // }
+
+    // /**
+    // * @param connectionFactory {@link ConnectionFactory}
+    // * @param listenerAdapter {@link MessageListenerAdapter}
+    // * @return {@link MessageListenerContainer}
+    // */
+    // @Bean
+    // public MessageListenerContainer myMmessageListenerContainer(final ConnectionFactory connectionFactory, final MessageListenerAdapter
+    // myMessageListenerAdapter)
+    // {
+    // SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+    // container.setConnectionFactory(connectionFactory);
+    // container.setQueueNames(queueName);
+    // container.setMessageListener(myMessageListenerAdapter);
+    //
+    // return container;
     // }
 }

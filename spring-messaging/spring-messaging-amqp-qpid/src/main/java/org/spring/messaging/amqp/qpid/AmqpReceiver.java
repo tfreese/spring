@@ -2,7 +2,7 @@
  * Created: 31.01.2019
  */
 
-package org.spring.messaging.amqp.rabbitmq;
+package org.spring.messaging.amqp.qpid;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
  * @author Thomas Freese
  */
 @Component
-public class Receiver
+public class AmqpReceiver
 {
     /**
-     * Erstellt ein neues {@link Receiver} Object.
+     * Erstellt ein neues {@link AmqpReceiver} Object.
      */
-    public Receiver()
+    public AmqpReceiver()
     {
         super();
     }
@@ -27,8 +27,12 @@ public class Receiver
      * @param email {@link Email}
      * @param queue String
      */
-    @RabbitListener(queues = SpringRabbitMqApplication.queueName)
+    @RabbitListener(queues = SpringQpidApplication.queueName)
     // @SendTo("returnQueue")
+    // public void receiveMessage(final Email email)
+    // {
+    // System.out.println(Thread.currentThread().getName() + ": Received <" + email + ">");
+    // }
     public void receiveMessage(final Email email, @Header(AmqpHeaders.CONSUMER_QUEUE) final String queue)
     {
         System.out.println(Thread.currentThread().getName() + ": Received from Queue '" + queue + "' <" + email + ">");

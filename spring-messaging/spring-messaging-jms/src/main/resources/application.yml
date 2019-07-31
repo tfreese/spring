@@ -18,8 +18,7 @@ spring:
       #password: 
       in-memory: true
       pool:
-         enabled: false
-         max-connections: 1        
+         enabled: false    
 #    jms:
 #       cache:
 #          enabled: true
