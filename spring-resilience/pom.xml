@@ -22,8 +22,6 @@
 
 	<properties>
 		<spring-cloud.version>Hoxton.BUILD-SNAPSHOT</spring-cloud.version>
-
-		<circuitbreaker-resilience4j>0.0.1.BUILD-SNAPSHOT</circuitbreaker-resilience4j>
 	</properties>
 
 	<dependencyManagement>
@@ -37,8 +35,10 @@
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
-				<version>${circuitbreaker-resilience4j}</version>
+				<artifactId>spring-cloud-circuitbreaker-dependencies</artifactId>
+				<version>${version_org.springframework.cloud_circuitbreaker}</version>
+				<type>pom</type>
+				<scope>import</scope>			
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

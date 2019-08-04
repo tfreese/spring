@@ -33,14 +33,13 @@
 
 	<properties>
 		<version_com.esotericsoftware_kryo>4.0.2</version_com.esotericsoftware_kryo>
-
 		<version_de.javakaffee_kryo-serializers>0.45</version_de.javakaffee_kryo-serializers>
 		<version_io.jsonwebtoken_jjwt>0.9.1</version_io.jsonwebtoken_jjwt>
 		<version_io.springfox_swagger>2.9.2</version_io.springfox_swagger>
 		<version_org.apache.directory.server>2.0.0.AM25</version_org.apache.directory.server>
 		<version_org.apache.qpid>7.1.4</version_org.apache.qpid>
-		<version_org.springframework.security>1.0.10.RELEASE</version_org.springframework.security>
-		<version_org.springframework.security.oauth>2.3.6.RELEASE</version_org.springframework.security.oauth>
+		
+		<version_org.springframework.cloud_circuitbreaker>0.0.1.BUILD-SNAPSHOT</version_org.springframework.cloud_circuitbreaker>
 		<version_org.springframework.security.oauth.boot>2.1.6.RELEASE</version_org.springframework.security.oauth.boot>
 	</properties>
 
@@ -127,16 +126,6 @@
 				</exclusions>
 			</dependency>
 			<dependency>
-				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-jwt</artifactId>
-				<version>${version_org.springframework.security}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.security.oauth</groupId>
-				<artifactId>spring-security-oauth2</artifactId>
-				<version>${version_org.springframework.security.oauth}</version>
-			</dependency>
-			<dependency>
 				<groupId>org.springframework.security.oauth.boot</groupId>
 				<artifactId>spring-security-oauth2-autoconfigure</artifactId>
 				<version>${version_org.springframework.security.oauth.boot}</version>
@@ -150,9 +139,4 @@
 		<!-- provided scope -->
 		<!-- test scope -->
 	</dependencies>
-	<!--
-		https://spring.io/blog/2018/12/19/spring-tips-reactive-sql-data-access-with-spring-data-r2dbc
-		http://r2dbc.io
-		spring-context-indexer
-	-->
 </project>
