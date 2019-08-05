@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>de.freese.spring</groupId>
@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>de.freese</groupId>
 			<artifactId>r2dbc-over-jdbc</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.r2dbc</groupId>
