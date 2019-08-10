@@ -37,7 +37,7 @@ public class EmployeeRouter
         // @formatter:off
 		return RouterFunctions
 				.route(RequestPredicates.GET("/employee/fn/{fn}/ln/{ln}")
-						.and(RequestPredicates.accept(MediaType.APPLICATION_JSON_UTF8)), handler::getEmployee)
+						.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getEmployee)
                 .andRoute(RequestPredicates.GET("/departments")
                         .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getAllDepartments)
 				.andRoute(RequestPredicates.GET("/employees")

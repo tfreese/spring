@@ -40,7 +40,7 @@
 		<version_org.apache.qpid>7.1.4</version_org.apache.qpid>
 		
 		<version_org.springframework.cloud_circuitbreaker>0.0.1.BUILD-SNAPSHOT</version_org.springframework.cloud_circuitbreaker>
-		<version_org.springframework.security.oauth.boot>2.1.6.RELEASE</version_org.springframework.security.oauth.boot>
+		<version_org.springframework.security.oauth.boot>2.1.7.RELEASE</version_org.springframework.security.oauth.boot>
 	</properties>
 
 	<modules>
@@ -68,6 +68,23 @@
 
 	<dependencyManagement>
 		<dependencies>
+		
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-dependencies</artifactId>
+				<version>${version_de.codecentric_spring-boot-admin}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>	
+					
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-circuitbreaker-dependencies</artifactId>
+				<version>${version_org.springframework.cloud_circuitbreaker}</version>
+				<type>pom</type>
+				<scope>import</scope>			
+			</dependency>												
+								
 			<dependency>
 				<groupId>com.esotericsoftware</groupId>
 				<artifactId>kryo</artifactId>

@@ -48,8 +48,6 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: false
       WRITE_DATES_WITH_ZONE_ID: false
     time-zone: Europe/Berlin
-  jmx:
-    enabled: false
   main:
     banner-mode: CONSOLE
     web-application-type: SERVLET    

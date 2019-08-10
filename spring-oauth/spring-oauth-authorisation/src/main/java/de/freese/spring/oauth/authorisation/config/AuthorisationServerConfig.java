@@ -117,9 +117,18 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     {
         // @formatter:off
         clients
-            .withClientDetails(myCientDetailsService())
+            .withClientDetails(oauthClientDetailsService())
         ;
         // @formatter:on
+    }
+
+    /**
+     * @return {@link OAuth2AccessDeniedHandler}
+     */
+    @Bean
+    public OAuth2AccessDeniedHandler oauthAccessDeniedHandler()
+    {
+        return new OAuth2AccessDeniedHandler();
     }
 
     /**
@@ -127,7 +136,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
      * @throws Exception Falls was schief geht.
      */
     @Bean
-    public ClientDetailsService myCientDetailsService() throws Exception
+    public ClientDetailsService oauthClientDetailsService() throws Exception
     {
         // @formatter:off
         return new InMemoryClientDetailsServiceBuilder()
@@ -154,15 +163,6 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
                 .build()
         ;
         // @formatter:on
-    }
-
-    /**
-     * @return {@link OAuth2AccessDeniedHandler}
-     */
-    @Bean
-    public OAuth2AccessDeniedHandler oauthAccessDeniedHandler()
-    {
-        return new OAuth2AccessDeniedHandler();
     }
 
     /**

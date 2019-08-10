@@ -4,13 +4,10 @@
 
 package de.freese.spring.thymeleaf.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
-import de.freese.spring.thymeleaf.ThymeleafApplication;
-import de.freese.spring.thymeleaf.model.Person;
-import io.netty.handler.ssl.SslContext;
-import io.netty.handler.ssl.SslContextBuilder;
-import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import javax.annotation.Resource;
+import javax.net.ssl.TrustManagerFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -30,28 +27,30 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
+import de.freese.spring.thymeleaf.ThymeleafApplication;
+import de.freese.spring.thymeleaf.model.Person;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
-
-import javax.annotation.Resource;
-import javax.net.ssl.TrustManagerFactory;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 /**
  * @author Thomas Freese
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
-        {
-                ThymeleafApplication.class
-        })
+{
+        ThymeleafApplication.class
+})
 @AutoConfigureMockMvc
 @ActiveProfiles(
-        {
-                "test", "with-ssl"
-        })
+{
+        "test", "with-ssl"
+})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRestWithWebClientSSL implements RestTestCase
 {
@@ -178,27 +177,27 @@ public class TestRestWithWebClientSSL implements RestTestCase
 
 //        RequestHeadersSpec<?> request = webClient.get()
 //                .repository("/actuator/health")
-//                .accept(MediaType.APPLICATION_JSON_UTF8)
+//                .accept(MediaType.APPLICATION_JSON)
 //                ;
 
 //        Mono<String> response = webClient.get()
 //                .repository("/actuator/health")
-//                .accept(MediaType.APPLICATION_JSON_UTF8)
+//                .accept(MediaType.APPLICATION_JSON)
 //                .retrieve() // Liefert nur den Body.
 //                .bodyToMono(String.class)
 //                ;
 
 //        Mono<String> response = webClient.get()
 //                .repository("/actuator/health")
-//                .accept(MediaType.APPLICATION_JSON_UTF8)
+//                .accept(MediaType.APPLICATION_JSON)
 //                .exchange() // Liefert auch Header und Status.
-//                .doOnSuccess(clientResponse -> Assert.assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, clientResponse.headers().asHttpHeaders().getFirst("Content-Type")))
+//                .doOnSuccess(clientResponse -> Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, clientResponse.headers().asHttpHeaders().getFirst("Content-Type")))
 //                .flatMap(clientResponse -> clientResponse.bodyToMono(String.class))
 //                ;
 
         Mono<ResponseEntity<String>> response = webClient.get()
                 .uri("/actuator/health")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON)
                 .exchange() // Liefert auch Header und Status.
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -206,7 +205,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
 
         ResponseEntity<String> responseEntity = response.block();
 
-        Assert.assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
+        Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
 
         String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
         Assert.assertEquals("UP", status);
@@ -224,7 +223,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
         // @formatter:off
 //        Flux<Person> personFlux = webClient.get()
 //                .repository("/rest/person/personList")
-//                .accept(MediaType.APPLICATION_JSON_UTF8)
+//                .accept(MediaType.APPLICATION_JSON)
 //                .retrieve()
 //                .onStatus(status ->  !HttpStatus.UNAUTHORIZED.equals(status) , response -> Mono.just(new Exception()))
 //                .bodyToFlux(Person.class)
@@ -234,7 +233,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
 //                ;
         Mono<ResponseEntity<String>> response = webClient.get()
                 .uri("/rest/person/personList")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -260,7 +259,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
 //                .build()
 //                .get()
 //                .repository("/rest/person/personList")
-//                .accept(MediaType.APPLICATION_JSON_UTF8)
+//                .accept(MediaType.APPLICATION_JSON)
 //                .retrieve()
 //                .onStatus(status ->  !HttpStatus.UNAUTHORIZED.equals(status), response -> Mono.just(new Exception()))
 //                .bodyToFlux(Person.class)
@@ -270,7 +269,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
                 .build()
                 .get()
                 .uri("/rest/person/personList")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -296,7 +295,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
                 .build()
                 .get()
                 .uri("/rest/person/personList")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -322,7 +321,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
                    .build()
                    .get()
                    .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_JSON_UTF8)
+                   .accept(MediaType.APPLICATION_JSON)
                    .retrieve()
                    .bodyToFlux(Person.class)
                    ;
@@ -381,7 +380,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
                 .uri("/rest/person/personList")
                 .contentType(MediaType.APPLICATION_JSON)
                 //.body(Mono.just(newPerson), Person.class)
-                .syncBody(newPerson)
+                .body(newPerson)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -413,7 +412,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
                 .uri("/rest/person/personAdd")
                 .contentType(MediaType.APPLICATION_JSON)
                 //.body(Mono.just(newPerson), Person.class)
-                .syncBody(newPerson)
+                .body(newPerson)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -429,7 +428,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
                    .build()
                    .get()
                    .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_JSON_UTF8)
+                   .accept(MediaType.APPLICATION_JSON)
                    .retrieve()
                    .bodyToFlux(Person.class)
                    ;

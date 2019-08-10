@@ -23,7 +23,7 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
  */
 @Configuration
 @EnableAuthorizationServer
-public class AuthServerConfig extends AuthorizationServerConfigurerAdapter
+public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdapter
 {
     // /**
     // *
@@ -44,9 +44,9 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter
     // private UserDetailsService userDetailsService = null;
 
     /**
-     * Erstellt ein neues {@link AuthServerConfig} Object.
+     * Erstellt ein neues {@link AuthorisationServerConfig} Object.
      */
-    public AuthServerConfig()
+    public AuthorisationServerConfig()
     {
         super();
     }
@@ -67,31 +67,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter
     public AuthorizationCodeServices authorizationCodeServices()
     {
         return new InMemoryAuthorizationCodeServices();
-    }
-
-    /**
-     * @return {@link ClientDetailsService}
-     * @throws Exception Falls was schief geht.
-     */
-    @Bean
-    public ClientDetailsService clientDetailsService() throws Exception
-    {
-        // .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token", "implicit")
-
-        // @formatter:off
-        return new InMemoryClientDetailsServiceBuilder()
-                .withClient("my-client-id")
-                    .secret(this.passwordEncoder.encode("secret"))
-                    .authorizedGrantTypes("authorization_code")
-                    .scopes("user_info") // .scopes("read", "write", "trust")
-                    .autoApprove(true)
-                    .redirectUris("http://localhost:8082/ui/login", "http://localhost:8083/ui2/login", "http://localhost:8082/login")
-                    .accessTokenValiditySeconds(300) // 5 Minuten
-                    .refreshTokenValiditySeconds(3600) // 1 Stunde
-                .and()
-                .build()
-                ;
-        // @formatter:on
     }
 
     /**
@@ -135,7 +110,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter
     {
         // @formatter:off
         clients
-            .withClientDetails(clientDetailsService())
+            .withClientDetails(oauthClientDetailsService())
             ;
         // @formatter:on
 
@@ -144,6 +119,31 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter
         // .withClient("SampleClientId")
         // .secret...
         // ;
+    }
+
+    /**
+     * @return {@link ClientDetailsService}
+     * @throws Exception Falls was schief geht.
+     */
+    @Bean
+    public ClientDetailsService oauthClientDetailsService() throws Exception
+    {
+        // .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token", "implicit")
+
+        // @formatter:off
+        return new InMemoryClientDetailsServiceBuilder()
+                .withClient("my-client-id")
+                    .secret(this.passwordEncoder.encode("secret"))
+                    .authorizedGrantTypes("authorization_code")
+                    .scopes("user_info") // .scopes("read", "write", "trust")
+                    .autoApprove(true)
+                    .redirectUris("http://localhost:8082/ui/login", "http://localhost:8083/ui2/login", "http://localhost:8082/login")
+                    .accessTokenValiditySeconds(300) // 5 Minuten
+                    .refreshTokenValiditySeconds(3600) // 1 Stunde
+                .and()
+                .build()
+                ;
+        // @formatter:on
     }
 
     /**

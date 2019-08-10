@@ -2,7 +2,7 @@
 package de.freese.spring.hateoas.model;
 
 import java.util.Objects;
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Thomas Freese
  */
 @JsonIgnoreProperties(ignoreUnknown = false)
-public class GreetingResourceSupport extends ResourceSupport
+public class GreetingRepresentationModel extends RepresentationModel<GreetingRepresentationModel>
 {
     // /**
     // *
@@ -33,12 +33,12 @@ public class GreetingResourceSupport extends ResourceSupport
     // }
 
     /**
-     * Erzeugt eine neue Instanz von {@link GreetingResourceSupport}
+     * Erzeugt eine neue Instanz von {@link GreetingRepresentationModel}
      *
      * @param message String
      */
     @JsonCreator
-    public GreetingResourceSupport(final @JsonProperty("greeting") String message)
+    public GreetingRepresentationModel(final @JsonProperty("greeting") String message)
     {
         super();
 

@@ -161,7 +161,7 @@ public class EmbeddedLdapServer
     /**
      * @param name String; mydomain
      * @param baseStructure String; dc=mydomain,dc=org
-     * @return
+     * @return {@link JdbmPartition}
      * @throws Exception Falls was schief geht.
      */
     public JdbmPartition addPartition(final String name, final String baseStructure) throws Exception

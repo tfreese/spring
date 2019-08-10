@@ -59,7 +59,7 @@ public class EmployeeHandler
 
         Mono<Void> employee = this.service.deleteEmployee(id);
 
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON_UTF8).build(employee);
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).build(employee);
     }
 
     /**
@@ -70,7 +70,7 @@ public class EmployeeHandler
     {
         Flux<Department> departments = this.service.getAllDepartments();
 
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON_UTF8).body(departments, Department.class);
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(departments, Department.class);
     }
 
     /**
@@ -81,7 +81,7 @@ public class EmployeeHandler
     {
         Flux<Employee> employees = this.service.getAllEmployees();
 
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON_UTF8).body(employees, Employee.class);
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(employees, Employee.class);
     }
 
     /**
@@ -95,6 +95,6 @@ public class EmployeeHandler
 
         Mono<Employee> employee = this.service.getEmployee(firstName, lastName);
 
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON_UTF8).body(employee, Employee.class);
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(employee, Employee.class);
     }
 }

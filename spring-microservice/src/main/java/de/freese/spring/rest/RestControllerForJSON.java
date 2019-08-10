@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Annotation für einen {@link RestController} der nur {@link MediaType#APPLICATION_JSON_UTF8} produziert.
+ * Annotation für einen {@link RestController} der nur {@link MediaType#APPLICATION_JSON} produziert.
  *
  * @author Thomas Freese
  */
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public @interface RestControllerForJSON
 {
     /**

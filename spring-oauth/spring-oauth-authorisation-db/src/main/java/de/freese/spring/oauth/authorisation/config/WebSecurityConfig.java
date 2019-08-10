@@ -6,6 +6,8 @@ package de.freese.spring.oauth.authorisation.config;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Resource;
+import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,29 +16,31 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
  * @author Thomas Freese
  */
-@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
     /**
-     * Erstellt ein neues {@link SecurityConfig} Object.
+    *
+    */
+    @Resource
+    private DataSource dataSource = null;
+
+    /**
+     * Erstellt ein neues {@link WebSecurityConfig} Object.
      */
-    public SecurityConfig()
+    public WebSecurityConfig()
     {
         super();
     }
@@ -58,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception
     {
         // @formatter:off
-        auth//.jdbcAuthentication().userCache(userCache
+        auth//.jdbcAuthentication().userCache(userCache)
             .eraseCredentials(true)
             .userDetailsService(userDetailsService())
             .passwordEncoder(passwordEncoder())
@@ -97,21 +101,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public PasswordEncoder passwordEncoder()
     {
-        String defaultIdForEncode = "bcrypt";
-        Map<String, PasswordEncoder> encoders = new HashMap<>();
-
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
-
         Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret");
         pbkdf2passwordEncoder.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
-        encoders.put(defaultIdForEncode, bCryptPasswordEncoder);
-        encoders.put("pbkdf2", pbkdf2passwordEncoder);
-        encoders.put("noop", NoOpPasswordEncoder.getInstance());
-        encoders.put("sha256", new StandardPasswordEncoder("mySecret"));
+        Map<String, PasswordEncoder> encoders = new HashMap<>();
+        encoders.put("BCRYPT", new BCryptPasswordEncoder(10));
+        encoders.put("PBKDF2", pbkdf2passwordEncoder);
+        encoders.put("NOOP", new PasswordEncoder()
+        {
+            @Override
+            public String encode(final CharSequence rawPassword)
+            {
+                return rawPassword.toString();
+            }
 
-        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder(defaultIdForEncode, encoders);
+            @Override
+            public boolean matches(final CharSequence rawPassword, final String encodedPassword)
+            {
+                return rawPassword.toString().equals(encodedPassword);
+            }
+        });
+
+        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("NOOP", encoders);
         // passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
 
         return passwordEncoder;
@@ -127,11 +139,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         // "{bcrypt}" + passwordEncoder.encode("pw")
         // PasswordEncoder passwordEncoder = passwordEncoder();
 
-        InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
-        userDetailsManager.createUser(User.withUsername("admin").password("{noop}pw").roles("ADMIN", "USER").build());
-        userDetailsManager.createUser(User.withUsername("user").password("{noop}pw").roles("USER").build());
-
-        UserDetailsService userDetailsService = userDetailsManager;
+        JdbcDaoImpl userDetailsService = new JdbcDaoImpl();
+        userDetailsService.setDataSource(this.dataSource);
+        userDetailsService.setUsersByUsernameQuery("select username, password, enabled from USER where username = ?");
+        userDetailsService.setAuthoritiesByUsernameQuery("select username, role from AUTHORITY where username = ?");
 
         return userDetailsService;
     }

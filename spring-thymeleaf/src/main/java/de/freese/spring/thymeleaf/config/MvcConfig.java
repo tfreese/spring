@@ -133,9 +133,9 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
             .ignoreAcceptHeader(false)
             .useRegisteredExtensionsOnly(true)
             .ignoreUnknownPathExtensions(false)
-            .defaultContentType(MediaType.APPLICATION_JSON_UTF8)
+            .defaultContentType(MediaType.APPLICATION_JSON)
             .mediaType("xml", MediaType.APPLICATION_XML)
-            .mediaType("json", MediaType.APPLICATION_JSON_UTF8);
+            .mediaType("json", MediaType.APPLICATION_JSON);
         // @formatter:on
     }
 

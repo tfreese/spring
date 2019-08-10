@@ -97,9 +97,7 @@ spring:
                   - name: Hystrix
                     args:
                       name: mycmd
-                      fallbackUri: forward:/fallback
-    jmx:
-        enabled: false                  
+                      fallbackUri: forward:/fallback                  
 
 ribbon:
     eureka:
@@ -127,8 +125,17 @@ management:
 ---
 
 spring:
+    boot:
+        admin:
+            client:
+                enabled: false 
     profiles: test                       
 
 eureka:
     client:
         enabled: false
+        
+ribbon:
+    eureka:
+        enabled: false
+              

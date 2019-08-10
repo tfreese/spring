@@ -5,8 +5,8 @@ package de.freese.spring.gateway;
 import static org.assertj.core.api.Assertions.assertThat;
 import javax.annotation.Resource;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +17,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 /***
  * @author Thomas Freese
  */
-// @Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 // , properties =
@@ -31,6 +30,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 {
         "test"
 })
+@Disabled
 public class GatewayTest
 {
     /**
@@ -75,7 +75,7 @@ public class GatewayTest
      * Separater Server wird benötigt -> spring-microservice
      */
     @Test
-    @Ignore
+    @Disabled
     public void test030Sysdate()
     {
        // @formatter:off
@@ -93,7 +93,7 @@ public class GatewayTest
      * Separater Server wird benötigt -> spring-microservice
      */
     @Test
-    @Ignore
+    @Disabled
     public void test040SysdateLB()
     {
        // @formatter:off

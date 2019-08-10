@@ -9,8 +9,6 @@ spring:
             auto-commit: true
         initialization-mode: never
         platform: h2
-    jmx:
-        enabled: false
     profiles:
         active: jdbc
 
@@ -27,4 +25,9 @@ management:
 server:
     http2:
         enabled: true 
-    port: 8080 
+    port: 8080
+    
+---
+
+spring:
+    profiles: test     

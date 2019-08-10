@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Thomas Freese
  */
 @RestController
-@RequestMapping(path = "/service", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path = "/service", produces = MediaType.APPLICATION_JSON_VALUE)
 // @RestControllerForJSON("/service")
 public class RestService
 {
@@ -129,7 +129,7 @@ public class RestService
      */
     @GetMapping(path = "/clock", produces =
     {
-            MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE
+            MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE
     })
     public Clock clock()
     {

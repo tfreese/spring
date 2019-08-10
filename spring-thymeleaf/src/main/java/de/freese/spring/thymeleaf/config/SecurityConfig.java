@@ -70,7 +70,7 @@ public class SecurityConfig
          * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#afterPropertiesSet()
          */
         @Override
-        public void afterPropertiesSet() throws Exception
+        public void afterPropertiesSet()
         {
             setRealmName("Tommy");
 
@@ -87,7 +87,7 @@ public class SecurityConfig
         {
             response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
             @SuppressWarnings("resource")
             PrintWriter writer = response.getWriter();

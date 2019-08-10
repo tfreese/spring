@@ -6,6 +6,7 @@ package de.freese.spring.reactive;
 
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,6 +22,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 {
         "jdbc", "test"
 })
+@Disabled
 public class TestWebJdbc implements TestWebInterface
 {
     /**

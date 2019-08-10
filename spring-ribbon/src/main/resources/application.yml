@@ -11,9 +11,7 @@ logging:
 spring:
    cloud:
       config:
-         enabled: false
-   jmx:
-      enabled: false      
+         enabled: false     
    main:
       allow-bean-definition-overriding: true
       banner-mode: "OFF"

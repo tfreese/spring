@@ -84,10 +84,10 @@ public class TestRestWithMockMvc implements RestTestCase
     {
         // @formatter:off
         this.mockMvc.perform(get("/actuator/health")
-                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .accept(MediaType.APPLICATION_JSON_VALUE))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").exists())
             .andExpect(jsonPath("$.status").value("UP"));
         // @formatter:on
@@ -148,9 +148,9 @@ public class TestRestWithMockMvc implements RestTestCase
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
                 .with(httpBasic("user", "pw"))
-                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .accept(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andDo(result -> {
                 List<Person> list = this.objectMapper.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<List<Person>>()
                 {
@@ -205,7 +205,7 @@ public class TestRestWithMockMvc implements RestTestCase
         // @formatter:off
         this.mockMvc.perform(post("/rest/person/personAdd")
                 .with(httpBasic("user", "pw"))
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"firstName\":\"Thomas\",\"lastName\":\"Freese\"}"))
             .andExpect(status().isForbidden());
         // @formatter:on
@@ -222,7 +222,7 @@ public class TestRestWithMockMvc implements RestTestCase
         // @formatter:off
         this.mockMvc.perform(post("/rest/person/personAdd")
                     .with(httpBasic("admin", "pw"))
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"firstName\":\"Thomas\", \"lastName\":\"Freese\"}"))
             .andDo(print())
             .andExpect(status().isOk());
@@ -233,9 +233,9 @@ public class TestRestWithMockMvc implements RestTestCase
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
                 .with(httpBasic("user", "pw"))
-                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .accept(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andDo(result -> {
                 List<Person> list = this.objectMapper.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<List<Person>>()
                 {
@@ -264,9 +264,9 @@ public class TestRestWithMockMvc implements RestTestCase
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
                 .header("my-token", "user")
-                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .accept(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andDo(result -> {
                 List<Person> list = this.objectMapper.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<List<Person>>()
                 {

@@ -158,14 +158,14 @@ public class TestRestWithJreHttpClient implements RestTestCase
         // @formatter:off
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(this.rootUri + "/actuator/health"))
-                .header("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .GET()
                 .build();
         // @formatter:on
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        Assert.assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, response.headers().firstValue("Content-Type").get());
+        Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, response.headers().firstValue("Content-Type").get());
 
         String status = JsonPath.parse(response.body()).read("$.status");
         Assert.assertEquals("UP", status);
@@ -183,7 +183,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
         // @formatter:off
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .GET()
                 .build();
         // @formatter:on
@@ -213,7 +213,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
         // @formatter:off
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .GET()
                 .build()
                 ;
@@ -245,7 +245,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
         // @formatter:off
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .GET()
                 .build()
                 ;
@@ -268,7 +268,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
         // @formatter:off
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .GET()
                 .build()
                 ;
@@ -325,7 +325,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
         // @formatter:off
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(this.rootUri + "/rest/person/personAdd"))
-                .header("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .POST(BodyPublishers.ofString("{\"firstName\":\"Thomas\",\"lastName\":\"Freese\"}", StandardCharsets.UTF_8))
                 .build()
                 ;
@@ -349,7 +349,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
         // @formatter:off
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(this.rootUri + "/rest/person/personAdd"))
-                .header("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .POST(BodyPublishers.ofString("{\"firstName\":\"Thomas\",\"lastName\":\"Freese\"}", StandardCharsets.UTF_8))
                 .build()
                 ;
@@ -364,7 +364,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
         // @formatter:off
         request = HttpRequest.newBuilder()
                 .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .GET()
                 .build()
                 ;
@@ -392,7 +392,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
         // @formatter:off
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .header("my-token", "user")
                 .GET()
                 .build()

@@ -158,13 +158,13 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .interceptors(new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/actuator/health", String.class);
 
-        Assert.assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
+        Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
 
         String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
         Assert.assertEquals("UP", status);
@@ -233,7 +233,7 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
-                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE))
+                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 
@@ -251,7 +251,7 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
                 });
         List<Person> persons = responseEntity.getBody();
 
-        // Assert.assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, responseEntity.getHeaders().getFirst("Accept"));
+        // Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Accept"));
         // Assert.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
         Assert.assertNotNull(persons);
         Assert.assertTrue(persons.size() >= 2);
@@ -285,7 +285,7 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
                 });
         List<Person> persons = responseEntity.getBody();
 
-        // Assert.assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, responseEntity.getHeaders().getFirst("Accept"));
+        // Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Accept"));
         // Assert.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
         Assert.assertNotNull(persons);
         Assert.assertTrue(persons.size() >= 2);
@@ -301,7 +301,7 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
-                        new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE))
+                        new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 
@@ -319,7 +319,7 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("admin", "pw", StandardCharsets.UTF_8),
-                        new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE))
+                        new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 
@@ -330,7 +330,7 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
         // @formatter:off
         restTemplate = this.restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
-                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE))
+                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 
@@ -354,7 +354,7 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new HttpHeaderInterceptor("my-token", "user"),
-                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE))
+                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 

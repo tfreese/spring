@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Thomas Freese
  */
 @RestController
-@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestService
 {
     /**

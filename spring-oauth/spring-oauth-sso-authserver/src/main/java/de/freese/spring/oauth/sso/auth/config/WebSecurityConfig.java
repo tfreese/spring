@@ -1,14 +1,21 @@
 package de.freese.spring.oauth.sso.auth.config;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
 
 /**
  * @author Thomas Freese
@@ -16,12 +23,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 // @EnableGlobalMethodSecurity(securedEnabled = true)
 @Order(1)
-public class SecurityConfig extends WebSecurityConfigurerAdapter
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
     /**
-     * Erstellt ein neues {@link SecurityConfig} Object.
+     * Erstellt ein neues {@link WebSecurityConfig} Object.
      */
-    public SecurityConfig()
+    public WebSecurityConfig()
     {
         super();
     }
@@ -82,29 +89,52 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public PasswordEncoder passwordEncoder()
     {
-        return NoOpPasswordEncoder.getInstance();
+        Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret");
+        pbkdf2passwordEncoder.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
+        pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
+
+        Map<String, PasswordEncoder> encoders = new HashMap<>();
+        encoders.put("BCRYPT", new BCryptPasswordEncoder(10));
+        encoders.put("PBKDF2", pbkdf2passwordEncoder);
+        encoders.put("NOOP", new PasswordEncoder()
+        {
+            @Override
+            public String encode(final CharSequence rawPassword)
+            {
+                return rawPassword.toString();
+            }
+
+            @Override
+            public boolean matches(final CharSequence rawPassword, final String encodedPassword)
+            {
+                return rawPassword.toString().equals(encodedPassword);
+            }
+        });
+
+        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("NOOP", encoders);
+        // passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
+
+        return passwordEncoder;
     }
 
-    // /**
-    // * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsService()
-    // */
-    // @Override
-    // @Bean
-    // protected UserDetailsService userDetailsService()
-    // {
-//        // @formatter:off
-//        UserDetailsService userDetailsService = new InMemoryUserDetailsManagerConfigurer<>()
-//                .passwordEncoder(passwordEncoder())
-//                .withUser("john")
-//                    .password(passwordEncoder().encode("123"))
-//                    .roles("USER")
-//                .and()
-//                .getUserDetailsService()
-//                ;
-//        // @formatter:on
-    //
-    // return userDetailsService;
-    // }
+    /**
+     * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsService()
+     */
+    @Override
+    @Bean
+    protected UserDetailsService userDetailsService()
+    {
+        // @formatter:off
+        UserDetailsService userDetailsService = new InMemoryUserDetailsManagerConfigurer<>()
+                .passwordEncoder(passwordEncoder())
+                .withUser("john").password(passwordEncoder().encode("123")).roles("USER")
+                .and()
+                .getUserDetailsService()
+                ;
+        // @formatter:on
+
+        return userDetailsService;
+    }
 
     // /**
     // * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsServiceBean()

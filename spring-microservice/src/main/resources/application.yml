@@ -58,9 +58,7 @@ spring:
             auto-commit: true
         initialization-mode: never
         platform: HSQL
-        name: microservice                
-    jmx:
-        enabled: false                 
+        name: microservice                                 
     
 ---
    

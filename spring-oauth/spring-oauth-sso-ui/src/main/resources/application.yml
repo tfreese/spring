@@ -31,8 +31,6 @@ security:
       userInfoUri: http://localhost:8081/auth/user/me
       
 spring:
-   jmx:
-      enabled: false
    thymeleaf:
       cache: false        
     

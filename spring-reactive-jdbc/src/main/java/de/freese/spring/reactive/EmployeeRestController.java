@@ -21,7 +21,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping(path = "/", produces =
 {
-        MediaType.APPLICATION_JSON_UTF8_VALUE
+        MediaType.APPLICATION_JSON_VALUE
 })
 public class EmployeeRestController
 {

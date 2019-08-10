@@ -147,7 +147,7 @@ public class TestRestService
         // @formatter:off
         this.mockMvc.perform(get("/service/ping")) // Test-URLs ohne Context-Root angeben.
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 //          .andDo(MockMvcResultHandlers.print())
             .andExpect(content().string("true"))
             .andExpect(MockMvcResultMatchers.jsonPath("$").value("true")) // Alternative zu string("true")
@@ -170,7 +170,7 @@ public class TestRestService
         // @formatter:off
         this.mockMvc.perform(get("/service/sysdate")) // Test-URLs ohne Context-Root angeben.
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)) // application/json;charset=UTF-
             //.andExpect(content().string(CoreMatchers.containsString("at port")))
             .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
             //.andExpect(MockMvcResultMatchers.jsonPath("$").value(Matchers.containsString("at port"))) // Alternative zu string(CoreMatchers.containsString("at port"))
@@ -189,10 +189,10 @@ public class TestRestService
         // @formatter:off
         this.mockMvc.perform(
                             get("/service/clock") // Test-URLs ohne Context-Root angeben
-                            .accept(MediaType.APPLICATION_JSON_UTF8)
+                            .accept(MediaType.APPLICATION_JSON)
                             )
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.jsonPath("$.date").exists())
             .andExpect(MockMvcResultMatchers.jsonPath("$.local_date").exists())
             .andExpect(MockMvcResultMatchers.jsonPath("$.local_time").exists())
@@ -226,7 +226,7 @@ public class TestRestService
                 .accept(MediaType.APPLICATION_XML)
                 )
             .andExpect(status().isOk())
-            .andExpect(content().contentType("application/xml;charset=UTF-8")) // "application/xml;charset=UTF-8"
+            .andExpect(content().contentType("application/xml")) // "application/xml;charset=UTF-8"
             .andExpect(MockMvcResultMatchers.xpath("Clock/date").exists())
             .andExpect(MockMvcResultMatchers.xpath("Clock/local_date").exists())
             .andExpect(MockMvcResultMatchers.xpath("Clock/local_time").exists())

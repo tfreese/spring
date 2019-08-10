@@ -22,7 +22,7 @@ import de.freese.spring.thymeleaf.service.PersonService;
 @RequestMapping("rest")
 // @RequestMapping(path = "rest", produces =
 // {
-// MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE
+// MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE
 // })
 public class PersonRestController
 {
@@ -68,7 +68,7 @@ public class PersonRestController
      *
      * @param newPerson {@link Person}
      */
-    @PostMapping(path = "/person/personAdd", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "/person/personAdd", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void savePerson(@RequestBody final Person newPerson)
     {
         this.service.addPerson(newPerson);

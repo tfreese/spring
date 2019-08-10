@@ -111,7 +111,7 @@ public class TestWebApp
         this.mockMvc.perform(get("/actuator/health"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").exists())
             .andExpect(jsonPath("$.status").value("UP"));
        // @formatter:on

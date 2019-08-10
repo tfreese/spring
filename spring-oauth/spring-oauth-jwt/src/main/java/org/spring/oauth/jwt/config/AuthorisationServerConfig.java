@@ -34,7 +34,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 /**
  * Die HttpSecurity wird über die Annotation {@link EnableAuthorizationServer} in {@link AuthorizationServerSecurityConfiguration} gemacht.<br>
  * Für die User-Passwörter benötigt der Authorisation-Server einen {@link AuthenticationManager}, {@link UserDetailsService} und {@link PasswordEncoder}.<br>
- * Diese werden in der {@link SecurityConfig} erzeugt.
+ * Diese werden in der {@link WebSecurityConfig} erzeugt.
  *
  * @author Thomas Freese
  */

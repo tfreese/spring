@@ -132,13 +132,13 @@ public class TestRestWithWebClient implements RestTestCase
 //                .repository("/actuator/health")
 //                .accept(MediaType.APPLICATION_JSON_UTF8)
 //                .exchange() // Liefert auch Header und Status.
-//                .doOnSuccess(clientResponse -> Assert.assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, clientResponse.headers().asHttpHeaders().getFirst("Content-Type")))
+//                .doOnSuccess(clientResponse -> Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, clientResponse.headers().asHttpHeaders().getFirst("Content-Type")))
 //                .flatMap(clientResponse -> clientResponse.bodyToMono(String.class))
 //                ;
 
         Mono<ResponseEntity<String>> response = webClient.get()
                 .uri("/actuator/health")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON)
                 .exchange() // Liefert auch Header und Status.
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -146,7 +146,7 @@ public class TestRestWithWebClient implements RestTestCase
 
         ResponseEntity<String> responseEntity = response.block();
 
-        Assert.assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
+        Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
 
         String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
         Assert.assertEquals("UP", status);
@@ -174,7 +174,7 @@ public class TestRestWithWebClient implements RestTestCase
 //                ;
         Mono<ResponseEntity<String>> response = webClient.get()
                 .uri("/rest/person/personList")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -210,7 +210,7 @@ public class TestRestWithWebClient implements RestTestCase
                 .build()
                 .get()
                 .uri("/rest/person/personList")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -236,7 +236,7 @@ public class TestRestWithWebClient implements RestTestCase
                 .build()
                 .get()
                 .uri("/rest/person/personList")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -262,7 +262,7 @@ public class TestRestWithWebClient implements RestTestCase
                    .build()
                    .get()
                    .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_JSON_UTF8)
+                   .accept(MediaType.APPLICATION_JSON)
                    .retrieve()
                    .bodyToFlux(Person.class)
                    ;
@@ -322,7 +322,7 @@ public class TestRestWithWebClient implements RestTestCase
                 .contentType(MediaType.APPLICATION_JSON)
                 //.body(Mono.just(newPerson), Person.class)
                 // ist das gleiche wie '.body(BodyInserters.fromObject(newPerson))'
-                .syncBody(newPerson)
+                .body(newPerson)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -355,7 +355,7 @@ public class TestRestWithWebClient implements RestTestCase
                 .contentType(MediaType.APPLICATION_JSON)
                 //.body(Mono.just(newPerson), Person.class)
                 // ist das gleiche wie '.body(BodyInserters.fromObject(newPerson))'
-                .syncBody(newPerson)
+                .body(newPerson)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -371,7 +371,7 @@ public class TestRestWithWebClient implements RestTestCase
                    .build()
                    .get()
                    .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_JSON_UTF8)
+                   .accept(MediaType.APPLICATION_JSON)
                    .retrieve()
                    .bodyToFlux(Person.class)
                    ;

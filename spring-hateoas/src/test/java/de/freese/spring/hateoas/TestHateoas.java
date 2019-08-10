@@ -1,20 +1,27 @@
 // Erzeugt: 04.05.2016
 package de.freese.spring.hateoas;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import de.freese.spring.hateoas.model.GreetingPOJO;
-import de.freese.spring.hateoas.model.GreetingResourceSupport;
-import org.junit.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import javax.annotation.Resource;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Links;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.client.Traverson;
-import org.springframework.hateoas.hal.Jackson2HalModule;
+import org.springframework.hateoas.mediatype.hal.Jackson2HalModule;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,14 +39,10 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.annotation.Resource;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.freese.spring.hateoas.model.GreetingPOJO;
+import de.freese.spring.hateoas.model.GreetingRepresentationModel;
 
 /**
  * @author Thomas Freese
@@ -51,6 +54,26 @@ import java.util.List;
 @ActiveProfiles("test")
 public class TestHateoas
 {
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception
+    {
+        // Logger logger = (Logger) LoggerFactory.getLogger("ROOT");
+        // logger.setLevel(Level.ERROR);
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @AfterClass
+    public static void shutdown() throws Exception
+    {
+        // PRINT_STREAM.println("JAVA_ENV: " + System.getProperty("JAVA_ENV"));
+        // PRINT_STREAM.println("JAVA_ENV: " + System.getenv("JAVA_ENV"));
+    }
+
     /**
      *
      */
@@ -85,28 +108,7 @@ public class TestHateoas
     }
 
     /**
-     * @throws Exception Falls was schief geht.
-     */
-    @BeforeClass
-    public static void setUp() throws Exception
-    {
-        // Logger logger = (Logger) LoggerFactory.getLogger("ROOT");
-        // logger.setLevel(Level.ERROR);
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @AfterClass
-    public static void shutdown() throws Exception
-    {
-        // PRINT_STREAM.println("JAVA_ENV: " + System.getProperty("JAVA_ENV"));
-        // PRINT_STREAM.println("JAVA_ENV: " + System.getenv("JAVA_ENV"));
-    }
-
-    /**
      * @return {@link URI}
-     *
      * @throws URISyntaxException Falls was schief geht.
      */
     private URI getBaseURI() throws URISyntaxException
@@ -215,7 +217,7 @@ public class TestHateoas
 
         MappingJackson2HttpMessageConverter halConverter = new MappingJackson2HttpMessageConverter();
         // MappingJackson2HttpMessageConverter halConverter = new TypeConstrainedMappingJackson2HttpMessageConverter(ResourceSupport.class);
-        halConverter.setSupportedMediaTypes(Arrays.asList(MediaTypes.HAL_JSON, MediaType.APPLICATION_JSON_UTF8));
+        halConverter.setSupportedMediaTypes(Arrays.asList(MediaTypes.HAL_JSON, MediaType.APPLICATION_JSON));
         // halConverter.setPrettyPrint(true);
         halConverter.setObjectMapper(mapper);
 
@@ -226,7 +228,7 @@ public class TestHateoas
 
         URI uri = getBaseURI();
 
-        ResponseEntity<GreetingResourceSupport> greeting = restTemplate.getForEntity(uri, GreetingResourceSupport.class);
+        ResponseEntity<GreetingRepresentationModel> greeting = restTemplate.getForEntity(uri, GreetingRepresentationModel.class);
         // ResponseEntity<GreetingResourceSupport> greeting = restTemplate.exchange(repository, HttpMethod.GET, HttpEntity.EMPTY,
         // GreetingResourceSupport.class);
         // ResponseEntity<org.springframework.hateoas.Resource<GreetingResourceSupport>> greeting = restTemplate.exchange(repository,
@@ -244,11 +246,11 @@ public class TestHateoas
 
         Assert.assertEquals("Hello, World!", greeting.getBody().getMessage());
 
-        List<Link> links = greeting.getBody().getLinks();
+        Links links = greeting.getBody().getLinks();
         Assert.assertNotNull(links);
-        Assert.assertTrue(links.size() > 1);
+        Assert.assertTrue(links.toList().size() > 1);
 
-        Link link = greeting.getBody().getLink("forPath");
+        Link link = greeting.getBody().getLink("forPath").get();
         Assert.assertNotNull(link);
         Assert.assertEquals(uri.resolve("path/World").toString(), link.getHref());
     }

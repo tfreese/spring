@@ -28,8 +28,8 @@ server:
    servlet:
       context-path: /auth
     
+---
+
 spring:
-   jmx:
-      enabled: false
-    
+    profiles: test     
 

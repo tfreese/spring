@@ -31,7 +31,7 @@ public class RestService
      *
      * @return {@link LocalDateTime}
      */
-    @GetMapping(path = "/test2", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/test2", produces = MediaType.APPLICATION_JSON_VALUE)
     public LocalDateTime testJson()
     {
         LocalDateTime localDateTime = LocalDateTime.now();

@@ -22,8 +22,6 @@ logging:
     org.spring.oauth.jwt: DEBUG
 
 spring:
-   jmx:
-      enabled: false
    mvc:
       throw-exception-if-no-handler-found: true
    resources:
@@ -37,6 +35,11 @@ server:
     context-path: /jwt
   error:
     whitelabel:
-      enabled: false    
+      enabled: false
+      
+---
+
+spring:
+    profiles: test        
     
 
