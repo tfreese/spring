@@ -11,7 +11,6 @@
 
 	<groupId>de.freese.spring</groupId>
 	<artifactId>spring</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
@@ -39,7 +38,7 @@
 		<version_org.apache.directory.server>2.0.0.AM25</version_org.apache.directory.server>
 		<version_org.apache.qpid>7.1.4</version_org.apache.qpid>
 		
-		<version_org.springframework.cloud_circuitbreaker>0.0.1.BUILD-SNAPSHOT</version_org.springframework.cloud_circuitbreaker>
+		<version_org.springframework.cloud_circuitbreaker>1.0.0.BUILD-SNAPSHOT</version_org.springframework.cloud_circuitbreaker>
 		<version_org.springframework.security.oauth.boot>2.1.7.RELEASE</version_org.springframework.security.oauth.boot>
 	</properties>
 
