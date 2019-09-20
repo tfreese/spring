@@ -11,7 +11,7 @@
 # mvn -f spring-api-gateway clean package & mvn -f spring-boot-admin clean package & mvn -f spring-eureka clean package & mvn -f spring-microservice clean package;
 
 HOST=localhost
-PORT=5082
+PORT=5000
 
 mvn -f spring-api-gateway	clean package; 
 mvn -f spring-boot-admin	clean package; 
