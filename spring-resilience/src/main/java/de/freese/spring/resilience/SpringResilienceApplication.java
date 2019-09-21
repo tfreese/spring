@@ -14,11 +14,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.circuitbreaker.commons.ReactiveCircuitBreaker;
-import org.springframework.cloud.circuitbreaker.commons.ReactiveCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.ReactiveResilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder.Resilience4JCircuitBreakerConfiguration;
+import org.springframework.cloud.client.circuitbreaker.Customizer;
+import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,9 @@ import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 import reactor.core.publisher.Mono;
 
 /**
+ * https://github.com/spring-cloud/spring-cloud-circuitbreaker<br>
+ * curl http://localhost:8080/greet
+ *
  * @author Thomas Freese
  */
 @SpringBootApplication
@@ -40,6 +44,11 @@ public class SpringResilienceApplication implements CommandLineRunner
     @RestController
     class FailingRestController
     {
+        // /**
+        // *
+        // */
+        // private final ReactiveCircuitBreakerFactory<Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> cbf;
+
         /**
         *
         */
@@ -56,10 +65,12 @@ public class SpringResilienceApplication implements CommandLineRunner
          * @param service {@link FailingService}
          * @param cbf {@link ReactiveCircuitBreakerFactory}
          */
-        FailingRestController(final FailingService service, final ReactiveCircuitBreakerFactory cbf)
+        FailingRestController(final FailingService service,
+                final ReactiveCircuitBreakerFactory<Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> cbf)
         {
             super();
 
+            // this.cbf = cbf;
             this.service = Objects.requireNonNull(service, "service required");
             this.circuitBreaker = cbf.create("greet");
         }
@@ -74,6 +85,7 @@ public class SpringResilienceApplication implements CommandLineRunner
             Mono<String> results = this.service.greet(name);
 
             return this.circuitBreaker.run(results, throwable -> Mono.just("fallback: hello world !")).map(r -> r + "\n");
+            // return this.cbf.create("greet").run(results, throwable -> Mono.just("fallback: hello world !")).map(r -> r + "\n");
         }
     }
 
@@ -128,7 +140,8 @@ public class SpringResilienceApplication implements CommandLineRunner
                         return Mono.just(msg);
                         })
                     .orElse(Mono.error(new NullPointerException("name")))
-                    .delayElement(Duration.ofSeconds(seconds));
+                    .delayElement(Duration.ofSeconds(seconds)
+                    );
             //@formatter:on
         }
     }
@@ -146,23 +159,34 @@ public class SpringResilienceApplication implements CommandLineRunner
         SpringApplication.run(SpringResilienceApplication.class, args);
     }
 
+    // /**
+    // * @return {@link ReactiveCircuitBreakerFactory}
+    // */
+    // @Bean
+    // ReactiveCircuitBreakerFactory<Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> circuitBreakerFactory()
+    // {
+    // var factory = new ReactiveResilience4JCircuitBreakerFactory();
+    //
+    // return factory;
+    // }
+
     /**
-     * @return {@link ReactiveCircuitBreakerFactory}
+     * @return {@link Customizer}
      */
     @Bean
-    ReactiveCircuitBreakerFactory<Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> circuitBreakerFactory()
+    Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer()
     {
-        var factory = new ReactiveResilience4JCircuitBreakerFactory();
-
         //@formatter:off
-        factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
-                .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(5)).build())
-                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-                .build()
-                );
+        return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
+                    .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+                    .timeLimiterConfig(
+                            TimeLimiterConfig.custom()
+                            .timeoutDuration(Duration.ofSeconds(4)
+                            )
+                    .build()
+                    )
+                    .build());
         //@formatter:on
-
-        return factory;
     }
 
     /**
