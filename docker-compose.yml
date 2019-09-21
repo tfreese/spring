@@ -25,7 +25,9 @@ services:
             dockerfile: Dockerfile
         image: spring-boot-admin:latest
         ports:
-            - 9000:9000                                  
+            - 9000:9000
+        restart_policy:
+            condition: unless-stopped                                  
 
     spring-eureka:
         container_name: spring-eureka
@@ -34,7 +36,9 @@ services:
             dockerfile: Dockerfile
         image: spring-eureka:latests
         ports:
-            - 8761:8761                             
+            - 8761:8761
+        restart_policy:
+            condition: unless-stoppe                          
 
     spring-microservice:
         # Kein 'container_name' möglich wegen Scaling.
@@ -50,7 +54,9 @@ services:
                 -DADMIN_SERVER=http://spring-boot-admin:9000              
         depends_on:
             - spring-boot-admin
-            - spring-eureka           
+            - spring-eureka
+        restart_policy:
+            condition: unless-stoppe          
                                
     loadbalancer:
         #image: "${HAPROXY_IMAGE:-dockercloud/haproxy:latest}"
@@ -62,7 +68,9 @@ services:
         depends_on:
             - spring-microservice
         links:
-            - spring-microservice          
+            - spring-microservice
+        restart_policy:
+            condition: unless-stoppe        
             
     spring-api-gateway:
         build:
@@ -83,7 +91,9 @@ services:
             - spring-boot-admin
             - spring-eureka
             - spring-microservice
-            - loadbalancer                  
+            - loadbalancer
+        restart_policy:
+            condition: unless-stoppe                
 
 
 # localhost im Docker-Netz finden:

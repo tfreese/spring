@@ -380,7 +380,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
                 .uri("/rest/person/personList")
                 .contentType(MediaType.APPLICATION_JSON)
                 //.body(Mono.just(newPerson), Person.class)
-                .body(newPerson)
+                .bodyValue(newPerson)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -412,7 +412,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
                 .uri("/rest/person/personAdd")
                 .contentType(MediaType.APPLICATION_JSON)
                 //.body(Mono.just(newPerson), Person.class)
-                .body(newPerson)
+                .bodyValue(newPerson)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;

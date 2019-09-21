@@ -322,7 +322,7 @@ public class TestRestWithWebClient implements RestTestCase
                 .contentType(MediaType.APPLICATION_JSON)
                 //.body(Mono.just(newPerson), Person.class)
                 // ist das gleiche wie '.body(BodyInserters.fromObject(newPerson))'
-                .body(newPerson)
+                .bodyValue(newPerson)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
@@ -355,7 +355,7 @@ public class TestRestWithWebClient implements RestTestCase
                 .contentType(MediaType.APPLICATION_JSON)
                 //.body(Mono.just(newPerson), Person.class)
                 // ist das gleiche wie '.body(BodyInserters.fromObject(newPerson))'
-                .body(newPerson)
+                .bodyValue(newPerson)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;

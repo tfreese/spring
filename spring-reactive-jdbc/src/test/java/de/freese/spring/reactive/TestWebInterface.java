@@ -63,7 +63,7 @@ public interface TestWebInterface
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON).acceptCharset(StandardCharsets.UTF_8)
             //.body(BodyInserters.fromObject(newEmployee))
-            .body(new Employee("Foo", "Bar", "Manufacturing")) // ist das gleiche wie '.body(BodyInserters.fromObject(newEmployee))'
+            .bodyValue(new Employee("Foo", "Bar", "Manufacturing")) // ist das gleiche wie '.body(BodyInserters.fromObject(newEmployee))'
             .exchange() // Liefert auch Header und Status.
             .expectStatus().isOk()
             .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_VALUE)
@@ -89,7 +89,7 @@ public interface TestWebInterface
             .uri("employee")
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON).acceptCharset(StandardCharsets.UTF_8)
-            .body(new Employee("Fooo", "Barr", "Manufacturing"))
+            .bodyValue(new Employee("Fooo", "Barr", "Manufacturing"))
             .retrieve()
             .bodyToMono(Employee.class)
             .as(StepVerifier::create)
