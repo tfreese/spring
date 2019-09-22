@@ -25,12 +25,13 @@ logging:
    level:
       root: INFO
       org.springframework: INFO
-   path: ${user.dir}/logs # -> logging.path    
-   #file: ${logging.path}/application.log # ist nicht zulässig in YAML, siehe Workaround im Profile.
    file:
-      max-history: 30
-      max-size: 10MB
-      total-size-cap: 1GB      
+        #path: ${user.dir}/logs
+        #path: logs
+        name: logs/resilience.log
+        max-history: 30
+        max-size: 10MB
+        total-size-cap: 1GB      
    pattern:
       console: ${pattern.logback.console}
       file: ${pattern.logback.file}
@@ -61,13 +62,4 @@ server:
     http2:
         enabled: true 
     port: 8080      
-       
----
-
-spring:
-    profiles: default
-
-# Workaround         
-logging:
-    file: ${logging.path}/resilience.log  
    
