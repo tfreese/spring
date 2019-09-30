@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("deprecation")
 @EnableOAuth2Sso
 @Configuration
 public class UiSecurityConfig extends WebSecurityConfigurerAdapter

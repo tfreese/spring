@@ -170,7 +170,7 @@ public class TestRestService
         // @formatter:off
         this.mockMvc.perform(get("/service/sysdate")) // Test-URLs ohne Context-Root angeben.
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)) // application/json;charset=UTF-
+            .andExpect(content().contentType("application/json;charset=UTF-8")) // application/json;charset=UTF-8 ; MediaType.APPLICATION_JSON_VALUE
             //.andExpect(content().string(CoreMatchers.containsString("at port")))
             .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
             //.andExpect(MockMvcResultMatchers.jsonPath("$").value(Matchers.containsString("at port"))) // Alternative zu string(CoreMatchers.containsString("at port"))

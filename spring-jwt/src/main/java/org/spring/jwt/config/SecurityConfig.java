@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.Filter;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.spring.jwt.token.JwtTokenAuthenticationProvider;
@@ -82,8 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
          *      javax.servlet.http.HttpServletResponse, org.springframework.security.core.AuthenticationException)
          */
         @Override
-        public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authEx)
-            throws IOException, ServletException
+        public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authEx) throws IOException
         {
             response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -184,10 +182,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
      * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.WebSecurity)
      */
     @Override
-    public void configure(final WebSecurity web) throws Exception
+    public void configure(final WebSecurity webSecurity)
     {
         // Allow swagger to be accessed without authentication
-        web.ignoring().antMatchers("/v2/api-docs")//
+        webSecurity.ignoring().antMatchers("/v2/api-docs")//
                 .antMatchers("/swagger-resources/**")//
                 .antMatchers("/swagger-ui.html")//
                 .antMatchers("/configuration/**")//

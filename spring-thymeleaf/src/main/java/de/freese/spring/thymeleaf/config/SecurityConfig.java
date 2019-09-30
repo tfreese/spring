@@ -7,7 +7,6 @@ package de.freese.spring.thymeleaf.config;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean;
@@ -82,8 +81,8 @@ public class SecurityConfig
          *      javax.servlet.http.HttpServletResponse, org.springframework.security.core.AuthenticationException)
          */
         @Override
-        public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authEx)
-            throws IOException, ServletException
+        public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authException)
+            throws IOException
         {
             response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -91,7 +90,7 @@ public class SecurityConfig
 
             @SuppressWarnings("resource")
             PrintWriter writer = response.getWriter();
-            writer.println("HTTP Status 401 - " + authEx.getMessage());
+            writer.println("HTTP Status 401 - " + authException.getMessage());
         }
     }
     /**
@@ -341,10 +340,10 @@ public class SecurityConfig
          * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
          */
         @Override
-        protected void configure(final HttpSecurity http) throws Exception
+        protected void configure(final HttpSecurity httpSecurity) throws Exception
         {
             // @formatter:off
-            http
+            httpSecurity
                 //.anonymous().disable()
                 .addFilterBefore(myTokenFilterWeb(), RequestHeaderAuthenticationFilter.class)
                 .authenticationProvider(this.myTokenPreauthAuthProvider)
@@ -388,10 +387,10 @@ public class SecurityConfig
          * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.WebSecurity)
          */
         @Override
-        public void configure(final WebSecurity web) throws Exception
+        public void configure(final WebSecurity webSecurity)
         {
             // @formatter:off
-            web
+            webSecurity
                 .ignoring()
                 .antMatchers("/favicon.ico", "/manifest.appcache", "/css/**", "/js/**", "/images/**");
             // @formatter:on

@@ -34,7 +34,7 @@ public class LoadBalancer implements LoadBalancerPing
     /**
      * @author Thomas Freese
      */
-    private class Pinger extends TimerTask
+    class Pinger extends TimerTask
     {
         /**
          * Erzeugt eine neue Instanz von {@link Pinger}.
