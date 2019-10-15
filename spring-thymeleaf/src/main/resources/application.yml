@@ -79,6 +79,8 @@ server:
   error:
     whitelabel:
       enabled: true
+  http2:
+      enabled: true
   port: 8080
   servlet:
     #context-path: /${project.artifactId}

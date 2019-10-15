@@ -181,10 +181,17 @@ public class SecurityConfig
          * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
          */
         @Override
-        protected void configure(final HttpSecurity http) throws Exception
+        protected void configure(final HttpSecurity httpSecurity) throws Exception
         {
+            // Beispiel: https://developer.okta.com/blog/2018/07/30/10-ways-to-secure-spring-boot
+            // http.requiresChannel().anyRequest().requiresSecure();
+            //
+            // http.requiresChannel()
+            // .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+            // .requiresSecure();
+
             // @formatter:off
-            http
+            httpSecurity
                 //.anonymous().disable()
                 .addFilterBefore(myTokenFilterRest(), RequestHeaderAuthenticationFilter.class)
                 .authenticationProvider(this.myTokenPreauthAuthProvider)
@@ -342,6 +349,13 @@ public class SecurityConfig
         @Override
         protected void configure(final HttpSecurity httpSecurity) throws Exception
         {
+            // Beispiel: https://developer.okta.com/blog/2018/07/30/10-ways-to-secure-spring-boot
+            // http.requiresChannel().anyRequest().requiresSecure();
+            //
+            // http.requiresChannel()
+            // .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+            // .requiresSecure();
+
             // @formatter:off
             httpSecurity
                 //.anonymous().disable()
