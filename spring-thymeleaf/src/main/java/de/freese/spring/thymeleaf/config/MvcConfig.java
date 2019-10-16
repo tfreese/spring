@@ -143,10 +143,14 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
      * @return {@link ThreadPoolExecutorFactoryBean}
      */
     @Bean
+    @ConditionalOnMissingBean(
+    {
+            Executor.class, ExecutorService.class
+    })
     @Primary
     public ThreadPoolExecutorFactoryBean executorService()
     {
-        int coreSize = Runtime.getRuntime().availableProcessors() * 2;
+        int coreSize = Math.max(2, Runtime.getRuntime().availableProcessors());
         int maxSize = coreSize * 2;
         int queueSize = maxSize * 2;
         int keepAliveSeconds = 60;
@@ -265,7 +269,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
     @ConditionalOnMissingBean(ScheduledExecutorService.class)
     public ScheduledExecutorFactoryBean scheduledExecutorService()
     {
-        int poolSize = Runtime.getRuntime().availableProcessors();
+        int poolSize = Math.max(2, Runtime.getRuntime().availableProcessors() / 2);
 
         ScheduledExecutorFactoryBean bean = new ScheduledExecutorFactoryBean();
         bean.setPoolSize(poolSize);
@@ -290,12 +294,13 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
     {
             AsyncTaskExecutor.class, TaskExecutor.class
     })
-    // public TaskExecutor springTaskExecutor(@Qualifier("executorService") final ExecutorService executorService)
+    // public AsyncTaskExecutor springTaskExecutor(@Qualifier("executorService") final ExecutorService executorService)
     public AsyncTaskExecutor springTaskExecutor()
     {
         ThymeleafApplication.LOGGER.info("no TaskExecutor exist, create a ConcurrentTaskExecutor");
 
         AsyncTaskExecutor bean = new ConcurrentTaskExecutor(executorService().getObject());
+        // AsyncTaskExecutor bean = new ConcurrentTaskExecutor(executorService);
 
         return bean;
     }
