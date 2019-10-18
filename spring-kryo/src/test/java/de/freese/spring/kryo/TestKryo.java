@@ -7,7 +7,6 @@ package de.freese.spring.kryo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -27,15 +26,16 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
-import de.freese.spring.kryo.KryoApplication;
-import de.freese.spring.kryo.KryoHttpMessageConverter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Thomas Freese
@@ -50,6 +50,12 @@ import de.freese.spring.kryo.KryoHttpMessageConverter;
 public class TestKryo
 {
     /**
+     *
+     */
+    @LocalServerPort
+    private int localServerPort = 0;
+
+    /**
     *
     */
     @Resource
@@ -59,13 +65,13 @@ public class TestKryo
      *
      */
     @Resource
-    private WebApplicationContext webApplicationContext = null;
+    private ObjectMapper objectMapper = null;
 
     /**
      *
      */
-    @LocalServerPort
-    private int localServerPort = 0;
+    @Resource
+    private WebApplicationContext webApplicationContext = null;
 
     /**
      * Erstellt ein neues {@link TestKryo} Object.
@@ -76,24 +82,46 @@ public class TestKryo
     }
 
     /**
-     *
+     * @param path String
+     * @param mediaType {@link MediaType}
+     * @throws Exception Falls was schief geht.
      */
-    @Test
-    public void test010()
+    void mockMvc(final String path, final MediaType mediaType) throws Exception
+    {
+        // MockMvcBuilders.standaloneSetup(controllers).
+        MockMvc mmvc = this.mockMvc;
+        // MockMvc mmvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
+
+        // String url = "/test";
+        String url = "http://localhost:" + this.localServerPort + path;
+
+       // @formatter:off
+        mmvc.perform(get(url).accept(mediaType))
+           .andExpect(status().isOk())
+           .andExpect(content().contentTypeCompatibleWith(mediaType)); //  + ";charset=UTF-8"
+       // @formatter:on
+    }
+
+    /**
+     * @param path String
+     * @param mediaType {@link MediaType}
+     */
+    void restTemplate(final String path, final MediaType mediaType)
     {
         // @formatter:off
         RestTemplateBuilder builder = new RestTemplateBuilder()
-                .rootUri("http://localhost:" + this.localServerPort + "/kryo")
-                .messageConverters(new KryoHttpMessageConverter(() -> KryoApplication.KRYO_SERIALIZER.get()));
+                .rootUri("http://localhost:" + this.localServerPort)
+                .messageConverters(new KryoHttpMessageConverter(() -> KryoApplication.KRYO_SERIALIZER.get()),
+                            new MappingJackson2HttpMessageConverter());
         // @formatter:on
 
         RestTemplate restTemplate = builder.build();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(KryoHttpMessageConverter.APPLICATION_KRYO));
+        headers.setAccept(Arrays.asList(mediaType));
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<LocalDateTime> response = restTemplate.exchange("/test", HttpMethod.GET, entity, LocalDateTime.class);
+        ResponseEntity<LocalDateTime> response = restTemplate.exchange(path, HttpMethod.GET, entity, LocalDateTime.class);
         LocalDateTime resource = response.getBody();
 
         Assert.assertNotNull(resource);
@@ -108,38 +136,49 @@ public class TestKryo
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     *
      */
     @Test
-    public void test020() throws Exception
+    public void test010RestTemplate()
     {
-        // MockMvcBuilders.standaloneSetup(controllers).
-        MockMvc mmvc = this.mockMvc;
-        // MockMvc mmvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
-
-        // String url = "/test";
-        String url = "http://localhost:" + this.localServerPort + "/kryo/test";
-
-       // @formatter:off
-        mmvc.perform(get(url).accept(KryoHttpMessageConverter.APPLICATION_KRYO))
-           .andExpect(status().isOk())
-           .andExpect(content().contentType(KryoHttpMessageConverter.APPLICATION_KRYO_VALUE+";charset=UTF-8"));
-       // @formatter:on
+        restTemplate("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
+        restTemplate("/json", MediaType.APPLICATION_JSON);
     }
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test030() throws Exception
+    public void test020MockMvc() throws Exception
     {
-        URL url = new URL("http", "localhost", this.localServerPort, "/kryo/test");
+        mockMvc("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
+        mockMvc("/json", MediaType.APPLICATION_JSON);
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    public void test030UrlConnection() throws Exception
+    {
+        urlConnection("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
+        urlConnection("/json", MediaType.APPLICATION_JSON);
+    }
+
+    /**
+     * @param path String
+     * @param mediaType {@link MediaType}
+     * @throws Exception Falls was schief geht.
+     */
+    void urlConnection(final String path, final MediaType mediaType) throws Exception
+    {
+        URL url = new URL("http", "localhost", this.localServerPort, path);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         connection.setRequestMethod(HttpMethod.GET.toString());
         // connection.setRequestProperty("Content-Type", KryoHttpMessageConverter.APPLICATION_KRYO_VALUE);
-        connection.setRequestProperty("Accept", KryoHttpMessageConverter.APPLICATION_KRYO_VALUE);
+        connection.setRequestProperty("Accept", mediaType.toString());
         connection.setDoOutput(false);
         connection.setDoInput(true);
 
@@ -150,20 +189,18 @@ public class TestKryo
 
         LocalDateTime resource = null;
 
-        // try (OutputStream outputStream = connection.getOutputStream();
-        // Output output = new Output(outputStream, 4096))
-        // {
-        // // Paramerter serialisieren und schicken.
-        // output.flush();
-        // outputStream.flush();
-        // }
-
-        try (InputStream inputStream = connection.getInputStream();
-             Input input = new Input(inputStream, 4096))
+        if (KryoHttpMessageConverter.APPLICATION_KRYO.equals(mediaType))
         {
-            Kryo kryo = KryoApplication.KRYO_SERIALIZER.get();
+            try (Input input = new Input(connection.getInputStream(), 4096))
+            {
+                Kryo kryo = KryoApplication.KRYO_SERIALIZER.get();
 
-            resource = (LocalDateTime) kryo.readClassAndObject(input);
+                resource = (LocalDateTime) kryo.readClassAndObject(input);
+            }
+        }
+        else
+        {
+            resource = this.objectMapper.readValue(connection.getInputStream(), LocalDateTime.class);
         }
 
         Assert.assertNotNull(resource);

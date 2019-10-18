@@ -5,3 +5,15 @@ https://www.devglan.com/spring-security/spring-boot-security-oauth2-example
 https://github.com/spring-projects/spring-security-oauth/tree/master/tests/annotation
 https://github.com/bassemZohdy/Spring_REST_OAuth_Demo
 https://github.com/TechPrimers/spring-security-oauth-example
+
+
+     <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        <version>2.2.0.RELEASE</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        <version>2.2.0.RELEASE</version>
+      </dependency>

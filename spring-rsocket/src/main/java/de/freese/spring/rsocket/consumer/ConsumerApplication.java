@@ -6,6 +6,7 @@ package de.freese.spring.rsocket.consumer;
 
 import java.util.Objects;
 import org.reactivestreams.Publisher;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
@@ -19,14 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import de.freese.spring.rsocket.GreetingRequest;
 import de.freese.spring.rsocket.GreetingResponse;
-import io.rsocket.RSocket;
-import io.rsocket.RSocketFactory;
-import io.rsocket.frame.decoder.PayloadDecoder;
-import io.rsocket.transport.netty.client.TcpClientTransport;
 import reactor.core.publisher.Mono;
 
 /**
- * https://spring.io/blog/2019/04/15/spring-tips-rsocket-messaging-in-spring-boot-2-2
+ * https://spring.io/blog/2019/04/15/spring-tips-rsocket-messaging-in-spring-boot-2-2<br>
+ * curl localhost:8080/greet/tommy<br>
+ * curl localhost:8080/greet/stream/tommy<br>
+ * curl localhost:8080/greet/error<br>
  *
  * @author Thomas Freese
  */
@@ -120,30 +120,53 @@ public class ConsumerApplication
     }
 
     /**
-     * @return {@link RSocket}
-     */
-    @Bean
-    RSocket rSocket()
-    {
-        // @formatter:off
-        return RSocketFactory
-                .connect()
-                .dataMimeType(MimeTypeUtils.APPLICATION_JSON_VALUE)
-                .frameDecoder(PayloadDecoder.ZERO_COPY)
-                .transport(TcpClientTransport.create(7000))
-                .start()
-                .block();
-        // @formatter:on
-    }
-
-    /**
-     * @param rSocket {@link RSocket}
      * @param rSocketStrategies {@link RSocketStrategies}
+     * @param serverAddress String
+     * @param serverPort int
      * @return {@link RSocketRequester}
      */
     @Bean
-    RSocketRequester rSocketRequester(final RSocket rSocket, final RSocketStrategies rSocketStrategies)
+    RSocketRequester rSocketRequester(final RSocketStrategies rSocketStrategies, @Value("${rsocket.server.address}") final String serverAddress,
+                                      @Value("${rsocket.server.port}") final int serverPort)
     {
-        return RSocketRequester.wrap(rSocket, MimeTypeUtils.APPLICATION_JSON, MimeTypeUtils.APPLICATION_JSON, rSocketStrategies);
+        // @formatter:off
+        RSocketRequester rSocketRequester = RSocketRequester.builder()
+            .dataMimeType(MimeTypeUtils.APPLICATION_JSON)
+//            .metadataMimeType(MimeTypeUtils.APPLICATION_JSON) // Verursacht Fehler "No handler for destination"
+            .rsocketStrategies(rSocketStrategies)
+            .connectTcp(serverAddress, serverPort)
+            .block()
+            ;
+        // @formatter:on
+
+        return rSocketRequester;
     }
+
+    // /**
+    // * @return {@link RSocket}
+    // */
+    // @Bean
+    // RSocket rSocket()
+    // {
+//        // @formatter:off
+//        return RSocketFactory
+//                .connect()
+//                .dataMimeType(MimeTypeUtils.APPLICATION_JSON_VALUE, MimeTypeUtils.APPLICATION_JSON_VALUE)
+//                .frameDecoder(PayloadDecoder.ZERO_COPY)
+//                .transport(TcpClientTransport.create("localhost", 7000))
+//                .start()
+//                .block();
+//        // @formatter:on
+    // }
+    //
+    // /**
+    // * @param rSocket {@link RSocket}
+    // * @param rSocketStrategies {@link RSocketStrategies}
+    // * @return {@link RSocketRequester}
+    // */
+    // @Bean
+    // RSocketRequester rSocketRequester(final RSocket rSocket, final RSocketStrategies rSocketStrategies)
+    // {
+    // return RSocketRequester.wrap(rSocket, MimeTypeUtils.APPLICATION_JSON, MimeTypeUtils.APPLICATION_JSON_VALUE, rSocketStrategies);
+    // }
 }

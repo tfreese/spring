@@ -1,6 +1,6 @@
 # ===================================================================
 # COMMON SPRING BOOT PROPERTIES
-# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html
 # ===================================================================
 
 pattern:
@@ -16,47 +16,52 @@ logging:
 #  config: classpath:log4j-default.xml 
    level:
       root: INFO
-      org.springframework: INFO
-   path: ${user.dir}/logs # -> logging.path    
-   #file: ${logging.path}/application.log # ist nicht zulässig in YAML, siehe Workaround im Profile.
+      org.springframework: INFO   
    file:
       max-history: 30
       max-size: 10MB
-      total-size-cap: 1GB      
+      #path: ${user.dir}/logs
+      #path: ./logs
+      total-size-cap: 1GB
    pattern:
       console: ${pattern.logback.console}
       file: ${pattern.logback.file}
    register-shutdown-hook: false       
-
-spring:
-   main:
-      lazy-initialisation: false
        
 ---
 
 spring:
-   profiles: producer
-   main:
-      web-application-type: NONE     
-   rsocket:
-      server:
-         port: 7000
+    profiles: producer
+    main:
+        web-application-type: NONE     
+    rsocket:
+        server:
+            address: localhost
+            port: 7000
+            transport: TCP
 
 # Workaround         
 logging:
-   file: ${logging.path}/producer.log  
+    file:
+        name: ./logs/producer.log  
    
 ---
 
 spring:
-   profiles: consumer
+    profiles: consumer
    
 server:
-   http2:
-      enabled: true 
-   port: 8080
+    http2:
+        enabled: true 
+    port: 8080
+   
+rsocket:
+    server:
+        address: localhost
+        port: 7000   
 
 # Workaround     
 logging:
-   file: ${logging.path}/consumer.log     
+    file:
+       name: ./logs/consumer.log     
        

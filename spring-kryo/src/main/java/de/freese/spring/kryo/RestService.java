@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Thomas Freese
  */
 @RestController
-@RequestMapping("/kryo")
+@RequestMapping("/")
 public class RestService
 {
     /**
@@ -26,12 +26,12 @@ public class RestService
     }
 
     /**
-     * http://8081/kryo/test2<br>
-     * curl -X GET "http://localhost:8081/kryo/test2" --output -
+     * http://8081/json<br>
+     * curl -X GET "http://localhost:8081/json"
      *
      * @return {@link LocalDateTime}
      */
-    @GetMapping(path = "/test2", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "json", produces = MediaType.APPLICATION_JSON_VALUE)
     public LocalDateTime testJson()
     {
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -40,12 +40,12 @@ public class RestService
     }
 
     /**
-     * http://8081/kryo/test<br>
-     * curl -X GET "http://localhost:8081/kryo/test"
+     * http://8081/kryo<br>
+     * curl -X GET "http://localhost:8081/kryo" --output -
      *
      * @return {@link LocalDateTime}
      */
-    @GetMapping(path = "/test", produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
+    @GetMapping(path = "kryo", produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public LocalDateTime testKryo()
     {
         LocalDateTime localDateTime = LocalDateTime.now();

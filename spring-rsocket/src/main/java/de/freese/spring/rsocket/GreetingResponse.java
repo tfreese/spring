@@ -33,7 +33,7 @@ public class GreetingResponse
     {
         super();
 
-        this.greeting = "Hello " + greeting + " @ " + Instant.now();
+        this.greeting = String.format("Hello %s @ %s", greeting, Instant.now());
     }
 
     /**
