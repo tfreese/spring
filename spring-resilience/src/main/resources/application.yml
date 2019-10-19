@@ -28,7 +28,7 @@ logging:
    file:
         #path: ${user.dir}/logs
         #path: logs
-        name: logs/resilience.log
+        name: ./logs/resilience.log
         max-history: 30
         max-size: 10MB
         total-size-cap: 1GB      

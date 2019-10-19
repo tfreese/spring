@@ -81,21 +81,6 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     /**
-     * @return {@link AccessTokenConverter}
-     */
-    @Bean
-    public JwtAccessTokenConverter accessTokenConverter()
-    {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey(this.signingKey);
-
-        // Für Zertifikate statt SigningKey.
-        // converter.setKeyPair(keyPair);
-
-        return converter;
-    }
-
-    /**
      * @return {@link ApprovalStore}
      */
     @Bean
@@ -124,7 +109,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
             .approvalStore(approvalStore())
             .authorizationCodeServices(authorizationCodeServices())
             .tokenStore(tokenStore())
-            .accessTokenConverter(accessTokenConverter())
+            .accessTokenConverter(jwtAccessTokenConverter())
             .authenticationManager(this.authenticationManager)
             .userDetailsService(this.userDetailsService)
         ;
@@ -159,6 +144,21 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
             .withClientDetails(myClientDetailsService())
         ;
         // @formatter:on
+    }
+
+    /**
+     * @return {@link AccessTokenConverter}
+     */
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter()
+    {
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setSigningKey(this.signingKey);
+
+        // Für Zertifikate statt SigningKey.
+        // converter.setKeyPair(keyPair);
+
+        return converter;
     }
 
     /**
@@ -225,6 +225,6 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     public TokenStore tokenStore()
     {
         // return new InMemoryTokenStore();
-        return new JwtTokenStore(accessTokenConverter());
+        return new JwtTokenStore(jwtAccessTokenConverter());
     }
 }
