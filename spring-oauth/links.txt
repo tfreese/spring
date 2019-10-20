@@ -6,6 +6,12 @@ https://github.com/spring-projects/spring-security-oauth/tree/master/tests/annot
 https://github.com/bassemZohdy/Spring_REST_OAuth_Demo
 https://github.com/TechPrimers/spring-security-oauth-example
 
+https://github.com/spring-projects/spring-security/wiki/OAuth-2.0-Features-Matrix
+ 
+Oauth Grant Types
+https://medium.com/@akourtim.ahmed/oauth-2-centralized-authorization-with-spring-boot-2-0-2-and-spring-security-5-and-jdbc-token-store-8dbc063bd5d4
+https://oauth.net/2/grant-types/
+
 
      <dependency>
         <groupId>org.springframework.boot</groupId>
