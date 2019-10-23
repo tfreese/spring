@@ -1,0 +1,60 @@
+logging:
+   level:
+      org.springframework: INFO
+      org.springframework.security.oauth2: DEBUG
+    
+server:
+   port: 8081
+   http2:
+      enabled: true    
+   servlet:
+      context-path: /auth
+   error:
+      whitelabel:
+         enabled: false
+
+spring:         
+   profiles:
+      #active: memory
+      active: jdbc
+
+---
+
+spring:
+   profiles: memory
+   flyway:
+      enabled: false
+      
+---
+
+spring:
+   profiles: jdbc
+   flyway:
+      enabled: true
+      encoding: UTF-8
+      locations: classpath:db/hsqldb
+   datasource:
+      #url: jdbc:hsqldb:file:db/hsqldb/oauth;create=true;shutdown=true
+      #url: jdbc:hsqldb:mem:oauth;create=true;shutdown=true
+      url: jdbc:hsqldb:hsql://localhost:${hsqldb.server.port}/memory.db
+      username: sa
+      password:
+      
+hsqldb:
+   server:
+      enabled: true
+      # Port wird dynamisch in OAuth2AuthorisationServerApplication gesetzt.
+      #port: ${port}
+      #port: ${random.int[10000,65000]}
+      noSystemExit: true
+      silent: true
+      trace: false
+      db:
+         #- name: oauth.db
+         #  path: file:target/db/oauth.db
+         - name: memory.db
+           path: mem:mem.db       
+
+
+   
+   
