@@ -19,7 +19,6 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
-import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 
 /**
  * @author Thomas Freese
@@ -48,14 +47,14 @@ public class CommonConfig
         return cacheManager;
     }
 
-    /**
-     * @return {@link OAuth2AccessDeniedHandler}
-     */
-    @Bean
-    public OAuth2AccessDeniedHandler oauthAccessDeniedHandler()
-    {
-        return new OAuth2AccessDeniedHandler();
-    }
+    // /**
+    // * @return {@link OAuth2AccessDeniedHandler}
+    // */
+    // @Bean
+    // public OAuth2AccessDeniedHandler oauthAccessDeniedHandler()
+    // {
+    // return new OAuth2AccessDeniedHandler();
+    // }
 
     /**
      * @return {@link PasswordEncoder}

@@ -1,3 +1,5 @@
+https://dzone.com/articles/build-an-oauth-20-authorization-server-with-spring
+
 https://dzone.com/articles/secure-spring-rest-with-spring-security-and-oauth2
 https://dzone.com/articles/spring-security-with-oauth2
 https://github.com/ToastShaman/spring-security-oauth2-example

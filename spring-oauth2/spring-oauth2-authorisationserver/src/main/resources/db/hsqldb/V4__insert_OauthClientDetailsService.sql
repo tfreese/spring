@@ -14,28 +14,31 @@ VALUES
 	(
 	'my-client-id-read',
 	'my-oauth-app',
-	'{noop}my-secret',
+	'{NOOP}my-client-secret',
 	'user_info, read',
-	'authorization_code, client_credentials, password, refresh_token, implicit',
-	'http://localhost:8082/ui/login, http://localhost:8083/ui2/login, http://localhost:8082/login',
+	'authorization_code',
+	'http://localhost:8082/login/oauth2/code/',
 	'USER',
 	120,
 	3600,
-	'read-only client',
+	'{"description":"read-only client"}',
 	'0'
 	)
 	,
 	(
 	'my-client-id-write',
 	'my-oauth-app',
-	'{noop}my-secret',
+	'{NOOP}my-client-secret',
 	'user_info, read, write',
-	'authorization_code, client_credentials, password, refresh_token, implicit',
-	'http://localhost:8082/ui/login, http://localhost:8083/ui2/login, http://localhost:8082/login',
+	'authorization_code',
+	'http://localhost:8082/login/oauth2/code/',
 	'USER,ADMIN',
 	120,
 	3600,
-	'read-write client',
+	'{"description":"read-write client"}',
 	'0'
 	)
 ;
+
+-- 'authorization_code, client_credentials, password, refresh_token, implicit',
+-- 'http://localhost:8082/ui/login, http://localhost:8083/ui2/login, http://localhost:8082/login',

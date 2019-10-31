@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Thomas Freese
  */
 @RestController
-@RequestMapping("rest")
-public class TokenService
+@RequestMapping("user")
+public class UserController
 {
     /**
-     * Erstellt ein neues {@link TokenService} Object.
+     * Erstellt ein neues {@link UserController} Object.
      */
-    public TokenService()
+    public UserController()
     {
         super();
     }

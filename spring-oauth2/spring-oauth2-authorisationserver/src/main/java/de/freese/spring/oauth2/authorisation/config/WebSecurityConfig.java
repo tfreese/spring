@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -76,17 +75,38 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     {
         // @formatter:off
         http
-            .anonymous().disable()
-            .csrf().disable()
             .authorizeRequests()
-                .antMatchers("/auth/rest/**").authenticated() // Nur auf den /rest Pfad beschränken.
-                .anyRequest().denyAll()
+                .antMatchers("/login", "/oauth/authorize").permitAll()
+                .anyRequest().authenticated()
             .and()
-                .formLogin().disable()
-                .httpBasic().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
+//                .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
+                .formLogin().permitAll();
+        // @formatter:on
 
-//            .antMatcher("/auth/rest/**")
+        // @formatter:off
+//        http.requestMatchers()
+//            .antMatchers("/login", "/oauth/authorize")
+//            .and()
+//            .authorizeRequests()
+//                .anyRequest().authenticated()
+//            .and()
+////                .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
+//                .formLogin().permitAll();
+        // @formatter:on
+
+        // @formatter:off
+//        http
+//            .anonymous().disable()
+//            .csrf().disable()
+//            .authorizeRequests()
+//                .antMatchers("/auth/user/**").authenticated() // Nur auf den /rest Pfad beschränken.
+//                .anyRequest().denyAll()
+//            .and()
+//                .formLogin().disable()
+//                .httpBasic().disable()
+//            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
+
+//            .antMatcher("/auth/user/**")
 //                .authorizeRequests()
 //                    .anyRequest().authenticated()// Alle HTTP Methoden zulässig.
         ;
