@@ -22,7 +22,7 @@ VALUES
 	120,
 	3600,
 	'{"description":"read-only client"}',
-	'0'
+	'true'
 	)
 	,
 	(
@@ -36,7 +36,7 @@ VALUES
 	120,
 	3600,
 	'{"description":"read-write client"}',
-	'0'
+	'true'
 	)
 ;
 

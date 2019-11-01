@@ -51,7 +51,7 @@ public class OAuth2AuthorisationServerApplication extends SpringBootServletIniti
      */
     public static void main(final String[] args) throws Exception
     {
-        // ApplicationContext context = SpringApplication.run(SpringBootThymeleafApplication.class, args);
+        // ApplicationContext context = SpringApplication.run(OAuth2AuthorisationServerApplication.class, args);
         configureApplication(new SpringApplicationBuilder()).run(args);
     }
 

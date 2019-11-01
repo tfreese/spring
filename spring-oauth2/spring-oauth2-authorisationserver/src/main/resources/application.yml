@@ -15,9 +15,9 @@ server:
 
 spring:         
    profiles:
-      active: memory
-      #active: jdbc
-
+      #active: memory
+      active: jdbc
+      
 ---
 
 spring:

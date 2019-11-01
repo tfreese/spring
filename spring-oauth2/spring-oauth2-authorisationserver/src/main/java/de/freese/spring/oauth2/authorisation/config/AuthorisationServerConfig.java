@@ -6,6 +6,7 @@ package de.freese.spring.oauth2.authorisation.config;
 
 import javax.annotation.Resource;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +25,10 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  */
 @Configuration
 @EnableAuthorizationServer
+@Profile(
+{
+        "jdbc", "memory"
+})
 public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdapter
 {
     /**
@@ -45,8 +50,8 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     private AuthorizationCodeServices authorizationCodeServices = null;
 
     /**
-       *
-       */
+    *
+    */
     @Resource
     private ClientDetailsService myClientDetailsService = null;
 

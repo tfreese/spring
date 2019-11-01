@@ -202,15 +202,22 @@ public class HomeThymeleafController
      * @param request {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
      * @return String
+     * @throws ServletException Falls was schief geht.
      */
     @GetMapping("/logout")
-    protected String logout(final HttpServletRequest request, final HttpServletResponse response)
+    protected String logout(final HttpServletRequest request, final HttpServletResponse response) throws ServletException
     {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth != null)
+        if (authentication != null)
         {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
+            authentication.setAuthenticated(false);
+
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+
+            SecurityContextHolder.clearContext();
+            request.logout();
+            request.getSession().invalidate();
         }
 
         return "redirect:/login?logout";

@@ -35,7 +35,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             .antMatchers("/", "/login**").permitAll()
             .anyRequest().authenticated()
             .and()
-                .oauth2Login();
+                .oauth2Login()
+            .and()
+            .logout()
+                .permitAll()
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID", "remember-me", "UISESSION")
+                .invalidateHttpSession(true)
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+            ;
         // @formatter:on
     }
 }

@@ -5,6 +5,9 @@ logging:
       
 server:
    port: 8082
+   error:
+      whitelabel:
+         enabled: true   
    http2:
       enabled: true     
    session:
@@ -20,7 +23,7 @@ spring:
             registration:
                custom-client:
                   client-id: my-client-id-read
-                  client-secret: '{NOOP}my-client-secret'
+                  client-secret: my-client-secret
                   client-name: My Auth Server
                   scope: user_info
                   provider: custom-provider

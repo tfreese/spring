@@ -9,8 +9,16 @@
 </head>
 
 <body>
-  <h1>Secured Page</h1>
-  <span th:text="${#authentication.name}"></span>
+	<h1>Secured Page</h1>
+	<span th:text="${#authentication.name}"></span>
+	<br>
+  	<a href="logout">Logout-Link</a>
+  	<br>
+	<form id="form_logout" action="/logout" method="POST">
+		<span style="float:left" sec:authorize="isAuthenticated()">				
+			<a href="javascript:{}" onclick="document.getElementById('form_logout').submit(); return false;">Logout-Form</a>									
+		</span>
+	</form>
 </body>
 
 </html>
