@@ -1,4 +1,10 @@
 https://dzone.com/articles/build-an-oauth-20-authorization-server-with-spring
+https://blog.ordix.de/technologien/oauth-2-0-und-java-spring-rest-schnittstellen-absichern-mit-spring-oauth-2-0-json-web-token
+
+https://github.com/Baeldung/spring-security-oauth
+
+
+
 
 https://dzone.com/articles/secure-spring-rest-with-spring-security-and-oauth2
 https://dzone.com/articles/spring-security-with-oauth2

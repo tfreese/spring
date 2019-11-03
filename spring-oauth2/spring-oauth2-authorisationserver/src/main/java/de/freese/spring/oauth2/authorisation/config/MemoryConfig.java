@@ -70,7 +70,7 @@ public class MemoryConfig
                     .secret(passwordEncoder.encode("my-client-secret"))
 //                    .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token", "implicit")
                     .authorizedGrantTypes("authorization_code")
-                    .authorities("USER")
+                    .authorities("ROLE_USER")
                     .scopes("user_info", "read")
 //                    .redirectUris("http://localhost:8082/ui/login", "http://localhost:8083/ui2/login", "http://localhost:8082/login")
                     .redirectUris("http://localhost:8082/login/oauth2/code/")
@@ -83,7 +83,7 @@ public class MemoryConfig
                     .resourceIds("my-oauth-app")
                     .secret(passwordEncoder.encode("my-client-secret"))
                     .authorizedGrantTypes("authorization_code")
-                    .authorities("USER", "ADMIN")
+                    .authorities("ROLE_ADMIN")
                     .scopes("user_info", "read", "write")
                     .redirectUris("http://localhost:8082/login/oauth2/code/")
                     .autoApprove(true)
@@ -104,9 +104,11 @@ public class MemoryConfig
     @Bean
     public UserDetailsService myUserDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache)
     {
+        // User.roles("USER",...) -> Authorities erhalten Prefix 'ROLE_' -> analog authorities("ROLE_USER")
+
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
-        userDetailsManager.createUser(User.withUsername("admin").password(passwordEncoder.encode("pw")).roles("ADMIN", "USER").build());
-        userDetailsManager.createUser(User.withUsername("user").password(passwordEncoder.encode("pw")).roles("USER").build());
+        userDetailsManager.createUser(User.withUsername("admin").password(passwordEncoder.encode("pw")).authorities("ROLE_ADMIN", "ROLE_USER").build());
+        userDetailsManager.createUser(User.withUsername("user").password(passwordEncoder.encode("pw")).authorities("ROLE_USER").build());
 
         CachingUserDetailsService cachingUserDetailsService = new CachingUserDetailsService(userDetailsManager);
         cachingUserDetailsService.setUserCache(userCache);
@@ -126,4 +128,25 @@ public class MemoryConfig
     {
         return new InMemoryTokenStore();
     }
+
+    // @Bean
+    // public TokenStore tokenStore() {
+    // return new JwtTokenStore(jwtAccessTokenConverter());
+    // }
+    //
+    // @Bean
+    // public JwtAccessTokenConverter jwtAccessTokenConverter() {
+    // JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+    // converter.setSigningKey(JWTSigningKey);
+    // return converter;
+    // }
+    // DefaultAccessTokenConverter
+    // @Bean
+    // @Primary
+    // public DefaultTokenServices tokenServices() {
+    // DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+    // defaultTokenServices.setTokenStore(tokenStore());
+    // defaultTokenServices.setSupportRefreshToken(true);
+    // return defaultTokenServices;
+    // }
 }

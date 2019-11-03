@@ -129,8 +129,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public UserDetailsService userDetailsService()
     {
-        // "{bcrypt}" + passwordEncoder.encode("pw")
-        // PasswordEncoder passwordEncoder = passwordEncoder();
+        // User.roles("USER",...) -> Authorities erhalten Prefix 'ROLE_' -> analog authorities("ROLE_USER")
 
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
         userDetailsManager.createUser(User.withUsername("admin").password("{NOOP}pw").roles("ADMIN", "USER").build());

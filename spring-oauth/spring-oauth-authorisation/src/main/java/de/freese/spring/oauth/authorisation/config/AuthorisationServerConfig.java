@@ -26,6 +26,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 /**
+ * Der AuthorisationServer verwaltet sämtliche Berechtigungen und verarbeitet alle Token-Anfragen.
+ * 
  * @author Thomas Freese
  */
 @Configuration

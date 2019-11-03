@@ -1,14 +1,16 @@
 /*** Created:31.10.2019 */
 
-package de.freese.spring.oauth2.authorisation.config;
+package de.freese.spring.oauth2.resource.config;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 /**
@@ -18,6 +20,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
  */
 @Configuration
 @EnableResourceServer
+@Order(1)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter
 {
     /**
@@ -33,15 +36,22 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
     };
 
     /**
-    *
-    */
-    private static final String RESOURCE_ID = "my-oauth-app";
+     *
+     */
+    @Value("${security.oauth2.client.clientId}")
+    private String clientId = null;
 
     /**
-    *
-    */
-    @Resource
-    private TokenStore tokenStore = null;
+     *
+     */
+    @Value("${security.oauth2.client.clientSecret}")
+    private String clientSecret = null;
+
+    /**
+     *
+     */
+    @Value("${security.oauth2.resource.token-info-uri}")
+    private String tokenEndpoint = null;
 
     /**
      * Erstellt ein neues {@link ResourceServerConfig} Object.
@@ -69,11 +79,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
     }
 
     /**
-     * @see org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter#configure(org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer)
+     * @return {@link RemoteTokenServices}
      */
-    @Override
-    public void configure(final ResourceServerSecurityConfigurer resources)
+    @Primary
+    @Bean
+    public RemoteTokenServices tokenServices()
     {
-        resources.resourceId(RESOURCE_ID).tokenStore(this.tokenStore);
+        RemoteTokenServices tokenService = new RemoteTokenServices();
+        tokenService.setCheckTokenEndpointUrl(this.tokenEndpoint);
+        tokenService.setClientId(this.clientId);
+        tokenService.setClientSecret(this.clientSecret);
+
+        return tokenService;
     }
 }
