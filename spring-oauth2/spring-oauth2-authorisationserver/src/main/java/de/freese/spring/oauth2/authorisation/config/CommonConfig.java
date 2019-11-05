@@ -70,7 +70,7 @@ public class CommonConfig
         Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put("BCRYPT", new BCryptPasswordEncoder(10));
         encoders.put("PBKDF2", pbkdf2passwordEncoder);
-        encoders.put("NOOP", new PasswordEncoder()
+        encoders.put("PLAIN", new PasswordEncoder()
         {
             @Override
             public String encode(final CharSequence rawPassword)
@@ -85,7 +85,7 @@ public class CommonConfig
             }
         });
 
-        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("NOOP", encoders);
+        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("PLAIN", encoders);
         // passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
 
         return passwordEncoder;

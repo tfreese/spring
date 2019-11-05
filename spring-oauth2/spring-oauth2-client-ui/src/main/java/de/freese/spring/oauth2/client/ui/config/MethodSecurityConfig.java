@@ -2,10 +2,9 @@
  * Created: 22.10.2018
  */
 
-package de.freese.spring.oauth2.resource.config;
+package de.freese.spring.oauth2.client.ui.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
@@ -16,10 +15,6 @@ import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecur
  */
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-@Profile(
-{
-        "jdbc", "memory"
-})
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration
 {
     /**

@@ -6,6 +6,7 @@ package de.freese.spring.oauth2.authorisation.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserCache;
@@ -18,22 +19,23 @@ import org.springframework.security.oauth2.provider.approval.InMemoryApprovalSto
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
  * @author Thomas Freese
  */
 @Configuration
-@Profile("memory")
-public class MemoryConfig
+@Profile("jwt")
+public class JwtConfig
 {
     /**
-     * Erstellt ein neues {@link MemoryConfig} Object.
+     * Erstellt ein neues {@link JwtConfig} Object.
      */
-    public MemoryConfig()
+    public JwtConfig()
     {
         super();
     }
@@ -44,7 +46,10 @@ public class MemoryConfig
     @Bean
     public AccessTokenConverter accessTokenConverter()
     {
-        return new DefaultAccessTokenConverter();
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setSigningKey("gehaim");
+
+        return converter;
     }
 
     /**
@@ -75,7 +80,7 @@ public class MemoryConfig
     {
         // @formatter:off
         return new InMemoryClientDetailsServiceBuilder()
-                    .withClient("my-app")
+                .withClient("my-app")
                     .resourceIds("my-app")
                     .secret(passwordEncoder.encode("app-secret"))
                     .scopes("user_info", "read", "write")
@@ -87,8 +92,8 @@ public class MemoryConfig
                     .additionalInformation("description:my oauth app")
                     .autoApprove(true)
                 .and()
-    //            .withClient("...")
-    //            .and()
+//                .withClient("...")
+//                .and()
                 .build()
         ;
         // @formatter:on
@@ -119,32 +124,27 @@ public class MemoryConfig
     }
 
     /**
+     * @param tokenStore {@link TokenStore}
+     * @return {@link DefaultTokenServices}
+     */
+    @Bean
+    @Primary
+    public DefaultTokenServices tokenServices(final TokenStore tokenStore)
+    {
+        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        defaultTokenServices.setTokenStore(tokenStore);
+        defaultTokenServices.setSupportRefreshToken(true);
+
+        return defaultTokenServices;
+    }
+
+    /**
+     * @param accessTokenConverter {@link JwtAccessTokenConverter}
      * @return {@link TokenStore}
      */
     @Bean
-    public TokenStore tokenStore()
+    public TokenStore tokenStore(final JwtAccessTokenConverter accessTokenConverter)
     {
-        return new InMemoryTokenStore();
+        return new JwtTokenStore(accessTokenConverter);
     }
-
-    // @Bean
-    // public TokenStore tokenStore() {
-    // return new JwtTokenStore(jwtAccessTokenConverter());
-    // }
-    //
-    // @Bean
-    // public JwtAccessTokenConverter jwtAccessTokenConverter() {
-    // JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-    // converter.setSigningKey(JWTSigningKey);
-    // return converter;
-    // }
-    // DefaultAccessTokenConverter
-    // @Bean
-    // @Primary
-    // public DefaultTokenServices tokenServices() {
-    // DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-    // defaultTokenServices.setTokenStore(tokenStore());
-    // defaultTokenServices.setSupportRefreshToken(true);
-    // return defaultTokenServices;
-    // }
 }

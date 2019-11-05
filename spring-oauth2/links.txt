@@ -5,6 +5,70 @@ https://github.com/Baeldung/spring-security-oauth
 
 
 
+https://www.ordix.de/ordix-news-archiv/inhaltsverzeichnis-ordix-news-2-2018/oauth-2-0-und-java-spring-rest-schnittstellen-absichern-mit-spring-oauth-2-0-json-web-token.html
+https://github.com/PhilKuer/spring-jwt-oauth2-sample
+https://github.com/habuma/spring-security-oauth2-jwt-example
+ 
+https://docs.spring.io/spring-security-oauth2-boot/docs/current/reference/html/boot-features-security-oauth2-authorization-server.html
+https://docs.spring.io/spring-security-oauth2-boot/docs/current/reference/html/boot-features-security-oauth2-resource-server.html
+ 
+ 
+The URL paths provided by the framework are
+/oauth/authorize (the authorization endpoint),
+/oauth/token (the token endpoint),
+/oauth/confirm_access (user posts approval for grants here),
+/oauth/error (used to render errors in the authorization server),
+/oauth/check_token (used by Resource Servers to decode access tokens),
+/oauth/token_key (exposes public key for token verification if using JWT tokens).
+ 
+/oauth/token
+/oauth/check_token
+/oauth/token_key
+Die Ressource token wird dabei für die Behandlung der OAuth Grant-Types verwendet.
+Über die Ressource check_token ist es einem OAuth Resource Server möglich, ein Access Token auf Gültigkeit zu prüfen.
+Die Ressource token_key ist lediglich relevant, wenn als Access Token ein JWT-Token zum Einsatz kommt:
+Über diese Ressource ist es OAuth Resource Servern möglich, den Key zur Überprüfung der JWT-Signatur zu beziehen.
+ 
+ 
+ResourceServerConfiguration;
+private static final String ROOT_PATTERN = "/**";
+ 
+@Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.GET, ROOT_PATTERN).access("#oauth2.hasScope('read')")
+                .antMatchers(HttpMethod.POST, ROOT_PATTERN).access("#oauth2.hasScope('write')")
+                .antMatchers(HttpMethod.PATCH, ROOT_PATTERN).access("#oauth2.hasScope('write')")
+                .antMatchers(HttpMethod.PUT, ROOT_PATTERN).access("#oauth2.hasScope('write')")
+                .antMatchers(HttpMethod.DELETE, ROOT_PATTERN).access("#oauth2.hasScope('write')");
+    }
+ 
+ 
+ 
+ 
+ 
+export ACCESS_TOKEN=`curl http://localhost:9999/oauth/token \
+    -d"grant_type=password&username=habuma&password=password" \
+    -H"Content-type:application/x-www-form-urlencoded; charset=utf-8" \
+    -u myclient:secret --silent | jq -r ".access_token"`
+    
+curl localhost:8082/secured -H "Authorization: Bearer dee4bc63-f0da-44f2-b04e-20682af1d86e"     
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
 
 https://dzone.com/articles/secure-spring-rest-with-spring-security-and-oauth2
 https://dzone.com/articles/spring-security-with-oauth2

@@ -20,7 +20,6 @@
 
 	<modules>
 		<module>spring-oauth2-authorisationserver</module>
-		<module>spring-oauth2-resourceserver</module>
 		<module>spring-oauth2-client-ui</module>
 	</modules>
 

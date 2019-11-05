@@ -31,20 +31,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     public void configure(final HttpSecurity http) throws Exception
     {
         // @formatter:off
-        http.antMatcher("/**").authorizeRequests()
-            .antMatchers("/", "/login**").permitAll()
+        http.authorizeRequests()
+            .antMatchers("/", "/unsecured", "/login**").permitAll()
             .anyRequest().authenticated()
+//            .and()
+//                .formLogin().permitAll()
             .and()
                 .oauth2Login()
-            .and()
-            .logout()
-                .permitAll()
-                .clearAuthentication(true)
-                .deleteCookies("JSESSIONID", "remember-me", "UISESSION")
-                .invalidateHttpSession(true)
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-            ;
+        ;
+//        http.antMatcher("/**").authorizeRequests()
+//            .antMatchers("/", "/login**").permitAll()
+//            .anyRequest().authenticated()
+//            .and()
+//                .oauth2Login()
+//            .and()
+//            .logout()
+//                .permitAll()
+//                .clearAuthentication(true)
+//                .deleteCookies("JSESSIONID", "remember-me", "UISESSION")
+//                .invalidateHttpSession(true)
+//                .logoutUrl("/logout")
+//                .logoutSuccessUrl("/")
+//            ;
         // @formatter:on
     }
 }

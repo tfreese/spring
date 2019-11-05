@@ -61,13 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception
     {
         // @formatter:off
-//      auth.inMemoryAuthentication()
-//      .withUser("admin")
-//      .password(this.passwordEncoder.encode("pw"))
-//      .roles("USER");
-//  ;
-        auth//.jdbcAuthentication().userCache(userCache)
-            .eraseCredentials(true)
+        auth
+            .eraseCredentials(true) // Löscht das Passwort, wird ein UserCache verwendet darf nicht das gleiche Objekt geliefert werden !
             .userDetailsService(userDetailsService())
             .passwordEncoder(this.passwordEncoder)
         ;
@@ -81,14 +76,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(final HttpSecurity http) throws Exception
     {
         // @formatter:off
-        http.requestMatchers()
-            .antMatchers("/login", "/oauth/authorize")
+        http.authorizeRequests()
+            .antMatchers("/login").permitAll()
+            .antMatchers("/oauth/authorize").permitAll()
+//            .antMatchers("/oauth/token/revokeById/**").permitAll()
+//            .antMatchers("/tokens/**").permitAll()
+            .anyRequest().authenticated()
             .and()
-            .authorizeRequests()
-                .anyRequest().authenticated()
+                .formLogin().permitAll()
             .and()
-//                .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
-                .formLogin().permitAll();
+                .csrf().disable()
+                .anonymous().disable()
+            ;
+        // @formatter:on
+
+        // @formatter:off
+//        http.requestMatchers()
+//            .antMatchers("/login", "/oauth/authorize")
+//            .and()
+//            .authorizeRequests()
+//                .anyRequest().authenticated()
+//            .and()
+////                .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
+//                .formLogin().permitAll();
         // @formatter:on
 
         // @formatter:off

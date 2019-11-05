@@ -4,19 +4,20 @@ logging:
       org.springframework.security.oauth2: DEBUG
     
 server:
-   port: 8081
+   port: 9999
    http2:
       enabled: true    
    servlet:
-      context-path: /auth
+      context-path: /authsrv
    error:
       whitelabel:
          enabled: false
 
 spring:         
    profiles:
-      active: memory
-      #active: jdbc
+      #active: memory
+      #active: jwt
+      active: jdbc
       
 ---
 
@@ -24,6 +25,13 @@ spring:
    profiles: memory
    flyway:
       enabled: false
+      
+---
+
+spring:
+   profiles: jwt
+   flyway:
+      enabled: false      
       
 ---
 

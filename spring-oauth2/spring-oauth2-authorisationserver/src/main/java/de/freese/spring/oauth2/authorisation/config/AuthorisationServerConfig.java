@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
@@ -28,6 +29,12 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableAuthorizationServer
 public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdapter
 {
+    /**
+    *
+    */
+    @Resource
+    private AccessTokenConverter accessTokenConverter = null;
+
     /**
     *
     */
@@ -86,10 +93,11 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     {
         // @formatter:off
         endpoints
+            .accessTokenConverter(this.accessTokenConverter)
             .approvalStore(this.approvalStore)
-            .authorizationCodeServices(this.authorizationCodeServices)
-            .tokenStore(this.tokenStore)//.accessTokenConverter(jwtAccessTokenConverter)
             .authenticationManager(this.authenticationManager)
+            .authorizationCodeServices(this.authorizationCodeServices)
+            .tokenStore(this.tokenStore)
             .userDetailsService(this.userDetailsService)
         ;
         // @formatter:on
@@ -105,7 +113,7 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
         oauthServer
             .tokenKeyAccess("permitAll()")
             .checkTokenAccess("isAuthenticated()")
-            .passwordEncoder(this.passwordEncoder)
+//            .passwordEncoder(this.passwordEncoder)
             .realm("my_realm")
         ;
         // @formatter:on

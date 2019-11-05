@@ -4,7 +4,7 @@ logging:
       org.springframework.security.oauth2: DEBUG
       
 server:
-   port: 8082
+   port: 8888
    error:
       whitelabel:
          enabled: true   
@@ -22,18 +22,18 @@ spring:
          client:
             registration:
                custom-client:
-                  client-id: my-client-id-read
-                  client-secret: my-client-secret
+                  client-id: my-app
+                  client-secret: app-secret
                   client-name: My Auth Server
                   scope: user_info
                   provider: custom-provider
-                  redirect-uri: http://localhost:8082/login/oauth2/code/
+                  redirect-uri: http://localhost:8888/login/oauth2/code/
                   client-authentication-method: basic
                   authorization-grant-type: authorization_code
             provider:
                custom-provider:
-                  token-uri: http://localhost:8081/auth/oauth/token
-                  authorization-uri: http://localhost:8081/auth/oauth/authorize
-                  user-info-uri: http://localhost:8081/auth/user/me
+                  token-uri: http://localhost:9999/authsrv/oauth/token
+                  authorization-uri: http://localhost:9999/authsrv/oauth/authorize
+                  user-info-uri: http://localhost:8888/secured/user/me
                   user-name-attribute: name
 

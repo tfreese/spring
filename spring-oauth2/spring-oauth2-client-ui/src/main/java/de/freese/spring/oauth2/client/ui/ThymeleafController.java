@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @author Thomas Freese
  */
 @Controller
-public class WebController
+public class ThymeleafController
 {
     /**
-     * Erstellt ein neues {@link WebController} Object.
+     * Erstellt ein neues {@link ThymeleafController} Object.
      */
-    public WebController()
+    public ThymeleafController()
     {
         super();
     }

@@ -4,41 +4,30 @@ INSERT INTO OAUTH_CLIENT_DETAILS(
 	CLIENT_SECRET,
 	SCOPE,
 	AUTHORIZED_GRANT_TYPES,
-	WEB_SERVER_REDIRECT_URI,
 	AUTHORITIES,
+	WEB_SERVER_REDIRECT_URI,	
 	ACCESS_TOKEN_VALIDITY,
 	REFRESH_TOKEN_VALIDITY,
 	ADDITIONAL_INFORMATION,
 	AUTOAPPROVE)
 VALUES
 	(
-	'my-client-id-read',
-	'my-oauth-app',
-	'{NOOP}my-client-secret',
-	'user_info, read',
-	'authorization_code',
-	'http://localhost:8082/login/oauth2/code/',
-	'ROLE_USER',
+	'my-app',
+	'my-app',
+	'{PLAIN}app-secret',
+	'user_info,read,write',
+	'authorization_code,client_credentials,password,refresh_token,implicit',
+	'ROLE_ADMIN,ROLE_USER',
+	'http://localhost:8888/login/oauth2/code/',	
 	120,
 	3600,
-	'{"description":"read-only client"}',
+	'{"description":"my oauth app"}',
 	'true'
 	)
-	,
-	(
-	'my-client-id-write',
-	'my-oauth-app',
-	'{NOOP}my-client-secret',
-	'user_info, read, write',
-	'authorization_code',
-	'http://localhost:8082/login/oauth2/code/',
-	'ROLE_ADMIN',
-	120,
-	3600,
-	'{"description":"read-write client"}',
-	'true'
-	)
+--	,
+--	(
+--	'...',
+--	)
 ;
 
 -- 'authorization_code, client_credentials, password, refresh_token, implicit',
--- 'http://localhost:8082/ui/login, http://localhost:8083/ui2/login, http://localhost:8082/login',
