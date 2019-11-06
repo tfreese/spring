@@ -4,6 +4,7 @@
 
 package de.freese.spring.oauth2.authorisation.config;
 
+import java.util.Arrays;
 import javax.annotation.Resource;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,8 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
@@ -66,6 +69,12 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     private PasswordEncoder passwordEncoder = null;
 
     /**
+     *
+     */
+    @Resource
+    private TokenEnhancer tokenEnhancer = null;
+
+    /**
     *
     */
     @Resource
@@ -91,12 +100,17 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(final AuthorizationServerEndpointsConfigurer endpoints) throws Exception
     {
+        final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(this.tokenEnhancer));
+        // tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer, JwtAccessTokenConverter)); // Kein .accessTokenConverter(...) notwendig !
+
         // @formatter:off
         endpoints
             .accessTokenConverter(this.accessTokenConverter)
             .approvalStore(this.approvalStore)
             .authenticationManager(this.authenticationManager)
             .authorizationCodeServices(this.authorizationCodeServices)
+//            .tokenEnhancer(tokenEnhancerChain)
             .tokenStore(this.tokenStore)
             .userDetailsService(this.userDetailsService)
         ;

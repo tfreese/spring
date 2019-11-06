@@ -6,8 +6,8 @@ package de.freese.spring.oauth2.authorisation.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +19,6 @@ import org.springframework.security.oauth2.provider.approval.InMemoryApprovalSto
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -48,6 +47,9 @@ public class JwtConfig
     {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey("gehaim");
+
+        // final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"), "mypass".toCharArray());
+        // converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
 
         return converter;
     }
@@ -113,29 +115,14 @@ public class JwtConfig
         userDetailsManager.createUser(User.withUsername("admin").password(passwordEncoder.encode("pw")).authorities("ROLE_ADMIN", "ROLE_USER").build());
         userDetailsManager.createUser(User.withUsername("user").password(passwordEncoder.encode("pw")).authorities("ROLE_USER").build());
 
-        // CachingUserDetailsService cachingUserDetailsService = new CachingUserDetailsService(userDetailsManager);
-        // cachingUserDetailsService.setUserCache(userCache);
-        //
-        // UserDetailsService userDetailsService = cachingUserDetailsService;
+        CachingUserDetailsService cachingUserDetailsService = new CachingUserDetailsService(userDetailsManager);
+        cachingUserDetailsService.setUserCache(userCache);
 
-        UserDetailsService userDetailsService = userDetailsManager;
+        UserDetailsService userDetailsService = cachingUserDetailsService;
+
+        // UserDetailsService userDetailsService = userDetailsManager;
 
         return userDetailsService;
-    }
-
-    /**
-     * @param tokenStore {@link TokenStore}
-     * @return {@link DefaultTokenServices}
-     */
-    @Bean
-    @Primary
-    public DefaultTokenServices tokenServices(final TokenStore tokenStore)
-    {
-        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(tokenStore);
-        defaultTokenServices.setSupportRefreshToken(true);
-
-        return defaultTokenServices;
     }
 
     /**

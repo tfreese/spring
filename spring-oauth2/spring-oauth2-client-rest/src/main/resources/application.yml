@@ -1,0 +1,23 @@
+logging:
+   level:
+      org.springframework: INFO
+      org.springframework.security.oauth2: DEBUG
+
+spring:
+   main: 
+      web-application-type: NONE
+
+security:
+   oauth2:
+      client:
+         clientId: my-app
+         clientSecret: app-secret
+         accessTokenUri: http://localhost:9999/authsrv/oauth/token
+         userAuthorizationUri: http://localhost:9999/authsrv/oauth/authorize
+         #tokenName: oauth_token
+         #authenticationScheme: query
+         #clientAuthenticationScheme: form
+      #resource:
+         #userInfoUri: http://localhost:8888/secured/user/me
+      
+      

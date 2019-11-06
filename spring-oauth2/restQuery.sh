@@ -14,7 +14,7 @@ HOST_RESSERVER="http://localhost:8888"
 # --silent
 
 
-RESPONSE=$(curl --silent -X POST http://localhost:9999/authsrv/oauth/token -u my-app:app-secret -d grant_type=password -d username=user -d password=pw)
+RESPONSE=$(curl --silent -X POST http://localhost:9999/authsrv/oauth/token -u my-app:app-secret -d grant_type=password -d username=admin -d password=pw)
 echo
 #echo "Response ="
 #jq . <<< "$RESPONSE"

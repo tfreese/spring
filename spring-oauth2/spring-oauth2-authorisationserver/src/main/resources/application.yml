@@ -16,8 +16,8 @@ server:
 spring:         
    profiles:
       #active: memory
-      #active: jwt
-      active: jdbc
+      active: jwt
+      #active: jdbc
       
 ---
 

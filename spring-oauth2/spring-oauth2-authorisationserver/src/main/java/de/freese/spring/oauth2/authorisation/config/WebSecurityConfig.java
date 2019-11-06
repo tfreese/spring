@@ -62,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     {
         // @formatter:off
         auth
-            .eraseCredentials(true) // Löscht das Passwort, wird ein UserCache verwendet darf nicht das gleiche Objekt geliefert werden !
+            .eraseCredentials(false) // true löscht das Passwort, wird ein UserCache verwendet darf nicht das gleiche Objekt geliefert werden !
             .userDetailsService(userDetailsService())
             .passwordEncoder(this.passwordEncoder)
         ;
@@ -79,7 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         http.authorizeRequests()
             .antMatchers("/login").permitAll()
             .antMatchers("/oauth/authorize").permitAll()
-//            .antMatchers("/oauth/token/revokeById/**").permitAll()
+            .antMatchers("/oauth/token/revokeById/**").permitAll()
 //            .antMatchers("/tokens/**").permitAll()
             .anyRequest().authenticated()
             .and()
@@ -88,35 +88,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
                 .csrf().disable()
                 .anonymous().disable()
             ;
-        // @formatter:on
-
-        // @formatter:off
-//        http.requestMatchers()
-//            .antMatchers("/login", "/oauth/authorize")
-//            .and()
-//            .authorizeRequests()
-//                .anyRequest().authenticated()
-//            .and()
-////                .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
-//                .formLogin().permitAll();
-        // @formatter:on
-
-        // @formatter:off
-//        http
-//            .anonymous().disable()
-//            .csrf().disable()
-//            .authorizeRequests()
-//                .antMatchers("/auth/user/**").authenticated() // Nur auf den /rest Pfad beschränken.
-//                .anyRequest().denyAll()
-//            .and()
-//                .formLogin().disable()
-//                .httpBasic().disable()
-//            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
-
-//            .antMatcher("/auth/user/**")
-//                .authorizeRequests()
-//                    .anyRequest().authenticated()// Alle HTTP Methoden zulässig.
-        ;
         // @formatter:on
     }
 

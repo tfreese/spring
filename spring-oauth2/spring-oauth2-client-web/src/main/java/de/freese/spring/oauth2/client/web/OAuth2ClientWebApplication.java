@@ -1,36 +1,19 @@
-package de.freese.spring.oauth2.authorisation;
+/**
+ * Created: 31.10.2019
+ */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package de.freese.spring.oauth2.client.web;
+
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.util.SocketUtils;
 
 /**
  * @author Thomas Freese
  */
 @SpringBootApplication
-@ComponentScan(basePackages =
+public class OAuth2ClientWebApplication extends SpringBootServletInitializer
 {
-        "de.freese.spring"
-})
-public class OAuth2AuthorisationServerApplication extends SpringBootServletInitializer
-{
-    /**
-    *
-    */
-    public static final Logger LOGGER = LoggerFactory.getLogger(OAuth2AuthorisationServerApplication.class);
-
-    static
-    {
-        int port = SocketUtils.findAvailableTcpPort();
-
-        // Damit die Placeholder in Properties funktionieren: ${hsqldb.server.port}
-        System.setProperty("hsqldb.server.port", Integer.toString(port));
-    }
-
     /**
      * Konfiguriert die SpringApplication.
      *
@@ -42,7 +25,7 @@ public class OAuth2AuthorisationServerApplication extends SpringBootServletIniti
         // headless(false) für Desktop
         // .bannerMode(Banner.Mode.OFF);
         // .profiles(profiles)
-        return builder.sources(OAuth2AuthorisationServerApplication.class).headless(true);
+        return builder.sources(OAuth2ClientWebApplication.class).headless(true);
     }
 
     /**
@@ -51,8 +34,16 @@ public class OAuth2AuthorisationServerApplication extends SpringBootServletIniti
      */
     public static void main(final String[] args) throws Exception
     {
-        // ApplicationContext context = SpringApplication.run(OAuth2AuthorisationServerApplication.class, args);
+        // ApplicationContext context = SpringApplication.run(OAuth2ClientWebApplication.class, args);
         configureApplication(new SpringApplicationBuilder()).run(args);
+    }
+
+    /**
+     * Erstellt ein neues {@link OAuth2ClientWebApplication} Object.
+     */
+    public OAuth2ClientWebApplication()
+    {
+        super();
     }
 
     /**

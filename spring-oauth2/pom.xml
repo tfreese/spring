@@ -20,7 +20,8 @@
 
 	<modules>
 		<module>spring-oauth2-authorisationserver</module>
-		<module>spring-oauth2-client-ui</module>
+		<module>spring-oauth2-client-rest</module>
+		<module>spring-oauth2-client-web</module>
 	</modules>
 
 </project>

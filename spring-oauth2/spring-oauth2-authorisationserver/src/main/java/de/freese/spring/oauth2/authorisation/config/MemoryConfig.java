@@ -7,6 +7,7 @@ package de.freese.spring.oauth2.authorisation.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -108,12 +109,12 @@ public class MemoryConfig
         userDetailsManager.createUser(User.withUsername("admin").password(passwordEncoder.encode("pw")).authorities("ROLE_ADMIN", "ROLE_USER").build());
         userDetailsManager.createUser(User.withUsername("user").password(passwordEncoder.encode("pw")).authorities("ROLE_USER").build());
 
-        // CachingUserDetailsService cachingUserDetailsService = new CachingUserDetailsService(userDetailsManager);
-        // cachingUserDetailsService.setUserCache(userCache);
-        //
-        // UserDetailsService userDetailsService = cachingUserDetailsService;
+        CachingUserDetailsService cachingUserDetailsService = new CachingUserDetailsService(userDetailsManager);
+        cachingUserDetailsService.setUserCache(userCache);
 
-        UserDetailsService userDetailsService = userDetailsManager;
+        UserDetailsService userDetailsService = cachingUserDetailsService;
+
+        // UserDetailsService userDetailsService = userDetailsManager;
 
         return userDetailsService;
     }
