@@ -4,22 +4,19 @@
 
 package de.freese.spring.oauth2.client.rest;
 
-import java.util.Arrays;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.client.support.BasicAuthenticationInterceptor;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.core.env.Environment;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Thomas Freese
  */
 @SpringBootApplication
-// @EnableOAuth2Client
 public class OAuth2ClientRestApplication extends SpringBootServletInitializer
 {
     /**
@@ -39,42 +36,48 @@ public class OAuth2ClientRestApplication extends SpringBootServletInitializer
         super();
     }
 
-    // /**
-    // * Manuelle Definition
-    // *
-    // * @return {@link OAuth2ProtectedResourceDetails}
-    // */
-    // @Bean
-    // public ResourceOwnerPasswordResourceDetails myAppOauthDetails()
-    // {
-    // // AuthorizationCodeResourceDetails details = new AuthorizationCodeResourceDetails();
-    // // ClientCredentialsResourceDetails details = new ClientCredentialsResourceDetails();
-    //
-    // ResourceOwnerPasswordResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
-    // resourceDetails.setClientId("my-app");
-    // resourceDetails.setClientSecret("app-secret");
-    // resourceDetails.setAccessTokenUri("http://localhost:9999/authsrv/oauth/token");
-    // resourceDetails.setUsername("user");
-    // resourceDetails.setPassword("pw");
-    //
-    // return resourceDetails;
-    // }
-
     /**
-     * @param resource {@link OAuth2ProtectedResourceDetails}
-     * @param context {@link OAuth2ClientContext}
+     * @param env {@link Environment}
      * @return {@link RestTemplate}
      */
     @Bean
-    public RestTemplate oAuth2RestTemplate(final OAuth2ProtectedResourceDetails resource, final OAuth2ClientContext context)
+    public RestTemplate oAuth2RestTemplate(final Environment env)
     {
-        OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(resource, context);
+        // AuthorizationCodeResourceDetails details = new AuthorizationCodeResourceDetails();
+        // ClientCredentialsResourceDetails details = new ClientCredentialsResourceDetails();
 
-        oAuth2RestTemplate.setInterceptors(Arrays.asList(new BasicAuthenticationInterceptor("user", "pw")));
+        ResourceOwnerPasswordResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
+        resourceDetails.setClientId(env.getProperty("security.oauth2.client.clientId"));
+        resourceDetails.setClientSecret(env.getProperty("security.oauth2.client.clientSecret"));
+        resourceDetails.setAccessTokenUri(env.getProperty("security.oauth2.client.accessTokenUri"));
+        resourceDetails.setUsername("admin");
+        resourceDetails.setPassword("pw");
+
+        OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(resourceDetails);
 
         // Validierung
         // oAuth2RestTemplate.getAccessToken();
 
         return oAuth2RestTemplate;
     }
+
+    // /**
+    // * Funktioniert nicht ... jeder User hat die ADMIN-Rolle !!!
+    // *
+    // * @param resource {@link OAuth2ProtectedResourceDetails}
+    // * @param context {@link OAuth2ClientContext}
+    // * @return {@link RestTemplate}
+    // */
+    // // @Bean
+    // public RestTemplate oAuth2RestTemplate(final OAuth2ProtectedResourceDetails resource, final OAuth2ClientContext context)
+    // {
+    // OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(resource, context);
+    //
+    // oAuth2RestTemplate.setInterceptors(Arrays.asList(new BasicAuthenticationInterceptor("user", "pw")));
+    //
+    // // Validierung
+    // // oAuth2RestTemplate.getAccessToken();
+    //
+    // return oAuth2RestTemplate;
+    // }
 }

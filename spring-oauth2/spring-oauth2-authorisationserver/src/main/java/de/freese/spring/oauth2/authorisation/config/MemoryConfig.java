@@ -82,8 +82,8 @@ public class MemoryConfig
                     .scopes("user_info", "read", "write")
                     .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token", "implicit")
                     .authorities("ROLE_ADMIN", "ROLE_USER")
-                    .redirectUris("http://localhost:8888/login/oauth2/code/")
-                    .accessTokenValiditySeconds(120) // 2 Minuten
+                    .redirectUris("http://localhost:8888/res_srv/login/oauth2/code/")
+                    .accessTokenValiditySeconds(300) // 5 Minuten
                     .refreshTokenValiditySeconds(3600) // 1 Stunde
                     .additionalInformation("description:my oauth app")
                     .autoApprove(true)

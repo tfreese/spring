@@ -1,4 +1,4 @@
-package de.freese.spring.oauth.sso.ui2.config;
+package de.freese.spring.oauth2.client.web.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 @EnableWebMvc
-public class Ui2WebConfig implements WebMvcConfigurer
+public class UiWebConfig implements WebMvcConfigurer
 {
     /**
      * @return {@link PropertySourcesPlaceholderConfigurer}
@@ -24,6 +24,14 @@ public class Ui2WebConfig implements WebMvcConfigurer
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer()
     {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    /**
+     * Erstellt ein neues {@link UiWebConfig} Object.
+     */
+    public UiWebConfig()
+    {
+        super();
     }
 
     /**

@@ -8,15 +8,15 @@ server:
    http2:
       enabled: true    
    servlet:
-      context-path: /authsrv
+      context-path: /auth_srv
    error:
       whitelabel:
          enabled: false
 
 spring:         
    profiles:
-      #active: memory
-      active: jwt
+      active: memory
+      #active: jwt
       #active: jdbc
       
 ---

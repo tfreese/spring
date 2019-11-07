@@ -18,8 +18,8 @@ VALUES
 	'user_info,read,write',
 	'authorization_code,client_credentials,password,refresh_token,implicit',
 	'ROLE_ADMIN,ROLE_USER',
-	'http://localhost:8888/login/oauth2/code/',	
-	120,
+	'http://localhost:8888/res_srv/login/oauth2/code/',	
+	300,
 	3600,
 	'{"description":"my oauth app"}',
 	'true'

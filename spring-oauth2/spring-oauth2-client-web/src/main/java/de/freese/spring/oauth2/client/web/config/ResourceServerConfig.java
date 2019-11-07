@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -71,13 +70,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
         http
             .requestMatcher(oAuthRequestedMatcher)
             .authorizeRequests()
-                .antMatchers("/", "/unsecured").permitAll()
-                .antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('read')")
-                .antMatchers(HttpMethod.POST, "/**").access("#oauth2.hasScope('write')")
-                .antMatchers(HttpMethod.PATCH, "/**").access("#oauth2.hasScope('write')")
-                .antMatchers(HttpMethod.PUT, "/**").access("#oauth2.hasScope('write')")
-                .antMatchers(HttpMethod.DELETE, "/**").access("#oauth2.hasScope('write')")
-//                .anyRequest().hasAnyAuthority("ROLE_USER")
+                .antMatchers("/", "/unsecured", "/login**").permitAll()
+//                .antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('read')")
+//                .antMatchers(HttpMethod.POST, "/**").access("#oauth2.hasScope('write')")
+//                .antMatchers(HttpMethod.PATCH, "/**").access("#oauth2.hasScope('write')")
+//                .antMatchers(HttpMethod.PUT, "/**").access("#oauth2.hasScope('write')")
+//                .antMatchers(HttpMethod.DELETE, "/**").access("#oauth2.hasScope('write')")
+                .anyRequest().hasAnyAuthority("ROLE_USER")
         ;
         // @formatter:on
     }
@@ -100,7 +99,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
     public RemoteTokenServices tokenServices()
     {
         RemoteTokenServices tokenService = new RemoteTokenServices();
-        tokenService.setCheckTokenEndpointUrl("http://localhost:9999/authsrv/oauth/check_token"); // Nur für JWT-Relevant
+        tokenService.setCheckTokenEndpointUrl("http://localhost:9999/auth_srv/oauth/check_token"); // Nur für JWT-Relevant
         tokenService.setClientId(this.clientId);
         tokenService.setClientSecret(this.clientSecret);
 

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * Abmelden mit OAuth2.
+ * 
  * @author Thomas Freese
  */
 @FrameworkEndpoint

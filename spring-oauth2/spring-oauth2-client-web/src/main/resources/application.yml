@@ -9,7 +9,9 @@ server:
       whitelabel:
          enabled: true   
    http2:
-      enabled: true     
+      enabled: true 
+   servlet:
+      context-path: /res_srv       
    session:
       cookie:
          name: UISESSION
@@ -27,13 +29,13 @@ spring:
                   client-name: My Auth Server
                   scope: user_info
                   provider: custom-provider
-                  redirect-uri: http://localhost:8888/login/oauth2/code/
+                  redirect-uri: http://localhost:8888/res_srv/login/oauth2/code/
                   client-authentication-method: basic
                   authorization-grant-type: authorization_code
             provider:
                custom-provider:
-                  token-uri: http://localhost:9999/authsrv/oauth/token
-                  authorization-uri: http://localhost:9999/authsrv/oauth/authorize
-                  user-info-uri: http://localhost:8888/secured/user/me
+                  token-uri: http://localhost:9999/auth_srv/oauth/token
+                  authorization-uri: http://localhost:9999/auth_srv/oauth/authorize
+                  user-info-uri: http://localhost:8888/res_srv/secured/user/me
                   user-name-attribute: name
 

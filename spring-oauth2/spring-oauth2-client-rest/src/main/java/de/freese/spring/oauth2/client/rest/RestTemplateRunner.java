@@ -48,10 +48,10 @@ public class RestTemplateRunner implements CommandLineRunner
     {
         LOGGER.info("");
 
-        // Principal principal = this.restTemplate.getForEntity("http://localhost:8888/secured/user/me", Principal.class).getBody();
-        // System.out.println(principal);
+        String principal = this.restTemplate.getForEntity("http://localhost:8888/res_srv/secured/user/me", String.class).getBody();
+        System.out.println(principal);
 
-        String json = this.restTemplate.getForEntity("http://localhost:8888/secured", String.class).getBody();
+        String json = this.restTemplate.getForEntity("http://localhost:8888/res_srv/secured", String.class).getBody();
         System.out.println(json);
     }
 }

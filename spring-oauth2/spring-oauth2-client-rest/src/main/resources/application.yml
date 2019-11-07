@@ -12,12 +12,12 @@ security:
       client:
          clientId: my-app
          clientSecret: app-secret
-         accessTokenUri: http://localhost:9999/authsrv/oauth/token
-         userAuthorizationUri: http://localhost:9999/authsrv/oauth/authorize
+         accessTokenUri: http://localhost:9999/auth_srv/oauth/token
+         #userAuthorizationUri: http://localhost:9999/auth_srv/oauth/authorize
          #tokenName: oauth_token
          #authenticationScheme: query
          #clientAuthenticationScheme: form
       #resource:
-         #userInfoUri: http://localhost:8888/secured/user/me
+         #userInfoUri: http://localhost:8888/res_srv/secured/user/me
       
       
