@@ -31,7 +31,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * https://github.com/spring-cloud/spring-cloud-circuitbreaker<br>
- * curl http://localhost:8080/greet
+ * curl http://localhost:8080/greet?name=tommy
  *
  * @author Thomas Freese
  */
@@ -206,6 +206,7 @@ public class SpringResilienceApplication implements CommandLineRunner
         final String mega = "MB";
 
         LOGGER.info("========================== System Info ==========================");
+        LOGGER.info("User-Dir: " + System.getProperty("user.dir"));
         LOGGER.info("Programm-Args: " + Arrays.toString(args));
         LOGGER.info("CPU Cores: " + runtime.availableProcessors());
         LOGGER.info("Free memory: " + format.format(freeMemory / mb) + mega);

@@ -18,10 +18,10 @@ logging:
       root: INFO
       org.springframework: INFO   
    file:
+      #path: ${user.dir}/logs
+      #path: /tmp/logs   
       max-history: 30
       max-size: 10MB
-      #path: ${user.dir}/logs
-      #path: ./logs
       total-size-cap: 1GB
    pattern:
       console: ${pattern.logback.console}
@@ -39,17 +39,19 @@ spring:
             address: localhost
             port: 7000
             transport: TCP
-
-# Workaround         
+        
 logging:
     file:
-        name: ./logs/producer.log  
-   
+        name: logs/producer.log
 ---
 
 spring:
     profiles: consumer
-   
+    
+logging:
+    file:
+       name: logs/consumer.log 
+          
 server:
     http2:
         enabled: true 
@@ -59,9 +61,5 @@ rsocket:
     server:
         address: localhost
         port: 7000   
-
-# Workaround     
-logging:
-    file:
-       name: ./logs/consumer.log     
+    
        
