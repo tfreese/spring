@@ -10,7 +10,7 @@
 # docker logs ID/NAME;
 # docker-compose down
 
-# for disk in {1..1000}; do curl localhost/service/sysdate; echo ""; sleep 1; done;
+# for i in {1..1000}; do curl localhost/service/sysdate; echo ""; sleep 1; done;
 #
 # multi-stage builds: https://docs.docker.com/develop/develop-images/multistage-build/
 # https://github.com/benwilcock/spring-cloud-gateway-demo

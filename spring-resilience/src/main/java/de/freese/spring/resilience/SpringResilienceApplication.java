@@ -31,7 +31,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * https://github.com/spring-cloud/spring-cloud-circuitbreaker<br>
- * curl http://localhost:8080/greet?name=tommy
+ * for i in {1..10}; do curl localhost:8080/greet?name=$i; echo ""; done;
  *
  * @author Thomas Freese
  */
@@ -44,15 +44,10 @@ public class SpringResilienceApplication implements CommandLineRunner
     @RestController
     class FailingRestController
     {
-        // /**
-        // *
-        // */
-        // private final ReactiveCircuitBreakerFactory<Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> cbf;
-
         /**
-        *
-        */
-        private final ReactiveCircuitBreaker circuitBreaker;
+         *
+         */
+        private final ReactiveCircuitBreakerFactory<Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> reactiveCircuitBreakerFactory;
 
         /**
          *
@@ -63,16 +58,25 @@ public class SpringResilienceApplication implements CommandLineRunner
          * Erstellt ein neues {@link FailingRestController} Object.
          *
          * @param service {@link FailingService}
-         * @param cbf {@link ReactiveCircuitBreakerFactory}
+         * @param reactiveCircuitBreakerFactory {@link ReactiveCircuitBreakerFactory}
          */
         FailingRestController(final FailingService service,
-                final ReactiveCircuitBreakerFactory<Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> cbf)
+                final ReactiveCircuitBreakerFactory<Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> reactiveCircuitBreakerFactory)
         {
             super();
 
-            // this.cbf = cbf;
+            this.reactiveCircuitBreakerFactory = reactiveCircuitBreakerFactory;
             this.service = Objects.requireNonNull(service, "service required");
-            this.circuitBreaker = cbf.create("greet");
+        }
+
+        /**
+         * @return {@link ReactiveCircuitBreaker}
+         */
+        private ReactiveCircuitBreaker getReactiveCircuitBreaker()
+        {
+            ReactiveCircuitBreaker circuitBreaker = this.reactiveCircuitBreakerFactory.create("greet");
+
+            return circuitBreaker;
         }
 
         /**
@@ -84,8 +88,7 @@ public class SpringResilienceApplication implements CommandLineRunner
         {
             Mono<String> results = this.service.greet(name);
 
-            return this.circuitBreaker.run(results, throwable -> Mono.just("fallback: hello world !")).map(r -> r + "\n");
-            // return this.cbf.create("greet").run(results, throwable -> Mono.just("fallback: hello world !")).map(r -> r + "\n");
+            return getReactiveCircuitBreaker().run(results, throwable -> Mono.just("fallback: hello world !")).map(r -> r + "\n");
         }
     }
 
@@ -174,18 +177,28 @@ public class SpringResilienceApplication implements CommandLineRunner
      * @return {@link Customizer}
      */
     @Bean
-    Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer()
+    Customizer<ReactiveResilience4JCircuitBreakerFactory> customizerDefault()
     {
         //@formatter:off
         return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
+                    .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(10)).build())
                     .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-                    .timeLimiterConfig(
-                            TimeLimiterConfig.custom()
-                            .timeoutDuration(Duration.ofSeconds(4)
-                            )
-                    .build()
-                    )
                     .build());
+        //@formatter:on
+    }
+
+    /**
+     * @return {@link Customizer}
+     */
+    @Bean
+    Customizer<ReactiveResilience4JCircuitBreakerFactory> customizerSlowGreet()
+    {
+        //@formatter:off
+        return factory -> factory.configure(builder -> {
+                    builder
+                        .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(5)).build())
+                        .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults());
+        }, "greet");
         //@formatter:on
     }
 
