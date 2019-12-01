@@ -14,9 +14,11 @@ server:
     #servlet:
         #context-path: /eureka
     
-spring:
-    jmx:
-        enabled: false    
+info:
+    app:
+        description: ${project.description}
+        name: ${project.artifactId}
+        version: ${project.version}  
 
 ---
 
