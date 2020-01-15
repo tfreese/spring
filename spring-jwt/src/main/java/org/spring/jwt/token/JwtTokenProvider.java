@@ -112,7 +112,7 @@ public class JwtTokenProvider
                 .setIssuer("tommy")
                 .setIssuedAt(now)
                 .setExpiration(validity)
-                //.compressWith(CompressionCodecs.GZIP)
+//                .compressWith(CompressionCodecs.DEFLATE)
                 .signWith(SignatureAlgorithm.HS512, this.secretKey)
                 .compact();
         // @formatter:on

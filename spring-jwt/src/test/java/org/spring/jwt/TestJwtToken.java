@@ -11,7 +11,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.spring.jwt.token.JwtTokenProvider;
@@ -44,22 +43,22 @@ import com.jayway.jsonpath.internal.JsonFormatter;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@Disabled
+// @Disabled
 public class TestJwtToken
 {
     /**
      * @author Thomas Freese
      */
-    private final class HttpHeaderInterceptor implements ClientHttpRequestInterceptor
+    final class HttpHeaderInterceptor implements ClientHttpRequestInterceptor
     {
         /**
-         *
-         */
+        *
+        */
         private final String name;
 
         /**
-         *
-         */
+        *
+        */
         private final String value;
 
         /**
@@ -68,7 +67,7 @@ public class TestJwtToken
          * @param name the header name to populate. Cannot be null or empty.
          * @param value the header value to populate. Cannot be null or empty.
          */
-        public HttpHeaderInterceptor(final String name, final String value)
+        HttpHeaderInterceptor(final String name, final String value)
         {
             super();
 
@@ -180,9 +179,10 @@ public class TestJwtToken
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(
-                        //new HttpHeaderInterceptor("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pw")),
-                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
+//                .interceptors(
+//                        //new HttpHeaderInterceptor("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pw")),
+//                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
+                .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .build();
         // @formatter:on
 
@@ -203,9 +203,11 @@ public class TestJwtToken
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(
-                        new HttpHeaderInterceptor("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pw")),
-                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
+//                .interceptors(
+//                        new HttpHeaderInterceptor("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pw")),
+//                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
+                .defaultHeader("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pw"))
+                .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .build();
         // @formatter:on
 
@@ -213,6 +215,7 @@ public class TestJwtToken
 
         Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
         Assert.assertNotNull(responseEntity.getBody());
+        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
 
         System.out.println(JsonFormatter.prettyPrint(responseEntity.getBody()));
         //
@@ -228,9 +231,11 @@ public class TestJwtToken
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(
-                        new HttpHeaderInterceptor("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pw")),
-                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
+//                .interceptors(
+//                        new HttpHeaderInterceptor("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pw")),
+//                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
+                .defaultHeader("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pw"))
+                .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .build();
         // @formatter:on
 
@@ -238,6 +243,7 @@ public class TestJwtToken
 
         Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
         Assert.assertNotNull(responseEntity.getBody());
+        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
 
         System.out.println(JsonFormatter.prettyPrint(responseEntity.getBody()));
     }

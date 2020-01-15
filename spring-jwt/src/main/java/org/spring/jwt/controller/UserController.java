@@ -6,7 +6,6 @@ package org.spring.jwt.controller;
 
 import java.security.Principal;
 import javax.annotation.Resource;
-import org.spring.jwt.model.MutableUser;
 import org.spring.jwt.service.UserService;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -120,7 +119,7 @@ public class UserController
 
     /**
      * @param principal {@link Principal}
-     * @return {@link MutableUser}
+     * @return {@link Principal}
      */
     @GetMapping(value = "/me")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
