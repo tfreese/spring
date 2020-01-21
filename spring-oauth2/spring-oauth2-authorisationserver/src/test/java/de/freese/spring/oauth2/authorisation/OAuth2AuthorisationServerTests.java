@@ -7,17 +7,15 @@ package de.freese.spring.oauth2.authorisation;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * @author Thomas Freese
  */
-@ExtendWith(SpringExtension.class)
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+// @ExtendWith(SpringExtension.class) // Ist bereits in SpringBootTest enthalten
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @ActiveProfiles("test, memory")
 public class OAuth2AuthorisationServerTests
 {
