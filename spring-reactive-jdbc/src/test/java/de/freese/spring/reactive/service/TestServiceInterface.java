@@ -7,11 +7,10 @@ package de.freese.spring.reactive.service;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import de.freese.spring.reactive.EmployeeService;
 import de.freese.spring.reactive.model.Department;
 import de.freese.spring.reactive.model.Employee;
@@ -22,7 +21,8 @@ import reactor.test.StepVerifier;
 /**
  * @author Thomas Freese
  */
-@ExtendWith(SpringExtension.class)
+// @ExtendWith(SpringExtension.class)
+@SpringBootTest
 public interface TestServiceInterface
 {
     /**

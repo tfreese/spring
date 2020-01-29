@@ -17,12 +17,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import javax.annotation.Resource;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -32,7 +31,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
@@ -42,11 +40,10 @@ import de.freese.spring.thymeleaf.model.Person;
 /**
  * @author Thomas Freese
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRestWithJreHttpClient implements RestTestCase
 {
     /**
@@ -95,7 +92,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
     /**
      * @throws Exception Falls was schief geht.
      */
-    @Before
+    @BeforeEach
     public void beforeTest() throws Exception
     {
         this.rootUri = ThymeleafApplication.getRootUri(this.environment);
@@ -138,7 +135,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
         Authenticator.setDefault(authenticator);
 
         // @formatter:off
-       HttpClient.Builder builder = createClientBuilder()
+        HttpClient.Builder builder = createClientBuilder()
                 .authenticator(authenticator)
                 ;
         // @formatter:on
@@ -165,10 +162,10 @@ public class TestRestWithJreHttpClient implements RestTestCase
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, response.headers().firstValue("Content-Type").get());
+        Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, response.headers().firstValue("Content-Type").get());
 
         String status = JsonPath.parse(response.body()).read("$.status");
-        Assert.assertEquals("UP", status);
+        Assertions.assertEquals("UP", status);
     }
 
     /**
@@ -191,12 +188,12 @@ public class TestRestWithJreHttpClient implements RestTestCase
         try
         {
             HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-            Assert.assertEquals(HttpStatus.UNAUTHORIZED.value(), response.statusCode());
-            // Assert.fail("sollte nicht erfolgreich sein");
+            Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), response.statusCode());
+            // Assertions.fail("sollte nicht erfolgreich sein");
         }
         catch (Exception ex)
         {
-            Assert.assertEquals("No authenticator set", ex.getMessage());
+            Assertions.assertEquals("No authenticator set", ex.getMessage());
             throw ex;
         }
     }
@@ -205,10 +202,11 @@ public class TestRestWithJreHttpClient implements RestTestCase
      * @see de.freese.spring.thymeleaf.rest.RestTestCase#test011UserWithWrongPass()
      */
     @Override
-    @Test(expected = IOException.class)
+    @Test
     public void test011UserWithWrongPass() throws Exception
     {
-        HttpClient httpClient = createClientBuilder("user", "pass").build();
+        Assertions.assertThrows(IOException.class, () -> {
+            HttpClient httpClient = createClientBuilder("user", "pass").build();
 
         // @formatter:off
         HttpRequest request = HttpRequest.newBuilder()
@@ -219,18 +217,19 @@ public class TestRestWithJreHttpClient implements RestTestCase
                 ;
         // @formatter:on
 
-        try
-        {
-            // HttpResponse<String> response =
-            httpClient.send(request, BodyHandlers.ofString());
-            // Assert.assertEquals(HttpStatus.UNAUTHORIZED, response.statusCode());
-            Assert.fail("sollte nicht erfolgreich sein");
-        }
-        catch (Exception ex)
-        {
-            Assert.assertEquals("too many authentication attempts. Limit: 3", ex.getMessage());
-            throw ex;
-        }
+            try
+            {
+                // HttpResponse<String> response =
+                httpClient.send(request, BodyHandlers.ofString());
+                // Assertions.assertEquals(HttpStatus.UNAUTHORIZED, response.statusCode());
+                Assertions.fail("sollte nicht erfolgreich sein");
+            }
+            catch (Exception ex)
+            {
+                Assertions.assertEquals("too many authentication attempts. Limit: 3", ex.getMessage());
+                throw ex;
+            }
+        });
     }
 
     /**
@@ -253,7 +252,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        Assert.assertEquals(HttpStatus.FORBIDDEN.value(), response.statusCode());
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), response.statusCode());
     }
 
     /**
@@ -280,8 +279,8 @@ public class TestRestWithJreHttpClient implements RestTestCase
         {
         });
 
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 
     /**
@@ -309,8 +308,8 @@ public class TestRestWithJreHttpClient implements RestTestCase
         {
         });
 
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 
     /**
@@ -333,7 +332,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        Assert.assertEquals(HttpStatus.FORBIDDEN.value(), response.statusCode());
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), response.statusCode());
     }
 
     /**
@@ -356,7 +355,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
         // @formatter:on
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-        Assert.assertEquals(HttpStatus.OK.value(), response.statusCode());
+        Assertions.assertEquals(HttpStatus.OK.value(), response.statusCode());
 
         // GET
         httpClient = createClientBuilder("user", "pw").build();
@@ -376,8 +375,8 @@ public class TestRestWithJreHttpClient implements RestTestCase
         {
         });
 
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 
     /**
@@ -405,8 +404,8 @@ public class TestRestWithJreHttpClient implements RestTestCase
         {
         });
 
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 
     /**
@@ -435,7 +434,7 @@ public class TestRestWithJreHttpClient implements RestTestCase
         {
         });
 
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 }

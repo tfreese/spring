@@ -10,12 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Resource;
 import org.apache.http.client.HttpClient;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.devtools.remote.client.HttpHeaderInterceptor;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,7 +32,6 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 import com.jayway.jsonpath.JsonPath;
@@ -44,14 +42,10 @@ import de.freese.spring.thymeleaf.model.Person;
 /**
  * @author Thomas Freese
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
-{
-        ThymeleafApplication.class
-})
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRestWithRestTemplate implements RestTestCase
 {
     /**
@@ -130,7 +124,7 @@ public class TestRestWithRestTemplate implements RestTestCase
     /**
      * @throws Exception Falls was schief geht.
      */
-    @Before
+    @BeforeEach
     public void beforeTest() throws Exception
     {
         // String rootUri = "http://localhost:" + this.localServerPort;
@@ -161,10 +155,10 @@ public class TestRestWithRestTemplate implements RestTestCase
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/actuator/health", String.class);
 
-        Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
+        Assertions.assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType());
 
         String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
-        Assert.assertEquals("UP", status);
+        Assertions.assertEquals("UP", status);
     }
 
     /**
@@ -181,7 +175,7 @@ public class TestRestWithRestTemplate implements RestTestCase
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
 
-        Assert.assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
     /**
@@ -199,7 +193,7 @@ public class TestRestWithRestTemplate implements RestTestCase
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
 
-        Assert.assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
     /**
@@ -217,7 +211,7 @@ public class TestRestWithRestTemplate implements RestTestCase
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
 
-        Assert.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
+        Assertions.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
     }
 
     /**
@@ -248,10 +242,10 @@ public class TestRestWithRestTemplate implements RestTestCase
                 });
         List<Person> persons = responseEntity.getBody();
 
-        // Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Accept"));
-        // Assert.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        // Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getAccept());
+        // Assertions.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 
     /**
@@ -282,10 +276,10 @@ public class TestRestWithRestTemplate implements RestTestCase
                 });
         List<Person> persons = responseEntity.getBody();
 
-        // Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Accept"));
-        // Assert.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        // Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getAccept());
+        // Assertions.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 
     /**
@@ -303,7 +297,7 @@ public class TestRestWithRestTemplate implements RestTestCase
         // @formatter:on
 
         ApiError error = restTemplate.postForObject("/rest/person/personAdd", new Person("Thomas", "Freese"), ApiError.class);
-        Assert.assertEquals(HttpStatus.FORBIDDEN.value(), error.getHttpStatus());
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), error.getHttpStatus());
     }
 
     /**
@@ -322,7 +316,7 @@ public class TestRestWithRestTemplate implements RestTestCase
 
         HttpEntity<Person> httpEntity = new HttpEntity<>(new Person("Thomas", "Freese"));
         ResponseEntity<ApiError> responseEntity = restTemplate.exchange("/rest/person/personAdd", HttpMethod.POST, httpEntity, ApiError.class);
-        Assert.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // @formatter:off
         restTemplate = this.restTemplateBuilder
@@ -334,11 +328,11 @@ public class TestRestWithRestTemplate implements RestTestCase
         Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
         List<Person> persons = Arrays.asList(personArray);
 
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 3);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 3);
 
-        Assert.assertEquals("Thomas", persons.get(persons.size() - 1).getFirstName());
-        Assert.assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
+        Assertions.assertEquals("Thomas", persons.get(persons.size() - 1).getFirstName());
+        Assertions.assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
     }
 
     /**
@@ -358,8 +352,8 @@ public class TestRestWithRestTemplate implements RestTestCase
         Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
         List<Person> persons = Arrays.asList(personArray);
 
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 
     /**
@@ -379,7 +373,7 @@ public class TestRestWithRestTemplate implements RestTestCase
         Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
         List<Person> persons = Arrays.asList(personArray);
 
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 }

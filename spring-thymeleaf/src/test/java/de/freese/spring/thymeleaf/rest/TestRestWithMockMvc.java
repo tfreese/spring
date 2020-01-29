@@ -14,18 +14,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.Resource;
-import org.junit.Assert;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,18 +33,14 @@ import de.freese.spring.thymeleaf.model.Person;
 /**
  * @author Thomas Freese
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
-{
-        ThymeleafApplication.class
-})
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 // @ActiveProfiles(
 // {
 // "test", "with-ssl"
 // })
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRestWithMockMvc implements RestTestCase
 {
     /**
@@ -160,8 +154,8 @@ public class TestRestWithMockMvc implements RestTestCase
         // @formatter:on
 
         List<Person> persons = reference.get();
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 
     /**
@@ -190,8 +184,8 @@ public class TestRestWithMockMvc implements RestTestCase
         // @formatter:on
 
         List<Person> persons = reference.get();
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 
     /**
@@ -245,11 +239,11 @@ public class TestRestWithMockMvc implements RestTestCase
         // @formatter:on
 
         List<Person> persons = reference.get();
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 3);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 3);
 
-        Assert.assertEquals("Thomas", persons.get(persons.size() - 1).getFirstName());
-        Assert.assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
+        Assertions.assertEquals("Thomas", persons.get(persons.size() - 1).getFirstName());
+        Assertions.assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
     }
 
     /**
@@ -276,8 +270,8 @@ public class TestRestWithMockMvc implements RestTestCase
         // @formatter:on
 
         List<Person> persons = reference.get();
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 
     /**
@@ -305,7 +299,7 @@ public class TestRestWithMockMvc implements RestTestCase
         // @formatter:on
 
         List<Person> persons = reference.get();
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 }

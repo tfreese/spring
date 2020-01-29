@@ -2,7 +2,7 @@
  * Created: 22.05.2018
  */
 
-package de.freese.spring.kryo;
+package de.freese.spring.kryo.web;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -25,14 +25,14 @@ import com.esotericsoftware.kryo.io.Output;
 public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Object>
 {
     /**
-     * application/x-kryo
+     * application/x-java-object; application/x-kryo
      */
-    public static final String APPLICATION_KRYO_VALUE = "application/x-java-object";
+    public static final MediaType APPLICATION_KRYO = MediaType.parseMediaType("application/x-kryo");
 
     /**
-     * application/x-kryo
+     * application/x-java-object; application/x-kryo
      */
-    public static final MediaType APPLICATION_KRYO = MediaType.parseMediaType(APPLICATION_KRYO_VALUE);
+    public static final String APPLICATION_KRYO_VALUE = "application/x-kryo";
 
     /**
      *
@@ -51,7 +51,7 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
      */
     public KryoHttpMessageConverter(final Supplier<Kryo> supplier)
     {
-        super(DEFAULT_CHARSET, APPLICATION_KRYO);
+        super(DEFAULT_CHARSET, APPLICATION_KRYO); // DefaultContentType
 
         this.supplier = Objects.requireNonNull(supplier, "kryo supplier required");
     }
@@ -73,15 +73,15 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
     protected Object readInternal(final Class<? extends Object> clazz, final HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException
     {
         Kryo kryo = getKryo();
-        Object t = null;
+        Object value = null;
 
         // try (Input input = new ByteBufferInput(inputMessage.getBody(), 1024 * 1024))
         try (Input input = new Input(inputMessage.getBody(), 1024 * 1024))
         {
-            t = kryo.readClassAndObject(input);
+            value = kryo.readClassAndObject(input);
         }
 
-        return t;
+        return value;
     }
 
     /**

@@ -6,27 +6,23 @@ package de.freese.spring.ldap.unboundid;
 
 import java.util.List;
 import javax.annotation.Resource;
-import org.junit.Assert;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-import de.freese.spring.ldap.unboundid.LdapApplication;
 import de.freese.spring.ldap.unboundid.dao.MyLdapDao;
 
 /**
  * @author Thomas Freese
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes =
 {
         LdapApplication.class
 })
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @ActiveProfiles("test")
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class LdapTest
 {
     /**
@@ -58,10 +54,10 @@ public class LdapTest
     public void test020Login() throws Exception
     {
         String principal = this.ldapDao.login("uid=ben,ou=people", "{SHA}nFCebWjxfaLbHHG1Qk5UU4trbvQ=");
-        Assert.assertEquals("Ben Alex", principal);
+        Assertions.assertEquals("Ben Alex", principal);
 
         principal = this.ldapDao.login("uid=joe,ou=otherpeople", "joespassword");
-        Assert.assertEquals("Joe Smeth", principal);
+        Assertions.assertEquals("Joe Smeth", principal);
     }
 
     /**
@@ -72,10 +68,10 @@ public class LdapTest
     {
         List<String> result = this.ldapDao.searchPeopleByUid("b*");
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals("Ben Alex", result.get(0));
-        Assert.assertEquals("Bob Hamilton", result.get(1));
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals("Ben Alex", result.get(0));
+        Assertions.assertEquals("Bob Hamilton", result.get(1));
     }
 
     /**
@@ -86,10 +82,10 @@ public class LdapTest
     {
         List<String> result = this.ldapDao.searchPeopleInGroup("developers");
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals("uid=ben,ou=people,dc=springframework,dc=org", result.get(0));
-        Assert.assertEquals("uid=bob,ou=people,dc=springframework,dc=org", result.get(1));
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals("uid=ben,ou=people,dc=springframework,dc=org", result.get(0));
+        Assertions.assertEquals("uid=bob,ou=people,dc=springframework,dc=org", result.get(1));
     }
 
     /**
@@ -100,10 +96,10 @@ public class LdapTest
     {
         List<String> result = this.ldapDao.searchPeopleByUid("tommy", "birthDate");
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals("1975-05-13", result.get(0));
-        Assert.assertEquals("1975-05-13", result.get(1));
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals("1975-05-13", result.get(0));
+        Assertions.assertEquals("1975-05-13", result.get(1));
     }
 
     /**
@@ -115,9 +111,9 @@ public class LdapTest
         this.ldapDao.create("myid", "pass", "A", "B");
         List<String> result = this.ldapDao.searchPeopleByUid("myid");
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals("A B", result.get(0));
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals("A B", result.get(0));
     }
 
     /**
@@ -129,8 +125,8 @@ public class LdapTest
         this.ldapDao.modify("myid", "pass", "X", "Y");
         List<String> result = this.ldapDao.searchPeopleByUid("myid");
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals("X Y", result.get(0));
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals("X Y", result.get(0));
     }
 }

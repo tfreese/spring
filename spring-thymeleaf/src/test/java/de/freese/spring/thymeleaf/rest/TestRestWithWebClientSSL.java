@@ -8,12 +8,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.net.ssl.TrustManagerFactory;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -24,7 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,17 +39,13 @@ import reactor.netty.http.client.HttpClient;
 /**
  * @author Thomas Freese
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
-{
-        ThymeleafApplication.class
-})
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @AutoConfigureMockMvc
 @ActiveProfiles(
 {
         "test", "with-ssl"
 })
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRestWithWebClientSSL implements RestTestCase
 {
     /**
@@ -89,7 +83,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
     /**
      * @throws Exception Falls was schief geht.
      */
-    @Before
+    @BeforeEach
     public void beforeTest() throws Exception
     {
         String rootUri = ThymeleafApplication.getRootUri(this.environment);
@@ -191,7 +185,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
 //                .repository("/actuator/health")
 //                .accept(MediaType.APPLICATION_JSON)
 //                .exchange() // Liefert auch Header und Status.
-//                .doOnSuccess(clientResponse -> Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, clientResponse.headers().asHttpHeaders().getFirst("Content-Type")))
+//                .doOnSuccess(clientResponse -> Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, clientResponse.headers().asHttpHeaders().getFirst("Content-Type")))
 //                .flatMap(clientResponse -> clientResponse.bodyToMono(String.class))
 //                ;
 
@@ -205,10 +199,10 @@ public class TestRestWithWebClientSSL implements RestTestCase
 
         ResponseEntity<String> responseEntity = response.block();
 
-        Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
+        Assertions.assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType());
 
         String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
-        Assert.assertEquals("UP", status);
+        Assertions.assertEquals("UP", status);
     }
 
     /**
@@ -241,7 +235,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
 
         ResponseEntity<String> responseEntity = response.block();
 
-        Assert.assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
     /**
@@ -277,7 +271,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
 
         ResponseEntity<String> responseEntity = response.block();
 
-        Assert.assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
     /**
@@ -303,7 +297,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
 
         ResponseEntity<String> responseEntity = response.block();
 
-        Assert.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
+        Assertions.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
     }
 
     /**
@@ -329,8 +323,8 @@ public class TestRestWithWebClientSSL implements RestTestCase
 
         List<Person> persons = personFlux.collectList().block();
 
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 
     /**
@@ -358,8 +352,8 @@ public class TestRestWithWebClientSSL implements RestTestCase
 
         List<Person> persons = personFlux.collectList().block();
 
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 
     /**
@@ -390,8 +384,8 @@ public class TestRestWithWebClientSSL implements RestTestCase
         ResponseEntity<String> responseEntity = response.block();
         // ApiError apiError = responseEntity.getBody();
 
-        // Assert.assertEquals(HttpStatus.FORBIDDEN.value(), apiError.getHttpStatus());
-        Assert.assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
+        // Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), apiError.getHttpStatus());
+        Assertions.assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
     }
 
     /**
@@ -420,7 +414,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
 
         // ResponseEntity<ApiError> responseEntity = response.block();
         ResponseEntity<String> responseEntity = response.block();
-        Assert.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // @formatter:off
         Flux<Person> personFlux = webClient.mutate()
@@ -436,11 +430,11 @@ public class TestRestWithWebClientSSL implements RestTestCase
 
         List<Person> persons = personFlux.collectList().block();
 
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 3);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 3);
 
-        Assert.assertEquals("Thomas", persons.get(persons.size() - 1).getFirstName());
-        Assert.assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
+        Assertions.assertEquals("Thomas", persons.get(persons.size() - 1).getFirstName());
+        Assertions.assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
     }
 
     /**
@@ -466,8 +460,8 @@ public class TestRestWithWebClientSSL implements RestTestCase
 
         List<Person> persons = personFlux.collectList().block();
 
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 
     /**
@@ -493,7 +487,7 @@ public class TestRestWithWebClientSSL implements RestTestCase
 
         List<Person> persons = personFlux.collectList().block();
 
-        Assert.assertNotNull(persons);
-        Assert.assertTrue(persons.size() >= 2);
+        Assertions.assertNotNull(persons);
+        Assertions.assertTrue(persons.size() >= 2);
     }
 }

@@ -2,7 +2,7 @@
  * Created: 15.10.2019
  */
 
-package de.freese.spring.kryo;
+package de.freese.spring.kryo.web;
 
 import java.io.IOException;
 import java.io.InputStream;

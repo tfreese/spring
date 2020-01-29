@@ -7,11 +7,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.Resource;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -20,7 +19,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,14 +72,13 @@ class Config
 /**
  * @author Thomas Freese
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
 {
         MicroServiceApplication.class
 }, properties = {})
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Import(Config.class)
 @AutoConfigureMockMvc
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @ActiveProfiles(
 {
         "test"
@@ -170,7 +167,7 @@ public class TestRestService
         // @formatter:off
         this.mockMvc.perform(get("/service/sysdate")) // Test-URLs ohne Context-Root angeben.
             .andExpect(status().isOk())
-            .andExpect(content().contentType("application/json;charset=UTF-8")) // application/json;charset=UTF-8 ; MediaType.APPLICATION_JSON_VALUE
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON)) // application/json;charset=UTF-8 ; MediaType.APPLICATION_JSON_VALUE
             //.andExpect(content().string(CoreMatchers.containsString("at port")))
             .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
             //.andExpect(MockMvcResultMatchers.jsonPath("$").value(Matchers.containsString("at port"))) // Alternative zu string(CoreMatchers.containsString("at port"))
@@ -204,11 +201,11 @@ public class TestRestService
         // @formatter:on
 
         Clock clock = clockReference.get();
-        Assert.assertNotNull(clock);
-        Assert.assertNotNull(clock.getDate());
-        Assert.assertNotNull(clock.getLocalDate());
-        Assert.assertNotNull(clock.getLocalTime());
-        Assert.assertNotNull(clock.getLocalDateTime());
+        Assertions.assertNotNull(clock);
+        Assertions.assertNotNull(clock.getDate());
+        Assertions.assertNotNull(clock.getLocalDate());
+        Assertions.assertNotNull(clock.getLocalTime());
+        Assertions.assertNotNull(clock.getLocalDateTime());
     }
 
     /**
@@ -238,10 +235,10 @@ public class TestRestService
         // @formatter:on
 
         Clock clock = clockReference.get();
-        Assert.assertNotNull(clock);
-        Assert.assertNotNull(clock.getDate());
-        Assert.assertNotNull(clock.getLocalDate());
-        Assert.assertNotNull(clock.getLocalTime());
-        Assert.assertNotNull(clock.getLocalDateTime());
+        Assertions.assertNotNull(clock);
+        Assertions.assertNotNull(clock.getDate());
+        Assertions.assertNotNull(clock.getLocalDate());
+        Assertions.assertNotNull(clock.getLocalTime());
+        Assertions.assertNotNull(clock.getLocalDateTime());
     }
 }

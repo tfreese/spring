@@ -3,9 +3,10 @@
  */
 package de.freese.spring.thymeleaf;
 
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.SuiteDisplayName;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
 import de.freese.spring.thymeleaf.rest.TestRestWithJreHttpClient;
 import de.freese.spring.thymeleaf.rest.TestRestWithMockMvc;
 import de.freese.spring.thymeleaf.rest.TestRestWithRestTemplate;
@@ -17,18 +18,20 @@ import de.freese.spring.thymeleaf.web.TestWebApp;
 /**
  * @author Thomas Freese
  */
-@RunWith(Suite.class)
-@SuiteClasses(
+@RunWith(JUnitPlatform.class)
+@SuiteDisplayName("Spring-Boot Thymeleaf Demo")
+// @SelectPackages("de.freese.spring.thymeleaf")
+@SelectClasses(
 {
     // @formatter:off
-        TestPasswordEncoder.class,
-        TestWebApp.class,
-        TestRestWithMockMvc.class,
-        TestRestWithRestTemplate.class,
-        TestRestWithRestTemplateSSL.class,
-        TestRestWithWebClient.class,
-        TestRestWithWebClientSSL.class,
-        TestRestWithJreHttpClient.class
+    TestPasswordEncoder.class,
+    TestWebApp.class,
+    TestRestWithMockMvc.class,
+    TestRestWithRestTemplate.class,
+    TestRestWithRestTemplateSSL.class,
+    TestRestWithWebClient.class,
+    TestRestWithWebClientSSL.class,
+    TestRestWithJreHttpClient.class
     // @formatter:off
 })
 public class AllThymeleafTests

@@ -8,13 +8,12 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.WebClient;
 import de.freese.spring.reactive.model.Department;
@@ -24,7 +23,8 @@ import reactor.test.StepVerifier;
 /**
  * @author Thomas Freese
  */
-@ExtendWith(SpringExtension.class)
+// @ExtendWith(SpringExtension.class)
+@SpringBootTest
 @ActiveProfiles("test")
 public interface TestWebInterface
 {

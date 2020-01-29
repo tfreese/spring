@@ -11,8 +11,6 @@ import java.util.List;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.esotericsoftware.kryo.Kryo;
@@ -22,6 +20,7 @@ import com.esotericsoftware.kryo.serializers.DefaultSerializers.CollectionsEmpty
 import com.esotericsoftware.kryo.serializers.DefaultSerializers.CollectionsSingletonListSerializer;
 import com.esotericsoftware.kryo.serializers.DefaultSerializers.CollectionsSingletonMapSerializer;
 import com.esotericsoftware.kryo.serializers.DefaultSerializers.CollectionsSingletonSetSerializer;
+import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 import de.javakaffee.kryoserializers.ArraysAsListSerializer;
 import de.javakaffee.kryoserializers.GregorianCalendarSerializer;
 import de.javakaffee.kryoserializers.SynchronizedCollectionsSerializer;
@@ -78,15 +77,5 @@ public class KryoApplication implements WebMvcConfigurer
     public void extendMessageConverters(final List<HttpMessageConverter<?>> converters)
     {
         converters.add(new KryoHttpMessageConverter(() -> KRYO_SERIALIZER.get()));
-    }
-
-    /**
-     * @return {@link RestTemplateBuilder}
-     */
-    @Bean
-    public RestTemplateBuilder restTemplateBuilder()
-    {
-        return new RestTemplateBuilder().rootUri("http://localhost:8081")
-                .additionalMessageConverters(new KryoHttpMessageConverter(() -> KRYO_SERIALIZER.get()));
     }
 }

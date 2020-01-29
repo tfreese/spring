@@ -7,13 +7,12 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import javax.annotation.Resource;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -29,7 +28,6 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -47,17 +45,16 @@ import de.freese.spring.hateoas.model.GreetingRepresentationModel;
 /**
  * @author Thomas Freese
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = HateoasApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 // @DirtiesContext
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @ActiveProfiles("test")
 public class TestHateoas
 {
     /**
      * @throws Exception Falls was schief geht.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws Exception
     {
         // Logger logger = (Logger) LoggerFactory.getLogger("ROOT");
@@ -67,7 +64,7 @@ public class TestHateoas
     /**
      * @throws Exception Falls was schief geht.
      */
-    @AfterClass
+    @AfterAll
     public static void shutdown() throws Exception
     {
         // PRINT_STREAM.println("JAVA_ENV: " + System.getProperty("JAVA_ENV"));
@@ -124,12 +121,12 @@ public class TestHateoas
      *
      * @throws Exception Falls was schief geht.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void greeting() throws Exception
     {
         Traverson traverson = new Traverson(getBaseURI(), MediaTypes.HAL_JSON);
         String greeting = traverson.follow("self").toObject("$.greeting");
-        Assert.assertEquals("Hello, World!", greeting);
+        Assertions.assertEquals("Hello, World!", greeting);
     }
 
     /**
@@ -185,12 +182,12 @@ public class TestHateoas
         {
             restTemplate.getForObject(getBaseURI().resolve("fail"), String.class);
 
-            Assert.assertTrue(false);
+            Assertions.assertTrue(false);
         }
         catch (RestClientResponseException ex)
         {
-            Assert.assertTrue(true);
-            Assert.assertTrue(HttpStatus.BAD_REQUEST.equals(((HttpStatusCodeException) ex).getStatusCode()));
+            Assertions.assertTrue(true);
+            Assertions.assertTrue(HttpStatus.BAD_REQUEST.equals(((HttpStatusCodeException) ex).getStatusCode()));
             // Assert.assertTrue(999 == ex.getRawStatusCode());
 
             // GreetingException gex = this.objectMapper.readValue(ex.getResponseBodyAsString(), GreetingException.class);
@@ -239,20 +236,20 @@ public class TestHateoas
         MediaType mediaType = greeting.getHeaders().getContentType();
         HttpStatus statusCode = greeting.getStatusCode();
 
-        Assert.assertNotNull(greeting);
-        Assert.assertNotNull(greeting.getBody());
-        Assert.assertTrue(MediaTypes.HAL_JSON.isCompatibleWith(mediaType));
-        Assert.assertTrue(HttpStatus.OK.equals(statusCode));
+        Assertions.assertNotNull(greeting);
+        Assertions.assertNotNull(greeting.getBody());
+        Assertions.assertTrue(MediaTypes.HAL_JSON.isCompatibleWith(mediaType));
+        Assertions.assertTrue(HttpStatus.OK.equals(statusCode));
 
-        Assert.assertEquals("Hello, World!", greeting.getBody().getMessage());
+        Assertions.assertEquals("Hello, World!", greeting.getBody().getMessage());
 
         Links links = greeting.getBody().getLinks();
-        Assert.assertNotNull(links);
-        Assert.assertTrue(links.toList().size() > 1);
+        Assertions.assertNotNull(links);
+        Assertions.assertTrue(links.toList().size() > 1);
 
         Link link = greeting.getBody().getLink("forPath").get();
-        Assert.assertNotNull(link);
-        Assert.assertEquals(uri.resolve("path/World").toString(), link.getHref());
+        Assertions.assertNotNull(link);
+        Assertions.assertEquals(uri.resolve("path/World").toString(), link.getHref());
     }
 
     /**
@@ -265,7 +262,7 @@ public class TestHateoas
 
         String jsonRaw = restTemplate.getForObject(getBaseURI(), String.class);
 
-        Assert.assertNotNull(jsonRaw);
+        Assertions.assertNotNull(jsonRaw);
         System.out.println(jsonRaw);
     }
 
@@ -279,7 +276,7 @@ public class TestHateoas
     {
         Traverson traverson = new Traverson(getBaseURI().resolve("path/test"), MediaTypes.HAL_JSON);
         String greeting = traverson.follow("self").toObject("$.greeting");
-        Assert.assertEquals("Hello, test!", greeting);
+        Assertions.assertEquals("Hello, test!", greeting);
     }
 
     /**
@@ -292,7 +289,7 @@ public class TestHateoas
     {
         Traverson traverson = new Traverson(getBaseURI().resolve("pojo"), MediaTypes.HAL_JSON);
         String greeting = traverson.follow("self").toObject("$.greeting");
-        Assert.assertEquals("Hello, World!", greeting);
+        Assertions.assertEquals("Hello, World!", greeting);
     }
 
     /**
@@ -305,9 +302,9 @@ public class TestHateoas
     {
         RestTemplate restTemplate = new RestTemplate();
         GreetingPOJO pojo = restTemplate.getForObject(getBaseURI().resolve("simple"), GreetingPOJO.class);
-        Assert.assertNotNull(pojo);
-        Assert.assertNotNull(pojo.getMessage());
-        Assert.assertEquals("Hello, World!", pojo.getMessage());
+        Assertions.assertNotNull(pojo);
+        Assertions.assertNotNull(pojo.getMessage());
+        Assertions.assertEquals("Hello, World!", pojo.getMessage());
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 

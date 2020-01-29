@@ -7,12 +7,11 @@ package org.spring.jwt;
 import java.io.IOException;
 import java.util.Objects;
 import javax.annotation.Resource;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.spring.jwt.token.JwtTokenProvider;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +26,6 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 import com.jayway.jsonpath.internal.JsonFormatter;
@@ -35,14 +33,13 @@ import com.jayway.jsonpath.internal.JsonFormatter;
 /**
  * @author Thomas Freese
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
 {
         JwtAuthorisationApplication.class
 })
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 // @Disabled
 public class TestJwtToken
 {
@@ -158,7 +155,7 @@ public class TestJwtToken
     /**
      * @throws Exception Falls was schief geht.
      */
-    @Before
+    @BeforeEach
     public void beforeTest() throws Exception
     {
         String rootUri = "http://localhost:" + this.localServerPort;
@@ -188,9 +185,9 @@ public class TestJwtToken
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/me", String.class);
 
-        Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
-        Assert.assertNotNull(responseEntity.getBody());
-        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.FORBIDDEN);
+        Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
+        Assertions.assertNotNull(responseEntity.getBody());
+        Assertions.assertEquals(responseEntity.getStatusCode(), HttpStatus.FORBIDDEN);
 
         System.out.println(JsonFormatter.prettyPrint(responseEntity.getBody()));
     }
@@ -213,9 +210,9 @@ public class TestJwtToken
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/me", String.class);
 
-        Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
-        Assert.assertNotNull(responseEntity.getBody());
-        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
+        Assertions.assertNotNull(responseEntity.getBody());
+        Assertions.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
 
         System.out.println(JsonFormatter.prettyPrint(responseEntity.getBody()));
         //
@@ -241,9 +238,9 @@ public class TestJwtToken
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/me", String.class);
 
-        Assert.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
-        Assert.assertNotNull(responseEntity.getBody());
-        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
+        Assertions.assertNotNull(responseEntity.getBody());
+        Assertions.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
 
         System.out.println(JsonFormatter.prettyPrint(responseEntity.getBody()));
     }

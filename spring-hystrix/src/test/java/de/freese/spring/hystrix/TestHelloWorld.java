@@ -21,7 +21,6 @@ import rx.Observer;
  *
  * @author Thomas Freese
  */
-
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class TestHelloWorld
 {
