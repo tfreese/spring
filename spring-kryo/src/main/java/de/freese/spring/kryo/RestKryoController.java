@@ -16,12 +16,12 @@ import de.freese.spring.kryo.web.KryoHttpMessageConverter;
  */
 @RestController
 @RequestMapping("/")
-public class RestService
+public class RestKryoController
 {
     /**
-     * Erstellt ein neues {@link RestService} Object.
+     * Erstellt ein neues {@link RestKryoController} Object.
      */
-    public RestService()
+    public RestKryoController()
     {
         super();
     }

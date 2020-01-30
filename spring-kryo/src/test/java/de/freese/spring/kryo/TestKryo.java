@@ -65,6 +65,23 @@ import reactor.core.publisher.Mono;
 public class TestKryo
 {
     /**
+     * @param localDateTime {@link LocalDateTime}
+     */
+    public static void validateLocalDateTime(final LocalDateTime localDateTime)
+    {
+        Assertions.assertNotNull(localDateTime);
+
+        LocalDateTime now = LocalDateTime.now();
+
+        Assertions.assertEquals(localDateTime.getYear(), now.getYear());
+        Assertions.assertEquals(localDateTime.getMonth().getValue(), now.getMonth().getValue());
+        Assertions.assertEquals(localDateTime.getDayOfMonth(), now.getDayOfMonth());
+        Assertions.assertEquals(localDateTime.getHour(), now.getHour());
+        Assertions.assertEquals(localDateTime.getMinute(), now.getMinute());
+        // Assertions.assertEquals(localDateTime.getSecond(), now.getSecond());
+    }
+
+    /**
      *
      */
     private HttpClient.Builder httpClientbuilder = null;
@@ -87,17 +104,17 @@ public class TestKryo
     @Resource
     private MockMvc mockMvc = null;
 
-    /**
-     *
-     */
-    @Resource
-    private ObjectMapper objectMapper = null;
-
     // /**
     // *
     // */
     // @Resource
     // private RestTemplateBuilder restTemplateBuilder = null;
+
+    /**
+     *
+     */
+    @Resource
+    private ObjectMapper objectMapper = null;
 
     /**
      *
@@ -395,22 +412,5 @@ public class TestKryo
         LocalDateTime localDateTime = responseEntity.getBody();
 
         validateLocalDateTime(localDateTime);
-    }
-
-    /**
-     * @param localDateTime {@link LocalDateTime}
-     */
-    private void validateLocalDateTime(final LocalDateTime localDateTime)
-    {
-        Assertions.assertNotNull(localDateTime);
-
-        LocalDateTime now = LocalDateTime.now();
-
-        Assertions.assertEquals(localDateTime.getYear(), now.getYear());
-        Assertions.assertEquals(localDateTime.getMonth().getValue(), now.getMonth().getValue());
-        Assertions.assertEquals(localDateTime.getDayOfMonth(), now.getDayOfMonth());
-        Assertions.assertEquals(localDateTime.getHour(), now.getHour());
-        Assertions.assertEquals(localDateTime.getMinute(), now.getMinute());
-        // Assertions.assertEquals(localDateTime.getSecond(), now.getSecond());
     }
 }
