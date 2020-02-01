@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import de.freese.spring.kryo.reflection.ReflectionControllerApi;
+import de.freese.spring.kryo.reflection.client.AbstractClientReflectionController.CONNECT_TYPE;
 import de.freese.spring.kryo.reflection.client.ClientReflectionController;
 
 /**
@@ -43,7 +44,20 @@ public class TestClientReflection
     @Test
     public void testHttpConnection()
     {
-        ReflectionControllerApi fassade = new ClientReflectionController("http://localhost:" + this.localServerPort);
+        ReflectionControllerApi fassade = new ClientReflectionController("http://localhost:" + this.localServerPort, CONNECT_TYPE.HTTP_CONNECTION);
+
+        LocalDateTime localDateTime = fassade.testKryo();
+
+        TestKryo.validateLocalDateTime(localDateTime);
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void testRestTemplate()
+    {
+        ReflectionControllerApi fassade = new ClientReflectionController("http://localhost:" + this.localServerPort, CONNECT_TYPE.REST_TEMPLATE);
 
         LocalDateTime localDateTime = fassade.testKryo();
 

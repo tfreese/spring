@@ -13,6 +13,15 @@ import de.freese.spring.kryo.reflection.ReflectionControllerApi;
 public class ClientReflectionController extends AbstractClientReflectionController<ReflectionControllerApi> implements ReflectionControllerApi
 {
     /**
+     * @param args String[]
+     */
+    public static void main(final String[] args)
+    {
+        ReflectionControllerApi api = new ClientReflectionController("http://localhost:65432", CONNECT_TYPE.HTTP_CONNECTION);
+        System.out.println(api.testKryo());
+    }
+
+    /**
      *
      */
     private final ReflectionControllerApi proxy;
@@ -21,12 +30,20 @@ public class ClientReflectionController extends AbstractClientReflectionControll
      * Erstellt ein neues {@link ClientReflectionController} Object.
      *
      * @param rootUri String
+     * @param connectType {@link CONNECT_TYPE}
      */
-    public ClientReflectionController(final String rootUri)
+    public ClientReflectionController(final String rootUri, final CONNECT_TYPE connectType)
     {
         super(rootUri);
 
-        this.proxy = lookupHttpConnection(ReflectionControllerApi.class);
+        if (CONNECT_TYPE.HTTP_CONNECTION.equals(connectType))
+        {
+            this.proxy = lookupProxyRetry(lookupProxyHttpConnection());
+        }
+        else
+        {
+            this.proxy = lookupProxyRestTemplate(getFassadeType());
+        }
     }
 
     /**

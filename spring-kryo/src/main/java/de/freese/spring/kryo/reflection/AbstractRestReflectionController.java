@@ -9,13 +9,15 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.client.RestTemplate;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import de.freese.spring.kryo.KryoApplication;
+import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 
 /**
  * @author Thomas Freese
@@ -58,7 +60,7 @@ public abstract class AbstractRestReflectionController
      * @return Object
      * @throws Exception Falls was schief geht.
      */
-    @PostMapping(path = "{method}", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+    @PostMapping(path = "{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public Object invoke(@PathVariable("method") final String method, final HttpServletRequest request, final HttpServletResponse response) throws Exception
     {
         Kryo kryo = KryoApplication.KRYO_SERIALIZER.get();
@@ -112,5 +114,28 @@ public abstract class AbstractRestReflectionController
         }
 
         return null;
+    }
+
+    /**
+     * Funktioniert nur mit {@link RestTemplate}.
+     * 
+     * @param method final
+     * @param body Object
+     * @return Object
+     * @throws Exception Falls was schief geht.
+     */
+    @PostMapping(path = "/rt/{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
+    public Object invokeFromRestTemplate(@PathVariable("method") final String method, @RequestBody final Object body) throws Exception
+    {
+        // Parameter-Typen und -Argumente auslesen.
+        Object[] paramTypesAndArgs = (Object[]) body;
+        Class<?>[] parameterTypes = (Class<?>[]) paramTypesAndArgs[0];
+        Object[] arguments = (Object[]) paramTypesAndArgs[1];
+
+        // Konkrete Methode aufrufen.
+        Method apiMethod = getClass().getMethod(method, parameterTypes);
+        Object result = apiMethod.invoke(this, arguments);
+
+        return result;
     }
 }
