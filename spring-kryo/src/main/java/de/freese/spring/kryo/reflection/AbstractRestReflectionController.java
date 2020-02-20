@@ -60,6 +60,7 @@ public abstract class AbstractRestReflectionController
      * @return Object
      * @throws Exception Falls was schief geht.
      */
+    @SuppressWarnings("resource")
     @PostMapping(path = "{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public Object invoke(@PathVariable("method") final String method, final HttpServletRequest request, final HttpServletResponse response) throws Exception
     {
@@ -118,7 +119,7 @@ public abstract class AbstractRestReflectionController
 
     /**
      * Funktioniert nur mit {@link RestTemplate}.
-     * 
+     *
      * @param method final
      * @param body Object
      * @return Object

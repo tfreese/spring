@@ -49,6 +49,7 @@ public class OAuth2AuthorisationServerApplication extends SpringBootServletIniti
      * @param args String[]
      * @throws Exception Falls was schief geht.
      */
+    @SuppressWarnings("resource")
     public static void main(final String[] args) throws Exception
     {
         // ApplicationContext context = SpringApplication.run(OAuth2AuthorisationServerApplication.class, args);

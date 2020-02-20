@@ -32,7 +32,7 @@ public class CipherJsonHttpMessageconverter extends AbstractHttpMessageConverter
 
     /**
      * Erstellt ein neues {@link CipherJsonHttpMessageconverter} Object.
-     * 
+     *
      * @param objectMapper {@link ObjectMapper}
      */
     public CipherJsonHttpMessageconverter(final ObjectMapper objectMapper)
@@ -66,6 +66,7 @@ public class CipherJsonHttpMessageconverter extends AbstractHttpMessageConverter
     /**
      * @see org.springframework.http.converter.AbstractHttpMessageConverter#readInternal(java.lang.Class, org.springframework.http.HttpInputMessage)
      */
+    @SuppressWarnings("resource")
     @Override
     protected Object readInternal(final Class<? extends Object> clazz, final HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException
     {
@@ -84,6 +85,7 @@ public class CipherJsonHttpMessageconverter extends AbstractHttpMessageConverter
     /**
      * @see org.springframework.http.converter.AbstractHttpMessageConverter#writeInternal(java.lang.Object, org.springframework.http.HttpOutputMessage)
      */
+    @SuppressWarnings("resource")
     @Override
     protected void writeInternal(final Object t, final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException
     {

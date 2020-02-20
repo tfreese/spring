@@ -39,7 +39,7 @@ public abstract class AbstractClientReflectionController<T>
     /**
      * @author Thomas Freese
      */
-    public enum CONNECT_TYPE
+    public enum ConnectType
     {
         /**
          *

@@ -17,7 +17,7 @@ public class ClientReflectionController extends AbstractClientReflectionControll
      */
     public static void main(final String[] args)
     {
-        ReflectionControllerApi api = new ClientReflectionController("http://localhost:65432", CONNECT_TYPE.HTTP_CONNECTION);
+        ReflectionControllerApi api = new ClientReflectionController("http://localhost:65432", ConnectType.HTTP_CONNECTION);
         System.out.println(api.testKryo());
     }
 
@@ -30,13 +30,14 @@ public class ClientReflectionController extends AbstractClientReflectionControll
      * Erstellt ein neues {@link ClientReflectionController} Object.
      *
      * @param rootUri String
-     * @param connectType {@link CONNECT_TYPE}
+     * @param connectType {@link ConnectType}
      */
-    public ClientReflectionController(final String rootUri, final CONNECT_TYPE connectType)
+    @SuppressWarnings("javadoc")
+    public ClientReflectionController(final String rootUri, final ConnectType connectType)
     {
         super(rootUri);
 
-        if (CONNECT_TYPE.HTTP_CONNECTION.equals(connectType))
+        if (ConnectType.HTTP_CONNECTION.equals(connectType))
         {
             this.proxy = lookupProxyRetry(lookupProxyHttpConnection());
         }

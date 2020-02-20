@@ -57,6 +57,7 @@ public class KryoApplication implements WebMvcConfigurer
     /**
      * @param args String[]
      */
+    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         new SpringApplicationBuilder(KryoApplication.class).run(args);
