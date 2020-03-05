@@ -6,7 +6,9 @@ package de.freese.spring.reactive.service;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,8 +23,8 @@ import reactor.test.StepVerifier;
 /**
  * @author Thomas Freese
  */
-// @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public interface TestServiceInterface
 {
     /**
@@ -83,12 +85,13 @@ public interface TestServiceInterface
     @Test
     default void deleteEmployee()
     {
-        Mono<Void> employee = getService().deleteEmployee(1);
+        Mono<Integer> employee = getService().deleteEmployee(1);
 
         // @formatter:off
         employee
             .as(StepVerifier::create)
-            .expectComplete()
+            .expectNextCount(1)
+            .expectNextMatches(count -> count == 1)
             ;
         // @formatter:on
 
@@ -98,7 +101,7 @@ public interface TestServiceInterface
         employees
             .as(StepVerifier::create)
             .expectNextCount(5)
-            //.verifyComplete()
+//            .verifyComplete()
             ;
         // @formatter:on
     }
@@ -148,8 +151,9 @@ public interface TestServiceInterface
         // @formatter:off
         employee
             .as(StepVerifier::create)
+            .expectNextCount(1)
             .expectNextMatches(emp -> emp.equals(new Employee(3, "Sally","Wilson", "Human Resources")))
-            .verifyComplete()
+//            .verifyComplete()
             ;
         // @formatter:on
     }

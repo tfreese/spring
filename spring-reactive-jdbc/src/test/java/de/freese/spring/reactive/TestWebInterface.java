@@ -23,7 +23,6 @@ import reactor.test.StepVerifier;
 /**
  * @author Thomas Freese
  */
-// @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
 public interface TestWebInterface

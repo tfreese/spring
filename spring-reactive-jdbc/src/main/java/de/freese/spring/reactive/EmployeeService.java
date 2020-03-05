@@ -47,7 +47,7 @@ public class EmployeeService
      * @return {@link Mono}
      */
     @Transactional
-    public Mono<Void> deleteEmployee(final long id)
+    public Mono<Integer> deleteEmployee(final long id)
     {
         return this.repository.deleteEmployee(id);
     }

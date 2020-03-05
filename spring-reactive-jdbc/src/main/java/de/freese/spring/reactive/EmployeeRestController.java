@@ -39,46 +39,15 @@ public class EmployeeRestController
         super();
     }
 
-    // @RequestParam final Optional<String> name
-
-    // public Mono<ServerResponse> getAllDepartments(final ServerRequest request)
-    // {
-    // Flux<Department> departments = repository.getAllDepartments();
-    // return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(departments, Department.class);
-    // }
-
     /**
      * @param newEmployee {@link Employee}
      * @return {@link Publisher}
      */
     @PutMapping("employee")
-    // @PutMapping(path = "employee", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Publisher<Employee> createNewEmployee(@RequestBody final Employee newEmployee)
     {
         Mono<Employee> employee = this.service.createNewEmployee(newEmployee);
 
         return employee;
     }
-
-    // /**
-    // * @return {@link Publisher}
-    // */
-    // // @GetMapping("departments")
-    // public Publisher<Department> getAllDepartments()
-    // {
-    // Flux<Department> departments = this.service.getAllDepartments();
-    //
-    // return departments;
-    // }
-
-    // /**
-    // * @return {@link Publisher}
-    // */
-    // @GetMapping("employees")
-    // public Publisher<Employee> getAllEmployees()
-    // {
-    // Flux<Employee> employees = this.service.getAllEmployees();
-    //
-    // return employees;
-    // }
 }

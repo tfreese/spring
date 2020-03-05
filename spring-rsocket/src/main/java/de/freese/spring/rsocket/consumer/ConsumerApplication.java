@@ -105,10 +105,17 @@ public class ConsumerApplication
     /**
      * @param args String[]
      */
+    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         // SpringApplication.run(ConsumerApplication.class, args);
-        new SpringApplicationBuilder(ConsumerApplication.class).profiles("consumer").run(args);
+
+        // @formatter:off
+        new SpringApplicationBuilder(ConsumerApplication.class)
+            .profiles("consumer")
+            .run(args)
+            ;
+        // @formatter:on
     }
 
     /**

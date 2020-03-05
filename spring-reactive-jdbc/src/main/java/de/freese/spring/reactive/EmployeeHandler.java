@@ -15,8 +15,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
- * Die anderen REST-Methoden sind im {@link EmployeeRestController}.
- *
  * @author Thomas Freese
  */
 @Component
@@ -36,6 +34,8 @@ public class EmployeeHandler
         super();
     }
 
+    // Die REST-Methode 'createNewEmployee' wird im {@link EmployeeRestController} behandelt.
+    //
     // /**
     // * @param request {@link ServerRequest}
     // * @return {@link Mono}
@@ -57,9 +57,9 @@ public class EmployeeHandler
     {
         Long id = Long.valueOf(request.pathVariable("id"));
 
-        Mono<Void> employee = this.service.deleteEmployee(id);
+        Mono<Integer> count = this.service.deleteEmployee(id);
 
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).build(employee);
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(count, Integer.class);
     }
 
     /**

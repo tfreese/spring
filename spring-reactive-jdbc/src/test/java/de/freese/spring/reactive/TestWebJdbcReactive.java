@@ -22,7 +22,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 {
         "jdbc-reactive", "test"
 })
-// @Disabled
 public class TestWebJdbcReactive implements TestWebInterface
 {
     /**

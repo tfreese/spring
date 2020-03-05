@@ -84,6 +84,7 @@ public class ProducerApplication
     /**
      * @param args String[]
      */
+    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         // SpringApplication.run(ProducerApplication.class, args);
@@ -91,7 +92,8 @@ public class ProducerApplication
         // @formatter:off
         new SpringApplicationBuilder(ProducerApplication.class)
             .profiles("producer")
-            .run(args);
+            .run(args)
+            ;
         // @formatter:on
     }
 

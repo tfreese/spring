@@ -18,7 +18,6 @@ import de.freese.spring.reactive.EmployeeService;
 {
         "jdbc", "test"
 })
-// @Disabled
 public class TestServiceJdbc implements TestServiceInterface
 {
     /**

@@ -23,7 +23,7 @@ public interface EmployeeRepository
      * @param id long
      * @return {@link Mono}
      */
-    public Mono<Void> deleteEmployee(long id);
+    public Mono<Integer> deleteEmployee(long id);
 
     /**
      * @return {@link Flux}
