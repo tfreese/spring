@@ -17,6 +17,7 @@ logging:
    level:
       root: INFO
       org.springframework: INFO   
+      io.rsocket.FrameLogger: DEBUG
    file:
       #path: ${user.dir}/logs
       #path: /tmp/logs   

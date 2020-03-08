@@ -4,6 +4,7 @@
 
 package de.freese.spring.rsocket.consumer;
 
+import java.time.Duration;
 import java.util.Objects;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import de.freese.spring.rsocket.GreetingRequest;
 import de.freese.spring.rsocket.GreetingResponse;
+import io.rsocket.frame.decoder.PayloadDecoder;
 import reactor.core.publisher.Mono;
 
 /**
@@ -138,8 +140,13 @@ public class ConsumerApplication
     {
         // @formatter:off
         RSocketRequester rSocketRequester = RSocketRequester.builder()
+            .rsocketFactory(factory -> factory
+                    .keepAlive(Duration.ofSeconds(60), Duration.ofSeconds(30), 3)
+                    .frameDecoder(PayloadDecoder.ZERO_COPY)
+                )
             .dataMimeType(MimeTypeUtils.APPLICATION_JSON)
-//            .metadataMimeType(MimeTypeUtils.APPLICATION_JSON) // Verursacht Fehler "No handler for destination"
+            //.metadataMimeType(MimeTypeUtils.APPLICATION_JSON) // Verursacht Fehler "No handler for destination"
+            //.metadataMimeType(MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_COMPOSITE_METADATA.getString())) // Default
             .rsocketStrategies(rSocketStrategies)
             .connectTcp(serverAddress, serverPort)
             .block()
