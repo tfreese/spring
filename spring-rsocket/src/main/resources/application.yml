@@ -28,39 +28,39 @@ logging:
       console: ${pattern.logback.console}
       file: ${pattern.logback.file}
    register-shutdown-hook: false       
-       
+
 ---
 
 spring:
-    profiles: producer
-    main:
-        web-application-type: NONE     
-    rsocket:
-        server:
-            address: localhost
-            port: 7000
-            transport: TCP
+   profiles: server
+   main:
+      web-application-type: NONE     
+   rsocket:
+      server:
+         address: localhost
+         port: 7000
+         transport: TCP
         
 logging:
-    file:
-        name: logs/producer.log
+   file:
+      name: logs/server.log
+        
 ---
 
 spring:
-    profiles: consumer
+   profiles: client
     
 logging:
-    file:
-       name: logs/consumer.log 
+   file:
+      name: logs/client.log 
           
 server:
-    http2:
-        enabled: true 
-    port: 8080
+   http2:
+      enabled: true 
+   port: 8080
    
 rsocket:
-    server:
-        address: localhost
-        port: 7000   
-    
-       
+   server:
+      address: localhost
+      port: 7000  
+ 
