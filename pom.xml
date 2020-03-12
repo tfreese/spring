@@ -40,7 +40,7 @@
 		<version_io.springfox_swagger>2.9.2</version_io.springfox_swagger>
 
 		<version_org.apache.directory.server>2.0.0.AM25</version_org.apache.directory.server>
-		<version_org.apache.qpid>7.1.8</version_org.apache.qpid>
+		<version_org.apache.qpid>8.0.0</version_org.apache.qpid>
 		<version_org.springframework.shell>2.0.1.RELEASE</version_org.springframework.shell>
 	</properties>
 

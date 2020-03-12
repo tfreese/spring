@@ -53,10 +53,11 @@ spring:
 logging:
    file:
       name: logs/client.log 
-          
+
 server:
    http2:
-      enabled: true 
+      enabled: true
+   address: localhost
    port: 8080
    
 rsocket:

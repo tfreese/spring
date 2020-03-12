@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import de.freese.spring.rsocket.GreetingRequest;
 import de.freese.spring.rsocket.GreetingResponse;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * @author Thomas Freese
@@ -63,9 +64,9 @@ public class RSocketController
      * @return {@link GreetingResponse}
      */
     @MessageMapping("error")
-    public Flux<GreetingResponse> error()
+    public Mono<GreetingResponse> error()
     {
-        return Flux.error(new IllegalArgumentException());
+        return Mono.error(new IllegalArgumentException("Bad Exception"));
     }
 
     /**
@@ -73,18 +74,21 @@ public class RSocketController
      * @return {@link Flux}
      */
     @MessageExceptionHandler
-    public Flux<GreetingResponse> errorHandler(final IllegalArgumentException iaex)
+    public Mono<GreetingResponse> errorHandler(final IllegalArgumentException iaex)
     {
-        return Flux.just(new GreetingResponse("Oh no !"));
+        return Mono.just(new GreetingResponse(iaex.getMessage()));
     }
 
     /**
      * @param request {@link GreetingRequest}
+     * @return {@link Mono}
      */
     @MessageMapping("fire-and-forget")
-    public void fireAndForget(final GreetingRequest request)
+    public Mono<Void> fireAndForget(final GreetingRequest request)
     {
         LOGGER.info("Received fire-and-forget request: {}", request);
+
+        return Mono.empty();
     }
 
     /**
@@ -109,21 +113,6 @@ public class RSocketController
         LOGGER.info("Received stream request: {}", request);
 
         // @formatter:off
-//        return Flux.fromStream(Stream.generate(() -> new GreetingResponse(request.getName())))
-//                .take(5L)
-//                .delayElements(Duration.ofSeconds(1));
-
-//        return Flux.range(1, 5)
-//                // Indizierung
-//                .index()
-//                // Response-Objekt erzeugen.
-//                .map(objects -> new GreetingResponse(request.getName(), objects.getT1()))
-//                // Eine Sekunde Pause
-//                .delayElements(Duration.ofSeconds(1))
-//                // Flux-Events loggen.
-//                .log()
-//                ;
-
         return Flux
                 // Jede Sekunde ein neues Element erzeugen.
                 .interval(Duration.ofSeconds(1))
@@ -137,5 +126,25 @@ public class RSocketController
                 .log()
                 ;
         // @formatter:on
+
+//        // @formatter:off
+//        return Flux.fromStream(Stream.generate(() -> new GreetingResponse(request.getName())))
+//                .take(5L)
+//                .delayElements(Duration.ofSeconds(1))
+//                ;
+//        // @formatter:on
+        //
+//        // @formatter:off
+//        return Flux.range(1, 5)
+//                // Indizierung
+//                .index()
+//                // Response-Objekt erzeugen.
+//                .map(objects -> new GreetingResponse(request.getName(), objects.getT1()))
+//                // Eine Sekunde Pause
+//                .delayElements(Duration.ofSeconds(1))
+//                // Flux-Events loggen.
+//                .log()
+//                ;
+//        // @formatter:on
     }
 }

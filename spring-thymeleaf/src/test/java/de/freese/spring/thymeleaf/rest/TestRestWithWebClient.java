@@ -133,7 +133,7 @@ public class TestRestWithWebClient implements RestTestCase
         Mono<ResponseEntity<String>> response = webClient.get()
                 .uri("/actuator/health")
                 .accept(MediaType.APPLICATION_JSON)
-                .exchange() // Liefert auch Header und Status.
+                .exchange() // Liefert Header, Status und ResponseBody.
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 ;
         // @formatter:on

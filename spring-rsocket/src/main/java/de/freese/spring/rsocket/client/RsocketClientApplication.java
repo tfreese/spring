@@ -6,11 +6,13 @@ package de.freese.spring.rsocket.client;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.web.reactive.config.EnableWebFlux;
 
 /**
  * @author Thomas Freese
  */
 @SpringBootApplication(scanBasePackages = "de.freese.spring.rsocket.client")
+@EnableWebFlux
 public class RsocketClientApplication
 {
     /**
