@@ -26,12 +26,13 @@ import reactor.core.publisher.Mono;
  * curl localhost:8080/greet/requestResponse/tommy<br>
  * curl localhost:8080/greet/stream/tommy<br>
  * curl localhost:8080/greet/channel/tommy<br>
+ * curl localhost:8080/greet/parameter/tommy<br>
  * curl localhost:8080/greet/error<br>
  *
  * @author Thomas Freese
  */
 @RestController
-@RequestMapping(path = "/greet")
+@RequestMapping("greet")
 @Profile("client")
 public class RSocketClientRestController
 {
@@ -69,11 +70,11 @@ public class RSocketClientRestController
     @GetMapping(value = "channel/{name}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<GreetingResponse> channel(@PathVariable final String name)
     {
-        LOGGER.info("Channel, sending five requests. Waiting for five responses...");
+        LOGGER.info("Channel: sending five requests, waiting for five responses...");
 
        //@formatter:off
        return this.rSocketRequester
-               .route("channel")
+               .route("greet/channel")
                .metadata(REQUEST_CREDENTIALS, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
                .data(Flux.range(0, 5).map(integer -> new GreetingRequest(name, integer.longValue())), GreetingRequest.class)
                .retrieveFlux(GreetingResponse.class)
@@ -87,11 +88,11 @@ public class RSocketClientRestController
     @GetMapping("error")
     public Mono<GreetingResponse> error()
     {
-        LOGGER.info("Error, retrieve an Error...");
+        LOGGER.info("Error: retrieve an Error...");
 
         // @formatter:off
         return this.rSocketRequester
-               .route("error")
+               .route("greet/error")
                .metadata(REQUEST_CREDENTIALS, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
                .data(Mono.empty())
                .retrieveMono(GreetingResponse.class);
@@ -105,11 +106,11 @@ public class RSocketClientRestController
     @GetMapping("fireAndForget/{name}")
     public Mono<Void> fireAndForget(@PathVariable final String name)
     {
-        LOGGER.info("Fire-And-Forget, sending one request. Expect no response (check server console log)...");
+        LOGGER.info("Fire-And-Forget: sending one request, expect no response (check server console log)...");
 
         //@formatter:off
         return this.rSocketRequester
-                .route("fire-and-forget")
+                .route("greet/fire-and-forget")
                 .metadata(REQUEST_CREDENTIALS, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
                 .data(new GreetingRequest(name))
                 .send()
@@ -121,14 +122,32 @@ public class RSocketClientRestController
      * @param name String
      * @return {@link Mono}
      */
-    @GetMapping("requestResponse/{name}")
-    public Mono<GreetingResponse> requestResponse(@PathVariable final String name)
+    @GetMapping("parameter/{name}")
+    public Mono<GreetingResponse> parameter(@PathVariable final String name)
     {
-        LOGGER.info("Sending one request, waiting for one response...");
+        LOGGER.info("Parameter: Sending one request, waiting for one response...");
 
         //@formatter:off
         return  this.rSocketRequester
-                .route("request-response")
+                .route("greet/parameter/" + name)
+                .metadata(REQUEST_CREDENTIALS, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
+                .retrieveMono(GreetingResponse.class)
+                ;
+        //@formatter:on
+    }
+
+    /**
+     * @param name String
+     * @return {@link Mono}
+     */
+    @GetMapping("requestResponse/{name}")
+    public Mono<GreetingResponse> requestResponse(@PathVariable final String name)
+    {
+        LOGGER.info("Request-Response: sending one request, waiting for one response...");
+
+        //@formatter:off
+        return  this.rSocketRequester
+                .route("greet/request-response")
                 .metadata(REQUEST_CREDENTIALS, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
                 .data(new GreetingRequest(name))
                 .retrieveMono(GreetingResponse.class)
@@ -143,11 +162,11 @@ public class RSocketClientRestController
     @GetMapping(value = "/stream/{name}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<GreetingResponse> stream(@PathVariable final String name)
     {
-        LOGGER.info("Request-Stream, sending one request. Waiting for responses (Type 's' to stop)...");
+        LOGGER.info("Stream: sending one request, waiting for responses...");
 
        //@formatter:off
        return this.rSocketRequester
-               .route("stream")
+               .route("greet/stream")
                .metadata(REQUEST_CREDENTIALS, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
                .data(new GreetingRequest(name))
                .retrieveFlux(GreetingResponse.class)

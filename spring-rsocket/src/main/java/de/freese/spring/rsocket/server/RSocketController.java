@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,7 @@ public class RSocketController
      * @param requests {@link Flux}
      * @return {@link Flux}
      */
-    @MessageMapping("channel")
+    @MessageMapping("greet/channel")
     public Flux<GreetingResponse> channel(final Flux<GreetingRequest> requests)
     {
         LOGGER.info("Received channel request (stream) at {}", Instant.now());
@@ -63,7 +64,7 @@ public class RSocketController
     /**
      * @return {@link GreetingResponse}
      */
-    @MessageMapping("error")
+    @MessageMapping("greet/error")
     public Mono<GreetingResponse> error()
     {
         return Mono.error(new IllegalArgumentException("Bad Exception"));
@@ -83,7 +84,7 @@ public class RSocketController
      * @param request {@link GreetingRequest}
      * @return {@link Mono}
      */
-    @MessageMapping("fire-and-forget")
+    @MessageMapping("greet/fire-and-forget")
     public Mono<Void> fireAndForget(final GreetingRequest request)
     {
         LOGGER.info("Received fire-and-forget request: {}", request);
@@ -92,22 +93,34 @@ public class RSocketController
     }
 
     /**
+     * @param name String
+     * @return {@link Flux}
+     */
+    @MessageMapping("greet/parameter/{name}")
+    public Mono<GreetingResponse> parameter(@DestinationVariable final String name)
+    {
+        LOGGER.info("Received parameter request: {}", name);
+
+        return Mono.just(new GreetingResponse(name));
+    }
+
+    /**
      * @param request {@link GreetingRequest}
      * @return {@link GreetingResponse}
      */
-    @MessageMapping("request-response")
-    public GreetingResponse requestResponse(final GreetingRequest request)
+    @MessageMapping("greet/request-response")
+    public Mono<GreetingResponse> requestResponse(final GreetingRequest request)
     {
         LOGGER.info("Received request-response request: {}", request);
 
-        return new GreetingResponse(request.getName());
+        return Mono.just(new GreetingResponse(request.getName()));
     }
 
     /**
      * @param request {@link GreetingRequest}
      * @return {@link Flux}
      */
-    @MessageMapping("stream")
+    @MessageMapping("greet/stream")
     public Flux<GreetingResponse> stream(final GreetingRequest request)
     {
         LOGGER.info("Received stream request: {}", request);

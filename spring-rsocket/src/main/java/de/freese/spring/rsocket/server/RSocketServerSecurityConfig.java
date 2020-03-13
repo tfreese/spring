@@ -104,12 +104,7 @@ public class RSocketServerSecurityConfig
                     // User muss ROLE_SETUP haben um Verbindung zum Server herzustellen.
                     .setup().hasRole("SETUP")
                     // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
-//                    .route("channel/*").hasRole("ADMIN")
-//                    .route("error").hasRole("ADMIN")
-//                    .route("fire-and-forget").hasRole("ADMIN")
-//                    .route("request-response").hasRole("ADMIN")
-//                    .route("stream").hasRole("ADMIN")
-                    .route("*").hasRole("ADMIN")
+                    .route("greet/*").hasRole("ADMIN")
                     .anyRequest().authenticated();
         }).basicAuthentication(Customizer.withDefaults())
         ;

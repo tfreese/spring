@@ -49,7 +49,7 @@ public class RSocketClientShell
     @ShellMethod("Stream five requests. five responses (stream) will be printed.")
     public void channel()
     {
-        LOGGER.info("Channel, sending five requests. Waiting for five responses...");
+        LOGGER.info("Channel: sending five requests, waiting for five responses...");
 
         //@formatter:off
         this.webClient
@@ -74,7 +74,7 @@ public class RSocketClientShell
     @ShellMethod("Retrieve an Error.")
     public void error()
     {
-        LOGGER.info("Error, retrieve an Error...");
+        LOGGER.info("Error: retrieve an Error...");
 
         //@formatter:off
         this.webClient
@@ -93,7 +93,7 @@ public class RSocketClientShell
     @ShellMethod("Send one request. No response will be returned.")
     public void fireAndForget() throws InterruptedException
     {
-        LOGGER.info("Fire-And-Forget, sending one request. Expect no response (check server console log)...");
+        LOGGER.info("Fire-And-Forget: sending one request, expect no response (check server console log)...");
 
         //@formatter:off
         this.webClient
@@ -110,9 +110,28 @@ public class RSocketClientShell
      * @throws InterruptedException Falls was schief geht.
      */
     @ShellMethod("Send one request. One response will be printed.")
+    public void parameter() throws InterruptedException
+    {
+        LOGGER.info("Parameter: Sending one request, waiting for one response...");
+
+        //@formatter:off
+        this.webClient
+                .get()
+                .uri("greet/parameter/{name}", "Tommy")
+                .retrieve()
+                .bodyToMono(GreetingResponse.class)
+                .subscribe(gr -> LOGGER.info("Response was: {}", gr))
+                ;
+        // @formatter:on
+    }
+
+    /**
+     * @throws InterruptedException Falls was schief geht.
+     */
+    @ShellMethod("Send one request. One response will be printed.")
     public void requestResponse() throws InterruptedException
     {
-        LOGGER.info("Sending one request, waiting for one response...");
+        LOGGER.info("Request-Response: sending one request, waiting for one response...");
 
         //@formatter:off
         this.webClient
@@ -131,7 +150,7 @@ public class RSocketClientShell
     @ShellMethod("Send one request. Many responses (stream) will be printed.")
     public void stream()
     {
-        LOGGER.info("Request-Stream, sending one request. Waiting for responses (Type 's' to stop)...");
+        LOGGER.info("Stream: sending one request, waiting for responses...");
 
         //@formatter:off
         this.webClient
