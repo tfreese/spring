@@ -23,6 +23,7 @@ public class OAuth2ClientRestApplication extends SpringBootServletInitializer
      * @param args String[]
      * @throws Exception Falls was schief geht.
      */
+    @SuppressWarnings("resource")
     public static void main(final String[] args) throws Exception
     {
         SpringApplication.run(OAuth2ClientRestApplication.class, args);

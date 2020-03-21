@@ -13,6 +13,7 @@ public class MicroService1
     /**
      * @param args String[]
      */
+    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         // @formatter:off

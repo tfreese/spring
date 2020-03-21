@@ -128,11 +128,11 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
     {
         // @formatter:off
         configurer
-            .favorPathExtension(false) // URL.xml -> Liefert XML
+            .favorPathExtension(false) // URL.xml -> Liefert XML; Ersetzen durch strategies(strategies)
             .favorParameter(false).parameterName("format") // URL?format=xml -> Liefert XML
             .ignoreAcceptHeader(false)
             .useRegisteredExtensionsOnly(true)
-            .ignoreUnknownPathExtensions(false)
+            .ignoreUnknownPathExtensions(false) // Ersetzen durch strategies(strategies)
             .defaultContentType(MediaType.APPLICATION_JSON)
             .mediaType("xml", MediaType.APPLICATION_XML)
             .mediaType("json", MediaType.APPLICATION_JSON);

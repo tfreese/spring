@@ -19,7 +19,6 @@ import org.apache.directory.api.ldap.model.schema.registries.Schema;
 import org.apache.directory.api.ldap.schema.loader.JarLdifSchemaLoader;
 import org.apache.directory.api.ldap.schema.loader.LdifSchemaLoader;
 import org.apache.directory.api.util.FileUtils;
-import org.apache.directory.server.core.api.CacheService;
 import org.apache.directory.server.core.api.CoreSession;
 import org.apache.directory.server.core.api.DirectoryService;
 import org.apache.directory.server.core.factory.DefaultDirectoryServiceFactory;
@@ -525,10 +524,9 @@ public class EmbeddedLdapServer
             getLdapServer().start();
         }
 
-        CacheService cacheService = new CacheService();
-        cacheService.initialize(getDirectoryService().getInstanceLayout());
-        getDirectoryService().setCacheService(cacheService);
-
+        // CacheService cacheService = new CacheService();
+        // cacheService.initialize(getDirectoryService().getInstanceLayout());
+        // getDirectoryService().setCacheService(cacheService);
     }
 
     /**

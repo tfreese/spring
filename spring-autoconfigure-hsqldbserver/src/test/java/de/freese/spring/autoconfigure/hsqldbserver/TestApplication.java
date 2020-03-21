@@ -23,6 +23,7 @@ public class TestApplication
     /**
      * @param args String[]
      */
+    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         SpringApplication.run(TestApplication.class, args);

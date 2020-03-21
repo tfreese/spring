@@ -1,17 +1,16 @@
 // Erzeugt: 04.05.2016
 package de.freese.spring.hateoas;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.List;
-import java.util.Optional;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 /**
  * https://spring.io/guides/gs/rest-hateoas<br>
@@ -26,21 +25,21 @@ import java.util.Optional;
 public class HateoasApplication implements WebMvcConfigurer// extends SpringBootServletInitializer
 {
     /**
+     * @param args String[]
+     * @throws java.lang.Exception Falls was schief geht.
+     */
+    @SuppressWarnings("resource")
+    public static void main(final String[] args) throws Exception
+    {
+        SpringApplication.run(HateoasApplication.class, args);
+    }
+
+    /**
      * Erzeugt eine neue Instanz von {@link HateoasApplication}
      */
     public HateoasApplication()
     {
         super();
-    }
-
-    /**
-     * @param args String[]
-     *
-     * @throws java.lang.Exception Falls was schief geht.
-     */
-    public static void main(final String[] args) throws Exception
-    {
-        SpringApplication.run(HateoasApplication.class, args);
     }
 
     /**

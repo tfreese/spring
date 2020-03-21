@@ -157,6 +157,7 @@ public class SpringResilienceApplication implements CommandLineRunner
     /**
      * @param args String[]
      */
+    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         SpringApplication.run(SpringResilienceApplication.class, args);

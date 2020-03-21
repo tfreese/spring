@@ -4,8 +4,8 @@
 package de.freese.spring.thymeleaf;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,6 +38,10 @@ public class DemoServlet extends HttpServlet
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException
     {
         resp.setContentType("text/html");
-        resp.getWriter().append("<b>").append(new Date().toString()).append("</b>");
+
+        try (PrintWriter writer = resp.getWriter())
+        {
+            writer.append("<b>").append(new Date().toString()).append("</b>");
+        }
     }
 }

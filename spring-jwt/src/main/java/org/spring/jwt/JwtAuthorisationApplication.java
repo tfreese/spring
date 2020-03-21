@@ -37,6 +37,7 @@ public class JwtAuthorisationApplication extends SpringBootServletInitializer
      * @param args String[]
      * @throws Exception Falls was schief geht.
      */
+    @SuppressWarnings("resource")
     public static void main(final String[] args) throws Exception
     {
         // ApplicationContext context = SpringApplication.run(SpringBootThymeleafApplication.class, args);

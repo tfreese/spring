@@ -17,6 +17,7 @@ public class EurekaServerApplication
      * @param args String[]
      * @throws Exception Falls was schief geht.
      */
+    @SuppressWarnings("resource")
     public static void main(final String[] args) throws Exception
     {
         SpringApplication.run(EurekaServerApplication.class, args);
