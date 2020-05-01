@@ -123,7 +123,7 @@ public class TestRestService
     // *
     // */
     // @Resource
-    // private WebTestClient webClient = nullt;
+    // private WebTestClient webClient = null;
 
     /**
      * Erzeugt eine neue Instanz von {@link TestRestService}

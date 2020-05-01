@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.freese.spring</groupId>
+		<artifactId>spring</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>spring-microservice-jmh</artifactId>
+	<packaging>jar</packaging>
+
+	<name>${project.groupId} - ${project.artifactId}</name>
+	<description>JMP-Benchmark eines MicroService von spring-boot</description>
+
+	<properties>
+		<uberjar.name>benchmarks</uberjar.name>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<execution>
+						<!-- package, none -->
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<finalName>${uberjar.name}</finalName>
+					<transformers>
+						<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+							<mainClass>org.openjdk.jmh.Main</mainClass>
+						</transformer>
+						<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+
+						<!-- Für spring-boot -->
+						<transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer" />
+						<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+							<resource>META-INF/spring.handlers</resource>
+							<resource>META-INF/spring.schemas</resource>
+						</transformer>
+						<transformer implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
+							<resource>META-INF/spring.factories</resource>
+						</transformer>
+						<!--transformer implementation="org.springframework.boot.loader.thin.maven.RelocatingAppendingResourceTransformer">
+							<resource>META-INF/sisu/javax.inject.Named</resource>
+							</transformer -->
+					</transformers>
+					<filters>
+						<filter>
+							<!--
+								Shading signed JARs will fail without this.
+								http://stackoverflow.com/questions/999489/invalid-signature-file-when-attempting-to-run-a-jar
+							-->
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>META-INF/*.SF</exclude>
+								<exclude>META-INF/*.DSA</exclude>
+								<exclude>META-INF/*.RSA</exclude>
+								<exclude>META-INF/LICENSE.*</exclude>
+								<exclude>META-INF/NOTICE.*</exclude>
+								<exclude>META-INF/*.kotlin_module</exclude>
+							</excludes>
+						</filter>
+					</filters>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<version>${version_org.springframework.boot}</version>
+					</dependency>
+					<!--dependency>
+						<groupId>org.springframework.boot.experimental</groupId>
+						<artifactId>spring-boot-thin-launcher-shade-locator</artifactId>
+						<version>1.0.0</version>
+					</dependency-->
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<!-- compile scope -->
+		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>		
+
+		<!-- runtime scope -->
+
+		<!-- provided scope -->
+		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-generator-annprocess</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- test scope -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>

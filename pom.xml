@@ -58,6 +58,7 @@
 		<module>spring-ldap</module>
 		<module>spring-messaging</module>
 		<module>spring-microservice</module>
+		<module>spring-microservice-jmh</module>
 		<module>spring-oauth2</module>
 		<module>spring-reactive-jdbc</module>
 		<module>spring-resilience</module>
