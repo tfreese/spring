@@ -51,10 +51,13 @@ public class RsocketClientConfig
             //.metadataMimeType(MimeTypeUtils.APPLICATION_JSON) // Verursacht Fehler "No handler for destination"
             //.metadataMimeType(MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_COMPOSITE_METADATA.getString())) // Default
             .rsocketStrategies(rSocketStrategies)
-            .rsocketFactory(factory -> factory
-                    .keepAlive(Duration.ofSeconds(60), Duration.ofSeconds(30), 3)
-                    .frameDecoder(PayloadDecoder.ZERO_COPY)
-                )
+            .rsocketConnector(connector -> {
+                connector
+                    .keepAlive(Duration.ofSeconds(60), Duration.ofSeconds(30))
+                    .payloadDecoder(PayloadDecoder.ZERO_COPY)
+                    .fragment(1492)
+                ;
+            })
             .setupMetadata(setupCredentials, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
             .connectTcp(serverAddress, serverPort)
             .block()
