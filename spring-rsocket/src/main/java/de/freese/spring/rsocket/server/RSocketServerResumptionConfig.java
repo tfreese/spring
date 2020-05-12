@@ -33,6 +33,10 @@ public class RSocketServerResumptionConfig implements RSocketServerCustomizer
     }
 
     /**
+     * Make the socket capable of resumption.<br>
+     * By default, the Resume Session will have a duration of 120s,<br>
+     * a timeout of 10s, and use the In Memory (volatile, non-persistent) session store.
+     *
      * @see org.springframework.boot.rsocket.server.RSocketServerCustomizer#customize(io.rsocket.core.RSocketServer)
      */
     @Override

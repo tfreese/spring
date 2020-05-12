@@ -3,7 +3,7 @@
 	/*background-color: var(--color-background-menubar);*/
 	background-image: linear-gradient(to right, var(--color-background-menubar), var(--color-background-header));
 	font-family: sans-serif, Arial, Helvetica;
-	height: 2em;	
+	height: 2em;
 }
 
 /* Einzelne Menüpunkte */

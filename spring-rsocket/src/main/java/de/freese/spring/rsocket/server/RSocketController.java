@@ -6,11 +6,17 @@ package de.freese.spring.rsocket.server;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.rsocket.RSocketRequester;
+import org.springframework.messaging.rsocket.annotation.ConnectMapping;
 import org.springframework.stereotype.Controller;
 import de.freese.spring.rsocket.GreetingRequest;
 import de.freese.spring.rsocket.GreetingResponse;
@@ -27,6 +33,11 @@ public class RSocketController
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(RSocketController.class);
+
+    /**
+     *
+     */
+    private final List<RSocketRequester> CLIENTS = new ArrayList<>();
 
     /**
      * Erstellt ein neues {@link RSocketController} Object.
@@ -58,6 +69,41 @@ public class RSocketController
                 // Flux-Events der Responses loggen.
                 .log()
                 ;
+        // @formatter:on
+    }
+
+    /**
+     * @param requester {@link RSocketRequester}
+     * @param client String
+     */
+    @ConnectMapping("client-connect")
+    void connectClientAndAskForTelemetry(final RSocketRequester requester, @Payload final String client)
+    {
+        // @formatter:off
+        requester.rsocket()
+                .onClose()
+                .doFirst(() -> {
+                    // Add all new clients to a client list.
+                    LOGGER.info("Client: {} CONNECTED.", client);
+                    this.CLIENTS.add(requester);
+                })
+                .doOnError(error -> {
+                    // Warn when channels are closed by clients.
+                    LOGGER.warn("Channel to client {} CLOSED", client);
+                })
+                .doFinally(consumer -> {
+                    // Remove disconnected clients from the client list.
+                    this.CLIENTS.remove(requester);
+                    LOGGER.info("Client {} DISCONNECTED", client);
+                })
+                .subscribe();
+
+        // Callback to client, confirming connection
+        requester.route("client-status")
+                .data("OPEN")
+                .retrieveFlux(String.class)
+                .doOnNext(s -> LOGGER.info("Client: {} Free Memory: {}.", client, s))
+                .subscribe();
         // @formatter:on
     }
 
@@ -114,6 +160,19 @@ public class RSocketController
         LOGGER.info("Received request-response request: {}", request);
 
         return Mono.just(new GreetingResponse(request.getName()));
+    }
+
+    /**
+     *
+     */
+    @PreDestroy
+    void shutdown()
+    {
+        LOGGER.info("Detaching all remaining clients...");
+
+        this.CLIENTS.stream().forEach(requester -> requester.rsocket().dispose());
+
+        LOGGER.info("Shutting down.");
     }
 
     /**

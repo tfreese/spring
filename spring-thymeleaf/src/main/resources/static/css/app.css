@@ -1,5 +1,5 @@
 :root {
-    --color-background: lightgray;
+	--color-background: lightgray;
 	--color-background-header: darkgray;
 	--color-background-footer: var(--color-background-header);
 	--color-background-menubar: #333333;

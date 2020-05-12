@@ -37,8 +37,8 @@ import reactor.core.publisher.Mono;
 public class RSocketClientRestController
 {
     /**
-    *
-    */
+     *
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(RSocketClientRestController.class);
 
     /**
@@ -47,8 +47,8 @@ public class RSocketClientRestController
     private static final UsernamePasswordMetadata REQUEST_CREDENTIALS = new UsernamePasswordMetadata("tommy", "gehaim");
 
     /**
-    *
-    */
+     *
+     */
     private final RSocketRequester rSocketRequester;
 
     /**
@@ -61,6 +61,15 @@ public class RSocketClientRestController
         super();
 
         this.rSocketRequester = Objects.requireNonNull(rSocketRequester, "rSocketRequester required");
+
+        // @formatter:off
+        this.rSocketRequester.rsocket()
+            .onClose()
+            .doOnError(error -> LOGGER.warn("Connection CLOSED"))
+            .doFinally(consumer -> LOGGER.info("Client DISCONNECTED"))
+            .subscribe()
+        ;
+        // @formatter:on
     }
 
     /**
