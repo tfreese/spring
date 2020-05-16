@@ -46,7 +46,6 @@ import org.springframework.util.MimeType;
 import org.springframework.web.client.HttpMessageConverterExtractor;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
@@ -76,8 +75,8 @@ public class TestKryo
         Assertions.assertEquals(localDateTime.getYear(), now.getYear());
         Assertions.assertEquals(localDateTime.getMonth().getValue(), now.getMonth().getValue());
         Assertions.assertEquals(localDateTime.getDayOfMonth(), now.getDayOfMonth());
-        Assertions.assertEquals(localDateTime.getHour(), now.getHour());
-        Assertions.assertEquals(localDateTime.getMinute(), now.getMinute());
+        Assertions.assertEquals(localDateTime.getHour(), now.getHour(), 1);
+        Assertions.assertEquals(localDateTime.getMinute(), now.getMinute(), 1);
         // Assertions.assertEquals(localDateTime.getSecond(), now.getSecond());
     }
 
@@ -85,12 +84,6 @@ public class TestKryo
      *
      */
     private HttpClient.Builder httpClientbuilder = null;
-
-    /**
-     *
-     */
-    // @Resource
-    private KryoHttpMessageConverter kryoHttpMessageConverter = null;
 
     /**
      *
@@ -147,24 +140,31 @@ public class TestKryo
     @PostConstruct
     protected void setup()
     {
-        this.kryoHttpMessageConverter = new KryoHttpMessageConverter(() -> KryoApplication.KRYO_SERIALIZER.get());
+        KryoHttpMessageConverter kryoHttpMessageConverter = new KryoHttpMessageConverter(() -> KryoApplication.KRYO_SERIALIZER.get());
 
         this.restTemplate = new RestTemplateBuilder().rootUri("http://localhost:" + this.localServerPort)
-                .additionalMessageConverters(this.kryoHttpMessageConverter, new MappingJackson2HttpMessageConverter()).build();
+                .additionalMessageConverters(kryoHttpMessageConverter, new MappingJackson2HttpMessageConverter()).build();
 
         // this.restTemplate = this.restTemplateBuilder.rootUri("http://localhost:" + this.localServerPort)
         // .additionalMessageConverters(this.kryoHttpMessageConverter).build();
 
         // @formatter:off
-        ExchangeStrategies strategies = ExchangeStrategies.builder()
-              .codecs(configurer -> {
-                  //configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
-                  configurer.customCodecs().register(new KryoEncoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
-                  configurer.customCodecs().register(new KryoDecoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
-              }).build();
+        // Verursacht eine UnsupportedMediaTypeException
+
+//        ExchangeStrategies strategies = ExchangeStrategies.builder()
+//              .codecs(configurer -> {
+//                  //configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
+//                  configurer.customCodecs().register(new KryoEncoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
+//                  configurer.customCodecs().register(new KryoDecoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
+//              }).build();
 
         this.webClientBuilder.baseUrl("http://localhost:" + this.localServerPort)
-            .exchangeStrategies(strategies)
+            //.exchangeStrategies(strategies) // Verursacht eine UnsupportedMediaTypeException
+            .codecs(configurer -> {
+                //configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
+                configurer.customCodecs().register(new KryoEncoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
+                configurer.customCodecs().register(new KryoDecoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
+            })
             ;
         // @formatter:on
 

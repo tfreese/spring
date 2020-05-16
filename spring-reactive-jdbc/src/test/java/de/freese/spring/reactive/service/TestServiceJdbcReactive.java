@@ -18,7 +18,7 @@ import de.freese.spring.reactive.EmployeeService;
 @SpringBootTest
 @ActiveProfiles(
 {
-        "jdbc-reactive", "test"
+        "test", "jdbc-reactive"
 })
 public class TestServiceJdbcReactive implements TestServiceInterface
 {
@@ -50,7 +50,6 @@ public class TestServiceJdbcReactive implements TestServiceInterface
     @Disabled
     public void createNewEmployee()
     {
-        // TODO Auto-generated method stub
         TestServiceInterface.super.createNewEmployee();
     }
 

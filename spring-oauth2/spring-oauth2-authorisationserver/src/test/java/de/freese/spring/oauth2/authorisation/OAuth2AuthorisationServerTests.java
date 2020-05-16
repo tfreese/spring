@@ -16,7 +16,10 @@ import org.springframework.test.context.ActiveProfiles;
 // @ExtendWith(SpringExtension.class) // Ist bereits in SpringBootTest enthalten
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-@ActiveProfiles("test, memory")
+@ActiveProfiles(
+{
+        "test", "memory"
+})
 public class OAuth2AuthorisationServerTests
 {
     /**

@@ -43,6 +43,7 @@ public class KryoDecoder extends KryoCodecSupport implements HttpMessageDecoder<
     public boolean canDecode(final ResolvableType elementType, final MimeType mimeType)
     {
         return Object.class.isAssignableFrom(elementType.toClass()) && supportsMimeType(mimeType);
+        // return elementType.isInstance(Object.class) && supportsMimeType(mimeType);
     }
 
     /**

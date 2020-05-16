@@ -5,18 +5,24 @@ import javax.sql.DataSource;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
+ * curl localhost:8080/departments<br>
+ * curl localhost:8080/employees<br>
  * {@link "https://github.com/netifi/webflux-rxjava2-jdbc-example"}
  *
  * @author Thomas Freese
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = R2dbcAutoConfiguration.class)
 @EnableTransactionManagement
 public class SpringReactiveJdbcApplication
 {
@@ -53,5 +59,15 @@ public class SpringReactiveJdbcApplication
     public static void main(final String[] args)
     {
         SpringApplication.run(SpringReactiveJdbcApplication.class, args);
+    }
+
+    /**
+     * @return {@link DataSource}
+     */
+    @Bean
+    public DataSource dataSource()
+    {
+        // return DataSourceBuilder.create().build();
+        return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName("" + System.currentTimeMillis()).build();
     }
 }

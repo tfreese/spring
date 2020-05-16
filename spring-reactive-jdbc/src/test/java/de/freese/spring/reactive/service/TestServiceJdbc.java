@@ -16,7 +16,7 @@ import de.freese.spring.reactive.EmployeeService;
 @SpringBootTest
 @ActiveProfiles(
 {
-        "jdbc", "test"
+        "test", "jdbc"
 })
 public class TestServiceJdbc implements TestServiceInterface
 {
