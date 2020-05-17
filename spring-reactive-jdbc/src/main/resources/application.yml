@@ -5,9 +5,9 @@
 
 spring:
    datasource:
+      initialization-mode: never
       hikari:
          auto-commit: true
-         initialization-mode: never        
    profiles:
       active: jdbc
 

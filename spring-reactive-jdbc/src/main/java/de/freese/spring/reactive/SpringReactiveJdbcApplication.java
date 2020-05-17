@@ -6,12 +6,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -61,13 +58,13 @@ public class SpringReactiveJdbcApplication
         SpringApplication.run(SpringReactiveJdbcApplication.class, args);
     }
 
-    /**
-     * @return {@link DataSource}
-     */
-    @Bean
-    public DataSource dataSource()
-    {
-        // return DataSourceBuilder.create().build();
-        return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName("" + System.currentTimeMillis()).build();
-    }
+    // /**
+    // * @return {@link DataSource}
+    // */
+    // @Bean
+    // public DataSource dataSource()
+    // {
+    // // return DataSourceBuilder.create().build();
+    // return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName("" + System.currentTimeMillis()).build();
+    // }
 }
