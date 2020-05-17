@@ -9,8 +9,6 @@ import java.util.Map;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.messaging.rsocket.annotation.support.RSocketMessageHandler;
 import org.springframework.security.config.Customizer;
@@ -26,7 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
 import org.springframework.security.rsocket.core.PayloadSocketAcceptorInterceptor;
-import org.springframework.security.rsocket.metadata.BasicAuthenticationDecoder;
 
 /**
  * @author Thomas Freese
@@ -106,29 +103,29 @@ public class RSocketServerSecurityConfig
                     // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
                     .route("greet/*").hasRole("ADMIN")
                     .anyRequest().authenticated();
-        }).basicAuthentication(Customizer.withDefaults())
+        }).simpleAuthentication(Customizer.withDefaults())
         ;
         //@formatter:on
 
         return rsocket.build();
     }
 
-    /**
-     * @return {@link RSocketStrategies}
-     */
-    @Bean
-    public RSocketStrategies rsocketStrategies()
-    {
-        //@formatter:off
-        RSocketStrategies rSocketStrategies = RSocketStrategies.builder()
-                .decoder(new BasicAuthenticationDecoder(), new Jackson2JsonDecoder())
-                .encoder(new Jackson2JsonEncoder())
-                .build()
-                ;
-        //@formatter:on
-
-        return rSocketStrategies;
-    }
+    // /**
+    // * @return {@link RSocketStrategies}
+    // */
+    // @Bean
+    // public RSocketStrategies rsocketStrategies()
+    // {
+//        //@formatter:off
+//        RSocketStrategies rSocketStrategies = RSocketStrategies.builder()
+//                .decoder(new BasicAuthenticationDecoder(), new Jackson2JsonDecoder())
+//                .encoder(new Jackson2JsonEncoder())
+//                .build()
+//                ;
+//        //@formatter:on
+    //
+    // return rSocketStrategies;
+    // }
 
     /**
      * @param passwordEncoder {@link PasswordEncoder}

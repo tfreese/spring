@@ -6,7 +6,10 @@ package de.freese.spring.rsocket.client;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.util.MimeType;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.reactive.config.EnableWebFlux;
+import io.rsocket.metadata.WellKnownMimeType;
 
 /**
  * @author Thomas Freese
@@ -15,6 +18,11 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 @EnableWebFlux
 public class RsocketClientApplication
 {
+    /**
+    *
+    */
+    public static final MimeType BASIC_AUTHENTICATION_MIME_TYPE = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
+
     /**
      * @param args String[]
      */

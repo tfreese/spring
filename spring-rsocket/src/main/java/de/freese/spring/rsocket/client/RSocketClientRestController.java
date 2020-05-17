@@ -84,7 +84,7 @@ public class RSocketClientRestController
        //@formatter:off
        return this.rSocketRequester
                .route("greet/channel")
-               .metadata(REQUEST_CREDENTIALS, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
+               .metadata(REQUEST_CREDENTIALS, RsocketClientApplication.BASIC_AUTHENTICATION_MIME_TYPE)
                .data(Flux.range(0, 5).map(integer -> new GreetingRequest(name, integer.longValue())), GreetingRequest.class)
                .retrieveFlux(GreetingResponse.class)
                ;
@@ -102,7 +102,7 @@ public class RSocketClientRestController
         // @formatter:off
         return this.rSocketRequester
                .route("greet/error")
-               .metadata(REQUEST_CREDENTIALS, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
+               .metadata(REQUEST_CREDENTIALS, RsocketClientApplication.BASIC_AUTHENTICATION_MIME_TYPE)
                .data(Mono.empty())
                .retrieveMono(GreetingResponse.class);
         // @formatter:on
@@ -120,7 +120,7 @@ public class RSocketClientRestController
         //@formatter:off
         return this.rSocketRequester
                 .route("greet/fire-and-forget")
-                .metadata(REQUEST_CREDENTIALS, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
+                .metadata(REQUEST_CREDENTIALS, RsocketClientApplication.BASIC_AUTHENTICATION_MIME_TYPE)
                 .data(new GreetingRequest(name))
                 .send()
                 ;
@@ -139,7 +139,7 @@ public class RSocketClientRestController
         //@formatter:off
         return  this.rSocketRequester
                 .route("greet/parameter/" + name)
-                .metadata(REQUEST_CREDENTIALS, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
+                .metadata(REQUEST_CREDENTIALS, RsocketClientApplication.BASIC_AUTHENTICATION_MIME_TYPE)
                 .retrieveMono(GreetingResponse.class)
                 ;
         //@formatter:on
@@ -157,7 +157,7 @@ public class RSocketClientRestController
         //@formatter:off
         return  this.rSocketRequester
                 .route("greet/request-response")
-                .metadata(REQUEST_CREDENTIALS, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
+                .metadata(REQUEST_CREDENTIALS, RsocketClientApplication.BASIC_AUTHENTICATION_MIME_TYPE)
                 .data(new GreetingRequest(name))
                 .retrieveMono(GreetingResponse.class)
                 ;
@@ -176,7 +176,7 @@ public class RSocketClientRestController
        //@formatter:off
        return this.rSocketRequester
                .route("greet/stream")
-               .metadata(REQUEST_CREDENTIALS, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
+               .metadata(REQUEST_CREDENTIALS, RsocketClientApplication.BASIC_AUTHENTICATION_MIME_TYPE)
                .data(new GreetingRequest(name))
                .retrieveFlux(GreetingResponse.class)
                ;

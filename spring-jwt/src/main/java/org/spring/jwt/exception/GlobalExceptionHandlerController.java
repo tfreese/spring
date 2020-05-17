@@ -7,6 +7,7 @@ package org.spring.jwt.exception;
 import java.io.IOException;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.context.annotation.Bean;
@@ -43,12 +44,12 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
         {
             /**
              * @see org.springframework.boot.web.servlet.error.DefaultErrorAttributes#getErrorAttributes(org.springframework.web.context.request.WebRequest,
-             *      boolean)
+             *      org.springframework.boot.web.error.ErrorAttributeOptions)
              */
             @Override
-            public Map<String, Object> getErrorAttributes(final WebRequest webRequest, final boolean includeStackTrace)
+            public Map<String, Object> getErrorAttributes(final WebRequest webRequest, final ErrorAttributeOptions options)
             {
-                Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, includeStackTrace);
+                Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, options);
 
                 errorAttributes.remove("exception");
 

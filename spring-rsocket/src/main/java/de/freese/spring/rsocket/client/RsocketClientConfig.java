@@ -86,7 +86,7 @@ public class RsocketClientConfig
         RSocketRequester rSocketRequester = RSocketRequester.builder()
                 .setupRoute("client-connect") // -> RSocketController#connectClientAndAskForTelemetry
                 .setupData(client)
-                .setupMetadata(setupCredentials, UsernamePasswordMetadata.BASIC_AUTHENTICATION_MIME_TYPE)
+                .setupMetadata(setupCredentials, RsocketClientApplication.BASIC_AUTHENTICATION_MIME_TYPE)
                 .dataMimeType(MimeTypeUtils.APPLICATION_JSON)
                 //.metadataMimeType(MimeTypeUtils.APPLICATION_JSON) // Verursacht Fehler "No handler for destination"
                 //.metadataMimeType(MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_COMPOSITE_METADATA.getString())) // Default

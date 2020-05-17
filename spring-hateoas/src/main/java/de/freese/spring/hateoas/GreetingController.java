@@ -66,8 +66,8 @@ public class GreetingController
         greetingRepresentationModel.add(linkTo(methodOn(GreetingController.class).greetingPATH(name)).withRel("forPath"));
         greetingRepresentationModel.add(linkTo(methodOn(GreetingController.class).greetingPOJO(name)).withRel("forPojo"));
         greetingRepresentationModel.add(linkTo(methodOn(GreetingController.class).greetingSimple(name)).withRel("forSimple"));
-        greetingRepresentationModel.add(new Link(LocalDateTime.now().toString(), IanaLinkRelations.LAST));
-        greetingRepresentationModel.add(new Link(new Date().toString(), Date.class.getName()));
+        greetingRepresentationModel.add(Link.of(LocalDateTime.now().toString(), IanaLinkRelations.LAST));
+        greetingRepresentationModel.add(Link.of(new Date().toString(), Date.class.getName()));
 
         // return new ResponseEntity<>(greetingResource, HttpStatus.OK);
         return ResponseEntity.ok(greetingRepresentationModel);
@@ -95,11 +95,11 @@ public class GreetingController
 
         GreetingPOJO pojo = new GreetingPOJO(message);
 
-        EntityModel<GreetingPOJO> resource = new EntityModel<>(pojo);
+        EntityModel<GreetingPOJO> resource = EntityModel.of(pojo);
         resource.add(linkTo(methodOn(GreetingController.class).greetingPATH(name)).withSelfRel());
         resource.add(linkTo(methodOn(GreetingController.class).greetingPOJO(name)).withRel("forPojo"));
         resource.add(linkTo(methodOn(GreetingController.class).greetingSimple(name)).withRel("forSimple"));
-        resource.add(new Link(LocalDateTime.now().toString(), IanaLinkRelations.LAST));
+        resource.add(Link.of(LocalDateTime.now().toString(), IanaLinkRelations.LAST));
 
         return ResponseEntity.ok(resource);
     }
@@ -117,12 +117,12 @@ public class GreetingController
 
         GreetingPOJO pojo = new GreetingPOJO(message);
 
-        EntityModel<GreetingPOJO> resource = new EntityModel<>(pojo);
+        EntityModel<GreetingPOJO> resource = EntityModel.of(pojo);
         // GreetingResource resource = new GreetingResource(pojo);
         resource.add(linkTo(methodOn(GreetingController.class).greetingPOJO(name)).withSelfRel());
         resource.add(linkTo(methodOn(GreetingController.class).greetingPOJO(name)).withRel("forPojo"));
         resource.add(linkTo(methodOn(GreetingController.class).greetingSimple(name)).withRel("forSimple"));
-        resource.add(new Link(LocalDateTime.now().toString(), IanaLinkRelations.LAST));
+        resource.add(Link.of(LocalDateTime.now().toString(), IanaLinkRelations.LAST));
 
         return ResponseEntity.ok(resource);
     }

@@ -12,7 +12,7 @@ import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.rsocket.metadata.BasicAuthenticationEncoder;
+import org.springframework.security.rsocket.metadata.SimpleAuthenticationEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
 /**
@@ -39,7 +39,7 @@ public class RSocketClientSecurityConfig
     {
         //@formatter:off
         RSocketStrategies rSocketStrategies =  RSocketStrategies.builder()
-                .encoder(new BasicAuthenticationEncoder(), new Jackson2JsonEncoder())
+                .encoder(new SimpleAuthenticationEncoder(), new Jackson2JsonEncoder())
                 .decoder(new Jackson2JsonDecoder())
                 .build()
                 ;
