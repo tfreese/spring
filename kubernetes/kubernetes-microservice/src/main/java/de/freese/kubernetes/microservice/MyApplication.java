@@ -1,7 +1,8 @@
 package de.freese.kubernetes.microservice;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Optional;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
@@ -40,14 +41,16 @@ public class MyApplication
         @GetMapping("greet")
         Publisher<String> greet(@RequestParam final Optional<String> name)
         {
+            String hostName = getHostName();
+
             //@formatter:off
             Mono<String> result = name
                     .map(s -> {
-                        var msg = "Hello " + s + " on " + getHost();
+                        var msg = "Hello " + s + " on " + hostName;
                         return Mono.just(msg);
                         })
                     //.orElse(Mono.error(new NullPointerException("name")))
-                    .orElse(Mono.just("Hello World on " +  getHost()))
+                    .orElse(Mono.just("Hello World on " +  hostName))
                     ;
             //@formatter:on
 
@@ -63,18 +66,39 @@ public class MyApplication
     /**
      * @return String
      */
-    private static String getHost()
+    private static String getHostName()
     {
+        String hostName = null;
+
         try
         {
-            return InetAddress.getLocalHost().toString();
+            hostName = InetAddress.getLocalHost().getHostName();
         }
-        catch (UnknownHostException ex)
+        catch (Exception ex)
         {
+            // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
             LOGGER.error(null, ex);
         }
 
-        return "???";
+        if (hostName == null)
+        {
+            // Cross Platform (Windows, Linux, Unix, Mac)
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("hostname").getInputStream())))
+            {
+                hostName = br.readLine();
+            }
+            catch (Exception ex)
+            {
+                // Ignore
+            }
+        }
+
+        if (hostName == null)
+        {
+            hostName = "unknown";
+        }
+
+        return hostName;
     }
 
     /**
