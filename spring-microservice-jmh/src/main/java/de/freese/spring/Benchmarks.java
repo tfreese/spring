@@ -25,6 +25,7 @@ public class Benchmarks
         Options options = new OptionsBuilder()
                 .include(MicroServiceBenchmark.class.getSimpleName())
                 //.addProfiler(GCProfiler.class)
+                //.addProfiler(HotspotMemoryProfiler.class)
                 .resultFormat(ResultFormatType.CSV)
                 .result("/dev/null")
                 .build()

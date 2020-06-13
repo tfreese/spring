@@ -87,6 +87,7 @@ public class TestRestService
                 .include(MicroServiceBenchmark.class.getSimpleName())
                 //.include("\\." + this.getClass().getSimpleName() + "\\.") für Benchmark in dieser Junit-Klasse
                 //.addProfiler(GCProfiler.class)
+                //.addProfiler(HotspotMemoryProfiler.class)
                 .shouldFailOnError(true)
                 .threads(1)
                 .forks(1)
