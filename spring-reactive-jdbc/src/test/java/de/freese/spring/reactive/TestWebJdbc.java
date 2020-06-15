@@ -21,7 +21,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 {
         "test", "jdbc"
 })
-public class TestWebJdbc implements TestWebInterface
+class TestWebJdbc implements TestWebInterface
 {
     /**
     *

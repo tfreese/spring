@@ -4,6 +4,7 @@
 
 package de.freese.spring.oauth2.client.web;
 
+import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -16,13 +17,14 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @ActiveProfiles("test")
-public class OAuth2ClientWebTests
+class OAuth2ClientWebTests
 {
     /**
      *
      */
     @Test
-    public void contextLoads()
+    void contextLoads()
     {
+        assertTrue(true);
     }
 }

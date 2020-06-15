@@ -36,7 +36,7 @@ public class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthe
     {
         String credentials = (String) super.getPreAuthenticatedCredentials(request);
 
-        // TODO Decode Credentials
+        // Decode Credentials
 
         return credentials;
     }
@@ -49,7 +49,7 @@ public class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthe
     {
         String principal = (String) super.getPreAuthenticatedPrincipal(request);
 
-        // TODO Decode Principal
+        // Decode Principal
 
         return principal;
     }

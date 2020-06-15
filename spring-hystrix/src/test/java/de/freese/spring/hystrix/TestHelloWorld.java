@@ -22,7 +22,7 @@ import rx.Observer;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestHelloWorld
+class TestHelloWorld
 {
     /**
      *
@@ -33,7 +33,7 @@ public class TestHelloWorld
      *
      */
     @AfterAll
-    public static void afterAll()
+    static void afterAll()
     {
     }
 
@@ -86,18 +86,10 @@ public class TestHelloWorld
     }
 
     /**
-     * Erstellt ein neues {@link TestHelloWorld} Object.
-     */
-    public TestHelloWorld()
-    {
-        super();
-    }
-
-    /**
      *
      */
     @Test
-    public void test010Synchronous()
+    void test010Synchronous()
     {
         // execute() = queue().get()
         assertEquals("Hello World!", new CommandHelloWorld("World").execute());
@@ -108,7 +100,7 @@ public class TestHelloWorld
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test020Asynchronous() throws Exception
+    void test020Asynchronous() throws Exception
     {
         Future<String> fWorld = new CommandHelloWorld("World").queue();
         Future<String> fBob = new CommandHelloWorld("Bob").queue();
@@ -121,7 +113,7 @@ public class TestHelloWorld
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test030Observable() throws Exception
+    void test030Observable() throws Exception
     {
         Observable<String> oWorld = new CommandHelloWorld("World").observe();
         Observable<String> oBob = new CommandHelloWorld("Bob").observe();
@@ -170,7 +162,7 @@ public class TestHelloWorld
      *
      */
     @Test// (expected = RuntimeException.class)
-    public void test040FailSynchronous()
+    void test040FailSynchronous()
     {
         assertEquals("Hello Failure World!", new CommandHelloFailure("World").execute());
         assertEquals("Hello Failure Bob!", new CommandHelloFailure("Bob").execute());
@@ -180,7 +172,7 @@ public class TestHelloWorld
      * @throws Exception Falls was schief geht.
      */
     @Test// (expected = RuntimeException.class)
-    public void test050FailAsynchronous() throws Exception
+    void test050FailAsynchronous() throws Exception
     {
         Future<String> fWorld = new CommandHelloFailure("World").queue();
         Future<String> fBob = new CommandHelloFailure("Bob").queue();

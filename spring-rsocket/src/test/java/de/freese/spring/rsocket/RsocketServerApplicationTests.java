@@ -4,6 +4,7 @@
 
 package de.freese.spring.rsocket;
 
+import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,21 +24,14 @@ import de.freese.spring.rsocket.server.RsocketServerApplication;
 {
         "test", "server"
 })
-public class RsocketServerApplicationTests
+class RsocketServerApplicationTests
 {
-    /**
-     * Erstellt ein neues {@link RsocketServerApplicationTests} Object.
-     */
-    public RsocketServerApplicationTests()
-    {
-        super();
-    }
-
     /**
      *
      */
     @Test
     void contextLoads()
     {
+        assertTrue(true);
     }
 }

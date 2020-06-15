@@ -49,7 +49,7 @@ import de.freese.spring.thymeleaf.model.Person;
 {
         "test", "with-ssl"
 })
-public class TestRestWithRestTemplateSSL implements RestTestCase
+public class TestRestWithRestTemplateSSL extends AbstractRestTestCase
 {
     /**
      * @author Thomas Freese
@@ -93,8 +93,8 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
     }
 
     /**
-     *
-     */
+    *
+    */
     @Resource
     private Environment environment = null;
 
@@ -117,18 +117,10 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
     private RestTemplateBuilder restTemplateBuilder = null;
 
     /**
-     * Erstellt ein neues {@link TestRestWithRestTemplateSSL} Object.
-     */
-    public TestRestWithRestTemplateSSL()
-    {
-        super();
-    }
-
-    /**
      * @throws Exception Falls was schief geht.
      */
     @BeforeEach
-    public void beforeTest() throws Exception
+    void beforeTest() throws Exception
     {
         // String rootUri = "http://localhost:" + this.localServerPort;
         String rootUri = ThymeleafApplication.getRootUri(this.environment);
@@ -144,11 +136,11 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test000HealthEndpoint()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test000HealthEndpoint()
      */
     @Override
     @Test
-    public void test000HealthEndpoint() throws Exception
+    void test000HealthEndpoint() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -165,11 +157,11 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test010UserWithoutLogin()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test010UserWithoutLogin()
      */
     @Override
     @Test
-    public void test010UserWithoutLogin() throws Exception
+    void test010UserWithoutLogin() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -182,11 +174,11 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test011UserWithWrongPass()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test011UserWithWrongPass()
      */
     @Override
     @Test
-    public void test011UserWithWrongPass() throws Exception
+    void test011UserWithWrongPass() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -200,11 +192,11 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test020UserWithWrongRole()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test020UserWithWrongRole()
      */
     @Override
     @Test
-    public void test020UserWithWrongRole() throws Exception
+    void test020UserWithWrongRole() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -218,11 +210,11 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test030UserWithLoginJSON()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test030UserWithLoginJSON()
      */
     @Override
     @Test
-    public void test030UserWithLoginJSON() throws Exception
+    void test030UserWithLoginJSON() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -252,11 +244,11 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test031UserWithLoginXML()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test031UserWithLoginXML()
      */
     @Override
     @Test
-    public void test031UserWithLoginXML() throws Exception
+    void test031UserWithLoginXML() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -286,11 +278,11 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test040PostWithWrongRole()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test040PostWithWrongRole()
      */
     @Override
     @Test
-    public void test040PostWithWrongRole() throws Exception
+    void test040PostWithWrongRole() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -304,11 +296,11 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test041Post()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test041Post()
      */
     @Override
     @Test
-    public void test041Post() throws Exception
+    void test041Post() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -339,11 +331,11 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test050UserWithPreAuthJSON()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test050UserWithPreAuthJSON()
      */
     @Override
     @Test
-    public void test050UserWithPreAuthJSON() throws Exception
+    void test050UserWithPreAuthJSON() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -360,11 +352,11 @@ public class TestRestWithRestTemplateSSL implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test051UserWithPreAuthXML()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test051UserWithPreAuthXML()
      */
     @Override
     @Test
-    public void test051UserWithPreAuthXML() throws Exception
+    void test051UserWithPreAuthXML() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder

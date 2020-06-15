@@ -3,6 +3,7 @@
  */
 package de.freese.spring.integration.cafe;
 
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -21,14 +22,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestCafe
+class TestCafe
 {
 
     // /**
     // * @param args String[]
     // * @throws Exception Falls was schief geht.
     // */
-    // public static void main(final String[] args) throws Exception
+    // static void main(final String[] args) throws Exception
     // {
     // TestCafe testCafe = new TestCafe();
     //
@@ -41,7 +42,7 @@ public class TestCafe
     /**
      * Erstellt ein neues {@link TestCafe} Object.
      */
-    public TestCafe()
+    TestCafe()
     {
         super();
     }
@@ -50,7 +51,7 @@ public class TestCafe
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test010CafeDemoWithXmlSupport() throws Exception
+    void test010CafeDemoWithXmlSupport() throws Exception
     {
         try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-xml.xml"))
         {
@@ -64,7 +65,7 @@ public class TestCafe
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test020CafeDemoWithAnnotationSupport() throws Exception
+    void test020CafeDemoWithAnnotationSupport() throws Exception
     {
         try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-annotation.xml"))
         {
@@ -78,7 +79,7 @@ public class TestCafe
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test030CafeConfig() throws Exception
+    void test030CafeConfig() throws Exception
     {
         //@formatter:off
         try(ConfigurableApplicationContext context= new SpringApplicationBuilder()
@@ -99,7 +100,7 @@ public class TestCafe
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test040CafeDsl() throws Exception
+    void test040CafeDsl() throws Exception
     {
         // ConfigurableApplicationContext context = SpringApplication.run(Application.class);
 
@@ -135,6 +136,6 @@ public class TestCafe
         }
 
         // Zeit für Arbeit des Springframeworks.
-        Thread.sleep(5000L);
+        TimeUnit.MILLISECONDS.sleep(5000);
     }
 }

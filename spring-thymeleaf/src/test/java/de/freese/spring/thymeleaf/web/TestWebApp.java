@@ -63,7 +63,7 @@ public class TestWebApp
     /**
      * Erzeugt eine neue Instanz von {@link TestWebApp}.
      */
-    public TestWebApp()
+    TestWebApp()
     {
         super();
     }
@@ -72,7 +72,7 @@ public class TestWebApp
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void accessSecuredResourceUnauthenticated() throws Exception
+    void accessSecuredResourceUnauthenticated() throws Exception
     {
         // @formatter:off
         this.mockMvc.perform(get("/web/person/personList"))
@@ -86,7 +86,7 @@ public class TestWebApp
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void accessUnsecuredResourceUnauthenticated() throws Exception
+    void accessUnsecuredResourceUnauthenticated() throws Exception
     {
         this.mockMvc.perform(get("/")).andExpect(status().isOk());
 
@@ -102,7 +102,7 @@ public class TestWebApp
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void healthEndpoint() throws Exception
+    void healthEndpoint() throws Exception
     {
         // @formatter:off
         this.mockMvc.perform(get("/actuator/health"))
@@ -118,7 +118,7 @@ public class TestWebApp
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void loginWithBasic() throws Exception
+    void loginWithBasic() throws Exception
     {
         FormLoginRequestBuilder login = formLogin().loginProcessingUrl("/authenticate").user("admin").password("pw");
         this.mockMvc.perform(login).andExpect(status().is3xxRedirection()).andExpect(authenticated().withUsername("admin"));
@@ -134,7 +134,7 @@ public class TestWebApp
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void loginWithInknownUser() throws Exception
+    void loginWithInknownUser() throws Exception
     {
         FormLoginRequestBuilder login = formLogin().loginProcessingUrl("/authenticate").user("unknown").password("pw");
 
@@ -151,7 +151,7 @@ public class TestWebApp
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void loginWithPreAuth() throws Exception
+    void loginWithPreAuth() throws Exception
     {
         this.mockMvc.perform(get("/web/person/personList").header("my-token", "admin")).andExpect(status().isOk())
                 .andExpect(authenticated().withUsername("admin"));

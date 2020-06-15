@@ -47,7 +47,7 @@ class Config
     // */
     // @Bean
     // @Primary
-    // public ObjectMapper objectMapperJSON(final Jackson2ObjectMapperBuilder builder)
+    // ObjectMapper objectMapperJSON(final Jackson2ObjectMapperBuilder builder)
     // {
     // ObjectMapper objectMapper = builder.createXmlMapper(false).build();
     //
@@ -61,7 +61,7 @@ class Config
     // * @return {@link ObjectMapper}
     // */
     // @Bean
-    // public ObjectMapper objectMapperXML(final Jackson2ObjectMapperBuilder builder)
+    // ObjectMapper objectMapperXML(final Jackson2ObjectMapperBuilder builder)
     // {
     // ObjectMapper objectMapper = builder.createXmlMapper(true).build();
     //
@@ -83,7 +83,7 @@ class Config
 {
         "test"
 })
-public class TestRestService
+class TestRestService
 {
     // @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT, classes =
     // {
@@ -128,7 +128,7 @@ public class TestRestService
     /**
      * Erzeugt eine neue Instanz von {@link TestRestService}
      */
-    public TestRestService()
+    TestRestService()
     {
         super();
     }
@@ -137,7 +137,7 @@ public class TestRestService
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test010Ping() throws Exception
+    void test010Ping() throws Exception
     {
         // .andDo(print()).andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
 
@@ -162,7 +162,7 @@ public class TestRestService
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test020Sysdate() throws Exception
+    void test020Sysdate() throws Exception
     {
         // @formatter:off
         this.mockMvc.perform(get("/service/sysdate")) // Test-URLs ohne Context-Root angeben.
@@ -179,7 +179,7 @@ public class TestRestService
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test030ClockJSON() throws Exception
+    void test030ClockJSON() throws Exception
     {
         AtomicReference<Clock> clockReference = new AtomicReference<>(null);
 
@@ -212,7 +212,7 @@ public class TestRestService
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test031ClockXML() throws Exception
+    void test031ClockXML() throws Exception
     {
         ObjectMapper objectMapperXML = this.objectMapperBuilder.createXmlMapper(true).build();
         AtomicReference<Clock> clockReference = new AtomicReference<>(null);

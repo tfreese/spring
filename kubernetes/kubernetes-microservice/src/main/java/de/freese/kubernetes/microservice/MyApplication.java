@@ -24,7 +24,7 @@ public class MyApplication
      * @author Thomas Freese
      */
     @RestController
-    class MyRestController
+    public static class MyRestController
     {
         /**
          * Erstellt ein neues {@link MyRestController} Object.
@@ -39,7 +39,7 @@ public class MyApplication
          * @return {@link Publisher}
          */
         @GetMapping("greet")
-        Publisher<String> greet(@RequestParam final Optional<String> name)
+        public Publisher<String> greet(@RequestParam final Optional<String> name)
         {
             String hostName = getHostName();
 

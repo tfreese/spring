@@ -18,7 +18,7 @@ import de.freese.spring.reactive.EmployeeService;
 {
         "test", "jdbc"
 })
-public class TestServiceJdbc implements TestServiceInterface
+class TestServiceJdbc implements TestServiceInterface
 {
     /**
     *

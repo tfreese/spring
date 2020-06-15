@@ -41,7 +41,7 @@ import com.jayway.jsonpath.internal.JsonFormatter;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 // @Disabled
-public class TestJwtToken
+class TestJwtToken
 {
     /**
      * @author Thomas Freese
@@ -91,14 +91,6 @@ public class TestJwtToken
     private class NoOpResponseErrorHandler extends DefaultResponseErrorHandler
     {
         /**
-         * Erstellt ein neues {@link NoOpResponseErrorHandler} Object.
-         */
-        private NoOpResponseErrorHandler()
-        {
-            super();
-        }
-
-        /**
          * @see org.springframework.web.client.DefaultResponseErrorHandler#handleError(org.springframework.http.client.ClientHttpResponse)
          */
         @Override
@@ -147,7 +139,7 @@ public class TestJwtToken
     /**
      * Erstellt ein neues {@link TestJwtToken} Object.
      */
-    public TestJwtToken()
+    TestJwtToken()
     {
         super();
     }
@@ -156,7 +148,7 @@ public class TestJwtToken
      * @throws Exception Falls was schief geht.
      */
     @BeforeEach
-    public void beforeTest() throws Exception
+    void beforeTest() throws Exception
     {
         String rootUri = "http://localhost:" + this.localServerPort;
 
@@ -172,7 +164,7 @@ public class TestJwtToken
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test000Fail() throws Exception
+    void test000Fail() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -187,7 +179,7 @@ public class TestJwtToken
 
         Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
         Assertions.assertNotNull(responseEntity.getBody());
-        Assertions.assertEquals(responseEntity.getStatusCode(), HttpStatus.FORBIDDEN);
+        Assertions.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
 
         System.out.println(JsonFormatter.prettyPrint(responseEntity.getBody()));
     }
@@ -196,7 +188,7 @@ public class TestJwtToken
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test010Me() throws Exception
+    void test010Me() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -212,7 +204,7 @@ public class TestJwtToken
 
         Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
         Assertions.assertNotNull(responseEntity.getBody());
-        Assertions.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         System.out.println(JsonFormatter.prettyPrint(responseEntity.getBody()));
         //
@@ -224,7 +216,7 @@ public class TestJwtToken
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test011Me() throws Exception
+    void test011Me() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -240,7 +232,7 @@ public class TestJwtToken
 
         Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
         Assertions.assertNotNull(responseEntity.getBody());
-        Assertions.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         System.out.println(JsonFormatter.prettyPrint(responseEntity.getBody()));
     }

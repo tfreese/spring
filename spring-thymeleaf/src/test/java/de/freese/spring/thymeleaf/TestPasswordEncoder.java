@@ -24,7 +24,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.Secret
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 // @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-public class TestPasswordEncoder
+class TestPasswordEncoder
 {
     /**
      *
@@ -40,7 +40,7 @@ public class TestPasswordEncoder
      *
      */
     @BeforeAll
-    public static void beforeClass()
+    static void beforeClass()
     {
         pbkdf2_SHA512.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2_SHA512.setEncodeHashAsBase64(false);
@@ -67,7 +67,7 @@ public class TestPasswordEncoder
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createPasswordEncoder")
     @DisplayName("Test PasswordEncoder")
-    public void testPasswordEncoder(final String name, final PasswordEncoder passwordEncoder)
+    void testPasswordEncoder(final String name, final PasswordEncoder passwordEncoder)
     {
         String password = "gehaim";
 

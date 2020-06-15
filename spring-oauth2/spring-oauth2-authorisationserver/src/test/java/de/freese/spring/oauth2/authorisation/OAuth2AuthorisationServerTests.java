@@ -4,6 +4,7 @@
 
 package de.freese.spring.oauth2.authorisation;
 
+import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -20,13 +21,14 @@ import org.springframework.test.context.ActiveProfiles;
 {
         "test", "memory"
 })
-public class OAuth2AuthorisationServerTests
+class OAuth2AuthorisationServerTests
 {
     /**
      *
      */
     @Test
-    public void contextLoads()
+    void contextLoads()
     {
+        assertTrue(true);
     }
 }

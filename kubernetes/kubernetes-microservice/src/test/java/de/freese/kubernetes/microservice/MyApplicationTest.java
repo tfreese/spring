@@ -1,55 +1,41 @@
 package de.freese.kubernetes.microservice;
 
-import javax.annotation.Resource;
+import static org.junit.Assert.assertTrue;
 import org.hamcrest.core.StringStartsWith;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import junit.framework.TestCase;
+import de.freese.kubernetes.microservice.MyApplication.MyRestController;
 
 /**
  * @author Thomas Freese
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MyApplicationTest extends TestCase
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+class MyApplicationTest
 {
     /**
      *
      */
-    @Resource
-    private WebTestClient webTestClient;
-
-    /**
-     * Erstellt ein neues {@link MyApplicationTest} Object.
-     */
-    public MyApplicationTest()
-    {
-        super();
-    }
-
-    /**
-     *
-     */
     @Test
-    public void contextLoads()
+    void contextLoads()
     {
+        assertTrue(true);
     }
 
     /**
     *
     */
     @Test
-    public void request()
+    void request()
     {
+        WebTestClient webClient = WebTestClient.bindToController(new MyRestController()).build();
+
         //@formatter:off
-        this.webTestClient
+        webClient
             .get()
             .uri("/greet")
             .accept(MediaType.TEXT_PLAIN)

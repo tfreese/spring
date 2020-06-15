@@ -58,7 +58,6 @@ public class ThymeleafControllerExceptionHandler
         return this.errorPage;
     }
 
-    // TODO
     // /**
     // * Handle DataIntegrityViolationException, inspects the cause for different DB causes.
     // *
@@ -86,7 +85,6 @@ public class ThymeleafControllerExceptionHandler
     // return this.errorPage;
     // }
 
-    // TODO
     // /**
     // * Handle javax.persistence.EntityNotFoundException.
     // *

@@ -4,6 +4,7 @@
 
 package de.freese.spring.reactive.service;
 
+import static org.junit.Assert.assertTrue;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ import de.freese.spring.reactive.EmployeeService;
 {
         "test", "jdbc-reactive"
 })
-public class TestServiceJdbcReactive implements TestServiceInterface
+class TestServiceJdbcReactive implements TestServiceInterface
 {
     /**
     *
@@ -47,10 +48,12 @@ public class TestServiceJdbcReactive implements TestServiceInterface
      */
     @Override
     @Test
-    @Disabled
+    @Disabled("Funktioniert nicht")
     public void createNewEmployee()
     {
         TestServiceInterface.super.createNewEmployee();
+
+        assertTrue(true);
     }
 
     /**

@@ -37,17 +37,17 @@ import reactor.core.publisher.Mono;
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class TestRestWithWebClient implements RestTestCase
+public class TestRestWithWebClient extends AbstractRestTestCase
 {
     /**
-     *
-     */
+    *
+    */
     @Resource
     private Environment environment = null;
 
     /**
-     *
-     */
+    *
+    */
     @LocalServerPort
     private int localServerPort = 0;
 
@@ -71,18 +71,10 @@ public class TestRestWithWebClient implements RestTestCase
     // private WebTestClient webTestClient = null;
 
     /**
-     * Erstellt ein neues {@link TestRestWithWebClient} Object.
-     */
-    public TestRestWithWebClient()
-    {
-        super();
-    }
-
-    /**
      * @throws Exception Falls was schief geht.
      */
     @BeforeEach
-    public void beforeTest() throws Exception
+    void beforeTest() throws Exception
     {
         String rootUri = ThymeleafApplication.getRootUri(this.environment);
 
@@ -101,11 +93,11 @@ public class TestRestWithWebClient implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test000HealthEndpoint()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test000HealthEndpoint()
      */
     @Override
     @Test
-    public void test000HealthEndpoint() throws Exception
+    void test000HealthEndpoint() throws Exception
     {
         // @formatter:off
         WebClient webClient = this.webClientBuilder.build();
@@ -147,11 +139,11 @@ public class TestRestWithWebClient implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test010UserWithoutLogin()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test010UserWithoutLogin()
      */
     @Override
     @Test
-    public void test010UserWithoutLogin() throws Exception
+    void test010UserWithoutLogin() throws Exception
     {
         WebClient webClient = this.webClientBuilder.build();
 
@@ -180,11 +172,11 @@ public class TestRestWithWebClient implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test011UserWithWrongPass()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test011UserWithWrongPass()
      */
     @Override
     @Test
-    public void test011UserWithWrongPass() throws Exception
+    void test011UserWithWrongPass() throws Exception
     {
         WebClient webClient = this.webClientBuilder.build();
 
@@ -216,11 +208,11 @@ public class TestRestWithWebClient implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test020UserWithWrongRole()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test020UserWithWrongRole()
      */
     @Override
     @Test
-    public void test020UserWithWrongRole() throws Exception
+    void test020UserWithWrongRole() throws Exception
     {
         WebClient webClient = this.webClientBuilder.build();
 
@@ -242,11 +234,11 @@ public class TestRestWithWebClient implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test030UserWithLoginJSON()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test030UserWithLoginJSON()
      */
     @Override
     @Test
-    public void test030UserWithLoginJSON() throws Exception
+    void test030UserWithLoginJSON() throws Exception
     {
         WebClient webClient = this.webClientBuilder.build();
 
@@ -269,11 +261,11 @@ public class TestRestWithWebClient implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test031UserWithLoginXML()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test031UserWithLoginXML()
      */
     @Override
     // @Test
-    public void test031UserWithLoginXML() throws Exception
+    void test031UserWithLoginXML() throws Exception
     {
         WebClient webClient = this.webClientBuilder.build();
 
@@ -298,11 +290,11 @@ public class TestRestWithWebClient implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test040PostWithWrongRole()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test040PostWithWrongRole()
      */
     @Override
     @Test
-    public void test040PostWithWrongRole() throws Exception
+    void test040PostWithWrongRole() throws Exception
     {
         WebClient webClient = this.webClientBuilder.build();
         Person newPerson = new Person("Thomas", "Freese");
@@ -331,11 +323,11 @@ public class TestRestWithWebClient implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test041Post()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test041Post()
      */
     @Override
     @Test
-    public void test041Post() throws Exception
+    void test041Post() throws Exception
     {
         WebClient webClient = this.webClientBuilder.build();
         Person newPerson = new Person("Thomas", "Freese");
@@ -381,11 +373,11 @@ public class TestRestWithWebClient implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test050UserWithPreAuthJSON()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test050UserWithPreAuthJSON()
      */
     @Override
     @Test
-    public void test050UserWithPreAuthJSON() throws Exception
+    void test050UserWithPreAuthJSON() throws Exception
     {
         WebClient webClient = this.webClientBuilder.build();
 
@@ -408,11 +400,11 @@ public class TestRestWithWebClient implements RestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.RestTestCase#test051UserWithPreAuthXML()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test051UserWithPreAuthXML()
      */
     @Override
     // @Test
-    public void test051UserWithPreAuthXML() throws Exception
+    void test051UserWithPreAuthXML() throws Exception
     {
         WebClient webClient = this.webClientBuilder.build();
 

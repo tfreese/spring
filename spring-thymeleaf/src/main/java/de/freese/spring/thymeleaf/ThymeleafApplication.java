@@ -89,10 +89,9 @@ public class ThymeleafApplication extends SpringBootServletInitializer
 
     /**
      * @param args String[]
-     * @throws Exception Falls was schief geht.
      */
     @SuppressWarnings("resource")
-    public static void main(final String[] args) throws Exception
+    public static void main(final String[] args)
     {
         // ApplicationContext context = SpringApplication.run(SpringBootThymeleafApplication.class, args);
         configureApplication(new SpringApplicationBuilder()).run(args);

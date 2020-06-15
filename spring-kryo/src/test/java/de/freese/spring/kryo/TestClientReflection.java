@@ -22,7 +22,7 @@ import de.freese.spring.kryo.reflection.client.ClientReflectionController;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = KryoApplication.class)
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @ActiveProfiles("test")
-public class TestClientReflection
+class TestClientReflection
 {
     /**
     *
@@ -31,18 +31,10 @@ public class TestClientReflection
     private int localServerPort = 0;
 
     /**
-     * Erstellt ein neues {@link TestClientReflection} Object.
-     */
-    public TestClientReflection()
-    {
-        super();
-    }
-
-    /**
      *
      */
     @Test
-    public void testHttpConnection()
+    void testHttpConnection()
     {
         ReflectionControllerApi fassade = new ClientReflectionController("http://localhost:" + this.localServerPort, ConnectType.HTTP_CONNECTION);
 
@@ -55,7 +47,7 @@ public class TestClientReflection
     *
     */
     @Test
-    public void testRestTemplate()
+    void testRestTemplate()
     {
         ReflectionControllerApi fassade = new ClientReflectionController("http://localhost:" + this.localServerPort, ConnectType.REST_TEMPLATE);
 

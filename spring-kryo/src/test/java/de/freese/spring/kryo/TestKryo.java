@@ -61,12 +61,12 @@ import reactor.core.publisher.Mono;
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class TestKryo
+class TestKryo
 {
     /**
      * @param localDateTime {@link LocalDateTime}
      */
-    public static void validateLocalDateTime(final LocalDateTime localDateTime)
+    static void validateLocalDateTime(final LocalDateTime localDateTime)
     {
         Assertions.assertNotNull(localDateTime);
 
@@ -127,14 +127,6 @@ public class TestKryo
     private WebClient.Builder webClientBuilder = null;
 
     /**
-     * Erstellt ein neues {@link TestKryo} Object.
-     */
-    public TestKryo()
-    {
-        super();
-    }
-
-    /**
      *
      */
     @PostConstruct
@@ -180,7 +172,7 @@ public class TestKryo
      *
      */
     @Test
-    public void test010RestTemplate()
+    void test010RestTemplate()
     {
         testRestTemplate("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
         testRestTemplate("/json", MediaType.APPLICATION_JSON);
@@ -190,7 +182,7 @@ public class TestKryo
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test020MockMvc() throws Exception
+    void test020MockMvc() throws Exception
     {
         testMockMvc("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
         testMockMvc("/json", MediaType.APPLICATION_JSON);
@@ -200,7 +192,7 @@ public class TestKryo
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test030UrlConnection() throws Exception
+    void test030UrlConnection() throws Exception
     {
         testUrlConnection("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
         testUrlConnection("/json", MediaType.APPLICATION_JSON);
@@ -210,7 +202,7 @@ public class TestKryo
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test040WebClient() throws Exception
+    void test040WebClient() throws Exception
     {
         testWebClient("/kryo", KryoCodecSupport.APPLICATION_KRYO);
         testWebClient("/json", MediaType.APPLICATION_JSON);
@@ -220,7 +212,7 @@ public class TestKryo
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test050HttpClient() throws Exception
+    void test050HttpClient() throws Exception
     {
         testHttpClient("/kryo", KryoCodecSupport.APPLICATION_KRYO);
         testHttpClient("/json", MediaType.APPLICATION_JSON);

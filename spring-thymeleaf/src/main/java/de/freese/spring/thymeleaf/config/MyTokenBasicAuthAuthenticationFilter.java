@@ -174,11 +174,11 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
 
         try
         {
-            // TODO Decode Credentials.
+            // Decode Credentials.
             String username = header;
             String password = "pw";
 
-            LOGGER.debug("MyToken Pre-Authentication Authorization header found for user '" + username + "'");
+            LOGGER.debug("MyToken Pre-Authentication Authorization header found for user '{}'", username);
 
             if (authenticationIsRequired(username))
             {
@@ -188,7 +188,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
                 Authentication authResult = this.authenticationManager.authenticate(authRequest);
                 // Authentication authResult = new PreAuthenticatedAuthenticationToken(username, null, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
 
-                LOGGER.debug("Authentication success: " + authResult);
+                LOGGER.debug("Authentication success: {}", authResult);
 
                 SecurityContextHolder.getContext().setAuthentication(authResult);
 
@@ -201,7 +201,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
         {
             SecurityContextHolder.clearContext();
 
-            LOGGER.debug("Authentication request for failed: " + failed);
+            LOGGER.debug("Authentication request for failed: {}", failed.getMessage());
 
             this.rememberMeServices.loginFail(request, response);
 
@@ -248,6 +248,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
     protected void onSuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final Authentication authResult)
         throws IOException
     {
+        // Empty
     }
 
     /**
@@ -259,6 +260,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
     protected void onUnsuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException failed)
         throws IOException
     {
+        // Empty
     }
 
     /**

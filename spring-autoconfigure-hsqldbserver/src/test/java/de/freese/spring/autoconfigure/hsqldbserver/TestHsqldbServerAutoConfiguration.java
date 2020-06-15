@@ -4,9 +4,9 @@
 
 package de.freese.spring.autoconfigure.hsqldbserver;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,7 +27,7 @@ import org.springframework.util.SocketUtils;
  */
 @SpringBootTest(classes = TestApplication.class)
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestHsqldbServerAutoConfiguration
+class TestHsqldbServerAutoConfiguration
 {
     static
     {
@@ -43,6 +43,7 @@ public class TestHsqldbServerAutoConfiguration
     @BeforeAll
     static void beforeAll() throws Exception
     {
+        // Empty
     }
 
     /**
@@ -60,20 +61,12 @@ public class TestHsqldbServerAutoConfiguration
     private DataSource dataSourceMemory = null;
 
     /**
-     * Erstellt ein neues {@link TestHsqldbServerAutoConfiguration} Object.
-     */
-    public TestHsqldbServerAutoConfiguration()
-    {
-        super();
-    }
-
-    /**
     *
     */
     @Test
-    public void contextLoads()
+    void contextLoads()
     {
-
+        assertTrue(true);
     }
 
     /**
@@ -145,7 +138,7 @@ public class TestHsqldbServerAutoConfiguration
      * @throws SQLException Falls was schief geht.
      */
     @Test
-    public void testDataSourceFile() throws SQLException
+    void testDataSourceFile() throws SQLException
     {
         createTable(this.dataSourceFile);
         insert(this.dataSourceFile);
@@ -156,7 +149,7 @@ public class TestHsqldbServerAutoConfiguration
      * @throws SQLException Falls was schief geht.
      */
     @Test
-    public void testDataSourceMemory() throws SQLException
+    void testDataSourceMemory() throws SQLException
     {
         createTable(this.dataSourceMemory);
         insert(this.dataSourceMemory);

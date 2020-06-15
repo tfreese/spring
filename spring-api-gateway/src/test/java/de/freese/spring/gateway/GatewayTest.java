@@ -3,6 +3,7 @@
 package de.freese.spring.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
@@ -25,7 +26,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 // @AutoConfigureWireMock(port = 0)
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @ActiveProfiles("test")
-public class GatewayTest
+class GatewayTest
 {
     /**
     *
@@ -34,27 +35,20 @@ public class GatewayTest
     private WebTestClient webClient = null;
 
     /**
-     * Erstellt ein neues {@link GatewayTest} Object.
-     */
-    public GatewayTest()
-    {
-        super();
-    }
-
-    /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test010ContextLoads() throws Exception
+    void test010ContextLoads() throws Exception
     {
+        assertTrue(true);
     }
 
     /**
      *
      */
     @Test
-    @Disabled
-    public void test020Get()
+    @Disabled("Funktioniert nur zusammen mit spring-microservice")
+    void test020Get()
     {
         // @formatter:off
         this.webClient
@@ -70,8 +64,8 @@ public class GatewayTest
      * Separater Server wird benötigt -> spring-microservice
      */
     @Test
-    @Disabled
-    public void test030Sysdate()
+    @Disabled("Funktioniert nur zusammen mit spring-microservice")
+    void test030Sysdate()
     {
        // @formatter:off
        this.webClient
@@ -88,8 +82,8 @@ public class GatewayTest
      * Separater Server wird benötigt -> spring-microservice
      */
     @Test
-    @Disabled
-    public void test040SysdateLB()
+    @Disabled("Funktioniert nur zusammen mit spring-microservice")
+    void test040SysdateLB()
     {
        // @formatter:off
        this.webClient
@@ -106,8 +100,8 @@ public class GatewayTest
      *
      */
     @Test
-    @Disabled
-    public void test050Hystrix()
+    @Disabled("Funktioniert nur zusammen mit spring-microservice")
+    void test050Hystrix()
     {
         // @formatter:off
         this.webClient

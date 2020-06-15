@@ -42,7 +42,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 {
         "test"
 })
-public class TestRestService
+class TestRestService
 {
     /**
      *
@@ -71,7 +71,7 @@ public class TestRestService
     /**
      * Erzeugt eine neue Instanz von {@link TestRestService}
      */
-    public TestRestService()
+    TestRestService()
     {
         super();
     }
@@ -80,7 +80,7 @@ public class TestRestService
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void testBenchmark() throws Exception
+    void testBenchmark() throws Exception
     {
         // @formatter:off
         Options options = new OptionsBuilder()
@@ -104,7 +104,7 @@ public class TestRestService
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void testMockMvc() throws Exception
+    void testMockMvc() throws Exception
     {
         // .andDo(print()).andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
 
@@ -123,7 +123,7 @@ public class TestRestService
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void testRestTemplate() throws Exception
+    void testRestTemplate() throws Exception
     {
         // TestRestTemplate restTemplate = new TestRestTemplate(this.restTemplateBuilder.rootUri("http://localhost:" + this.port));
         RestTemplate restTemplate = this.restTemplateBuilder.rootUri("http://localhost:" + this.port).build();
@@ -132,7 +132,7 @@ public class TestRestService
         ResponseEntity<String> response = restTemplate.getForEntity("/", String.class);
 
         assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Hello, World", response.getBody());
     }
 
@@ -140,7 +140,7 @@ public class TestRestService
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void testWebClient() throws Exception
+    void testWebClient() throws Exception
     {
         WebClient webClient = this.webClientBuilder.baseUrl("http://localhost:" + this.port).build();
 
@@ -148,7 +148,7 @@ public class TestRestService
         ResponseEntity<String> response = webClient.get().uri("/").exchange().flatMap(clientResponse -> clientResponse.toEntity(String.class)).block();
 
         assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Hello, World", response.getBody());
     }
 }

@@ -1,5 +1,6 @@
 package de.freese.spring.resilience;
 
+import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -7,21 +8,14 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @author Thomas Freese
  */
 @SpringBootTest
-public class SpringResilienceApplicationTests
+class SpringResilienceApplicationTests
 {
-    /**
-     * Erstellt ein neues {@link SpringResilienceApplicationTests} Object.
-     */
-    public SpringResilienceApplicationTests()
-    {
-        super();
-    }
-
     /**
      *
      */
     @Test
     public void contextLoads()
     {
+        assertTrue(true);
     }
 }

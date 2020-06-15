@@ -237,6 +237,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         }
         catch (Exception ex2)
         {
+            // Empty
         }
 
         if (responseEntity == null)
@@ -264,7 +265,6 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         return buildResponseEntity(new ApiError(), request, HttpStatus.UNSUPPORTED_MEDIA_TYPE, ex, builder.substring(0, builder.length() - 2));
     }
 
-    // TODO
     // /**
     // * Handle DataIntegrityViolationException, inspects the cause for different DB causes.
     // *
@@ -281,7 +281,6 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     // return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex));
     // }
 
-    // TODO
     // /**
     // * Handle javax.persistence.EntityNotFoundException
     // */
