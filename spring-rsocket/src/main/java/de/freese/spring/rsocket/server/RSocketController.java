@@ -17,6 +17,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.annotation.ConnectMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import de.freese.spring.rsocket.GreetingRequest;
 import de.freese.spring.rsocket.GreetingResponse;
@@ -51,7 +52,8 @@ public class RSocketController
      * @param requests {@link Flux}
      * @return {@link Flux}
      */
-    @MessageMapping("greet/channel")
+    @PreAuthorize("hasRole('USER')")
+    @MessageMapping("channel")
     public Flux<GreetingResponse> channel(final Flux<GreetingRequest> requests)
     {
         LOGGER.info("Received channel request (stream) at {}", Instant.now());
@@ -99,6 +101,7 @@ public class RSocketController
                 .subscribe();
 
         // Callback to client, confirming connection
+        // RSocketClientShell.ClientHandler
         requester.route("client-status")
                 .data("OPEN")
                 .retrieveFlux(String.class)
@@ -110,7 +113,7 @@ public class RSocketController
     /**
      * @return {@link GreetingResponse}
      */
-    @MessageMapping("greet/error")
+    @MessageMapping("error")
     public Mono<GreetingResponse> error()
     {
         return Mono.error(new IllegalArgumentException("Bad Exception"));
@@ -130,7 +133,8 @@ public class RSocketController
      * @param request {@link GreetingRequest}
      * @return {@link Mono}
      */
-    @MessageMapping("greet/fire-and-forget")
+    @PreAuthorize("hasRole('USER')")
+    @MessageMapping("fire-and-forget")
     public Mono<Void> fireAndForget(final GreetingRequest request)
     {
         LOGGER.info("Received fire-and-forget request: {}", request);
@@ -142,7 +146,8 @@ public class RSocketController
      * @param name String
      * @return {@link Flux}
      */
-    @MessageMapping("greet/parameter/{name}")
+    @PreAuthorize("hasRole('USER')")
+    @MessageMapping("parameter/{name}")
     public Mono<GreetingResponse> parameter(@DestinationVariable final String name)
     {
         LOGGER.info("Received parameter request: {}", name);
@@ -154,7 +159,8 @@ public class RSocketController
      * @param request {@link GreetingRequest}
      * @return {@link GreetingResponse}
      */
-    @MessageMapping("greet/request-response")
+    @PreAuthorize("hasRole('USER')")
+    @MessageMapping("request-response")
     public Mono<GreetingResponse> requestResponse(final GreetingRequest request)
     {
         LOGGER.info("Received request-response request: {}", request);
@@ -179,7 +185,8 @@ public class RSocketController
      * @param request {@link GreetingRequest}
      * @return {@link Flux}
      */
-    @MessageMapping("greet/stream")
+    @PreAuthorize("hasRole('USER')")
+    @MessageMapping("stream")
     public Flux<GreetingResponse> stream(final GreetingRequest request)
     {
         LOGGER.info("Received stream request: {}", request);

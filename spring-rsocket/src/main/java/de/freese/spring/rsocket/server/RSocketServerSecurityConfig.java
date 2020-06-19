@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.messaging.rsocket.annotation.support.RSocketMessageHandler;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.rsocket.EnableRSocketSecurity;
 import org.springframework.security.config.annotation.rsocket.RSocketSecurity;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
@@ -23,6 +24,7 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
+import org.springframework.security.messaging.handler.invocation.reactive.AuthenticationPrincipalArgumentResolver;
 import org.springframework.security.rsocket.core.PayloadSocketAcceptorInterceptor;
 
 /**
@@ -30,6 +32,7 @@ import org.springframework.security.rsocket.core.PayloadSocketAcceptorIntercepto
  */
 @Configuration
 @EnableRSocketSecurity
+@EnableReactiveMethodSecurity
 @Profile("server")
 public class RSocketServerSecurityConfig
 {
@@ -49,6 +52,7 @@ public class RSocketServerSecurityConfig
     public RSocketMessageHandler messageHandler(final RSocketStrategies rSocketStrategies)
     {
         RSocketMessageHandler handler = new RSocketMessageHandler();
+        handler.getArgumentResolverConfigurer().addCustomResolver(new AuthenticationPrincipalArgumentResolver());
         handler.setRSocketStrategies(rSocketStrategies);
 
         return handler;
@@ -89,43 +93,27 @@ public class RSocketServerSecurityConfig
     }
 
     /**
-     * @param rsocket {@link RSocketSecurity}
+     * @param security {@link RSocketSecurity}
      * @return {@link PayloadSocketAcceptorInterceptor}
      */
     @Bean
-    public PayloadSocketAcceptorInterceptor rsocketInterceptor(final RSocketSecurity rsocket)
+    public PayloadSocketAcceptorInterceptor rsocketInterceptor(final RSocketSecurity security)
     {
         //@formatter:off
-        rsocket.authorizePayload(authorize -> {
+        security.authorizePayload(authorize -> {
             authorize
                     // User muss ROLE_SETUP haben um Verbindung zum Server herzustellen.
-                    .setup().hasRole("SETUP")
+                    //.setup().hasRole("SETUP")
                     // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
-                    .route("greet/*").hasRole("ADMIN")
-                    .anyRequest().authenticated();
+                    //.route("greet/*").hasRole("ADMIN")
+                    //.anyRequest().authenticated();
+                    .anyExchange().authenticated();
         }).simpleAuthentication(Customizer.withDefaults())
         ;
         //@formatter:on
 
-        return rsocket.build();
+        return security.build();
     }
-
-    // /**
-    // * @return {@link RSocketStrategies}
-    // */
-    // @Bean
-    // public RSocketStrategies rsocketStrategies()
-    // {
-//        //@formatter:off
-//        RSocketStrategies rSocketStrategies = RSocketStrategies.builder()
-//                .decoder(new BasicAuthenticationDecoder(), new Jackson2JsonDecoder())
-//                .encoder(new Jackson2JsonEncoder())
-//                .build()
-//                ;
-//        //@formatter:on
-    //
-    // return rSocketStrategies;
-    // }
 
     /**
      * @param passwordEncoder {@link PasswordEncoder}
@@ -134,12 +122,10 @@ public class RSocketServerSecurityConfig
     @Bean
     public ReactiveUserDetailsService userDetailsService(final PasswordEncoder passwordEncoder)
     {
-        // User muss ROLE_SETUP haben um Verbindung zum Server herzustellen.
-        UserDetails connectUser = User.builder().username("setup").password(passwordEncoder.encode("secret")).roles("SETUP").build();
+        UserDetails user = User.builder().username("user").password(passwordEncoder.encode("pass")).roles("USER").build();
 
-        // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
-        UserDetails adminUser = User.builder().username("tommy").password(passwordEncoder.encode("gehaim")).roles("ADMIN").build();
+        UserDetails admin = User.builder().username("test").password(passwordEncoder.encode("pass")).roles("NONE").build();
 
-        return new MapReactiveUserDetailsService(connectUser, adminUser);
+        return new MapReactiveUserDetailsService(user, admin);
     }
 }

@@ -5,23 +5,28 @@
 package de.freese.spring.rsocket.client;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.reactive.ReactiveUserDetailsServiceAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.rsocket.RSocketSecurityAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.util.MimeType;
-import org.springframework.util.MimeTypeUtils;
-import org.springframework.web.reactive.config.EnableWebFlux;
-import io.rsocket.metadata.WellKnownMimeType;
 
 /**
  * @author Thomas Freese
  */
-@SpringBootApplication(scanBasePackages = "de.freese.spring.rsocket.client")
-@EnableWebFlux
+@SpringBootApplication(scanBasePackages = "de.freese.spring.rsocket.client", exclude =
+{
+        ReactiveUserDetailsServiceAutoConfiguration.class,
+        SecurityAutoConfiguration.class,
+        ReactiveSecurityAutoConfiguration.class,
+        RSocketSecurityAutoConfiguration.class
+})
 public class RsocketClientApplication
 {
-    /**
-    *
-    */
-    public static final MimeType BASIC_AUTHENTICATION_MIME_TYPE = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
+    // /**
+    // *
+    // */
+    // public static final MimeType BASIC_AUTHENTICATION_MIME_TYPE = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
 
     /**
      * @param args String[]

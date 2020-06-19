@@ -2,20 +2,19 @@
  * Created: 11.03.2020
  */
 
-package de.freese.spring.rsocket;
+package de.freese.spring.rsocket.client;
 
 import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import de.freese.spring.rsocket.server.RsocketServerApplication;
 
 /**
  * @author Thomas Freese
  */
 @SpringBootTest(classes =
 {
-        RsocketServerApplication.class
+        RsocketClientApplication.class
 }, properties =
 {
         "spring.shell.interactive.enabled=false"
@@ -24,7 +23,7 @@ import de.freese.spring.rsocket.server.RsocketServerApplication;
 {
         "test", "client"
 })
-class RsocketClientApplicationTests
+class RsocketClientApplicationTest
 {
     /**
      *

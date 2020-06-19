@@ -4,8 +4,6 @@
 
 package de.freese.spring.rsocket;
 
-import java.time.Instant;
-
 /**
  * @author Thomas Freese
  */
@@ -19,7 +17,7 @@ public class GreetingResponse
     /**
     *
     */
-    private Long index = null;
+    private long index = 0;
 
     /**
      * Erstellt ein neues {@link GreetingResponse} Object.
@@ -36,20 +34,20 @@ public class GreetingResponse
      */
     public GreetingResponse(final String greeting)
     {
-        this(greeting, null);
+        this(greeting, 0L);
     }
 
     /**
      * Erstellt ein neues {@link GreetingResponse} Object.
      *
      * @param greeting String
-     * @param index Long
+     * @param index long
      */
-    public GreetingResponse(final String greeting, final Long index)
+    public GreetingResponse(final String greeting, final long index)
     {
         super();
 
-        this.greeting = String.format("Hello %s @ %s", greeting, Instant.now());
+        this.greeting = String.format("Hello %s", greeting);// @ %s", greeting, Instant.now());
         this.index = index;
     }
 
@@ -64,7 +62,7 @@ public class GreetingResponse
     /**
      * @return Long
      */
-    public Long getIndex()
+    public long getIndex()
     {
         return this.index;
     }
@@ -78,9 +76,9 @@ public class GreetingResponse
     }
 
     /**
-     * @param index Long
+     * @param index long
      */
-    public void setIndex(final Long index)
+    public void setIndex(final long index)
     {
         this.index = index;
     }
@@ -94,12 +92,7 @@ public class GreetingResponse
         StringBuilder builder = new StringBuilder();
         builder.append("GreetingResponse [");
         builder.append("greeting=").append(this.greeting);
-
-        if (this.index != null)
-        {
-            builder.append(", index=").append(this.index);
-        }
-
+        builder.append(", index=").append(this.index);
         builder.append("]");
 
         return builder.toString();
