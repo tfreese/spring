@@ -1,11 +1,181 @@
 = Relevant articles
 
-- https://www.baeldung.com/rsocket[Introduction to RSocket, window="_blank"]
+== Server
+[source,java]
+----
+@SpringBootApplication(scanBasePackages = "de.freese.spring.rsocket.server")
+public class RsocketServerApplication
+{
+    /**
+     * @param args String[]
+     */
+    @SuppressWarnings("resource")
+    public static void main(final String[] args)
+    {
+        // SpringApplication.run(RsocketServerApplication.class, args);
 
-Links
-- https://spring.io/blog/2020/06/17/getting-started-with-rsocket-spring-security[window="_blank"]
-- https://spring.io/blog/2020/05/12/getting-started-with-rsocket-servers-calling-clients[window="_blank"]
-- https://github.com/benwilcock/spring-rsocket-demo[window="_blank"]
+        // @formatter:off
+        new SpringApplicationBuilder(RsocketServerApplication.class)
+            .profiles("server")
+            .properties("spring.shell.interactive.enabled=false")
+            .run(args)
+            ;
+        // @formatter:on
+    }
+}
+
+
+@SpringBootTest(classes =
+{
+        RsocketServerApplication.class
+}, properties =
+{
+        "spring.shell.interactive.enabled=false"
+})
+@ActiveProfiles(
+{
+        "test", "server"
+})
+class RsocketServerApplicationTest
+{
+    /**
+     *
+     */
+    @Test
+    void contextLoads()
+    {
+        assertTrue(true);
+    }
+}
+----
+
+== Client
+[source,java]
+----
+@SpringBootApplication(scanBasePackages = "de.freese.spring.rsocket.client", exclude =
+{
+        ReactiveUserDetailsServiceAutoConfiguration.class,
+        SecurityAutoConfiguration.class,
+        ReactiveSecurityAutoConfiguration.class,
+        RSocketSecurityAutoConfiguration.class
+})
+public class RsocketClientApplication
+{
+    // /**
+    // *
+    // */
+    // public static final MimeType BASIC_AUTHENTICATION_MIME_TYPE = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
+
+    /**
+     * @param args String[]
+     */
+    @SuppressWarnings("resource")
+    public static void main(final String[] args)
+    {
+        // SpringApplication.run(RsocketClientApplication.class, args);
+
+        // @formatter:off
+        new SpringApplicationBuilder(RsocketClientApplication.class)
+            .profiles("client")
+            .properties("spring.shell.interactive.enabled=true")
+            .run(args)
+            ;
+        // @formatter:on
+    }
+}
+
+
+@SpringBootTest(classes =
+{
+        RsocketClientApplication.class
+}, properties =
+{
+        "spring.shell.interactive.enabled=false"
+})
+@ActiveProfiles(
+{
+        "test", "client"
+})
+class RsocketClientApplicationTest
+{
+    /**
+     *
+     */
+    @Test
+    void contextLoads()
+    {
+        assertTrue(true);
+    }
+}
+----
+
+== application.yml
+[source,java]
+----
+pattern:
+   logback:
+      console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
+      file: "%date{yyyy-MM-dd HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
+   log4j2:
+      console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace{%-40.-40logger{0}}{ }{.} - %message%n"
+      file: "%date{yyyy-MM-dd HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace{%-40.-40logger{0}}{ }{.} - %message%n"
+   
+logging:
+#  config: classpath:logback-default.xml
+#  config: classpath:log4j-default.xml 
+   level:
+      root: INFO
+      org.springframework: INFO   
+      io.rsocket.FrameLogger: DEBUG
+   file:
+      #path: ${user.dir}/logs
+      #path: /tmp/logs   
+      max-history: 30
+      max-size: 10MB
+      total-size-cap: 1GB
+   pattern:
+      console: ${pattern.logback.console}
+      file: ${pattern.logback.file}
+   register-shutdown-hook: false       
+
+---
+
+spring:
+   profiles: server
+   main:
+      web-application-type: NONE     
+   rsocket:
+      server:
+         address: localhost
+         port: 7000
+         transport: TCP
+        
+logging:
+   file:
+      name: logs/server.log
+        
+---
+
+spring:
+   profiles: client
+    
+logging:
+   file:
+      name: logs/client.log 
+   
+rsocket:
+   server:
+      address: localhost
+      port: 7000  
+ 
+----
+
+== Links
+* https://www.baeldung.com/rsocket[Introduction to RSocket, window="_blank"]
+* https://github.com/benwilcock/spring-rsocket-demo[window="_blank"]
+* https://spring.io/blog/2020/06/17/getting-started-with-rsocket-spring-security[window="_blank"]
+* https://spring.io/blog/2020/05/12/getting-started-with-rsocket-servers-calling-clients[window="_blank"]
+
 
 
 

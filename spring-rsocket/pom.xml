@@ -10,60 +10,21 @@
 	</parent>
 
 	<artifactId>spring-rsocket</artifactId>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>rsocket Demos</description>
+	<description>rsocket Demo</description>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<mainClass>de.freese.spring.rsocket.client.RsocketClientApplication</mainClass>
-					<jvmArguments>--enable-preview</jvmArguments>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+	<modules>
+		<module>rsocket-server</module>
+		<module>rsocket-client</module>
+	</modules>
 
 	<dependencies>
 		<!-- compile scope -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-rsocket</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-messaging</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-rsocket</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.shell</groupId>
-			<artifactId>spring-shell-starter</artifactId>
-		</dependency>
-
 		<!-- runtime scope -->
 		<!-- provided scope -->
 		<!-- test scope -->
-		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 </project>

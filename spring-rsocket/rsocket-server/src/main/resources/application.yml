@@ -1,0 +1,16 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html
+# ===================================================================
+
+spring:
+   main:
+      web-application-type: NONE     
+   rsocket:
+      server:
+         address: localhost
+         port: 7000
+         transport: TCP
+
+
+ 
