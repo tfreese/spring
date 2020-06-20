@@ -1,4 +1,8 @@
-= Relevant articles
+== Links
+* https://www.baeldung.com/rsocket[Introduction to RSocket, window="_blank"]
+* https://github.com/benwilcock/spring-rsocket-demo[window="_blank"]
+* https://spring.io/blog/2020/06/17/getting-started-with-rsocket-spring-security[window="_blank"]
+* https://spring.io/blog/2020/05/12/getting-started-with-rsocket-servers-calling-clients[window="_blank"]
 
 == Server
 [source,java]
@@ -170,11 +174,7 @@ rsocket:
  
 ----
 
-== Links
-* https://www.baeldung.com/rsocket[Introduction to RSocket, window="_blank"]
-* https://github.com/benwilcock/spring-rsocket-demo[window="_blank"]
-* https://spring.io/blog/2020/06/17/getting-started-with-rsocket-spring-security[window="_blank"]
-* https://spring.io/blog/2020/05/12/getting-started-with-rsocket-servers-calling-clients[window="_blank"]
+
 
 
 
