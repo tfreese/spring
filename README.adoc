@@ -1,0 +1,9 @@
+= spring
+
+Demos for the Spring-Framework.
+
+== Links
+* https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html[application-properties, window="_blank"]
+* http://tomcat.apache.org/tomcat-9.0-doc/jdbc-pool.html#Common_Attributes[tomcat-pool, window="_blank"]
+
+
