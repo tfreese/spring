@@ -2,7 +2,7 @@
  * Created: 30.10.2018
  */
 
-package org.spring.jwt.token;
+package de.freese.spring.jwt.token;
 
 import java.util.Collection;
 import org.springframework.security.authentication.AbstractAuthenticationToken;

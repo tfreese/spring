@@ -45,7 +45,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>org.spring.jwt.JwtAuthorisationApplication</mainClass>
+					<mainClass>de.freese.spring.jwt.JwtAuthorisationApplication</mainClass>
 					<!--jvmArguments>
 						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
 						</jvmArguments -->
@@ -73,10 +73,12 @@
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -90,11 +92,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-<!-- <dependency>
-  <groupId>org.springframework.security</groupId>
-  <artifactId>spring-security-oauth2-jose</artifactId>
-  <version>5.2.1.RELEASE</version>
-</dependency-->
+		<!-- <dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-jose</artifactId>
+			<version>5.2.1.RELEASE</version>
+			</dependency -->
 
 		<!-- runtime scope -->
 		<!--dependency>

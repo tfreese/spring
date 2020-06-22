@@ -2,21 +2,20 @@
  * Created: 28.10.2018
  */
 
-package org.spring.jwt.service;
+package de.freese.spring.jwt.service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import org.spring.jwt.model.MutableUser;
-import org.spring.jwt.token.JwtTokenProvider;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
+import de.freese.spring.jwt.model.MutableUser;
+import de.freese.spring.jwt.token.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 
@@ -67,6 +66,45 @@ public class UserService
     }
 
     /**
+     * Login
+     *
+     * @param username String
+     * @param password String
+     * @return String
+     */
+    public String login(final String username, final String password)
+    {
+        this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+
+        // UserDetails userDetails = this.userDetailsManager.loadUserByUsername(username);
+
+        return this.jwtTokenProvider.createToken(username, password);
+    }
+
+    /**
+     * Registrierung
+     *
+     * @param userDetails {@link UserDetails}
+     * @return String
+     */
+    public String register(final UserDetails userDetails)
+    {
+        boolean exist = this.userDetailsManager.userExists(userDetails.getUsername());
+
+        if (!exist)
+        {
+            MutableUser mutableUser = new MutableUser(userDetails);
+            mutableUser.setPassword(this.passwordEncoder.encode(userDetails.getPassword()));
+
+            this.userDetailsManager.createUser(mutableUser);
+
+            return this.jwtTokenProvider.createToken(mutableUser.getUsername(), userDetails.getPassword(), mutableUser.getAuthorities());
+        }
+
+        throw new AuthenticationServiceException("Username is already in use");
+    }
+
+    /**
      * @param username String
      * @return {@link UserDetails}
      */
@@ -82,46 +120,6 @@ public class UserService
         MutableUser mutableUser = new MutableUser(userDetails).clearCredentials();
 
         return mutableUser;
-    }
-
-    /**
-     * Login
-     *
-     * @param username String
-     * @param password String
-     * @return String
-     * @throws AuthenticationException Falls was schief geht.
-     */
-    public String signin(final String username, final String password) throws AuthenticationException
-    {
-        this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-
-        // UserDetails userDetails = this.userDetailsManager.loadUserByUsername(username);
-
-        return this.jwtTokenProvider.createToken(username, password);
-    }
-
-    /**
-     * Registrierung
-     *
-     * @param userDetails {@link UserDetails}
-     * @return String
-     */
-    public String signup(final UserDetails userDetails)
-    {
-        boolean exist = this.userDetailsManager.userExists(userDetails.getUsername());
-
-        if (!exist)
-        {
-            MutableUser mutableUser = new MutableUser(userDetails);
-            mutableUser.setPassword(this.passwordEncoder.encode(userDetails.getPassword()));
-
-            this.userDetailsManager.createUser(mutableUser);
-
-            return this.jwtTokenProvider.createToken(mutableUser.getUsername(), userDetails.getPassword(), mutableUser.getAuthorities());
-        }
-
-        throw new AuthenticationServiceException("Username is already in use");
     }
 
     /**

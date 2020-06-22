@@ -2,7 +2,7 @@
  * Created: 28.10.2018
  */
 
-package org.spring.jwt.model;
+package de.freese.spring.jwt.model;
 
 import java.util.Collection;
 import java.util.HashSet;

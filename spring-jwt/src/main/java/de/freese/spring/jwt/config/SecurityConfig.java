@@ -2,7 +2,7 @@
  * Created: 25.09.2018
  */
 
-package org.spring.jwt.config;
+package de.freese.spring.jwt.config;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,9 +12,6 @@ import javax.annotation.Resource;
 import javax.servlet.Filter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.spring.jwt.token.JwtTokenAuthenticationProvider;
-import org.spring.jwt.token.JwtTokenFilter;
-import org.spring.jwt.token.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -31,20 +28,20 @@ import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import de.freese.spring.jwt.token.JwtTokenAuthenticationProvider;
+import de.freese.spring.jwt.token.JwtTokenFilter;
+import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * @author Thomas Freese
  */
-@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
@@ -85,7 +82,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         {
             response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setCharacterEncoding("UTF-8");
 
             @SuppressWarnings("resource")
             PrintWriter writer = response.getWriter();
@@ -144,10 +142,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         auth
             .eraseCredentials(true)
             .authenticationProvider(jwtAuthenticationProvider())
-
-            // Erzeugt DaoAuthenticationProvider
-            //.userDetailsService(userDetailsService())
-            //.passwordEncoder(passwordEncoder())
+            .userDetailsService(userDetailsService()) // Erzeugt DaoAuthenticationProvider
+                .passwordEncoder(passwordEncoder())
         ;
         // @formatter:on
     }
@@ -159,13 +155,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(final HttpSecurity http) throws Exception
     {
         // @formatter:off
-        http
+        http//.authorizeRequests().anyRequest().permitAll()
             .anonymous().disable()
             .csrf().disable()
             .formLogin().disable()
             .httpBasic().disable()
             .authorizeRequests()
-                .antMatchers("/jwt/users/login").permitAll()
+                //.antMatchers("/jwt/users/login").permitAll()
                 .antMatchers("/jwt/users/register").permitAll()
                 .anyRequest().authenticated()
             .and()
@@ -185,16 +181,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     public void configure(final WebSecurity webSecurity)
     {
         // Allow swagger to be accessed without authentication
-        webSecurity.ignoring().antMatchers("/v2/api-docs")//
-                .antMatchers("/swagger-resources/**")//
-                .antMatchers("/swagger-ui.html")//
-                .antMatchers("/configuration/**")//
-                .antMatchers("/webjars/**")//
-                .antMatchers("/public")
+        // @formatter:off
+        webSecurity.ignoring()
+                .antMatchers("/swagger-ui.html")
+                .antMatchers("/webjars/**")
+                .antMatchers("/v2/api-docs")
+                .antMatchers("/swagger-resources/**")
+                //.antMatchers("/configuration/**")
+                //.antMatchers("/public")
+                .antMatchers("/users/login")
 
                 // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
-                .and().ignoring().antMatchers("/h2-console/**/**");
-        ;
+                .antMatchers("/h2-console/**/**")
+                ;
+        // @formatter:on
     }
 
     /**
@@ -232,22 +232,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public PasswordEncoder passwordEncoder()
     {
-        // String defaultIdForEncode = "bcrypt";
-        String defaultIdForEncode = "noop";
-        Map<String, PasswordEncoder> encoders = new HashMap<>();
-
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
-
         Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret");
         pbkdf2passwordEncoder.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
-        encoders.put("bcrypt", bCryptPasswordEncoder);
-        encoders.put("pbkdf2", pbkdf2passwordEncoder);
-        encoders.put("noop", NoOpPasswordEncoder.getInstance());
-        encoders.put("sha256", new StandardPasswordEncoder("mySecret"));
+        Map<String, PasswordEncoder> encoders = new HashMap<>();
+        encoders.put("BCRYPT", new BCryptPasswordEncoder(10));
+        encoders.put("PBKDF2", pbkdf2passwordEncoder);
+        encoders.put("PLAIN", new PasswordEncoder()
+        {
+            @Override
+            public String encode(final CharSequence rawPassword)
+            {
+                return rawPassword.toString();
+            }
 
-        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder(defaultIdForEncode, encoders);
+            @Override
+            public boolean matches(final CharSequence rawPassword, final String encodedPassword)
+            {
+                return rawPassword.toString().equals(encodedPassword);
+            }
+        });
+
+        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("PLAIN", encoders);
         // passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
 
         return passwordEncoder;
@@ -261,8 +268,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     public UserDetailsService userDetailsService()
     {
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
-        // userDetailsManager.createUser(User.withUsername("admin").password("{noop}pw").roles("ADMIN", "USER").build());
-        // userDetailsManager.createUser(User.withUsername("user").password("{noop}pw").roles("USER").build());
+        // userDetailsManager.createUser(User.withUsername("admin").password("pass").roles("ADMIN", "USER").build());
+        // userDetailsManager.createUser(User.withUsername("user").password("pass").roles("USER").build());
 
         UserDetailsService userDetailsService = userDetailsManager;
 

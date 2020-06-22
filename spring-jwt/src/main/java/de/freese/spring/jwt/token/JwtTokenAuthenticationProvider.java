@@ -2,13 +2,12 @@
  * Created: 30.10.2018
  */
 
-package org.spring.jwt.token;
+package de.freese.spring.jwt.token;
 
 import java.util.Date;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spring.jwt.model.MutableUser;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
@@ -19,7 +18,6 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import de.freese.spring.jwt.model.MutableUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -95,10 +94,8 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
      * @param userDetails {@link UserDetails}
      * @param authentication {@link Authentication}
      * @param claims {@link Jws}
-     * @throws AuthenticationException Falls was schief geht.
      */
     protected void additionalAuthenticationChecks(final UserDetails userDetails, final Authentication authentication, final Jws<Claims> claims)
-        throws AuthenticationException
     {
         String password = getTokenProvider().getPassword(claims);
 
@@ -141,7 +138,7 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
      * @see org.springframework.security.authentication.AuthenticationProvider#authenticate(org.springframework.security.core.Authentication)
      */
     @Override
-    public Authentication authenticate(final Authentication authentication) throws AuthenticationException
+    public Authentication authenticate(final Authentication authentication)
     {
         // if (!supports(authentication.getClass())) {
         // return null;
@@ -301,9 +298,8 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
      * @param username String
      * @param authentication {@link Authentication}
      * @return {@link UserDetails}
-     * @throws AuthenticationException Falls was schief geht.
      */
-    protected UserDetails retrieveUser(final String username, final Authentication authentication) throws AuthenticationException
+    protected UserDetails retrieveUser(final String username, final Authentication authentication)
     {
         prepareTimingAttackProtection();
 

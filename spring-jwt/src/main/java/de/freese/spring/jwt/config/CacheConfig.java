@@ -2,7 +2,7 @@
  * Created: 30.10.2018
  */
 
-package org.spring.jwt.config;
+package de.freese.spring.jwt.config;
 
 import java.util.List;
 import org.springframework.cache.Cache;

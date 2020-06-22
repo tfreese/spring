@@ -2,7 +2,7 @@
  * Created: 28.10.2018
  */
 
-package org.spring.jwt.token;
+package de.freese.spring.jwt.token;
 
 import java.util.Base64;
 import java.util.Collection;
@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -228,10 +227,8 @@ public class JwtTokenProvider
     /**
      * @param token String
      * @return boolean
-     * @throws JwtException Falls was schief geht.
-     * @throws IllegalArgumentException Falls was schief geht.
      */
-    public Jws<Claims> parseToken(final String token) throws JwtException, IllegalArgumentException
+    public Jws<Claims> parseToken(final String token)
     {
         String t = decodeToken(token);
 

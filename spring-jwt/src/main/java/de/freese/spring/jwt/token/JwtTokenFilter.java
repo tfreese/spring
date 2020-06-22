@@ -2,7 +2,7 @@
  * Created: 30.10.2018
  */
 
-package org.spring.jwt.token;
+package de.freese.spring.jwt.token;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -82,7 +82,7 @@ public class JwtTokenFilter extends OncePerRequestFilter
 
                 Authentication authResult = this.authenticationManager.authenticate(authRequest);
 
-                getLogger().debug("Authentication success: " + authResult);
+                getLogger().debug("Authentication success: {}", authResult);
 
                 SecurityContextHolder.getContext().setAuthentication(authResult);
             }

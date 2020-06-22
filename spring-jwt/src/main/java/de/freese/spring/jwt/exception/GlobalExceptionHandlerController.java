@@ -2,7 +2,7 @@
  * Created: 28.10.2018
  */
 
-package org.spring.jwt.exception;
+package de.freese.spring.jwt.exception;
 
 import java.io.IOException;
 import java.util.Map;
@@ -39,7 +39,6 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
     @Bean
     public ErrorAttributes errorAttributes()
     {
-        // Hide exception field in the return object
         return new DefaultErrorAttributes()
         {
             /**
@@ -51,6 +50,7 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
             {
                 Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, options);
 
+                // StackTrace verbergen.
                 errorAttributes.remove("exception");
 
                 return errorAttributes;

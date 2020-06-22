@@ -2,11 +2,10 @@
  * Created: 28.10.2018
  */
 
-package org.spring.jwt.controller;
+package de.freese.spring.jwt.controller;
 
 import java.security.Principal;
 import javax.annotation.Resource;
-import org.spring.jwt.service.UserService;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import de.freese.spring.jwt.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiResponses;
  * @author Thomas Freese
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("users")
 @Api(tags = "users")
 public class UserController
 {
@@ -42,7 +42,7 @@ public class UserController
      * @param username String
      * @return String
      */
-    @DeleteMapping(value = "/{username}")
+    @DeleteMapping("delete/{username}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Secured("ROLE_ADMIN")
     @ApiOperation(value = "Deletes specific user by username.")
@@ -65,7 +65,7 @@ public class UserController
      * @param password String
      * @return String
      */
-    @PostMapping("/login")
+    @GetMapping("login")
     @ApiOperation(value = "Authenticates user and returns its JWT token.")
     @ApiResponses(value =
     {
@@ -74,14 +74,14 @@ public class UserController
     })
     public String login(@ApiParam("username") @RequestParam final String username, @ApiParam("password") @RequestParam final String password)
     {
-        return this.userService.signin(username, password);
+        return this.userService.login(username, password);
     }
 
     /**
      * @param userDetails {@link UserDetails}
      * @return String
      */
-    @PostMapping("/register")
+    @PostMapping("register")
     @ApiOperation(value = "Creates user and returns its JWT token.")
     @ApiResponses(value =
     {
@@ -92,14 +92,14 @@ public class UserController
     })
     public String register(@ApiParam("Signup User") @RequestBody final UserDetails userDetails)
     {
-        return this.userService.signup(userDetails);
+        return this.userService.register(userDetails);
     }
 
     /**
      * @param username String
      * @return {@link UserDetails}
      */
-    @GetMapping(value = "/{username}")
+    @GetMapping("search/{username}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Secured("ROLE_ADMIN")
     @ApiOperation(value = "Returns specific user by username.")
@@ -121,7 +121,7 @@ public class UserController
      * @param principal {@link Principal}
      * @return {@link Principal}
      */
-    @GetMapping(value = "/me")
+    @GetMapping("me")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @Secured("ROLE_USER")
     @ApiOperation(value = "Returns current user's data.")
@@ -131,14 +131,14 @@ public class UserController
             @ApiResponse(code = 403, message = "Access denied"),
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")
     })
+    public Principal whoami(final Principal principal)
+    {
+        return principal;
+    }
     // public MutableUser whoami(final HttpServletRequest req)
     // {
     // UserDetails userDetails = this.userService.whoami(req);
     //
     // return userDetails;
     // }
-    public Principal whoami(final Principal principal)
-    {
-        return principal;
-    }
 }

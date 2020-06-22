@@ -1,4 +1,4 @@
-package org.spring.jwt;
+package de.freese.spring.jwt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
- * https://github.com/murraco/spring-boot-jwt
+ * <a href="https://github.com/murraco/spring-boot-jwt">spring-boot-jwt</a>
  *
  * @author Thomas Freese
  */
@@ -35,10 +35,9 @@ public class JwtAuthorisationApplication extends SpringBootServletInitializer
 
     /**
      * @param args String[]
-     * @throws Exception Falls was schief geht.
      */
     @SuppressWarnings("resource")
-    public static void main(final String[] args) throws Exception
+    public static void main(final String[] args)
     {
         // ApplicationContext context = SpringApplication.run(SpringBootThymeleafApplication.class, args);
         configureApplication(new SpringApplicationBuilder()).run(args);

@@ -2,18 +2,18 @@
  * Created: 12.09.2018
  */
 
-package org.spring.jwt;
+package de.freese.spring.jwt;
 
 import java.util.Arrays;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spring.jwt.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import de.freese.spring.jwt.service.UserService;
 
 /**
  * @author Thomas Freese
@@ -47,14 +47,14 @@ public class CreateUserRunner implements CommandLineRunner
     @Override
     public void run(final String...args) throws Exception
     {
-        LOGGER.info("");
+        LOGGER.info("Create Users & Roles");
 
-        User admin = new User("admin", "pw", Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER")));
-        String token = this.userService.signup(admin);
-        System.out.println("Admin Token: " + token);
+        User admin = new User("admin", "pass", Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER")));
+        String token = this.userService.register(admin);
+        System.out.printf("%nAdmin Token: %s%n", token);
 
-        User user = new User("user", "pw", Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
-        token = this.userService.signup(user);
-        System.out.println("User Token: " + token);
+        User user = new User("user", "pass", Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+        token = this.userService.register(user);
+        System.out.printf("User Token: %s%n%n", token);
     }
 }

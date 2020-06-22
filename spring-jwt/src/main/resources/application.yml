@@ -4,42 +4,37 @@
 # =================================================================================================
 
 
-# =================================================================================================
-# Application Properties
-security:
-  jwt:
-    token:
-      secret-key: my-secret-key
-      expire-length: 36000
-
-
-# =================================================================================================
-# Spring Properties
 logging:
-  level:
-    org.springframework: INFO
-    org.springframework.security.oauth2: DEBUG
-    org.spring.oauth.jwt: DEBUG
+   level:
+      org.springframework: INFO
+      org.springframework.security.oauth2: DEBUG
+      org.spring.oauth.jwt: DEBUG
+      
+security:
+   jwt:
+      token:
+         secret-key: my-secret-key
+         expire-length: 36000       
+
+# server.servlet.encoding.charset = UTF-8
+# server.servlet.encoding.force = true
+server:
+   port: 8081
+   servlet:
+      context-path: /jwt
+   error:
+      whitelabel:
+         enabled: false
 
 spring:
    mvc:
-      throw-exception-if-no-handler-found: true
+      throw-exception-if-no-handler-found: false
    resources:
-      add-mappings: false          
-
-# =================================================================================================
-# Server Properties
-server:
-  port: 8081
-  servlet:
-    context-path: /jwt
-  error:
-    whitelabel:
-      enabled: false
+      add-mappings: false 
       
 ---
 
 spring:
-    profiles: test        
+   profiles: test        
     
 
