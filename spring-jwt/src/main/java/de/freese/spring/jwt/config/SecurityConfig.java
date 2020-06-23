@@ -161,8 +161,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             .formLogin().disable()
             .httpBasic().disable()
             .authorizeRequests()
-                //.antMatchers("/jwt/users/login").permitAll()
-                .antMatchers("/jwt/users/register").permitAll()
+                //.antMatchers("/users/login").permitAll()
+                //.antMatchers("/users/register").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -180,15 +180,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     public void configure(final WebSecurity webSecurity)
     {
-        // Allow swagger to be accessed without authentication
+        // Pfade ohne Sicherheits-Prüfung.
         // @formatter:off
         webSecurity.ignoring()
+
+                // Für swagger
                 .antMatchers("/swagger-ui.html")
                 .antMatchers("/webjars/**")
                 .antMatchers("/v2/api-docs")
                 .antMatchers("/swagger-resources/**")
                 //.antMatchers("/configuration/**")
                 //.antMatchers("/public")
+
                 .antMatchers("/users/login")
 
                 // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
