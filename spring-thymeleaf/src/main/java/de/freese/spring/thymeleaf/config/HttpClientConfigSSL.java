@@ -95,14 +95,16 @@ public class HttpClientConfigSSL
         RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(3000)
                 .setConnectTimeout(3000)
-                .setSocketTimeout(3000).build();
+                .setSocketTimeout(3000).build()
+                ;
 
         HttpClient httpClient = HttpClients.custom()
                 .setDefaultRequestConfig(requestConfig)
                 .setConnectionManager(poolingConnectionManager)
                 .setKeepAliveStrategy(connectionKeepAliveStrategy)
                 .setUserAgent("My secured Java App")
-                .build();
+                .build()
+                ;
         // @formatter:on
 
         return httpClient;
@@ -146,7 +148,8 @@ public class HttpClientConfigSSL
                 }
                 catch (Exception ex)
                 {
-                    LOGGER.error("idleConnectionMonitor - Exception occurred. msg={}, ex={}", ex.getMessage(), ex);
+                    String message = String.format("idleConnectionMonitor - Exception occurred. msg = %s", ex.getMessage());
+                    LOGGER.error(message, ex);
                 }
             }
         };
@@ -160,13 +163,12 @@ public class HttpClientConfigSSL
     @Bean
     public PoolingHttpClientConnectionManager poolingConnectionManager(final SSLContext sslContext) throws Exception
     {
-        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
-
         // @formatter:off
         Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", new PlainConnectionSocketFactory())
-                .register("https", sslsf)
-                .build();
+                .register("https", new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier()))
+                .build()
+                ;
         // @formatter:on
 
         PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
@@ -189,13 +191,19 @@ public class HttpClientConfigSSL
 
         TrustStrategy trustStrategy = new TrustAllStrategy(); // (chain, authType) -> true;
 
+        char[] keyStorePassword = "password".toCharArray();
+        char[] certPassword = "password".toCharArray();
+        char[] trustStorePassword = "password".toCharArray();
+
         // @formatter:off
         SSLContext sslContext = SSLContextBuilder.create()
                 .setKeyStoreType("PKCS12")
+                .setProtocol("TLSv1.3")
                 .setSecureRandom(new SecureRandom())
-                .loadKeyMaterial(ResourceUtils.getFile("classpath:server_keystore.p12"), "password".toCharArray(), "password".toCharArray(), privateKeyStrategy)
-                .loadTrustMaterial(ResourceUtils.getFile("classpath:server_truststore.p12"), "password".toCharArray(), trustStrategy)
-                .build();
+                .loadKeyMaterial(ResourceUtils.getFile("classpath:server_keystore.p12"), keyStorePassword, certPassword, privateKeyStrategy)
+                .loadTrustMaterial(ResourceUtils.getFile("classpath:server_truststore.p12"), trustStorePassword, trustStrategy)
+                .build()
+                ;
         // @formatter:on
 
         return sslContext;

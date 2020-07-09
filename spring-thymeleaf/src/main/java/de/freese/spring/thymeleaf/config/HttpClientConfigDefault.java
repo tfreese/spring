@@ -53,13 +53,15 @@ public class HttpClientConfigDefault
         RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(3000)
                 .setConnectTimeout(3000)
-                .setSocketTimeout(3000).build();
+                .setSocketTimeout(3000).build()
+                ;
 
         HttpClient httpClient = HttpClients.custom()
                 .setDefaultRequestConfig(requestConfig)
                 .setConnectionManager(poolingConnectionManager)
                 .setUserAgent("My Java App")
-                .build();
+                .build()
+                ;
         // @formatter:on
 
         return httpClient;
@@ -72,13 +74,12 @@ public class HttpClientConfigDefault
     @Bean
     public PoolingHttpClientConnectionManager poolingConnectionManager() throws Exception
     {
-        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(SSLContexts.createDefault(), new NoopHostnameVerifier());
-
         // @formatter:off
         Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", new PlainConnectionSocketFactory())
-                .register("https", sslsf)
-                .build();
+                .register("https", new SSLConnectionSocketFactory(SSLContexts.createDefault(), new NoopHostnameVerifier()))
+                .build()
+                ;
         // @formatter:on
 
         PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
