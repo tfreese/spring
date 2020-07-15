@@ -1,6 +1,7 @@
 // Created: 01.03.2017
 package de.freese.spring.hystrix.primarysecondary;
 
+import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
 import com.netflix.config.ConcurrentCompositeConfiguration;
@@ -19,6 +20,9 @@ public class PrimarySecondaryApplication
      */
     public static void main(final String[] args) throws Exception
     {
+        // configuration from environment properties
+        ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
+
         // configuration from system properties
         ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
 
@@ -28,6 +32,7 @@ public class PrimarySecondaryApplication
         // create a hierarchy of configuration that makes
         // 1) system properties override properties file
         ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
+        finalConfig.addConfiguration(configFromEnvironmentProperties, "environmentConfig");
         finalConfig.addConfiguration(configFromSystemProperties, "systemConfig");
         finalConfig.addConfiguration(configFromPropertiesFile, "fileConfig");
 

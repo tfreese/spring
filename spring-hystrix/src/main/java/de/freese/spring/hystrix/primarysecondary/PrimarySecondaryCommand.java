@@ -120,7 +120,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
     /**
      *
      */
-    private final static DynamicBooleanProperty USE_PRIMARY = DynamicPropertyFactory.getInstance().getBooleanProperty("primarySecondary.usePrimary", true);
+    private static final DynamicBooleanProperty USE_PRIMARY = DynamicPropertyFactory.getInstance().getBooleanProperty("primarySecondary.usePrimary", true);
 
     /**
      *

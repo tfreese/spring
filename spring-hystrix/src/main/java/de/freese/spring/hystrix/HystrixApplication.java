@@ -1,6 +1,7 @@
 // Created: 14.02.2017
 package de.freese.spring.hystrix;
 
+import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
 import org.slf4j.Logger;
@@ -50,6 +51,9 @@ public class HystrixApplication
      */
     public static void main(final String[] args) throws Exception
     {
+        // configuration from environment properties
+        ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
+
         // configuration from system properties
         ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
 
@@ -59,6 +63,7 @@ public class HystrixApplication
         // create a hierarchy of configuration that makes
         // 1) system properties override properties file
         ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
+        finalConfig.addConfiguration(configFromEnvironmentProperties, "environmentConfig");
         finalConfig.addConfiguration(configFromSystemProperties, "systemConfig");
         finalConfig.addConfiguration(configFromPropertiesFile, "fileConfig");
 
