@@ -12,10 +12,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import java.awt.*;
+import java.awt.Desktop;
 import java.net.URI;
 import java.util.Optional;
+
+import javax.annotation.Resource;
 
 /**
  * @author Thomas Freese
