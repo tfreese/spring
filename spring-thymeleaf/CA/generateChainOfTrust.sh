@@ -30,16 +30,14 @@ keytool -genkey -v \
 
 echo;
 echo "####################################################################################################";
-echo "Exportieren des CA public Zertifikata als *.crt so das es in TrustStores verwendet werden kann.";
+echo "Exportieren des CA public Zertifikats als *.crt so das es in TrustStores verwendet werden kann.";
 echo "####################################################################################################";
 keytool -export -v \
   -keystore tommy_ca.p12 \
   -storepass "$PW" \
   -alias tommy_ca_1 \
-  -file tommy_ca_1.crt \
+  -file tommy_ca_1_pub.crt \
   -rfc;
-
-
 
 echo;
 echo "####################################################################################################";
@@ -83,33 +81,33 @@ keytool -gencert -v \
 
 echo;
 echo "####################################################################################################";
-echo "Import des ROOT CA Zertifikats in den Server TrustStore.";
+echo "Import des ROOT CA public Zertifikats in den Server TrustStore.";
 echo "####################################################################################################";
 keytool -import -v \
   -storetype PKCS12 \
   -keystore server_truststore.p12 \
   -storepass "$PW" \
   -alias tommy_ca_1 \
-  -file tommy_ca_1.crt << EOF
+  -file tommy_ca_1_pub.crt << EOF
 ja
 EOF
 
 echo;
 echo "####################################################################################################";
-echo "Import des ROOT CA Zertifikats in den Server KeyStore.";
+echo "Import des ROOT CA public Zertifikats in den Server KeyStore.";
 echo "####################################################################################################";
 keytool -import -v \
   -keystore server_keystore.p12 \
   -storepass "$PW" \
   -alias tommy_ca_1 \
-  -file tommy_ca_1.crt \
+  -file tommy_ca_1_pub.crt \
   -storetype JKS << EOF
 ja
 EOF
 
 echo;
 echo "####################################################################################################";
-echo "Import des signierten localhost-Zertifikats in den Server KeyStore.";
+echo "Import des signierten localhost-Zertifikats in den Server KeyStore, das alte unsignierte wird dabei überschrieben.";
 echo "####################################################################################################";
 keytool -import -v \
   -keystore server_keystore.p12 \
@@ -118,7 +116,12 @@ keytool -import -v \
   -file localhost.crt \
   -storetype JKS;
 
-
+echo;
+echo "####################################################################################################";
+keytool -list \
+  -keystore server_keystore.p12 \
+  -storepass "$PW";
+  
 echo;
 echo "####################################################################################################";
 echo "Inhalt des Server KeyStore";
@@ -127,8 +130,4 @@ keytool -list -v \
   -keystore server_keystore.p12 \
   -storepass "$PW";
 
-echo;
-echo "####################################################################################################";
-keytool -list \
-  -keystore server_keystore.p12 \
-  -storepass "$PW";
+
