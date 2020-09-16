@@ -22,7 +22,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * curl http://localhost:8080/rest/person/personAdd -X POST -H "Content-Type: application/json" -v -u 'user:pw' -d '{"firstName":"Thomas","lastName":"Freese"}'
  * curl -i -X POST -d username=user -d password=pw -c /opt/cookies.txt<br>
  * curl -i --header "Accept:application/json" -X GET -b /opt/cookies.txt<br>
- * {"firstName":"Thomas","lastName":"Freese"}
+ * {"firstName":"Thomas","lastName":"Freese"}<br>
+ * <br>
+ * POM:<br>
+ * &lt;packaging>&gt;war&lt;/packaging&gt;<<br>
+ * Tomcat aus spring-boot-starter-web excludieren und explizit auf provided setzen.<br>
+ * Alle anderen J2EE-Jars auf provided setzen.
  *
  * @author Thomas Freese
  */
@@ -98,6 +103,11 @@ public class ThymeleafApplication extends SpringBootServletInitializer
     }
 
     /**
+     * POM:<br>
+     * &lt;packaging>&gt;war&lt;/packaging&gt;<<br>
+     * Tomcat aus spring-boot-starter-web excludieren und explizit auf provided setzen.<br>
+     * Alle anderen J2EE-Jars auf provided setzen.
+     *
      * @see org.springframework.boot.web.servlet.support.SpringBootServletInitializer#configure(org.springframework.boot.builder.SpringApplicationBuilder)
      */
     @Override

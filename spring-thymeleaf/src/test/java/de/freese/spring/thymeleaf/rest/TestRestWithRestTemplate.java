@@ -15,7 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.boot.devtools.remote.client.HttpHeaderInterceptor;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -35,6 +34,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 import com.jayway.jsonpath.JsonPath;
+import de.freese.spring.thymeleaf.HttpHeaderInterceptor;
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 import de.freese.spring.thymeleaf.exception.ApiError;
 import de.freese.spring.thymeleaf.model.Person;
@@ -145,6 +145,9 @@ public class TestRestWithRestTemplate extends AbstractRestTestCase
                 .build();
         // @formatter:on
 
+        // HttpHeaders headers = new HttpHeaders();
+        // headers.setContentType(MediaType.APPLICATION_JSON);
+
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/actuator/health", String.class);
 
         Assertions.assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType());
@@ -219,6 +222,9 @@ public class TestRestWithRestTemplate extends AbstractRestTestCase
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
+
+        // HttpHeaders headers = new HttpHeaders();
+        // headers.setContentType(MediaType.APPLICATION_JSON);
 
         // ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
         // persons = this.objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<Person>>()

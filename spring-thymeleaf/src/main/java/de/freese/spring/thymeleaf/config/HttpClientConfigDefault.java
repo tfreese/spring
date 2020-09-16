@@ -42,7 +42,7 @@ public class HttpClientConfigDefault
     }
 
     /**
-     * @param poolingConnectionManager PoolingHttpClientConnectionManager
+     * @param poolingConnectionManager {@link PoolingHttpClientConnectionManager}
      * @return {@link HttpClient}
      * @throws Exception Falls was schief geht.
      */

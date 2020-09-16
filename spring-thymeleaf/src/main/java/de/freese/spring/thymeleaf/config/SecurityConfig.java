@@ -104,19 +104,19 @@ public class SecurityConfig
          *
          */
         @Resource
-        private AuthenticationEntryPoint authenticationEntryPoint = null;
+        private AuthenticationEntryPoint authenticationEntryPoint;
 
         /**
         *
         */
         @Resource
-        private PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider = null;
+        private PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider;
 
         /**
         *
         */
         @Resource
-        private PasswordEncoder passwordEncoder = null;
+        private PasswordEncoder passwordEncoder;
 
         // /**
         // *
@@ -128,13 +128,13 @@ public class SecurityConfig
         *
         */
         @Resource
-        private RememberMeServices rememberMeServices = null;
+        private RememberMeServices rememberMeServices;
 
         /**
         *
         */
         @Resource
-        private UserDetailsService userDetailsService = null;
+        private UserDetailsService userDetailsService;
 
         /**
          * Erstellt ein neues {@link RestSecurity} Object.
@@ -269,19 +269,19 @@ public class SecurityConfig
         *
         */
         @Resource
-        private PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider = null;
+        private PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider;
 
         /**
         *
         */
         @Resource
-        private PasswordEncoder passwordEncoder = null;
+        private PasswordEncoder passwordEncoder;
 
         /**
         *
         */
         @Resource
-        private RememberMeServices rememberMeServices = null;
+        private RememberMeServices rememberMeServices;
 
         // /**
         // *
@@ -293,7 +293,7 @@ public class SecurityConfig
         *
         */
         @Resource
-        private UserDetailsService userDetailsService = null;
+        private UserDetailsService userDetailsService;
 
         /**
          * Erstellt ein neues {@link WebAppSecurity} Object.
