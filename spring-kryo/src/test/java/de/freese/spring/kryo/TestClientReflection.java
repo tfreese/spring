@@ -5,6 +5,7 @@
 package de.freese.spring.kryo;
 
 import java.time.LocalDateTime;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -22,6 +23,7 @@ import de.freese.spring.kryo.reflection.client.ClientReflectionController;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = KryoApplication.class)
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @ActiveProfiles("test")
+@Disabled
 class TestClientReflection
 {
     /**
