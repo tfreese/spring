@@ -102,8 +102,8 @@ class RSocketClientToSecuredServerTest
                 //.rsocketStrategies(this.rsocketStrategies) // Für Verbindung ohne Login/Security.
 
                 .rsocketConnector(connector -> connector.acceptor(responder))
-                .connectTcp("localhost", port)
-                .block();
+                .tcp("localhost", port)
+                ;
         // @formatter:on
     }
 

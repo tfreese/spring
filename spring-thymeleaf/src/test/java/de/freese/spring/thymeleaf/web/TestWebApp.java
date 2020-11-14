@@ -33,7 +33,7 @@ import de.freese.spring.thymeleaf.ThymeleafApplication;
 {
         ThymeleafApplication.class
 })
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 // @ActiveProfiles(
@@ -59,14 +59,6 @@ public class TestWebApp
     */
     @Resource
     private MockMvc mockMvc = null;
-
-    /**
-     * Erzeugt eine neue Instanz von {@link TestWebApp}.
-     */
-    TestWebApp()
-    {
-        super();
-    }
 
     /**
      * @throws Exception Falls was schief geht.

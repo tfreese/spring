@@ -103,7 +103,7 @@ class RSocketServerToClientTest
     {
         /**
          * volatile guarantees visibility across threads.<br>
-         * MonoProcessor implements stateful semantics for a mon
+         * MonoProcessor implements stateful semantics for a mono.
          */
         volatile MonoProcessor<Object> result;
 
@@ -137,7 +137,7 @@ class RSocketServerToClientTest
             Mono.fromRunnable(test)
                     .doOnError(ex -> this.result.onError(ex)) // test result was an error
                     .doOnSuccess(o -> this.result.onComplete()) // test result was success
-                    .subscribeOn(Schedulers.elastic()) // StepVerifier will block
+                    .subscribeOn(Schedulers.boundedElastic()) // StepVerifier will block
                     .subscribe();
             // @formatter:on
         }
@@ -259,8 +259,8 @@ class RSocketServerToClientTest
                     .setupData(clientId)
                     .rsocketStrategies(strategies)
                     .rsocketConnector(connector -> connector.acceptor(responder))
-                    .connectTcp("localhost", server.address().getPort())
-                    .block();
+                    .tcp("localhost", server.address().getPort())
+                    ;
             // @formatter:on
 
             // Give the test time to run, wait for the server's call.

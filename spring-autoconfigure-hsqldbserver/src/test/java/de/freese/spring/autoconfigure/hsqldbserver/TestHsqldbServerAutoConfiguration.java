@@ -4,9 +4,9 @@
 
 package de.freese.spring.autoconfigure.hsqldbserver;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,7 +26,7 @@ import org.springframework.util.SocketUtils;
  * @author Thomas Freese
  */
 @SpringBootTest(classes = TestApplication.class)
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestHsqldbServerAutoConfiguration
 {
     static

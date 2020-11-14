@@ -34,7 +34,7 @@ import reactor.core.publisher.Mono;
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class TestRestWithWebClient extends AbstractRestTestCase
@@ -125,8 +125,7 @@ public class TestRestWithWebClient extends AbstractRestTestCase
         Mono<ResponseEntity<String>> response = webClient.get()
                 .uri("/actuator/health")
                 .accept(MediaType.APPLICATION_JSON)
-                .exchange() // Liefert Header, Status und ResponseBody.
-                .flatMap(clientResponse -> clientResponse.toEntity(String.class))
+                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class)) // Liefert Header, Status und ResponseBody.
                 ;
         // @formatter:on
 
@@ -161,8 +160,7 @@ public class TestRestWithWebClient extends AbstractRestTestCase
         Mono<ResponseEntity<String>> response = webClient.get()
                 .uri("/rest/person/personList")
                 .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .flatMap(clientResponse -> clientResponse.toEntity(String.class))
+                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
                 ;
         // @formatter:on
 
@@ -197,8 +195,7 @@ public class TestRestWithWebClient extends AbstractRestTestCase
                 .get()
                 .uri("/rest/person/personList")
                 .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .flatMap(clientResponse -> clientResponse.toEntity(String.class))
+                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
                 ;
         // @formatter:on
 
@@ -223,8 +220,7 @@ public class TestRestWithWebClient extends AbstractRestTestCase
                 .get()
                 .uri("/rest/person/personList")
                 .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .flatMap(clientResponse -> clientResponse.toEntity(String.class))
+                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
                 ;
         // @formatter:on
 
@@ -309,8 +305,7 @@ public class TestRestWithWebClient extends AbstractRestTestCase
                 //.body(Mono.just(newPerson), Person.class)
                 // ist das gleiche wie '.body(BodyInserters.fromObject(newPerson))'
                 .bodyValue(newPerson)
-                .exchange()
-                .flatMap(clientResponse -> clientResponse.toEntity(String.class))
+                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
                 ;
         // @formatter:on
 
@@ -342,8 +337,7 @@ public class TestRestWithWebClient extends AbstractRestTestCase
                 //.body(Mono.just(newPerson), Person.class)
                 // ist das gleiche wie '.body(BodyInserters.fromObject(newPerson))'
                 .bodyValue(newPerson)
-                .exchange()
-                .flatMap(clientResponse -> clientResponse.toEntity(String.class))
+                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
                 ;
         // @formatter:on
 

@@ -21,7 +21,7 @@ import de.freese.spring.kryo.reflection.client.ClientReflectionController;
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = KryoApplication.class)
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
 @Disabled
 class TestClientReflection

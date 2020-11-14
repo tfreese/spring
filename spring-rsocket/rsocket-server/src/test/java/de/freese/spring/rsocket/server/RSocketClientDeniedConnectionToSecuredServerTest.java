@@ -96,8 +96,8 @@ class RSocketClientDeniedConnectionToSecuredServerTest
 
                 // Wird für Login/Security benötigt.
                 .rsocketStrategies(builder -> builder.encoder(new SimpleAuthenticationEncoder()))
-                .connectTcp("localhost", thePort)
-                .block();
+                .tcp("localhost", thePort)
+                ;
 
         Mono<Void> result = requester
                 .route("fire-and-forget")

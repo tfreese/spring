@@ -1,6 +1,6 @@
 package de.freese.kubernetes.microservice;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.hamcrest.core.StringStartsWith;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import de.freese.kubernetes.microservice.MyApplication.MyRestController;
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class MyApplicationTest
 {
     /**

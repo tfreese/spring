@@ -23,7 +23,7 @@ import de.freese.spring.ldap.unboundid.dao.MyLdapDao;
 {
         LdapApplication.class
 })
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
 class LdapTest
 {

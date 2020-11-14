@@ -36,7 +36,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 {
         MicroServiceApplication.class
 }, properties = {})
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @AutoConfigureMockMvc
 @ActiveProfiles(
 {
@@ -145,7 +145,7 @@ class TestRestService
         WebClient webClient = this.webClientBuilder.baseUrl("http://localhost:" + this.port).build();
 
         // String response = webClient.get().uri("/").retrieve().bodyToMono(String.class).block();
-        ResponseEntity<String> response = webClient.get().uri("/").exchange().flatMap(clientResponse -> clientResponse.toEntity(String.class)).block();
+        ResponseEntity<String> response = webClient.get().uri("/").exchangeToMono(clientResponse -> clientResponse.toEntity(String.class)).block();
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());

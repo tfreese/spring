@@ -24,7 +24,7 @@ import reactor.test.StepVerifier;
  * @author Thomas Freese
  */
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public interface TestServiceInterface
 {
     /**

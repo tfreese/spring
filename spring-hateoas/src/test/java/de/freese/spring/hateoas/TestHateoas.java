@@ -1,9 +1,9 @@
 // Erzeugt: 04.05.2016
 package de.freese.spring.hateoas;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -49,7 +49,7 @@ import de.freese.spring.hateoas.model.GreetingRepresentationModel;
  */
 @SpringBootTest(classes = HateoasApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 // @DirtiesContext
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
 class TestHateoas
 {

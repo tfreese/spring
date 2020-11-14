@@ -22,7 +22,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.Secret
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 // @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class TestPasswordEncoder
 {

@@ -58,7 +58,7 @@ import reactor.core.publisher.Mono;
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = KryoApplication.class)
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 class TestKryo
@@ -392,8 +392,7 @@ class TestKryo
                 .get()
                 .uri(path)
                 .accept(mediaType)
-                .exchange() // Liefert auch Header und Status.
-                .flatMap(clientResponse -> clientResponse.toEntity(LocalDateTime.class))
+                .exchangeToMono(clientResponse -> clientResponse.toEntity(LocalDateTime.class)) // Liefert auch Header und Status
                 ;
         // @formatter:on
 

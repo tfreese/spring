@@ -3,7 +3,7 @@
 package de.freese.spring.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
@@ -24,7 +24,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 // }
 )
 // @AutoConfigureWireMock(port = 0)
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
 class GatewayTest
 {

@@ -76,7 +76,7 @@ class Config
 {
         MicroServiceApplication.class
 }, properties = {})
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @Import(Config.class)
 @AutoConfigureMockMvc
 @ActiveProfiles(

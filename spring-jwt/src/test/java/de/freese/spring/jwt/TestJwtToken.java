@@ -38,7 +38,7 @@ import de.freese.spring.jwt.token.JwtTokenProvider;
 })
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestJwtToken
 {
     // /**
