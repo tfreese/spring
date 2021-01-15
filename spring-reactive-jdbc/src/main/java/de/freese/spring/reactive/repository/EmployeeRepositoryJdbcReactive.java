@@ -3,17 +3,13 @@
  */
 package de.freese.spring.reactive.repository;
 
-import java.util.Objects;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import de.freese.spring.reactive.model.Department;
 import de.freese.spring.reactive.model.Employee;
 import io.r2dbc.client.R2dbc;
-import io.r2dbc.jdbc.JdbcConnectionFactoryProvider;
-import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
-import io.r2dbc.spi.ConnectionFactoryOptions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -44,11 +40,13 @@ public class EmployeeRepositoryJdbcReactive implements EmployeeRepository
         super();
 
         // @formatter:off
-        this.connectionFactory = ConnectionFactories.get(ConnectionFactoryOptions.builder()
-                .option(JdbcConnectionFactoryProvider.DATASOURCE, Objects.requireNonNull(dataSource, "dataSource required"))
-                .build()
-                )
-                ;
+        // TODO
+        this.connectionFactory = null;
+//        this.connectionFactory = ConnectionFactories.get(ConnectionFactoryOptions.builder()
+//                .option(JdbcConnectionFactoryProvider.DATASOURCE, Objects.requireNonNull(dataSource, "dataSource required"))
+//                .build()
+//                )
+//                ;
 
         this.r2dbc = new R2dbc(this.connectionFactory);
         // @formatter:on

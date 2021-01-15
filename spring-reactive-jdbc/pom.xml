@@ -51,11 +51,11 @@
 
 	<dependencies>
 		<!-- compile scope -->
-		<dependency>
+		<!--ependency>
 			<groupId>de.freese</groupId>
 			<artifactId>r2dbc-over-jdbc</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
+		</dependency-->
 		<dependency>
 			<groupId>io.r2dbc</groupId>
 			<artifactId>r2dbc-client</artifactId>
