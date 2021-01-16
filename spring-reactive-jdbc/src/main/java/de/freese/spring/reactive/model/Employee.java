@@ -16,7 +16,7 @@ public class Employee
     /**
      *
      */
-    private String firstName = null;
+    private String firstName;
 
     /**
      *
@@ -26,7 +26,7 @@ public class Employee
     /**
      *
      */
-    private String lastName = null;
+    private String lastName;
 
     /**
      * Erstellt ein neues {@link Employee} Object.

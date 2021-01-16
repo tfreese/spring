@@ -29,7 +29,7 @@ public class EmployeeRestController
      *
      */
     @Resource
-    private EmployeeService service = null;
+    private EmployeeService service;
 
     /**
      * Erstellt ein neues {@link EmployeeRestController} Object.

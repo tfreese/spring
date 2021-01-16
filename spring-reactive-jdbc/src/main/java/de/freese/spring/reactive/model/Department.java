@@ -16,15 +16,7 @@ public class Department
     /**
      *
      */
-    private String name = null;
-
-    /**
-     * Erstellt ein neues {@link Department} Object.
-     */
-    public Department()
-    {
-        super();
-    }
+    private String name;
 
     /**
      * @return int

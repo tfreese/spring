@@ -3,8 +3,8 @@
  */
 package de.freese.spring.reactive.repository;
 
-import javax.sql.DataSource;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Repository;
 import de.freese.spring.reactive.model.Department;
 import de.freese.spring.reactive.model.Employee;
@@ -17,39 +17,30 @@ import reactor.core.publisher.Mono;
  * @author Thomas Freese
  */
 @Repository
-@Profile("jdbc-reactive")
-public class EmployeeRepositoryJdbcReactive implements EmployeeRepository
+@Profile("r2dbc")
+public class EmployeeRepositoryR2dbc implements EmployeeRepository
 {
-    /**
-     *
-     */
-    private final ConnectionFactory connectionFactory;
-
     /**
      *
      */
     private final R2dbc r2dbc;
 
     /**
-     * Erstellt ein neues {@link EmployeeRepositoryJdbcReactive} Object.
      *
-     * @param dataSource {@link DataSource}
      */
-    public EmployeeRepositoryJdbcReactive(final DataSource dataSource)
+    private final R2dbcEntityTemplate r2dbcTemplate;
+
+    /**
+     * Erstellt ein neues {@link EmployeeRepositoryR2dbc} Object.
+     *
+     * @param connectionFactory {@link ConnectionFactory}
+     */
+    public EmployeeRepositoryR2dbc(final ConnectionFactory connectionFactory)
     {
         super();
 
-        // @formatter:off
-        // TODO
-        this.connectionFactory = null;
-//        this.connectionFactory = ConnectionFactories.get(ConnectionFactoryOptions.builder()
-//                .option(JdbcConnectionFactoryProvider.DATASOURCE, Objects.requireNonNull(dataSource, "dataSource required"))
-//                .build()
-//                )
-//                ;
-
-        this.r2dbc = new R2dbc(this.connectionFactory);
-        // @formatter:on
+        this.r2dbc = new R2dbc(connectionFactory);
+        this.r2dbcTemplate = new R2dbcEntityTemplate(connectionFactory);
     }
 
     /**

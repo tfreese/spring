@@ -22,7 +22,7 @@ public class EmployeeService
      *
      */
     @Resource
-    private EmployeeRepository repository = null;
+    private EmployeeRepository repository;
 
     /**
      * Erstellt ein neues {@link EmployeeService} Object.

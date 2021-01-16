@@ -3,11 +3,8 @@ package de.freese.spring.reactive;
  * Created: 21.06.2019
  */
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,9 +18,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(
 {
-        "test", "jdbc-reactive"
+        "test", "r2dbc"
 })
-class TestWebJdbcReactive implements TestWebInterface
+class TestWebR2dbc implements TestWebInterface
 {
     /**
     *
@@ -58,18 +55,18 @@ class TestWebJdbcReactive implements TestWebInterface
         this.webClient = WebClient.create("http://localhost:" + this.port);
     }
 
-    /**
-     * @see de.freese.spring.reactive.TestWebInterface#createNewEmployee()
-     */
-    @Override
-    @Test
-    @Disabled("Funktioniert nicht")
-    public void createNewEmployee()
-    {
-        TestWebInterface.super.createNewEmployee();
-
-        assertTrue(true);
-    }
+    // /**
+    // * @see de.freese.spring.reactive.TestWebInterface#createNewEmployee()
+    // */
+    // @Override
+    // @Test
+    // @Disabled("Funktioniert nicht")
+    // public void createNewEmployee()
+    // {
+    // TestWebInterface.super.createNewEmployee();
+    //
+    // assertTrue(true);
+    // }
 
     /**
      * @see de.freese.spring.reactive.TestWebInterface#getJdbcTemplate()

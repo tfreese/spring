@@ -24,7 +24,7 @@ public class EmployeeHandler
      *
      */
     @Resource
-    private EmployeeService service = null;
+    private EmployeeService service;
 
     /**
      * Erstellt ein neues {@link EmployeeHandler} Object.
