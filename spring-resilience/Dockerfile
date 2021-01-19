@@ -1,7 +1,7 @@
 # docker build --build-arg JAR_FILE=<JAR in target Folder> -t <IMAGE_NAME>:<VERSION> .;
 # docker build --build-arg JAR_FILE=<JAR in target Folder> -t <IMAGE_NAME>:<VERSION> -f <Dockerfile>;
 # docker run [-d] --cpus="2" --name <CONTAINER_NAME> -e JAVA_OPTS="-Xms32m -Xmx128m" -p 8080:8080 <IMAGE_NAME>:<VERSION> --spring.profiles.active=test;
-# -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"
+# -e "VM_PARAMS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"
 # docker start/stop <CONTAINER_NAME>;
 
 #FROM localhost:5083/openjdk:11-jre-slim
@@ -10,7 +10,7 @@ FROM localhost:5083/openjdk:12
 MAINTAINER Thomas Freese <commercial@freese-home.de>
  
 ARG JAR_FILE=target/*-jar-with-dependencies.jar
-ENV JAVA_OPTS="-Xms64m -Xmx256m"
+ENV VM_PARAMS="-Xms64m -Xmx256m"
 
 COPY ${JAR_FILE} /app/app.jar
 
@@ -25,7 +25,7 @@ VOLUME /tmp
 EXPOSE 8080
 
 ENTRYPOINT exec java \
- $JAVA_OPTS \
+ $VM_PARAMS \
  -XX:TieredStopAtLevel=1 \
  -noverify \
  -Djava.security.egd=file:/dev/./urandom \

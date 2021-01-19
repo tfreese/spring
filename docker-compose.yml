@@ -47,7 +47,7 @@ services:
             dockerfile: Dockerfile
         image: spring-microservice:latest
         environment:
-            - JAVA_OPTS=
+            - VM_PARAMS=
                 -Xms64m
                 -Xmx256m
                 -DEUREKA_SERVER=http://spring-eureka:8761/eureka
@@ -78,7 +78,7 @@ services:
             dockerfile: Dockerfile
         image: spring-api-gateway:latest
         environment:
-            - JAVA_OPTS=
+            - VM_PARAMS=
                 -Xms64m
                 -Xmx256m
                 -DEUREKA_SERVER=http://spring-eureka:8761/eureka

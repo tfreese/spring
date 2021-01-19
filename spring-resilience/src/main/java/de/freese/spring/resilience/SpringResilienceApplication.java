@@ -216,7 +216,7 @@ public class SpringResilienceApplication implements CommandLineRunner
         final long maxMemory = runtime.maxMemory();
         final long allocatedMemory = runtime.totalMemory();
         final long freeMemory = runtime.freeMemory();
-        final long divider = 1024 * 1024;
+        final long divider = 1024L * 1024L;
         final String unit = "MB";
 
         LOGGER.info("========================== System Info ==========================");
