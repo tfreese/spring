@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import de.freese.jconky.JConky;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 import reactor.core.publisher.Mono;
@@ -220,6 +221,7 @@ public class SpringResilienceApplication implements CommandLineRunner
         final String unit = "MB";
 
         LOGGER.info("========================== System Info ==========================");
+        LOGGER.info("System: {}/{} {}", System.getProperty("os.name"), System.getProperty("os.arch"), System.getProperty("os.version"));
         LOGGER.info("User-Dir: " + System.getProperty("user.dir"));
         LOGGER.info("Programm-Args: " + Arrays.toString(args));
         LOGGER.info("CPU Cores: " + runtime.availableProcessors());

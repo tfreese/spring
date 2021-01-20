@@ -14,6 +14,8 @@ ENV VM_PARAMS="-Xms64m -Xmx256m"
 
 COPY ${JAR_FILE} /app/app.jar
 
+RUN echo "Europe/Berlin" > /etc/timezone
+
 #ARG DEPENDENCY=target/dependency
 #COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
 #COPY ${DEPENDENCY}/META-INF /app/META-INF
@@ -27,7 +29,6 @@ EXPOSE 8080
 ENTRYPOINT exec java \
  $VM_PARAMS \
  -XX:TieredStopAtLevel=1 \
- -noverify \
  -Djava.security.egd=file:/dev/./urandom \
  -jar \
  /app/app.jar \
@@ -37,7 +38,6 @@ ENTRYPOINT exec java \
 # "-Xms256m",\
 # "-Xmx256m",\
 # "-XX:TieredStopAtLevel=1",\
-# "-noverify",\
 # "-Djava.security.egd=file:/dev/./urandom",\
 # "-Dspring.profiles.active=default",\
 # "-jar",\
