@@ -41,7 +41,7 @@ services:
             condition: unless-stoppe                          
 
     spring-microservice:
-        # Kein 'container_name' möglich wegen Scaling.
+        # Kein 'container_name' möglich wegen Scaling: docker-compose up -d --scale spring-microservice=3
         build:
             context: ./spring-microservice
             dockerfile: Dockerfile
@@ -59,8 +59,8 @@ services:
             condition: unless-stoppe          
                                
     loadbalancer:
-        #image: "${HAPROXY_IMAGE:-dockercloud/haproxy:latest}"
-        image: "${HAPROXY_IMAGE:-localhost:5083/haproxy:latest}"
+        image: "${HAPROXY_IMAGE:-dockercloud/haproxy:latest}"
+        #image: "${HAPROXY_IMAGE:-localhost:5083/haproxy:latest}"
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         ports:
