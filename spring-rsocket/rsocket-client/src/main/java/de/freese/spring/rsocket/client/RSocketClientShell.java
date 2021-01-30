@@ -202,8 +202,8 @@ public class RSocketClientShell
                         .payloadDecoder(PayloadDecoder.ZERO_COPY)
                         .fragment(1492)
                     )
-                .connectTcp("localhost", 7000)
-                .block();
+                .tcp("localhost", 7000)
+                ;
 
         this.rsocketRequester.rsocket()
                 .onClose()
