@@ -27,7 +27,6 @@ import org.springframework.web.client.RestTemplate;
 @RibbonClient(name = "date-service", configuration = RibbonClientConfiguration.class)
 public class RibbonClientWithoutEurekaApplication
 {
-
     /**
      *
      */
@@ -52,7 +51,7 @@ public class RibbonClientWithoutEurekaApplication
 
             ServiceInstance instance = loadBalancer.choose("date-service");
             URI serviceUri = URI.create(String.format("http://%s:%s", instance.getHost(), instance.getPort()));
-            LOGGER.info("manual look,up: " + serviceUri);
+            LOGGER.info("manual look,up: {}", serviceUri);
 
             while (true)
             {
@@ -71,14 +70,6 @@ public class RibbonClientWithoutEurekaApplication
         }
 
         System.exit(0);
-    }
-
-    /**
-     * Erzeugt eine neue Instanz von {@link RibbonClientWithoutEurekaApplication}
-     */
-    public RibbonClientWithoutEurekaApplication()
-    {
-        super();
     }
 
     /**

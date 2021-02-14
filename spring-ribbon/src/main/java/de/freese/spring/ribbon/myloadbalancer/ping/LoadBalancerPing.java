@@ -10,11 +10,12 @@ import com.netflix.loadbalancer.IPing;
  * @author Thomas Freese
  * @see IPing
  */
+@FunctionalInterface
 public interface LoadBalancerPing
 {
     /**
      * Prüfung. ob der Server noch ansprechbar ist.
-     * 
+     *
      * @param server String
      * @return boolean
      */

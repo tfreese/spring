@@ -47,14 +47,6 @@ public class RibbonClientConfiguration
         private final Logger logger = LoggerFactory.getLogger(MyPing.class);
 
         /**
-         * Erzeugt eine neue Instanz von {@link MyPing}.
-         */
-        public MyPing()
-        {
-            super();
-        }
-
-        /**
          * @param connection {@link HttpURLConnection}
          * @return String
          */
@@ -84,7 +76,7 @@ public class RibbonClientConfiguration
             }
             catch (IOException iex)
             {
-                // Ignore
+                // Empty
             }
 
             return null;
@@ -96,7 +88,7 @@ public class RibbonClientConfiguration
         @Override
         public boolean isAlive(final Server server)
         {
-            this.logger.debug("pinging: " + server);
+            this.logger.debug("pinging: {}", server);
 
             String urlStr = "";
 
@@ -149,7 +141,7 @@ public class RibbonClientConfiguration
             catch (IOException ex)
             {
                 // ex.printStackTrace();
-                this.logger.warn(server + ": " + ex.getMessage());
+                this.logger.warn("{}: {}", server, ex.getMessage());
             }
             // finally
             // {
@@ -165,15 +157,7 @@ public class RibbonClientConfiguration
      *
      */
     @Resource
-    private IClientConfig ribbonClientConfig = null;
-
-    /**
-     * Erzeugt eine neue Instanz von {@link RibbonClientConfiguration}.
-     */
-    public RibbonClientConfiguration()
-    {
-        super();
-    }
+    private IClientConfig ribbonClientConfig;
 
     /**
      * @param config {@link IClientConfig}

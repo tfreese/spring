@@ -2,6 +2,7 @@
 package de.freese.spring.ribbon.myloadbalancer.strategy;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 /**
  * Liefert den nächsten "isAlive"-Server im Round-Robin Verfahren.
@@ -13,15 +14,13 @@ public class LoadBalancerStrategyRoundRobin implements LoadBalancerStrategy
     /**
      *
      */
-    private int index = 0;
+    private static final AtomicIntegerFieldUpdater<LoadBalancerStrategyRoundRobin> NEXT_INDEX =
+            AtomicIntegerFieldUpdater.newUpdater(LoadBalancerStrategyRoundRobin.class, "nextIndex");
 
     /**
-     * Erzeugt eine neue Instanz von {@link LoadBalancerStrategyRoundRobin}.
+     *
      */
-    public LoadBalancerStrategyRoundRobin()
-    {
-        super();
-    }
+    volatile int nextIndex;
 
     /**
      * @see de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategy#chooseServer(java.util.List, java.lang.String)
@@ -29,24 +28,10 @@ public class LoadBalancerStrategyRoundRobin implements LoadBalancerStrategy
     @Override
     public String chooseServer(final List<String> server, final String key)
     {
-        if (server.isEmpty())
-        {
-            return null;
-        }
+        int length = server.size();
 
-        if (this.index >= server.size())
-        {
-            // Server Liste könnte sich nach Ping geändert haben.
-            this.index = 0;
-        }
+        int indexToUse = Math.abs(NEXT_INDEX.getAndIncrement(this) % length);
 
-        String host = server.get(this.index++);
-
-        if (this.index == server.size())
-        {
-            this.index = 0;
-        }
-
-        return host;
+        return server.get(indexToUse);
     }
 }

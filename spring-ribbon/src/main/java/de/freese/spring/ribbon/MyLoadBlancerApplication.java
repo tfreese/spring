@@ -47,7 +47,7 @@ public class MyLoadBlancerApplication // implements RestTemplateCustomizer
 
             String server = loadBalancer.chooseServer("date-service");
             URI serviceUri = URI.create(String.format("http://%s", server));
-            LOGGER.info("manual look,up: " + serviceUri);
+            LOGGER.info("manual look,up: {}", serviceUri);
 
             while (true)
             {
@@ -66,14 +66,6 @@ public class MyLoadBlancerApplication // implements RestTemplateCustomizer
         }
 
         System.exit(0);
-    }
-
-    /**
-     * Erzeugt eine neue Instanz von {@link MyLoadBlancerApplication}
-     */
-    public MyLoadBlancerApplication()
-    {
-        super();
     }
 
     /**

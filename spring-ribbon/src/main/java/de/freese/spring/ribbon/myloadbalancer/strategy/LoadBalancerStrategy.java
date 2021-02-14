@@ -11,6 +11,7 @@ import com.netflix.loadbalancer.IRule;
  * @author Thomas Freese
  * @see IRule
  */
+@FunctionalInterface
 public interface LoadBalancerStrategy
 {
     /**

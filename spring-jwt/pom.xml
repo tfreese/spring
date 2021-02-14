@@ -40,6 +40,7 @@
 
 		<plugins>
 			<!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
+			<!-- spring-boot:build-image -->
 			<!-- java -jar -D"server.port=8899" target/service-0.0.1-SNAPSHOT-jar-with-dependencies.jar -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -49,6 +50,12 @@
 					<!--jvmArguments>
 						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
 						</jvmArguments -->
+					<image>
+						<name>${project.artifactId}</name>
+					</image>
+					<layers>
+						<enabled>true</enabled>
+					</layers>
 					<layout>ZIP</layout>
 					<classifier>jar-with-dependencies</classifier>
 				</configuration>

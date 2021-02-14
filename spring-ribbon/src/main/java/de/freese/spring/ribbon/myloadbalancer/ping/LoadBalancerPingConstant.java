@@ -15,14 +15,6 @@ public class LoadBalancerPingConstant implements LoadBalancerPing
     private boolean constant = true;
 
     /**
-     * Erzeugt eine neue Instanz von {@link LoadBalancerPingConstant}.
-     */
-    public LoadBalancerPingConstant()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.spring.ribbon.myloadbalancer.ping.LoadBalancerPing#isAlive(java.lang.String)
      */
     @Override

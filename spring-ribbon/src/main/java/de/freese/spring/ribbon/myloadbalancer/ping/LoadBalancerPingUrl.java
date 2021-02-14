@@ -36,22 +36,17 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
     /**
      *
      */
-    private String expectedContent = null;
+    private String expectedContent;
 
     /**
      *
      */
-    private boolean isSecure = false;
+    private ClientHttpRequestFactory httpRequestFactory;
 
     /**
      *
      */
-    private String pingAppendString = "";
-
-    /**
-     *
-     */
-    private ClientHttpRequestFactory httpRequestFactory = null;
+    private boolean isSecure;
 
     /**
      *
@@ -59,19 +54,15 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
     private final HttpMessageConverter<String> messageConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
 
     /**
-     * Erzeugt eine neue Instanz von {@link LoadBalancerPingUrl}.
+     *
      */
-    public LoadBalancerPingUrl()
-    {
-        super();
-    }
+    private String pingAppendString = "";
 
     /**
      * Prüft den erwarteten Inhalt des isAlive-Requests.
      *
      * @param expectedContent String
      * @param returnedContent String
-     *
      * @return boolean; true, wenn der Content den erwarteten Wert hat
      */
     protected boolean checkAliveByContent(final String expectedContent, final String returnedContent)
@@ -83,9 +74,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
 
     /**
      * @param inputStream {@link InputStream}
-     *
      * @return String
-     *
      * @throws IOException Falls was schief geht.
      */
     protected String getContent(final InputStream inputStream) throws IOException
@@ -215,7 +204,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
         }
         catch (Exception ex)
         {
-            LOGGER.warn(urlStr + ": " + ex.getMessage());
+            LOGGER.warn("{}: {}", urlStr, ex.getMessage());
         }
 
         return isAlive;

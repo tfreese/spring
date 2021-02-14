@@ -37,14 +37,6 @@ public class LoadBalancer implements LoadBalancerPing
     class Pinger extends TimerTask
     {
         /**
-         * Erzeugt eine neue Instanz von {@link Pinger}.
-         */
-        public Pinger()
-        {
-            super();
-        }
-
-        /**
          * Sequentielle Pings.
          *
          * @param allServers {@link List}
@@ -234,7 +226,7 @@ public class LoadBalancer implements LoadBalancerPing
     /**
      *
      */
-    private Timer timer = null;
+    private Timer timer;
 
     /**
      * Erzeugt eine neue Instanz von {@link LoadBalancer}.
@@ -369,7 +361,7 @@ public class LoadBalancer implements LoadBalancerPing
     {
         if (LOGGER.isDebugEnabled())
         {
-            LOGGER.debug("pinging: " + server);
+            LOGGER.debug("pinging: {}", server);
         }
 
         try

@@ -65,14 +65,6 @@ public class RibbonClientWithEurekaApplication
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link RibbonClientWithEurekaApplication}
-     */
-    public RibbonClientWithEurekaApplication()
-    {
-        super();
-    }
-
-    /**
      * @return {@link RestTemplate}
      */
     @LoadBalanced
