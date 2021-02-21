@@ -1,0 +1,63 @@
+apply plugin: "java"
+apply plugin: "de.freese.gradle.conventions"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
+dependencyManagement {
+    //imports {
+    //    mavenBom "org.springframework.boot:spring-boot-dependencies:$version_springBoot"
+    //}
+
+    dependencies {
+		dependency("com.sun.faces:jsf-api:$version_jsf")
+		dependency("com.sun.faces:jsf-impl:$version_jsf")
+		dependency("javax:javaee-web-api:$version_javaee")
+		dependency("org.primefaces:primefaces:$version_primefaces")
+		dependency("org.primefaces.extensions:primefaces-extensions:$version_primefacesExtensions")
+		dependency("org.primefaces.themes:all-themes:$version_primefacesThemes")
+    }
+} 
+
+//Für Placeholder in application.properties
+ext.artifactId = project.name
+
+// Start: gradle bootRun
+springBoot {
+    mainClass = "de.freese.spring.web.SpringBootWebApp"
+}
+
+//bootRun {
+//    addResources = false
+//}
+//bootRepackage {
+//}
+
+// bootRun benutzt sonst nur die Resourcen in src/main/resources
+processResources {
+    //expand(project.properties)
+    filesMatching('application.properties')
+    //filesMatching('**/*.properties')
+    {
+        expand(project.properties)
+    }
+}
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web") {
+        //exclude module: "spring-boot-starter-tomcat"
+    }
+    //runtimeOnly("org.springframework.boot:spring-boot-starter-jetty") // -> javax:javaee-web-api
+    
+    implementation("org.springframework.boot:spring-boot-actuator")
+    
+    runtimeOnly("org.primefaces:primefaces")
+    runtimeOnly("org.primefaces.extensions:primefaces-extensions")
+    runtimeOnly("org.primefaces.themes:all-themes")
+    
+    implementation("com.sun.faces:jsf-api")
+    implementation("com.sun.faces:jsf-impl")
+    
+    //implementation("javax:javaee-web-api") // Falls nicht Tomcat verwemdet werden soll-
+    
+    //runtimeOnly("org.glassfish.web:el-impl:2.2.1-b05")
+}
