@@ -21,14 +21,17 @@ dependencyManagement {
 //Für Placeholder in application.properties
 ext.artifactId = project.name
 
-// Start: gradle bootRun
-springBoot {
-    mainClass = "de.freese.spring.web.SpringBootWebApp"
+// Sonst würde nur das BootJar erstellt werden.
+jar {
+	enabled = true
 }
 
-//bootRun {
-//    addResources = false
-//}
+// Start: gradle bootRun --args='--spring.profiles.active=dev'
+bootJar {
+    mainClass = "de.freese.spring.web.SpringBootWebApp"
+    classifier = "boot"
+}
+
 //bootRepackage {
 //}
 
