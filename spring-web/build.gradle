@@ -1,5 +1,4 @@
 apply plugin: "java"
-apply plugin: "de.freese.gradle.conventions"
 apply plugin: "org.springframework.boot"
 apply plugin: "io.spring.dependency-management"
 
@@ -21,15 +20,9 @@ dependencyManagement {
 //Für Placeholder in application.properties
 ext.artifactId = project.name
 
-// Sonst würde nur das BootJar erstellt werden.
-jar {
-	enabled = true
-}
-
 // Start: gradle bootRun --args='--spring.profiles.active=dev'
 bootJar {
     mainClass = "de.freese.spring.web.SpringBootWebApp"
-    classifier = "boot"
 }
 
 //bootRepackage {
