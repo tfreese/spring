@@ -1,0 +1,75 @@
+// Tasks im SubModul ausführen: gradle MODUL:clean build
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: "org.springframework.boot"
+    apply plugin: "io.spring.dependency-management"
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:$version_springBoot"
+        }
+
+        dependencies {
+			dependency("com.sun.faces:jsf-api:$version_jsf")
+			dependency("com.sun.faces:jsf-impl:$version_jsf")
+			dependency("javax:javaee-web-api:$version_javaee")
+			dependency("org.primefaces:primefaces:$version_primefaces")
+			dependency("org.primefaces.extensions:primefaces-extensions:$version_primefacesExtensions")
+			dependency("org.primefaces.themes:all-themes:$version_primefacesThemes")
+        }
+    }
+    
+	dependencies {
+		//implementation(platform("de.freese:maven-bom:$version_mavenBom"))
+		//testImplementation("org.junit.jupiter:junit-jupiter-engine")
+	}
+}
+
+project("spring-web") {
+	description = "Demo für spring-boot-web mit JSF"
+	dependencies {
+	    implementation("com.sun.faces:jsf-api")
+	    implementation("com.sun.faces:jsf-impl")
+	    implementation("org.springframework.boot:spring-boot-actuator")	
+	    implementation("org.springframework.boot:spring-boot-starter-web") {
+	        //exclude module: "spring-boot-starter-tomcat"
+	    }
+	    //implementation("javax:javaee-web-api") // Falls nicht Tomcat verwemdet werden soll-
+	    
+	    runtimeOnly("org.primefaces:primefaces")
+	    runtimeOnly("org.primefaces.extensions:primefaces-extensions")
+	    runtimeOnly("org.primefaces.themes:all-themes")
+	    //runtimeOnly("org.springframework.boot:spring-boot-starter-jetty") // -> javax:javaee-web-api
+	    //runtimeOnly("org.glassfish.web:el-impl:2.2.1-b05")
+	}
+	
+	//Für Placeholder in application.properties
+	ext.artifactId = project.name
+
+	// Start: gradle bootRun --args="--spring.profiles.active=dev"
+	bootJar {
+	    mainClass = "de.freese.spring.web.SpringBootWebApp"
+	}
+
+	processResources {
+        // inputs.property("project.artifactId", project.name)
+        // inputs.property("project.description", project.description)
+        // inputs.property("project.version", project.version)
+        
+        // filesMatching("**/*.properties")        
+	    filesMatching("application.properties") {
+	        expand(project.properties)
+	        
+            //	expand ("@project.artifactId": project.name,
+            //			"@project.description": project.description,
+            //			"@project.version": project.version
+            //	)
+
+            // expand project.artifactId: project.name
+            // expand project.description: project.description
+            // expand project.version: project.version	        
+	    }
+	}
+}
+

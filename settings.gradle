@@ -1,2 +1,4 @@
 // Ohne rootProject.name würde der Name des Projekt-Verzeichnises verwendet werden.
-rootProject.name = "spring-web"
+rootProject.name = "spring"
+
+include "spring-web"
