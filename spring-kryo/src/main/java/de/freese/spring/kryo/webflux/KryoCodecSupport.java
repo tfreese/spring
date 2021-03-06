@@ -8,11 +8,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.springframework.http.MediaType;
 import org.springframework.util.MimeType;
 import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.util.Pool;
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 
 /**
@@ -39,28 +39,26 @@ public abstract class KryoCodecSupport
     /**
     *
     */
-    private final Supplier<Kryo> supplier;
+    private final Pool<Kryo> kryoPool;
 
     /**
      * Erstellt ein neues {@link KryoCodecSupport} Object.
-     * 
-     * @param supplier {@link Supplier}
+     *
+     * @param kryoPool {@link Pool}<Kryo>
      */
-    public KryoCodecSupport(final Supplier<Kryo> supplier)
+    protected KryoCodecSupport(final Pool<Kryo> kryoPool)
     {
         super();
 
-        this.supplier = Objects.requireNonNull(supplier, "kryo supplier required");
+        this.kryoPool = Objects.requireNonNull(kryoPool, "kryoPool required");
     }
 
     /**
-     * @return {@link Kryo}
+     * @return {@link Pool}<Kryo>
      */
-    protected Kryo getKryo()
+    protected Pool<Kryo> getKryoPool()
     {
-        Kryo kryo = this.supplier.get();
-
-        return kryo;
+        return this.kryoPool;
     }
 
     /**

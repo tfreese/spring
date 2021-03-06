@@ -6,7 +6,6 @@ package de.freese.spring.kryo.webflux;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import org.reactivestreams.Publisher;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -17,6 +16,7 @@ import org.springframework.http.codec.HttpMessageEncoder;
 import org.springframework.util.MimeType;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.util.Pool;
 import reactor.core.publisher.Flux;
 
 /**
@@ -27,11 +27,11 @@ public class KryoEncoder extends KryoCodecSupport implements HttpMessageEncoder<
     /**
      * Erstellt ein neues {@link KryoEncoder} Object.
      *
-     * @param supplier {@link Supplier}
+     * @param kryoPool {@link Pool}<Kryo>
      */
-    public KryoEncoder(final Supplier<Kryo> supplier)
+    public KryoEncoder(final Pool<Kryo> kryoPool)
     {
-        super(supplier);
+        super(kryoPool);
     }
 
     /**
@@ -64,7 +64,7 @@ public class KryoEncoder extends KryoCodecSupport implements HttpMessageEncoder<
                                   final Map<String, Object> hints)
     {
         DataBuffer buffer = bufferFactory.allocateBuffer();
-        Kryo kryo = getKryo();
+        Kryo kryo = getKryoPool().obtain();
         boolean release = true;
 
         // try (Output output = new ByteBufferOutput(buffer.asOutputStream(), 1024 * 1024))
@@ -75,6 +75,8 @@ public class KryoEncoder extends KryoCodecSupport implements HttpMessageEncoder<
         }
         finally
         {
+            getKryoPool().free(kryo);
+
             if (release)
             {
                 DataBufferUtils.release(buffer);

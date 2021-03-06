@@ -6,7 +6,6 @@ package de.freese.spring.kryo.webflux;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import org.reactivestreams.Publisher;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.codec.DecodingException;
@@ -18,6 +17,7 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.util.MimeType;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.util.Pool;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -29,11 +29,11 @@ public class KryoDecoder extends KryoCodecSupport implements HttpMessageDecoder<
     /**
      * Erstellt ein neues {@link KryoDecoder} Object.
      *
-     * @param supplier {@link Supplier}
+     * @param kryoPool {@link Pool}<Kryo>
      */
-    public KryoDecoder(final Supplier<Kryo> supplier)
+    public KryoDecoder(final Pool<Kryo> kryoPool)
     {
-        super(supplier);
+        super(kryoPool);
     }
 
     /**
@@ -54,13 +54,17 @@ public class KryoDecoder extends KryoCodecSupport implements HttpMessageDecoder<
     public Object decode(final DataBuffer buffer, final ResolvableType targetType, final MimeType mimeType, final Map<String, Object> hints)
         throws DecodingException
     {
-        Kryo kryo = getKryo();
+        Kryo kryo = getKryoPool().obtain();
         Object value = null;
 
         // try (Input input = new ByteBufferInput(buffer.asInputStream(),, 1024 * 1024))
         try (Input input = new Input(buffer.asInputStream(), 1024 * 1024))
         {
             value = kryo.readClassAndObject(input);
+        }
+        finally
+        {
+            getKryoPool().free(kryo);
         }
 
         return value;

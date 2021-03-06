@@ -26,7 +26,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import de.freese.spring.kryo.KryoApplication;
+import com.esotericsoftware.kryo.util.Pool;
 import de.freese.spring.kryo.reflection.ReflectionControllerApi;
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 
@@ -60,6 +60,11 @@ public abstract class AbstractClientReflectionController<T>
     /**
      *
      */
+    private final Pool<Kryo> kryoPool;
+
+    /**
+     *
+     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -70,13 +75,15 @@ public abstract class AbstractClientReflectionController<T>
     /**
      * Erstellt ein neues {@link AbstractClientReflectionController} Object.
      *
+     * @param kryoPool {@link Pool}<Kryo>
      * @param rootUri String
      */
     @SuppressWarnings("unchecked")
-    public AbstractClientReflectionController(final String rootUri)
+    protected AbstractClientReflectionController(final Pool<Kryo> kryoPool, final String rootUri)
     {
         super();
 
+        this.kryoPool = Objects.requireNonNull(kryoPool, "kryoPool required");
         this.rootUri = Objects.requireNonNull(rootUri, "rootUri required");
 
         this.fassadeType = (Class<T>) ((ParameterizedType) (getClass().getGenericSuperclass())).getActualTypeArguments()[0];
@@ -88,6 +95,14 @@ public abstract class AbstractClientReflectionController<T>
     protected Class<T> getFassadeType()
     {
         return this.fassadeType;
+    }
+
+    /**
+     * @return {@link Pool}<Kryo>
+     */
+    protected Pool<Kryo> getKryoPool()
+    {
+        return this.kryoPool;
     }
 
     /**
@@ -117,12 +132,13 @@ public abstract class AbstractClientReflectionController<T>
         {
                 fassadeType
         }, (proxy, method, args) -> {
-            Kryo kryo = KryoApplication.KRYO_SERIALIZER.get();
-            int chunkSize = 1024 * 1024;
-            Object result = null;
 
             URL url = new URL(this.rootUri + "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            Kryo kryo = getKryoPool().obtain();
+            int chunkSize = 1024 * 1024;
+            Object result = null;
 
             try
             {
@@ -213,6 +229,10 @@ public abstract class AbstractClientReflectionController<T>
 
                 throw ex;
             }
+            finally
+            {
+                getKryoPool().free(kryo);
+            }
 
             return result;
         });
@@ -239,7 +259,7 @@ public abstract class AbstractClientReflectionController<T>
                         headers.setContentType(KryoHttpMessageConverter.APPLICATION_KRYO);
                         return execution.execute(request, body);
                     })
-                    .additionalMessageConverters(new KryoHttpMessageConverter(() -> KryoApplication.KRYO_SERIALIZER.get()), new MappingJackson2HttpMessageConverter())
+                    .additionalMessageConverters(new KryoHttpMessageConverter( getKryoPool()), new MappingJackson2HttpMessageConverter())
                     .build()
                     ;
             // @formatter:on

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 /**
  * @author Thomas Freese
  */
+@FunctionalInterface
 public interface ReflectionControllerApi
 {
     /**

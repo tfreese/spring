@@ -38,7 +38,8 @@ class TestClientReflection
     @Test
     void testHttpConnection()
     {
-        ReflectionControllerApi fassade = new ClientReflectionController("http://localhost:" + this.localServerPort, ConnectType.HTTP_CONNECTION);
+        ReflectionControllerApi fassade =
+                new ClientReflectionController(KryoApplication.KRYO_POOL, "http://localhost:" + this.localServerPort, ConnectType.HTTP_CONNECTION);
 
         LocalDateTime localDateTime = fassade.testKryo();
 
@@ -51,7 +52,8 @@ class TestClientReflection
     @Test
     void testRestTemplate()
     {
-        ReflectionControllerApi fassade = new ClientReflectionController("http://localhost:" + this.localServerPort, ConnectType.REST_TEMPLATE);
+        ReflectionControllerApi fassade =
+                new ClientReflectionController(KryoApplication.KRYO_POOL, "http://localhost:" + this.localServerPort, ConnectType.REST_TEMPLATE);
 
         LocalDateTime localDateTime = fassade.testKryo();
 

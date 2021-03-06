@@ -7,6 +7,7 @@ package de.freese.spring.kryo.reflection;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import de.freese.spring.kryo.KryoApplication;
+import com.esotericsoftware.kryo.util.Pool;
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 
 /**
@@ -25,11 +26,20 @@ import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 public abstract class AbstractRestReflectionController
 {
     /**
+    *
+    */
+    private final Pool<Kryo> kryoPool;
+
+    /**
      * Erstellt ein neues {@link AbstractRestReflectionController} Object.
+     *
+     * @param kryoPool {@link Pool}<Kryo>
      */
-    public AbstractRestReflectionController()
+    protected AbstractRestReflectionController(final Pool<Kryo> kryoPool)
     {
         super();
+
+        this.kryoPool = Objects.requireNonNull(kryoPool, "kryoPool required");
     }
 
     /**
@@ -54,6 +64,14 @@ public abstract class AbstractRestReflectionController
     }
 
     /**
+     * @return {@link Pool}<Kryo>
+     */
+    protected Pool<Kryo> getKryoPool()
+    {
+        return this.kryoPool;
+    }
+
+    /**
      * @param method final
      * @param request {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
@@ -64,7 +82,7 @@ public abstract class AbstractRestReflectionController
     @PostMapping(path = "{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public Object invoke(@PathVariable("method") final String method, final HttpServletRequest request, final HttpServletResponse response) throws Exception
     {
-        Kryo kryo = KryoApplication.KRYO_SERIALIZER.get();
+        Kryo kryo = getKryoPool().obtain();
 
         try (Input inputStream = new Input(request.getInputStream(), 1024 * 1024))
         {
@@ -112,6 +130,10 @@ public abstract class AbstractRestReflectionController
             // }
 
             throw ex;
+        }
+        finally
+        {
+            getKryoPool().free(kryo);
         }
 
         return null;
