@@ -19,14 +19,6 @@ import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 public class RestKryoController
 {
     /**
-     * Erstellt ein neues {@link RestKryoController} Object.
-     */
-    public RestKryoController()
-    {
-        super();
-    }
-
-    /**
      * http://8081/json<br>
      * curl -X GET "http://localhost:8081/json"
      *

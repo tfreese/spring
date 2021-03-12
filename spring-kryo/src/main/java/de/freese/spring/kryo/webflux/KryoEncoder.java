@@ -22,7 +22,7 @@ import reactor.core.publisher.Flux;
 /**
  * @author Thomas Freese
  */
-public class KryoEncoder extends KryoCodecSupport implements HttpMessageEncoder<Object>
+public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessageEncoder<Object>
 {
     /**
      * Erstellt ein neues {@link KryoEncoder} Object.

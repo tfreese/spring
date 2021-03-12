@@ -18,7 +18,7 @@ import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 /**
  * @author Thomas Freese
  */
-public abstract class KryoCodecSupport
+public abstract class AbstractKryoCodecSupport
 {
     /**
      * application/x-java-object; application/x-kryo
@@ -42,11 +42,11 @@ public abstract class KryoCodecSupport
     private final Pool<Kryo> kryoPool;
 
     /**
-     * Erstellt ein neues {@link KryoCodecSupport} Object.
+     * Erstellt ein neues {@link AbstractKryoCodecSupport} Object.
      *
      * @param kryoPool {@link Pool}<Kryo>
      */
-    protected KryoCodecSupport(final Pool<Kryo> kryoPool)
+    protected AbstractKryoCodecSupport(final Pool<Kryo> kryoPool)
     {
         super();
 

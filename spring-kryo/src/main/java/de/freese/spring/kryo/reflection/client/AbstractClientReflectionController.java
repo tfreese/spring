@@ -128,7 +128,7 @@ public abstract class AbstractClientReflectionController<T>
     @SuppressWarnings("unchecked")
     protected T lookupProxyHttpConnection(final Class<T> fassadeType)
     {
-        return (T) Proxy.newProxyInstance(fassadeType.getClassLoader(), new Class[]
+        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]
         {
                 fassadeType
         }, (proxy, method, args) -> {
@@ -245,7 +245,7 @@ public abstract class AbstractClientReflectionController<T>
     @SuppressWarnings("unchecked")
     protected T lookupProxyRestTemplate(final Class<T> fassadeType)
     {
-        return (T) Proxy.newProxyInstance(fassadeType.getClassLoader(), new Class[]
+        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]
         {
                 fassadeType
         }, (proxy, method, args) -> {
@@ -328,7 +328,7 @@ public abstract class AbstractClientReflectionController<T>
         final int maxTrys = 3;
         final int retryDelay = 3000;
 
-        return (T) Proxy.newProxyInstance(fassadeType.getClassLoader(), new Class[]
+        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]
         {
                 fassadeType
         }, new InvocationHandler()
@@ -336,7 +336,7 @@ public abstract class AbstractClientReflectionController<T>
             /**
              *
              */
-            private int invocationCount = 0;
+            private int invocationCount;
 
             /**
              * @param fassadeType Class

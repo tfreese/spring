@@ -24,7 +24,7 @@ import reactor.core.publisher.Mono;
 /**
  * @author Thomas Freese
  */
-public class KryoDecoder extends KryoCodecSupport implements HttpMessageDecoder<Object>
+public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessageDecoder<Object>
 {
     /**
      * Erstellt ein neues {@link KryoDecoder} Object.

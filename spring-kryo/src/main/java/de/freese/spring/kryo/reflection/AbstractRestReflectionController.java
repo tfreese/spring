@@ -92,7 +92,7 @@ public abstract class AbstractRestReflectionController
             Object[] arguments = (Object[]) paramTypesAndArgs[1];
 
             // Streams berücksichtigen.
-            if (Boolean.valueOf(request.getHeader(ReflectionControllerApi.INPUTSTREAM_IN_METHOD)))
+            if (Boolean.parseBoolean(request.getHeader(ReflectionControllerApi.INPUTSTREAM_IN_METHOD)))
             {
                 // Marker zwischen ParameterTypes/Argumenten und InputStream lesen.
                 kryo.readClassAndObject(inputStream);
@@ -100,7 +100,7 @@ public abstract class AbstractRestReflectionController
                 // InputStream als letzten Parameter den Argumenten hinzufügen.
                 arguments = addArgument(arguments, inputStream);
             }
-            else if (Boolean.valueOf(request.getHeader(ReflectionControllerApi.OUTPUTSTREAM_IN_METHOD)))
+            else if (Boolean.parseBoolean(request.getHeader(ReflectionControllerApi.OUTPUTSTREAM_IN_METHOD)))
             {
                 // OutputStream als letzten Parameter den Argumenten hinzufügen.
                 arguments = addArgument(arguments, response.getOutputStream());

@@ -49,7 +49,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.reactive.function.client.WebClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
-import de.freese.spring.kryo.webflux.KryoCodecSupport;
+import de.freese.spring.kryo.webflux.AbstractKryoCodecSupport;
 import de.freese.spring.kryo.webflux.KryoDecoder;
 import de.freese.spring.kryo.webflux.KryoEncoder;
 import reactor.core.publisher.Mono;
@@ -204,7 +204,7 @@ class TestKryo
     @Test
     void test040WebClient() throws Exception
     {
-        testWebClient("/kryo", KryoCodecSupport.APPLICATION_KRYO);
+        testWebClient("/kryo", AbstractKryoCodecSupport.APPLICATION_KRYO);
         testWebClient("/json", MediaType.APPLICATION_JSON);
     }
 
@@ -214,7 +214,7 @@ class TestKryo
     @Test
     void test050HttpClient() throws Exception
     {
-        testHttpClient("/kryo", KryoCodecSupport.APPLICATION_KRYO);
+        testHttpClient("/kryo", AbstractKryoCodecSupport.APPLICATION_KRYO);
         testHttpClient("/json", MediaType.APPLICATION_JSON);
     }
 

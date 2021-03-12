@@ -4,10 +4,10 @@
 
 package de.freese.spring.kryo.webflux;
 
-import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import com.esotericsoftware.kryo.Kryo;
@@ -34,7 +34,7 @@ public final class StreamResponse
     public static StreamingResponseBody ok(final Consumer<Writer> consumer)
     {
         return outputStream -> {
-            try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream)))
+            try (Writer writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8))
             {
                 consumer.accept(writer);
             }

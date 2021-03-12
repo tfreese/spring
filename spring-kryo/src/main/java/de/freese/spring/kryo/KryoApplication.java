@@ -35,7 +35,7 @@ public class KryoApplication implements WebMvcConfigurer
     /**
      *
      */
-    public static final Pool<Kryo> KRYO_POOL = new Pool<>(true, false)
+    public static final Pool<Kryo> KRYO_POOL = new Pool<>(true, true)
     {
         /**
          * @see com.esotericsoftware.kryo.util.Pool#create()
@@ -45,6 +45,7 @@ public class KryoApplication implements WebMvcConfigurer
         {
             Kryo kryo = new Kryo();
 
+            kryo.setReferences(true); // Verhindert Rekursion.
             kryo.setClassLoader(Thread.currentThread().getContextClassLoader());
             kryo.setInstantiatorStrategy(new DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
 
