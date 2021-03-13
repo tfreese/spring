@@ -1,7 +1,6 @@
 /**
  * Created: 26.08.2018
  */
-
 package de.freese.spring.thymeleaf.model;
 
 /**
@@ -12,12 +11,12 @@ public class Person
     /**
      *
      */
-    private String firstName = null;
+    private String firstName;
 
     /**
      *
      */
-    private String lastName = null;
+    private String lastName;
 
     /**
      * Erstellt ein neues {@link Person} Object.

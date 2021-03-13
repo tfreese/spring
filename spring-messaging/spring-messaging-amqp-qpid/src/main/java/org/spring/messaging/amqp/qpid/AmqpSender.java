@@ -1,7 +1,6 @@
 /**
  * Created: 01.02.2019
  */
-
 package org.spring.messaging.amqp.qpid;
 
 import java.util.Objects;
@@ -45,6 +44,6 @@ public class AmqpSender
     {
         LOGGER.info("Sending message: {}", email);
 
-        this.amqpTemplate.convertAndSend(SpringQpidApplication.topicExchangeName, "foo.bar.baz", email);
+        this.amqpTemplate.convertAndSend(SpringQpidApplication.TOPIC_EXCHANGE_NAME, "foo.bar.baz", email);
     }
 }

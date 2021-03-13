@@ -1,7 +1,6 @@
 /**
  * Created: 30.10.2018
  */
-
 package de.freese.spring.jwt.token;
 
 import java.util.Collection;
@@ -21,12 +20,12 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken
     /**
      *
      */
-    private Object credentials = null;
+    private Object credentials;
 
     /**
      *
      */
-    private Object principal = null;
+    private Object principal;
 
     /**
      *

@@ -34,15 +34,7 @@ public class SslConfig
     // @Value("${local.server.port}")
     // @Value("${server.port:8443}")
     @Value("${server.port}")
-    private int serverPort = 0;
-
-    /**
-     * Erstellt ein neues {@link SslConfig} Object.
-     */
-    public SslConfig()
-    {
-        super();
-    }
+    private int serverPort;
 
     // /**
     // * @param sslContext {@link SSLContext}

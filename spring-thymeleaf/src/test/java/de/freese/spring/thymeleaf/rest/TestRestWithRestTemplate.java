@@ -46,21 +46,13 @@ import de.freese.spring.thymeleaf.model.Person;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class TestRestWithRestTemplate extends AbstractRestTestCase
+class TestRestWithRestTemplate extends AbstractRestTestCase
 {
     /**
      * @author Thomas Freese
      */
     private class NoOpResponseErrorHandler extends DefaultResponseErrorHandler
     {
-        /**
-         * Erstellt ein neues {@link NoOpResponseErrorHandler} Object.
-         */
-        private NoOpResponseErrorHandler()
-        {
-            super();
-        }
-
         /**
          * @see org.springframework.web.client.DefaultResponseErrorHandler#handleError(org.springframework.http.client.ClientHttpResponse)
          */
@@ -93,25 +85,25 @@ public class TestRestWithRestTemplate extends AbstractRestTestCase
      *
      */
     @Resource
-    private Environment environment = null;
+    private Environment environment;
 
     /**
      *
      */
     @Resource
-    private HttpClient httpClient = null;
+    private HttpClient httpClient;
 
     /**
     *
     */
     @LocalServerPort
-    private int localServerPort = 0;
+    private int localServerPort;
 
     /**
      *
      */
     @Resource
-    private RestTemplateBuilder restTemplateBuilder = null;
+    private RestTemplateBuilder restTemplateBuilder;
 
     /**
      * @throws Exception Falls was schief geht.

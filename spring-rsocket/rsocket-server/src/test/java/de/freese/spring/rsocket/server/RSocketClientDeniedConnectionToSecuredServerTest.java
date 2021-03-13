@@ -1,9 +1,9 @@
 /**
  * Created: 18.06.2020
  */
-
 package de.freese.spring.rsocket.server;
 
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,6 +20,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;
 import de.freese.spring.rsocket.server.data.MessageRequest;
+import io.rsocket.RSocket;
+import io.rsocket.core.RSocketClient;
 import io.rsocket.metadata.WellKnownMimeType;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -34,27 +36,37 @@ class RSocketClientDeniedConnectionToSecuredServerTest
     /**
      *
      */
-    private static UsernamePasswordMetadata credentials = null;
+    private static UsernamePasswordMetadata credentials;
 
     /**
      *
      */
-    private static MimeType mimeType = null;
+    private static MimeType mimeType;
 
     /**
      *
      */
-    private static RSocketRequester.Builder reqbuilder = null;
+    private static RSocketRequester.Builder reqbuilder;
 
     /**
      *
      */
-    private static RSocketRequester requester = null;
+    private static RSocketRequester requester;
 
     /**
      *
      */
     private static int thePort;
+
+    /**
+     *
+     */
+    @AfterAll
+    static void afterAll()
+    {
+        Optional.ofNullable(requester.rsocketClient()).ifPresent(RSocketClient::dispose);
+        Optional.ofNullable(requester.rsocket()).ifPresent(RSocket::dispose);
+    }
 
     /**
      * @param builder {@link Builder}
@@ -71,15 +83,6 @@ class RSocketClientDeniedConnectionToSecuredServerTest
 
         // ******* The user 'fake' is NOT in the user list! **********
         credentials = new UsernamePasswordMetadata("fake", "pass");
-    }
-
-    /**
-     *
-     */
-    @AfterAll
-    static void tearDownOnce()
-    {
-        requester.rsocket().dispose();
     }
 
     /**

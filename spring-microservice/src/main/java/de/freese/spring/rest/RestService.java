@@ -105,7 +105,7 @@ public class RestService
      *
      */
     @Resource
-    private JdbcTemplate jdbcTemplate = null;
+    private JdbcTemplate jdbcTemplate;
 
     /**
      *
@@ -113,14 +113,6 @@ public class RestService
     // @LocalServerPort
     @Value("${server.port}")
     private int port = -1;
-
-    /**
-     * Erzeugt eine neue Instanz von {@link RestService}
-     */
-    public RestService()
-    {
-        super();
-    }
 
     /**
      * http://localhost:PORT/service/clock/

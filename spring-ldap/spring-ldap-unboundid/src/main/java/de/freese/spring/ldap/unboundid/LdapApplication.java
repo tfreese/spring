@@ -1,7 +1,6 @@
 /**
  * Created: 09.02.2019
  */
-
 package de.freese.spring.ldap.unboundid;
 
 import org.springframework.boot.SpringApplication;
@@ -24,13 +23,5 @@ public class LdapApplication
     public static void main(final String[] args)
     {
         SpringApplication.run(LdapApplication.class, args);
-    }
-
-    /**
-     * Erstellt ein neues {@link LdapApplication} Object.
-     */
-    public LdapApplication()
-    {
-        super();
     }
 }

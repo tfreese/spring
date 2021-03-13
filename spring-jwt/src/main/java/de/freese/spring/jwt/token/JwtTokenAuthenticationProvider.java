@@ -1,7 +1,6 @@
 /**
  * Created: 30.10.2018
  */
-
 package de.freese.spring.jwt.token;
 
 import java.util.Date;
@@ -54,12 +53,12 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
     /**
     *
     */
-    private PasswordEncoder passwordEncoder = null;
+    private PasswordEncoder passwordEncoder;
 
     /**
      *
      */
-    private JwtTokenProvider tokenProvider = null;
+    private JwtTokenProvider tokenProvider;
 
     /**
      *
@@ -74,21 +73,13 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
     /**
      *
      */
-    private UserDetailsService userDetailsService = null;
+    private UserDetailsService userDetailsService;
 
     /**
      * The password used to perform {@link PasswordEncoder#matches(CharSequence, String)} on when the user is not found to avoid SEC-2056. This is necessary,
      * because some {@link PasswordEncoder} implementations will short circuit if the password is not in a valid format.
      */
-    private volatile String userNotFoundEncodedPassword = null;
-
-    /**
-     * Erstellt ein neues {@link JwtTokenAuthenticationProvider} Object.
-     */
-    public JwtTokenAuthenticationProvider()
-    {
-        super();
-    }
+    private volatile String userNotFoundEncodedPassword;
 
     /**
      * @param userDetails {@link UserDetails}

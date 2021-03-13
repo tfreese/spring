@@ -1,7 +1,6 @@
 /**
  * Created: 31.01.2019
  */
-
 package org.spring.messaging.amqp.rabbitmq;
 
 import org.springframework.amqp.core.Binding;
@@ -24,19 +23,18 @@ public class SpringRabbitMqApplication
     /**
      *
      */
-    public static final String queueName = "spring-boot";
+    public static final String QUEUE_NAME = "spring-boot";
 
     /**
      *
      */
-    public static final String topicExchangeName = "spring-boot-exchange";
+    public static final String TOPIC_EXCHANGE_NAME = "spring-boot-exchange";
 
     /**
      * @param args String[]
-     * @throws Exception Falls was schief geht.
      */
     @SuppressWarnings("resource")
-    public static void main(final String[] args) throws Exception
+    public static void main(final String[] args)
     {
         SpringApplication.run(SpringRabbitMqApplication.class, args);
     }
@@ -58,7 +56,7 @@ public class SpringRabbitMqApplication
     @Bean
     public TopicExchange exchange()
     {
-        return new TopicExchange(topicExchangeName);
+        return new TopicExchange(TOPIC_EXCHANGE_NAME);
     }
 
     /**
@@ -76,7 +74,7 @@ public class SpringRabbitMqApplication
     @Bean
     public Queue queue()
     {
-        return new Queue(queueName, false);
+        return new Queue(QUEUE_NAME, false);
     }
 
     // /**
@@ -100,7 +98,7 @@ public class SpringRabbitMqApplication
     // {
     // SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
     // container.setConnectionFactory(connectionFactory);
-    // container.setQueueNames(queueName);
+    // container.setQueueNames(QUEUE_NAME);
     // container.setMessageListener(myMessageListenerAdapter);
     //
     // return container;

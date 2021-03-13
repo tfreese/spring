@@ -1,7 +1,6 @@
 /**
  * Created: 22.05.2018
  */
-
 package de.freese.spring.kryo;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -83,48 +82,48 @@ class TestKryo
     /**
      *
      */
-    private HttpClient.Builder httpClientbuilder = null;
+    private HttpClient.Builder httpClientbuilder;
 
     /**
      *
      */
     @LocalServerPort
-    private int localServerPort = 0;
+    private int localServerPort;
 
     /**
     *
     */
     @Resource
-    private MockMvc mockMvc = null;
+    private MockMvc mockMvc;
 
     // /**
     // *
     // */
     // @Resource
-    // private RestTemplateBuilder restTemplateBuilder = null;
+    // private RestTemplateBuilder restTemplateBuilder;
 
     /**
      *
      */
     @Resource
-    private ObjectMapper objectMapper = null;
+    private ObjectMapper objectMapper;
 
     /**
      *
      */
-    private RestTemplate restTemplate = null;
+    private RestTemplate restTemplate;
 
     /**
      *
      */
     @Resource
-    private WebApplicationContext webApplicationContext = null;
+    private WebApplicationContext webApplicationContext;
 
     /**
     *
     */
     @Resource
-    private WebClient.Builder webClientBuilder = null;
+    private WebClient.Builder webClientBuilder;
 
     /**
      *
@@ -169,50 +168,10 @@ class TestKryo
     }
 
     /**
-     *
-     */
-    @Test
-    void test010RestTemplate()
-    {
-        testRestTemplate("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
-        testRestTemplate("/json", MediaType.APPLICATION_JSON);
-    }
-
-    /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test020MockMvc() throws Exception
-    {
-        testMockMvc("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
-        testMockMvc("/json", MediaType.APPLICATION_JSON);
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test030UrlConnection() throws Exception
-    {
-        testUrlConnection("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
-        testUrlConnection("/json", MediaType.APPLICATION_JSON);
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test040WebClient() throws Exception
-    {
-        testWebClient("/kryo", AbstractKryoCodecSupport.APPLICATION_KRYO);
-        testWebClient("/json", MediaType.APPLICATION_JSON);
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test050HttpClient() throws Exception
+    void testHttpClient() throws Exception
     {
         testHttpClient("/kryo", AbstractKryoCodecSupport.APPLICATION_KRYO);
         testHttpClient("/json", MediaType.APPLICATION_JSON);
@@ -253,6 +212,16 @@ class TestKryo
         }
 
         validateLocalDateTime(localDateTime);
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testMockMvc() throws Exception
+    {
+        testMockMvc("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
+        testMockMvc("/json", MediaType.APPLICATION_JSON);
     }
 
     /**
@@ -299,6 +268,16 @@ class TestKryo
     }
 
     /**
+     *
+     */
+    @Test
+    void testRestTemplate()
+    {
+        testRestTemplate("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
+        testRestTemplate("/json", MediaType.APPLICATION_JSON);
+    }
+
+    /**
      * @param path String
      * @param mediaType {@link MediaType}
      */
@@ -324,6 +303,16 @@ class TestKryo
         LocalDateTime localDateTime = responseEntity.getBody();
 
         validateLocalDateTime(localDateTime);
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testUrlConnection() throws Exception
+    {
+        testUrlConnection("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
+        testUrlConnection("/json", MediaType.APPLICATION_JSON);
     }
 
     /**
@@ -377,6 +366,16 @@ class TestKryo
         // }
 
         validateLocalDateTime(localDateTime);
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testWebClient() throws Exception
+    {
+        testWebClient("/kryo", AbstractKryoCodecSupport.APPLICATION_KRYO);
+        testWebClient("/json", MediaType.APPLICATION_JSON);
     }
 
     /**

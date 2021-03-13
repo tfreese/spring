@@ -1,7 +1,6 @@
 /**
  * Created: 28.10.2018
  */
-
 package de.freese.spring.jwt.config;
 
 import org.springframework.context.annotation.Bean;

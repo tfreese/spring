@@ -40,46 +40,30 @@ class TestCafe
     // }
 
     /**
-     * Erstellt ein neues {@link TestCafe} Object.
-     */
-    TestCafe()
-    {
-        super();
-    }
-
-    /**
+     * @param context {@link ApplicationContext}
      * @throws Exception Falls was schief geht.
      */
-    @Test
-    void test010CafeDemoWithXmlSupport() throws Exception
+    private void testCafe(final ApplicationContext context) throws Exception
     {
-        try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-xml.xml"))
+        Cafe cafe = context.getBean(Cafe.class);
+
+        for (int i = 1; i < 4; i++)
         {
-            context.registerShutdownHook();
-
-            testCafe(context);
+            Order order = new Order(i);
+            order.addItem(DrinkType.LATTE, false);
+            order.addItem(DrinkType.MOCHA, true);
+            cafe.placeOrder(order);
         }
+
+        // Zeit für Arbeit des Springframeworks.
+        TimeUnit.MILLISECONDS.sleep(5000);
     }
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test020CafeDemoWithAnnotationSupport() throws Exception
-    {
-        try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-annotation.xml"))
-        {
-            context.registerShutdownHook();
-
-            testCafe(context);
-        }
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test030CafeConfig() throws Exception
+    void testCafeConfig() throws Exception
     {
         //@formatter:off
         try(ConfigurableApplicationContext context= new SpringApplicationBuilder()
@@ -100,7 +84,35 @@ class TestCafe
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test040CafeDsl() throws Exception
+    void testCafeDemoWithAnnotationSupport() throws Exception
+    {
+        try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-annotation.xml"))
+        {
+            context.registerShutdownHook();
+
+            testCafe(context);
+        }
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testCafeDemoWithXmlSupport() throws Exception
+    {
+        try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-xml.xml"))
+        {
+            context.registerShutdownHook();
+
+            testCafe(context);
+        }
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testCafeDsl() throws Exception
     {
         // ConfigurableApplicationContext context = SpringApplication.run(Application.class);
 
@@ -117,25 +129,5 @@ class TestCafe
         {
             testCafe(context);
         }
-    }
-
-    /**
-     * @param context {@link ApplicationContext}
-     * @throws Exception Falls was schief geht.
-     */
-    private void testCafe(final ApplicationContext context) throws Exception
-    {
-        Cafe cafe = context.getBean(Cafe.class);
-
-        for (int i = 1; i < 4; i++)
-        {
-            Order order = new Order(i);
-            order.addItem(DrinkType.LATTE, false);
-            order.addItem(DrinkType.MOCHA, true);
-            cafe.placeOrder(order);
-        }
-
-        // Zeit für Arbeit des Springframeworks.
-        TimeUnit.MILLISECONDS.sleep(5000);
     }
 }

@@ -1,7 +1,6 @@
 /**
  * Created: 31.10.2019
  */
-
 package de.freese.spring.oauth2.client.rest;
 
 import org.springframework.boot.SpringApplication;
@@ -21,20 +20,11 @@ public class OAuth2ClientRestApplication extends SpringBootServletInitializer
 {
     /**
      * @param args String[]
-     * @throws Exception Falls was schief geht.
      */
     @SuppressWarnings("resource")
-    public static void main(final String[] args) throws Exception
+    public static void main(final String[] args)
     {
         SpringApplication.run(OAuth2ClientRestApplication.class, args);
-    }
-
-    /**
-     * Erstellt ein neues {@link OAuth2ClientRestApplication} Object.
-     */
-    public OAuth2ClientRestApplication()
-    {
-        super();
     }
 
     /**

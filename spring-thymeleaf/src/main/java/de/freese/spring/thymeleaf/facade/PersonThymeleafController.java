@@ -1,7 +1,6 @@
 /**
  * Created: 26.08.2018
  */
-
 package de.freese.spring.thymeleaf.facade;
 
 import java.util.List;
@@ -25,15 +24,7 @@ public class PersonThymeleafController
      *
      */
     @Resource
-    private PersonService service = null;
-
-    /**
-     * Erstellt ein neues {@link PersonThymeleafController} Object.
-     */
-    public PersonThymeleafController()
-    {
-        super();
-    }
+    private PersonService service;
 
     /**
      * Berechtigung im Service.

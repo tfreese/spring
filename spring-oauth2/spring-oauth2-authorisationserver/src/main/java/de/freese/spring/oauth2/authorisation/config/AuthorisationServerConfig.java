@@ -36,63 +36,55 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     *
     */
     @Resource
-    private AccessTokenConverter accessTokenConverter = null;
+    private AccessTokenConverter accessTokenConverter;
 
     /**
     *
     */
     @Resource
-    private ApprovalStore approvalStore = null;
+    private ApprovalStore approvalStore;
 
     /**
      *
      */
     @Resource
-    private AuthenticationManager authenticationManager = null;
+    private AuthenticationManager authenticationManager;
 
     /**
     *
     */
     @Resource
-    private AuthorizationCodeServices authorizationCodeServices = null;
+    private AuthorizationCodeServices authorizationCodeServices;
 
     /**
     *
     */
     @Resource
-    private ClientDetailsService myClientDetailsService = null;
+    private ClientDetailsService myClientDetailsService;
 
     /**
      *
      */
     @Resource
-    private PasswordEncoder passwordEncoder = null;
+    private PasswordEncoder passwordEncoder;
 
     /**
      *
      */
     @Resource
-    private TokenEnhancer tokenEnhancer = null;
+    private TokenEnhancer tokenEnhancer;
 
     /**
     *
     */
     @Resource
-    private TokenStore tokenStore = null;
+    private TokenStore tokenStore;
 
     /**
     *
     */
     @Resource
-    private UserDetailsService userDetailsService = null;
-
-    /**
-     * Erstellt ein neues {@link AuthorisationServerConfig} Object.
-     */
-    public AuthorisationServerConfig()
-    {
-        super();
-    }
+    private UserDetailsService userDetailsService;
 
     /**
      * @see org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter#configure(org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer)

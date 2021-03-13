@@ -65,14 +65,6 @@ public class Application
     private AtomicInteger hotDrinkCounter = new AtomicInteger();
 
     /**
-     * Erzeugt eine neue Instanz von {@link Application}.
-     */
-    public Application()
-    {
-        super();
-    }
-
-    /**
      * @return {@link IntegrationFlow}
      */
     @Bean

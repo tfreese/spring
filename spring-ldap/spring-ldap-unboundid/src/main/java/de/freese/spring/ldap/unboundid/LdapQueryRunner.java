@@ -1,7 +1,6 @@
 /**
  * Created: 17.02.2019
  */
-
 package de.freese.spring.ldap.unboundid;
 
 import javax.annotation.Resource;
@@ -23,15 +22,7 @@ public class LdapQueryRunner implements CommandLineRunner
      *
      */
     @Resource
-    private MyLdapDao ldapDao = null;
-
-    /**
-     * Erstellt ein neues {@link LdapQueryRunner} Object.
-     */
-    public LdapQueryRunner()
-    {
-        super();
-    }
+    private MyLdapDao ldapDao;
 
     /**
      * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])

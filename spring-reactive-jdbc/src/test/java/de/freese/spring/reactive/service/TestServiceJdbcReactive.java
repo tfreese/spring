@@ -1,7 +1,6 @@
 /**
  * Created: 23.06.2019
  */
-
 package de.freese.spring.reactive.service;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,31 +26,23 @@ class TestServiceJdbcReactive implements TestServiceInterface
     *
     */
     @Resource
-    private JdbcTemplate jdbcTemplate = null;
+    private JdbcTemplate jdbcTemplate;
 
     /**
     *
     */
     @Resource
-    private EmployeeService service = null;
+    private EmployeeService service;
 
     /**
-     * Erstellt ein neues {@link TestServiceJdbcReactive} Object.
-     */
-    public TestServiceJdbcReactive()
-    {
-        super();
-    }
-
-    /**
-     * @see de.freese.spring.reactive.service.TestServiceInterface#createNewEmployee()
+     * @see de.freese.spring.reactive.service.TestServiceInterface#testCreateNewEmployee()
      */
     @Override
     @Test
     @Disabled("Funktioniert nicht")
-    public void createNewEmployee()
+    public void testCreateNewEmployee()
     {
-        TestServiceInterface.super.createNewEmployee();
+        TestServiceInterface.super.testCreateNewEmployee();
 
         assertTrue(true);
     }

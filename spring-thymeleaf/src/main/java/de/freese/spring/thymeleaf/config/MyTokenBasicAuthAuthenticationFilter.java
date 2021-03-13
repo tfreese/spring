@@ -50,22 +50,17 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
     /**
      *
      */
-    private AuthenticationEntryPoint authenticationEntryPoint = null;
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
     /**
      *
      */
-    private AuthenticationManager authenticationManager = null;
+    private AuthenticationManager authenticationManager;
 
     /**
      *
      */
-    private String credentialsCharset = "UTF-8";
-
-    /**
-     *
-     */
-    private boolean ignoreFailure = false;
+    private boolean ignoreFailure;
 
     /**
      *
@@ -223,15 +218,6 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
     }
 
     /**
-     * @param httpRequest {@link HttpServletRequest}
-     * @return String
-     */
-    protected String getCredentialsCharset(final HttpServletRequest httpRequest)
-    {
-        return this.credentialsCharset;
-    }
-
-    /**
      * @return boolean
      */
     protected boolean isIgnoreFailure()
@@ -269,14 +255,6 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
     public void setAuthenticationDetailsSource(final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource)
     {
         this.authenticationDetailsSource = Objects.requireNonNull(authenticationDetailsSource, "authenticationDetailsSource required");
-    }
-
-    /**
-     * @param credentialsCharset String
-     */
-    public void setCredentialsCharset(final String credentialsCharset)
-    {
-        this.credentialsCharset = Objects.requireNonNull(credentialsCharset, "credentialsCharset requried");
     }
 
     /**

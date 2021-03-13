@@ -43,7 +43,7 @@ public class HomeThymeleafController
      */
     @Resource
     @Qualifier("authenticationManagerWeb")
-    private AuthenticationManager authenticationManager = null;
+    private AuthenticationManager authenticationManager;
 
     /**
      *
@@ -55,15 +55,7 @@ public class HomeThymeleafController
      *
      */
     @Resource
-    private UserDetailsService userDetailsService = null;
-
-    /**
-     * Erstellt ein neues {@link HomeThymeleafController} Object.
-     */
-    public HomeThymeleafController()
-    {
-        super();
-    }
+    private UserDetailsService userDetailsService;
 
     /**
      *

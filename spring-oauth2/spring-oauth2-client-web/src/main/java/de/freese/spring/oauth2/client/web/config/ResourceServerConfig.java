@@ -1,5 +1,4 @@
-/*** Created:31.10.2019 */
-
+// Created: 31.10.2019
 package de.freese.spring.oauth2.client.web.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -38,27 +37,19 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
     *
     */
     @Value("${spring.security.oauth2.client.registration.custom-client.client-id}")
-    private String clientId = null;
+    private String clientId;
 
     /**
     *
     */
     @Value("${spring.security.oauth2.client.registration.custom-client.client-secret}")
-    private String clientSecret = null;
+    private String clientSecret;
 
     // /**
     // *
     // */
     // @Resource
-    // private TokenStore tokenStore = null;
-
-    /**
-     * Erstellt ein neues {@link ResourceServerConfig} Object.
-     */
-    public ResourceServerConfig()
-    {
-        super();
-    }
+    // private TokenStore tokenStore;
 
     /**
      * @see org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)

@@ -38,15 +38,7 @@ public class RSocketController
     /**
      *
      */
-    private final List<RSocketRequester> CLIENTS = new ArrayList<>();
-
-    /**
-     * Erstellt ein neues {@link RSocketController} Object.
-     */
-    public RSocketController()
-    {
-        super();
-    }
+    private final List<RSocketRequester> clients = new ArrayList<>();
 
     /**
      * @param requests {@link Flux}
@@ -87,7 +79,7 @@ public class RSocketController
                 .doFirst(() -> {
                     // Add all new clients to a client list.
                     LOGGER.info("Client: {} CONNECTED.", client);
-                    this.CLIENTS.add(requester);
+                    this.clients.add(requester);
                 })
                 .doOnError(error -> {
                     // Warn when channels are closed by clients.
@@ -95,7 +87,7 @@ public class RSocketController
                 })
                 .doFinally(consumer -> {
                     // Remove disconnected clients from the client list.
-                    this.CLIENTS.remove(requester);
+                    this.clients.remove(requester);
                     LOGGER.info("Client {} DISCONNECTED", client);
                 })
                 .subscribe();
@@ -120,14 +112,14 @@ public class RSocketController
     }
 
     /**
-     * @param ex {@link Exception}
+     * @param th {@link Throwable}
      * @return {@link Flux}
      */
     @MessageExceptionHandler
-    public Mono<MessageResponse> errorHandler(final Exception ex)
+    public Mono<MessageResponse> errorHandler(final Throwable th)
     {
         MessageResponse response = new MessageResponse();
-        response.setMessage(ex.getClass().getSimpleName() + ": " + ex.getMessage());
+        response.setMessage(th.getClass().getSimpleName() + ": " + th.getMessage());
 
         return Mono.just(response);
     }
@@ -179,7 +171,7 @@ public class RSocketController
     {
         LOGGER.info("Detaching all remaining clients...");
 
-        this.CLIENTS.stream().forEach(requester -> requester.rsocket().dispose());
+        this.clients.stream().forEach(requester -> requester.rsocket().dispose());
 
         LOGGER.info("Shutting down.");
     }

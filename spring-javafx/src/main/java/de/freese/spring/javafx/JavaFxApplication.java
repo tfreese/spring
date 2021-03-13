@@ -1,7 +1,6 @@
 /**
  * Created: 09.02.2019
  */
-
 package de.freese.spring.javafx;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -53,15 +52,7 @@ public class JavaFxApplication extends Application
     /**
      *
      */
-    private ConfigurableApplicationContext applicationContext = null;
-
-    /**
-     * Erstellt ein neues {@link JavaFxApplication} Object.
-     */
-    public JavaFxApplication()
-    {
-        super();
-    }
+    private ConfigurableApplicationContext applicationContext;
 
     /**
      * @see javafx.application.Application#init()

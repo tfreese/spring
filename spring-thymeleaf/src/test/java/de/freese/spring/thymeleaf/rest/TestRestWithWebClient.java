@@ -37,31 +37,31 @@ import reactor.core.publisher.Mono;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class TestRestWithWebClient extends AbstractRestTestCase
+class TestRestWithWebClient extends AbstractRestTestCase
 {
     /**
     *
     */
     @Resource
-    private Environment environment = null;
+    private Environment environment;
 
     /**
     *
     */
     @LocalServerPort
-    private int localServerPort = 0;
+    private int localServerPort;
 
     /**
      * Default für JSON.
      */
     @Resource
-    private ObjectMapper objectMapper = null;
+    private ObjectMapper objectMapper;
 
     /**
      *
      */
     @Resource
-    private WebClient.Builder webClientBuilder = null;
+    private WebClient.Builder webClientBuilder;
 
     // /**
     // * Spring-Boot will create a `WebTestClient` for you<br>

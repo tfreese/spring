@@ -19,7 +19,7 @@ public class GreetingPOJO
      *
      */
     @JsonProperty("greeting")
-    private String message = null;
+    private String message;
 
     /**
      * Erzeugt eine neue Instanz von {@link GreetingPOJO}

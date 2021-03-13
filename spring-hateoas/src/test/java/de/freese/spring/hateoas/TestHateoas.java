@@ -56,34 +56,34 @@ class TestHateoas
     /**
      * @throws Exception Falls was schief geht.
      */
-    @BeforeAll
-    static void setUp() throws Exception
-    {
-        // Logger logger = (Logger) LoggerFactory.getLogger("ROOT");
-        // logger.setLevel(Level.ERROR);
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
     @AfterAll
-    static void shutdown() throws Exception
+    static void afterAll() throws Exception
     {
         // PRINT_STREAM.println("JAVA_ENV: " + System.getProperty("JAVA_ENV"));
         // PRINT_STREAM.println("JAVA_ENV: " + System.getenv("JAVA_ENV"));
     }
 
     /**
+     * @throws Exception Falls was schief geht.
+     */
+    @BeforeAll
+    static void beforeAll() throws Exception
+    {
+        // Logger logger = (Logger) LoggerFactory.getLogger("ROOT");
+        // logger.setLevel(Level.ERROR);
+    }
+
+    /**
      *
      */
     @Value("${server.servlet.context-path:}")
-    private String contextPath = null;
+    private String contextPath;
 
     /**
      *
      */
     @Resource
-    private ObjectMapper objectMapper = null;
+    private ObjectMapper objectMapper;
 
     /**
      *
@@ -96,15 +96,7 @@ class TestHateoas
      * Wird für {@link MockMvc} benötigt.
      */
     @Resource
-    private WebApplicationContext wac = null;
-
-    /**
-     * Erzeugt eine neue Instanz von {@link TestHateoas}
-     */
-    TestHateoas()
-    {
-        super();
-    }
+    private WebApplicationContext wac;
 
     /**
      * @return {@link URI}
@@ -123,8 +115,8 @@ class TestHateoas
      *
      * @throws Exception Falls was schief geht.
      */
-    @org.junit.jupiter.api.Test
-    void greeting() throws Exception
+    @Test
+    void testGreeting() throws Exception
     {
         Traverson traverson = new Traverson(getBaseURI(), MediaTypes.HAL_JSON);
         String greeting = traverson.follow("self").toObject("$.greeting");
@@ -135,7 +127,7 @@ class TestHateoas
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void greetingFail() throws Exception
+    void testGreetingFail() throws Exception
     {
         RestTemplate restTemplate = new RestTemplate(Arrays.asList(new StringHttpMessageConverter(StandardCharsets.UTF_8)));
         restTemplate.setErrorHandler(new DefaultResponseErrorHandler()
@@ -206,7 +198,7 @@ class TestHateoas
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void greetingGetLinks() throws Exception
+    void testGreetingGetLinks() throws Exception
     {
         // JSON für die Links im Response konfigurieren.
         ObjectMapper mapper = new ObjectMapper();
@@ -258,7 +250,7 @@ class TestHateoas
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void greetingJsonRaw() throws Exception
+    void testGreetingJsonRaw() throws Exception
     {
         RestTemplate restTemplate = new RestTemplate(Arrays.asList(new StringHttpMessageConverter(StandardCharsets.UTF_8)));
 
@@ -274,7 +266,7 @@ class TestHateoas
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void greetingPATH() throws Exception
+    void testGreetingPath() throws Exception
     {
         Traverson traverson = new Traverson(getBaseURI().resolve("path/test"), MediaTypes.HAL_JSON);
         String greeting = traverson.follow("self").toObject("$.greeting");
@@ -287,7 +279,7 @@ class TestHateoas
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void greetingPOJO() throws Exception
+    void testGreetingPojo() throws Exception
     {
         Traverson traverson = new Traverson(getBaseURI().resolve("pojo"), MediaTypes.HAL_JSON);
         String greeting = traverson.follow("self").toObject("$.greeting");
@@ -300,7 +292,7 @@ class TestHateoas
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void greetingSimple() throws Exception
+    void testGreetingSimple() throws Exception
     {
         RestTemplate restTemplate = new RestTemplate();
         GreetingPOJO pojo = restTemplate.getForObject(getBaseURI().resolve("simple"), GreetingPOJO.class);

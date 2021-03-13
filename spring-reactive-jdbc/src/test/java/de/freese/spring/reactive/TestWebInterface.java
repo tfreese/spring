@@ -53,7 +53,7 @@ public interface TestWebInterface
      *
      */
     @Test
-    default void createNewEmployee()
+    default void testCreateNewEmployee()
     {
         // @formatter:off
         getWebTestClient()
@@ -116,7 +116,7 @@ public interface TestWebInterface
       *
       */
     @Test
-    default void deleteEmployee()
+    default void testDeleteEmployee()
     {
         // @formatter:off
         getWebTestClient()
@@ -172,7 +172,7 @@ public interface TestWebInterface
     *
     */
     @Test
-    default void getAllDepartments()
+    default void testGetAllDepartments()
     {
         // @formatter:off
         getWebTestClient()
@@ -205,7 +205,7 @@ public interface TestWebInterface
     *
     */
     @Test
-    default void getAllEmployees()
+    default void testGetAllEmployees()
     {
         // @formatter:off
         getWebTestClient()
@@ -237,7 +237,7 @@ public interface TestWebInterface
       *
       */
     @Test
-    default void getEmployee()
+    default void testGetEmployee()
     {
         // @formatter:off
         getWebTestClient()

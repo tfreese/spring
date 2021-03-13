@@ -1,7 +1,6 @@
 /**
  * Created: 21.04.2019
  */
-
 package de.freese.spring.rsocket.server.data;
 
 /**
@@ -12,7 +11,7 @@ public class MessageRequest
     /**
      *
      */
-    private String message = null;
+    private String message;
 
     /**
      * Erstellt ein neues {@link MessageRequest} Object.

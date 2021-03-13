@@ -1,7 +1,6 @@
 /**
  * Created: 28.10.2018
  */
-
 package de.freese.spring.jwt.service;
 
 import javax.annotation.Resource;
@@ -29,33 +28,25 @@ public class UserService
        *
        */
     @Resource
-    private AuthenticationManager authenticationManager = null;
+    private AuthenticationManager authenticationManager;
 
     /**
      *
      */
     @Resource
-    private JwtTokenProvider jwtTokenProvider = null;
+    private JwtTokenProvider jwtTokenProvider;
 
     /**
      *
      */
     @Resource
-    private PasswordEncoder passwordEncoder = null;
+    private PasswordEncoder passwordEncoder;
 
     /**
     *
     */
     @Resource
-    private UserDetailsManager userDetailsManager = null;
-
-    /**
-     * Erstellt ein neues {@link UserService} Object.
-     */
-    public UserService()
-    {
-        super();
-    }
+    private UserDetailsManager userDetailsManager;
 
     /**
      * @param username String

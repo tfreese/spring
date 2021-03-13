@@ -22,15 +22,7 @@ public class GreetingRepresentationModel extends RepresentationModel<GreetingRep
      *
      */
     @JsonProperty("greeting")
-    private String message = null;
-
-    // /**
-    // * Erzeugt eine neue Instanz von {@link GreetingResourceSupport}.
-    // */
-    // public GreetingResourceSupport()
-    // {
-    // super();
-    // }
+    private String message;
 
     /**
      * Erzeugt eine neue Instanz von {@link GreetingRepresentationModel}

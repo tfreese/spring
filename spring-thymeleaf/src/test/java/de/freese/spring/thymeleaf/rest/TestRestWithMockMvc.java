@@ -41,25 +41,25 @@ import de.freese.spring.thymeleaf.model.Person;
 // {
 // "test", "with-ssl"
 // })
-public class TestRestWithMockMvc extends AbstractRestTestCase
+class TestRestWithMockMvc extends AbstractRestTestCase
 {
     /**
     *
     */
     @Resource
-    private MockMvc mockMvc = null;
+    private MockMvc mockMvc;
 
     /**
      * Default für JSON.
      */
     @Resource
-    private ObjectMapper objectMapper = null;
+    private ObjectMapper objectMapper;
 
     /**
      * Für XML-Mapping
      */
     @Resource
-    private Jackson2ObjectMapperBuilder objectMapperBuilder = null;
+    private Jackson2ObjectMapperBuilder objectMapperBuilder;
 
     /**
      * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test000HealthEndpoint()

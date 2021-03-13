@@ -103,6 +103,14 @@ public class ThymeleafApplication extends SpringBootServletInitializer
     }
 
     /**
+     * Erstellt ein neues {@link ThymeleafApplication} Object.
+     */
+    public ThymeleafApplication()
+    {
+        super();
+    }
+
+    /**
      * POM:<br>
      * &lt;packaging>&gt;war&lt;/packaging&gt;<<br>
      * Tomcat aus spring-boot-starter-web excludieren und explizit auf provided setzen.<br>

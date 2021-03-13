@@ -2,6 +2,7 @@ package de.freese.spring.rsocket.server;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.Duration;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,7 +25,9 @@ import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;
 import de.freese.spring.rsocket.server.data.MessageRequest;
 import de.freese.spring.rsocket.server.data.MessageResponse;
+import io.rsocket.RSocket;
 import io.rsocket.SocketAcceptor;
+import io.rsocket.core.RSocketClient;
 import io.rsocket.metadata.WellKnownMimeType;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -59,7 +62,7 @@ class RSocketClientToSecuredServerTest
     /**
      *
      */
-    private static UsernamePasswordMetadata credentials = null;
+    private static UsernamePasswordMetadata credentials;
 
     /**
     *
@@ -69,12 +72,22 @@ class RSocketClientToSecuredServerTest
     /**
      *
      */
-    private static MimeType mimeType = null;
+    private static MimeType mimeType;
 
     /**
      *
      */
-    private static RSocketRequester requester = null;
+    private static RSocketRequester requester;
+
+    /**
+     *
+     */
+    @AfterAll
+    static void afterAll()
+    {
+        Optional.ofNullable(requester.rsocketClient()).ifPresent(RSocketClient::dispose);
+        Optional.ofNullable(requester.rsocket()).ifPresent(RSocket::dispose);
+    }
 
     /**
      * @param builder {@link Builder}
@@ -105,15 +118,6 @@ class RSocketClientToSecuredServerTest
                 .tcp("localhost", port)
                 ;
         // @formatter:on
-    }
-
-    /**
-     *
-     */
-    @AfterAll
-    static void tearDownOnce()
-    {
-        requester.rsocket().dispose();
     }
 
     /**

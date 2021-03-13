@@ -3,6 +3,7 @@ package de.freese.kubernetes.microservice;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
@@ -26,14 +27,6 @@ public class MyApplication
     @RestController
     public static class MyRestController
     {
-        /**
-         * Erstellt ein neues {@link MyRestController} Object.
-         */
-        public MyRestController()
-        {
-            super();
-        }
-
         /**
          * @param name {@link Optional}
          * @return {@link Publisher}
@@ -83,7 +76,7 @@ public class MyApplication
         if (hostName == null)
         {
             // Cross Platform (Windows, Linux, Unix, Mac)
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("hostname").getInputStream())))
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("hostname").getInputStream(), StandardCharsets.UTF_8)))
             {
                 hostName = br.readLine();
             }

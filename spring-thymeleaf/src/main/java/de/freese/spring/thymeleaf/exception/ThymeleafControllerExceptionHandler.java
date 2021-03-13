@@ -1,7 +1,6 @@
 /**
  * Created: 05.09.2018
  */
-
 package de.freese.spring.thymeleaf.exception;
 
 import javax.annotation.Resource;
@@ -26,21 +25,13 @@ public class ThymeleafControllerExceptionHandler
     *
     */
     @Value("${server.error.path:${error.path:/error}}")
-    private String errorPage = null;
+    private String errorPage;
 
     /**
      *
      */
     @Resource
-    private RestControllerExceptionHandler exceptionHandler = null;
-
-    /**
-     * Erstellt ein neues {@link ThymeleafControllerExceptionHandler} Object.
-     */
-    public ThymeleafControllerExceptionHandler()
-    {
-        super();
-    }
+    private RestControllerExceptionHandler exceptionHandler;
 
     /**
      * @param model {@link Model}
@@ -111,8 +102,8 @@ public class ThymeleafControllerExceptionHandler
      * @param request {@link WebRequest}
      * @return {@link ResponseEntity}
      */
-    @ExceptionHandler(javax.validation.ConstraintViolationException.class)
-    protected String handleConstraintViolation(final Model model, final javax.validation.ConstraintViolationException ex, final WebRequest request)
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected String handleConstraintViolation(final Model model, final ConstraintViolationException ex, final WebRequest request)
     {
         ResponseEntity<Object> responseEntity = this.exceptionHandler.handleConstraintViolation(ex, request);
 

@@ -76,7 +76,7 @@ public class MicroServiceBenchmark
          *
          */
         @Resource
-        private WebClient.Builder webClientBuilder = null;
+        private WebClient.Builder webClientBuilder;
 
         /**
          * Erstellt ein neues {@link BenchmarkState} Object.
@@ -112,14 +112,6 @@ public class MicroServiceBenchmark
         {
             this.context.close();
         }
-    }
-
-    /**
-     * Erstellt ein neues {@link MicroServiceBenchmark} Object.
-     */
-    public MicroServiceBenchmark()
-    {
-        super();
     }
 
     /**

@@ -35,6 +35,7 @@ class TestHelloWorld
     @AfterAll
     static void afterAll()
     {
+        // Empty
     }
 
     /**
@@ -86,21 +87,10 @@ class TestHelloWorld
     }
 
     /**
-     *
-     */
-    @Test
-    void test010Synchronous()
-    {
-        // execute() = queue().get()
-        assertEquals("Hello World!", new CommandHelloWorld("World").execute());
-        assertEquals("Hello Bob!", new CommandHelloWorld("Bob").execute());
-    }
-
-    /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test020Asynchronous() throws Exception
+    void testAsynchronous() throws Exception
     {
         Future<String> fWorld = new CommandHelloWorld("World").queue();
         Future<String> fBob = new CommandHelloWorld("Bob").queue();
@@ -112,8 +102,31 @@ class TestHelloWorld
     /**
      * @throws Exception Falls was schief geht.
      */
+    @Test// (expected = RuntimeException.class)
+    void testFailAsynchronous() throws Exception
+    {
+        Future<String> fWorld = new CommandHelloFailure("World").queue();
+        Future<String> fBob = new CommandHelloFailure("Bob").queue();
+
+        assertEquals("Hello Failure World!", fWorld.get());
+        assertEquals("Hello Failure Bob!", fBob.get());
+    }
+
+    /**
+     *
+     */
+    @Test// (expected = RuntimeException.class)
+    void testFailSynchronous()
+    {
+        assertEquals("Hello Failure World!", new CommandHelloFailure("World").execute());
+        assertEquals("Hello Failure Bob!", new CommandHelloFailure("Bob").execute());
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
     @Test
-    void test030Observable() throws Exception
+    void testObservable() throws Exception
     {
         Observable<String> oWorld = new CommandHelloWorld("World").observe();
         Observable<String> oBob = new CommandHelloWorld("Bob").observe();
@@ -161,23 +174,11 @@ class TestHelloWorld
     /**
      *
      */
-    @Test// (expected = RuntimeException.class)
-    void test040FailSynchronous()
+    @Test
+    void testSynchronous()
     {
-        assertEquals("Hello Failure World!", new CommandHelloFailure("World").execute());
-        assertEquals("Hello Failure Bob!", new CommandHelloFailure("Bob").execute());
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test// (expected = RuntimeException.class)
-    void test050FailAsynchronous() throws Exception
-    {
-        Future<String> fWorld = new CommandHelloFailure("World").queue();
-        Future<String> fBob = new CommandHelloFailure("Bob").queue();
-
-        assertEquals("Hello Failure World!", fWorld.get());
-        assertEquals("Hello Failure Bob!", fBob.get());
+        // execute() = queue().get()
+        assertEquals("Hello World!", new CommandHelloWorld("World").execute());
+        assertEquals("Hello Bob!", new CommandHelloWorld("Bob").execute());
     }
 }

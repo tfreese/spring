@@ -1,7 +1,6 @@
 /**
  * Created: 12.09.2018
  */
-
 package de.freese.spring.thymeleaf;
 
 import javax.naming.Context;
@@ -28,14 +27,6 @@ public class JndiLookUpRunner implements CommandLineRunner
     *
     */
     public static final Logger LOGGER = LoggerFactory.getLogger(JndiLookUpRunner.class);
-
-    /**
-     * Erstellt ein neues {@link JndiLookUpRunner} Object.
-     */
-    public JndiLookUpRunner()
-    {
-        super();
-    }
 
     /**
      * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])

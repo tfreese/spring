@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.spring.reactive;
 
 import org.springframework.context.annotation.Bean;
@@ -17,14 +14,6 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class EmployeeRouter
 {
-    /**
-     * Erstellt ein neues {@link EmployeeRouter} Object.
-     */
-    public EmployeeRouter()
-    {
-        super();
-    }
-
     /**
      * Die REST-Methode 'createNewEmployee' wird im {@link EmployeeRestController} behandelt.
      *

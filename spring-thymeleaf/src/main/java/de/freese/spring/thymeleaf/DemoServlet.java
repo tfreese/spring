@@ -24,14 +24,6 @@ public class DemoServlet extends HttpServlet
     private static final long serialVersionUID = 891637777095320320L;
 
     /**
-     * Erstellt ein neues {@link DemoServlet} Objekt.
-     */
-    public DemoServlet()
-    {
-        super();
-    }
-
-    /**
      * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

@@ -1,9 +1,9 @@
 /**
  * Created: 28.10.2018
  */
-
 package de.freese.spring.jwt.token;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
@@ -31,32 +31,24 @@ public class JwtTokenProvider
     *
     */
     @Resource
-    private PasswordEncoder passwordEncoder = null;
+    private PasswordEncoder passwordEncoder;
 
     /**
      *
      */
     @Value("${security.jwt.token.secret-key:secret-key}")
-    private String secretKey = null;
+    private String secretKey;
 
     // /**
     // *
     // */
-    // private SecretKey secretKey2 = null;
+    // private SecretKey secretKey2;
 
     /**
      * Default: 1 Stunde
      */
     @Value("${security.jwt.token.expire-length:3600000}")
-    private long validityInMilliseconds = 3600000;
-
-    /**
-     * Erstellt ein neues {@link JwtTokenProvider} Object.
-     */
-    public JwtTokenProvider()
-    {
-        super();
-    }
+    private long validityInMilliseconds = 3_600_000;
 
     /**
      * @param username String
@@ -204,7 +196,7 @@ public class JwtTokenProvider
     @PostConstruct
     protected void init() throws Exception
     {
-        this.secretKey = Base64.getEncoder().encodeToString(this.secretKey.getBytes());
+        this.secretKey = Base64.getEncoder().encodeToString(this.secretKey.getBytes(StandardCharsets.UTF_8));
 
         // byte[] salt = KeyGenerators.secureRandom(16).generateKey();
         //

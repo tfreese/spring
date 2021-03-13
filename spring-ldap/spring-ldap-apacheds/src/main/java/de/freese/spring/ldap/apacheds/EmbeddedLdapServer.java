@@ -1,7 +1,6 @@
 /**
  * Created: 20.02.2019
  */
-
 package de.freese.spring.ldap.apacheds;
 
 import java.io.File;
@@ -43,32 +42,32 @@ public class EmbeddedLdapServer
     /**
      *
      */
-    private static List<String> ATTR_NAMES_TO_INDEX = new ArrayList<>(Arrays.asList("uid"));
+    private static final List<String> ATTR_NAMES_TO_INDEX = new ArrayList<>(Arrays.asList("uid"));
 
     /**
      *
      */
-    private static int BASE_CACHE_SIZE = 1000;
+    private static final int BASE_CACHE_SIZE = 1000;
 
     /**
      *
      */
-    private static String BASE_DOMAIN = "org";
+    private static final String BASE_DOMAIN = "org";
 
     /**
      *
      */
-    private static String BASE_PARTITION_NAME = "mydomain";
+    private static final String BASE_PARTITION_NAME = "mydomain";
 
     /**
      *
      */
-    private static String BASE_STRUCTURE = "dc=" + BASE_PARTITION_NAME + ",dc=" + BASE_DOMAIN;
+    private static final String BASE_STRUCTURE = "dc=" + BASE_PARTITION_NAME + ",dc=" + BASE_DOMAIN;
 
     /**
      *
      */
-    private static int LDAP_SERVER_PORT = 10389;
+    private static final int LDAP_SERVER_PORT = 10389;
 
     /**
      * @param path {@link File}
@@ -221,10 +220,9 @@ public class EmbeddedLdapServer
      *
      * @param schemaName The name of the schema
      * @return true if the schemas have been loaded and the registries is consistent
-     * @throws LdapException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public boolean addSchemaFromClasspath(final String schemaName) throws LdapException, IOException
+    public boolean addSchemaFromClasspath(final String schemaName) throws Exception
     {
         // To debug if your apacheds-schema.index isn't found:
         // Enumeration<URL> indexes = getClass().getClassLoader().getResources("META-INF/apacheds-schema.index");
@@ -240,10 +238,9 @@ public class EmbeddedLdapServer
      * @param schemaLocation The path to the directory containing the "ou=schema" directory for an additional schema
      * @param schemaName The name of the schema
      * @return true if the schemas have been loaded and the registries is consistent
-     * @throws LdapException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public boolean addSchemaFromPath(final File schemaLocation, final String schemaName) throws LdapException, IOException
+    public boolean addSchemaFromPath(final File schemaLocation, final String schemaName) throws Exception
     {
         LdifSchemaLoader schemaLoader = new LdifSchemaLoader(schemaLocation);
         DefaultSchema schema = new DefaultSchema(schemaLoader, schemaName);

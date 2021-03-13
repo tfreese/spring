@@ -251,7 +251,7 @@ public class LoadBalancer implements LoadBalancerPing
 
         setupPingTask();
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdown()));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
     /**

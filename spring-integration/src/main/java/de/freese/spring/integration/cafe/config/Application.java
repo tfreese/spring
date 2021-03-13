@@ -47,14 +47,6 @@ public class Application
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link Application}.
-     */
-    public Application()
-    {
-        super();
-    }
-
-    /**
      * @param drinks {@link List}
      * @return {@link Delivery}
      */

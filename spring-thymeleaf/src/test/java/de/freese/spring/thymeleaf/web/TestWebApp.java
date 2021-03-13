@@ -40,13 +40,13 @@ import de.freese.spring.thymeleaf.ThymeleafApplication;
 // {
 // "test", "with-ssl"
 // })
-public class TestWebApp
+class TestWebApp
 {
     /**
     *
     */
     @LocalServerPort
-    private int localServerPort = 0;
+    private int localServerPort;
 
     /**
     *
@@ -58,13 +58,13 @@ public class TestWebApp
     *
     */
     @Resource
-    private MockMvc mockMvc = null;
+    private MockMvc mockMvc;
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void accessSecuredResourceUnauthenticated() throws Exception
+    void testAccessSecuredResourceUnauthenticated() throws Exception
     {
         // @formatter:off
         this.mockMvc.perform(get("/web/person/personList"))
@@ -78,7 +78,7 @@ public class TestWebApp
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void accessUnsecuredResourceUnauthenticated() throws Exception
+    void testAccessUnsecuredResourceUnauthenticated() throws Exception
     {
         this.mockMvc.perform(get("/")).andExpect(status().isOk());
 
@@ -94,7 +94,7 @@ public class TestWebApp
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void healthEndpoint() throws Exception
+    void testHealthEndpoint() throws Exception
     {
         // @formatter:off
         this.mockMvc.perform(get("/actuator/health"))
@@ -110,7 +110,7 @@ public class TestWebApp
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void loginWithBasic() throws Exception
+    void testLoginWithBasic() throws Exception
     {
         FormLoginRequestBuilder login = formLogin().loginProcessingUrl("/authenticate").user("admin").password("pw");
         this.mockMvc.perform(login).andExpect(status().is3xxRedirection()).andExpect(authenticated().withUsername("admin"));
@@ -126,7 +126,7 @@ public class TestWebApp
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void loginWithInknownUser() throws Exception
+    void testLoginWithInknownUser() throws Exception
     {
         FormLoginRequestBuilder login = formLogin().loginProcessingUrl("/authenticate").user("unknown").password("pw");
 
@@ -143,7 +143,7 @@ public class TestWebApp
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void loginWithPreAuth() throws Exception
+    void testLoginWithPreAuth() throws Exception
     {
         this.mockMvc.perform(get("/web/person/personList").header("my-token", "admin")).andExpect(status().isOk())
                 .andExpect(authenticated().withUsername("admin"));

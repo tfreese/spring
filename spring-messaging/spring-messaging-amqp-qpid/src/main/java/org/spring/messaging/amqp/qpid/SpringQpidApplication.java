@@ -1,7 +1,6 @@
 /**
  * Created: 31.01.2019
  */
-
 package org.spring.messaging.amqp.qpid;
 
 import org.springframework.amqp.core.Binding;
@@ -24,19 +23,18 @@ public class SpringQpidApplication
     /**
      *
      */
-    public static final String queueName = "spring-boot";
+    public static final String QUEUE_NAME = "spring-boot";
 
     /**
      *
      */
-    public static final String topicExchangeName = "spring-boot-exchange";
+    public static final String TOPIC_EXCHANGE_NAME = "spring-boot-exchange";
 
     /**
      * @param args String[]
-     * @throws Exception Falls was schief geht.
      */
     @SuppressWarnings("resource")
-    public static void main(final String[] args) throws Exception
+    public static void main(final String[] args)
     {
         SpringApplication.run(SpringQpidApplication.class, args);
     }
@@ -58,7 +56,7 @@ public class SpringQpidApplication
     @Bean
     public TopicExchange exchange()
     {
-        return new TopicExchange(topicExchangeName);
+        return new TopicExchange(TOPIC_EXCHANGE_NAME);
     }
 
     /**
@@ -76,6 +74,6 @@ public class SpringQpidApplication
     @Bean
     public Queue queue()
     {
-        return new Queue(queueName, false);
+        return new Queue(QUEUE_NAME, false);
     }
 }

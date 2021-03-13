@@ -1,7 +1,6 @@
 /**
  * Created: 11.03.2020
  */
-
 package de.freese.spring.rsocket.client;
 
 import java.time.Duration;
@@ -60,7 +59,7 @@ public class RSocketClientShell
     /**
      *
      */
-    private static Disposable disposable = null;
+    private static Disposable disposable;
 
     /**
     *

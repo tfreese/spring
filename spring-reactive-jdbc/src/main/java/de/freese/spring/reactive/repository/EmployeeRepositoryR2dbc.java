@@ -28,6 +28,7 @@ public class EmployeeRepositoryR2dbc implements EmployeeRepository
     /**
      *
      */
+    @SuppressWarnings("unused")
     private final R2dbcEntityTemplate r2dbcTemplate;
 
     /**

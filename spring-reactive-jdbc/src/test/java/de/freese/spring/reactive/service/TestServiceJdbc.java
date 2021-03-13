@@ -1,7 +1,6 @@
 /**
  * Created: 23.06.2019
  */
-
 package de.freese.spring.reactive.service;
 
 import javax.annotation.Resource;
@@ -24,21 +23,13 @@ class TestServiceJdbc implements TestServiceInterface
     *
     */
     @Resource
-    private JdbcTemplate jdbcTemplate = null;
+    private JdbcTemplate jdbcTemplate;
 
     /**
     *
     */
     @Resource
-    private EmployeeService service = null;
-
-    /**
-     * Erstellt ein neues {@link TestServiceJdbc} Object.
-     */
-    public TestServiceJdbc()
-    {
-        super();
-    }
+    private EmployeeService service;
 
     /**
      * @see de.freese.spring.reactive.service.TestServiceInterface#getJdbcTemplate()

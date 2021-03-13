@@ -49,21 +49,13 @@ import de.freese.spring.thymeleaf.model.Person;
 {
         "test", "with-ssl"
 })
-public class TestRestWithRestTemplateSSL extends AbstractRestTestCase
+class TestRestWithRestTemplateSSL extends AbstractRestTestCase
 {
     /**
      * @author Thomas Freese
      */
     private class NoOpResponseErrorHandler extends DefaultResponseErrorHandler
     {
-        /**
-         * Erstellt ein neues {@link NoOpResponseErrorHandler} Object.
-         */
-        private NoOpResponseErrorHandler()
-        {
-            super();
-        }
-
         /**
          * @see org.springframework.web.client.DefaultResponseErrorHandler#handleError(org.springframework.http.client.ClientHttpResponse)
          */
@@ -96,25 +88,25 @@ public class TestRestWithRestTemplateSSL extends AbstractRestTestCase
     *
     */
     @Resource
-    private Environment environment = null;
+    private Environment environment;
 
     /**
      *
      */
     @Resource
-    private HttpClient httpClient = null;
+    private HttpClient httpClient;
 
     /**
     *
     */
     @LocalServerPort
-    private int localServerPort = 0;
+    private int localServerPort;
 
     /**
      *
      */
     @Resource
-    private RestTemplateBuilder restTemplateBuilder = null;
+    private RestTemplateBuilder restTemplateBuilder;
 
     /**
      * @throws Exception Falls was schief geht.

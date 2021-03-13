@@ -1,7 +1,6 @@
 /**
  * Created: 03.09.2018
  */
-
 package de.freese.spring.thymeleaf.exception;
 
 import java.io.Serializable;
@@ -30,27 +29,27 @@ public class ApiError
     /**
      * @author Thomas Freese
      */
-    abstract class ApiSubError
+    abstract class AbstractApiSubError
     {
         /**
          *
          */
-        private String subMessage = null;
+        private String subMessage;
 
         /**
-         * Erstellt ein neues {@link ApiSubError} Object.
+         * Erstellt ein neues {@link AbstractApiSubError} Object.
          */
-        ApiSubError()
+        AbstractApiSubError()
         {
             super();
         }
 
         /**
-         * Erstellt ein neues {@link ApiSubError} Object.
+         * Erstellt ein neues {@link AbstractApiSubError} Object.
          *
          * @param subMessage String
          */
-        ApiSubError(final String subMessage)
+        AbstractApiSubError(final String subMessage)
         {
             super();
 
@@ -77,22 +76,22 @@ public class ApiError
     /**
      * @author Thomas Freese
      */
-    class ApiValidationError extends ApiSubError
+    class ApiValidationError extends AbstractApiSubError
     {
         /**
          *
          */
-        private String field = null;
+        private String field;
 
         /**
          *
          */
-        private String object = null;
+        private String object;
 
         /**
          *
          */
-        private Object rejectedValue = null;
+        private Object rejectedValue;
 
         /**
          * Erstellt ein neues {@link ApiValidationError} Object.
@@ -178,44 +177,44 @@ public class ApiError
     /**
      *
      */
-    private Map<String, Serializable> details = null;
+    private Map<String, Serializable> details;
 
     /**
      *
      */
-    private String exceptionMessage = null;
+    private String exceptionMessage;
 
     /**
     *
     */
-    private int httpStatus = 0;
+    private int httpStatus;
 
     /**
     *
     */
-    private String message = null;
+    private String message;
 
     /**
     *
     */
-    private String path = null;
+    private String path;
 
     /**
      *
      */
-    private String stackTrace = null;
+    private String stackTrace;
 
     /**
      *
      */
-    private List<ApiSubError> subErrors = null;
+    private List<AbstractApiSubError> subErrors;
 
     /**
     *
     */
     // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss.SSS")
     // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    private LocalDateTime timestamp = null;
+    private LocalDateTime timestamp;
 
     /**
      * Erstellt ein neues {@link ApiError} Object.
@@ -242,9 +241,9 @@ public class ApiError
     }
 
     /**
-     * @param subError {@link ApiSubError}
+     * @param subError {@link AbstractApiSubError}
      */
-    private void addSubError(final ApiSubError subError)
+    private void addSubError(final AbstractApiSubError subError)
     {
         if (this.subErrors == null)
         {
@@ -380,7 +379,7 @@ public class ApiError
     /**
      * @return {@link List}<ApiSubError>
      */
-    public List<ApiSubError> getSubErrors()
+    public List<AbstractApiSubError> getSubErrors()
     {
         return this.subErrors;
     }

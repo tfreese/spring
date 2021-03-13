@@ -21,7 +21,7 @@ class MyApplicationTest
      *
      */
     @Test
-    void contextLoads()
+    void testContextLoads()
     {
         assertTrue(true);
     }
@@ -30,7 +30,7 @@ class MyApplicationTest
     *
     */
     @Test
-    void request()
+    void testRequest()
     {
         WebTestClient webClient = WebTestClient.bindToController(new MyRestController()).build();
 

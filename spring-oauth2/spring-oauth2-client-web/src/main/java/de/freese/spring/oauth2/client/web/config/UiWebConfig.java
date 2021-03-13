@@ -27,14 +27,6 @@ public class UiWebConfig implements WebMvcConfigurer
     }
 
     /**
-     * Erstellt ein neues {@link UiWebConfig} Object.
-     */
-    public UiWebConfig()
-    {
-        super();
-    }
-
-    /**
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry)
      */
     @Override

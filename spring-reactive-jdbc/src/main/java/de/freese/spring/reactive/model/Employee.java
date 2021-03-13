@@ -21,7 +21,7 @@ public class Employee
     /**
      *
      */
-    private int id = 0;
+    private int id;
 
     /**
      *

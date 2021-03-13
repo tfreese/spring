@@ -1,7 +1,6 @@
 /**
  * Created: 21.04.2019
  */
-
 package de.freese.spring.rsocket.client.data;
 
 /**
@@ -12,44 +11,12 @@ public class MessageResponse
     /**
     *
     */
-    private long index = 0;
+    private long index;
 
     /**
      *
      */
-    private String message = null;
-
-    /**
-     * Erstellt ein neues {@link MessageResponse} Object.
-     */
-    public MessageResponse()
-    {
-        super();
-    }
-
-    // /**
-    // * Erstellt ein neues {@link MessageResponse} Object.
-    // *
-    // * @param message String
-    // */
-    // public MessageResponse(final String message)
-    // {
-    // this(message, 0L);
-    // }
-    //
-    // /**
-    // * Erstellt ein neues {@link MessageResponse} Object.
-    // *
-    // * @param message String
-    // * @param index long
-    // */
-    // public MessageResponse(final String message, final long index)
-    // {
-    // super();
-    //
-    // this.message = String.format("Hello %s", message);// @ %s", greeting, Instant.now());
-    // this.index = index;
-    // }
+    private String message;
 
     /**
      * @return Long

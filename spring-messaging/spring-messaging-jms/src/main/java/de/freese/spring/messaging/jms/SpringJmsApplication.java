@@ -1,7 +1,6 @@
 /**
  * Created: 31.01.2019
  */
-
 package de.freese.spring.messaging.jms;
 
 import java.util.concurrent.Executor;
@@ -29,10 +28,9 @@ public class SpringJmsApplication
 {
     /**
      * @param args String[]
-     * @throws Exception Falls was schief geht.
      */
     @SuppressWarnings("resource")
-    public static void main(final String[] args) throws Exception
+    public static void main(final String[] args)
     {
         SpringApplication.run(SpringJmsApplication.class, args);
     }

@@ -1,7 +1,6 @@
 /**
  * Created: 31.10.2019
  */
-
 package de.freese.spring.oauth2.client.rest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,7 +22,7 @@ class OAuth2ClientRestTests
      *
      */
     @Test
-    void contextLoads()
+    void testContextLoads()
     {
         assertTrue(true);
     }

@@ -147,7 +147,7 @@ public class LoadBalancerApplication
         /**
          *
          */
-        private int serverIndex = 0;
+        private int serverIndex;
 
         /**
          * Erzeugt eine neue Instanz von {@link LoadBalancerHystrixInterceptor}.
@@ -216,7 +216,8 @@ public class LoadBalancerApplication
          */
         private String nextServer()
         {
-            String host = this.server[this.serverIndex++];
+            String host = this.server[this.serverIndex];
+            this.serverIndex++;
 
             if (this.serverIndex == this.server.length)
             {
@@ -237,7 +238,7 @@ public class LoadBalancerApplication
         /**
          *
          */
-        private int index = 0;
+        private int index;
 
         /**
          *
@@ -294,8 +295,8 @@ public class LoadBalancerApplication
 
             for (int i = 0; i < trys; i++)
             {
-                final String server = nextServer();
-                final URI newUri = convertURI(originalUri, server);
+                final String srv = nextServer();
+                final URI newUri = convertURI(originalUri, srv);
 
                 try
                 {
@@ -350,7 +351,8 @@ public class LoadBalancerApplication
          */
         private String nextServer()
         {
-            String host = this.server[this.index++];
+            String host = this.server[this.index];
+            this.index++;
 
             if (this.index == this.server.length)
             {

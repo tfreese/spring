@@ -20,7 +20,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
     /**
      * @author Thomas Freese
      */
-    private static class PrimaryCommand extends HystrixCommand<String>
+    private static final class PrimaryCommand extends HystrixCommand<String>
     {
         /**
         *
@@ -68,7 +68,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
     /**
      * @author Thomas Freese
      */
-    private static class SecondaryCommand extends HystrixCommand<String>
+    private static final class SecondaryCommand extends HystrixCommand<String>
     {
         /**
         *

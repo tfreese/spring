@@ -1,7 +1,6 @@
 /**
  * Created: 13.02.2017
  */
-
 package de.freese.spring.autoconfigure.hsqldbserver;
 
 import java.util.List;
@@ -23,20 +22,12 @@ public class HsqldbServerProperties
         /**
          *
          */
-        private String name = null;
+        private String name;
 
         /**
          *
          */
-        private String path = null;
-
-        /**
-         * Erstellt ein neues {@link DB} Object.
-         */
-        public DB()
-        {
-            super();
-        }
+        private String path;
 
         /**
          * @return String
@@ -88,7 +79,7 @@ public class HsqldbServerProperties
     /**
      *
      */
-    private List<DB> db = null;
+    private List<DB> db;
 
     /**
      *
@@ -103,7 +94,7 @@ public class HsqldbServerProperties
     /**
     *
     */
-    private int port = 0;
+    private int port;
 
     /**
      *
@@ -113,15 +104,7 @@ public class HsqldbServerProperties
     /**
       *
       */
-    private boolean trace = false;
-
-    /**
-     * Erstellt ein neues {@link HsqldbServerProperties} Object.
-     */
-    public HsqldbServerProperties()
-    {
-        super();
-    }
+    private boolean trace;
 
     /**
      * @return List<DB>

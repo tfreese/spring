@@ -1,7 +1,6 @@
 /**
  * Created: 28.10.2018
  */
-
 package de.freese.spring.jwt.controller;
 
 import java.security.Principal;
@@ -36,7 +35,7 @@ public class UserController
      *
      */
     @Resource
-    private UserService userService = null;
+    private UserService userService;
 
     /**
      * @param username String

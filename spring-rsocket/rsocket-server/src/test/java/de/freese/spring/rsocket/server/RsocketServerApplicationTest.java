@@ -1,7 +1,6 @@
 /**
  * Created: 11.03.2020
  */
-
 package de.freese.spring.rsocket.server;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,7 +19,7 @@ class RsocketServerApplicationTest
      *
      */
     @Test
-    void contextLoads()
+    void testContextLoads()
     {
         assertTrue(true);
     }

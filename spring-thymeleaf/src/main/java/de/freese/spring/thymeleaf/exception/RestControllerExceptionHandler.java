@@ -194,8 +194,8 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      * @param request {@link WebRequest}
      * @return {@link ResponseEntity}
      */
-    @ExceptionHandler(javax.validation.ConstraintViolationException.class)
-    protected ResponseEntity<Object> handleConstraintViolation(final javax.validation.ConstraintViolationException ex, final WebRequest request)
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(final ConstraintViolationException ex, final WebRequest request)
     {
         ApiError apiError = new ApiError();
         apiError.addValidationErrors(ex.getConstraintViolations());

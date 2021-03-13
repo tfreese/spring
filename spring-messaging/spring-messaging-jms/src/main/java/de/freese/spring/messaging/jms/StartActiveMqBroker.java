@@ -1,7 +1,6 @@
 /**
  * Created: 04.02.2019
  */
-
 package de.freese.spring.messaging.jms;
 
 import java.io.File;
@@ -13,10 +12,10 @@ import org.apache.activemq.store.memory.MemoryPersistenceAdapter;
 
 /**
  * Stand-Alone Broker Instanz von ActiveMQ.
- * 
+ *
  * @author Thomas Freese
  */
-public class StartActiveMqBroker
+public final class StartActiveMqBroker
 {
     /**
      * @param args String[]

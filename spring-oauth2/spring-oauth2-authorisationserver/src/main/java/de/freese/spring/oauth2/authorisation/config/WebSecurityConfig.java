@@ -1,7 +1,6 @@
 /**
  * Created: 25.09.2018
  */
-
 package de.freese.spring.oauth2.authorisation.config;
 
 import javax.annotation.Resource;
@@ -28,21 +27,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     *
     */
     @Resource
-    private UserDetailsService myUserDetailsService = null;
+    private UserDetailsService myUserDetailsService;
 
     /**
     *
     */
     @Resource
-    private PasswordEncoder passwordEncoder = null;
-
-    /**
-     * Erstellt ein neues {@link WebSecurityConfig} Object.
-     */
-    public WebSecurityConfig()
-    {
-        super();
-    }
+    private PasswordEncoder passwordEncoder;
 
     /**
      * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#authenticationManagerBean()

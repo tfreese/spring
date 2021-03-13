@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html lang="de"
-	xmlns:th="http://www.thymeleaf.org"
+	xmlns:th="http://www.thymeleaf.org" 
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
@@ -54,7 +54,7 @@
 				
 				<form id="form_logout" action="/logout" method="POST">
 					<span style="float:right" sec:authorize="isAuthenticated()">
-						<!--a href="/login">Logout</a-->					
+						<!-- a href="/login">Logout</a-->					
 						<a href="javascript:{}" onclick="document.getElementById('form_logout').submit(); return false;">Logout</a>									
 					</span>
 				</form>

@@ -26,20 +26,11 @@ public class HateoasApplication implements WebMvcConfigurer// extends SpringBoot
 {
     /**
      * @param args String[]
-     * @throws java.lang.Exception Falls was schief geht.
      */
     @SuppressWarnings("resource")
-    public static void main(final String[] args) throws Exception
+    public static void main(final String[] args)
     {
         SpringApplication.run(HateoasApplication.class, args);
-    }
-
-    /**
-     * Erzeugt eine neue Instanz von {@link HateoasApplication}
-     */
-    public HateoasApplication()
-    {
-        super();
     }
 
     /**
@@ -49,7 +40,7 @@ public class HateoasApplication implements WebMvcConfigurer// extends SpringBoot
     public void extendMessageConverters(final List<HttpMessageConverter<?>> converters)
     {
         Optional<MappingJackson2HttpMessageConverter> converter = converters.stream().peek(c -> System.out.println(c.getClass().getSimpleName()))
-                .filter(c -> c instanceof MappingJackson2HttpMessageConverter).map(c -> (MappingJackson2HttpMessageConverter) c).findFirst();
+                .filter(c -> c instanceof MappingJackson2HttpMessageConverter).map(MappingJackson2HttpMessageConverter.class::cast).findFirst();
 
         if (converter.isPresent())
         {

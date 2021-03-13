@@ -31,14 +31,6 @@ import de.freese.spring.rest.RestService.Clock;
 @Configuration
 class Config
 {
-    /**
-     * Erzeugt eine neue Instanz von {@link Config}
-     */
-    Config()
-    {
-        super();
-    }
-
     // /**
     // * JSON-Mapper
     // *
@@ -98,88 +90,38 @@ class TestRestService
      *
      */
     @Resource
-    private MockMvc mockMvc = null;
+    private MockMvc mockMvc;
 
     /**
      * Default für JSON.
      */
     @Resource
-    private ObjectMapper objectMapper = null;
+    private ObjectMapper objectMapper;
     //
     // /**
     // * Default für XML.
     // */
     // @Resource
     // // @Qualifier("objectMapperXML")
-    // private ObjectMapper objectMapperXML = null;
+    // private ObjectMapper objectMapperXML;
 
     /**
      * Für XML-Mapping
      */
     @Resource
-    private Jackson2ObjectMapperBuilder objectMapperBuilder = null;
+    private Jackson2ObjectMapperBuilder objectMapperBuilder;
 
     // /**
     // *
     // */
     // @Resource
-    // private WebTestClient webClient = null;
-
-    /**
-     * Erzeugt eine neue Instanz von {@link TestRestService}
-     */
-    TestRestService()
-    {
-        super();
-    }
+    // private WebTestClient webClient;
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test010Ping() throws Exception
-    {
-        // .andDo(print()).andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
-
-        // @formatter:off
-        this.mockMvc.perform(get("/service/ping")) // Test-URLs ohne Context-Root angeben.
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-//          .andDo(MockMvcResultHandlers.print())
-            .andExpect(content().string("true"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$").value("true")) // Alternative zu string("true")
-            .andExpect(MockMvcResultMatchers.jsonPath("$").value(Matchers.is(true))); // Alternative zu string("true")
-
-//        this.webClient.get().repository("/")
-//            .exchange()
-//            .expectStatus().isOk()
-//            .exp
-//            .expectBody(String.class).isEqualTo("true");
-        // @formatter:on
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test020Sysdate() throws Exception
-    {
-        // @formatter:off
-        this.mockMvc.perform(get("/service/sysdate")) // Test-URLs ohne Context-Root angeben.
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON)) // application/json;charset=UTF-8 ; MediaType.APPLICATION_JSON_VALUE
-            //.andExpect(content().string(CoreMatchers.containsString("at port")))
-            .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
-            //.andExpect(MockMvcResultMatchers.jsonPath("$").value(Matchers.containsString("at port"))) // Alternative zu string(CoreMatchers.containsString("at port"))
-        ;
-        // @formatter:on
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test030ClockJSON() throws Exception
+    void testClockJSON() throws Exception
     {
         AtomicReference<Clock> clockReference = new AtomicReference<>(null);
 
@@ -212,7 +154,7 @@ class TestRestService
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test031ClockXML() throws Exception
+    void testClockXML() throws Exception
     {
         ObjectMapper objectMapperXML = this.objectMapperBuilder.createXmlMapper(true).build();
         AtomicReference<Clock> clockReference = new AtomicReference<>(null);
@@ -240,5 +182,47 @@ class TestRestService
         Assertions.assertNotNull(clock.getLocalDate());
         Assertions.assertNotNull(clock.getLocalTime());
         Assertions.assertNotNull(clock.getLocalDateTime());
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testPing() throws Exception
+    {
+        // .andDo(print()).andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
+
+        // @formatter:off
+        this.mockMvc.perform(get("/service/ping")) // Test-URLs ohne Context-Root angeben.
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+//          .andDo(MockMvcResultHandlers.print())
+            .andExpect(content().string("true"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$").value("true")) // Alternative zu string("true")
+            .andExpect(MockMvcResultMatchers.jsonPath("$").value(Matchers.is(true))); // Alternative zu string("true")
+
+//        this.webClient.get().repository("/")
+//            .exchange()
+//            .expectStatus().isOk()
+//            .exp
+//            .expectBody(String.class).isEqualTo("true");
+        // @formatter:on
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testSysdate() throws Exception
+    {
+        // @formatter:off
+        this.mockMvc.perform(get("/service/sysdate")) // Test-URLs ohne Context-Root angeben.
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON)) // application/json;charset=UTF-8 ; MediaType.APPLICATION_JSON_VALUE
+            //.andExpect(content().string(CoreMatchers.containsString("at port")))
+            .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
+            //.andExpect(MockMvcResultMatchers.jsonPath("$").value(Matchers.containsString("at port"))) // Alternative zu string(CoreMatchers.containsString("at port"))
+        ;
+        // @formatter:on
     }
 }

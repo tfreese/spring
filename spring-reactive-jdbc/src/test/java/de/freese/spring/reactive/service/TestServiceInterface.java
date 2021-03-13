@@ -1,7 +1,6 @@
 /**
  * Created: 24.06.2019
  */
-
 package de.freese.spring.reactive.service;
 
 import org.junit.jupiter.api.AfterEach;
@@ -53,7 +52,7 @@ public interface TestServiceInterface
       *
      */
     @Test
-    default void createNewEmployee()
+    default void testCreateNewEmployee()
     {
         Employee newEmployee = new Employee("Foo", "Bar", "Manufacturing");
         Employee expected = new Employee(7, "Foo", "Bar", "Manufacturing");
@@ -83,7 +82,7 @@ public interface TestServiceInterface
      *
     */
     @Test
-    default void deleteEmployee()
+    default void testDeleteEmployee()
     {
         Mono<Integer> employee = getService().deleteEmployee(1);
 
@@ -110,7 +109,7 @@ public interface TestServiceInterface
      *
      */
     @Test
-    default void getAllDepartments()
+    default void testGetAllDepartments()
     {
         Flux<Department> departments = getService().getAllDepartments();
 
@@ -127,7 +126,7 @@ public interface TestServiceInterface
     *
     */
     @Test
-    default void getAllEmployees()
+    default void testGetAllEmployees()
     {
         Flux<Employee> employees = getService().getAllEmployees();
 
@@ -144,7 +143,7 @@ public interface TestServiceInterface
      *
      */
     @Test
-    default void getEmployee()
+    default void testGetEmployee()
     {
         Mono<Employee> employee = getService().getEmployee("Sally", "Wilson");
 

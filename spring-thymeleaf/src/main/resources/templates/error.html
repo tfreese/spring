@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html lang="de"
-	manifest="manifest.appcache"
+	manifest="manifest.appcache" 
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
@@ -36,7 +36,7 @@
 					</table>
 				</div>
 			
-				<!--h3 th:if="${apiError.stackTrace}" th:utext="${'StackTrace:<br /> ' + apiError.stackTrace}" /-->
+				<!-- h3 th:if="${apiError.stackTrace}" th:utext="${'StackTrace:<br /> ' + apiError.stackTrace}" /-->
 				<div th:if="${apiError.stackTrace}">
 					<h3>StackTrace:</h3>
 					<pre th:text="${apiError.stackTrace}" />

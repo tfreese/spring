@@ -1,7 +1,6 @@
 /**
  * Created: 19.10.2019
  */
-
 package de.freese.spring.autoconfigure.hsqldbserver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -51,23 +50,14 @@ class TestHsqldbServerAutoConfiguration
     */
     @Resource
     @Qualifier("dataSourceFile")
-    private DataSource dataSourceFile = null;
+    private DataSource dataSourceFile;
 
     /**
     *
     */
     @Resource
     @Qualifier("dataSourceMemory")
-    private DataSource dataSourceMemory = null;
-
-    /**
-    *
-    */
-    @Test
-    void contextLoads()
-    {
-        assertTrue(true);
-    }
+    private DataSource dataSourceMemory;
 
     /**
      * @param dataSource {@link DataSource}
@@ -132,6 +122,15 @@ class TestHsqldbServerAutoConfiguration
                 assertTrue(false);
             }
         }
+    }
+
+    /**
+    *
+    */
+    @Test
+    void testContextLoads()
+    {
+        assertTrue(true);
     }
 
     /**

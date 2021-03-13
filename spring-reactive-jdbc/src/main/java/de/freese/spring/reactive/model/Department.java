@@ -11,7 +11,7 @@ public class Department
     /**
      *
      */
-    private int id = 0;
+    private int id;
 
     /**
      *

@@ -1,7 +1,6 @@
 /**
  * Created: 09.02.2019
  */
-
 package de.freese.spring.javafx;
 
 import java.util.Objects;
@@ -21,7 +20,7 @@ public class UiController // implements javafx.fxml.Initializable
      *
      */
     @FXML
-    private Button button = null;
+    private Button button;
 
     /**
      *
@@ -32,7 +31,7 @@ public class UiController // implements javafx.fxml.Initializable
      *
      */
     @FXML
-    private Label label = null;
+    private Label label;
 
     /**
      * Erstellt ein neues {@link UiController} Object.

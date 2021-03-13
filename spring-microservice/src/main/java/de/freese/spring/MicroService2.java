@@ -23,12 +23,4 @@ public class MicroService2
                 .run(new String[]{"--server.port=8082"});
         // @formatter:on
     }
-
-    /**
-     * Erzeugt eine neue Instanz von {@link MicroService2}
-     */
-    private MicroService2()
-    {
-        super();
-    }
 }

@@ -101,7 +101,7 @@ public class SpringResilienceApplication implements CommandLineRunner
         /**
          *
          */
-        private final Logger LOGGER = LoggerFactory.getLogger(FailingService.class);
+        private final Logger logger = LoggerFactory.getLogger(FailingService.class);
 
         /**
         *
@@ -121,7 +121,7 @@ public class SpringResilienceApplication implements CommandLineRunner
             }
             catch (UnknownHostException ex)
             {
-                this.LOGGER.error(null, ex);
+                this.logger.error(null, ex);
             }
 
             return "???";
@@ -139,7 +139,7 @@ public class SpringResilienceApplication implements CommandLineRunner
             return name
                     .map(s -> {
                         var msg = "Hello " + s + " ! (in " + seconds + " Seconds) on " + getHost();
-                        this.LOGGER.info(msg);
+                        this.logger.info(msg);
                         return Mono.just(msg);
                         })
                     .orElse(Mono.error(new NullPointerException("name")))
@@ -195,11 +195,11 @@ public class SpringResilienceApplication implements CommandLineRunner
     Customizer<ReactiveResilience4JCircuitBreakerFactory> customizerSlowGreet()
     {
         //@formatter:off
-        return factory -> factory.configure(builder -> {
+        return factory -> factory.configure(builder ->
                     builder
                         .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(5)).build())
-                        .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults());
-        }, "greet");
+                        .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+        , "greet");
         //@formatter:on
     }
 

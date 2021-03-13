@@ -1,7 +1,6 @@
 /**
  * Created: 05.09.2018
  */
-
 package de.freese.spring.thymeleaf.facade;
 
 import java.util.List;
@@ -30,15 +29,7 @@ public class PersonRestController
     *
     */
     @Resource
-    private PersonService service = null;
-
-    /**
-     * Erstellt ein neues {@link PersonRestController} Object.
-     */
-    public PersonRestController()
-    {
-        super();
-    }
+    private PersonService service;
 
     /**
      *

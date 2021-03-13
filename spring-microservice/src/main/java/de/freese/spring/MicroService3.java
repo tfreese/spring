@@ -20,15 +20,7 @@ public class MicroService3
         new SpringApplicationBuilder(MicroServiceApplication.class)
                 //.properties("server.port=8083") // Funktioniert nicht, wenn server.port in application.yml enthalten ist.
                 //.run(args);
-                .run(new String[]{"--server.port=8083"});;
+                .run(new String[]{"--server.port=8083"});
         // @formatter:on
-    }
-
-    /**
-     * Erzeugt eine neue Instanz von {@link MicroService3}
-     */
-    private MicroService3()
-    {
-        super();
     }
 }

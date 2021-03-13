@@ -1,7 +1,6 @@
 /**
  * Created: 25.09.2018
  */
-
 package de.freese.spring.jwt.config;
 
 import java.io.IOException;
@@ -55,14 +54,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     private static class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
     {
         /**
-         * Erstellt ein neues {@link RestAuthenticationEntryPoint} Object.
-         */
-        RestAuthenticationEntryPoint()
-        {
-            super();
-        }
-
-        /**
          * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#afterPropertiesSet()
          */
         @Override
@@ -95,21 +86,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
      *
      */
     @Resource
-    private JwtTokenProvider jwtTokenProvider = null;
+    private JwtTokenProvider jwtTokenProvider;
 
     /**
      *
      */
     @Resource
-    private UserCache userCache = null;
-
-    /**
-     * Erstellt ein neues {@link SecurityConfig} Object.
-     */
-    public SecurityConfig()
-    {
-        super();
-    }
+    private UserCache userCache;
 
     /**
      * @return {@link AuthenticationEntryPoint}

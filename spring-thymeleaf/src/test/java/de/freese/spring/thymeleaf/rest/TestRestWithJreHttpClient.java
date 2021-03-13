@@ -44,42 +44,42 @@ import de.freese.spring.thymeleaf.model.Person;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class TestRestWithJreHttpClient extends AbstractRestTestCase
+class TestRestWithJreHttpClient extends AbstractRestTestCase
 {
     /**
     *
     */
     @Resource
-    private Environment environment = null;
+    private Environment environment;
 
     /**
     *
     */
     @Resource
-    private ExecutorService executorService = null;
+    private ExecutorService executorService;
 
     /**
     *
     */
     @LocalServerPort
-    private int localServerPort = 0;
+    private int localServerPort;
 
     /**
      * Default für JSON.
      */
     @Resource
-    private ObjectMapper objectMapper = null;
+    private ObjectMapper objectMapper;
 
     /**
      * Für XML-Mapping
      */
     @Resource
-    private Jackson2ObjectMapperBuilder objectMapperBuilder = null;
+    private Jackson2ObjectMapperBuilder objectMapperBuilder;
 
     /**
     *
     */
-    private String rootUri = null;
+    private String rootUri;
 
     /**
      * @throws Exception Falls was schief geht.

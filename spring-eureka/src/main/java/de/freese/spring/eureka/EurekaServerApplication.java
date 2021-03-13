@@ -15,10 +15,9 @@ public class EurekaServerApplication
 {
     /**
      * @param args String[]
-     * @throws Exception Falls was schief geht.
      */
     @SuppressWarnings("resource")
-    public static void main(final String[] args) throws Exception
+    public static void main(final String[] args)
     {
         SpringApplication.run(EurekaServerApplication.class, args);
 
@@ -27,13 +26,5 @@ public class EurekaServerApplication
 //                .properties("spring.config.location=classpath:application.properties")
 //                .run(args);
         // @formatter:on
-    }
-
-    /**
-     * Erzeugt eine neue Instanz von {@link EurekaServerApplication}
-     */
-    public EurekaServerApplication()
-    {
-        super();
     }
 }

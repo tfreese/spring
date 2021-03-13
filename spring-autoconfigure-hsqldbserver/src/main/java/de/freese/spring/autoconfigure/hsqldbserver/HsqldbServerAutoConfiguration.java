@@ -72,15 +72,7 @@ public class HsqldbServerAutoConfiguration
      *
      */
     @Resource
-    private HsqldbServerProperties hsqldbServerProperties = null;
-
-    /**
-     * Erstellt ein neues {@link HsqldbServerAutoConfiguration} Object.
-     */
-    public HsqldbServerAutoConfiguration()
-    {
-        super();
-    }
+    private HsqldbServerProperties hsqldbServerProperties;
 
     /**
      * @return {@link Server}

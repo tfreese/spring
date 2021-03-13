@@ -1,7 +1,6 @@
 /**
  * Created: 30.10.2018
  */
-
 package de.freese.spring.jwt.token;
 
 import java.io.IOException;
@@ -39,20 +38,12 @@ public class JwtTokenFilter extends OncePerRequestFilter
     /**
     *
     */
-    private AuthenticationEntryPoint authenticationEntryPoint = null;
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
     /**
     *
     */
-    private AuthenticationManager authenticationManager = null;
-
-    /**
-     * Erstellt ein neues {@link JwtTokenFilter} Object.
-     */
-    public JwtTokenFilter()
-    {
-        super();
-    }
+    private AuthenticationManager authenticationManager;
 
     /**
      * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,

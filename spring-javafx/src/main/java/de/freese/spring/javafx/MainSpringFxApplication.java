@@ -1,7 +1,6 @@
 /**
  * Created: 09.02.2019
  */
-
 package de.freese.spring.javafx;
 
 import java.util.concurrent.ExecutorService;
@@ -25,14 +24,6 @@ public class MainSpringFxApplication
     public static void main(final String[] args)
     {
         Application.launch(JavaFxApplication.class, args);
-    }
-
-    /**
-     * Erstellt ein neues {@link MainSpringFxApplication} Object.
-     */
-    public MainSpringFxApplication()
-    {
-        super();
     }
 
     /**

@@ -1,7 +1,6 @@
 /**
  * Created: 17.02.2019
  */
-
 package de.freese.spring.ldap.unboundid.config;
 
 import java.util.HashMap;
@@ -23,14 +22,6 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.Secret
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
-    /**
-     * Erstellt ein neues {@link WebSecurityConfig} Object.
-     */
-    public WebSecurityConfig()
-    {
-        super();
-    }
-
     /**
      * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder)
      */

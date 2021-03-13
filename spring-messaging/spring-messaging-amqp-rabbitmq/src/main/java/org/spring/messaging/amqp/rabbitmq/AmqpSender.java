@@ -1,7 +1,6 @@
 /**
  * Created: 01.02.2019
  */
-
 package org.spring.messaging.amqp.rabbitmq;
 
 import java.util.Objects;
@@ -45,6 +44,6 @@ public class AmqpSender
     {
         LOGGER.info("Sending message: {}", email);
 
-        this.amqpTemplate.convertAndSend(SpringRabbitMqApplication.topicExchangeName, "foo.bar.baz", email);
+        this.amqpTemplate.convertAndSend(SpringRabbitMqApplication.TOPIC_EXCHANGE_NAME, "foo.bar.baz", email);
     }
 }

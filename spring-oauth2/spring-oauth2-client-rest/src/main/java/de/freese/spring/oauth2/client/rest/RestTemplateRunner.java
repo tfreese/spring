@@ -1,7 +1,6 @@
 /**
  * Created: 12.09.2018
  */
-
 package de.freese.spring.oauth2.client.rest;
 
 import javax.annotation.Resource;
@@ -30,15 +29,7 @@ public class RestTemplateRunner implements CommandLineRunner
      *
      */
     @Resource(name = "oAuth2RestTemplate")
-    private RestTemplate restTemplate = null;
-
-    /**
-     * Erstellt ein neues {@link RestTemplateRunner} Object.
-     */
-    public RestTemplateRunner()
-    {
-        super();
-    }
+    private RestTemplate restTemplate;
 
     /**
      * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])

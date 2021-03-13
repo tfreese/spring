@@ -46,31 +46,31 @@ import reactor.netty.http.client.HttpClient;
 {
         "test", "with-ssl"
 })
-public class TestRestWithWebClientSSL extends AbstractRestTestCase
+class TestRestWithWebClientSSL extends AbstractRestTestCase
 {
     /**
     *
     */
     @Resource
-    private Environment environment = null;
+    private Environment environment;
 
     /**
     *
     */
     @LocalServerPort
-    private int localServerPort = 0;
+    private int localServerPort;
 
     /**
      *
      */
     @Resource
-    private ObjectMapper objectMapper = null;
+    private ObjectMapper objectMapper;
 
     /**
      *
      */
     @Resource
-    private WebClient.Builder webClientBuilder = null;
+    private WebClient.Builder webClientBuilder;
 
     /**
      * @throws Exception Falls was schief geht.

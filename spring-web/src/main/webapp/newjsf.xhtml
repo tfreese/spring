@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3c.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -6,7 +6,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:pe="http://primefaces.org/ui/extensions"> 
 
 <h:head>
 	<title>Facelet Title</title>
@@ -20,7 +20,7 @@
 		<br />
 			<br />
 			<form>
-				<!-- Implizite Navigation über Name:  welcomePrimefaces -> welcomePrimefaces.xhtml-->
+				<!-- Implizite Navigation über Name:  welcomePrimefaces -> welcomePrimefaces.xhtml -->
 				<p:button value="Nächste Seite (Implizite Navigation)"
 					outcome="welcomePrimefaces" icon="ui-icon-star">
 					<f:param name="productID" value="10" />
@@ -51,13 +51,13 @@
 				method="post" id="form_shutdown1">
 				<button type="submit">shutdown spring-boot-web</button>
 				<br />
-				<!-- p:commandButton value="shutdown" action="http://localhost:8088/spring-boot-web/actuator/shutdown" /-->
+				<!-- p:commandButton value="shutdown" action="http://localhost:8088/spring-boot-web/actuator/shutdown" / -->
 			</form>
 			<br />
 			<form action="actuator/shutdown" method="post" id="form_shutdown2">
 				<button type="submit">shutdown spring-boot-web</button>
 				<br />
-				<!-- p:commandButton value="shutdown" action="actuator/shutdown" /-->
+				<!-- p:commandButton value="shutdown" action="actuator/shutdown" / -->
 			</form>
 		</p:layoutUnit>
 	</p:layout>

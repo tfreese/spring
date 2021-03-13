@@ -1,7 +1,6 @@
 /**
  * Created: 21.04.2019
  */
-
 package de.freese.spring.rsocket.server.data;
 
 /**
@@ -12,12 +11,12 @@ public class MessageResponse
     /**
     *
     */
-    private long index = 0;
+    private long index;
 
     /**
      *
      */
-    private String message = null;
+    private String message;
 
     /**
      * Erstellt ein neues {@link MessageResponse} Object.

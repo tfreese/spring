@@ -1,9 +1,9 @@
 /**
  * Created: 18.02.2019
  */
-
 package de.freese.spring.ldap.unboundid.dao;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -46,14 +46,6 @@ public class MyLdapDao implements BaseLdapNameAware
      */
     private static class GroupMemberDirContextMapper extends AbstractContextMapper<String[]>
     {
-        /**
-         * Erstellt ein neues {@link GroupMemberDirContextMapper} Object.
-         */
-        public GroupMemberDirContextMapper()
-        {
-            super();
-        }
-
         /**
          * @see org.springframework.ldap.core.support.AbstractContextMapper#doMapFromContext(org.springframework.ldap.core.DirContextOperations)
          */
@@ -116,14 +108,6 @@ public class MyLdapDao implements BaseLdapNameAware
     private static class PersonCommonNameContextMapper implements ContextMapper<String>
     {
         /**
-         * Erstellt ein neues {@link PersonCommonNameContextMapper} Object.
-         */
-        public PersonCommonNameContextMapper()
-        {
-            super();
-        }
-
-        /**
          * @see org.springframework.ldap.core.ContextMapper#mapFromContext(java.lang.Object)
          */
         @Override
@@ -154,7 +138,7 @@ public class MyLdapDao implements BaseLdapNameAware
     /**
      *
      */
-    private LdapName baseLdapPath = null;
+    private LdapName baseLdapPath;
 
     /**
      *
@@ -208,7 +192,7 @@ public class MyLdapDao implements BaseLdapNameAware
         try
         {
             MessageDigest digest = MessageDigest.getInstance("SHA");
-            digest.update(password.getBytes());
+            digest.update(password.getBytes(StandardCharsets.UTF_8));
             base64 = Base64.getEncoder().encodeToString(digest.digest());
         }
         catch (NoSuchAlgorithmException ex)

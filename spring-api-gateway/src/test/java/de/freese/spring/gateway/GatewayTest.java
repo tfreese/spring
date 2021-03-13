@@ -1,5 +1,4 @@
-/*** Created:09.02.2019 */
-
+// Created: 09.02.2019
 package de.freese.spring.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,13 +31,13 @@ class GatewayTest
     *
     */
     @Resource
-    private WebTestClient webClient = null;
+    private WebTestClient webClient;
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test010ContextLoads() throws Exception
+    void testContextLoads() throws Exception
     {
         assertTrue(true);
     }
@@ -48,7 +47,7 @@ class GatewayTest
      */
     @Test
     @Disabled("Funktioniert nur zusammen mit spring-microservice")
-    void test020Get()
+    void testGet()
     {
         // @formatter:off
         this.webClient
@@ -61,11 +60,29 @@ class GatewayTest
     }
 
     /**
+     *
+     */
+    @Test
+    @Disabled("Funktioniert nur zusammen mit spring-microservice")
+    void testHystrix()
+    {
+        // @formatter:off
+        this.webClient
+            .get().uri("/delay/1")
+            .header("Host", "www.hystrix.com")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody()
+            .consumeWith(response -> assertThat(response.getResponseBody()).isEqualTo("fallback\n".getBytes()));
+        // @formatter:on
+    }
+
+    /**
      * Separater Server wird benötigt -> spring-microservice
      */
     @Test
     @Disabled("Funktioniert nur zusammen mit spring-microservice")
-    void test030Sysdate()
+    void testSysdate()
     {
        // @formatter:off
        this.webClient
@@ -83,7 +100,7 @@ class GatewayTest
      */
     @Test
     @Disabled("Funktioniert nur zusammen mit spring-microservice")
-    void test040SysdateLB()
+    void testSysdateLB()
     {
        // @formatter:off
        this.webClient
@@ -94,23 +111,5 @@ class GatewayTest
            .consumeWith(response -> assertThat(response.getResponseBody()).isNotEmpty());
            ;
        // @formatter:on
-    }
-
-    /**
-     *
-     */
-    @Test
-    @Disabled("Funktioniert nur zusammen mit spring-microservice")
-    void test050Hystrix()
-    {
-        // @formatter:off
-        this.webClient
-            .get().uri("/delay/1")
-            .header("Host", "www.hystrix.com")
-            .exchange()
-            .expectStatus().isOk()
-            .expectBody()
-            .consumeWith(response -> assertThat(response.getResponseBody()).isEqualTo("fallback\n".getBytes()));
-        // @formatter:on
     }
 }

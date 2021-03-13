@@ -1,7 +1,6 @@
 /**
  * Created: 28.10.2018
  */
-
 package de.freese.spring.jwt.model;
 
 import java.util.Collection;
@@ -34,27 +33,27 @@ public class MutableUser implements UserDetails, CredentialsContainer
     /**
     *
     */
-    private Set<? extends GrantedAuthority> authorities = null;
+    private Set<? extends GrantedAuthority> authorities;
 
     /**
     *
     */
-    private boolean credentialsNonExpired = true;
+    private boolean credentialsNonExpired;
 
     /**
     *
     */
-    private boolean enabled = false;
+    private boolean enabled;
 
     /**
     *
     */
-    private String password = null;
+    private String password;
 
     /**
     *
     */
-    private String username = null;
+    private String username;
 
     /**
      * Erstellt ein neues {@link MutableUser} Object.

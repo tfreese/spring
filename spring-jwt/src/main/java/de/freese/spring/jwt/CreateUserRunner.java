@@ -1,7 +1,6 @@
 /**
  * Created: 12.09.2018
  */
-
 package de.freese.spring.jwt;
 
 import java.util.Arrays;
@@ -31,15 +30,7 @@ public class CreateUserRunner implements CommandLineRunner
      *
      */
     @Resource
-    private UserService userService = null;
-
-    /**
-     * Erstellt ein neues {@link CreateUserRunner} Object.
-     */
-    public CreateUserRunner()
-    {
-        super();
-    }
+    private UserService userService;
 
     /**
      * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])

@@ -14,7 +14,7 @@ class SpringResilienceApplicationTests
      *
      */
     @Test
-    public void contextLoads()
+    void testContextLoads()
     {
         assertTrue(true);
     }

@@ -1,7 +1,6 @@
 /**
  * Created: 31.01.2019
  */
-
 package org.spring.messaging.amqp.rabbitmq;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -16,18 +15,10 @@ import org.springframework.stereotype.Component;
 public class AmqpReceiver
 {
     /**
-     * Erstellt ein neues {@link AmqpReceiver} Object.
-     */
-    public AmqpReceiver()
-    {
-        super();
-    }
-
-    /**
      * @param email {@link Email}
      * @param queue String
      */
-    @RabbitListener(queues = SpringRabbitMqApplication.queueName)
+    @RabbitListener(queues = SpringRabbitMqApplication.QUEUE_NAME)
     // @SendTo("returnQueue")
     public void receiveMessage(final Email email, @Header(AmqpHeaders.CONSUMER_QUEUE) final String queue)
     {

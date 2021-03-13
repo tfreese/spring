@@ -1,7 +1,6 @@
 /**
  * Created: 17.02.2019
  */
-
 package de.freese.spring.ldap.unboundid.config;
 
 import javax.annotation.PreDestroy;
@@ -24,27 +23,19 @@ public class LdapClientConfig
     *
     */
     @Value("${spring.ldap.embedded.base-dn}")
-    private String baseDN = null;
+    private String baseDN;
 
     /**
     *
     */
     @Resource
-    private InMemoryDirectoryServer directoryServer = null;
+    private InMemoryDirectoryServer directoryServer;
 
     /**
      *
      */
     @Resource
-    private Environment env = null;
-
-    /**
-     * Erstellt ein neues {@link LdapClientConfig} Object.
-     */
-    public LdapClientConfig()
-    {
-        super();
-    }
+    private Environment env;
 
     /**
      * @return {@link BaseLdapPathBeanPostProcessor}
