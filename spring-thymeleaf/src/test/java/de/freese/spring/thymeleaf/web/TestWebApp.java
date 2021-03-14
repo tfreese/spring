@@ -29,10 +29,7 @@ import de.freese.spring.thymeleaf.ThymeleafApplication;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
-{
-        ThymeleafApplication.class
-})
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")

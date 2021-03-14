@@ -43,7 +43,7 @@ public class SpringReactiveJdbcApplication
             // @formatter:off
             DataSource dataSource = DataSourceBuilder.create()
                     .driverClassName("org.h2.Driver")
-                    .url("jdbc:h2:mem:testJdbc:create=true;shutdown=true")
+                    .url("jdbc:h2:mem:testJdbc:create=true") // ;shutdown=true
                     .username("SA")
                     .password("")
                     .build()

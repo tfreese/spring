@@ -50,6 +50,21 @@ public interface TestWebInterface
     }
 
     /**
+     * @return {@link JdbcTemplate}
+     */
+    JdbcTemplate getJdbcTemplate();
+
+    /**
+     * @return {@link WebClient}
+     */
+    WebClient getWebClient();
+
+    /**
+     * @return {@link WebTestClient}
+     */
+    WebTestClient getWebTestClient();
+
+    /**
      *
      */
     @Test
@@ -264,19 +279,4 @@ public interface TestWebInterface
             ;
         // @formatter:on
     }
-
-    /**
-     * @return {@link JdbcTemplate}
-     */
-    JdbcTemplate getJdbcTemplate();
-
-    /**
-     * @return {@link WebClient}
-     */
-    WebClient getWebClient();
-
-    /**
-     * @return {@link WebTestClient}
-     */
-    WebTestClient getWebTestClient();
 }

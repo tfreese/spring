@@ -1,7 +1,6 @@
 /**
  * Created: 06.11.2019
  */
-
 package de.freese.spring.oauth2.authorisation.config;
 
 import java.util.HashMap;
@@ -17,14 +16,6 @@ import org.springframework.util.CollectionUtils;
  */
 public class CustomTokenEnhancer implements TokenEnhancer
 {
-    /**
-     * Erstellt ein neues {@link CustomTokenEnhancer} Object.
-     */
-    public CustomTokenEnhancer()
-    {
-        super();
-    }
-
     /**
      * @see org.springframework.security.oauth2.provider.token.TokenEnhancer#enhance(org.springframework.security.oauth2.common.OAuth2AccessToken,
      *      org.springframework.security.oauth2.provider.OAuth2Authentication)

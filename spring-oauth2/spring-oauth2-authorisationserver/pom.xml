@@ -19,28 +19,6 @@
 	</properties>
 
 	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>application.properties</include>
-					<include>application.yml</include>
-					<include>bootstrap.yml</include>
-				</includes>
-			</resource>
-			<resource>
-				<!-- Alles andere NICHT filtern -->
-				<directory>src/main/resources</directory>
-				<filtering>false</filtering>
-				<excludes>
-					<exclude>application.properties</exclude>
-					<exclude>application.yml</exclude>
-					<exclude>bootstrap.yml</exclude>
-				</excludes>
-			</resource>
-		</resources>
-
 		<plugins>
 			<!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
 			<!-- java -jar -D"server.port=8899" target/service-0.0.1-SNAPSHOT-jar-with-dependencies.jar -->

@@ -1,7 +1,6 @@
 /**
  * Created: 14.09.2018
  */
-
 package de.freese.spring.thymeleaf.config;
 
 import java.security.SecureRandom;
@@ -59,14 +58,6 @@ public class HttpClientConfigSSL
     *
     */
     private static final int MAX_TOTAL_CONNECTIONS = 50;
-
-    /**
-     * Erstellt ein neues {@link HttpClientConfigSSL} Object.
-     */
-    public HttpClientConfigSSL()
-    {
-        super();
-    }
 
     /**
      * @param poolingConnectionManager {@link PoolingHttpClientConnectionManager}

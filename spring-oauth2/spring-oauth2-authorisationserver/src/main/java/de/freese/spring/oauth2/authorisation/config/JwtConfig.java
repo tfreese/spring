@@ -1,7 +1,6 @@
 /**
  * Created: 30.10.2018
  */
-
 package de.freese.spring.oauth2.authorisation.config;
 
 import org.springframework.context.annotation.Bean;
@@ -31,14 +30,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Profile("jwt")
 public class JwtConfig
 {
-    /**
-     * Erstellt ein neues {@link JwtConfig} Object.
-     */
-    public JwtConfig()
-    {
-        super();
-    }
-
     /**
      * @return {@link AccessTokenConverter}
      */

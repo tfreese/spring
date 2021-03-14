@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.context.request.RequestContextListener;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -17,15 +16,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class UiWebConfig implements WebMvcConfigurer
 {
-    /**
-     * @return {@link PropertySourcesPlaceholderConfigurer}
-     */
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer()
-    {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
-
     /**
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry)
      */
@@ -46,13 +36,25 @@ public class UiWebConfig implements WebMvcConfigurer
         registry.addViewController("/securedPage");
     }
 
+    // /**
+    // * @see
+    // org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureDefaultServletHandling(org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer)
+    // */
+    // @Override
+    // public void configureDefaultServletHandling(final DefaultServletHandlerConfigurer configurer)
+    // {
+    // // Erzeugt Fehler:
+    // // Unable to locate the default servlet for serving static content. Please set the 'defaultServletName' property explicitly.
+    // configurer.enable();
+    // }
+
     /**
-     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureDefaultServletHandling(org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer)
+     * @return {@link PropertySourcesPlaceholderConfigurer}
      */
-    @Override
-    public void configureDefaultServletHandling(final DefaultServletHandlerConfigurer configurer)
+    @Bean
+    public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer()
     {
-        configurer.enable();
+        return new PropertySourcesPlaceholderConfigurer();
     }
 
     /**

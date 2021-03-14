@@ -1,7 +1,6 @@
 /**
  * Created: 21.01.2018
  */
-
 package de.freese.spring.thymeleaf.config;
 
 import javax.servlet.http.HttpServletRequest;

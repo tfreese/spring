@@ -1,4 +1,15 @@
 // Ohne rootProject.name würde der Name des Projekt-Verzeichnises verwendet werden.
 rootProject.name = "spring"
 
+include "spring-microservice"
+include "spring-microservice-jmh"
+include "spring-oauth2:spring-oauth2-authorisationserver"
+include "spring-oauth2:spring-oauth2-client-rest"
+include "spring-oauth2:spring-oauth2-client-web"
+include "spring-reactive-jdbc"
+include "spring-resilience"
+include "spring-ribbon"
+include "spring-rsocket:rsocket-client"
+include "spring-rsocket:rsocket-server"
+include "spring-thymeleaf"
 include "spring-web"

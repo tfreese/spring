@@ -1,7 +1,6 @@
 /**
  * Created: 25.09.2018
  */
-
 package de.freese.spring.oauth2.client.web;
 
 import java.security.Principal;
@@ -18,14 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("secured")
 public class SecuredController
 {
-    /**
-     * Erstellt ein neues {@link SecuredController} Object.
-     */
-    public SecuredController()
-    {
-        super();
-    }
-
     /**
      * @param auth {@link Authentication}
      * @return String

@@ -1,7 +1,6 @@
 /**
  * Created: 22.10.2018
  */
-
 package de.freese.spring.oauth2.client.web.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -17,14 +16,6 @@ import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecur
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration
 {
-    /**
-     * Erstellt ein neues {@link MethodSecurityConfig} Object.
-     */
-    public MethodSecurityConfig()
-    {
-        super();
-    }
-
     /**
      * @see org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration#createExpressionHandler()
      */

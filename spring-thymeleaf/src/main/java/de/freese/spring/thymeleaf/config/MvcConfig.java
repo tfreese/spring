@@ -51,14 +51,6 @@ import de.freese.spring.thymeleaf.ThymeleafApplication;
 public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
 {
     /**
-     * Erzeugt eine neue Instanz von {@link MvcConfig}.
-     */
-    public MvcConfig()
-    {
-        super();
-    }
-
-    /**
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry)
      */
     @Override

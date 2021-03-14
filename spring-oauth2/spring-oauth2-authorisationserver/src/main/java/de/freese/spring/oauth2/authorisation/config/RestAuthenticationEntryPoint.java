@@ -1,7 +1,6 @@
 /**
  * Created: 07.11.2019
  */
-
 package de.freese.spring.oauth2.authorisation.config;
 
 import java.io.IOException;
@@ -24,14 +23,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
  */
 public class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
 {
-    /**
-     * Erstellt ein neues {@link RestAuthenticationEntryPoint} Object.
-     */
-    public RestAuthenticationEntryPoint()
-    {
-        super();
-    }
-
     /**
      * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#afterPropertiesSet()
      */

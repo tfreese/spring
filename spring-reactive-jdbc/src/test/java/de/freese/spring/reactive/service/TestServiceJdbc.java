@@ -5,6 +5,7 @@ package de.freese.spring.reactive.service;
 
 import javax.annotation.Resource;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import de.freese.spring.reactive.EmployeeService;
@@ -12,7 +13,7 @@ import de.freese.spring.reactive.EmployeeService;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(
 {
         "test", "jdbc"

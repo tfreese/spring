@@ -64,10 +64,7 @@ class Config
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
-{
-        MicroServiceApplication.class
-}, properties = {})
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = MicroServiceApplication.class, properties = {})
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @Import(Config.class)
 @AutoConfigureMockMvc

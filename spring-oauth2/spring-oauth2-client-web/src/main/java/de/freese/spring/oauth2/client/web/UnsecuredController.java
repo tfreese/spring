@@ -1,7 +1,6 @@
 /**
  * Created: 25.09.2018
  */
-
 package de.freese.spring.oauth2.client.web;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,14 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("unsecured")
 public class UnsecuredController
 {
-    /**
-     * Erstellt ein neues {@link UnsecuredController} Object.
-     */
-    public UnsecuredController()
-    {
-        super();
-    }
-
     /**
      * @return String
      */

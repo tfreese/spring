@@ -60,14 +60,6 @@ public class MicroServiceApplication extends SpringBootServletInitializer // ext
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link MicroServiceApplication}
-     */
-    public MicroServiceApplication()
-    {
-        super();
-    }
-
-    /**
      * POM:<br>
      * &lt;packaging>&gt;war&lt;/packaging&gt;<<br>
      * Tomcat aus spring-boot-starter-web excludieren und explizit auf provided setzen.<br>

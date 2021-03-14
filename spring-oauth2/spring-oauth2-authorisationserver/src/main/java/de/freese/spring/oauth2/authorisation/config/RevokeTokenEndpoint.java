@@ -1,7 +1,6 @@
 /**
  * Created: 06.11.2019
  */
-
 package de.freese.spring.oauth2.authorisation.config;
 
 import javax.annotation.Resource;
@@ -24,14 +23,6 @@ public class RevokeTokenEndpoint
      */
     @Resource(name = "tokenServices")
     private ConsumerTokenServices tokenServices;
-
-    /**
-     * Erstellt ein neues {@link RevokeTokenEndpoint} Object.
-     */
-    public RevokeTokenEndpoint()
-    {
-        super();
-    }
 
     /**
      * @param request {@link HttpServletRequest}

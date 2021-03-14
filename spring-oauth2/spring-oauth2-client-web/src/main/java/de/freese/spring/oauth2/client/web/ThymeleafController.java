@@ -1,7 +1,6 @@
 /**
  * Created: 31.10.2019
  */
-
 package de.freese.spring.oauth2.client.web;
 
 import java.security.Principal;
@@ -22,14 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class ThymeleafController
 {
-    /**
-     * Erstellt ein neues {@link ThymeleafController} Object.
-     */
-    public ThymeleafController()
-    {
-        super();
-    }
-
     /**
      * @param model {@link Model}
      * @param principal {@link Principal}

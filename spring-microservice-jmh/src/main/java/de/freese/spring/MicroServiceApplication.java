@@ -26,14 +26,6 @@ public class MicroServiceApplication
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link MicroServiceApplication}
-     */
-    public MicroServiceApplication()
-    {
-        super();
-    }
-
-    /**
      * @return String
      */
     @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)

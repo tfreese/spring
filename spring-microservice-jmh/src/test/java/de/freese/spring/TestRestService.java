@@ -26,16 +26,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.util.SocketUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
-{
-        MicroServiceApplication.class
-}, properties = {})
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = MicroServiceApplication.class, properties = {})
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @AutoConfigureMockMvc
 @ActiveProfiles(
@@ -48,7 +46,7 @@ class TestRestService
      *
      */
     @Resource
-    private MockMvc mockMvc = null;
+    private MockMvc mockMvc;
 
     /**
      *
@@ -66,15 +64,7 @@ class TestRestService
      *
      */
     @Resource
-    private WebClient.Builder webClientBuilder = null;
-
-    /**
-     * Erzeugt eine neue Instanz von {@link TestRestService}
-     */
-    TestRestService()
-    {
-        super();
-    }
+    private WebClient.Builder webClientBuilder;
 
     /**
      * @throws Exception Falls was schief geht.
@@ -89,6 +79,7 @@ class TestRestService
                 //.addProfiler(GCProfiler.class)
                 //.addProfiler(HotspotMemoryProfiler.class)
                 .shouldFailOnError(true)
+                .jvmArgs("-Dserver.port=" + SocketUtils.findAvailableTcpPort())
                 .threads(1)
                 .forks(1)
                 .resultFormat(ResultFormatType.CSV)

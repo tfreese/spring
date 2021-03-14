@@ -1,7 +1,6 @@
 /**
  * Created: 02.09.2018
  */
-
 package de.freese.spring.thymeleaf.config;
 
 import java.io.IOException;
@@ -57,14 +56,6 @@ public class SecurityConfig
      */
     private static class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
     {
-        /**
-         * Erstellt ein neues {@link RestAuthenticationEntryPoint} Object.
-         */
-        RestAuthenticationEntryPoint()
-        {
-            super();
-        }
-
         /**
          * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#afterPropertiesSet()
          */
@@ -135,14 +126,6 @@ public class SecurityConfig
         */
         @Resource
         private UserDetailsService userDetailsService;
-
-        /**
-         * Erstellt ein neues {@link RestSecurity} Object.
-         */
-        public RestSecurity()
-        {
-            super();
-        }
 
         /**
          * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#authenticationManagerBean()
@@ -296,14 +279,6 @@ public class SecurityConfig
         private UserDetailsService userDetailsService;
 
         /**
-         * Erstellt ein neues {@link WebAppSecurity} Object.
-         */
-        public WebAppSecurity()
-        {
-            super();
-        }
-
-        /**
          * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#authenticationManagerBean()
          */
         @Override
@@ -450,14 +425,6 @@ public class SecurityConfig
         {
             return userDetailsService();
         }
-    }
-
-    /**
-     * Erstellt ein neues {@link SecurityConfig} Object.
-     */
-    public SecurityConfig()
-    {
-        super();
     }
 
     /**

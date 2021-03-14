@@ -1,7 +1,6 @@
 /**
  * Created: 14.09.2018
  */
-
 package de.freese.spring.thymeleaf.config;
 
 import org.apache.http.client.HttpClient;
@@ -32,14 +31,6 @@ public class HttpClientConfigDefault
     *
     */
     private static final int MAX_TOTAL_CONNECTIONS = 50;
-
-    /**
-     * Erstellt ein neues {@link HttpClientConfigDefault} Object.
-     */
-    public HttpClientConfigDefault()
-    {
-        super();
-    }
 
     /**
      * @param poolingConnectionManager {@link PoolingHttpClientConnectionManager}

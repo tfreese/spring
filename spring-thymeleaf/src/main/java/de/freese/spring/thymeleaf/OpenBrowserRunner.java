@@ -34,6 +34,60 @@ public class OpenBrowserRunner implements CommandLineRunner
     private Environment environment;
 
     /**
+     * google-chrome-stable --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media %U
+     *
+     * @param url String
+     * @throws Exception Falls was schief geht.
+     */
+    private void openLinuxChrome(final String url) throws Exception
+    {
+        Runtime.getRuntime().exec(new String[]
+        {
+                "google-chrome-stable", url
+        });
+    }
+
+    /**
+     * chromium %U --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media
+     *
+     * @param url String
+     * @throws Exception Falls was schief geht.
+     */
+    private void openLinuxChromium(final String url) throws Exception
+    {
+        Runtime.getRuntime().exec(new String[]
+        {
+                "chromium", url
+        });
+    }
+
+    /**
+     * @param url String
+     * @throws Exception Falls was schief geht.
+     */
+    private void openLinuxFirefox(final String url) throws Exception
+    {
+        Runtime.getRuntime().exec(new String[]
+        {
+                "firefox", "-new-tab", url
+        });
+    }
+
+    /**
+     * Firefox: view-source:URI
+     *
+     * @param url String
+     * @throws Exception Falls was schief geht.
+     */
+    private void openWindowsFirefox(final String url) throws Exception
+    {
+        Runtime.getRuntime().exec(new String[]
+        {
+                "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", url
+        });
+    }
+
+    /**
      * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
      */
     @Override
@@ -46,37 +100,32 @@ public class OpenBrowserRunner implements CommandLineRunner
 
         try
         {
-            // Firefox: view-source:URI
-            Runtime.getRuntime().exec(new String[]
-            {
-                    "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", uri.toString()
-            });
+            openLinuxChrome(uri.toString());
+
         }
         catch (Exception ex)
         {
             try
             {
-                // Linux
-                Runtime.getRuntime().exec(new String[]
-                {
-                        "firefox", "-new-tab", uri.toString()
-                });
+                openLinuxFirefox(uri.toString());
             }
             catch (Exception ex2)
             {
                 try
                 {
-                    // Linux
-                    Runtime.getRuntime().exec(new String[]
-                    {
-                            // chromium %U --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media
-                            "chromium", uri.toString()
-                    });
+                    openLinuxChromium(uri.toString());
                 }
                 catch (Exception ex3)
                 {
-                    // IE
-                    Desktop.getDesktop().browse(uri);
+                    try
+                    {
+                        openWindowsFirefox(uri.toString());
+                    }
+                    catch (Exception ex4)
+                    {
+                        // System-Default
+                        Desktop.getDesktop().browse(uri);
+                    }
                 }
             }
         }

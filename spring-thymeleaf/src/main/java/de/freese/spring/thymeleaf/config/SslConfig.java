@@ -1,7 +1,6 @@
 /**
  * Created: 11.09.2018
  */
-
 package de.freese.spring.thymeleaf.config;
 
 import org.apache.catalina.Context;

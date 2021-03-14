@@ -1,7 +1,6 @@
 /**
  * Created: 30.10.2018
  */
-
 package de.freese.spring.oauth2.authorisation.config;
 
 import javax.sql.DataSource;
@@ -32,14 +31,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Profile("jdbc")
 public class JdbcConfig
 {
-    /**
-     * Erstellt ein neues {@link JdbcConfig} Object.
-     */
-    public JdbcConfig()
-    {
-        super();
-    }
-
     /**
      * @return {@link AccessTokenConverter}
      */

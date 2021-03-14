@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import de.freese.spring.reactive.EmployeeService;
@@ -15,7 +16,7 @@ import de.freese.spring.reactive.EmployeeService;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(
 {
         "test", "jdbc-reactive"
@@ -35,19 +36,6 @@ class TestServiceJdbcReactive implements TestServiceInterface
     private EmployeeService service;
 
     /**
-     * @see de.freese.spring.reactive.service.TestServiceInterface#testCreateNewEmployee()
-     */
-    @Override
-    @Test
-    @Disabled("Funktioniert nicht")
-    public void testCreateNewEmployee()
-    {
-        TestServiceInterface.super.testCreateNewEmployee();
-
-        assertTrue(true);
-    }
-
-    /**
      * @see de.freese.spring.reactive.service.TestServiceInterface#getJdbcTemplate()
      */
     @Override
@@ -63,5 +51,18 @@ class TestServiceJdbcReactive implements TestServiceInterface
     public EmployeeService getService()
     {
         return this.service;
+    }
+
+    /**
+     * @see de.freese.spring.reactive.service.TestServiceInterface#testCreateNewEmployee()
+     */
+    @Override
+    @Test
+    @Disabled("Funktioniert nicht")
+    public void testCreateNewEmployee()
+    {
+        TestServiceInterface.super.testCreateNewEmployee();
+
+        assertTrue(true);
     }
 }

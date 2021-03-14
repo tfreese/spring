@@ -1,7 +1,6 @@
 /**
  * Created: 30.10.2018
  */
-
 package de.freese.spring.oauth2.authorisation.config;
 
 import org.springframework.context.annotation.Bean;
@@ -31,14 +30,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Profile("memory")
 public class MemoryConfig
 {
-    /**
-     * Erstellt ein neues {@link MemoryConfig} Object.
-     */
-    public MemoryConfig()
-    {
-        super();
-    }
-
     /**
      * @return {@link AccessTokenConverter}
      */

@@ -6,6 +6,7 @@ package de.freese.spring.reactive;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
@@ -15,7 +16,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(
 {
         "test", "r2dbc"

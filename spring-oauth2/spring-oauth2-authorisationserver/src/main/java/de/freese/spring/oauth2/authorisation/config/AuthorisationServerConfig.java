@@ -1,7 +1,6 @@
 /**
  * Created: 22.09.2018
  */
-
 package de.freese.spring.oauth2.authorisation.config;
 
 import java.util.Arrays;

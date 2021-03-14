@@ -1,7 +1,6 @@
 /**
  * Created: 28.04.2018
  */
-
 package de.freese.spring.rest;
 
 import java.lang.annotation.Documented;

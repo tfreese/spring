@@ -1,7 +1,6 @@
 /**
  * Created: 30.10.2018
  */
-
 package de.freese.spring.oauth2.authorisation.config;
 
 import java.util.HashMap;
@@ -31,14 +30,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @Configuration
 public class CommonConfig
 {
-    /**
-     * Erstellt ein neues {@link CommonConfig} Object.
-     */
-    public CommonConfig()
-    {
-        super();
-    }
-
     /**
      * @return {@link CacheManager}
      */

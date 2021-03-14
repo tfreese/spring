@@ -1,7 +1,6 @@
 /**
  * Created: 07.09.2018
  */
-
 package de.freese.spring.thymeleaf.rest;
 
 import java.nio.charset.StandardCharsets;
@@ -124,31 +123,25 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
         // throw new RuntimeException(ex);
         // }
 
-        // @formatter:off
-//        ExchangeStrategies strategies = ExchangeStrategies.builder()
-//                .codecs(configurer -> {
-//                    configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
-//                    configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(this.objectMapper, MediaType.APPLICATION_JSON));
-//
-//                }).build();
+        // ExchangeStrategies strategies = ExchangeStrategies.builder()
+        // .codecs(configurer -> {
+        // configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
+        // configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(this.objectMapper, MediaType.APPLICATION_JSON));
+        //
+        // }).build();
 
-         TrustManagerFactory trustManagerFactory = InsecureTrustManagerFactory.INSTANCE;
-//        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509", "SunJSSE");
-//        trustManagerFactory.init(trustStore);
+        TrustManagerFactory trustManagerFactory = InsecureTrustManagerFactory.INSTANCE;
+        // TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509", "SunJSSE");
+        // trustManagerFactory.init(trustStore);
 
-        SslContext sslContext = SslContextBuilder
-                .forClient()
-                .trustManager(trustManagerFactory)
-                .build();
+        SslContext sslContext = SslContextBuilder.forClient().trustManager(trustManagerFactory).build();
 
-        //ClientHttpConnector httpConnector = new ReactorClientHttpConnector(opt -> opt.sslContext(sslContext));
+        // ClientHttpConnector httpConnector = new ReactorClientHttpConnector(opt -> opt.sslContext(sslContext));
         HttpClient httpClient = HttpClient.create().secure(sslContextSpec -> sslContextSpec.sslContext(sslContext));
 
-        this.webClientBuilder.baseUrl(rootUri)
-            .clientConnector(new ReactorClientHttpConnector(httpClient))
-            //.exchangeStrategies(strategies)
+        this.webClientBuilder.baseUrl(rootUri).clientConnector(new ReactorClientHttpConnector(httpClient))
+        // .exchangeStrategies(strategies)
         ;
-        // @formatter:on
     }
 
     /**

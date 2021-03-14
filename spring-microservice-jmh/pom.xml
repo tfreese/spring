@@ -13,7 +13,7 @@
 	<packaging>jar</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>JMP-Benchmark eines MicroService von spring-boot</description>
+	<description>JMH-Benchmark eines MicroService mit spring-boot</description>
 
 	<properties>
 		<uberjar.name>benchmarks</uberjar.name>

@@ -1,7 +1,6 @@
 /**
  * Created: 31.10.2019
  */
-
 package de.freese.spring.oauth2.client.web.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -16,14 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
-    /**
-     * Erstellt ein neues {@link WebSecurityConfig} Object.
-     */
-    public WebSecurityConfig()
-    {
-        super();
-    }
-
     /**
      * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
      */
