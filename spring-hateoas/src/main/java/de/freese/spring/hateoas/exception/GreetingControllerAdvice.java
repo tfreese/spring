@@ -13,14 +13,6 @@ import de.freese.spring.hateoas.GreetingController;
 @RestControllerAdvice(assignableTypes = GreetingController.class)
 public class GreetingControllerAdvice
 {
-    /**
-     * Erzeugt eine neue Instanz von {@link GreetingControllerAdvice}.
-     */
-    public GreetingControllerAdvice()
-    {
-        super();
-    }
-
     // /**
     // * @param ex {@link GreetingException}
     // * @return {@link VndErrors}

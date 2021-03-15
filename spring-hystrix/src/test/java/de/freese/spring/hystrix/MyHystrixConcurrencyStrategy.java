@@ -1,7 +1,6 @@
 /**
  * Created: 17.12.2016
  */
-
 package de.freese.spring.hystrix;
 
 import java.util.Objects;

@@ -41,14 +41,6 @@ public class GreetingController
     private static final String TEMPLATE = "Hello, %s!";
 
     /**
-     * Erzeugt eine neue Instanz von {@link GreetingController}
-     */
-    public GreetingController()
-    {
-        super();
-    }
-
-    /**
      * Ergebnis: {"_links":{"self":{"href":"http://localhost:9000/greeter/?name=World"}},"greeting":"Hello, World!"}
      *
      * @param name String

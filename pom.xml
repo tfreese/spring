@@ -146,7 +146,7 @@
                 <artifactId>spring-shell-starter</artifactId>
                 <version>${version_org.springframework.shell}</version>
             </dependency>
-            <!--dependency>
+            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
                 <version>${version_spring-cloud-starter-netflix}</version>
@@ -155,7 +155,7 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
                 <version>${version_spring-cloud-starter-netflix}</version>
-            </dependency-->            
+            </dependency>            
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>

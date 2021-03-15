@@ -9,6 +9,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -16,7 +17,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  * @author Thomas Freese
  */
 // @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT
 // , properties =
 // {
 // "httpbin=http://localhost:${wiremock.server.port}"

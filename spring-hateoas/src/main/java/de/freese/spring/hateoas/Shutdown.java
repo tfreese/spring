@@ -14,7 +14,7 @@ import org.springframework.core.io.Resource;
  *
  * @author Thomas Freese
  */
-public class Shutdown
+public final class Shutdown
 {
     /**
      * @param args String[]
@@ -54,7 +54,7 @@ public class Shutdown
     /**
      * Erzeugt eine neue Instanz von {@link Shutdown}
      */
-    public Shutdown()
+    private Shutdown()
     {
         super();
     }

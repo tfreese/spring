@@ -1,7 +1,6 @@
 /**
  * Created: 28.10.2018
  */
-
 package de.freese.spring.jwt.exception;
 
 import java.io.IOException;
@@ -25,14 +24,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandlerController extends ResponseEntityExceptionHandler
 {
-    /**
-     * Erstellt ein neues {@link GlobalExceptionHandlerController} Object.
-     */
-    public GlobalExceptionHandlerController()
-    {
-        super();
-    }
-
     /**
      * @return {@link ErrorAttributes}
      */

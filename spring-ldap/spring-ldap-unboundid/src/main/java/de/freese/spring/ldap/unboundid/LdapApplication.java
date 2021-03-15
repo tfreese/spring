@@ -19,7 +19,6 @@ public class LdapApplication
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         SpringApplication.run(LdapApplication.class, args);

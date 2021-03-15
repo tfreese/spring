@@ -67,12 +67,6 @@
 			<artifactId>qpid-broker</artifactId>
 		</dependency>
 		
-		<!-- Kleiner Hack um unfindbare Dependency com.sleepycat:je zu vermeiden -->
-		<dependency>
-			<groupId>org.apache.qpid</groupId>
-			<artifactId>qpid-bdbstore</artifactId>
-		</dependency>		
-		
 		<!-- runtime scope -->
 		<!-- provided scope -->
 		<!-- test scope -->		

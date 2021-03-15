@@ -31,10 +31,7 @@ import de.freese.spring.jwt.token.JwtTokenProvider;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes =
-{
-        JwtAuthorisationApplication.class
-})
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = JwtAuthorisationApplication.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -137,7 +134,7 @@ class TestJwtToken
      * @throws Exception Falls was schief geht.
      */
     @BeforeEach
-    void beforeTest() throws Exception
+    void beforeEach() throws Exception
     {
         String rootUri = "http://localhost:" + this.localServerPort;
 

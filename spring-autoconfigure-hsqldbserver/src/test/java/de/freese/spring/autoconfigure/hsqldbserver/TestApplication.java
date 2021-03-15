@@ -1,7 +1,6 @@
 /**
  * Created: 19.10.2019
  */
-
 package de.freese.spring.autoconfigure.hsqldbserver;
 
 import javax.sql.DataSource;
@@ -23,7 +22,6 @@ public class TestApplication
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         SpringApplication.run(TestApplication.class, args);

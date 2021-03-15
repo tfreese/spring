@@ -1,7 +1,6 @@
 /**
  * Created: 30.10.2018
  */
-
 package de.freese.spring.jwt.config;
 
 import java.util.List;
@@ -19,14 +18,6 @@ import org.springframework.security.core.userdetails.cache.SpringCacheBasedUserC
 @Configuration
 public class CacheConfig
 {
-    /**
-     * Erstellt ein neues {@link CacheConfig} Object.
-     */
-    public CacheConfig()
-    {
-        super();
-    }
-
     /**
      * @return {@link CacheManager}
      */

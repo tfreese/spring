@@ -13,7 +13,7 @@
 	<packaging>jar</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>kryo Demo</description>
+	<description>Kryo Demo</description>
 
 	<dependencies>
 		<!-- compile scope -->

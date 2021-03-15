@@ -102,14 +102,6 @@ public class HystrixApplication
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link HystrixApplication}
-     */
-    public HystrixApplication()
-    {
-        super();
-    }
-
-    /**
      * @param restTemplate {@link RestTemplate}
      * @param urls String[]
      * @return String

@@ -1,7 +1,6 @@
 /**
  * Created: 09.02.2019
  */
-
 package de.freese.spring.gateway;
 
 import org.springframework.boot.SpringApplication;
@@ -28,18 +27,9 @@ public class GatewayApplication
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         SpringApplication.run(GatewayApplication.class, args);
-    }
-
-    /**
-     * Erstellt ein neues {@link GatewayApplication} Object.
-     */
-    public GatewayApplication()
-    {
-        super();
     }
 
     /**

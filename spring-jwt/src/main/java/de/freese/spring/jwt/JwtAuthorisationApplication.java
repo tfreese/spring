@@ -36,7 +36,6 @@ public class JwtAuthorisationApplication extends SpringBootServletInitializer
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         // ApplicationContext context = SpringApplication.run(SpringBootThymeleafApplication.class, args);

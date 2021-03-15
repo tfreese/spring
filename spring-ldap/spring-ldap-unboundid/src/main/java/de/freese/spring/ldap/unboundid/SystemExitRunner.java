@@ -1,7 +1,6 @@
 /**
  * Created: 12.09.2018
  */
-
 package de.freese.spring.ldap.unboundid;
 
 import org.slf4j.Logger;
@@ -23,14 +22,6 @@ public class SystemExitRunner implements CommandLineRunner
     *
     */
     public static final Logger LOGGER = LoggerFactory.getLogger(SystemExitRunner.class);
-
-    /**
-     * Erstellt ein neues {@link SystemExitRunner} Object.
-     */
-    public SystemExitRunner()
-    {
-        super();
-    }
 
     /**
      * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])

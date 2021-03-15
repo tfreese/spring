@@ -40,14 +40,6 @@ public class QpidConfig
     */
     private static final String QPID_WORK_DIR = QPID_HOME_DIR + File.separator + "qpid-work";
 
-    /**
-     * Erstellt ein neues {@link QpidConfig} Object.
-     */
-    public QpidConfig()
-    {
-        super();
-    }
-
     // /**
     // * @param connectionFactory {@link ConnectionFactory}
     // * @param listenerAdapter {@link MessageListenerAdapter}

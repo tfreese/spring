@@ -97,7 +97,6 @@ public class MyApplication
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         SpringApplication.run(MyApplication.class, args);

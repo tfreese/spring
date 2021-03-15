@@ -13,7 +13,7 @@
 	<packaging>jar</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>Test Projekt für das Spring-Integration Modul.</description>
+	<description>Test Projekt für das Spring-Integration Modul</description>
 
 	<dependencies>
 		<!-- compile scope -->
