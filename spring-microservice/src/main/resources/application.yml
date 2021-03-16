@@ -96,3 +96,6 @@ spring:
     output:
         ansi:
             enabled: DETECT   
+
+            
+            

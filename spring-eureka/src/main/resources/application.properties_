@@ -1,0 +1,19 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html#Common_Attributes
+# ===================================================================
+
+debug = false
+
+eureka.client.fetchRegistry = false
+
+# Sich selbst als Client registrieren.
+eureka.client.registerWithEureka = true
+        
+server.port = 8761
+server.servlet.context-path = /eureka
+    
+info.app.description = ${project.description}
+info.app.name = ${project.artifactId}
+info.app.version = ${project.version} 

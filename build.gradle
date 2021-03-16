@@ -89,14 +89,16 @@ project("spring-api-gateway") {
 	    mainClass = "de.freese.spring.gateway.GatewayApplication"
 	}
 	
-	//Für Placeholder in application.properties
+	//Für Platzhalter in application.properties
 	ext.artifactId = project.name
 	
 	processResources {
-        // Funktioniert komischerweise nicht ???      
-	    //filesMatching("application.yml") {
-	    //    expand(project.properties)           	
-	    //}
+	    filesMatching("application.yml") {
+	    	filteringCharset = "UTF-8"
+	    	
+	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
+	        //expand(project.properties)           	
+	    }
 	}
 }
 
@@ -139,14 +141,16 @@ project("spring-eureka") {
 	    mainClass = "de.freese.spring.eureka.EurekaServerApplication"
 	}
 	
-	//Für Placeholder in application.properties
+	//Für Platzhalter in application.properties
 	ext.artifactId = project.name
 	
 	processResources {
-        // Funktioniert komischerweise nicht ???      
-	    //filesMatching("application.yml") {
-	    //    expand(project.properties)           	
-	    //}
+	    filesMatching("application.properties") {
+	    	filteringCharset = "UTF-8"
+	    	
+	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}.}
+	        //expand(project.properties)           	
+	    }
 	}
 }
 
@@ -165,11 +169,14 @@ project("spring-hateoas") {
 	    mainClass = "de.freese.spring.hateoas.HateoasApplication"
 	}
 	
-	//Für Placeholder in application.properties
+	//Für Platzhalter in application.properties
 	ext.artifactId = project.name
 	
 	processResources {
 	    filesMatching("application.properties") {
+	    	filteringCharset = "UTF-8"
+	    	
+	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
 	        expand(project.properties)           	
 	    }
 	}
@@ -372,14 +379,16 @@ project("spring-microservice") {
 	    mainClass = "de.freese.spring.MicroServiceApplication"
 	}
 		
-	//Für Placeholder in application.properties
+	//Für Platzhalter in application.properties
 	ext.artifactId = project.name
 	
 	processResources {
-        // Funktioniert komischerweise nicht ???      
-	    //filesMatching("application.yml") {
-	    //    expand(project.properties)           	
-	    //}
+	    filesMatching("application.properties") {
+	    	filteringCharset = "UTF-8"
+	    	
+	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
+	        //expand(project.properties) 		     	
+	    }
 	}
 }
 
@@ -409,12 +418,14 @@ project("spring-microservice-jmh") {
 		}
 	}
 	
-	//Für Placeholder in application.properties
+	//Für Platzhalter in application.properties
 	ext.artifactId = project.name
 	
 	processResources {
-        // filesMatching("**/*.properties")        
 	    filesMatching("application.yml") {
+	    	filteringCharset = "UTF-8"
+	    	
+	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
 	        expand(project.properties)
 	    }
 	}
@@ -518,14 +529,16 @@ project("spring-resilience") {
 	    mainClass = "de.freese.spring.resilience.SpringResilienceApplication"
 	}
 
-	//Für Placeholder in application.properties
+	//Für Platzhalter in application.properties
 	ext.artifactId = project.name
 	
 	processResources {
-        // Funktioniert komischerweise nicht ???         
-	    //filesMatching("application.yml") {
-	    //    expand(project.properties)
-	    //}
+	    filesMatching("application.yml") {
+	    	filteringCharset = "UTF-8"
+	    	
+	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
+	        //expand(project.properties) 
+	    }
 	}
 }
 
@@ -629,12 +642,14 @@ project("spring-thymeleaf") {
 	    mainClass = "de.freese.spring.thymeleaf.ThymeleafApplication"
 	}
 		
-	//Für Placeholder in application.properties
+	//Für Platzhalter in application.properties
 	ext.artifactId = project.name
 	
 	processResources {
-        // filesMatching("**/*.properties")        
 	    filesMatching("application.yml") {
+	    	filteringCharset = "UTF-8"
+	    	
+	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
 	        expand(project.properties)
 	    }
 	}
@@ -662,26 +677,25 @@ project("spring-web") {
 	    mainClass = "de.freese.spring.web.SpringBootWebApp"
 	}
 	
-	//Für Placeholder in application.properties
+	//Für Platzhalter in application.properties
 	ext.artifactId = project.name
 
 	processResources {
-        // inputs.property("project.artifactId", project.name)
-        // inputs.property("project.description", project.description)
-        // inputs.property("project.version", project.version)
-        
         // filesMatching("**/*.properties")        
 	    filesMatching("application.properties") {
+	    	filteringCharset = "UTF-8"
+	    	
+	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
 	        expand(project.properties)
-	        
-            //	expand ("@project.artifactId": project.name,
-            //			"@project.description": project.description,
-            //			"@project.version": project.version
-            //	)
 
-            // expand project.artifactId: project.name
-            // expand project.description: project.description
-            // expand project.version: project.version	        
+            //expand ("@project.description@": project.description,
+            //		"@project.artifactId@": project.name,
+            //		"@project.version@": project.version
+            //)   
+            	        
+    		//filter{ it.replaceAll("@project.description@", project.description)} 
+    		//filter{ it.replaceAll("@project.artifactId@", project.name)}  
+    		//filter{ it.replaceAll("@project.version@", project.version)}
 	    }
 	}
 }

@@ -1,0 +1,21 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html#Common_Attributes
+# ===================================================================
+
+#eureka.client.lease.duration = 5
+
+# Sich selbst nirgendwo als Client registrieren (No Replication, Standalone Mode).  
+eureka.client.registerWithEureka = false
+eureka.client.serviceUrl.defaultZone = http://${eureka.instance.hostname}:${server.port}/eureka
+
+eureka.instance.hostname = eureka
+#eureka.instance.leaseRenewalIntervalInSeconds = 10
+#eureka.instance.leaseExpirationDurationInSeconds = 20
+eureka.instance.healthCheckUrlPath = health
+eureka.instance.statusPageUrlPath = info
+
+#eureka.server.renewalPercentThreshold = 0.5
+eureka.server.enableSelfPreservation = true
+eureka.server.waitTimeInMsWhenSyncEmpty = 0
