@@ -26,6 +26,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 // @AutoConfigureWireMock(port = 0)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
+@Disabled("Funktioniert nur zusammen mit spring-microservice")
 class GatewayTest
 {
     /**
@@ -47,7 +48,6 @@ class GatewayTest
      *
      */
     @Test
-    @Disabled("Funktioniert nur zusammen mit spring-microservice")
     void testGet()
     {
         // @formatter:off
@@ -64,7 +64,6 @@ class GatewayTest
      *
      */
     @Test
-    @Disabled("Funktioniert nur zusammen mit spring-microservice")
     void testHystrix()
     {
         // @formatter:off
@@ -82,7 +81,6 @@ class GatewayTest
      * Separater Server wird benötigt -> spring-microservice
      */
     @Test
-    @Disabled("Funktioniert nur zusammen mit spring-microservice")
     void testSysdate()
     {
        // @formatter:off
@@ -100,7 +98,6 @@ class GatewayTest
      * Separater Server wird benötigt -> spring-microservice
      */
     @Test
-    @Disabled("Funktioniert nur zusammen mit spring-microservice")
     void testSysdateLB()
     {
        // @formatter:off

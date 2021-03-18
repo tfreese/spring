@@ -27,6 +27,14 @@
                     <include>application.yml</include>
 				</includes>
 			</resource>
+            <resource>
+                <!-- Alles andere NICHT filtern -->
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>application.yml</exclude>
+                </excludes>
+            </resource>             
 		</resources>
 
 		<plugins>
