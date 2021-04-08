@@ -26,8 +26,7 @@ services:
         image: spring-boot-admin:latest
         ports:
             - 9000:9000
-        restart_policy:
-            condition: unless-stopped                                  
+        restart: unless-stopped                                   
 
     spring-eureka:
         container_name: spring-eureka
@@ -37,8 +36,7 @@ services:
         image: spring-eureka:latests
         ports:
             - 8761:8761
-        restart_policy:
-            condition: unless-stoppe                          
+        restart: unless-stopped                          
 
     spring-microservice:
         # Kein 'container_name' möglich wegen Scaling: docker-compose up -d --scale spring-microservice=3
@@ -55,8 +53,7 @@ services:
         depends_on:
             - spring-boot-admin
             - spring-eureka
-        restart_policy:
-            condition: unless-stoppe          
+        restart: unless-stopped           
                                
     loadbalancer:
         image: "${HAPROXY_IMAGE:-dockercloud/haproxy:latest}"
@@ -69,8 +66,7 @@ services:
             - spring-microservice
         links:
             - spring-microservice
-        restart_policy:
-            condition: unless-stoppe        
+        restart: unless-stopped d        
             
     spring-api-gateway:
         build:
@@ -92,8 +88,7 @@ services:
             - spring-eureka
             - spring-microservice
             - loadbalancer
-        restart_policy:
-            condition: unless-stoppe                
+        restart: unless-stopped d                
 
 
 # localhost im Docker-Netz finden:
