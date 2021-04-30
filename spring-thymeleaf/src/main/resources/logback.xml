@@ -10,7 +10,7 @@
 
     <!--Levels are ordered: TRACE < DEBUG < INFO < WARN < ERROR -->
     <!--property name="pattern" value="%date{yyyy-MM-dd HH:mm:ss.SSS} - %-5level[%thread] - %logger{0}[%method] - %message%n" /-->
-    <property name="pattern" value="%date{HH:mm:ss.SSS} - %.-1level - %-35.-35logger{0} - %message%n" />
+    <property name="pattern" value="%date{HH:mm:ss.SSS} - %level - %-35.-35logger{0} - %message%n" />
     <property name="log.dir" value="${user.dir}/log" />
 
     <!--if condition='isNull("log.dir")'>

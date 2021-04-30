@@ -61,8 +61,8 @@ spring:
         ansi:
             enabled: DETECT
     profiles:
-        #active: with-ssl
-        active: default
+        active: with-ssl
+        #active: default
     #resources:
         #cache:
             #period: 0
@@ -158,7 +158,7 @@ server:
     port: 8443
     ssl:
         enabled: true
-        key-alias: localhost
+        key-alias: server
         key-password: password
         key-store: classpath:server_keystore.p12
         key-store-password: password
