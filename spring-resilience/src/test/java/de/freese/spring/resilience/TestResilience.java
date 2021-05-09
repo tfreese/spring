@@ -4,6 +4,7 @@ package de.freese.spring.resilience;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
@@ -17,6 +18,9 @@ import io.github.resilience4j.bulkhead.BulkheadConfig;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.decorators.Decorators;
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
+import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.Retry.Metrics;
 import io.github.resilience4j.retry.RetryConfig;
@@ -93,6 +97,37 @@ class TestResilience
         });
 
         assertEquals(data, valueReference.get());
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testRateLimiter() throws Exception
+    {
+        // 10 Requests/Second
+        RateLimiterConfig config = RateLimiterConfig.custom().limitForPeriod(10).limitRefreshPeriod(Duration.ofSeconds(1)).build();
+        // .timeoutDuration(Duration.ofSeconds(1))
+
+        RateLimiterRegistry rateLimiterRegistry = RateLimiterRegistry.of(config);
+
+        RateLimiter rateLimiter = rateLimiterRegistry.rateLimiter("name1");
+
+        int index = 0;
+
+        while (index < 100)
+        {
+            int[] buffer = new int[10];
+
+            for (int i = 0; i < 10; i++)
+            {
+                rateLimiter.acquirePermission(1);
+                buffer[i] = index;
+                index++;
+            }
+
+            LOGGER.info("RateLimiter: {}", Arrays.toString(buffer));
+        }
     }
 
     /**
