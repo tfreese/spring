@@ -4,6 +4,7 @@ package de.freese.spring.hystrix.primarysecondary;
 import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
+
 import com.netflix.config.ConcurrentCompositeConfiguration;
 import com.netflix.config.ConcurrentMapConfiguration;
 import com.netflix.config.ConfigurationManager;
@@ -16,6 +17,7 @@ public class PrimarySecondaryApplication
 {
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception
@@ -68,6 +70,8 @@ public class PrimarySecondaryApplication
 
                 System.out.println();
             }
+
+            context.shutdown();
         }
 
         ConfigurationManager.getConfigInstance().clear();

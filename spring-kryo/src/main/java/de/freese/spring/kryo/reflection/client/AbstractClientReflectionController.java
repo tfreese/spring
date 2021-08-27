@@ -1,7 +1,4 @@
-/**
- * Created: 30.01.2020
- */
-
+// Created: 30.01.2020
 package de.freese.spring.kryo.reflection.client;
 
 import java.io.InputStream;
@@ -16,22 +13,26 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.util.Pool;
+
 import de.freese.spring.kryo.reflection.ReflectionControllerApi;
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 
 /**
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Klassetyp der Fassade.
  */
 public abstract class AbstractClientReflectionController<T>
@@ -123,12 +124,13 @@ public abstract class AbstractClientReflectionController<T>
 
     /**
      * @param fassadeType Class
+     *
      * @return T
      */
     @SuppressWarnings("unchecked")
     protected T lookupProxyHttpConnection(final Class<T> fassadeType)
     {
-        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]
+        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
         {
                 fassadeType
         }, (proxy, method, args) -> {
@@ -240,12 +242,13 @@ public abstract class AbstractClientReflectionController<T>
 
     /**
      * @param fassadeType Class
+     *
      * @return T
      */
     @SuppressWarnings("unchecked")
     protected T lookupProxyRestTemplate(final Class<T> fassadeType)
     {
-        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]
+        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
         {
                 fassadeType
         }, (proxy, method, args) -> {
@@ -274,7 +277,7 @@ public abstract class AbstractClientReflectionController<T>
                     args = new Object[0];
                 }
 
-                Class<?>[] paramTypes = new Class[args.length];
+                Class<?>[] paramTypes = new Class<?>[args.length];
 
                 Object[] paramTypesAndArgs = new Object[2];
                 paramTypesAndArgs[0] = paramTypes;
@@ -309,6 +312,7 @@ public abstract class AbstractClientReflectionController<T>
 
     /**
      * @param fassade T
+     *
      * @return T
      */
     protected T lookupProxyRetry(final T fassade)
@@ -319,6 +323,7 @@ public abstract class AbstractClientReflectionController<T>
     /**
      * @param fassade T
      * @param fassadeType Class
+     *
      * @return T
      */
     @SuppressWarnings("unchecked")
@@ -328,7 +333,7 @@ public abstract class AbstractClientReflectionController<T>
         final int maxTrys = 3;
         final int retryDelay = 3000;
 
-        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]
+        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
         {
                 fassadeType
         }, new InvocationHandler()
@@ -342,7 +347,9 @@ public abstract class AbstractClientReflectionController<T>
              * @param fassadeType Class
              * @param method Method
              * @param args Object[]
+             *
              * @return Object
+             *
              * @throws Throwable Falls was schief geht.
              */
             private Object invoke(final Class<T> fassadeType, final Method method, final Object[] args) throws Throwable
@@ -355,7 +362,7 @@ public abstract class AbstractClientReflectionController<T>
                 {
                     Throwable cause = ex.getCause();
 
-                    if ((cause == null) || (cause instanceof UndeclaredThrowableException))
+                    if (cause instanceof UndeclaredThrowableException)
                     {
                         cause = cause.getCause();
                     }
