@@ -1,6 +1,4 @@
-/**
- * Created: 21.04.2019
- */
+// Created: 21.04.2019
 package de.freese.spring.rsocket.server.data;
 
 /**

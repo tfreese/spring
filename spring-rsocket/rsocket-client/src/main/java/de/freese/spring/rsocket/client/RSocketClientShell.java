@@ -1,12 +1,12 @@
-/**
- * Created: 11.03.2020
- */
+// Created: 11.03.2020
 package de.freese.spring.rsocket.client;
 
 import java.time.Duration;
 import java.util.Objects;
 import java.util.UUID;
+
 import javax.annotation.PreDestroy;
+
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +21,7 @@ import org.springframework.security.rsocket.metadata.UsernamePasswordMetadata;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.util.MimeTypeUtils;
+
 import de.freese.spring.rsocket.client.data.MessageRequest;
 import de.freese.spring.rsocket.client.data.MessageResponse;
 import io.rsocket.SocketAcceptor;
@@ -44,6 +45,7 @@ public class RSocketClientShell
     {
         /**
          * @param status String
+         *
          * @return {@link Publisher}
          */
         @MessageMapping("client-status")

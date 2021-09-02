@@ -1,7 +1,4 @@
-/**
- * Created: 11.03.2020
- */
-
+// Created: 11.03.2020
 package de.freese.spring.rsocket.client;
 
 import org.springframework.boot.SpringApplication;

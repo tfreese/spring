@@ -1,11 +1,9 @@
-/**
- * Created: 12.03.2020
- */
-
+// Created: 12.03.2020
 package de.freese.spring.rsocket.server;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.rsocket.RSocketStrategies;
@@ -35,15 +33,8 @@ import org.springframework.security.rsocket.core.PayloadSocketAcceptorIntercepto
 public class RSocketServerSecurityConfig
 {
     /**
-     * Erstellt ein neues {@link RSocketServerSecurityConfig} Object.
-     */
-    public RSocketServerSecurityConfig()
-    {
-        super();
-    }
-
-    /**
      * @param rSocketStrategies {@link RSocketStrategies}
+     *
      * @return {@link RSocketMessageHandler}
      */
     @Bean
@@ -94,6 +85,7 @@ public class RSocketServerSecurityConfig
 
     /**
      * @param security {@link RSocketSecurity}
+     *
      * @return {@link PayloadSocketAcceptorInterceptor}
      */
     @Bean
@@ -108,7 +100,8 @@ public class RSocketServerSecurityConfig
                     //.route("greet/*").hasRole("ADMIN")
                     //.anyRequest().authenticated();
                     .anyExchange().authenticated();
-        }).simpleAuthentication(Customizer.withDefaults())
+        })
+        .simpleAuthentication(Customizer.withDefaults())
         ;
         //@formatter:on
 
@@ -117,6 +110,7 @@ public class RSocketServerSecurityConfig
 
     /**
      * @param passwordEncoder {@link PasswordEncoder}
+     *
      * @return {@link ReactiveUserDetailsService}
      */
     @Bean

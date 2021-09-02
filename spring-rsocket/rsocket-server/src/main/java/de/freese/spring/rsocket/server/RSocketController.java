@@ -1,14 +1,13 @@
-/**
- * Created: 11.03.2020
- */
-
+// Created: 11.03.2020
 package de.freese.spring.rsocket.server;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PreDestroy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -19,6 +18,7 @@ import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.annotation.ConnectMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+
 import de.freese.spring.rsocket.server.data.MessageRequest;
 import de.freese.spring.rsocket.server.data.MessageResponse;
 import reactor.core.publisher.Flux;
@@ -42,6 +42,7 @@ public class RSocketController
 
     /**
      * @param requests {@link Flux}
+     *
      * @return {@link Flux}
      */
     @PreAuthorize("hasRole('USER')")
@@ -113,6 +114,7 @@ public class RSocketController
 
     /**
      * @param th {@link Throwable}
+     *
      * @return {@link Flux}
      */
     @MessageExceptionHandler
@@ -126,6 +128,7 @@ public class RSocketController
 
     /**
      * @param request {@link MessageRequest}
+     *
      * @return {@link Mono}
      */
     @PreAuthorize("hasRole('USER')")
@@ -139,6 +142,7 @@ public class RSocketController
 
     /**
      * @param name String
+     *
      * @return {@link Flux}
      */
     @PreAuthorize("hasRole('USER')")
@@ -152,6 +156,7 @@ public class RSocketController
 
     /**
      * @param request {@link MessageRequest}
+     *
      * @return {@link MessageResponse}
      */
     @PreAuthorize("hasRole('USER')")
@@ -178,6 +183,7 @@ public class RSocketController
 
     /**
      * @param request {@link MessageRequest}
+     *
      * @return {@link Flux}
      */
     @PreAuthorize("hasRole('USER')")
