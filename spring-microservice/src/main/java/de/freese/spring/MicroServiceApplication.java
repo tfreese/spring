@@ -31,6 +31,7 @@ public class MicroServiceApplication extends SpringBootServletInitializer // ext
      * Konfiguriert die SpringApplication.
      *
      * @param builder {@link SpringApplicationBuilder}
+     *
      * @return {@link SpringApplicationBuilder}
      */
     private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder)
@@ -53,7 +54,6 @@ public class MicroServiceApplication extends SpringBootServletInitializer // ext
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         configureApplication(new SpringApplicationBuilder()).run(args);

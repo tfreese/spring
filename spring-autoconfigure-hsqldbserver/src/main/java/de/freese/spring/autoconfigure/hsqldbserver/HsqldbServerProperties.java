@@ -1,9 +1,8 @@
-/**
- * Created: 13.02.2017
- */
+// Created: 13.02.2017
 package de.freese.spring.autoconfigure.hsqldbserver;
 
 import java.util.List;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -23,7 +22,6 @@ public class HsqldbServerProperties
          *
          */
         private String name;
-
         /**
          *
          */
@@ -80,27 +78,22 @@ public class HsqldbServerProperties
      *
      */
     private List<DB> db;
-
     /**
      *
      */
     private boolean enabled = true;
-
     /**
     *
     */
     private boolean noSystemExit = true;
-
     /**
     *
     */
     private int port;
-
     /**
      *
      */
     private boolean silent = true;
-
     /**
       *
       */

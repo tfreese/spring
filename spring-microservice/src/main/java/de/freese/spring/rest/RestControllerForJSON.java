@@ -1,6 +1,4 @@
-/**
- * Created: 28.04.2018
- */
+// Created: 28.04.2018
 package de.freese.spring.rest;
 
 import java.lang.annotation.Documented;
@@ -8,6 +6,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,25 +35,21 @@ public @interface RestControllerForJSON
     // */
     // @AliasFor(annotation = RequestMapping.class, attribute = "headers")
     // String[] headers() default {};
-
     // /**
     // * @return {@link RequestMethod}[]
     // */
     // @AliasFor(annotation = RequestMapping.class, attribute = "method")
     // RequestMethod[] method() default {};
-
     // /**
     // * @return String
     // */
     // @AliasFor(annotation = RequestMapping.class, attribute = "name")
     // String name() default "";
-
     // /**
     // * @return String[]
     // */
     // @AliasFor(annotation = RequestMapping.class, attribute = "params")
     // String[] params() default {};
-
     /**
      * @return String[]
      */
@@ -66,7 +61,6 @@ public @interface RestControllerForJSON
     // */
     // @AliasFor(annotation = RequestMapping.class, attribute = "produces")
     // String[] produces() default {};
-
     /**
      * @return String[]
      */

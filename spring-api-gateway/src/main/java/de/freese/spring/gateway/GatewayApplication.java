@@ -1,6 +1,4 @@
-/**
- * Created: 09.02.2019
- */
+// Created: 09.02.2019
 package de.freese.spring.gateway;
 
 import org.springframework.boot.SpringApplication;
@@ -8,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import reactor.core.publisher.Mono;
 
 /**

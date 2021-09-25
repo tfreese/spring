@@ -10,7 +10,6 @@ public class MessageResponse
     *
     */
     private long index;
-
     /**
      *
      */

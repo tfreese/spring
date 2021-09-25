@@ -1,15 +1,15 @@
-/**
- * Created: 09.02.2019
- */
+// Created: 09.02.2019
 package de.freese.spring.javafx;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
+
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
+
 import javafx.application.Application;
 
 /**

@@ -13,14 +13,13 @@ public class MicroService2
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         // @formatter:off
         new SpringApplicationBuilder(MicroServiceApplication.class)
                 //.properties("server.port=8082") // Funktioniert nicht, wenn server.port in application.yml enthalten ist.
                 //.run(args);
-                .run(new String[]{"--server.port=8082"});
+                .run("--server.port=8082");
         // @formatter:on
     }
 }

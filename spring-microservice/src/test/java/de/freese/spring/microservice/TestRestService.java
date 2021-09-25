@@ -4,8 +4,11 @@ package de.freese.spring.microservice;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.util.concurrent.atomic.AtomicReference;
+
 import javax.annotation.Resource;
+
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -21,7 +24,9 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import de.freese.spring.MicroServiceApplication;
 import de.freese.spring.rest.RestService.Clock;
 
@@ -88,26 +93,22 @@ class TestRestService
      */
     @Resource
     private MockMvc mockMvc;
-
     /**
      * Default für JSON.
      */
     @Resource
     private ObjectMapper objectMapper;
-    //
     // /**
     // * Default für XML.
     // */
     // @Resource
     // // @Qualifier("objectMapperXML")
     // private ObjectMapper objectMapperXML;
-
     /**
      * Für XML-Mapping
      */
     @Resource
     private Jackson2ObjectMapperBuilder objectMapperBuilder;
-
     // /**
     // *
     // */

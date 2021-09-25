@@ -1,6 +1,4 @@
-/**
- * Created: 09.02.2019
- */
+// Created: 09.02.2019
 package de.freese.spring.javafx;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -10,6 +8,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.support.GenericApplicationContext;
+
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.application.Platform;

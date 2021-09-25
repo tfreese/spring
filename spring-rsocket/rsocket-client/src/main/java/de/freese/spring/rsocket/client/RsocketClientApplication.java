@@ -23,7 +23,6 @@ public class RsocketClientApplication
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         SpringApplication.run(RsocketClientApplication.class, args);

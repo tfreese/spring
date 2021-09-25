@@ -1,9 +1,8 @@
-/**
- * Created: 19.10.2019
- */
+// Created: 19.10.2019
 package de.freese.spring.autoconfigure.hsqldbserver;
 
 import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -49,6 +48,7 @@ public class TestApplication
 
     /**
      * @param dataSource {@link DataSource}
+     *
      * @return {@link PlatformTransactionManager}
      */
     @Bean
@@ -59,6 +59,7 @@ public class TestApplication
 
     /**
      * @param dataSource {@link DataSource}
+     *
      * @return {@link PlatformTransactionManager}
      */
     @Bean

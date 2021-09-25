@@ -34,7 +34,6 @@ public class RSocketController
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(RSocketController.class);
-
     /**
      *
      */

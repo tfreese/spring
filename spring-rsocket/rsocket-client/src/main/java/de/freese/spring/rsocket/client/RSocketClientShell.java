@@ -62,22 +62,18 @@ public class RSocketClientShell
      *
      */
     private static Disposable disposable;
-
     /**
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(RSocketClientShell.class);
-
     /**
      *
      */
     private RSocketRequester rsocketRequester;
-
     /**
      *
      */
     private final RSocketRequester.Builder rsocketRequesterBuilder;
-
     /**
     *
     */

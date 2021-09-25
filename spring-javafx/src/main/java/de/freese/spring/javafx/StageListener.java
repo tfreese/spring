@@ -1,15 +1,15 @@
-/**
- * Created: 09.02.2019
- */
+// Created: 09.02.2019
 package de.freese.spring.javafx;
 
 import java.io.IOException;
 import java.net.URL;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+
 import de.freese.spring.javafx.JavaFxApplication.StageReadyEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,12 +26,10 @@ public class StageListener implements ApplicationListener<StageReadyEvent>
      *
      */
     private final ApplicationContext applicationContext;
-
     /**
      *
      */
     private final String applicationTitle;
-
     /**
      *
      */

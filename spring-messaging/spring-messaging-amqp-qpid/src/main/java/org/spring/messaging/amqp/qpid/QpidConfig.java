@@ -1,13 +1,11 @@
-/**
- * Created: 03.02.2019
- */
-
+// Created: 03.02.2019
 package org.spring.messaging.amqp.qpid;
 
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.qpid.server.SystemLauncher;
 import org.apache.qpid.server.model.ConfiguredObject;
 import org.apache.qpid.server.model.SystemConfig;
@@ -24,17 +22,14 @@ public class QpidConfig
      *
      */
     private static final String AMQP_PORT = "5672";
-
     /**
      *
      */
     private static final String INITIAL_CONFIGURATION = "qpid-config.json";
-
     /**
      *
      */
     private static final String QPID_HOME_DIR = System.getProperty("user.dir");
-
     /**
     *
     */
@@ -68,6 +63,7 @@ public class QpidConfig
 
     /**
      * @return {@link SystemLauncher}
+     *
      * @throws Exception Falls was schief geht.
      */
     @Bean

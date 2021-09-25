@@ -1,18 +1,19 @@
-/**
- * Created: 19.10.2019
- */
+// Created: 19.10.2019
 package de.freese.spring.autoconfigure.hsqldbserver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -61,6 +62,7 @@ class TestHsqldbServerAutoConfiguration
 
     /**
      * @param dataSource {@link DataSource}
+     *
      * @throws SQLException Falls was schief geht.
      */
     private void createTable(final DataSource dataSource) throws SQLException
@@ -77,6 +79,7 @@ class TestHsqldbServerAutoConfiguration
 
     /**
      * @param dataSource {@link DataSource}
+     *
      * @throws SQLException Falls was schief geht.
      */
     private void insert(final DataSource dataSource) throws SQLException
@@ -96,6 +99,7 @@ class TestHsqldbServerAutoConfiguration
 
     /**
      * @param dataSource {@link DataSource}
+     *
      * @throws SQLException Falls was schief geht.
      */
     private void select(final DataSource dataSource) throws SQLException

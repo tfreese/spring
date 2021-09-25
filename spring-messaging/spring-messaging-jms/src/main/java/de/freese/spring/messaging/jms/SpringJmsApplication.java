@@ -1,11 +1,11 @@
-/**
- * Created: 31.01.2019
- */
+// Created: 31.01.2019
 package de.freese.spring.messaging.jms;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
+
 import javax.jms.ConnectionFactory;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -29,7 +29,6 @@ public class SpringJmsApplication
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         SpringApplication.run(SpringJmsApplication.class, args);
@@ -80,6 +79,7 @@ public class SpringJmsApplication
      * @param connectionFactory {@link ConnectionFactory}
      * @param configurer {@link DefaultJmsListenerContainerFactoryConfigurer}
      * @param taskExecutor {@link Executor}
+     *
      * @return {@link JmsListenerContainerFactory}
      */
     @Bean

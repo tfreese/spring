@@ -1,10 +1,8 @@
-/**
- * Created: 01.02.2019
- */
-
+// Created: 01.02.2019
 package de.freese.spring.messaging.jms;
 
 import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
@@ -20,7 +18,6 @@ public class JmsSender
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(JmsSender.class);
-
     /**
      *
      */

@@ -1,10 +1,9 @@
-/**
- * Created: 18.06.2020
- */
+// Created: 18.06.2020
 package de.freese.spring.rsocket.server;
 
 import java.util.Optional;
 import java.util.UUID;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,6 +19,7 @@ import org.springframework.security.rsocket.metadata.UsernamePasswordMetadata;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;
+
 import de.freese.spring.rsocket.server.data.MessageRequest;
 import io.rsocket.RSocket;
 import io.rsocket.core.RSocketClient;
@@ -38,22 +38,18 @@ class RSocketClientDeniedConnectionToSecuredServerTest
      *
      */
     private static UsernamePasswordMetadata credentials;
-
     /**
      *
      */
     private static MimeType mimeType;
-
     /**
      *
      */
     private static RSocketRequester.Builder reqbuilder;
-
     /**
      *
      */
     private static RSocketRequester requester;
-
     /**
      *
      */

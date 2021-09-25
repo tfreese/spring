@@ -1,9 +1,11 @@
 package de.freese.spring.rsocket.server;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.Duration;
 import java.util.Optional;
 import java.util.UUID;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,7 @@ import org.springframework.security.rsocket.metadata.UsernamePasswordMetadata;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;
+
 import de.freese.spring.rsocket.server.data.MessageRequest;
 import de.freese.spring.rsocket.server.data.MessageResponse;
 import io.rsocket.RSocket;
@@ -48,6 +51,7 @@ class RSocketClientToServerTest
     {
         /**
          * @param status String
+         *
          * @return {@link Publisher}
          */
         @MessageMapping("client-status")
@@ -63,17 +67,14 @@ class RSocketClientToServerTest
      *
      */
     private static UsernamePasswordMetadata credentials;
-
     /**
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(RSocketClientToServerTest.class);
-
     /**
      *
      */
     private static MimeType mimeType;
-
     /**
      *
      */

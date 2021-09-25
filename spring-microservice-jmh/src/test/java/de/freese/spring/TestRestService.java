@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import javax.annotation.Resource;
+
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -47,19 +49,16 @@ class TestRestService
      */
     @Resource
     private MockMvc mockMvc;
-
     /**
      *
      */
     @LocalServerPort
     private int port;
-
     /**
      *
      */
     @Resource
     private RestTemplateBuilder restTemplateBuilder;
-
     /**
      *
      */

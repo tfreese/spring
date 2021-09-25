@@ -1,6 +1,4 @@
-/**
- * Created: 31.01.2019
- */
+// Created: 31.01.2019
 package org.spring.messaging.amqp.rabbitmq;
 
 /**
@@ -12,7 +10,6 @@ public class Email
      *
      */
     private String body;
-
     /**
      *
      */

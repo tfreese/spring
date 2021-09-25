@@ -1,6 +1,4 @@
-/**
- * Created: 31.01.2019
- */
+// Created: 31.01.2019
 package org.spring.messaging.amqp.qpid;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

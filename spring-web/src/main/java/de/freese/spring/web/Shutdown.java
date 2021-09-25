@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.util.Optional;
 import java.util.Properties;
+
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
@@ -14,10 +15,11 @@ import org.springframework.core.io.Resource;
  *
  * @author Thomas Freese
  */
-public class Shutdown
+public final class Shutdown
 {
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception
@@ -55,7 +57,7 @@ public class Shutdown
     /**
      * Erzeugt eine neue Instanz von {@link Shutdown}
      */
-    public Shutdown()
+    private Shutdown()
     {
         super();
     }

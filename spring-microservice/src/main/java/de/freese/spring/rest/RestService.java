@@ -7,7 +7,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+
 import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -38,18 +40,15 @@ public class RestService
         *
         */
         private final Date date;
-
         /**
          *
          */
         private final LocalDate localDate;
-
         /**
          *
          */
         // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private final LocalDateTime localDateTime;
-
         /**
          *
          */
@@ -106,7 +105,6 @@ public class RestService
      */
     @Resource
     private JdbcTemplate jdbcTemplate;
-
     /**
      *
      */
@@ -145,6 +143,7 @@ public class RestService
      * http://localhost:PORT/service/sysdate/
      *
      * @return String
+     *
      * @throws UnknownHostException Falls was schief geht.
      */
     @GetMapping("/sysdate")

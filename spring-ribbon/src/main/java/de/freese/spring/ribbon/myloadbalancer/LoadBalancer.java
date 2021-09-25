@@ -19,8 +19,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.spring.ribbon.myloadbalancer.ping.LoadBalancerPing;
 import de.freese.spring.ribbon.myloadbalancer.ping.LoadBalancerPingNoOp;
 import de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategy;
@@ -40,6 +42,7 @@ public class LoadBalancer implements LoadBalancerPing
          * Sequentielle Pings.
          *
          * @param allServers {@link List}
+         *
          * @return {@link List}
          */
         List<String> pingSequentiell(final List<String> allServers)
@@ -63,6 +66,7 @@ public class LoadBalancer implements LoadBalancerPing
          * Parallele Pings mit dem {@link CompletableFuture}.
          *
          * @param allServers {@link List}
+         *
          * @return {@link List}
          */
         List<String> pingWithCompletableFuture(final List<String> allServers)
@@ -111,6 +115,7 @@ public class LoadBalancer implements LoadBalancerPing
          * Parallele Pings mir dem {@link ExecutorCompletionService}.
          *
          * @param allServers {@link List}
+         *
          * @return {@link List}
          */
         List<String> pingWithCompletionService(final List<String> allServers)
@@ -144,6 +149,7 @@ public class LoadBalancer implements LoadBalancerPing
          * Parallele Pings durch Streams.
          *
          * @param allServers {@link List}
+         *
          * @return {@link List}
          */
         List<String> pingWithStreams(final List<String> allServers)
@@ -152,7 +158,7 @@ public class LoadBalancer implements LoadBalancerPing
             List<String> workingServers = allServers.stream()
                     .parallel()
                     .map(server -> isAlive(server) ? server : null)
-                    .filter(server -> server != null)
+                    .filter(Objects::nonNull)
                     .collect(Collectors.toList());
             // @formatter:on
 
@@ -187,42 +193,34 @@ public class LoadBalancer implements LoadBalancerPing
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancer.class);
-
     /**
     *
     */
     private final List<String> aliveServer = new LinkedList<>();
-
     /**
     *
     */
     private final List<String> allServer = new LinkedList<>();
-
     /**
      *
      */
     private final ReentrantLock lock = new ReentrantLock(true);
-
     /**
      *
      */
     private LoadBalancerPing ping = new LoadBalancerPingNoOp();
-
     /**
      * Default 15 Sekunden.
      */
     private long pingDelay = TimeUnit.SECONDS.toMillis(15);
-
     /**
      *
      */
     private LoadBalancerStrategy strategy = new LoadBalancerStrategyRoundRobin();
-
     // /**
     // *
     // */
     // private final ScheduledExecutorService scheduledExecutorService;
-
     /**
      *
      */
@@ -294,6 +292,7 @@ public class LoadBalancer implements LoadBalancerPing
      * Liefert den nächsten Server.<br>
      *
      * @param key String; Wird noch nicht berücksichtigt
+     *
      * @return String
      */
     public String chooseServer(final String key)
@@ -384,6 +383,7 @@ public class LoadBalancer implements LoadBalancerPing
      *
      * @param serviceName String
      * @param original {@link URI}
+     *
      * @return {@link URI}
      */
     public URI reconstructURI(final String serviceName, final URI original)

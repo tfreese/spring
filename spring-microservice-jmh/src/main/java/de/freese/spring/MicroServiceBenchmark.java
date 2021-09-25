@@ -1,7 +1,9 @@
 package de.freese.spring;
 
 import java.util.concurrent.TimeUnit;
+
 import javax.annotation.Resource;
+
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -49,29 +51,24 @@ public class MicroServiceBenchmark
          *
          */
         private final ConfigurableApplicationContext context;
-
         /**
          *
          */
         @Value("${server.port}")
         private int port;
-
         /**
          *
          */
         RestTemplate restTemplate;
-
         /**
          *
          */
         @Resource
         private RestTemplateBuilder restTemplateBuilder;
-
         /**
         *
         */
         WebClient webClient;
-
         /**
          *
          */

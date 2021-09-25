@@ -2,6 +2,7 @@
 package de.freese.spring.resilience;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -128,6 +129,8 @@ class TestResilience
 
             LOGGER.info("RateLimiter: {}", Arrays.toString(buffer));
         }
+
+        assertTrue(true);
     }
 
     /**

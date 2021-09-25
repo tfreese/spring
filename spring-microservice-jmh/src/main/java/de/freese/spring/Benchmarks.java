@@ -1,7 +1,4 @@
-/**
- * Created: 30.04.2020
- */
-
+// Created: 30.04.2020
 package de.freese.spring;
 
 import org.openjdk.jmh.results.format.ResultFormatType;
@@ -16,6 +13,7 @@ public class Benchmarks
 {
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception

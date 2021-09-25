@@ -1,6 +1,4 @@
-/**
- * Created: 09.02.2019
- */
+// Created: 09.02.2019
 package de.freese.spring.gateway;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;

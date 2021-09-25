@@ -1,9 +1,8 @@
-/**
- * Created: 01.02.2019
- */
+// Created: 01.02.2019
 package org.spring.messaging.amqp.rabbitmq;
 
 import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -19,7 +18,6 @@ public class AmqpSender
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(AmqpSender.class);
-
     /**
      *
      */

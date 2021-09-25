@@ -1,10 +1,10 @@
-/**
- * Created: 13.02.2017
- */
+// Created: 13.02.2017
 package de.freese.spring.autoconfigure.hsqldbserver;
 
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.hsqldb.Database;
 import org.hsqldb.server.Server;
 import org.slf4j.Logger;
@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import de.freese.spring.autoconfigure.hsqldbserver.HsqldbServerProperties.DB;
 
 /**
@@ -67,7 +68,6 @@ public class HsqldbServerAutoConfiguration
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(HsqldbServerAutoConfiguration.class);
-
     /**
      *
      */
@@ -76,6 +76,7 @@ public class HsqldbServerAutoConfiguration
 
     /**
      * @return {@link Server}
+     *
      * @throws Exception Falls was schief geht.
      */
     @Bean(initMethod = "start", destroyMethod = "shutdown")
@@ -88,15 +89,18 @@ public class HsqldbServerAutoConfiguration
         boolean trace = this.hsqldbServerProperties.isTrace();
         List<DB> dbs = this.hsqldbServerProperties.getDb();
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("Create HsqldbServer with:");
-        sb.append(" port={}");
-        sb.append(", noSystemExit={}");
-        sb.append(", silent={}");
-        sb.append(", trace={}");
-        sb.append(", dataBases={}");
+        if (LOGGER.isInfoEnabled())
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Create HsqldbServer with:");
+            sb.append(" port={}");
+            sb.append(", noSystemExit={}");
+            sb.append(", silent={}");
+            sb.append(", trace={}");
+            sb.append(", dataBases={}");
 
-        LOGGER.info(sb.toString(), port, noSystemExit, silent, trace, dbs);
+            LOGGER.info(sb.toString(), port, noSystemExit, silent, trace, dbs);
+        }
 
         Server server = new Server()
         {

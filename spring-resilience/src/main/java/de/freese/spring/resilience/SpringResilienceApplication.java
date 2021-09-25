@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
+
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 import reactor.core.publisher.Mono;
@@ -42,13 +44,12 @@ public class SpringResilienceApplication implements CommandLineRunner
      * @author Thomas Freese
      */
     @RestController
-    class FailingRestController
+    static class FailingRestController
     {
         /**
          *
          */
         private final ReactiveCircuitBreakerFactory<Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> reactiveCircuitBreakerFactory;
-
         /**
          *
          */
@@ -81,6 +82,7 @@ public class SpringResilienceApplication implements CommandLineRunner
 
         /**
          * @param name {@link Optional}
+         *
          * @return {@link Publisher}
          */
         @GetMapping("greet")
@@ -96,13 +98,12 @@ public class SpringResilienceApplication implements CommandLineRunner
      * @author Thomas Freese
      */
     @Service
-    class FailingService
+    static class FailingService
     {
         /**
          *
          */
         private final Logger logger = LoggerFactory.getLogger(FailingService.class);
-
         /**
         *
         */
@@ -129,6 +130,7 @@ public class SpringResilienceApplication implements CommandLineRunner
 
         /**
          * @param name {@link Optional}
+         *
          * @return {@link Mono}
          */
         Mono<String> greet(final Optional<String> name)
@@ -157,7 +159,6 @@ public class SpringResilienceApplication implements CommandLineRunner
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         SpringApplication.run(SpringResilienceApplication.class, args);

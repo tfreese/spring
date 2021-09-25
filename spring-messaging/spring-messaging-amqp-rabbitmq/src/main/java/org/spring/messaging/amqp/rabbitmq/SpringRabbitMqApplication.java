@@ -1,6 +1,4 @@
-/**
- * Created: 31.01.2019
- */
+// Created: 31.01.2019
 package org.spring.messaging.amqp.rabbitmq;
 
 import org.springframework.amqp.core.Binding;
@@ -24,7 +22,6 @@ public class SpringRabbitMqApplication
      *
      */
     public static final String QUEUE_NAME = "spring-boot";
-
     /**
      *
      */
@@ -33,7 +30,6 @@ public class SpringRabbitMqApplication
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         SpringApplication.run(SpringRabbitMqApplication.class, args);
@@ -42,6 +38,7 @@ public class SpringRabbitMqApplication
     /**
      * @param queue {@link Queue}
      * @param exchange {@link TopicExchange}
+     *
      * @return {@link Binding}
      */
     @Bean

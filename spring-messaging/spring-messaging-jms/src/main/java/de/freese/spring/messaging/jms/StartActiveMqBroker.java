@@ -1,9 +1,8 @@
-/**
- * Created: 04.02.2019
- */
+// Created: 04.02.2019
 package de.freese.spring.messaging.jms;
 
 import java.io.File;
+
 import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.store.PList;
 import org.apache.activemq.store.PListStore;
@@ -19,6 +18,7 @@ public final class StartActiveMqBroker
 {
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception

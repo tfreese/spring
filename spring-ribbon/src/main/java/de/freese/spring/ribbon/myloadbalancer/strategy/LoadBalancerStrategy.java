@@ -2,6 +2,7 @@
 package de.freese.spring.ribbon.myloadbalancer.strategy;
 
 import java.util.List;
+
 import com.netflix.loadbalancer.IRule;
 
 /**
@@ -9,6 +10,7 @@ import com.netflix.loadbalancer.IRule;
  * Geklaut von com.netflix.loadbalancer.IRule (spring-cloud-starter-netflix-ribbon).
  *
  * @author Thomas Freese
+ *
  * @see IRule
  */
 @FunctionalInterface
@@ -19,7 +21,8 @@ public interface LoadBalancerStrategy
      *
      * @param server {@link List}
      * @param key String
+     *
      * @return String
      */
-    public String chooseServer(List<String> server, String key);
+    String chooseServer(List<String> server, String key);
 }

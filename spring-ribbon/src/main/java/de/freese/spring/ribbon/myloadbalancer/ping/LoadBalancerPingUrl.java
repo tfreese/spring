@@ -10,6 +10,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -32,27 +33,22 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancerPingUrl.class);
-
     /**
      *
      */
     private String expectedContent;
-
     /**
      *
      */
     private ClientHttpRequestFactory httpRequestFactory;
-
     /**
      *
      */
     private boolean isSecure;
-
     /**
      *
      */
     private final HttpMessageConverter<String> messageConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
-
     /**
      *
      */
@@ -63,6 +59,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
      *
      * @param expectedContent String
      * @param returnedContent String
+     *
      * @return boolean; true, wenn der Content den erwarteten Wert hat
      */
     protected boolean checkAliveByContent(final String expectedContent, final String returnedContent)
@@ -74,7 +71,9 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
 
     /**
      * @param inputStream {@link InputStream}
+     *
      * @return String
+     *
      * @throws IOException Falls was schief geht.
      */
     protected String getContent(final InputStream inputStream) throws IOException

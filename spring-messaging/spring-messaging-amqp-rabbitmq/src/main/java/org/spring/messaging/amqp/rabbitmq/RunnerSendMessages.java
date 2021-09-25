@@ -1,10 +1,8 @@
-/**
- * Created: 31.07.2019
- */
-
+// Created: 31.07.2019
 package org.spring.messaging.amqp.rabbitmq;
 
 import java.util.Objects;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

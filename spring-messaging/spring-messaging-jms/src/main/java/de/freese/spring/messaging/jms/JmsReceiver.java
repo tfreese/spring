@@ -1,7 +1,4 @@
-/**
- * Created: 31.01.2019
- */
-
+// Created: 31.01.2019
 package de.freese.spring.messaging.jms;
 
 import org.springframework.jms.annotation.JmsListener;
@@ -15,14 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class JmsReceiver
 {
-    /**
-     * Erstellt ein neues {@link JmsReceiver} Object.
-     */
-    public JmsReceiver()
-    {
-        super();
-    }
-
     /**
      * @param email {@link Email}
      * @param queue String

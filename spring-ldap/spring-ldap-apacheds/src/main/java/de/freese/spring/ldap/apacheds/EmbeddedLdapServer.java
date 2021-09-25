@@ -1,6 +1,4 @@
-/**
- * Created: 20.02.2019
- */
+// Created: 20.02.2019
 package de.freese.spring.ldap.apacheds;
 
 import java.io.File;
@@ -11,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.directory.api.ldap.model.entry.Entry;
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.apache.directory.api.ldap.model.schema.registries.DefaultSchema;
@@ -43,27 +42,22 @@ public class EmbeddedLdapServer
      *
      */
     private static final List<String> ATTR_NAMES_TO_INDEX = new ArrayList<>(Arrays.asList("uid"));
-
     /**
      *
      */
     private static final int BASE_CACHE_SIZE = 1000;
-
     /**
      *
      */
     private static final String BASE_DOMAIN = "org";
-
     /**
      *
      */
     private static final String BASE_PARTITION_NAME = "mydomain";
-
     /**
      *
      */
     private static final String BASE_STRUCTURE = "dc=" + BASE_PARTITION_NAME + ",dc=" + BASE_DOMAIN;
-
     /**
      *
      */
@@ -71,6 +65,7 @@ public class EmbeddedLdapServer
 
     /**
      * @param path {@link File}
+     *
      * @throws IOException Falls was schief geht.
      */
     private static void deleteDirectory(final File path) throws IOException
@@ -82,6 +77,7 @@ public class EmbeddedLdapServer
      * Main class. We just do a lookup on the server to check that it's available.
      *
      * @param args Not used.
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception
@@ -97,7 +93,7 @@ public class EmbeddedLdapServer
 
             // ads.addSchemaFromPath(new File("/home/tommy/git/spring/spring-ldap"), "evolutionperson.schema");
 
-            LdifFileLoader ldifLoader = null;
+            LdifFileLoader ldifLoader;
 
             ldifLoader = new LdifFileLoader(ads.getDirectoryService().getAdminSession(), "/usr/share/evolution-data-server/evolutionperson.schema");
             ldifLoader.execute();
@@ -159,7 +155,9 @@ public class EmbeddedLdapServer
     /**
      * @param name String; mydomain
      * @param baseStructure String; dc=mydomain,dc=org
+     *
      * @return {@link JdbmPartition}
+     *
      * @throws Exception Falls was schief geht.
      */
     public JdbmPartition addPartition(final String name, final String baseStructure) throws Exception
@@ -219,7 +217,9 @@ public class EmbeddedLdapServer
      * It's also required that a META-INF/apacheds-schema.index be present in your classpath that lists each LDIF file in your schema directory.
      *
      * @param schemaName The name of the schema
+     *
      * @return true if the schemas have been loaded and the registries is consistent
+     *
      * @throws Exception Falls was schief geht.
      */
     public boolean addSchemaFromClasspath(final String schemaName) throws Exception
@@ -237,7 +237,9 @@ public class EmbeddedLdapServer
      *
      * @param schemaLocation The path to the directory containing the "ou=schema" directory for an additional schema
      * @param schemaName The name of the schema
+     *
      * @return true if the schemas have been loaded and the registries is consistent
+     *
      * @throws Exception Falls was schief geht.
      */
     public boolean addSchemaFromPath(final File schemaLocation, final String schemaName) throws Exception
@@ -269,7 +271,9 @@ public class EmbeddedLdapServer
 
     /**
      * @param attrName String
+     *
      * @return {@link JdbmIndex}
+     *
      * @throws LdapException Falls was schief geht.
      */
     protected JdbmIndex<?> createIndexObjectForAttr(final String attrName) throws LdapException
@@ -280,7 +284,9 @@ public class EmbeddedLdapServer
     /**
      * @param attrName String
      * @param withReverse boolean
+     *
      * @return {@link JdbmIndex}
+     *
      * @throws LdapException Falls was schief geht.
      */
     protected JdbmIndex<?> createIndexObjectForAttr(final String attrName, final boolean withReverse) throws LdapException
@@ -431,7 +437,9 @@ public class EmbeddedLdapServer
 
     /**
      * @param attrName String
+     *
      * @return String
+     *
      * @throws LdapException Falls was schief geht.
      */
     public String getOidByAttributeName(final String attrName) throws LdapException
@@ -449,6 +457,7 @@ public class EmbeddedLdapServer
 
     /**
      * @return A map where the key is the attribute name the value is the oid.
+     *
      * @throws IndexNotFoundException Falls was schief geht.
      */
     public Map<String, String> getSystemIndexMap() throws IndexNotFoundException
@@ -468,6 +477,7 @@ public class EmbeddedLdapServer
 
     /**
      * @return A map where the key is the attribute name the value is the oid.
+     *
      * @throws IndexNotFoundException Falls was schief geht.
      */
     public Map<String, String> getUserIndexMap() throws IndexNotFoundException

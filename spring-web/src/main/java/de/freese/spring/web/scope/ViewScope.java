@@ -1,7 +1,9 @@
 package de.freese.spring.web.scope;
 
 import java.util.Map;
+
 import javax.faces.context.FacesContext;
+
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 
@@ -12,14 +14,6 @@ import org.springframework.beans.factory.config.Scope;
  */
 public class ViewScope implements Scope
 {
-    /**
-     * Erstellt ein neues {@link ViewScope} Object.
-     */
-    public ViewScope()
-    {
-        super();
-    }
-
     /**
      * @see org.springframework.beans.factory.config.Scope#get(java.lang.String, org.springframework.beans.factory.ObjectFactory)
      */
