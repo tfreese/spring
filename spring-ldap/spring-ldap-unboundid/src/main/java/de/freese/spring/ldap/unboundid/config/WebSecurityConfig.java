@@ -1,10 +1,9 @@
-/**
- * Created: 17.02.2019
- */
+// Created: 17.02.2019
 package de.freese.spring.ldap.unboundid.config;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

@@ -1,6 +1,4 @@
-/**
- * Created: 24.06.2019
- */
+// Created: 24.06.2019
 package de.freese.spring.reactive.service;
 
 import org.junit.jupiter.api.AfterEach;
@@ -12,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+
 import de.freese.spring.reactive.EmployeeService;
 import de.freese.spring.reactive.model.Department;
 import de.freese.spring.reactive.model.Employee;
@@ -47,6 +46,16 @@ public interface TestServiceInterface
         populator.addScript(new ClassPathResource("sql/data.sql"));
         populator.execute(getJdbcTemplate().getDataSource());
     }
+
+    /**
+     * @return {@link JdbcTemplate}
+     */
+    JdbcTemplate getJdbcTemplate();
+
+    /**
+     * @return {@link EmployeeService}
+     */
+    EmployeeService getService();
 
     /**
       *
@@ -156,14 +165,4 @@ public interface TestServiceInterface
             ;
         // @formatter:on
     }
-
-    /**
-     * @return {@link JdbcTemplate}
-     */
-    JdbcTemplate getJdbcTemplate();
-
-    /**
-     * @return {@link EmployeeService}
-     */
-    EmployeeService getService();
 }

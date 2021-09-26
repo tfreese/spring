@@ -1,9 +1,8 @@
-/**
- * Created: 12.09.2018
- */
+// Created: 12.09.2018
 package de.freese.spring.oauth2.client.rest;
 
 import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -24,7 +23,6 @@ public class RestTemplateRunner implements CommandLineRunner
     *
     */
     public static final Logger LOGGER = LoggerFactory.getLogger(RestTemplateRunner.class);
-
     /**
      *
      */

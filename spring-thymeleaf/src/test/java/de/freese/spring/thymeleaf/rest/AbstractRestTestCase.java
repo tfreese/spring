@@ -1,7 +1,4 @@
-/**
- * Created: 14.09.2018
- */
-
+// Created: 14.09.2018
 package de.freese.spring.thymeleaf.rest;
 
 /**

@@ -1,14 +1,13 @@
-/**
- * Created: 03.09.2018
- */
-
+// Created: 03.09.2018
 package de.freese.spring.thymeleaf.exception;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +38,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 {
     /**
      * @param request {@link HttpServletRequest}
+     *
      * @return {@link Exception}
      */
     protected static Exception getException(final HttpServletRequest request)
@@ -50,6 +50,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     /**
      * @param request {@link WebRequest}
+     *
      * @return {@link Exception}
      */
     protected static Exception getException(final WebRequest request)
@@ -62,6 +63,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     /**
      * @param request {@link WebRequest}
+     *
      * @return {@link HttpServletRequest}
      */
     protected static HttpServletRequest getHttpServletRequest(final WebRequest request)
@@ -75,6 +77,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      * Liefert den URL-Pfad des Requests.
      *
      * @param request {@link HttpServletRequest}
+     *
      * @return String
      */
     protected static String getPath(final HttpServletRequest request)
@@ -88,6 +91,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      * Liefert den URL-Pfad des Requests.
      *
      * @param request {@link WebRequest}
+     *
      * @return String
      */
     protected static String getPath(final WebRequest request)
@@ -100,6 +104,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     /**
      * @param request {@link HttpServletRequest}
+     *
      * @return {@link HttpStatus}
      */
     protected static HttpStatus getStatus(final HttpServletRequest request)
@@ -123,6 +128,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     /**
      * @param request {@link WebRequest}
+     *
      * @return {@link HttpStatus}
      */
     protected static HttpStatus getStatus(final WebRequest request)
@@ -147,6 +153,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      * @param httpStatus {@link HttpStatus}
      * @param ex {@link Throwable}
      * @param message String
+     *
      * @return {@link ResponseEntity}
      */
     protected ResponseEntity<Object> buildResponseEntity(final ApiError apiError, final WebRequest request, final HttpStatus httpStatus, final Throwable ex,
@@ -177,6 +184,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     /**
      * @param ex {@link AccessDeniedException}
      * @param request {@link WebRequest}
+     *
      * @return {@link ResponseEntity}
      */
     @ExceptionHandler(value = AccessDeniedException.class)
@@ -192,6 +200,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      *
      * @param ex {@link ConstraintViolationException}
      * @param request {@link WebRequest}
+     *
      * @return {@link ResponseEntity}
      */
     @ExceptionHandler(ConstraintViolationException.class)
@@ -221,6 +230,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      *
      * @param ex {@link Throwable}
      * @param request {@link WebRequest}
+     *
      * @return {@link ResponseEntity}
      */
     @ExceptionHandler(Throwable.class)
@@ -230,9 +240,9 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
         try
         {
-            if (ex instanceof Exception)
+            if (ex instanceof Exception e)
             {
-                responseEntity = handleException((Exception) ex, request);
+                responseEntity = handleException(e, request);
             }
         }
         catch (Exception ex2)
@@ -331,6 +341,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      *
      * @param ex {@link MethodArgumentTypeMismatchException}
      * @param request {@link WebRequest}
+     *
      * @return {@link ResponseEntity}
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)

@@ -1,6 +1,4 @@
-/**
- * Created: 26.08.2018
- */
+// Created: 26.08.2018
 package de.freese.spring.thymeleaf.model;
 
 /**
@@ -12,7 +10,6 @@ public class PersonForm
      *
      */
     private String firstName;
-
     /**
      *
      */

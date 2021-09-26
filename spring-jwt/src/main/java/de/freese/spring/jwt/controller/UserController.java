@@ -1,10 +1,10 @@
-/**
- * Created: 28.10.2018
- */
+// Created: 28.10.2018
 package de.freese.spring.jwt.controller;
 
 import java.security.Principal;
+
 import javax.annotation.Resource;
+
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import de.freese.spring.jwt.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +40,7 @@ public class UserController
 
     /**
      * @param username String
+     *
      * @return String
      */
     @DeleteMapping("delete/{username}")
@@ -62,6 +64,7 @@ public class UserController
     /**
      * @param username String
      * @param password String
+     *
      * @return String
      */
     @GetMapping("login")
@@ -78,6 +81,7 @@ public class UserController
 
     /**
      * @param userDetails {@link UserDetails}
+     *
      * @return String
      */
     @PostMapping("register")
@@ -96,6 +100,7 @@ public class UserController
 
     /**
      * @param username String
+     *
      * @return {@link UserDetails}
      */
     @GetMapping("search/{username}")
@@ -118,6 +123,7 @@ public class UserController
 
     /**
      * @param principal {@link Principal}
+     *
      * @return {@link Principal}
      */
     @GetMapping("me")

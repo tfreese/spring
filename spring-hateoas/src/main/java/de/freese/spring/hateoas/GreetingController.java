@@ -1,10 +1,12 @@
-// Erzeugt: 04.05.2016
+// Created: 04.05.2016
 package de.freese.spring.hateoas;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.time.LocalDateTime;
 import java.util.Date;
+
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import de.freese.spring.hateoas.exception.GreetingException;
 import de.freese.spring.hateoas.model.GreetingPOJO;
 import de.freese.spring.hateoas.model.GreetingRepresentationModel;
@@ -44,6 +47,7 @@ public class GreetingController
      * Ergebnis: {"_links":{"self":{"href":"http://localhost:9000/greeter/?name=World"}},"greeting":"Hello, World!"}
      *
      * @param name String
+     *
      * @return {@link ResponseEntity}
      */
     @GetMapping
@@ -78,6 +82,7 @@ public class GreetingController
      * Ergebnis: {"greeting":"Hello, test!","_links":{"self":{"href":"http://localhost:9000/greeter/path/test"}}}
      *
      * @param name String
+     *
      * @return {@link ResponseEntity}
      */
     @GetMapping("/path/{name}")
@@ -100,6 +105,7 @@ public class GreetingController
      * Ergebnis: {"greeting":"Hello, World!","_links":{"self":{"href":"http://localhost:9000/greeter/pojo?name=World"}}}
      *
      * @param name String
+     *
      * @return {@link ResponseEntity}
      */
     @GetMapping("/pojo")
@@ -123,6 +129,7 @@ public class GreetingController
      * Ergebnis: {"greeting":"Hello, World!"}
      *
      * @param name String
+     *
      * @return {@link ResponseEntity}
      */
     @GetMapping("/simple")

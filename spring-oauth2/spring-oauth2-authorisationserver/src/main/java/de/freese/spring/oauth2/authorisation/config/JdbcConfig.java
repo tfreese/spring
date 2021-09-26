@@ -1,9 +1,8 @@
-/**
- * Created: 30.10.2018
- */
+// Created: 30.10.2018
 package de.freese.spring.oauth2.authorisation.config;
 
 import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -42,6 +41,7 @@ public class JdbcConfig
 
     /**
      * @param dataSource {@link DataSource}
+     *
      * @return {@link ApprovalStore}
      */
     @Bean
@@ -52,6 +52,7 @@ public class JdbcConfig
 
     /**
      * @param dataSource {@link DataSource}
+     *
      * @return {@link AuthorizationCodeServices}
      */
     @Bean
@@ -62,6 +63,7 @@ public class JdbcConfig
 
     /**
      * @param dataSource {@link DataSource}
+     *
      * @return {@link ClientDetailsService}
      */
     @Bean
@@ -73,6 +75,7 @@ public class JdbcConfig
     /**
      * @param dataSource {@link DataSource}
      * @param userCache {@link UserCache}
+     *
      * @return {@link UserDetailsService}
      */
     @Bean
@@ -96,6 +99,7 @@ public class JdbcConfig
 
     /**
      * @param dataSource {@link DataSource}
+     *
      * @return {@link TokenStore}
      */
     @Bean

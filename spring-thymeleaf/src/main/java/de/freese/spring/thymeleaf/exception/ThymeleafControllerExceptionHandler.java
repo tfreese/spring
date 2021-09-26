@@ -1,10 +1,9 @@
-/**
- * Created: 05.09.2018
- */
+// Created: 05.09.2018
 package de.freese.spring.thymeleaf.exception;
 
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
 import de.freese.spring.thymeleaf.ThymeleafController;
 
 /**
@@ -26,7 +26,6 @@ public class ThymeleafControllerExceptionHandler
     */
     @Value("${server.error.path:${error.path:/error}}")
     private String errorPage;
-
     /**
      *
      */
@@ -37,6 +36,7 @@ public class ThymeleafControllerExceptionHandler
      * @param model {@link Model}
      * @param ex {@link AccessDeniedException}
      * @param request {@link WebRequest}
+     *
      * @return String
      */
     @ExceptionHandler(value = AccessDeniedException.class)
@@ -100,6 +100,7 @@ public class ThymeleafControllerExceptionHandler
      * @param model {@link Model}
      * @param ex {@link ConstraintViolationException}
      * @param request {@link WebRequest}
+     *
      * @return {@link ResponseEntity}
      */
     @ExceptionHandler(ConstraintViolationException.class)
@@ -118,6 +119,7 @@ public class ThymeleafControllerExceptionHandler
      * @param model {@link Model}
      * @param ex {@link Throwable}
      * @param request {@link WebRequest}
+     *
      * @return {@link ResponseEntity}
      */
     @ExceptionHandler(Throwable.class)
@@ -136,6 +138,7 @@ public class ThymeleafControllerExceptionHandler
      * @param model {@link Model}
      * @param ex {@link MethodArgumentTypeMismatchException}
      * @param request {@link WebRequest}
+     *
      * @return {@link ResponseEntity}
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)

@@ -1,7 +1,4 @@
-/**
- * Created: 07.09.2018
- */
-
+// Created: 07.09.2018
 package de.freese.spring.thymeleaf.rest;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
@@ -11,9 +8,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+
 import javax.annotation.Resource;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -25,8 +25,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 import de.freese.spring.thymeleaf.model.Person;
 
@@ -48,13 +50,11 @@ class TestRestWithMockMvc extends AbstractRestTestCase
     */
     @Resource
     private MockMvc mockMvc;
-
     /**
      * Default für JSON.
      */
     @Resource
     private ObjectMapper objectMapper;
-
     /**
      * Für XML-Mapping
      */

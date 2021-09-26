@@ -1,14 +1,16 @@
-// Erzeugt: 04.05.2016
+// Created: 04.05.2016
 package de.freese.spring.hateoas;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -39,7 +41,7 @@ public class HateoasApplication implements WebMvcConfigurer// extends SpringBoot
     public void extendMessageConverters(final List<HttpMessageConverter<?>> converters)
     {
         Optional<MappingJackson2HttpMessageConverter> converter = converters.stream().peek(c -> System.out.println(c.getClass().getSimpleName()))
-                .filter(c -> c instanceof MappingJackson2HttpMessageConverter).map(MappingJackson2HttpMessageConverter.class::cast).findFirst();
+                .filter(MappingJackson2HttpMessageConverter.class::isInstance).map(MappingJackson2HttpMessageConverter.class::cast).findFirst();
 
         if (converter.isPresent())
         {

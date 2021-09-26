@@ -1,14 +1,13 @@
-/**
- *
- */
 package de.freese.spring.reactive;
 
 import javax.annotation.Resource;
+
 import org.reactivestreams.Publisher;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+
 import de.freese.spring.reactive.model.Department;
 import de.freese.spring.reactive.model.Employee;
 import reactor.core.publisher.Flux;
@@ -25,14 +24,6 @@ public class EmployeeHandler
      */
     @Resource
     private EmployeeService service;
-
-    /**
-     * Erstellt ein neues {@link EmployeeHandler} Object.
-     */
-    public EmployeeHandler()
-    {
-        super();
-    }
 
     // Die REST-Methode 'createNewEmployee' wird im {@link EmployeeRestController} behandelt.
     //
@@ -51,6 +42,7 @@ public class EmployeeHandler
 
     /**
      * @param request {@link ServerRequest}
+     *
      * @return {@link Mono}
      */
     public Mono<ServerResponse> deleteEmployee(final ServerRequest request)
@@ -64,6 +56,7 @@ public class EmployeeHandler
 
     /**
      * @param request {@link ServerRequest}
+     *
      * @return {@link Publisher}
      */
     public Mono<ServerResponse> getAllDepartments(final ServerRequest request)
@@ -75,6 +68,7 @@ public class EmployeeHandler
 
     /**
      * @param request {@link ServerRequest}
+     *
      * @return {@link Publisher}
      */
     public Mono<ServerResponse> getAllEmployees(final ServerRequest request)
@@ -86,6 +80,7 @@ public class EmployeeHandler
 
     /**
      * @param request {@link ServerRequest}
+     *
      * @return {@link Mono}
      */
     public Mono<ServerResponse> getEmployee(final ServerRequest request)

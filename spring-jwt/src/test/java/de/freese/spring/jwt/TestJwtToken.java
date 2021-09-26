@@ -1,12 +1,13 @@
-/**
- * Created: 07.09.2018
- */
+// Created: 07.09.2018
 package de.freese.spring.jwt;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.IOException;
+
 import javax.annotation.Resource;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -25,7 +26,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import com.jayway.jsonpath.internal.JsonFormatter;
+
 import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
@@ -46,7 +49,6 @@ class TestJwtToken
     // *
     // */
     // private final String name;
-    //
     // /**
     // *
     // */
@@ -82,7 +84,7 @@ class TestJwtToken
     /**
      * @author Thomas Freese
      */
-    private class NoOpResponseErrorHandler extends DefaultResponseErrorHandler
+    private static class NoOpResponseErrorHandler extends DefaultResponseErrorHandler
     {
         /**
          * @see org.springframework.web.client.DefaultResponseErrorHandler#handleError(org.springframework.http.client.ClientHttpResponse)
@@ -117,13 +119,11 @@ class TestJwtToken
     */
     @LocalServerPort
     private int localServerPort;
-
     /**
      *
      */
     @Resource
     private RestTemplateBuilder restTemplateBuilder;
-
     /**
      *
      */

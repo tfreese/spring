@@ -1,16 +1,16 @@
-/**
- * Created: 17.02.2019
- */
+// Created: 17.02.2019
 package de.freese.spring.ldap.unboundid.config;
 
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.ldap.core.support.BaseLdapNameAware;
 import org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor;
+
 import com.unboundid.ldap.listener.InMemoryDirectoryServer;
 
 /**
@@ -24,13 +24,11 @@ public class LdapClientConfig
     */
     @Value("${spring.ldap.embedded.base-dn}")
     private String baseDN;
-
     /**
     *
     */
     @Resource
     private InMemoryDirectoryServer directoryServer;
-
     /**
      *
      */
@@ -39,6 +37,7 @@ public class LdapClientConfig
 
     /**
      * @return {@link BaseLdapPathBeanPostProcessor}
+     *
      * @see BaseLdapNameAware
      */
     @Bean

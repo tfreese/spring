@@ -1,9 +1,8 @@
-/**
- * Created: 30.10.2018
- */
+// Created: 30.10.2018
 package de.freese.spring.jwt.config;
 
 import java.util.List;
+
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
@@ -33,7 +32,9 @@ public class CacheConfig
 
     /**
      * @param cacheManager {@link CacheManager}
+     *
      * @return {@link CacheManager}
+     *
      * @throws Exception Falls was schief geht.
      */
     @Bean

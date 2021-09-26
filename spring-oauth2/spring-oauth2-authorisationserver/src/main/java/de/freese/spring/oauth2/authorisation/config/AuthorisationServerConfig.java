@@ -1,10 +1,10 @@
-/**
- * Created: 22.09.2018
- */
+// Created: 22.09.2018
 package de.freese.spring.oauth2.authorisation.config;
 
 import java.util.Arrays;
+
 import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,49 +36,41 @@ public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdap
     */
     @Resource
     private AccessTokenConverter accessTokenConverter;
-
     /**
     *
     */
     @Resource
     private ApprovalStore approvalStore;
-
     /**
      *
      */
     @Resource
     private AuthenticationManager authenticationManager;
-
     /**
     *
     */
     @Resource
     private AuthorizationCodeServices authorizationCodeServices;
-
     /**
     *
     */
     @Resource
     private ClientDetailsService myClientDetailsService;
-
     /**
      *
      */
     @Resource
     private PasswordEncoder passwordEncoder;
-
     /**
      *
      */
     @Resource
     private TokenEnhancer tokenEnhancer;
-
     /**
     *
     */
     @Resource
     private TokenStore tokenStore;
-
     /**
     *
     */

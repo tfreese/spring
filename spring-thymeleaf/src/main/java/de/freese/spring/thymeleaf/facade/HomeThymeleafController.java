@@ -1,17 +1,16 @@
-/**
- * Created: 05.09.2018
- */
-
+// Created: 05.09.2018
 package de.freese.spring.thymeleaf.facade;
 
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +28,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 import de.freese.spring.thymeleaf.ThymeleafController;
 
@@ -44,13 +44,11 @@ public class HomeThymeleafController
     @Resource
     @Qualifier("authenticationManagerWeb")
     private AuthenticationManager authenticationManager;
-
     /**
      *
      */
     @Value("${app.message.welcome}")
     private String message = "Hello World";
-
     /**
      *
      */
@@ -70,6 +68,7 @@ public class HomeThymeleafController
     /**
      * @param model {@link Model}
      * @param principal {@link Principal}
+     *
      * @return String
      */
     @GetMapping(value =
@@ -145,6 +144,7 @@ public class HomeThymeleafController
      *
      * @param req {@link HttpServletRequest}
      * @param token String
+     *
      * @return String
      */
     @PostMapping("/loginWithToken")
@@ -193,7 +193,9 @@ public class HomeThymeleafController
      *
      * @param request {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
+     *
      * @return String
+     *
      * @throws ServletException Falls was schief geht.
      */
     @GetMapping("/logout")

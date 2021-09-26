@@ -3,6 +3,7 @@ package de.freese.spring.hystrix.primarysecondary;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.netflix.config.DynamicBooleanProperty;
 import com.netflix.config.DynamicPropertyFactory;
 import com.netflix.hystrix.HystrixCommand;
@@ -26,7 +27,6 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
         *
         */
         private static final Logger P_LOGGER = LoggerFactory.getLogger(PrimaryCommand.class);
-
         /**
          *
          */
@@ -74,7 +74,6 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
         *
         */
         private static final Logger S_LOGGER = LoggerFactory.getLogger(SecondaryCommand.class);
-
         /**
          *
          */
@@ -116,12 +115,10 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
     *
     */
     private static final Logger C_LOGGER = LoggerFactory.getLogger(PrimarySecondaryCommand.class);
-
     /**
      *
      */
     private static final DynamicBooleanProperty USE_PRIMARY = DynamicPropertyFactory.getInstance().getBooleanProperty("primarySecondary.usePrimary", true);
-
     /**
      *
      */

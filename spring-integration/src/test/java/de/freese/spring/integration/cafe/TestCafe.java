@@ -1,9 +1,8 @@
-/**
- * Created: 14.04.2012
- */
+// Created: 14.04.2012
 package de.freese.spring.integration.cafe;
 
 import java.util.concurrent.TimeUnit;
+
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -41,6 +40,7 @@ class TestCafe
 
     /**
      * @param context {@link ApplicationContext}
+     *
      * @throws Exception Falls was schief geht.
      */
     private void testCafe(final ApplicationContext context) throws Exception

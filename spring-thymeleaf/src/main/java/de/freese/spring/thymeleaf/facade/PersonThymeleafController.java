@@ -1,14 +1,15 @@
-/**
- * Created: 26.08.2018
- */
+// Created: 26.08.2018
 package de.freese.spring.thymeleaf.facade;
 
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import de.freese.spring.thymeleaf.ThymeleafController;
 import de.freese.spring.thymeleaf.model.Person;
 import de.freese.spring.thymeleaf.model.PersonForm;
@@ -30,6 +31,7 @@ public class PersonThymeleafController
      * Berechtigung im Service.
      *
      * @param model {@link Model}
+     *
      * @return String
      */
     @GetMapping("/web/person/personList")
@@ -46,6 +48,7 @@ public class PersonThymeleafController
      *
      * @param model {@link Model}
      * @param personForm {@link PersonForm}
+     *
      * @return String
      */
     @PostMapping("/web/person/personAdd")
@@ -72,6 +75,7 @@ public class PersonThymeleafController
 
     /**
      * @param model {@link Model}
+     *
      * @return String
      */
     @GetMapping("/web/person/personAdd")

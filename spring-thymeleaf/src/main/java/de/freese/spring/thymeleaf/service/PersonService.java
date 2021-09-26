@@ -1,13 +1,12 @@
-/**
- * Created: 04.09.2018
- */
-
+// Created: 04.09.2018
 package de.freese.spring.thymeleaf.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+
 import de.freese.spring.thymeleaf.model.Person;
 
 /**

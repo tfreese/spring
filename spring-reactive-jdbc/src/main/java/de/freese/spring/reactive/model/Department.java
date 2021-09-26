@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.spring.reactive.model;
 
 /**
@@ -12,7 +9,6 @@ public class Department
      *
      */
     private int id;
-
     /**
      *
      */

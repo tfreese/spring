@@ -1,9 +1,8 @@
-/**
- * Created: 30.10.2018
- */
+// Created: 30.10.2018
 package de.freese.spring.jwt.token;
 
 import java.util.Collection;
+
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -16,17 +15,14 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken
      *
      */
     private static final long serialVersionUID = 3544121276547291346L;
-
     /**
      *
      */
     private Object credentials;
-
     /**
      *
      */
     private Object principal;
-
     /**
      *
      */

@@ -9,12 +9,10 @@ public class OrderItem
      *
      */
     private boolean iced;
-
     /**
      *
      */
     private final Order order;
-
     /**
      *
      */

@@ -1,7 +1,4 @@
-/**
- * Created: 07.02.2020
- */
-
+// Created: 07.02.2020
 package de.freese.spring.kryo.webflux;
 
 import java.io.InputStream;
@@ -9,7 +6,9 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
+
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
 
@@ -20,6 +19,7 @@ public final class StreamResponse
 {
     /**
      * @param data byte[]
+     *
      * @return {@link StreamingResponseBody}
      */
     public static StreamingResponseBody ok(final byte[] data)
@@ -29,6 +29,7 @@ public final class StreamResponse
 
     /**
      * @param consumer {@link Consumer}
+     *
      * @return {@link StreamingResponseBody}
      */
     public static StreamingResponseBody ok(final Consumer<Writer> consumer)
@@ -43,6 +44,7 @@ public final class StreamResponse
 
     /**
      * @param inputStream {@link InputStream}
+     *
      * @return {@link StreamingResponseBody}
      */
     public static StreamingResponseBody ok(final InputStream inputStream)
@@ -60,6 +62,7 @@ public final class StreamResponse
     /**
      * @param object Object
      * @param kryo {@link Kryo}
+     *
      * @return {@link StreamingResponseBody}
      */
     public static StreamingResponseBody ok(final Object object, final Kryo kryo)

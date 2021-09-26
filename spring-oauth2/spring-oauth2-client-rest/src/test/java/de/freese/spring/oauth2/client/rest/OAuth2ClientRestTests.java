@@ -1,9 +1,8 @@
-/**
- * Created: 31.10.2019
- */
+// Created: 31.10.2019
 package de.freese.spring.oauth2.client.rest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;

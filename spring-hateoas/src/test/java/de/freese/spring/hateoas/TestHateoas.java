@@ -1,15 +1,18 @@
-// Erzeugt: 04.05.2016
+// Created: 04.05.2016
 package de.freese.spring.hateoas;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+
 import javax.annotation.Resource;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -39,8 +42,10 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import de.freese.spring.hateoas.model.GreetingPOJO;
 import de.freese.spring.hateoas.model.GreetingRepresentationModel;
 
@@ -100,6 +105,7 @@ class TestHateoas
 
     /**
      * @return {@link URI}
+     *
      * @throws URISyntaxException Falls was schief geht.
      */
     private URI getBaseURI() throws URISyntaxException

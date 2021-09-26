@@ -1,6 +1,4 @@
-/**
- * Created: 30.10.2018
- */
+// Created: 30.10.2018
 package de.freese.spring.oauth2.authorisation.config;
 
 import org.springframework.context.annotation.Bean;
@@ -65,7 +63,9 @@ public class JwtConfig
 
     /**
      * @param passwordEncoder {@link PasswordEncoder}
+     *
      * @return {@link ClientDetailsService}
+     *
      * @throws Exception Falls was schief geht.
      */
     @Bean
@@ -95,6 +95,7 @@ public class JwtConfig
     /**
      * @param passwordEncoder {@link PasswordEncoder}
      * @param userCache {@link UserCache}
+     *
      * @return {@link UserDetailsService}
      */
     @Bean
@@ -118,6 +119,7 @@ public class JwtConfig
 
     /**
      * @param accessTokenConverter {@link JwtAccessTokenConverter}
+     *
      * @return {@link TokenStore}
      */
     @Bean

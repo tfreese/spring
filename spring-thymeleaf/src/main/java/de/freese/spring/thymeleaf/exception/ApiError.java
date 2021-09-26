@@ -1,6 +1,4 @@
-/**
- * Created: 03.09.2018
- */
+// Created: 03.09.2018
 package de.freese.spring.thymeleaf.exception;
 
 import java.io.Serializable;
@@ -10,10 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
 import javax.validation.ConstraintViolation;
+
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;
@@ -29,7 +30,7 @@ public class ApiError
     /**
      * @author Thomas Freese
      */
-    abstract class AbstractApiSubError
+    abstract static class AbstractApiSubError
     {
         /**
          *
@@ -82,12 +83,10 @@ public class ApiError
          *
          */
         private String field;
-
         /**
          *
          */
         private String object;
-
         /**
          *
          */
@@ -178,37 +177,30 @@ public class ApiError
      *
      */
     private Map<String, Serializable> details;
-
     /**
      *
      */
     private String exceptionMessage;
-
     /**
     *
     */
     private int httpStatus;
-
     /**
     *
     */
     private String message;
-
     /**
     *
     */
     private String path;
-
     /**
      *
      */
     private String stackTrace;
-
     /**
      *
      */
     private List<AbstractApiSubError> subErrors;
-
     /**
     *
     */

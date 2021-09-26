@@ -5,6 +5,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
+
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandKey;
@@ -24,17 +25,14 @@ public class SysDateHystrixCommand extends HystrixCommand<String>
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(SysDateHystrixCommand.class);
-
     /**
      *
      */
     private final int level;
-
     /**
      *
      */
     private RestTemplate restTemplate;
-
     /**
      *
      */

@@ -1,11 +1,9 @@
-/**
- *
- */
 package de.freese.spring.reactive.repository;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Repository;
+
 import de.freese.spring.reactive.model.Department;
 import de.freese.spring.reactive.model.Employee;
 import io.r2dbc.client.R2dbc;
@@ -24,7 +22,6 @@ public class EmployeeRepositoryR2dbc implements EmployeeRepository
      *
      */
     private final R2dbc r2dbc;
-
     /**
      *
      */

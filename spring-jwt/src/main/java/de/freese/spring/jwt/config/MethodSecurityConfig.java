@@ -1,6 +1,4 @@
-/**
- * Created: 22.10.2018
- */
+// Created: 22.10.2018
 package de.freese.spring.jwt.config;
 
 import org.springframework.context.annotation.Configuration;

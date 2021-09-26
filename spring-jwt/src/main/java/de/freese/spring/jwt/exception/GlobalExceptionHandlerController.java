@@ -1,11 +1,11 @@
-/**
- * Created: 28.10.2018
- */
+// Created: 28.10.2018
 package de.freese.spring.jwt.exception;
 
 import java.io.IOException;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -51,6 +51,7 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
 
     /**
      * @param res {@link HttpServletResponse}
+     *
      * @throws IOException Falls was schief geht.
      */
     @ExceptionHandler(AccessDeniedException.class)
@@ -62,6 +63,7 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
     /**
      * @param res {@link HttpServletResponse}
      * @param ex {@link AuthenticationException}
+     *
      * @throws IOException Falls was schief geht.
      */
     @ExceptionHandler(AuthenticationException.class)
@@ -72,6 +74,7 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
 
     /**
      * @param res {@link HttpServletResponse}
+     *
      * @throws IOException Falls was schief geht.
      */
     @ExceptionHandler(Exception.class)

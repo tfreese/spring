@@ -1,6 +1,4 @@
-/// **
-// * Created: 06.11.2019
-// */
+//// Created: 06.11.2019
 //
 // package de.freese.spring.oauth2.client.rest;
 //

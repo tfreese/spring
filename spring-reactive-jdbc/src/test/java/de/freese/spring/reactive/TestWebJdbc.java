@@ -1,10 +1,8 @@
-/**
- * Created: 21.06.2019
- */
-
+// Created: 21.06.2019
 package de.freese.spring.reactive;
 
 import javax.annotation.Resource;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -28,25 +26,22 @@ class TestWebJdbc implements TestWebInterface
     *
     */
     @Resource
-    private JdbcTemplate jdbcTemplate = null;
-
+    private JdbcTemplate jdbcTemplate;
     /**
     *
     */
     @LocalServerPort
     private int port = -1;
-
     /**
     *
     */
-    private WebClient webClient = null;
-
+    private WebClient webClient;
     /**
     *
     *
     */
     @Resource
-    private WebTestClient webTestClient = null;
+    private WebTestClient webTestClient;
 
     /**
      *

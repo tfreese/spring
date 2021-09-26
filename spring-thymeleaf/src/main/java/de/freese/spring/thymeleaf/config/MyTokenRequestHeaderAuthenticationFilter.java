@@ -1,9 +1,8 @@
-/**
- * Created: 21.01.2018
- */
+// Created: 21.01.2018
 package de.freese.spring.thymeleaf.config;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
 
 /**

@@ -1,9 +1,8 @@
-/**
- * Created: 25.09.2018
- */
+// Created: 25.09.2018
 package de.freese.spring.oauth2.client.web;
 
 import java.security.Principal;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +18,7 @@ public class SecuredController
 {
     /**
      * @param auth {@link Authentication}
+     *
      * @return String
      */
     @GetMapping
@@ -30,6 +30,7 @@ public class SecuredController
 
     /**
      * @param principal {@link Principal}
+     *
      * @return {@link Principal}
      */
     @GetMapping("user/me")

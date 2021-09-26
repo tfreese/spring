@@ -10,5 +10,5 @@ public interface Cafe
     /**
      * @param order {@link Order}
      */
-    public void placeOrder(Order order);
+    void placeOrder(Order order);
 }

@@ -1,6 +1,4 @@
-/**
- * Created: 31.10.2019
- */
+// Created: 31.10.2019
 package de.freese.spring.oauth2.client.rest;
 
 import org.springframework.boot.SpringApplication;
@@ -21,7 +19,6 @@ public class OAuth2ClientRestApplication extends SpringBootServletInitializer
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         SpringApplication.run(OAuth2ClientRestApplication.class, args);
@@ -29,6 +26,7 @@ public class OAuth2ClientRestApplication extends SpringBootServletInitializer
 
     /**
      * @param env {@link Environment}
+     *
      * @return {@link RestTemplate}
      */
     @Bean

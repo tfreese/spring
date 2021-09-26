@@ -1,11 +1,10 @@
-/**
- * 05.11.2013
- */
+// Created: 05.11.2013
 package de.freese.spring.thymeleaf;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.spring.reactive.repository;
 
 import de.freese.spring.reactive.model.Department;
@@ -15,30 +12,33 @@ public interface EmployeeRepository
 {
     /**
      * @param newEmployee {@link Employee}
+     *
      * @return {@link Mono}
      */
-    public Mono<Employee> createNewEmployee(Employee newEmployee);
+    Mono<Employee> createNewEmployee(Employee newEmployee);
 
     /**
      * @param id long
+     *
      * @return {@link Mono}
      */
-    public Mono<Integer> deleteEmployee(long id);
+    Mono<Integer> deleteEmployee(long id);
 
     /**
      * @return {@link Flux}
      */
-    public Flux<Department> getAllDepartments();
+    Flux<Department> getAllDepartments();
 
     /**
      * @return {@link Flux}
      */
-    public Flux<Employee> getAllEmployees();
+    Flux<Employee> getAllEmployees();
 
     /**
      * @param firstName String
      * @param lastName String
+     *
      * @return {@link Mono}
      */
-    public Mono<Employee> getEmployee(String firstName, String lastName);
+    Mono<Employee> getEmployee(String firstName, String lastName);
 }

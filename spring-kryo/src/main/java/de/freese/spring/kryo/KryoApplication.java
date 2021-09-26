@@ -1,7 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties. To change this template file, choose Tools | Templates and open the template in
- * the editor.
- */
 package de.freese.spring.kryo;
 
 import java.time.LocalDateTime;
@@ -9,17 +5,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
+
 import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.serializers.MapSerializer;
 import com.esotericsoftware.kryo.serializers.TimeSerializers.LocalDateTimeSerializer;
 import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy;
 import com.esotericsoftware.kryo.util.Pool;
+
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 import de.javakaffee.kryoserializers.DateSerializer;
 import de.javakaffee.kryoserializers.GregorianCalendarSerializer;

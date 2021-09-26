@@ -1,11 +1,11 @@
-/**
- * Created: 14.09.2018
- */
+// Created: 14.09.2018
 package de.freese.spring.thymeleaf.config;
 
 import java.security.SecureRandom;
 import java.util.concurrent.TimeUnit;
+
 import javax.net.ssl.SSLContext;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
@@ -43,17 +43,14 @@ public class HttpClientConfigSSL
     *
     */
     private static final int CLOSE_IDLE_CONNECTION_WAIT_TIME_SECS = 30;
-
     /**
     *
     */
     private static final int DEFAULT_KEEP_ALIVE_TIME_MILLIS = 20 * 1000;
-
     /**
     *
     */
     public static final Logger LOGGER = LoggerFactory.getLogger(HttpClientConfigSSL.class);
-
     /**
     *
     */
@@ -61,7 +58,9 @@ public class HttpClientConfigSSL
 
     /**
      * @param poolingConnectionManager {@link PoolingHttpClientConnectionManager}
+     *
      * @return {@link HttpClient}
+     *
      * @throws Exception Falls was schief geht.
      */
     @Bean
@@ -105,6 +104,7 @@ public class HttpClientConfigSSL
      * Scheduled Methoden dürfen keine Parameter haben !
      *
      * @param poolingConnectionManager {@link PoolingHttpClientConnectionManager}
+     *
      * @return {@link Runnable}
      */
     @Bean
@@ -148,7 +148,9 @@ public class HttpClientConfigSSL
 
     /**
      * @param sslContext {@link SSLContext}
+     *
      * @return {@link PoolingHttpClientConnectionManager}
+     *
      * @throws Exception Falls was schief geht.
      */
     @Bean
@@ -170,6 +172,7 @@ public class HttpClientConfigSSL
 
     /**
      * @return {@link SSLContext}
+     *
      * @throws Exception Falls was schief geht.
      */
     @Bean

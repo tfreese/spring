@@ -1,6 +1,4 @@
-/**
- * Created: 31.10.2019
- */
+// Created: 31.10.2019
 package de.freese.spring.oauth2.client.web;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +15,7 @@ public class OAuth2ClientWebApplication extends SpringBootServletInitializer
      * Konfiguriert die SpringApplication.
      *
      * @param builder {@link SpringApplicationBuilder}
+     *
      * @return {@link SpringApplicationBuilder}
      */
     private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder)
@@ -30,7 +29,6 @@ public class OAuth2ClientWebApplication extends SpringBootServletInitializer
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         // ApplicationContext context = SpringApplication.run(OAuth2ClientWebApplication.class, args);

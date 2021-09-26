@@ -1,16 +1,17 @@
-/**
- * Created: 23.06.2019
- */
+// Created: 23.06.2019
 package de.freese.spring.reactive.service;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import javax.annotation.Resource;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
+
 import de.freese.spring.reactive.EmployeeService;
 
 /**
@@ -28,7 +29,6 @@ class TestServiceJdbcReactive implements TestServiceInterface
     */
     @Resource
     private JdbcTemplate jdbcTemplate;
-
     /**
     *
     */

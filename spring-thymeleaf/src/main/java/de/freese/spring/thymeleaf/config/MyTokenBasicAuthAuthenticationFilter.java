@@ -1,14 +1,14 @@
-/**
- * Created: 21.01.2018
- */
+// Created: 21.01.2018
 package de.freese.spring.thymeleaf.config;
 
 import java.io.IOException;
 import java.util.Objects;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -40,27 +40,22 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(MyTokenBasicAuthAuthenticationFilter.class);
-
     /**
      *
      */
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
-
     /**
      *
      */
     private AuthenticationEntryPoint authenticationEntryPoint;
-
     /**
      *
      */
     private AuthenticationManager authenticationManager;
-
     /**
      *
      */
     private boolean ignoreFailure;
-
     /**
      *
      */
@@ -102,6 +97,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
 
     /**
      * @param username String
+     *
      * @return boolean
      */
     protected boolean authenticationIsRequired(final String username)
@@ -110,15 +106,10 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
         // isn't authenticated (see SEC-53)
         Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
 
-        if ((existingAuth == null) || !existingAuth.isAuthenticated())
-        {
-            return true;
-        }
-
         // Limit username comparison to providers which use usernames (ie
         // UsernamePasswordAuthenticationToken)
         // (see SEC-348)
-        if ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username))
+        if ((existingAuth == null) || !existingAuth.isAuthenticated() || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username)))
         {
             return true;
         }
@@ -228,6 +219,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
      * @param request {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
      * @param authResult {@link AuthenticationException}
+     *
      * @throws IOException Falls was schief geht.
      */
     protected void onSuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final Authentication authResult)
@@ -240,6 +232,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
      * @param request {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
      * @param failed {@link AuthenticationException}
+     *
      * @throws IOException Falls was schief geht.
      */
     protected void onUnsuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException failed)

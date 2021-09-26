@@ -1,8 +1,10 @@
-// Erzeugt: 04.05.2016
+// Created: 04.05.2016
 package de.freese.spring.hateoas.model;
 
 import java.util.Objects;
+
 import org.springframework.hateoas.RepresentationModel;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

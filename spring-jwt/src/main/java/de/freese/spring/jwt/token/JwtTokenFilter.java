@@ -1,14 +1,14 @@
-/**
- * Created: 30.10.2018
- */
+// Created: 30.10.2018
 package de.freese.spring.jwt.token;
 
 import java.io.IOException;
 import java.util.Objects;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
@@ -29,17 +29,14 @@ public class JwtTokenFilter extends OncePerRequestFilter
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenFilter.class);
-
     /**
     *
     */
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
-
     /**
     *
     */
     private AuthenticationEntryPoint authenticationEntryPoint;
-
     /**
     *
     */
@@ -59,7 +56,7 @@ public class JwtTokenFilter extends OncePerRequestFilter
 
         if ((bearerToken != null) && bearerToken.startsWith("Bearer "))
         {
-            jwtToken = bearerToken.substring(7, bearerToken.length());
+            jwtToken = bearerToken.substring(7);
         }
 
         try

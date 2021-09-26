@@ -1,7 +1,9 @@
 package de.freese.spring.thymeleaf;
 
 import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -49,6 +51,7 @@ public class ThymeleafApplication extends SpringBootServletInitializer
      * Konfiguriert die SpringApplication.
      *
      * @param builder {@link SpringApplicationBuilder}
+     *
      * @return {@link SpringApplicationBuilder}
      */
     private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder)
@@ -76,6 +79,7 @@ public class ThymeleafApplication extends SpringBootServletInitializer
 
     /**
      * @param environment {@link Environment}
+     *
      * @return String
      */
     public static String getRootUri(final Environment environment)
@@ -95,19 +99,10 @@ public class ThymeleafApplication extends SpringBootServletInitializer
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         // ApplicationContext context = SpringApplication.run(SpringBootThymeleafApplication.class, args);
         configureApplication(new SpringApplicationBuilder()).run(args);
-    }
-
-    /**
-     * Erstellt ein neues {@link ThymeleafApplication} Object.
-     */
-    public ThymeleafApplication()
-    {
-        super();
     }
 
     /**

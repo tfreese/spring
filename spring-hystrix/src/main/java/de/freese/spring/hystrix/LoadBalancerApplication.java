@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
@@ -17,6 +18,7 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.web.client.RestTemplate;
+
 import com.netflix.config.ConcurrentCompositeConfiguration;
 import com.netflix.config.ConcurrentMapConfiguration;
 import com.netflix.config.ConfigurationManager;
@@ -40,17 +42,14 @@ public class LoadBalancerApplication
          *
          */
         private final byte[] body;
-
         /**
          *
          */
         private final ClientHttpRequestExecution execution;
-
         /**
          *
          */
         private final HttpRequest request;
-
         /**
          *
          */
@@ -143,7 +142,6 @@ public class LoadBalancerApplication
          *
          */
         private final String[] server;
-
         /**
          *
          */
@@ -167,7 +165,9 @@ public class LoadBalancerApplication
          *
          * @param originalUri {@link URI}
          * @param server String
+         *
          * @return {@link URI}
+         *
          * @throws IOException Falls was schief geht.
          */
         private URI convertURI(final URI originalUri, final String server) throws IOException
@@ -239,7 +239,6 @@ public class LoadBalancerApplication
          *
          */
         private int index;
-
         /**
          *
          */
@@ -263,7 +262,9 @@ public class LoadBalancerApplication
          *
          * @param originalUri {@link URI}
          * @param server String
+         *
          * @return {@link URI}
+         *
          * @throws IOException Falls was schief geht.
          */
         private URI convertURI(final URI originalUri, final String server) throws IOException
@@ -323,7 +324,9 @@ public class LoadBalancerApplication
          * @param request {@link HttpRequest}
          * @param body byte[]
          * @param execution {@link ClientHttpRequestExecution}
+         *
          * @return {@link ClientHttpResponse}
+         *
          * @throws IOException Falls was schief geht.
          */
         private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution)
@@ -365,6 +368,7 @@ public class LoadBalancerApplication
 
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception

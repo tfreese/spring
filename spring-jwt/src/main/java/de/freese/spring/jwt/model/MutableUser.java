@@ -1,11 +1,10 @@
-/**
- * Created: 28.10.2018
- */
+// Created: 28.10.2018
 package de.freese.spring.jwt.model;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,27 +18,22 @@ public class MutableUser implements UserDetails, CredentialsContainer
      *
      */
     private static final long serialVersionUID = -5966384384144097545L;
-
     /**
     *
     */
     private boolean accountNonExpired = true;
-
     /**
     *
     */
     private boolean accountNonLocked = true;
-
     /**
     *
     */
     private Set<? extends GrantedAuthority> authorities;
-
     /**
     *
     */
     private boolean credentialsNonExpired;
-
     /**
     *
     */
@@ -49,7 +43,6 @@ public class MutableUser implements UserDetails, CredentialsContainer
     *
     */
     private String password;
-
     /**
     *
     */

@@ -1,6 +1,4 @@
-/**
- * Created: 28.10.2018
- */
+// Created: 28.10.2018
 package de.freese.spring.jwt.token;
 
 import java.nio.charset.StandardCharsets;
@@ -9,13 +7,16 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -32,18 +33,15 @@ public class JwtTokenProvider
     */
     @Resource
     private PasswordEncoder passwordEncoder;
-
     /**
      *
      */
     @Value("${security.jwt.token.secret-key:secret-key}")
     private String secretKey;
-
     // /**
     // *
     // */
     // private SecretKey secretKey2;
-
     /**
      * Default: 1 Stunde
      */
@@ -52,6 +50,7 @@ public class JwtTokenProvider
 
     /**
      * @param username String
+     *
      * @return String
      */
     public String createToken(final String username)
@@ -64,6 +63,7 @@ public class JwtTokenProvider
     /**
      * @param username String
      * @param password String
+     *
      * @return String
      */
     public String createToken(final String username, final String password)
@@ -77,6 +77,7 @@ public class JwtTokenProvider
      * @param username String
      * @param password String
      * @param roles {@link Collection}
+     *
      * @return String
      */
     public String createToken(final String username, final String password, final Collection<? extends GrantedAuthority> roles)
@@ -115,6 +116,7 @@ public class JwtTokenProvider
 
     /**
      * @param token String
+     *
      * @return String
      */
     protected String decodeToken(final String token)
@@ -130,6 +132,7 @@ public class JwtTokenProvider
 
     /**
      * @param token String
+     *
      * @return String
      */
     protected String encodeToken(final String token)
@@ -145,6 +148,7 @@ public class JwtTokenProvider
 
     /**
      * @param claims {@link Jws}
+     *
      * @return {@link Date}
      */
     public Date getExpirationDate(final Jws<Claims> claims)
@@ -156,6 +160,7 @@ public class JwtTokenProvider
 
     /**
      * @param claims {@link Jws}
+     *
      * @return String
      */
     public String getPassword(final Jws<Claims> claims)
@@ -167,6 +172,7 @@ public class JwtTokenProvider
 
     /**
      * @param claims {@link Jws}
+     *
      * @return {@link Set}
      */
     @SuppressWarnings("unchecked")
@@ -181,6 +187,7 @@ public class JwtTokenProvider
 
     /**
      * @param claims {@link Jws}
+     *
      * @return String
      */
     public String getUsername(final Jws<Claims> claims)
@@ -207,6 +214,7 @@ public class JwtTokenProvider
 
     /**
      * @param claims {@link Jws}
+     *
      * @return boolean
      */
     public boolean isTokenExpired(final Jws<Claims> claims)
@@ -218,6 +226,7 @@ public class JwtTokenProvider
 
     /**
      * @param token String
+     *
      * @return boolean
      */
     public Jws<Claims> parseToken(final String token)
@@ -231,6 +240,7 @@ public class JwtTokenProvider
 
     /**
      * @param req {@link HttpServletRequest}
+     *
      * @return String
      */
     public String resolveToken(final HttpServletRequest req)
@@ -239,7 +249,7 @@ public class JwtTokenProvider
 
         if ((bearerToken != null) && bearerToken.startsWith("Bearer "))
         {
-            return bearerToken.substring(7, bearerToken.length());
+            return bearerToken.substring(7);
         }
 
         return null;

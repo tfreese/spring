@@ -1,15 +1,14 @@
-/**
- *
- */
 package de.freese.spring.reactive;
 
 import javax.annotation.Resource;
+
 import org.reactivestreams.Publisher;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import de.freese.spring.reactive.model.Employee;
 import reactor.core.publisher.Mono;
 
@@ -32,15 +31,8 @@ public class EmployeeRestController
     private EmployeeService service;
 
     /**
-     * Erstellt ein neues {@link EmployeeRestController} Object.
-     */
-    public EmployeeRestController()
-    {
-        super();
-    }
-
-    /**
      * @param newEmployee {@link Employee}
+     *
      * @return {@link Publisher}
      */
     @PutMapping("employee")

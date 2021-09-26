@@ -1,6 +1,4 @@
-/**
- * Created: 12.09.2018
- */
+// Created: 12.09.2018
 package de.freese.spring.oauth2.client.web;
 
 import org.slf4j.Logger;

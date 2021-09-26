@@ -1,6 +1,4 @@
-/**
- * Created: 01.04.2013
- */
+// Created: 01.04.2013
 package de.freese.spring.integration.cafe;
 
 import org.slf4j.Logger;

@@ -1,6 +1,4 @@
-/**
- * Created: 02.09.2018
- */
+// Created: 02.09.2018
 package de.freese.spring.thymeleaf.config;
 
 import java.util.Date;
@@ -11,8 +9,10 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -42,6 +42,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 
 /**
@@ -302,6 +303,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
      *
      * @param executorService {@link ExecutorService}
      * @param scheduledExecutorService {@link ScheduledExecutorService}
+     *
      * @return {@link TaskScheduler}
      */
     @Bean("taskScheduler")

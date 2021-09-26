@@ -1,23 +1,24 @@
-/**
- * Created: 30.01.2020
- */
-
+// Created: 30.01.2020
 package de.freese.spring.kryo.reflection;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
+
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.util.Pool;
+
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 
 /**
@@ -45,6 +46,7 @@ public abstract class AbstractRestReflectionController
     /**
      * @param arguments Object[]
      * @param argument Object
+     *
      * @return Object[]
      */
     protected Object[] addArgument(final Object[] arguments, final Object argument)
@@ -75,10 +77,11 @@ public abstract class AbstractRestReflectionController
      * @param method final
      * @param request {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
+     *
      * @return Object
+     *
      * @throws Exception Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @PostMapping(path = "{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public Object invoke(@PathVariable("method") final String method, final HttpServletRequest request, final HttpServletResponse response) throws Exception
     {
@@ -144,7 +147,9 @@ public abstract class AbstractRestReflectionController
      *
      * @param method final
      * @param body Object
+     *
      * @return Object
+     *
      * @throws Exception Falls was schief geht.
      */
     @PostMapping(path = "/rt/{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)

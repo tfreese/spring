@@ -1,6 +1,4 @@
-/**
- * Created: 31.10.2019
- */
+// Created: 31.10.2019
 package de.freese.spring.oauth2.client.web.config;
 
 import org.springframework.context.annotation.Configuration;

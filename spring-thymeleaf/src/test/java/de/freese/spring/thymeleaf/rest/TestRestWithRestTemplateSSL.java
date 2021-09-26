@@ -1,14 +1,13 @@
-/**
- * Created: 07.09.2018
- */
-
+// Created: 07.09.2018
 package de.freese.spring.thymeleaf.rest;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.apache.http.client.HttpClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +32,9 @@ import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
+
 import com.jayway.jsonpath.JsonPath;
+
 import de.freese.spring.thymeleaf.HttpHeaderInterceptor;
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 import de.freese.spring.thymeleaf.exception.ApiError;
@@ -54,7 +55,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase
     /**
      * @author Thomas Freese
      */
-    private class NoOpResponseErrorHandler extends DefaultResponseErrorHandler
+    private static class NoOpResponseErrorHandler extends DefaultResponseErrorHandler
     {
         /**
          * @see org.springframework.web.client.DefaultResponseErrorHandler#handleError(org.springframework.http.client.ClientHttpResponse)
@@ -89,19 +90,16 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase
     */
     @Resource
     private Environment environment;
-
     /**
      *
      */
     @Resource
     private HttpClient httpClient;
-
     /**
     *
     */
     @LocalServerPort
     private int localServerPort;
-
     /**
      *
      */

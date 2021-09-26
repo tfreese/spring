@@ -3,7 +3,7 @@ package de.freese.spring.integration.cafe.dsl;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
+
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.integration.annotation.Gateway;
@@ -11,6 +11,7 @@ import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.scheduling.PollerMetadata;
+
 import de.freese.spring.integration.cafe.Delivery;
 import de.freese.spring.integration.cafe.Drink;
 import de.freese.spring.integration.cafe.Order;
@@ -36,7 +37,7 @@ public class Application
          */
         @Override
         @Gateway(requestChannel = "orders.input")
-        public void placeOrder(Order order);
+        void placeOrder(Order order);
     }
 
     /**
@@ -58,7 +59,6 @@ public class Application
      *
      */
     private AtomicInteger coldDrinkCounter = new AtomicInteger();
-
     /**
      *
      */
@@ -100,7 +100,7 @@ public class Application
                         orderItem -> new Drink(orderItem.getOrderNumber(), orderItem.getDrinkType(), orderItem.isIced()))
                 .aggregate(aggregator -> aggregator
                         .outputProcessor(g -> new Delivery(
-                                g.getMessages().stream().map(message -> (Drink) message.getPayload()).collect(Collectors.toList())))
+                                g.getMessages().stream().map(message -> (Drink) message.getPayload()).toList()))
                         .correlationStrategy(m -> ((Drink) m.getPayload()).getOrderNumber()))
 //                .handle(CharacterStreamWritingMessageHandler.stdout());
 //         .handle((MessageHandler)obj -> {

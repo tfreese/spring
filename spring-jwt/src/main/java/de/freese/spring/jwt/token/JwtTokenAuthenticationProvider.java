@@ -1,10 +1,9 @@
-/**
- * Created: 30.10.2018
- */
+// Created: 30.10.2018
 package de.freese.spring.jwt.token;
 
 import java.util.Date;
 import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -25,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import de.freese.spring.jwt.model.MutableUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -39,42 +39,34 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenAuthenticationProvider.class);
-
     /**
      * The plaintext password used to perform PasswordEncoder#matches(CharSequence, String)} on when the user is not found to avoid SEC-2056.
      */
     private static final String USER_NOT_FOUND_PASSWORD = "userNotFoundPassword";
-
     /**
      *
      */
     private MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
-
     /**
     *
     */
     private PasswordEncoder passwordEncoder;
-
     /**
      *
      */
     private JwtTokenProvider tokenProvider;
-
     /**
      *
      */
     private UserCache userCache = new NullUserCache();
-
     /**
      *
      */
     private UserDetailsChecker userDetailsChecker = new AccountStatusUserDetailsChecker();
-
     /**
      *
      */
     private UserDetailsService userDetailsService;
-
     /**
      * The password used to perform {@link PasswordEncoder#matches(CharSequence, String)} on when the user is not found to avoid SEC-2056. This is necessary,
      * because some {@link PasswordEncoder} implementations will short circuit if the password is not in a valid format.
@@ -288,6 +280,7 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
     /**
      * @param username String
      * @param authentication {@link Authentication}
+     *
      * @return {@link UserDetails}
      */
     protected UserDetails retrieveUser(final String username, final Authentication authentication)

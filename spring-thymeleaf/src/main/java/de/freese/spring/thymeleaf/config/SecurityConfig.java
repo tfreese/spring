@@ -1,13 +1,13 @@
-/**
- * Created: 02.09.2018
- */
+// Created: 02.09.2018
 package de.freese.spring.thymeleaf.config;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -79,7 +79,6 @@ public class SecurityConfig
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-            @SuppressWarnings("resource")
             PrintWriter writer = response.getWriter();
             writer.println("HTTP Status 401 - " + authException.getMessage());
         }
@@ -96,31 +95,26 @@ public class SecurityConfig
          */
         @Resource
         private AuthenticationEntryPoint authenticationEntryPoint;
-
         /**
         *
         */
         @Resource
         private PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider;
-
         /**
         *
         */
         @Resource
         private PasswordEncoder passwordEncoder;
-
         // /**
         // *
         // */
         // @Resource
-        // private UserCache userCache = null;
-
+        // private UserCache userCache;
         /**
         *
         */
         @Resource
         private RememberMeServices rememberMeServices;
-
         /**
         *
         */
@@ -201,6 +195,7 @@ public class SecurityConfig
 
         /**
          * @return {@link GenericFilterBean}
+         *
          * @throws Exception Falls was schief geht.
          */
         // @Bean // Mit @Bean funktionieren die REST-Services nicht mehr !
@@ -253,25 +248,21 @@ public class SecurityConfig
         */
         @Resource
         private PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider;
-
         /**
         *
         */
         @Resource
         private PasswordEncoder passwordEncoder;
-
         /**
         *
         */
         @Resource
         private RememberMeServices rememberMeServices;
-
         // /**
         // *
         // */
         // @Resource
-        // private UserCache userCache = null;
-
+        // private UserCache userCache;
         /**
         *
         */
@@ -387,6 +378,7 @@ public class SecurityConfig
 
         /**
          * @return {@link GenericFilterBean}
+         *
          * @throws Exception Falls was schief geht.
          */
         // @Bean // Mit @Bean funktionieren die REST-Services nicht mehr !
@@ -448,6 +440,7 @@ public class SecurityConfig
      * </pre>
      *
      * @return {@link AccessDecisionManager}
+     *
      * @see {@link https://www.baeldung.com/spring-security-custom-voter}
      */
     // @Bean
@@ -478,6 +471,7 @@ public class SecurityConfig
 
     /**
      * @param auds {@link AuthenticationUserDetailsService}
+     *
      * @return {@link PreAuthenticatedAuthenticationProvider}
      */
     @Bean
@@ -491,6 +485,7 @@ public class SecurityConfig
 
     /**
      * @param userDetailsService {@link UserDetailsService}
+     *
      * @return {@link UserDetailsByNameServiceWrapper}
      */
     @Bean
@@ -515,6 +510,7 @@ public class SecurityConfig
 
     /**
      * @param userDetailsService {@link UserDetailsService}
+     *
      * @return {@link RememberMeServices}
      */
     @Bean
@@ -527,6 +523,7 @@ public class SecurityConfig
      * Liefert den {@link UserCache} für den {@link AbstractUserDetailsAuthenticationProvider}.
      *
      * @return {@link UserCache}
+     *
      * @throws Exception Falls was schief geht.
      */
     @Bean
@@ -551,7 +548,9 @@ public class SecurityConfig
      *
      * @param passwordEncoder {@link PasswordEncoder}
      * @param userCache {@link UserCache}
+     *
      * @return {@link UserDetailsService}
+     *
      * @throws Exception Falls was schief geht.
      */
     @Bean

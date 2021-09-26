@@ -1,8 +1,10 @@
 package de.freese.spring.integration.cafe.xml;
 
 import java.util.concurrent.atomic.AtomicInteger;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.spring.integration.cafe.Drink;
 import de.freese.spring.integration.cafe.OrderItem;
 
@@ -15,22 +17,18 @@ public class Barista
      *
      */
     private AtomicInteger coldDrinkCounter = new AtomicInteger();
-
     /**
      *
      */
     private long coldDrinkDelay = 400;
-
     /**
      *
      */
     private AtomicInteger hotDrinkCounter = new AtomicInteger();
-
     /**
      *
      */
     private long hotDrinkDelay = 800;
-
     /**
      *
      */
@@ -38,6 +36,7 @@ public class Barista
 
     /**
      * @param orderItem {@link OrderItem}
+     *
      * @return {@link Drink}
      */
     public Drink prepareColdDrink(final OrderItem orderItem)
@@ -60,6 +59,7 @@ public class Barista
 
     /**
      * @param orderItem {@link OrderItem}
+     *
      * @return {@link Drink}
      */
     public Drink prepareHotDrink(final OrderItem orderItem)

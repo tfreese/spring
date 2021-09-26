@@ -1,13 +1,13 @@
-/**
- * Created: 23.06.2019
- */
+// Created: 23.06.2019
 package de.freese.spring.reactive.service;
 
 import javax.annotation.Resource;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
+
 import de.freese.spring.reactive.EmployeeService;
 
 /**
@@ -25,7 +25,6 @@ class TestServiceJdbc implements TestServiceInterface
     */
     @Resource
     private JdbcTemplate jdbcTemplate;
-
     /**
     *
     */

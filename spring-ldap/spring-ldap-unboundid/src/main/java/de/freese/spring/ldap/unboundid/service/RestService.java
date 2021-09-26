@@ -1,6 +1,4 @@
-/**
- * Created: 17.02.2019
- */
+// Created: 17.02.2019
 package de.freese.spring.ldap.unboundid.service;
 
 import org.springframework.http.MediaType;

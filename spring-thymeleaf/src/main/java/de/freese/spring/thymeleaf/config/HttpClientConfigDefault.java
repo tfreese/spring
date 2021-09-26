@@ -1,6 +1,4 @@
-/**
- * Created: 14.09.2018
- */
+// Created: 14.09.2018
 package de.freese.spring.thymeleaf.config;
 
 import org.apache.http.client.HttpClient;
@@ -34,7 +32,9 @@ public class HttpClientConfigDefault
 
     /**
      * @param poolingConnectionManager {@link PoolingHttpClientConnectionManager}
+     *
      * @return {@link HttpClient}
+     *
      * @throws Exception Falls was schief geht.
      */
     @Bean
@@ -60,6 +60,7 @@ public class HttpClientConfigDefault
 
     /**
      * @return {@link PoolingHttpClientConnectionManager}
+     *
      * @throws Exception Falls was schief geht.
      */
     @Bean

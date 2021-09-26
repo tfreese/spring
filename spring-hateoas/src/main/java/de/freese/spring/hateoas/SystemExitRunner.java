@@ -1,6 +1,4 @@
-/**
- * Created: 12.09.2018
- */
+// Created: 12.09.2018
 package de.freese.spring.hateoas;
 
 import org.slf4j.Logger;

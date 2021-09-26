@@ -1,16 +1,16 @@
-/**
- * Created: 25.09.2018
- */
+// Created: 25.09.2018
 package de.freese.spring.jwt.config;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.Filter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -34,6 +34,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+
 import de.freese.spring.jwt.token.JwtTokenAuthenticationProvider;
 import de.freese.spring.jwt.token.JwtTokenFilter;
 import de.freese.spring.jwt.token.JwtTokenProvider;
@@ -76,7 +77,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setCharacterEncoding("UTF-8");
 
-            @SuppressWarnings("resource")
             PrintWriter writer = response.getWriter();
             writer.println("HTTP Status 401 - " + authEx.getMessage());
         }
@@ -87,7 +87,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
      */
     @Resource
     private JwtTokenProvider jwtTokenProvider;
-
     /**
      *
      */
@@ -200,6 +199,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
     /**
      * @return {@link Filter}
+     *
      * @throws Exception Falls was schief geht.
      */
     @Bean

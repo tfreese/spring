@@ -1,11 +1,9 @@
-/**
- * Created: 21.01.2018
- */
-
+// Created: 21.01.2018
 package de.freese.spring.thymeleaf;
 
 import java.security.SecureRandom;
 import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -30,7 +28,6 @@ class TestPasswordEncoder
      *
      */
     private static final Pbkdf2PasswordEncoder pbkdf2_SHA1 = new Pbkdf2PasswordEncoder("mySecret");
-
     /**
      *
      */

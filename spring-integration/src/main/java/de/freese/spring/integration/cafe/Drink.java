@@ -9,12 +9,10 @@ public class Drink
      *
      */
     private final DrinkType drinkType;
-
     /**
-     * 
+     *
      */
     private final boolean iced;
-
     /**
      *
      */
@@ -22,7 +20,7 @@ public class Drink
 
     /**
      * Erstellt ein neues {@link Drink} Object.
-     * 
+     *
      * @param orderNumber int
      * @param drinkType {@link DrinkType}
      * @param iced boolean

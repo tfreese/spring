@@ -1,12 +1,11 @@
-/**
- * Created: 12.09.2018
- */
+// Created: 12.09.2018
 package de.freese.spring.thymeleaf;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

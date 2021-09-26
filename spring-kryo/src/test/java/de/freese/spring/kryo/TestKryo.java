@@ -1,11 +1,10 @@
-/**
- * Created: 22.05.2018
- */
+// Created: 22.05.2018
 package de.freese.spring.kryo;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -19,8 +18,10 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicReference;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -46,7 +47,9 @@ import org.springframework.web.client.HttpMessageConverterExtractor;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.reactive.function.client.WebClient;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 import de.freese.spring.kryo.webflux.AbstractKryoCodecSupport;
 import de.freese.spring.kryo.webflux.KryoDecoder;
@@ -83,42 +86,35 @@ class TestKryo
      *
      */
     private HttpClient.Builder httpClientbuilder;
-
     /**
      *
      */
     @LocalServerPort
     private int localServerPort;
-
     /**
     *
     */
     @Resource
     private MockMvc mockMvc;
-
     // /**
     // *
     // */
     // @Resource
     // private RestTemplateBuilder restTemplateBuilder;
-
     /**
      *
      */
     @Resource
     private ObjectMapper objectMapper;
-
     /**
      *
      */
     private RestTemplate restTemplate;
-
     /**
      *
      */
     @Resource
     private WebApplicationContext webApplicationContext;
-
     /**
     *
     */
@@ -180,6 +176,7 @@ class TestKryo
     /**
      * @param path String
      * @param mimeType {@link MimeType}
+     *
      * @throws Exception Falls was schief geht.
      */
     protected void testHttpClient(final String path, final MimeType mimeType) throws Exception
@@ -192,7 +189,7 @@ class TestKryo
                 .header("Accept", mimeType.toString())
                 .GET()
                 .build();
-                ;
+
         // @formatter:on
 
         HttpResponse<InputStream> response = httpClient.send(request, BodyHandlers.ofInputStream());
@@ -227,6 +224,7 @@ class TestKryo
     /**
      * @param path String
      * @param mediaType {@link MediaType}
+     *
      * @throws Exception Falls was schief geht.
      */
     protected void testMockMvc(final String path, final MediaType mediaType) throws Exception
@@ -318,6 +316,7 @@ class TestKryo
     /**
      * @param path String
      * @param mediaType {@link MediaType}
+     *
      * @throws Exception Falls was schief geht.
      */
     protected void testUrlConnection(final String path, final MediaType mediaType) throws Exception

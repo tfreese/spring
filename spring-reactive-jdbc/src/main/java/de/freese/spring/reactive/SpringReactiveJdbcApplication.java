@@ -1,6 +1,7 @@
 package de.freese.spring.reactive;
 
 import javax.sql.DataSource;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -12,6 +13,7 @@ import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.r2dbc.connection.init.ConnectionFactoryInitializer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.ConnectionFactoryOptions;
@@ -55,6 +57,7 @@ public class SpringReactiveJdbcApplication
 
         /**
          * @param dataSource {@link DataSource}
+         *
          * @return {@link DataSourceInitializer}
          */
         @Bean
@@ -113,6 +116,7 @@ public class SpringReactiveJdbcApplication
 
         /**
          * @param connectionFactory {@link ConnectionFactory}
+         *
          * @return ConnectionFactoryInitializer
          */
         @Bean
@@ -134,7 +138,6 @@ public class SpringReactiveJdbcApplication
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         SpringApplication.run(SpringReactiveJdbcApplication.class, args);

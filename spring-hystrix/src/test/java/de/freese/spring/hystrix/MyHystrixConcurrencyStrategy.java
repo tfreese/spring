@@ -1,6 +1,4 @@
-/**
- * Created: 17.12.2016
- */
+// Created: 17.12.2016
 package de.freese.spring.hystrix;
 
 import java.util.Objects;
@@ -44,8 +42,8 @@ public class MyHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy
      */
     @Override
     public ThreadPoolExecutor getThreadPool(final HystrixThreadPoolKey threadPoolKey, final HystrixProperty<Integer> corePoolSize,
-            final HystrixProperty<Integer> maximumPoolSize, final HystrixProperty<Integer> keepAliveTime, final TimeUnit unit,
-            final BlockingQueue<Runnable> workQueue)
+                                            final HystrixProperty<Integer> maximumPoolSize, final HystrixProperty<Integer> keepAliveTime, final TimeUnit unit,
+                                            final BlockingQueue<Runnable> workQueue)
     {
         // return super.getThreadPool(threadPoolKey, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
         return this.executor;
@@ -56,8 +54,7 @@ public class MyHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy
      *      com.netflix.hystrix.HystrixThreadPoolProperties)
      */
     @Override
-    public ThreadPoolExecutor getThreadPool(final HystrixThreadPoolKey threadPoolKey,
-            final HystrixThreadPoolProperties threadPoolProperties)
+    public ThreadPoolExecutor getThreadPool(final HystrixThreadPoolKey threadPoolKey, final HystrixThreadPoolProperties threadPoolProperties)
     {
         // return super.getThreadPool(threadPoolKey, threadPoolProperties);
         return this.executor;

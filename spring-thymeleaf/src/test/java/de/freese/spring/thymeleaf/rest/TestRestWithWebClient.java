@@ -1,12 +1,11 @@
-/**
- * Created: 07.09.2018
- */
-
+// Created: 07.09.2018
 package de.freese.spring.thymeleaf.rest;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -23,8 +22,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClient;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
+
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 import de.freese.spring.thymeleaf.model.Person;
 import reactor.core.publisher.Flux;
@@ -44,25 +45,21 @@ class TestRestWithWebClient extends AbstractRestTestCase
     */
     @Resource
     private Environment environment;
-
     /**
     *
     */
     @LocalServerPort
     private int localServerPort;
-
     /**
      * Default für JSON.
      */
     @Resource
     private ObjectMapper objectMapper;
-
     /**
      *
      */
     @Resource
     private WebClient.Builder webClientBuilder;
-
     // /**
     // * Spring-Boot will create a `WebTestClient` for you<br>
     // * already configure and ready to issue requests against "localhost:RANDOM_PORT"

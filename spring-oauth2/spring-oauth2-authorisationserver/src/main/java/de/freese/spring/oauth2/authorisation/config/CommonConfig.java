@@ -1,11 +1,10 @@
-/**
- * Created: 30.10.2018
- */
+// Created: 30.10.2018
 package de.freese.spring.oauth2.authorisation.config;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
@@ -97,6 +96,7 @@ public class CommonConfig
 
     /**
      * @param tokenStore {@link TokenStore}
+     *
      * @return {@link DefaultTokenServices}
      */
     @Bean
@@ -112,7 +112,9 @@ public class CommonConfig
 
     /**
      * @param cacheManager {@link CacheManager}
+     *
      * @return {@link CacheManager}
+     *
      * @throws Exception Falls was schief geht.
      */
     @Bean

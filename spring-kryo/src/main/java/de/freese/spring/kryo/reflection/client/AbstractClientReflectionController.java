@@ -46,7 +46,6 @@ public abstract class AbstractClientReflectionController<T>
          *
          */
         HTTP_CONNECTION,
-
         /**
          *
          */
@@ -57,17 +56,14 @@ public abstract class AbstractClientReflectionController<T>
      *
      */
     private final Class<T> fassadeType;
-
     /**
      *
      */
     private final Pool<Kryo> kryoPool;
-
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      *
      */

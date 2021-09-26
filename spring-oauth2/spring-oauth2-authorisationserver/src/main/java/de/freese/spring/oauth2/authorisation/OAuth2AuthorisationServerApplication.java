@@ -35,6 +35,7 @@ public class OAuth2AuthorisationServerApplication extends SpringBootServletIniti
      * Konfiguriert die SpringApplication.
      *
      * @param builder {@link SpringApplicationBuilder}
+     *
      * @return {@link SpringApplicationBuilder}
      */
     private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder)
@@ -48,7 +49,6 @@ public class OAuth2AuthorisationServerApplication extends SpringBootServletIniti
     /**
      * @param args String[]
      */
-    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         // ApplicationContext context = SpringApplication.run(OAuth2AuthorisationServerApplication.class, args);

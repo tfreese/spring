@@ -1,12 +1,11 @@
-/**
- * Created: 30.01.2020
- */
-
+// Created: 30.01.2020
 package de.freese.spring.kryo.reflection.client;
 
 import java.time.LocalDateTime;
+
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.util.Pool;
+
 import de.freese.spring.kryo.KryoApplication;
 import de.freese.spring.kryo.reflection.ReflectionControllerApi;
 

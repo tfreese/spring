@@ -1,6 +1,4 @@
-/**
- * Created: 25.09.2018
- */
+// Created: 25.09.2018
 package de.freese.spring.oauth2.client.web;
 
 import org.springframework.web.bind.annotation.GetMapping;

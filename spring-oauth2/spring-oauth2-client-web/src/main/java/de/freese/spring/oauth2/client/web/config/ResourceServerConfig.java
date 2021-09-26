@@ -38,13 +38,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
     */
     @Value("${spring.security.oauth2.client.registration.custom-client.client-id}")
     private String clientId;
-
     /**
     *
     */
     @Value("${spring.security.oauth2.client.registration.custom-client.client-secret}")
     private String clientSecret;
-
     // /**
     // *
     // */

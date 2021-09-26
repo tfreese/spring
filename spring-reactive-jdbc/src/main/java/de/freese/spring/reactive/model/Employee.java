@@ -1,7 +1,6 @@
-/**
- *
- */
 package de.freese.spring.reactive.model;
+
+import java.util.Objects;
 
 /**
  * @author Thomas Freese
@@ -12,17 +11,14 @@ public class Employee
      *
      */
     private String department;
-
     /**
      *
      */
     private String firstName;
-
     /**
      *
      */
     private int id;
-
     /**
      *
      */
@@ -81,12 +77,7 @@ public class Employee
             return true;
         }
 
-        if (obj == null)
-        {
-            return false;
-        }
-
-        if (getClass() != obj.getClass())
+        if ((obj == null) || (getClass() != obj.getClass()))
         {
             return false;
         }
@@ -98,38 +89,17 @@ public class Employee
             return false;
         }
 
-        if (this.firstName == null)
-        {
-            if (other.firstName != null)
-            {
-                return false;
-            }
-        }
-        else if (!this.firstName.equals(other.firstName))
+        if (!Objects.equals(this.firstName, other.firstName))
         {
             return false;
         }
 
-        if (this.lastName == null)
-        {
-            if (other.lastName != null)
-            {
-                return false;
-            }
-        }
-        else if (!this.lastName.equals(other.lastName))
+        if (!Objects.equals(this.lastName, other.lastName))
         {
             return false;
         }
 
-        if (this.department == null)
-        {
-            if (other.department != null)
-            {
-                return false;
-            }
-        }
-        else if (!this.department.equals(other.department))
+        if (!Objects.equals(this.department, other.department))
         {
             return false;
         }
@@ -175,15 +145,7 @@ public class Employee
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-
-        result = (prime * result) + this.id;
-        result = (prime * result) + ((this.firstName == null) ? 0 : this.firstName.hashCode());
-        result = (prime * result) + ((this.lastName == null) ? 0 : this.lastName.hashCode());
-        result = (prime * result) + ((this.department == null) ? 0 : this.department.hashCode());
-
-        return result;
+        return Objects.hash(id, firstName, lastName, department);
     }
 
     /**

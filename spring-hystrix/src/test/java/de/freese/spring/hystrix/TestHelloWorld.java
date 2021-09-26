@@ -1,16 +1,18 @@
-/**
- * Created: 17.12.2016
- */
+// Created: 17.12.2016
 package de.freese.spring.hystrix;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.concurrent.Future;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
 import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
+
 import rx.Observable;
 import rx.Observer;
 

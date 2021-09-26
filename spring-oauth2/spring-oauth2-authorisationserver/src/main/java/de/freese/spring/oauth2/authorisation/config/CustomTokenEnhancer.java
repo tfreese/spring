@@ -1,10 +1,9 @@
-/**
- * Created: 06.11.2019
- */
+// Created: 06.11.2019
 package de.freese.spring.oauth2.authorisation.config;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;

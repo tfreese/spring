@@ -56,31 +56,26 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
     */
     @Resource
     private Environment environment;
-
     /**
     *
     */
     @Resource
     private ExecutorService executorService;
-
     /**
     *
     */
     @LocalServerPort
     private int localServerPort;
-
     /**
      * Default für JSON.
      */
     @Resource
     private ObjectMapper objectMapper;
-
     /**
      * Für XML-Mapping
      */
     @Resource
     private Jackson2ObjectMapperBuilder objectMapperBuilder;
-
     /**
     *
     */

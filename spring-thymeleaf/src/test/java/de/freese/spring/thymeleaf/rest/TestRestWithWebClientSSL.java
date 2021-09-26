@@ -1,12 +1,12 @@
-/**
- * Created: 07.09.2018
- */
+// Created: 07.09.2018
 package de.freese.spring.thymeleaf.rest;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.net.ssl.TrustManagerFactory;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -24,8 +24,10 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClient;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
+
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 import de.freese.spring.thymeleaf.model.Person;
 import io.netty.handler.ssl.SslContext;
@@ -52,19 +54,16 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
     */
     @Resource
     private Environment environment;
-
     /**
     *
     */
     @LocalServerPort
     private int localServerPort;
-
     /**
      *
      */
     @Resource
     private ObjectMapper objectMapper;
-
     /**
      *
      */

@@ -9,18 +9,17 @@ import java.util.List;
 public class Order
 {
     /**
-     * 
+     *
      */
     private int number;
-
     /**
-     * 
+     *
      */
     private List<OrderItem> orderItems = new ArrayList<>();
 
     /**
      * Erstellt ein neues {@link Order} Object.
-     * 
+     *
      * @param number int
      */
     public Order(final int number)

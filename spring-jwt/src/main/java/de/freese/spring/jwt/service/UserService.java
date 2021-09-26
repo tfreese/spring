@@ -1,10 +1,9 @@
-/**
- * Created: 28.10.2018
- */
+// Created: 28.10.2018
 package de.freese.spring.jwt.service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
+
 import de.freese.spring.jwt.model.MutableUser;
 import de.freese.spring.jwt.token.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
@@ -29,19 +29,16 @@ public class UserService
        */
     @Resource
     private AuthenticationManager authenticationManager;
-
     /**
      *
      */
     @Resource
     private JwtTokenProvider jwtTokenProvider;
-
     /**
      *
      */
     @Resource
     private PasswordEncoder passwordEncoder;
-
     /**
     *
     */
@@ -61,6 +58,7 @@ public class UserService
      *
      * @param username String
      * @param password String
+     *
      * @return String
      */
     public String login(final String username, final String password)
@@ -76,6 +74,7 @@ public class UserService
      * Registrierung
      *
      * @param userDetails {@link UserDetails}
+     *
      * @return String
      */
     public String register(final UserDetails userDetails)
@@ -97,6 +96,7 @@ public class UserService
 
     /**
      * @param username String
+     *
      * @return {@link UserDetails}
      */
     public UserDetails search(final String username)
@@ -115,6 +115,7 @@ public class UserService
 
     /**
      * @param req {@link HttpServletRequest}
+     *
      * @return {@link UserDetails}
      */
     public UserDetails whoami(final HttpServletRequest req)

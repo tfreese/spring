@@ -1,6 +1,4 @@
-/**
- * Created: 18.02.2019
- */
+// Created: 18.02.2019
 package de.freese.spring.ldap.unboundid.dao;
 
 import java.nio.charset.StandardCharsets;
@@ -10,13 +8,14 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
+
 import javax.naming.Name;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.ldap.LdapName;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ldap.core.AttributesMapper;
@@ -139,7 +138,6 @@ public class MyLdapDao implements BaseLdapNameAware
      *
      */
     private LdapName baseLdapPath;
-
     /**
      *
      */
@@ -183,6 +181,7 @@ public class MyLdapDao implements BaseLdapNameAware
 
     /**
      * @param password String
+     *
      * @return String
      */
     private String digestSHA(final String password)
@@ -222,7 +221,9 @@ public class MyLdapDao implements BaseLdapNameAware
     /**
      * @param userName String
      * @param password String
+     *
      * @return String
+     *
      * @throws Exception Falls was schief geht.
      */
     public String login(final String userName, final String password) throws Exception
@@ -286,6 +287,7 @@ public class MyLdapDao implements BaseLdapNameAware
      * uid = b*
      *
      * @param userId String
+     *
      * @return {@link List}
      */
     public List<String> searchPeopleByUid(final String userId)
@@ -298,6 +300,7 @@ public class MyLdapDao implements BaseLdapNameAware
      *
      * @param userId String
      * @param attributeId String
+     *
      * @return {@link List}
      */
     public List<String> searchPeopleByUid(final String userId, final String attributeId)
@@ -328,6 +331,7 @@ public class MyLdapDao implements BaseLdapNameAware
      * cn = developers
      *
      * @param groupName String
+     *
      * @return {@link List}
      */
     public List<String> searchPeopleInGroup(final String groupName)
@@ -348,7 +352,7 @@ public class MyLdapDao implements BaseLdapNameAware
 
         List<String[]> result = getLdapTemplate().search(query, new GroupMemberDirContextMapper());
 
-        return result.stream().flatMap(Arrays::stream).sorted().collect(Collectors.toList());
+        return result.stream().flatMap(Arrays::stream).sorted().toList();
     }
 
     /**

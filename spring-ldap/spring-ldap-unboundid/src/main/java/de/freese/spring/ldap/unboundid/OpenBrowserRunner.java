@@ -1,12 +1,12 @@
-/**
- * Created: 12.09.2018
- */
+// Created: 12.09.2018
 package de.freese.spring.ldap.unboundid;
 
 import java.awt.Desktop;
 import java.net.URI;
 import java.util.Optional;
+
 import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -30,6 +30,7 @@ public class OpenBrowserRunner implements CommandLineRunner
 
     /**
      * @param environment {@link Environment}
+     *
      * @return String
      */
     public static String getRootUri(final Environment environment)
@@ -56,6 +57,7 @@ public class OpenBrowserRunner implements CommandLineRunner
      * google-chrome-stable --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media %U
      *
      * @param url String
+     *
      * @throws Exception Falls was schief geht.
      */
     private void openLinuxChrome(final String url) throws Exception
@@ -70,6 +72,7 @@ public class OpenBrowserRunner implements CommandLineRunner
      * chromium %U --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media
      *
      * @param url String
+     *
      * @throws Exception Falls was schief geht.
      */
     private void openLinuxChromium(final String url) throws Exception
@@ -82,6 +85,7 @@ public class OpenBrowserRunner implements CommandLineRunner
 
     /**
      * @param url String
+     *
      * @throws Exception Falls was schief geht.
      */
     private void openLinuxFirefox(final String url) throws Exception
@@ -96,6 +100,7 @@ public class OpenBrowserRunner implements CommandLineRunner
      * Firefox: view-source:URI
      *
      * @param url String
+     *
      * @throws Exception Falls was schief geht.
      */
     private void openWindowsFirefox(final String url) throws Exception

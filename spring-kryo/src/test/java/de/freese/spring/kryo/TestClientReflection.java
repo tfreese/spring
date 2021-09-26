@@ -1,10 +1,8 @@
-/**
- * Created: 30.01.2020
- */
-
+// Created: 30.01.2020
 package de.freese.spring.kryo;
 
 import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -13,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
+
 import de.freese.spring.kryo.reflection.ReflectionControllerApi;
 import de.freese.spring.kryo.reflection.client.AbstractClientReflectionController.ConnectType;
 import de.freese.spring.kryo.reflection.client.ClientReflectionController;

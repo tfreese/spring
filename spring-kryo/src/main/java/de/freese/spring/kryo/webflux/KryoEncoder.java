@@ -1,11 +1,9 @@
-/**
- * Created: 28.01.2020
- */
-
+// Created: 28.01.2020
 package de.freese.spring.kryo.webflux;
 
 import java.util.List;
 import java.util.Map;
+
 import org.reactivestreams.Publisher;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -14,9 +12,11 @@ import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.HttpMessageEncoder;
 import org.springframework.util.MimeType;
+
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.util.Pool;
+
 import reactor.core.publisher.Flux;
 
 /**

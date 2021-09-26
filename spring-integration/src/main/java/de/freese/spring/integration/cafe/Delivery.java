@@ -11,7 +11,6 @@ public class Delivery
      *
      */
     private final List<Drink> deliveredDrinks;
-
     /**
      *
      */

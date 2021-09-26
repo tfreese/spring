@@ -1,9 +1,8 @@
-/**
- * Created: 25.09.2018
- */
+// Created: 25.09.2018
 package de.freese.spring.oauth2.authorisation.config;
 
 import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -28,7 +27,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     */
     @Resource
     private UserDetailsService myUserDetailsService;
-
     /**
     *
     */

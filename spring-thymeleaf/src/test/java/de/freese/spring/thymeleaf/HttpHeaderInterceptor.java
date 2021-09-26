@@ -3,6 +3,7 @@ package de.freese.spring.thymeleaf;
 
 import java.io.IOException;
 import java.util.Objects;
+
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -17,7 +18,6 @@ public class HttpHeaderInterceptor implements ClientHttpRequestInterceptor
      *
      */
     private final String name;
-
     /**
      *
      */
