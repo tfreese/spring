@@ -52,10 +52,12 @@
 		</dependency>
 
 		<!-- runtime scope -->
-        <dependency><!-- sonst meckert der admin-server das im reactor was fehlt -->
+        <!--dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>		
+            <scope>runtime</scope>
+        </dependency-->
+        		
 		<!-- provided scope -->
 		<!-- test scope -->
 	</dependencies>

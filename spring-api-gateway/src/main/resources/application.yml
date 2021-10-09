@@ -3,18 +3,19 @@
 # https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-# direkt: curl http://localhost:8081/service/sysdate
-# addrequestheader_route:    curl http://localhost:9999/get
-# rewritepath_route:         curl http://localhost:9999/sysdate 
-# loadbalancer_eureka:       curl http://localhost:9999/sysdatelb/service/sysdate
-# loadbalancer_manuel:       curl http://localhost:9999/sysdatelbmanuell/service/sysdate
-# hystrix_route:             curl --dump-header - --header 'Host: www.hystrix.com' http://localhost:9999/delay/3
- 
 debug: false
 
-server:
-   port: 9999
-
+eureka:
+    client:
+        enabled: true
+        healthcheck:
+            enabled: true
+        registerWithEureka: false
+        serviceUrl:
+            defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+    instance:
+        preferIpAddress: true
+        
 gateway:
     remoteUri: http://httpbin.org:80  
     server1: ${MICRO_SERVICE:localhost:8081}
@@ -25,89 +26,7 @@ info:
         description: ${project.description}
         name: ${project.artifactId}
         version: ${project.version}    
-       
-eureka:
-    client:
-        enabled: true
-        healthcheck:
-            enabled: true
-        registerWithEureka: true
-        serviceUrl:
-            defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
-    instance:
-        preferIpAddress: true        
 
-spring:
-    boot:
-        admin:
-            client:
-                enabled: true
-                instance:
-                   prefer-ip: true
-                url: ${ADMIN_SERVER:http://localhost:9000}
-    cloud:
-        config:
-            enabled: false
-        gateway:
-            enabled: true
-            metrics:
-                enabled: true
-            routes:
-         
-                - id: addrequestheader_route
-                  # Demo für httpbin.org
-                  uri: ${gateway.remoteUri}
-                  predicates:
-                  - Path=/get
-                  filters:
-                  - AddRequestHeader=Hello, World
-              
-                - id: rewritepath_route
-                  # Einfache Weiterleitung
-                  #- RewritePath=/articles/(?<articleId>.*), /$\{articleId} 
-                  uri: http://${gateway.server1}
-                  predicates:
-                  - Path=/sysdate
-                  filters:                    
-                  - RewritePath=/sysdate, /service/sysdate
-              
-                - id: loadbalancer_eureka
-                  # Eureka LoadBalancer, nur wenn ribbon.eureka.enabled = true
-                  # /sysdatelb/service/sysdate -> /service/sysdate
-                  uri: lb://date-service
-                  predicates:
-                  - Path=/sysdatelb/**
-                  filters:                  
-                  - StripPrefix=1 
-                                
-                - id: loadbalancer_manuell
-                  # Manueller LoadBalancer, nur wenn ribbon.eureka.enabled = false
-                  # /sysdatelbmanuell -> /service/sysdate
-                  uri: lb://date-service-manuell
-                  predicates:
-                  - Path=/sysdatelbmanuell
-                  filters:
-                  - RewritePath=/sysdatelbmanuell, /service/sysdate             
-              
-                - id: hystrix_route
-                  uri: ${gateway.remoteUri}
-                  predicates:
-                  - Host=*.hystrix.com
-                  filters:
-                  - name: Hystrix
-                    args:
-                      name: mycmd
-                      fallbackUri: forward:/fallback                  
-
-ribbon:
-    eureka:
-        # Umschalten zwischen manueller und eureka LoadBalancer.
-        enabled: ${ENABLE_EUREKA:true}
-                     
-date-service-manuell:
-    ribbon:
-        listOfServers: ${gateway.servers}
-   
 management:
     endpoints:
         enabled-by-default: true
@@ -121,6 +40,35 @@ management:
         health:
             enabled: true
             show-details: ALWAYS
+            
+server:
+   port: 9999
+   
+spring:
+    application:
+        name: gateway-demo
+    boot:
+        admin:
+            client:
+                enabled: true
+                instance:
+                   prefer-ip: true
+                url: ${ADMIN_SERVER:http://localhost:9000}
+    cloud:
+        loadbalancer:
+            ribbon:
+                enabled: false
+            health-check:
+                interval: 5s
+        #discovery:
+        #    client:
+        #        simple:
+        #            instances:
+        #                DATE-SERVICE-MANUELL:
+        #                  - URI: http://localhost:8081
+        #                  - URI: http://localhost:8082
+        #                  - URI: http://localhost:8083
+        # HealthCheck Konfiguration ???           
 
 ---
 

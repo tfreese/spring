@@ -7,19 +7,41 @@
 eureka:
     client:
         fetchRegistry: false  
-        registerWithEureka: true
-        
-server:
-    port: 8761
-    #servlet:
-        #context-path: /eureka
-    
+        registerWithEureka: false
+
 info:
     app:
         description: ${project.description}
         name: ${project.artifactId}
-        version: ${project.version}  
+        version: ${project.version} 
+        
+management:
+    endpoints:
+        enabled-by-default: true
+        web:
+            exposure:
+                include: "*"
+    endpoint:
+        health:
+            enabled: true
+            show-details: ALWAYS
 
+server:
+    port: 8761
+    #servlet:
+        #context-path: /eureka
+        
+spring:
+    application:
+        name: eureka-server
+    boot:
+        admin:
+            client:
+                enabled: true
+                instance:
+                   prefer-ip: true
+                url: ${ADMIN_SERVER:http://localhost:9000}        
+        
 ---
 
 spring:

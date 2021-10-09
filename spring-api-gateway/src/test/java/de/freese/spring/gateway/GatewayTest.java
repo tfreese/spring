@@ -3,8 +3,9 @@ package de.freese.spring.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import javax.annotation.Resource;
-import org.junit.jupiter.api.Disabled;
+
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -26,7 +27,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 // @AutoConfigureWireMock(port = 0)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
-@Disabled("Funktioniert nur zusammen mit spring-microservice")
+// @Disabled("Funktioniert nur zusammen mit spring-eureka und spring-microservice")
 class GatewayTest
 {
     /**
@@ -34,6 +35,23 @@ class GatewayTest
     */
     @Resource
     private WebTestClient webClient;
+
+    /**
+     *
+     */
+    @Test
+    void testCircuitbreaker()
+    {
+        // @formatter:off
+        this.webClient
+            .get().uri("/delay/1")
+            .header("Host", "www.circuitbreaker.com")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody()
+            .consumeWith(response -> assertThat(response.getResponseBody()).isEqualTo("fallback\n".getBytes()));
+        // @formatter:on
+    }
 
     /**
      * @throws Exception Falls was schief geht.
@@ -61,24 +79,7 @@ class GatewayTest
     }
 
     /**
-     *
-     */
-    @Test
-    void testHystrix()
-    {
-        // @formatter:off
-        this.webClient
-            .get().uri("/delay/1")
-            .header("Host", "www.hystrix.com")
-            .exchange()
-            .expectStatus().isOk()
-            .expectBody()
-            .consumeWith(response -> assertThat(response.getResponseBody()).isEqualTo("fallback\n".getBytes()));
-        // @formatter:on
-    }
-
-    /**
-     * Separater Server wird benötigt -> spring-microservice
+     * Funktioniert nur zusammen mit spring-eureka und spring-microservice.
      */
     @Test
     void testSysdate()
@@ -90,15 +91,14 @@ class GatewayTest
            .expectStatus().isOk()
            .expectBody()
            .consumeWith(response -> assertThat(response.getResponseBody()).isNotEmpty());
-           ;
        // @formatter:on
     }
 
     /**
-     * Separater Server wird benötigt -> spring-microservice
+     * Funktioniert nur zusammen mit spring-eureka und spring-microservice.
      */
     @Test
-    void testSysdateLB()
+    void testSysdateLb()
     {
        // @formatter:off
        this.webClient
@@ -107,7 +107,22 @@ class GatewayTest
            .expectStatus().isOk()
            .expectBody()
            .consumeWith(response -> assertThat(response.getResponseBody()).isNotEmpty());
-           ;
+       // @formatter:on
+    }
+
+    /**
+     * Funktioniert nur zusammen mit spring-eureka und spring-microservice.
+     */
+    @Test
+    void testSysdateLbManuell()
+    {
+       // @formatter:off
+       this.webClient
+           .get().uri("/sysdatelbman")
+           .exchange()
+           .expectStatus().isOk()
+           .expectBody()
+           .consumeWith(response -> assertThat(response.getResponseBody()).isNotEmpty());
        // @formatter:on
     }
 }
