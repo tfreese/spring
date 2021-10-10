@@ -79,40 +79,6 @@ project("kubernetes:kubernetes-microservice") {
 	}
 }
 
-project("spring-api-gateway") {
-	description = "spring-api-gateway"
-	dependencies {
-		implementation("org.springframework.cloud:spring-cloud-starter-gateway")
-		
-		runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
-		runtimeOnly("org.apache.httpcomponents:httpclient")
-		runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
-		runtimeOnly("org.springframework.boot:spring-boot-starter-json")
-		runtimeOnly("org.springframework.boot:spring-boot-starter-validation")
-		runtimeOnly("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-		runtimeOnly("org.springframework.cloud:spring-cloud-starter-netflix-hystrix")
-		runtimeOnly("org.springframework.cloud:spring-cloud-starter-netflix-ribbon")
-		
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.gateway.GatewayApplication"
-	}
-	
-	//Für Platzhalter in application.properties
-	ext.artifactId = project.name
-	
-	processResources {
-	    filesMatching("application.yml") {
-	    	filteringCharset = "UTF-8"
-	    	
-	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
-	        //expand(project.properties)           	
-	    }
-	}
-}
-
 project("spring-autoconfigure-hsqldbserver") {
 	description = "spring-autoconfigure-hsqldbserver"
 	dependencies {
@@ -128,11 +94,48 @@ project("spring-autoconfigure-hsqldbserver") {
 	}
 }
 
-project("spring-boot-admin") {
+project("spring-cloud") {
+    description = "Folder project"
+    bootJar {
+        mainClass = "disabled"
+    }
+}
+
+project("spring-cloud:spring-cloud-api-gateway") {
+    description = "spring-cloud-api-gateway"
+    dependencies {
+        implementation("org.springframework.cloud:spring-cloud-starter-gateway")
+        implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
+        
+        runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
+        runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+        runtimeOnly("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
+        runtimeOnly("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+        
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.gateway.GatewayApplication"
+    }
+    
+    //Für Platzhalter in application.properties
+    ext.artifactId = project.name
+    
+    processResources {
+        filesMatching("application.yml") {
+            filteringCharset = "UTF-8"
+            
+            // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+            //expand(project.properties)            
+        }
+    }
+}
+
+project("spring-cloud:spring-cloud-boot-admin") {
 	description = "Monitor für Spring-Boot Anwendungen"
 	dependencies {
 		implementation("de.codecentric:spring-boot-admin-starter-server")
-		implementation("org.springframework.boot:spring-boot-starter-webflux")
 	}
 	// Start: gradle bootRun --args="--spring.profiles.active=dev"
 	bootJar {
@@ -140,12 +143,12 @@ project("spring-boot-admin") {
 	}
 }
 
-project("spring-eureka") {
+project("spring-cloud:spring-cloud-eureka") {
 	description = "EUREKA-Server (ServiceDiscovery) von spring-boot"
 	dependencies {
 		implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-server")
 		
-		runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
+		runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
 	}
 	// Start: gradle bootRun --args="--spring.profiles.active=dev"
 	bootJar {
@@ -163,6 +166,38 @@ project("spring-eureka") {
 	        //expand(project.properties)           	
 	    }
 	}
+}
+
+project("spring-cloud:spring-cloud-microservice") {
+    description = "MicroService mit spring-boot"
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-jdbc")
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+        
+        runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
+        runtimeOnly("org.hsqldb:hsqldb")
+        runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+
+        testImplementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.MicroServiceApplication"
+    }
+        
+    //Für Platzhalter in application.properties
+    ext.artifactId = project.name
+    
+    processResources {
+        filesMatching("application.properties") {
+            filteringCharset = "UTF-8"
+            
+            // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+            //expand(project.properties)                
+        }
+    }
 }
 
 project("spring-hateoas") {
@@ -367,39 +402,6 @@ project("spring-messaging:spring-messaging-jms") {
 	// Start: gradle bootRun --args="--spring.profiles.active=dev"
 	bootJar {
 	    mainClass = "de.freese.spring.messaging.jms.SpringJmsApplication"
-	}
-}
-
-project("spring-microservice") {
-	description = "MicroService mit spring-boot"
-	dependencies {
-		implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
-		implementation("org.springframework.boot:spring-boot-starter-jdbc")
-		implementation("org.springframework.boot:spring-boot-starter-json")
-		implementation("org.springframework.boot:spring-boot-starter-web")
-		implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-		
-		runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
-		runtimeOnly("org.hsqldb:hsqldb")
-		runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
-
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.MicroServiceApplication"
-	}
-		
-	//Für Platzhalter in application.properties
-	ext.artifactId = project.name
-	
-	processResources {
-	    filesMatching("application.properties") {
-	    	filteringCharset = "UTF-8"
-	    	
-	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
-	        //expand(project.properties) 		     	
-	    }
 	}
 }
 

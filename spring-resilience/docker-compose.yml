@@ -4,7 +4,7 @@
 # Die Container können sich nun untereinander über ihre Aliasnamen ansprechen (HTTP://container1), keine IPs verwenden !
 
 # docker-compose build
-# docker-compose up [-d] --scale spring-microservice=3
+# docker-compose up [-d] --scale spring-cloud-microservice=3
 # docker-compose ps
 # docker logs ID/NAME
 # docker-compose down

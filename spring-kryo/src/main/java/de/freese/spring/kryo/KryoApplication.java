@@ -2,7 +2,6 @@ package de.freese.spring.kryo;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -21,9 +20,6 @@ import com.esotericsoftware.kryo.util.Pool;
 
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 import de.javakaffee.kryoserializers.DateSerializer;
-import de.javakaffee.kryoserializers.GregorianCalendarSerializer;
-import de.javakaffee.kryoserializers.SynchronizedCollectionsSerializer;
-import de.javakaffee.kryoserializers.UnmodifiableCollectionsSerializer;
 
 /**
  * @author Thomas Freese
@@ -49,12 +45,16 @@ public class KryoApplication implements WebMvcConfigurer
             kryo.setInstantiatorStrategy(new DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
 
             kryo.register(Date.class, new DateSerializer(Date.class));
-            kryo.register(GregorianCalendar.class, new GregorianCalendarSerializer());
+
+            // Unable to make field private java.util.TimeZone java.util.Calendar.zone accessible
+            // kryo.register(GregorianCalendar.class, new GregorianCalendarSerializer());
+
             kryo.register(LinkedHashMap.class, new MapSerializer<>());
             kryo.register(LocalDateTime.class, new LocalDateTimeSerializer());
 
-            UnmodifiableCollectionsSerializer.registerSerializers(kryo);
-            SynchronizedCollectionsSerializer.registerSerializers(kryo);
+            // NoClassDefFoundError
+            // UnmodifiableCollectionsSerializer.registerSerializers(kryo);
+            // SynchronizedCollectionsSerializer.registerSerializers(kryo);
 
             return kryo;
         }
