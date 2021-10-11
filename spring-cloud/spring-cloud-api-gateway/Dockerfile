@@ -5,7 +5,8 @@
 # docker start/stop <CONTAINER_NAME>;
 
 #FROM localhost:5083/openjdk:11-jre-slim
-FROM localhost:5083/openjdk:12
+#FROM localhost:5083/openjdk:12
+FROM openjdk:16
  
 MAINTAINER Thomas Freese <commercial@freese-home.de>
  

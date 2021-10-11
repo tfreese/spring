@@ -3,12 +3,17 @@
 # docker run -i -t --name container2 --net=my-fancy-network --net-alias=container2 ubuntu:trusty /bin/bash
 # Die Container können sich nun untereinander über ihre Aliasnamen ansprechen (HTTP://container1), keine IPs verwenden !
 
+# docker image remove -f spring-cloud-api-gateway;
+# mvn clean package;
+# docker-compose up -p "test" --scale spring-cloud-microservice=3 --remove-orphans;
+# docker-compose down;
+# docker-compose rm;
+
 # docker-compose build;
-# docker-compose up --build;
-# docker-compose up -d --scale spring-cloud-microservice=3;
+# docker-compose up --build -d;
 # docker-compose ps;
 # docker logs ID/NAME;
-# docker-compose down
+
 
 # for i in {1..1000}; do curl localhost/service/sysdate; echo ""; sleep 1; done;
 #
@@ -33,13 +38,17 @@ services:
         build:
             context: ./spring-cloud-eureka
             dockerfile: Dockerfile
-        image: spring-cloud-eureka:latests
+        image: spring-cloud-eureka:latest
+        environment:
+            - VM_PARAMS=
+                -DADMIN_SERVER=http://spring-cloud-boot-admin:9000
         ports:
             - 8761:8761
         restart: unless-stopped                          
 
     spring-cloud-microservice:
-        # Kein 'container_name' möglich wegen Scaling: docker-compose up -d --scale spring-cloud-microservice=3
+        # Kein 'container_name' möglich wegen Scaling: docker-compose up --scale spring-cloud-microservice=3
+        # container_name: spring-cloud-microservice
         build:
             context: ./spring-cloud-microservice
             dockerfile: Dockerfile
@@ -55,18 +64,18 @@ services:
             - spring-cloud-eureka
         restart: unless-stopped           
                                
-    loadbalancer:
+    haproxy-loadbalancer:
         image: "${HAPROXY_IMAGE:-dockercloud/haproxy:latest}"
         #image: "${HAPROXY_IMAGE:-localhost:5083/haproxy:latest}"
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         ports:
-            - 8081:80
+            - 8090:80
         depends_on:
             - spring-cloud-microservice
         links:
             - spring-cloud-microservice
-        restart: unless-stopped d        
+        restart: unless-stopped     
             
     spring-cloud-api-gateway:
         build:
@@ -79,16 +88,15 @@ services:
                 -Xmx256m
                 -DEUREKA_SERVER=http://spring-cloud-eureka:8761/eureka
                 -DADMIN_SERVER=http://spring-cloud-boot-admin:9000
-                -DENABLE_EUREKA=true
-                -DMICRO_SERVICE=loadbalancer:80
+                -DMICRO_SERVICE=haproxy-loadbalancer:80
         ports:
-            - 8082:9999               
+            - 8091:8091               
         depends_on:
             - spring-cloud-boot-admin
             - spring-cloud-eureka
             - spring-cloud-microservice
-            - loadbalancer
-        restart: unless-stopped d                
+            - haproxy-loadbalancer
+        restart: unless-stopped           
 
 
 # localhost im Docker-Netz finden:

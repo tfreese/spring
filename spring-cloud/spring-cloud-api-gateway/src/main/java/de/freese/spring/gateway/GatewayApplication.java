@@ -16,13 +16,18 @@ import reactor.core.publisher.Mono;
 /**
  * https://spring.io/guides/gs/gateway/<br>
  * <br>
- * direkt: curl http://localhost:8081/service/sysdate<br>
- * curl http://localhost:9999/get<br>
- * curl http://localhost:9999/sysdate<br>
- * curl http://localhost:9999/sysdatelb<br>
- * curl http://localhost:9999/sysdatelbman<br>
- * curl --dump-header - --header 'Host: www.circuitbreaker.com' http://localhost:9999/delay/3<br>
- * http://localhost:9999/actuator/gateway/routes/loadbalancer_route
+ * curl http://localhost:8081/service/sysdate<br>
+ * curl http://localhost:8091/get<br>
+ * curl http://localhost:8091/sysdate<br>
+ * curl http://localhost:8091/sysdatelb<br>
+ * curl http://localhost:8091/sysdatelbman<br>
+ * curl --dump-header - --header 'Host: www.circuitbreaker.com' http://localhost:8091/delay/3<br>
+ * curl http://localhost:8091/actuator/gateway/routes/loadbalancer_route<br>
+ * <br>
+ * Nur diese funktionieren über Docker:<br>
+ * curl http://localhost:8091/sysdatelb<br>
+ * curl --dump-header - --header 'Host: www.circuitbreaker.com' http://localhost:8091/delay/3<br>
+ * <br>
  *
  * @author Thomas Freese
  */
