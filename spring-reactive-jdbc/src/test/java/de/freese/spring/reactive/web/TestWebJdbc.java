@@ -1,5 +1,5 @@
 // Created: 21.06.2019
-package de.freese.spring.reactive;
+package de.freese.spring.reactive.web;
 
 import javax.annotation.Resource;
 
@@ -20,7 +20,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 {
         "test", "jdbc"
 })
-class TestWebJdbc implements TestWebInterface
+class TestWebJdbc implements TestWeb
 {
     /**
     *
@@ -53,7 +53,7 @@ class TestWebJdbc implements TestWebInterface
     }
 
     /**
-     * @see de.freese.spring.reactive.TestWebInterface#getJdbcTemplate()
+     * @see de.freese.spring.reactive.web.TestWeb#getJdbcTemplate()
      */
     @Override
     public JdbcTemplate getJdbcTemplate()
@@ -62,7 +62,7 @@ class TestWebJdbc implements TestWebInterface
     }
 
     /**
-     * @see de.freese.spring.reactive.TestWebInterface#getWebClient()
+     * @see de.freese.spring.reactive.web.TestWeb#getWebClient()
      */
     @Override
     public WebClient getWebClient()
@@ -71,7 +71,7 @@ class TestWebJdbc implements TestWebInterface
     }
 
     /**
-     * @see de.freese.spring.reactive.TestWebInterface#getWebTestClient()
+     * @see de.freese.spring.reactive.web.TestWeb#getWebTestClient()
      */
     @Override
     public WebTestClient getWebTestClient()

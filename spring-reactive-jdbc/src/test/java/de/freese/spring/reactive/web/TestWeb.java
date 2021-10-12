@@ -1,5 +1,5 @@
 // Created: 21.06.2019
-package de.freese.spring.reactive;
+package de.freese.spring.reactive.web;
 
 import java.nio.charset.StandardCharsets;
 
@@ -24,7 +24,7 @@ import reactor.test.StepVerifier;
  */
 @SpringBootTest
 @ActiveProfiles("test")
-public interface TestWebInterface
+public interface TestWeb
 {
     /**
     *
@@ -80,7 +80,7 @@ public interface TestWebInterface
             .exchange() // Liefert auch Header und Status.
             .expectStatus().isOk()
             .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-            .expectBody(Employee.class).isEqualTo(new Employee(7, "Foo", "Bar", "Manufacturing"))
+            .expectBody(Employee.class).isEqualTo(new Employee("Foo", "Bar", "Manufacturing", 7))
             ;
         // @formatter:on
 
@@ -107,7 +107,7 @@ public interface TestWebInterface
             .bodyToMono(Employee.class)
             .as(StepVerifier::create)
 //            .expectNext(List.of(...)).as("number of departments")
-            .expectNextMatches(emp -> emp.equals(new Employee(8, "Fooo", "Barr", "Manufacturing")))
+            .expectNextMatches(emp -> emp.equals(new Employee("Fooo", "Barr", "Manufacturing", 8)))
             .verifyComplete()
             ;
         // @formatter:on
@@ -261,7 +261,7 @@ public interface TestWebInterface
             .exchange() // Liefert auch Header und Status.
             .expectStatus().isOk()
             .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-            .expectBody(Employee.class).isEqualTo(new Employee(3, "Sally","Wilson", "Human Resources"))
+            .expectBody(Employee.class).isEqualTo(new Employee("Sally","Wilson", "Human Resources", 3))
             ;
         // @formatter:on
 
@@ -273,7 +273,7 @@ public interface TestWebInterface
             .retrieve()
             .bodyToMono(Employee.class)
             .as(StepVerifier::create)
-            .expectNextMatches(emp -> emp.equals(new Employee(3, "Sally", "Wilson", "Human Resources")))
+            .expectNextMatches(emp -> emp.equals(new Employee("Sally", "Wilson", "Human Resources", 3)))
             .verifyComplete()
             ;
         // @formatter:on

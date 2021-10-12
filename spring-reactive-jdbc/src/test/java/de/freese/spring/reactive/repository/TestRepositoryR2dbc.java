@@ -1,0 +1,93 @@
+// Created: 23.06.2019
+package de.freese.spring.reactive.repository;
+
+import javax.annotation.Resource;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
+import org.springframework.r2dbc.core.DatabaseClient;
+import org.springframework.test.context.ActiveProfiles;
+
+import io.r2dbc.spi.ConnectionFactory;
+
+/**
+ * @author Thomas Freese
+ */
+@SpringBootTest
+@ActiveProfiles(
+{
+        "test", "r2dbc"
+})
+class TestRepositoryR2dbc implements TestRepository
+{
+    /**
+    *
+    */
+    @Resource
+    private ConnectionFactory connectionFactory;
+    /**
+    *
+    */
+    @Resource
+    private DatabaseClient databaseClient;
+    /**
+    *
+    */
+    @Resource
+    private EmployeeRepository repository;
+
+    /**
+     * @see de.freese.spring.reactive.repository.TestRepository#deleteDatabase()
+     */
+    @Override
+    public void deleteDatabase()
+    {
+        this.databaseClient.sql("DROP TABLE employee").fetch().rowsUpdated().block();
+        this.databaseClient.sql("DROP TABLE department").fetch().rowsUpdated().block();
+    }
+
+    /**
+     * @see de.freese.spring.reactive.repository.TestRepository#fillDatabase()
+     */
+    @Override
+    public void fillDatabase()
+    {
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource("sql/schema-h2.sql"));
+        populator.addScript(new ClassPathResource("sql/data.sql"));
+        populator.populate(this.connectionFactory).block();
+    }
+
+    /**
+     * @see de.freese.spring.reactive.repository.TestRepository#getRepository()
+     */
+    @Override
+    public EmployeeRepository getRepository()
+    {
+        return this.repository;
+    }
+
+    /**
+     * @see de.freese.spring.reactive.repository.TestRepository#testCreateNewEmployee()
+     */
+    @Override
+    @Test
+    public void testCreateNewEmployee()
+    {
+        // nur zum Debuggen
+        TestRepository.super.testCreateNewEmployee();
+    }
+
+    /**
+     * @see de.freese.spring.reactive.repository.TestRepository#testGetEmployee()
+     */
+    @Override
+    @Test
+    public void testGetEmployee()
+    {
+        // nur zum Debuggen
+        TestRepository.super.testGetEmployee();
+    }
+}

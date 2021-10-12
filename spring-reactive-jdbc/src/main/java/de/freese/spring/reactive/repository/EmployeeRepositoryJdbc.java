@@ -34,14 +34,6 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
     private static class DepartmentRowMapper implements RowMapper<Department>
     {
         /**
-         * Erstellt ein neues {@link DepartmentRowMapper} Object.
-         */
-        public DepartmentRowMapper()
-        {
-            super();
-        }
-
-        /**
          * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
          */
         @Override
@@ -61,14 +53,6 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
     private static class EmployeeRowMapper implements RowMapper<Employee>
     {
         /**
-         * Erstellt ein neues {@link EmployeeRowMapper} Object.
-         */
-        public EmployeeRowMapper()
-        {
-            super();
-        }
-
-        /**
          * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
          */
         @Override
@@ -76,9 +60,9 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
         {
             Employee employee = new Employee();
             employee.setId(rs.getInt("employee_id"));
-            employee.setDepartment(rs.getString("department_name"));
-            employee.setFirstName(rs.getString("employee_firstname"));
             employee.setLastName(rs.getString("employee_lastname"));
+            employee.setFirstName(rs.getString("employee_firstname"));
+            employee.setDepartment(rs.getString("department_name"));
 
             return employee;
         }
@@ -114,23 +98,20 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
         int departmentId = this.jdbcTemplate.queryForObject(sqlSelect.toString(), Integer.class, newEmployee.getDepartment());
 
         final StringBuilder sqlInsert = new StringBuilder();
-        sqlInsert.append("INSERT INTO employee (employee_firstname, employee_lastname, department_id) VALUES (?, ?, ?)");
+        sqlInsert.append("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (?, ?, ?)");
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         this.jdbcTemplate.update(connection -> {
             PreparedStatement prepStmt = connection.prepareStatement(sqlInsert.toString(), Statement.RETURN_GENERATED_KEYS);
-            prepStmt.setString(1, newEmployee.getFirstName());
-            prepStmt.setString(2, newEmployee.getLastName());
+            prepStmt.setString(1, newEmployee.getLastName());
+            prepStmt.setString(2, newEmployee.getFirstName());
             prepStmt.setInt(3, departmentId);
             return prepStmt;
         }, keyHolder);
 
         int employeeId = keyHolder.getKey().intValue();
         newEmployee.setId(employeeId);
-
-        // return newEmployee;
-        // });
 
         return Mono.just(newEmployee);
     }
@@ -168,8 +149,9 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
     @Override
     public Flux<Employee> getAllEmployees()
     {
-        StringBuilder sql = new StringBuilder("select e.*, d.department_name from employee e");
-        sql.append(" INNER JOIN department d ON e.department_id = d.department_id");
+        StringBuilder sql = new StringBuilder("select e.*, d.department_name");
+        sql.append(" from employee e");
+        sql.append(" INNER JOIN department d ON d.department_id = e.department_id");
 
         List<Employee> result = this.jdbcTemplate.query(sql.toString(), new EmployeeRowMapper());
 
@@ -180,10 +162,11 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#getEmployee(java.lang.String, java.lang.String)
      */
     @Override
-    public Mono<Employee> getEmployee(final String firstName, final String lastName)
+    public Mono<Employee> getEmployee(final String lastName, final String firstName)
     {
-        StringBuilder sql = new StringBuilder("select e.*, d.department_name from employee e");
-        sql.append(" INNER JOIN department d ON e.department_id = d.department_id");
+        StringBuilder sql = new StringBuilder("select e.*, d.department_name");
+        sql.append(" from employee e");
+        sql.append(" INNER JOIN department d ON d.department_id = e.department_id");
         sql.append(" where");
         sql.append(" e.employee_lastname = ?");
         sql.append(" and e.employee_firstname = ?");

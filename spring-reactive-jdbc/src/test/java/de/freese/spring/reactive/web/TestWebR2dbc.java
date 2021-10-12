@@ -1,5 +1,5 @@
 // Created: 21.06.2019
-package de.freese.spring.reactive;
+package de.freese.spring.reactive.web;
 
 import javax.annotation.Resource;
 
@@ -20,7 +20,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 {
         "test", "r2dbc"
 })
-class TestWebR2dbc implements TestWebInterface
+class TestWebR2dbc implements TestWeb
 {
     /**
     *
@@ -66,7 +66,7 @@ class TestWebR2dbc implements TestWebInterface
     // }
 
     /**
-     * @see de.freese.spring.reactive.TestWebInterface#getJdbcTemplate()
+     * @see de.freese.spring.reactive.web.TestWeb#getJdbcTemplate()
      */
     @Override
     public JdbcTemplate getJdbcTemplate()
@@ -75,7 +75,7 @@ class TestWebR2dbc implements TestWebInterface
     }
 
     /**
-     * @see de.freese.spring.reactive.TestWebInterface#getWebClient()
+     * @see de.freese.spring.reactive.web.TestWeb#getWebClient()
      */
     @Override
     public WebClient getWebClient()
@@ -84,7 +84,7 @@ class TestWebR2dbc implements TestWebInterface
     }
 
     /**
-     * @see de.freese.spring.reactive.TestWebInterface#getWebTestClient()
+     * @see de.freese.spring.reactive.web.TestWeb#getWebTestClient()
      */
     @Override
     public WebTestClient getWebTestClient()

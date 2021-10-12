@@ -7,7 +7,7 @@ spring:
    datasource:
       initialization-mode: never
       hikari:
-         auto-commit: true
+         auto-commit: false
    profiles:
       active: jdbc
 

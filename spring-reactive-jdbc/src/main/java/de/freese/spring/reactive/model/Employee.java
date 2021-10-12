@@ -35,16 +35,14 @@ public class Employee
     /**
      * Erstellt ein neues {@link Employee} Object.
      *
-     * @param id int
-     * @param firstName String
      * @param lastName String
+     * @param firstName String
      * @param department String
      */
-    public Employee(final int id, final String firstName, final String lastName, final String department)
+    public Employee(final String lastName, final String firstName, final String department)
     {
         super();
 
-        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.department = department;
@@ -53,17 +51,16 @@ public class Employee
     /**
      * Erstellt ein neues {@link Employee} Object.
      *
-     * @param firstName String
      * @param lastName String
+     * @param firstName String
      * @param department String
+     * @param id int
      */
-    public Employee(final String firstName, final String lastName, final String department)
+    public Employee(final String lastName, final String firstName, final String department, final int id)
     {
-        super();
+        this(lastName, firstName, department);
 
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.department = department;
+        this.id = id;
     }
 
     /**
@@ -84,22 +81,8 @@ public class Employee
 
         Employee other = (Employee) obj;
 
-        if (this.id != other.id)
-        {
-            return false;
-        }
-
-        if (!Objects.equals(this.firstName, other.firstName))
-        {
-            return false;
-        }
-
-        if (!Objects.equals(this.lastName, other.lastName))
-        {
-            return false;
-        }
-
-        if (!Objects.equals(this.department, other.department))
+        if ((this.id != other.id) || !Objects.equals(this.firstName, other.firstName) || !Objects.equals(this.lastName, other.lastName)
+                || !Objects.equals(this.department, other.department))
         {
             return false;
         }
@@ -145,7 +128,7 @@ public class Employee
     @Override
     public int hashCode()
     {
-        return Objects.hash(id, firstName, lastName, department);
+        return Objects.hash(this.id, this.firstName, this.lastName, this.department);
     }
 
     /**
@@ -189,8 +172,8 @@ public class Employee
         StringBuilder builder = new StringBuilder();
         builder.append("Employee [");
         builder.append("id=").append(this.id);
-        builder.append(", firstName=").append(this.firstName);
         builder.append(", lastName=").append(this.lastName);
+        builder.append(", firstName=").append(this.firstName);
         builder.append(", department=").append(this.department);
         builder.append("]");
 
