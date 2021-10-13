@@ -18,6 +18,7 @@ public class EmployeeRouter
      * Die REST-Methode 'createNewEmployee' wird im {@link EmployeeRestController} behandelt.
      *
      * @param handler {@link EmployeeHandler}
+     *
      * @return {@link RouterFunction}
      */
     @Bean
@@ -25,7 +26,7 @@ public class EmployeeRouter
     {
         // @formatter:off
 		return RouterFunctions
-		        .route(RequestPredicates.GET("/employee/fn/{fn}/ln/{ln}")
+		        .route(RequestPredicates.GET("/employee/ln/{ln}/fn/{fn}")
 		                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getEmployee)
 		        .andRoute(RequestPredicates.GET("/departments")
 		                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getAllDepartments)

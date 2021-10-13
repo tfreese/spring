@@ -62,13 +62,13 @@ public class EmployeeService
     }
 
     /**
-     * @param firstName String
      * @param lastName String
+     * @param firstName String
      *
      * @return {@link Mono}
      */
-    public Mono<Employee> getEmployee(final String firstName, final String lastName)
+    public Mono<Employee> getEmployee(final String lastName, final String firstName)
     {
-        return this.repository.getEmployee(firstName, lastName);
+        return this.repository.getEmployee(lastName, firstName);
     }
 }

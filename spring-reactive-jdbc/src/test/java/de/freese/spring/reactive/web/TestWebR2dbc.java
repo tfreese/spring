@@ -3,14 +3,20 @@ package de.freese.spring.reactive.web;
 
 import javax.annotation.Resource;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
+import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import io.r2dbc.spi.ConnectionFactory;
 
 /**
  * @author Thomas Freese
@@ -20,13 +26,19 @@ import org.springframework.web.reactive.function.client.WebClient;
 {
         "test", "r2dbc"
 })
+@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 class TestWebR2dbc implements TestWeb
 {
     /**
     *
     */
     @Resource
-    private JdbcTemplate jdbcTemplate;
+    private ConnectionFactory connectionFactory;
+    /**
+    *
+    */
+    @Resource
+    private DatabaseClient databaseClient;
     /**
     *
     */
@@ -44,34 +56,27 @@ class TestWebR2dbc implements TestWeb
     private WebTestClient webTestClient;
 
     /**
-    *
-    */
-    @BeforeEach
-    void beforeEach()
-    {
-        this.webClient = WebClient.create("http://localhost:" + this.port);
-    }
-
-    // /**
-    // * @see de.freese.spring.reactive.TestWebInterface#createNewEmployee()
-    // */
-    // @Override
-    // @Test
-    // @Disabled("Funktioniert nicht")
-    // public void createNewEmployee()
-    // {
-    // TestWebInterface.super.createNewEmployee();
-    //
-    // assertTrue(true);
-    // }
-
-    /**
-     * @see de.freese.spring.reactive.web.TestWeb#getJdbcTemplate()
+     * @see de.freese.spring.reactive.web.TestWeb#doAfterEach()
      */
     @Override
-    public JdbcTemplate getJdbcTemplate()
+    public void doAfterEach()
     {
-        return this.jdbcTemplate;
+        this.databaseClient.sql("DROP TABLE employee").fetch().rowsUpdated().block();
+        this.databaseClient.sql("DROP TABLE department").fetch().rowsUpdated().block();
+    }
+
+    /**
+     * @see de.freese.spring.reactive.web.TestWeb#doBeforeEach()
+     */
+    @Override
+    public void doBeforeEach()
+    {
+        this.webClient = WebClient.create("http://localhost:" + this.port);
+
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource("sql/schema-h2.sql"));
+        populator.addScript(new ClassPathResource("sql/data.sql"));
+        populator.populate(this.connectionFactory).block();
     }
 
     /**
@@ -91,4 +96,16 @@ class TestWebR2dbc implements TestWeb
     {
         return this.webTestClient;
     }
+
+    /**
+     * @see de.freese.spring.reactive.web.TestWeb#testDeleteEmployee()
+     */
+    @Override
+    @Test
+    public void testDeleteEmployee()
+    {
+        // nur zum Debuggen
+        TestWeb.super.testDeleteEmployee();
+    }
+
 }

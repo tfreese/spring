@@ -1,6 +1,8 @@
 // Created: 12.10.2021
 package de.freese.spring.reactive.config;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
@@ -13,6 +15,10 @@ import io.r2dbc.spi.ConnectionFactoryOptions;
  */
 @Configuration
 @Profile("r2dbc")
+@EnableAutoConfiguration(exclude =
+{
+        DataSourceAutoConfiguration.class
+})
 public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
 {
     /**

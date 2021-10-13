@@ -3,6 +3,8 @@ package de.freese.spring.reactive.config;
 
 import javax.sql.DataSource;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,10 @@ import org.springframework.context.annotation.Profile;
  */
 @Configuration
 @Profile("jdbc")
+@EnableAutoConfiguration(exclude =
+{
+        R2dbcAutoConfiguration.class
+})
 public class JdbcConfiguration
 {
     /**
@@ -35,6 +41,17 @@ public class JdbcConfiguration
 
         return dataSource;
     }
+
+    // /**
+    // * @param dataSource DataSource
+    // *
+    // * @return TransactionManager
+    // */
+    // @Bean
+    // public TransactionManager transactionManager(final DataSource dataSource)
+    // {
+    // return new DataSourceTransactionManager(dataSource);
+    // }
 
     // /**
     // * @param dataSource {@link DataSource}

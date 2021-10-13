@@ -85,10 +85,10 @@ public class EmployeeHandler
      */
     public Mono<ServerResponse> getEmployee(final ServerRequest request)
     {
-        String firstName = request.pathVariable("fn");
         String lastName = request.pathVariable("ln");
+        String firstName = request.pathVariable("fn");
 
-        Mono<Employee> employee = this.service.getEmployee(firstName, lastName);
+        Mono<Employee> employee = this.service.getEmployee(lastName, firstName);
 
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(employee, Employee.class);
     }

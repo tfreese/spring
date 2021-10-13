@@ -39,20 +39,20 @@ class TestRepositoryR2dbc implements TestRepository
     private EmployeeRepository repository;
 
     /**
-     * @see de.freese.spring.reactive.repository.TestRepository#deleteDatabase()
+     * @see de.freese.spring.reactive.repository.TestRepository#doAfterEach()
      */
     @Override
-    public void deleteDatabase()
+    public void doAfterEach()
     {
         this.databaseClient.sql("DROP TABLE employee").fetch().rowsUpdated().block();
         this.databaseClient.sql("DROP TABLE department").fetch().rowsUpdated().block();
     }
 
     /**
-     * @see de.freese.spring.reactive.repository.TestRepository#fillDatabase()
+     * @see de.freese.spring.reactive.repository.TestRepository#doBeforeEach()
      */
     @Override
-    public void fillDatabase()
+    public void doBeforeEach()
     {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("sql/schema-h2.sql"));

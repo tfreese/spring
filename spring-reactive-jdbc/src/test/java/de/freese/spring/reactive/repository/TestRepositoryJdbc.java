@@ -32,20 +32,20 @@ class TestRepositoryJdbc implements TestRepository
     private EmployeeRepository repository;
 
     /**
-     * @see de.freese.spring.reactive.repository.TestRepository#deleteDatabase()
+     * @see de.freese.spring.reactive.repository.TestRepository#doAfterEach()
      */
     @Override
-    public void deleteDatabase()
+    public void doAfterEach()
     {
         this.jdbcTemplate.execute("DROP TABLE employee");
         this.jdbcTemplate.execute("DROP TABLE department");
     }
 
     /**
-     * @see de.freese.spring.reactive.repository.TestRepository#fillDatabase()
+     * @see de.freese.spring.reactive.repository.TestRepository#doBeforeEach()
      */
     @Override
-    public void fillDatabase()
+    public void doBeforeEach()
     {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("sql/schema-h2.sql"));

@@ -24,7 +24,7 @@ public interface TestRepository
     @AfterEach
     default void afterEach()
     {
-        deleteDatabase();
+        doAfterEach();
     }
 
     /**
@@ -33,18 +33,18 @@ public interface TestRepository
     @BeforeEach
     default void beforeEach()
     {
-        fillDatabase();
+        doBeforeEach();
     }
 
     /**
      *
      */
-    void deleteDatabase();
+    void doAfterEach();
 
     /**
      *
      */
-    void fillDatabase();
+    void doBeforeEach();
 
     /**
      * @return {@link EmployeeRepository}

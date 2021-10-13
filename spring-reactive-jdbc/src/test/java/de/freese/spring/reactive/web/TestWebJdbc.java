@@ -3,11 +3,13 @@ package de.freese.spring.reactive.web;
 
 import javax.annotation.Resource;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -38,27 +40,32 @@ class TestWebJdbc implements TestWeb
     private WebClient webClient;
     /**
     *
-    *
     */
     @Resource
     private WebTestClient webTestClient;
 
     /**
-     *
+     * @see de.freese.spring.reactive.web.TestWeb#doAfterEach()
      */
-    @BeforeEach
-    void beforeEach()
+    @Override
+    public void doAfterEach()
     {
-        this.webClient = WebClient.create("http://localhost:" + this.port);
+        this.jdbcTemplate.execute("DROP TABLE employee");
+        this.jdbcTemplate.execute("DROP TABLE department");
     }
 
     /**
-     * @see de.freese.spring.reactive.web.TestWeb#getJdbcTemplate()
+     * @see de.freese.spring.reactive.web.TestWeb#doBeforeEach()
      */
     @Override
-    public JdbcTemplate getJdbcTemplate()
+    public void doBeforeEach()
     {
-        return this.jdbcTemplate;
+        this.webClient = WebClient.create("http://localhost:" + this.port);
+
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource("sql/schema-h2.sql"));
+        populator.addScript(new ClassPathResource("sql/data.sql"));
+        populator.execute(this.jdbcTemplate.getDataSource());
     }
 
     /**
@@ -77,5 +84,16 @@ class TestWebJdbc implements TestWeb
     public WebTestClient getWebTestClient()
     {
         return this.webTestClient;
+    }
+
+    /**
+     * @see de.freese.spring.reactive.web.TestWeb#testGetEmployee()
+     */
+    @Override
+    @Test
+    public void testGetEmployee()
+    {
+        // nur zum Debuggen
+        TestWeb.super.testGetEmployee();
     }
 }

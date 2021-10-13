@@ -7,10 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -30,28 +27,29 @@ public interface TestWeb
     *
     */
     @AfterEach
-    default void afterEachTables()
+    default void afterEach()
     {
-        getJdbcTemplate().execute("DROP TABLE employee");
-        getJdbcTemplate().execute("DROP TABLE department");
+        doAfterEach();
     }
 
     /**
     *
     */
     @BeforeEach
-    default void beforeEachTables()
+    default void beforeEach()
     {
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("sql/schema-h2.sql"));
-        populator.addScript(new ClassPathResource("sql/data.sql"));
-        populator.execute(getJdbcTemplate().getDataSource());
+        doBeforeEach();
     }
 
     /**
-     * @return {@link JdbcTemplate}
-     */
-    JdbcTemplate getJdbcTemplate();
+    *
+    */
+    void doAfterEach();
+
+    /**
+    *
+    */
+    void doBeforeEach();
 
     /**
      * @return {@link WebClient}
@@ -76,11 +74,12 @@ public interface TestWeb
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON).acceptCharset(StandardCharsets.UTF_8)
             //.body(BodyInserters.fromObject(newEmployee))
-            .bodyValue(new Employee("Foo", "Bar", "Manufacturing")) // ist das gleiche wie '.body(BodyInserters.fromObject(newEmployee))'
+            .bodyValue(new Employee("Foo", "Bar", "Dep3")) // ist das gleiche wie '.body(BodyInserters.fromObject(newEmployee))'
             .exchange() // Liefert auch Header und Status.
             .expectStatus().isOk()
             .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-            .expectBody(Employee.class).isEqualTo(new Employee("Foo", "Bar", "Manufacturing", 7))
+            .expectBody(Employee.class)
+            .isEqualTo(new Employee("Foo", "Bar", "Dep3", 4))
             ;
         // @formatter:on
 
@@ -92,7 +91,8 @@ public interface TestWeb
             .exchange() // Liefert auch Header und Status.
             .expectStatus().isOk()
             .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-            .expectBodyList(Employee.class).hasSize(7)
+            .expectBodyList(Employee.class)
+            .hasSize(4)
             ;
         // @formatter:on
 
@@ -102,12 +102,12 @@ public interface TestWeb
             .uri("employee")
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON).acceptCharset(StandardCharsets.UTF_8)
-            .bodyValue(new Employee("Fooo", "Barr", "Manufacturing"))
+            .bodyValue(new Employee("Fooo", "Barr", "Dep3"))
             .retrieve()
             .bodyToMono(Employee.class)
             .as(StepVerifier::create)
 //            .expectNext(List.of(...)).as("number of departments")
-            .expectNextMatches(emp -> emp.equals(new Employee("Fooo", "Barr", "Manufacturing", 8)))
+            .expectNextMatches(emp -> emp.equals(new Employee("Fooo", "Barr", "Dep3", 5)))
             .verifyComplete()
             ;
         // @formatter:on
@@ -120,7 +120,7 @@ public interface TestWeb
             .retrieve()
             .bodyToFlux(Employee.class)
             .as(StepVerifier::create)
-            .expectNextCount(8)
+            .expectNextCount(5)
             .verifyComplete()
             ;
         // @formatter:on
@@ -152,7 +152,8 @@ public interface TestWeb
             .exchange() // Liefert auch Header und Status.
             .expectStatus().isOk()
             .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-            .expectBodyList(Employee.class).hasSize(5)
+            .expectBodyList(Employee.class)
+            .hasSize(2)
             ;
         // @formatter:on
 
@@ -176,7 +177,7 @@ public interface TestWeb
             .retrieve()
             .bodyToFlux(Employee.class)
             .as(StepVerifier::create)
-            .expectNextCount(4)
+            .expectNextCount(1)
             .verifyComplete()
             ;
         // @formatter:on
@@ -196,7 +197,7 @@ public interface TestWeb
             .exchange() // Liefert auch Header und Status.
             .expectStatus().isOk()
             .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-            .expectBodyList(Employee.class).hasSize(5)
+            .expectBodyList(Employee.class).hasSize(3)
             ;
         // @formatter:on
 
@@ -209,7 +210,7 @@ public interface TestWeb
             .bodyToFlux(Department.class)
             .as(StepVerifier::create)
 //            .expectNext(List.of(...)).as("number of departments")
-            .expectNextCount(5)
+            .expectNextCount(3)
             .verifyComplete()
             ;
         // @formatter:on
@@ -229,7 +230,7 @@ public interface TestWeb
             .exchange() // Liefert auch Header und Status.
             .expectStatus().isOk()
             .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-            .expectBodyList(Employee.class).hasSize(6)
+            .expectBodyList(Employee.class).hasSize(3)
             ;
         // @formatter:on
 
@@ -241,7 +242,7 @@ public interface TestWeb
             .retrieve()
             .bodyToFlux(Employee.class)
             .as(StepVerifier::create)
-            .expectNextCount(6)
+            .expectNextCount(3)
             .verifyComplete()
             ;
         // @formatter:on
@@ -256,24 +257,24 @@ public interface TestWeb
         // @formatter:off
         getWebTestClient()
             .get()
-            .uri("employee/fn/{firstName}/ln/{lastName}", "Sally", "Wilson")
+            .uri("employee/ln/{lastName}/fn/{firstName}", "LastName1", "FirstName1")
             .accept(MediaType.APPLICATION_JSON).acceptCharset(StandardCharsets.UTF_8)
             .exchange() // Liefert auch Header und Status.
             .expectStatus().isOk()
             .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-            .expectBody(Employee.class).isEqualTo(new Employee("Sally","Wilson", "Human Resources", 3))
+            .expectBody(Employee.class).isEqualTo(new Employee("LastName1","FirstName1", "Dep1", 1))
             ;
         // @formatter:on
 
         // @formatter:off
         getWebClient()
             .get()
-            .uri("employee/fn/{firstName}/ln/{lastName}", "Sally", "Wilson")
+            .uri("employee/ln/{lastName}/fn/{firstName}", "LastName1", "FirstName1")
             .accept(MediaType.APPLICATION_JSON).acceptCharset(StandardCharsets.UTF_8)
             .retrieve()
             .bodyToMono(Employee.class)
             .as(StepVerifier::create)
-            .expectNextMatches(emp -> emp.equals(new Employee("Sally", "Wilson", "Human Resources", 3)))
+            .expectNextMatches(emp -> emp.equals(new Employee("LastName1","FirstName1", "Dep1", 1)))
             .verifyComplete()
             ;
         // @formatter:on
