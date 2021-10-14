@@ -1,5 +1,6 @@
 package de.freese.spring.reactive.repository;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
@@ -20,7 +21,7 @@ import reactor.core.publisher.Mono;
  */
 @Repository
 @Profile("r2dbc")
-public class EmployeeRepositoryR2dbc implements EmployeeRepository
+public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
 {
     /**
      * @author Thomas Freese
@@ -52,17 +53,17 @@ public class EmployeeRepositoryR2dbc implements EmployeeRepository
     private final DatabaseClient databaseClient;
 
     /**
-     * Erstellt ein neues {@link EmployeeRepositoryR2dbc} Object.
+     * Erstellt ein neues {@link EmployeeRepositoryDatabaseClient} Object.
      *
      * @param connectionFactory {@link ConnectionFactory}
      */
-    public EmployeeRepositoryR2dbc(final ConnectionFactory connectionFactory)
+    public EmployeeRepositoryDatabaseClient(final ConnectionFactory connectionFactory)
     {
         super();
 
-        this.databaseClient = DatabaseClient.create(Objects.requireNonNull(connectionFactory, "connectionFactory required"));
-        // this.r2dbc = new R2dbc(Objects.requireNonNull(connectionFactory, "connectionFactory required"));
-        // this.r2dbcTemplate = new R2dbcEntityTemplate(Objects.requireNonNull(connectionFactory, "connectionFactory required"));
+        // this.databaseClient = DatabaseClient.create(Objects.requireNonNull(connectionFactory, "connectionFactory required"));
+        this.databaseClient = DatabaseClient.builder().connectionFactory(Objects.requireNonNull(connectionFactory, "connectionFactory required"))
+                .namedParameters(true).build();
     }
 
     /**
@@ -71,28 +72,55 @@ public class EmployeeRepositoryR2dbc implements EmployeeRepository
     @Override
     public Mono<Employee> createNewEmployee(final Employee newEmployee)
     {
-        // @formatter:off
-        final int departmentId = this.databaseClient.sql("SELECT department_id from department where department_name = :depName")
-                .bind("depName", newEmployee.getDepartment())
-                .map((row, rowMetadata) -> row.get("department_id", Integer.class))
-                .one()
-                .block()
-                ;
-        // @formatter:on
+        // Das block() ist hier ein Problem, wenn das DAO in einem Reactive-Server läuft.
+        // Meldung: java.lang.IllegalStateException: block()/blockFirst()/blockLast() are blocking, which is not supported
+
+        // AtomicInteger departmentId = new AtomicInteger(-1);
+        //
+//        // @formatter:off
+//        this.databaseClient.sql("SELECT department_id from department where department_name = :name")
+//                .bind("name", newEmployee.getDepartment())
+//                .map((row, rowMetadata) -> row.get("department_id", Integer.class))
+//                .one()
+//                //.block()
+//                .subscribe(departmentId::set)
+//                ;
+//        // @formatter:on
+        //
+//        // @formatter:off
+//        return this.databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
+//                .filter((statement, executeFunction) -> statement.returnGeneratedValues("employee_id").execute())
+//                .bind("lastName", newEmployee.getLastName())
+//                .bind("firstName", newEmployee.getFirstName())
+//                .bind("depId", departmentId.get())
+//                .fetch()
+//                .first()
+//                .map(r -> {
+//                    int employeeId = (Integer) r.get("employee_id");
+//                    newEmployee.setId(employeeId);
+//                    return newEmployee;
+//                })
+//                ;
+//        // @formatter:on
 
         // @formatter:off
-        return this.databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
-                .filter((statement, executeFunction) -> statement.returnGeneratedValues("employee_id").execute())
-                .bind("lastName", newEmployee.getLastName())
-                .bind("firstName", newEmployee.getFirstName())
-                .bind("depId", departmentId)
-                .fetch()
-                .first()
-                .map(r -> {
-                    int employeeId = (Integer) r.get("employee_id");
-                    newEmployee.setId(employeeId);
-                    return newEmployee;
-                })
+        return this.databaseClient.sql("SELECT department_id from department where department_name = :name")
+                .bind("name", newEmployee.getDepartment())
+                .map((row, rowMetadata) -> row.get("department_id", Integer.class))
+                .one()
+                .flatMap(depId ->
+                    this.databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
+                        .filter((statement, executeFunction) -> statement.returnGeneratedValues("employee_id").execute())
+                        .bind("lastName", newEmployee.getLastName())
+                        .bind("firstName", newEmployee.getFirstName())
+                        .bind("depId", depId)
+                        .fetch()
+                        .first()
+                        .map(r -> {
+                            int employeeId = (Integer) r.get("employee_id");
+                            newEmployee.setId(employeeId);
+                            return newEmployee;
+                        }))
                 ;
         // @formatter:on
     }
@@ -161,5 +189,25 @@ public class EmployeeRepositoryR2dbc implements EmployeeRepository
                 .one()
                 ;
         // @formatter:on
+    }
+
+    /**
+     * @param data {@link List}
+     *
+     * @return {@link Flux}
+     */
+    public Flux<Long> saveAll(final List<Department> data)
+    {
+        return this.databaseClient.inConnectionMany(connection -> {
+
+            var statement = connection.createStatement("INSERT INTO department (department_name) VALUES (:name)").returnGeneratedValues("department_id");
+
+            for (var d : data)
+            {
+                statement.bind(0, d.getName()).add();
+            }
+
+            return Flux.from(statement.execute()).flatMap(result -> result.map((row, rowMetadata) -> row.get("department_id", Long.class)));
+        });
     }
 }

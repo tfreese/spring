@@ -61,8 +61,8 @@ class TestWebR2dbc implements TestWeb
     @Override
     public void doAfterEach()
     {
-        this.databaseClient.sql("DROP TABLE employee").fetch().rowsUpdated().block();
-        this.databaseClient.sql("DROP TABLE department").fetch().rowsUpdated().block();
+        this.databaseClient.sql("DROP TABLE IF EXISTS employee").fetch().rowsUpdated().block();
+        this.databaseClient.sql("DROP TABLE IF EXISTS department").fetch().rowsUpdated().block();
     }
 
     /**

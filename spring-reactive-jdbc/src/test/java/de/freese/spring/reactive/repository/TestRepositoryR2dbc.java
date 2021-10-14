@@ -44,8 +44,8 @@ class TestRepositoryR2dbc implements TestRepository
     @Override
     public void doAfterEach()
     {
-        this.databaseClient.sql("DROP TABLE employee").fetch().rowsUpdated().block();
-        this.databaseClient.sql("DROP TABLE department").fetch().rowsUpdated().block();
+        this.databaseClient.sql("DROP TABLE IF EXISTS employee").fetch().rowsUpdated().block();
+        this.databaseClient.sql("DROP TABLE IF EXISTS department").fetch().rowsUpdated().block();
     }
 
     /**
@@ -58,6 +58,11 @@ class TestRepositoryR2dbc implements TestRepository
         populator.addScript(new ClassPathResource("sql/schema-h2.sql"));
         populator.addScript(new ClassPathResource("sql/data.sql"));
         populator.populate(this.connectionFactory).block();
+
+        // ConnectionFactoryInitializer initializer = new ConnectionFactoryInitializer();
+        // initializer.setConnectionFactory(this.connectionFactory);
+        // initializer.setDatabasePopulator(populator);
+        // initializer.afterPropertiesSet();
     }
 
     /**

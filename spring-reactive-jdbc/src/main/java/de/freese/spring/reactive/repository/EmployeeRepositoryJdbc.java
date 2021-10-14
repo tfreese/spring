@@ -91,7 +91,6 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
     @Override
     public Mono<Employee> createNewEmployee(final Employee newEmployee)
     {
-        // return newEmployeeMono.map(newEmployee -> {
         StringBuilder sqlSelect = new StringBuilder();
         sqlSelect.append("SELECT department_id from department where department_name = ?");
 

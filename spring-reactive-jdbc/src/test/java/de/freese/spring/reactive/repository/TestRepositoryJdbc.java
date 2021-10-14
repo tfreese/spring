@@ -37,8 +37,8 @@ class TestRepositoryJdbc implements TestRepository
     @Override
     public void doAfterEach()
     {
-        this.jdbcTemplate.execute("DROP TABLE employee");
-        this.jdbcTemplate.execute("DROP TABLE department");
+        this.jdbcTemplate.execute("DROP TABLE IF EXISTS employee");
+        this.jdbcTemplate.execute("DROP TABLE IF EXISTS department");
     }
 
     /**

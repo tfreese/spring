@@ -25,12 +25,12 @@ public class JdbcConfiguration
      * @return {@link DataSource}
      */
     @Bean
-    public DataSource dataSource()
+    DataSource dataSource()
     {
         // return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName("testJdbc").build();
 
         // @formatter:off
-        DataSource dataSource = DataSourceBuilder.create()
+        return DataSourceBuilder.create()
                 .driverClassName("org.h2.Driver")
                 .url("jdbc:h2:mem:testJdbc") // :create=true;shutdown=true
                 .username("SA")
@@ -38,17 +38,17 @@ public class JdbcConfiguration
                 .build()
                 ;
         // @formatter:on
-
-        return dataSource;
     }
 
     // /**
-    // * @param dataSource DataSource
+    // * Wird automatisch erzeugt.
     // *
-    // * @return TransactionManager
+    // * @param dataSource {@link DataSource}
+    // *
+    // * @return {@link TransactionManager}
     // */
     // @Bean
-    // public TransactionManager transactionManager(final DataSource dataSource)
+    // TransactionManager transactionManager(final DataSource dataSource)
     // {
     // return new DataSourceTransactionManager(dataSource);
     // }
@@ -59,7 +59,7 @@ public class JdbcConfiguration
     // * @return {@link DataSourceInitializer}
     // */
     // @Bean
-    // public DataSourceInitializer initializer(final DataSource dataSource)
+    // DataSourceInitializer initializer(final DataSource dataSource)
     // {
     // ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
     // populator.addScript(new ClassPathResource("sql/schema-h2.sql"));
