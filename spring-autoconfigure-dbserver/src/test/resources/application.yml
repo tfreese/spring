@@ -1,0 +1,44 @@
+
+debug: false
+
+h2:
+    port: ${portH2}
+    path: ${user.dir}/target/h2
+    
+hsqldb:
+    server:
+        enabled: true
+        port: ${portHsqldb}
+        #port: ${random.int[10000,65000]}
+        noSystemExit: true
+        silent: true
+        trace: false
+        db:
+            - name: file-db
+              path: file:target/file.db
+            - name: memory-db
+              path: mem:mem.db 
+    
+datasource:
+    hsqldb:
+        file:
+            jdbcUrl: jdbc:hsqldb:hsql://localhost:${hsqldb.server.port}/file-db
+            username: sa
+            password:
+            poolName: hsqldbFile
+        memory:
+            jdbcUrl: jdbc:hsqldb:hsql://localhost:${hsqldb.server.port}/memory-db
+            username: sa
+            password:
+            poolName: hsqldbMemory
+    h2:
+        file:
+            jdbcUrl: jdbc:h2:tcp://localhost:${h2.port}/file-db
+            username: sa
+            password:
+            poolName: h2File
+        memory:
+            jdbcUrl: jdbc:h2:tcp://localhost:${h2.port}/mem:memory-db;DB_CLOSE_DELAY=-1
+            username: sa
+            password:
+            poolName: h2Memory

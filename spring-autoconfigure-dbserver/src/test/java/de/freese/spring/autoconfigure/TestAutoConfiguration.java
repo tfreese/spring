@@ -1,5 +1,5 @@
-// Created: 19.10.2019
-package de.freese.spring.autoconfigure.hsqldbserver;
+// Created: 20.10.2021
+package de.freese.spring.autoconfigure;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -11,61 +11,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.SocketUtils;
+import org.springframework.test.context.ActiveProfiles;
 
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(classes = TestApplication.class)
-@TestMethodOrder(MethodOrderer.MethodName.class)
-class TestHsqldbServerAutoConfiguration
+@SpringBootTest
+@ActiveProfiles("test")
+public interface TestAutoConfiguration
 {
-    static
-    {
-        int port = SocketUtils.findAvailableTcpPort();
-
-        // Damit die Placeholder in Properties funktionieren: ${hsqldb.server.port}
-        System.setProperty("port", Integer.toString(port));
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @BeforeAll
-    static void beforeAll() throws Exception
-    {
-        // Empty
-    }
-
-    /**
-    *
-    */
-    @Resource
-    @Qualifier("dataSourceFile")
-    private DataSource dataSourceFile;
-
-    /**
-    *
-    */
-    @Resource
-    @Qualifier("dataSourceMemory")
-    private DataSource dataSourceMemory;
-
     /**
      * @param dataSource {@link DataSource}
      *
      * @throws SQLException Falls was schief geht.
      */
-    private void createTable(final DataSource dataSource) throws SQLException
+    default void createTable(final DataSource dataSource) throws SQLException
     {
         assertNotNull(dataSource);
 
@@ -73,16 +37,26 @@ class TestHsqldbServerAutoConfiguration
              Statement statement = connection.createStatement())
         {
             statement.execute("DROP TABLE IF EXISTS PERSON CASCADE");
-            statement.execute("CREATE TABLE PERSON(ID BIGINT NOT NULL, NAME VARCHAR(25) NOT NULL, VORNAME VARCHAR(25), PRIMARY KEY (ID))");
+            statement.execute("CREATE TABLE PERSON(ID BIGINT NOT NULL PRIMARY KEY, NAME VARCHAR(25) NOT NULL, VORNAME VARCHAR(25))");
         }
     }
+
+    /**
+     * @return {@link DataSource}
+     */
+    DataSource getDataSourceFile();
+
+    /**
+     * @return {@link DataSource}
+     */
+    DataSource getDataSourceMemory();
 
     /**
      * @param dataSource {@link DataSource}
      *
      * @throws SQLException Falls was schief geht.
      */
-    private void insert(final DataSource dataSource) throws SQLException
+    default void insert(final DataSource dataSource) throws SQLException
     {
         assertNotNull(dataSource);
 
@@ -102,7 +76,7 @@ class TestHsqldbServerAutoConfiguration
      *
      * @throws SQLException Falls was schief geht.
      */
-    private void select(final DataSource dataSource) throws SQLException
+    default void select(final DataSource dataSource) throws SQLException
     {
         assertNotNull(dataSource);
 
@@ -132,7 +106,7 @@ class TestHsqldbServerAutoConfiguration
     *
     */
     @Test
-    void testContextLoads()
+    default void testContextLoads()
     {
         assertTrue(true);
     }
@@ -141,21 +115,23 @@ class TestHsqldbServerAutoConfiguration
      * @throws SQLException Falls was schief geht.
      */
     @Test
-    void testDataSourceFile() throws SQLException
+    // @Transactional("nameOfTransactionManager")
+    default void testDataSourceFile() throws SQLException
     {
-        createTable(this.dataSourceFile);
-        insert(this.dataSourceFile);
-        select(this.dataSourceFile);
+        createTable(getDataSourceFile());
+        insert(getDataSourceFile());
+        select(getDataSourceFile());
     }
 
     /**
      * @throws SQLException Falls was schief geht.
      */
     @Test
-    void testDataSourceMemory() throws SQLException
+    // @Transactional("nameOfTransactionManager")
+    default void testDataSourceMemory() throws SQLException
     {
-        createTable(this.dataSourceMemory);
-        insert(this.dataSourceMemory);
-        select(this.dataSourceMemory);
+        createTable(getDataSourceMemory());
+        insert(getDataSourceMemory());
+        select(getDataSourceMemory());
     }
 }

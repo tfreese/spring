@@ -4,7 +4,6 @@ package de.freese.spring.autoconfigure.hsqldbserver;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -15,23 +14,15 @@ import org.springframework.transaction.PlatformTransactionManager;
 /**
  * @author Thomas Freese
  */
-@SpringBootApplication
-public class TestApplication
+@SpringBootApplication // Mit Configuration wird die application.yml nicht eingelesen.
+public class TestHsqldbConfig
 {
-    /**
-     * @param args String[]
-     */
-    public static void main(final String[] args)
-    {
-        SpringApplication.run(TestApplication.class, args);
-    }
-
     /**
      * @return {@link javax.sql.DataSource}
      */
     @Bean
-    @ConfigurationProperties(prefix = "datasource.file")
-    public DataSource dataSourceFile()
+    @ConfigurationProperties(prefix = "datasource.hsqldb.file")
+    public DataSource dataSourceHsqldbFile()
     {
         return DataSourceBuilder.create().build();
     }
@@ -40,8 +31,8 @@ public class TestApplication
      * @return {@link javax.sql.DataSource}
      */
     @Bean
-    @ConfigurationProperties(prefix = "datasource.memory")
-    public DataSource dataSourceMemory()
+    @ConfigurationProperties(prefix = "datasource.hsqldb.memory")
+    public DataSource dataSourceHsqldbMemory()
     {
         return DataSourceBuilder.create().build();
     }
@@ -52,7 +43,7 @@ public class TestApplication
      * @return {@link PlatformTransactionManager}
      */
     @Bean
-    public PlatformTransactionManager transactionManagerFile(@Qualifier("dataSourceFile") final DataSource dataSource)
+    public PlatformTransactionManager transactionManagerHsqldbFile(@Qualifier("dataSourceHsqldbFile") final DataSource dataSource)
     {
         return new DataSourceTransactionManager(dataSource);
     }
@@ -63,7 +54,7 @@ public class TestApplication
      * @return {@link PlatformTransactionManager}
      */
     @Bean
-    public PlatformTransactionManager transactionManagerMem(@Qualifier("dataSourceMemory") final DataSource dataSource)
+    public PlatformTransactionManager transactionManagerHsqldbMemory(@Qualifier("dataSourceHsqldbMemory") final DataSource dataSource)
     {
         return new DataSourceTransactionManager(dataSource);
     }

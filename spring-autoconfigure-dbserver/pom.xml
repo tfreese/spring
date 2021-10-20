@@ -9,7 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>spring-autoconfigure-hsqldbserver</artifactId>
+	<artifactId>spring-autoconfigure-dbserver</artifactId>
 	<packaging>jar</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
@@ -17,6 +17,10 @@
 
 	<dependencies>
 		<!-- compile scope -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>        
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
