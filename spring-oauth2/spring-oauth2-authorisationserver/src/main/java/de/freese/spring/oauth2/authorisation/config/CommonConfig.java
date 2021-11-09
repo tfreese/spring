@@ -121,8 +121,7 @@ public class CommonConfig
     public UserCache userCache(final CacheManager cacheManager) throws Exception
     {
         Cache cache = cacheManager.getCache("userCache");
-        SpringCacheBasedUserCache userCache = new SpringCacheBasedUserCache(cache);
 
-        return userCache;
+        return new SpringCacheBasedUserCache(cache);
     }
 }

@@ -15,9 +15,9 @@ server:
 
 spring:         
    profiles:
-      active: memory
+      #active: memory
       #active: jwt
-      #active: jdbc
+      active: jdbc
       
 ---
 
@@ -49,19 +49,16 @@ spring:
       password:
       
 hsqldb:
-   server:
-      enabled: true
-      # Port wird dynamisch in OAuth2AuthorisationServerApplication gesetzt.
-      #port: ${port}
-      #port: ${random.int[10000,65000]}
-      noSystemExit: true
-      silent: true
-      trace: false
-      db:
-         #- name: oauth.db
-         #  path: file:target/db/oauth.db
-         - name: memory.db
-           path: mem:mem.db       
+    server:
+        # Port wird dynamisch in JdbcConfig gesetzt.
+        #port: ${port}
+        #port: ${random.int[10000,65000]}
+    db:
+        name: memory.db
+        path: mem:mem.db
+        #name: oauth.db
+        #path: file:target/db/oauth.db
+      
 
 
    

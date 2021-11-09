@@ -104,11 +104,8 @@ public class MemoryConfig
         CachingUserDetailsService cachingUserDetailsService = new CachingUserDetailsService(userDetailsManager);
         cachingUserDetailsService.setUserCache(userCache);
 
-        UserDetailsService userDetailsService = cachingUserDetailsService;
-
-        // UserDetailsService userDetailsService = userDetailsManager;
-
-        return userDetailsService;
+        // return userDetailsManager;
+        return cachingUserDetailsService;
     }
 
     /**

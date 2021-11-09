@@ -3,8 +3,12 @@ package de.freese.spring.oauth2.authorisation.config;
 
 import javax.sql.DataSource;
 
+import org.hsqldb.Database;
+import org.hsqldb.server.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.security.core.userdetails.UserCache;
@@ -21,6 +25,7 @@ import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConv
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.util.SocketUtils;
 
 /**
  * @author Thomas Freese
@@ -30,6 +35,19 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Profile("jdbc")
 public class JdbcConfig
 {
+    /**
+     * Erstellt ein neues {@link JdbcConfig} Object.
+     */
+    public JdbcConfig()
+    {
+        super();
+
+        int port = SocketUtils.findAvailableTcpPort();
+
+        // Damit die Placeholder in Properties funktionieren: ${hsqldb.server.port}
+        System.setProperty("hsqldb.server.port", Integer.toString(port));
+    }
+
     /**
      * @return {@link AccessTokenConverter}
      */
@@ -45,6 +63,7 @@ public class JdbcConfig
      * @return {@link ApprovalStore}
      */
     @Bean
+    @DependsOn("hsqldbServer")
     public ApprovalStore approvalStore(final DataSource dataSource)
     {
         return new JdbcApprovalStore(dataSource);
@@ -56,9 +75,49 @@ public class JdbcConfig
      * @return {@link AuthorizationCodeServices}
      */
     @Bean
+    @DependsOn("hsqldbServer")
     public AuthorizationCodeServices authorizationCodeServices(final DataSource dataSource)
     {
         return new JdbcAuthorizationCodeServices(dataSource);
+    }
+
+    /**
+     * @param dbName String
+     * @param dbPath String
+     * @param port int
+     *
+     * @return {@link Server}
+     */
+    @Bean(initMethod = "start", destroyMethod = "shutdown")
+    public Server hsqldbServer(@Value("${hsqldb.db.name}") final String dbName, @Value("${hsqldb.db.path}") final String dbPath,
+                               @Value("${hsqldb.server.port}") final int port)
+    {
+        Server server = new Server()
+        {
+            /**
+             * @see org.hsqldb.server.Server#shutdown()
+             */
+            @Override
+            public void shutdown()
+            {
+                // "SHUTDOWN COMPACT"
+                super.shutdownWithCatalogs(Database.CLOSEMODE_COMPACT);
+            }
+
+        };
+        server.setLogWriter(null);
+        server.setErrWriter(null);
+        // server.setLogWriter(new PrintWriter(System.out)); // can use custom writer
+        // server.setErrWriter(new PrintWriter(System.err)); // can use custom writer
+        server.setNoSystemExit(true);
+        server.setSilent(true);
+        server.setTrace(false);
+        server.setPort(port);
+
+        server.setDatabaseName(0, dbName);
+        server.setDatabasePath(0, dbPath);
+
+        return server;
     }
 
     /**
@@ -67,6 +126,7 @@ public class JdbcConfig
      * @return {@link ClientDetailsService}
      */
     @Bean
+    @DependsOn("hsqldbServer")
     public ClientDetailsService myClientDetailsService(final DataSource dataSource)
     {
         return new JdbcClientDetailsService(dataSource);
@@ -79,6 +139,7 @@ public class JdbcConfig
      * @return {@link UserDetailsService}
      */
     @Bean
+    @DependsOn("hsqldbServer")
     public UserDetailsService myUserDetailsService(final DataSource dataSource, final UserCache userCache)
     {
         // "{bcrypt}" + passwordEncoder.encode("pw")
@@ -103,6 +164,7 @@ public class JdbcConfig
      * @return {@link TokenStore}
      */
     @Bean
+    @DependsOn("hsqldbServer")
     public TokenStore tokenStore(final DataSource dataSource)
     {
         return new JdbcTokenStore(dataSource);

@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.util.SocketUtils;
 
 /**
  * @author Thomas Freese
@@ -22,14 +21,6 @@ public class OAuth2AuthorisationServerApplication extends SpringBootServletIniti
     *
     */
     public static final Logger LOGGER = LoggerFactory.getLogger(OAuth2AuthorisationServerApplication.class);
-
-    static
-    {
-        int port = SocketUtils.findAvailableTcpPort();
-
-        // Damit die Placeholder in Properties funktionieren: ${hsqldb.server.port}
-        System.setProperty("hsqldb.server.port", Integer.toString(port));
-    }
 
     /**
      * Konfiguriert die SpringApplication.
