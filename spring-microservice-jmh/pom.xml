@@ -27,7 +27,7 @@
 				<executions>
 					<execution>
 						<!-- package, none -->
-						<phase>package</phase>
+						<phase>none</phase>
 						<goals>
 							<goal>shade</goal>
 						</goals>
