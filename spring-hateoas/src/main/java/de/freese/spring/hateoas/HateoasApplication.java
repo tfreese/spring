@@ -18,7 +18,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  * https://spring.io/guides/gs/rest-hateoas<br>
  * https://github.com/spring-guides/gs-rest-hateoas<br>
  * curl http://localhost:9000/greeter<br>
- * https://spring.io/guides/tutorials/bookmarks/
  *
  * @author Thomas Freese
  */
@@ -40,8 +39,14 @@ public class HateoasApplication implements WebMvcConfigurer// extends SpringBoot
     @Override
     public void extendMessageConverters(final List<HttpMessageConverter<?>> converters)
     {
-        Optional<MappingJackson2HttpMessageConverter> converter = converters.stream().peek(c -> System.out.println(c.getClass().getSimpleName()))
-                .filter(MappingJackson2HttpMessageConverter.class::isInstance).map(MappingJackson2HttpMessageConverter.class::cast).findFirst();
+        // @formatter:off
+        Optional<MappingJackson2HttpMessageConverter> converter = converters.stream()
+                //.peek(c -> System.out.println(c.getClass().getSimpleName()))
+                .filter(MappingJackson2HttpMessageConverter.class::isInstance)
+                .map(MappingJackson2HttpMessageConverter.class::cast)
+                .findFirst()
+                ;
+        // @formatter:on
 
         if (converter.isPresent())
         {

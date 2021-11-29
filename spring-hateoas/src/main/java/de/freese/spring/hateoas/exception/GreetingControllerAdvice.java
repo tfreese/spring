@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
 import de.freese.spring.hateoas.GreetingController;
 
 /**
@@ -48,20 +49,22 @@ public class GreetingControllerAdvice
 
     /**
      * @param ex {@link Exception}
+     *
      * @return {@link ResponseEntity}
      */
     @ExceptionHandler
-    public ResponseEntity<? extends Exception> defaultHandler(final Exception ex)
+    public ResponseEntity<Exception> defaultHandler(final Exception ex)
     {
         return ResponseEntity.badRequest().body(ex);
     }
 
     /**
      * @param ex {@link GreetingException}
+     *
      * @return {@link ResponseEntity}
      */
     @ExceptionHandler(GreetingException.class)
-    public ResponseEntity<? extends Exception> greetingExceptionHandler(final GreetingException ex)
+    public ResponseEntity<Exception> greetingExceptionHandler(final GreetingException ex)
     {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex);
         // return ResponseEntity.status(999).body(ex);
