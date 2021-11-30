@@ -4,12 +4,7 @@ package de.freese.spring.hateoas;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
@@ -54,8 +49,8 @@ public class GreetingController
         greetingRepresentationModel.add(linkTo(methodOn(GreetingController.class).greetingPath(name)).withRel("forPath"));
         greetingRepresentationModel.add(linkTo(methodOn(GreetingController.class).greetingPojo(name)).withRel("forPojo"));
         greetingRepresentationModel.add(linkTo(methodOn(GreetingController.class).greetingSimple(name)).withRel("forSimple"));
-        greetingRepresentationModel.add(Link.of(LocalDateTime.now().toString(), IanaLinkRelations.LAST));
-        greetingRepresentationModel.add(Link.of(new Date().toString(), Date.class.getName()));
+        // greetingRepresentationModel.add(Link.of(LocalDateTime.now().toString(), IanaLinkRelations.LAST));
+        // greetingRepresentationModel.add(Link.of(new Date().toString(), Date.class.getName()));
 
         return ResponseEntity.ok(greetingRepresentationModel);
     }
@@ -85,7 +80,6 @@ public class GreetingController
         resource.add(linkTo(methodOn(GreetingController.class).greetingPath(name)).withSelfRel());
         resource.add(linkTo(methodOn(GreetingController.class).greetingPojo(name)).withRel("forPojo"));
         resource.add(linkTo(methodOn(GreetingController.class).greetingSimple(name)).withRel("forSimple"));
-        resource.add(Link.of(LocalDateTime.now().toString(), IanaLinkRelations.LAST));
 
         return ResponseEntity.ok(resource);
     }
@@ -107,7 +101,6 @@ public class GreetingController
         resource.add(linkTo(methodOn(GreetingController.class).greetingPojo(name)).withSelfRel());
         resource.add(linkTo(methodOn(GreetingController.class).greetingPath(name)).withRel("forPath"));
         resource.add(linkTo(methodOn(GreetingController.class).greetingSimple(name)).withRel("forSimple"));
-        resource.add(Link.of(LocalDateTime.now().toString(), IanaLinkRelations.LAST));
 
         return ResponseEntity.ok(resource);
     }

@@ -1,12 +1,17 @@
 // Created: 04.05.2016
 package de.freese.spring.hateoas;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
+import org.springframework.hateoas.mediatype.hal.forms.HalFormsConfiguration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -40,7 +45,7 @@ public class HateoasApplication implements WebMvcConfigurer// extends SpringBoot
     public void extendMessageConverters(final List<HttpMessageConverter<?>> converters)
     {
         // @formatter:off
-        Optional<MappingJackson2HttpMessageConverter> converter = converters.stream()
+        Optional<MappingJackson2HttpMessageConverter> converterOptional = converters.stream()
                 //.peek(c -> System.out.println(c.getClass().getSimpleName()))
                 .filter(MappingJackson2HttpMessageConverter.class::isInstance)
                 .map(MappingJackson2HttpMessageConverter.class::cast)
@@ -48,12 +53,29 @@ public class HateoasApplication implements WebMvcConfigurer// extends SpringBoot
                 ;
         // @formatter:on
 
-        if (converter.isPresent())
+        if (converterOptional.isPresent())
         {
-            // converter.get().setObjectMapper(objectMapper());
-            converter.get().getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-            converter.get().getObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            MappingJackson2HttpMessageConverter converter = converterOptional.get();
+
+            // converter.setObjectMapper(objectMapper());
+            converter.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+            converter.getObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         }
+    }
+
+    /**
+     * @return {@link HalFormsConfiguration}
+     */
+    @Bean
+    HalFormsConfiguration halFormsConfiguration()
+    {
+        // @formatter:off
+        return new HalFormsConfiguration()
+                .withPattern(LocalDate.class, "yyyy-MM-dd")
+                .withPattern(LocalDateTime.class, "yyyy-MM-dd HH:mm:ss")
+                .withPattern(Date.class, "yyyy-MM-dd HH:mm:ss")
+                ;
+        // @formatter:on
     }
 
     // /**
