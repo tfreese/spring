@@ -41,8 +41,6 @@ class GreetingMockMvcTests
     @Test
     void testDefault() throws Exception
     {
-        // .andExpect(jsonPath("links[0].rel", is("people")))
-
         // @formatter:off
         this.mockMvc.perform(get("/greeter"))
             .andDo(MockMvcResultHandlers.print())
