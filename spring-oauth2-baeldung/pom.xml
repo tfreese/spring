@@ -9,19 +9,19 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>spring-oauth2</artifactId>
+	<artifactId>spring-oauth2-baeldung</artifactId>
 	<packaging>pom</packaging>
 
 	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>OAuth2 Demo</description>
+	<description>OAuth2 Demo - Baeldung</description>
 
 	<properties>
 	</properties>
 
 	<modules>
-		<module>spring-oauth2-authorisationserver</module>
-		<module>spring-oauth2-client-rest</module>
-		<module>spring-oauth2-client-web</module>
+		<module>spring-oauth2-baeldung-authorisation-server</module>
+		<module>spring-oauth2-baeldung-resource-server</module>
+		<module>spring-oauth2-baeldung-client-server</module>
 	</modules>
 
 </project>
