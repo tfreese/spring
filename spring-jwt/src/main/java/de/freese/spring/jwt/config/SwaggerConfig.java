@@ -16,7 +16,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-/**
+/***
  * @author Thomas Freese
  */
 @Configuration
@@ -32,7 +32,6 @@ public class SwaggerConfig implements WebMvcConfigurer
     {
         registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
 
@@ -76,7 +75,7 @@ public class SwaggerConfig implements WebMvcConfigurer
                     This is a sample JWT authentication service.
                     You can find out more about JWT at [https://jwt.io/](https://jwt.io/).
                     For this sample, you can use the <b>admin</b> or <b>user</b> users (password for booth: <b>pass</b>) to test the authorization filters.
-                    Once you have successfully logged in and obtained the token, you should click on the right top button 'Authorize' and introduce it with the prefix \"Bearer\".
+                    Once you have successfully logged in and obtained the token, you should click on the right top button 'Authorize' and introduce it with the prefix "Bearer".
                     """;
 
         System.out.println(descripton);

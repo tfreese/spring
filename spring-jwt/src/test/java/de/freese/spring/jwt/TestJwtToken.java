@@ -40,47 +40,6 @@ import de.freese.spring.jwt.token.JwtTokenProvider;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestJwtToken
 {
-    // /**
-    // * @author Thomas Freese
-    // */
-    // final class HttpHeaderInterceptor implements ClientHttpRequestInterceptor
-    // {
-    // /**
-    // *
-    // */
-    // private final String name;
-    // /**
-    // *
-    // */
-    // private final String value;
-    //
-    // /**
-    // * Creates a new {@link HttpHeaderInterceptor} instance.
-    // *
-    // * @param name the header name to populate. Cannot be null or empty.
-    // * @param value the header value to populate. Cannot be null or empty.
-    // */
-    // HttpHeaderInterceptor(final String name, final String value)
-    // {
-    // super();
-    //
-    // this.name = Objects.requireNonNull(name, "name required");
-    // this.value = Objects.requireNonNull(value, "value required");
-    // }
-    //
-    // /**
-    // * @see org.springframework.http.client.ClientHttpRequestInterceptor#intercept(org.springframework.http.HttpRequest, byte[],
-    // * org.springframework.http.client.ClientHttpRequestExecution)
-    // */
-    // @Override
-    // public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException
-    // {
-    // request.getHeaders().add(this.name, this.value);
-    //
-    // return execution.execute(request, body);
-    // }
-    // }
-
     /**
      * @author Thomas Freese
      */
@@ -93,15 +52,14 @@ class TestJwtToken
         public void handleError(final ClientHttpResponse response) throws IOException
         {
             // Das Auslesen des Responses ist nur einmal möglich !
-            // Das für bei den Tests zu Fehlern.
+            // Das führt bei den Tests zu Fehlern, da für die Asserts ein 2. x auf den Response zugegriffen werden muss.
 
             // RestClientResponseException exception =
             // new RestClientResponseException("Server Error: [" + response.getRawStatusCode() + "]" + " " + response.getStatusText(),
             // response.getRawStatusCode(), response.getStatusText(), response.getHeaders(), getResponseBody(response), getCharset(response));
             //
             // System.err.println(exception);
-            // // exception.printStackTrace();
-            //
+
             // try
             // {
             // ApiError apiError = TestRestApi.this.objectMapper.readValue(exception.getResponseBodyAsByteArray(), ApiError.class);
@@ -110,6 +68,7 @@ class TestJwtToken
             // }
             // catch (Exception ex)
             // {
+            // // Empty
             // }
         }
     }
@@ -142,7 +101,7 @@ class TestJwtToken
         this.restTemplateBuilder = this.restTemplateBuilder
                 .rootUri(rootUri)
                 .errorHandler(new NoOpResponseErrorHandler())
-        ;
+                ;
         // @formatter:on
     }
 
@@ -158,19 +117,18 @@ class TestJwtToken
 //                        //new HttpHeaderInterceptor("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pass")),
 //                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .build();
+                .build()
+                ;
         // @formatter:on
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/me", String.class);
 
-        assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
-        assertNotNull(responseEntity.getBody());
         assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
 
-        System.out.printf("%nFail: %s%n", JsonFormatter.prettyPrint(responseEntity.getBody()));
-
-        // String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
-        // assertEquals("UP", status);
+        if (responseEntity.hasBody())
+        {
+            System.out.printf("%nFail: %s%n", JsonFormatter.prettyPrint(responseEntity.getBody()));
+        }
     }
 
     /**
@@ -183,15 +141,17 @@ class TestJwtToken
         RestTemplate restTemplate = this.restTemplateBuilder
                 .defaultHeader("Authorization", "Bearer " + this.tokenProvider.createToken("admin", "pas"))
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .build();
+                .build()
+                ;
         // @formatter:on
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/me", String.class);
 
-        // UTF-8 kommt aus SecurityConfig.RestAuthenticationEntryPoint#commence.
-        assertEquals(MediaType.APPLICATION_JSON + ";charset=UTF-8", responseEntity.getHeaders().getFirst("Content-Type"));
-        assertNotNull(responseEntity.getBody());
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody());
+
+        // UTF-8 kommt aus WebSecurityComponentsConfig.RestAuthenticationEntryPoint.commence.
+        assertEquals(MediaType.APPLICATION_JSON + ";charset=UTF-8", responseEntity.getHeaders().getFirst("Content-Type"));
 
         System.out.printf("%nWrong Pass: %s%n", responseEntity.getBody());
     }
@@ -205,18 +165,16 @@ class TestJwtToken
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .build();
+                .build()
+                ;
         // @formatter:on
 
         String uri = UriComponentsBuilder.fromPath("/jwt/users/login").queryParam("username", "admin").queryParam("password", "pass").toUriString();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class);
 
-        // String uri = "/jwt/users/login?username=admin,password=pass";
-        // ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class, "admin", "pass");
-
-        Assertions.assertEquals(MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8", responseEntity.getHeaders().getFirst("Content-Type"));
-        Assertions.assertNotNull(responseEntity.getBody());
         Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        Assertions.assertNotNull(responseEntity.getBody());
+        Assertions.assertEquals(MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8", responseEntity.getHeaders().getFirst("Content-Type"));
 
         System.out.printf("%nLogin Admin: %s%n", responseEntity.getBody());
     }
@@ -230,17 +188,18 @@ class TestJwtToken
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .build();
+                .build()
+                ;
         // @formatter:on
 
         String uri = UriComponentsBuilder.fromPath("/jwt/users/login").queryParam("username", "user").queryParam("password", "pass").toUriString();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class);
 
-        Assertions.assertEquals(MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8", responseEntity.getHeaders().getFirst("Content-Type"));
-        Assertions.assertNotNull(responseEntity.getBody());
         Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        Assertions.assertNotNull(responseEntity.getBody());
+        Assertions.assertEquals(MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8", responseEntity.getHeaders().getFirst("Content-Type"));
 
-        System.out.printf("%nLogin Admin: %s%n", responseEntity.getBody());
+        System.out.printf("%nLogin User: %s%n", responseEntity.getBody());
     }
 
     /**
@@ -253,14 +212,15 @@ class TestJwtToken
         RestTemplate restTemplate = this.restTemplateBuilder
                 .defaultHeader("Authorization", "Bearer " + this.tokenProvider.createToken("admin", "pass"))
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .build();
+                .build()
+                ;
         // @formatter:on
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/me", String.class);
 
-        Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
-        Assertions.assertNotNull(responseEntity.getBody());
         Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        Assertions.assertNotNull(responseEntity.getBody());
+        Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
 
         System.out.printf("%nMe Admin: %s%n", JsonFormatter.prettyPrint(responseEntity.getBody()));
     }
@@ -275,14 +235,15 @@ class TestJwtToken
         RestTemplate restTemplate = this.restTemplateBuilder
                 .defaultHeader("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pass"))
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .build();
+                .build()
+                ;
         // @formatter:on
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/me", String.class);
 
-        assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
-        assertNotNull(responseEntity.getBody());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody());
+        assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
 
         System.out.printf("%nMe User: %s%n", JsonFormatter.prettyPrint(responseEntity.getBody()));
     }
@@ -297,14 +258,15 @@ class TestJwtToken
         RestTemplate restTemplate = this.restTemplateBuilder
                 .defaultHeader("Authorization", "Bearer " + this.tokenProvider.createToken("admin", "pass"))
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .build();
+                .build()
+                ;
         // @formatter:on
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/search/user", String.class);
 
-        Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
-        Assertions.assertNotNull(responseEntity.getBody());
         Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        Assertions.assertNotNull(responseEntity.getBody());
+        Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
 
         System.out.printf("%nSearch Admin: %s%n", JsonFormatter.prettyPrint(responseEntity.getBody()));
     }
@@ -319,15 +281,14 @@ class TestJwtToken
         RestTemplate restTemplate = this.restTemplateBuilder
                 .defaultHeader("Authorization", "Bearer " + this.tokenProvider.createToken("user", "pass"))
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .build();
+                .build()
+                ;
         // @formatter:on
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/search/user", String.class);
 
-        Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getFirst("Content-Type"));
-        Assertions.assertNotNull(responseEntity.getBody());
         Assertions.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
 
-        System.out.printf("%nSearch Admin: %s%n", responseEntity.getBody());
+        System.out.printf("%nSearch User: %s%n", responseEntity.getBody());
     }
 }

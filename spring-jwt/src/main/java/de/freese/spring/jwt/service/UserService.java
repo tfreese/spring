@@ -25,8 +25,8 @@ import io.jsonwebtoken.Jws;
 public class UserService
 {
     /**
-       *
-       */
+     *
+     */
     @Resource
     private AuthenticationManager authenticationManager;
     /**
@@ -40,8 +40,8 @@ public class UserService
     @Resource
     private PasswordEncoder passwordEncoder;
     /**
-    *
-    */
+     *
+     */
     @Resource
     private UserDetailsManager userDetailsManager;
 
@@ -108,9 +108,7 @@ public class UserService
             throw new UsernameNotFoundException("The user doesn't exist");
         }
 
-        MutableUser mutableUser = new MutableUser(userDetails).clearCredentials();
-
-        return mutableUser;
+        return new MutableUser(userDetails).clearCredentials();
     }
 
     /**
@@ -126,8 +124,6 @@ public class UserService
 
         UserDetails userDetails = this.userDetailsManager.loadUserByUsername(username);
 
-        MutableUser mutableUser = new MutableUser(userDetails).clearCredentials();
-
-        return mutableUser;
+        return new MutableUser(userDetails).clearCredentials();
     }
 }

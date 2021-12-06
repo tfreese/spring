@@ -1,8 +1,6 @@
 // Created: 30.10.2018
 package de.freese.spring.jwt.config;
 
-import java.util.List;
-
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
@@ -25,7 +23,7 @@ public class CacheConfig
     {
         ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
         cacheManager.setAllowNullValues(false);
-        cacheManager.setCacheNames(List.of("userCache"));
+        // cacheManager.setCacheNames(List.of("userCache")); // Damit wäre er nicht mehr dynamisch -> fest verdrahtete Cache-Namen.
 
         return cacheManager;
     }
@@ -41,8 +39,7 @@ public class CacheConfig
     public UserCache userCache(final CacheManager cacheManager) throws Exception
     {
         Cache cache = cacheManager.getCache("userCache");
-        SpringCacheBasedUserCache userCache = new SpringCacheBasedUserCache(cache);
 
-        return userCache;
+        return new SpringCacheBasedUserCache(cache);
     }
 }

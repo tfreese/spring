@@ -56,7 +56,14 @@ public class UserController
     })
     public String delete(@ApiParam("username") @PathVariable final String username)
     {
+        // try
+        // {
         this.userService.delete(username);
+        // }
+        // catch (Exception ex)
+        // {
+        // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Böser Fehler", ex);
+        // }
 
         return username;
     }
@@ -116,9 +123,7 @@ public class UserController
     })
     public UserDetails search(@ApiParam("userName") @PathVariable final String username)
     {
-        UserDetails userDetails = this.userService.search(username);
-
-        return userDetails;
+        return this.userService.search(username);
     }
 
     /**
@@ -142,8 +147,6 @@ public class UserController
     }
     // public MutableUser whoami(final HttpServletRequest req)
     // {
-    // UserDetails userDetails = this.userService.whoami(req);
-    //
-    // return userDetails;
+    // return this.userService.whoami(req);
     // }
 }

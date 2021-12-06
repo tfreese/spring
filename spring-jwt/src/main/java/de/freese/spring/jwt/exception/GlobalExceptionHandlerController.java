@@ -4,13 +4,13 @@ package de.freese.spring.jwt.exception;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,8 +41,8 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
             {
                 Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, options);
 
-                // StackTrace verbergen.
-                errorAttributes.remove("exception");
+                // StackTrace entfernen.
+                errorAttributes.remove("trace");
 
                 return errorAttributes;
             }
@@ -50,36 +50,55 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
     }
 
     /**
-     * @param res {@link HttpServletResponse}
+     * @param ex {@link AccessDeniedException}
+     * @param request {@link WebRequest}
      *
-     * @throws IOException Falls was schief geht.
+     * @return {@link ResponseEntity}
      */
     @ExceptionHandler(AccessDeniedException.class)
-    public void handleAccessDeniedException(final HttpServletResponse res) throws IOException
+    public ResponseEntity<Object> handleAccessDeniedException(final AccessDeniedException ex, final WebRequest request)
     {
-        res.sendError(HttpStatus.FORBIDDEN.value(), "Access denied");
+        return handleExceptionInternal(ex, "Access denied", HttpStatus.FORBIDDEN, request);
+        // return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
     }
 
     /**
-     * @param res {@link HttpServletResponse}
      * @param ex {@link AuthenticationException}
+     * @param request {@link WebRequest}
+     *
+     * @return {@link ResponseEntity}
      *
      * @throws IOException Falls was schief geht.
      */
     @ExceptionHandler(AuthenticationException.class)
-    public void handleCustomException(final HttpServletResponse res, final AuthenticationException ex) throws IOException
+    public ResponseEntity<Object> handleAuthenticationException(final AuthenticationException ex, final WebRequest request) throws IOException
     {
-        res.sendError(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     /**
-     * @param res {@link HttpServletResponse}
+     * @param ex {@link Exception}
+     * @param body Object
+     * @param status {@link HttpStatus}
+     * @param request {@link WebRequest}
+     *
+     * @return {@link ResponseEntity}
+     */
+    protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body, final HttpStatus status, final WebRequest request)
+    {
+        return super.handleExceptionInternal(ex, body, new HttpHeaders(), status, request);
+    }
+
+    /**
+     * @param ex {@link Exception}
+     *
+     * @return {@link ResponseEntity}
      *
      * @throws IOException Falls was schief geht.
      */
     @ExceptionHandler(Exception.class)
-    public void handleException(final HttpServletResponse res) throws IOException
+    public ResponseEntity<Object> handleGenericException(final Exception ex) throws IOException
     {
-        res.sendError(HttpStatus.BAD_REQUEST.value(), "Something went wrong");
+        return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
     }
 }

@@ -55,9 +55,7 @@ public class JwtTokenProvider
      */
     public String createToken(final String username)
     {
-        String token = createToken(username, null);
-
-        return token;
+        return createToken(username, null);
     }
 
     /**
@@ -68,9 +66,7 @@ public class JwtTokenProvider
      */
     public String createToken(final String username, final String password)
     {
-        String token = createToken(username, password, null);
-
-        return token;
+        return createToken(username, password, null);
     }
 
     /**
@@ -109,9 +105,7 @@ public class JwtTokenProvider
                 .compact();
         // @formatter:on
 
-        token = encodeToken(token);
-
-        return token;
+        return encodeToken(token);
     }
 
     /**
@@ -153,9 +147,7 @@ public class JwtTokenProvider
      */
     public Date getExpirationDate(final Jws<Claims> claims)
     {
-        Date date = claims.getBody().getExpiration();
-
-        return date;
+        return claims.getBody().getExpiration();
     }
 
     /**
@@ -165,9 +157,7 @@ public class JwtTokenProvider
      */
     public String getPassword(final Jws<Claims> claims)
     {
-        String password = (String) claims.getBody().get("password");
-
-        return password;
+        return (String) claims.getBody().get("password");
     }
 
     /**
@@ -180,9 +170,7 @@ public class JwtTokenProvider
     {
         Collection<? extends GrantedAuthority> col = (Collection<? extends GrantedAuthority>) claims.getBody().get("roles");
 
-        Set<? extends GrantedAuthority> roles = new HashSet<>(col);
-
-        return roles;
+        return new HashSet<>(col);
     }
 
     /**
@@ -192,9 +180,7 @@ public class JwtTokenProvider
      */
     public String getUsername(final Jws<Claims> claims)
     {
-        String username = claims.getBody().getSubject();
-
-        return username;
+        return claims.getBody().getSubject();
     }
 
     /**
@@ -233,9 +219,7 @@ public class JwtTokenProvider
     {
         String t = decodeToken(token);
 
-        Jws<Claims> jws = Jwts.parser().setSigningKey(this.secretKey).parseClaimsJws(t);
-
-        return jws;
+        return Jwts.parser().setSigningKey(this.secretKey).parseClaimsJws(t);
     }
 
     /**

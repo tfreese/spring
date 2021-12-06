@@ -47,5 +47,6 @@ public class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
 
         PrintWriter writer = response.getWriter();
         writer.println("HTTP Status 401 - " + authEx.getMessage());
+        writer.flush();
     }
 }
