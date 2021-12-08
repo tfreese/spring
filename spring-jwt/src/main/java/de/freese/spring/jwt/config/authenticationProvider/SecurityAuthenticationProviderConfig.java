@@ -1,13 +1,15 @@
 // Created: 25.09.2018
-package de.freese.spring.jwt.config;
+package de.freese.spring.jwt.config.authenticationProvider;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -21,16 +23,15 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import de.freese.spring.jwt.token.JwtTokenAuthenticationProvider;
-import de.freese.spring.jwt.token.JwtTokenFilter;
-import de.freese.spring.jwt.token.JwtTokenProvider;
+import de.freese.spring.jwt.token.JwtTokenUtils;
 
 /**
  * @author Thomas Freese
  */
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter
+@Profile("AuthenticationProvider")
+public class SecurityAuthenticationProviderConfig extends WebSecurityConfigurerAdapter
 {
     /**
      *
@@ -41,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
      *
      */
     @Resource
-    private JwtTokenProvider jwtTokenProvider;
+    private JwtTokenUtils jwtTokenUtils;
     /**
     *
     */
@@ -59,6 +60,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     private UserDetailsManager userDetailsManager;
 
     /**
+     * Erzeugt mit einem {@link UserDetailsService} einen {@link DaoAuthenticationProvider}.
+     *
      * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#authenticationManagerBean()
      */
     @Bean
@@ -82,6 +85,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
                 .passwordEncoder(this.passwordEncoder)
         ;
         // @formatter:on
+
+        // 2. AuthenticationProvider
+        // z.b. auth.ldapAuthentication()
     }
 
     /**
@@ -100,6 +106,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
                 //.antMatchers("/users/login").permitAll()
                 //.antMatchers("/users/register").permitAll()
                 .anyRequest().authenticated()
+            .and()
+                .exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint)
             .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
@@ -146,7 +154,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         jwtAuthenticationProvider.setUserDetailsService(userDetailsService());
         jwtAuthenticationProvider.setUserCache(this.userCache);
         jwtAuthenticationProvider.setPasswordEncoder(this.passwordEncoder);
-        jwtAuthenticationProvider.setTokenProvider(this.jwtTokenProvider);
+        jwtAuthenticationProvider.setJwtTokenUtils(this.jwtTokenUtils);
 
         return jwtAuthenticationProvider;
     }
@@ -159,7 +167,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public Filter jwtTokenFilter() throws Exception
     {
-        JwtTokenFilter jwtTokenFilter = new JwtTokenFilter();
+        JwtRequestFilter jwtTokenFilter = new JwtRequestFilter();
         jwtTokenFilter.setAuthenticationManager(authenticationManager());
         jwtTokenFilter.setAuthenticationEntryPoint(this.authenticationEntryPoint);
 

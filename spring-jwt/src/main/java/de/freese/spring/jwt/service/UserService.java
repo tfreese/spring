@@ -14,7 +14,7 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import de.freese.spring.jwt.model.MutableUser;
-import de.freese.spring.jwt.token.JwtTokenProvider;
+import de.freese.spring.jwt.token.JwtTokenUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 
@@ -33,7 +33,7 @@ public class UserService
      *
      */
     @Resource
-    private JwtTokenProvider jwtTokenProvider;
+    private JwtTokenUtils jwtTokenProvider;
     /**
      *
      */

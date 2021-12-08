@@ -1,7 +1,6 @@
 // Created: 30.10.2018
-package de.freese.spring.jwt.token;
+package de.freese.spring.jwt.config.authenticationProvider;
 
-import java.util.Date;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -15,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.core.userdetails.UserCache;
@@ -26,14 +26,19 @@ import org.springframework.security.core.userdetails.cache.NullUserCache;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import de.freese.spring.jwt.model.MutableUser;
+import de.freese.spring.jwt.token.JwtTokenUtils;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.SignatureException;
 
 /**
+ * Analog-implementierung zum {@link DaoAuthenticationProvider}.
+ *
  * @author Thomas Freese
  */
-public class JwtTokenAuthenticationProvider implements AuthenticationProvider, InitializingBean, MessageSourceAware
+class JwtTokenAuthenticationProvider implements AuthenticationProvider, InitializingBean, MessageSourceAware
 {
     /**
     *
@@ -46,15 +51,15 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
     /**
      *
      */
+    private JwtTokenUtils jwtTokenUtils;
+    /**
+     *
+     */
     private MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
     /**
     *
     */
     private PasswordEncoder passwordEncoder;
-    /**
-     *
-     */
-    private JwtTokenProvider tokenProvider;
     /**
      *
      */
@@ -80,7 +85,7 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
      */
     protected void additionalAuthenticationChecks(final UserDetails userDetails, final Authentication authentication, final Jws<Claims> claims)
     {
-        String password = getTokenProvider().getPassword(claims);
+        String password = getJwtTokenUtils().getPassword(claims);
 
         // try
         // {
@@ -112,7 +117,7 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
         Objects.requireNonNull(this.userDetailsChecker, "userDetailsChecker requried");
         Objects.requireNonNull(this.userDetailsService, "userDetailsService requried");
         Objects.requireNonNull(this.userCache, "userCache requried");
-        Objects.requireNonNull(this.tokenProvider, "tokenProvider requried");
+        Objects.requireNonNull(this.jwtTokenUtils, "jwtTokenUtils requried");
         Objects.requireNonNull(this.messages, "messageSource requried");
         Objects.requireNonNull(this.passwordEncoder, "passwordEncoder requried");
     }
@@ -147,23 +152,44 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
 
         try
         {
-            claims = getTokenProvider().parseToken(token);
+            claims = getJwtTokenUtils().parseToken(token);
         }
-        catch (JwtException | IllegalArgumentException ex)
+        catch (IllegalArgumentException ex)
+        {
+            getLogger().error("Unable to get JWT Token", ex);
+
+            throw new AuthenticationServiceException("Unable to get JWT Token");
+        }
+        catch (ExpiredJwtException ex)
+        {
+            String message = getMessages().getMessage("JwtTokenAuthenticationProvider.token.expired", "JwtToken is expired");
+
+            getLogger().error(message, ex);
+
+            throw new AuthenticationServiceException(message);
+        }
+        catch (SignatureException ex)
+        {
+            getLogger().error("Authentication Failed. Username or Password not valid", ex);
+
+            throw new AuthenticationServiceException("Authentication Failed. Username or Password not valid");
+        }
+        catch (JwtException ex)
         {
             String message = getMessages().getMessage("JwtTokenAuthenticationProvider.token.invalid", "JwtToken is invalid");
 
             throw new AuthenticationServiceException(message);
         }
 
-        if (getTokenProvider().getExpirationDate(claims).before(new Date()))
-        {
-            String message = getMessages().getMessage("JwtTokenAuthenticationProvider.token.expired", "JwtToken is expired");
+        // Wird bereits im JwtTokenUtils.parseToken erledigt.
+        // if (getJwtTokenUtils().getExpirationDate(claims).before(new Date()))
+        // {
+        // String message = getMessages().getMessage("JwtTokenAuthenticationProvider.token.expired", "JwtToken is expired");
+        //
+        // throw new AuthenticationServiceException(message);
+        // }
 
-            throw new AuthenticationServiceException(message);
-        }
-
-        String username = getTokenProvider().getUsername(claims);
+        String username = getJwtTokenUtils().getUsername(claims);
 
         UserDetails userDetails = getUserCache().getUserFromCache(username);
 
@@ -199,6 +225,14 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
     }
 
     /**
+     * @return {@link JwtTokenUtils}
+     */
+    protected JwtTokenUtils getJwtTokenUtils()
+    {
+        return this.jwtTokenUtils;
+    }
+
+    /**
      * @return {@link Logger}
      */
     protected Logger getLogger()
@@ -220,14 +254,6 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
     protected PasswordEncoder getPasswordEncoder()
     {
         return this.passwordEncoder;
-    }
-
-    /**
-     * @return {@link JwtTokenProvider}
-     */
-    protected JwtTokenProvider getTokenProvider()
-    {
-        return this.tokenProvider;
     }
 
     /**
@@ -314,6 +340,14 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
     }
 
     /**
+     * @param jwtTokenUtils {@link JwtTokenUtils}
+     */
+    public void setJwtTokenUtils(final JwtTokenUtils jwtTokenUtils)
+    {
+        this.jwtTokenUtils = jwtTokenUtils;
+    }
+
+    /**
      * @see org.springframework.context.MessageSourceAware#setMessageSource(org.springframework.context.MessageSource)
      */
     @Override
@@ -328,14 +362,6 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider, I
     public void setPasswordEncoder(final PasswordEncoder passwordEncoder)
     {
         this.passwordEncoder = passwordEncoder;
-    }
-
-    /**
-     * @param tokenProvider {@link JwtTokenProvider}
-     */
-    public void setTokenProvider(final JwtTokenProvider tokenProvider)
-    {
-        this.tokenProvider = tokenProvider;
     }
 
     /**

@@ -1,5 +1,5 @@
 // Created: 30.10.2018
-package de.freese.spring.jwt.token;
+package de.freese.spring.jwt.config.authenticationProvider;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -18,17 +18,20 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
+ * @see BasicAuthenticationFilter
+ *
  * @author Thomas Freese
  */
-public class JwtTokenFilter extends OncePerRequestFilter
+class JwtRequestFilter extends OncePerRequestFilter
 {
     /**
     *
     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
     /**
     *
     */

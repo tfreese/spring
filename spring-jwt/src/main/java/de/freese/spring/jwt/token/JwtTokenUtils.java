@@ -1,21 +1,19 @@
 // Created: 28.10.2018
 package de.freese.spring.jwt.token;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -25,28 +23,30 @@ import io.jsonwebtoken.SignatureAlgorithm;
 /**
  * @author Thomas Freese
  */
-@Component
-public class JwtTokenProvider
+public class JwtTokenUtils
 {
-    /**
-    *
-    */
-    @Resource
-    private PasswordEncoder passwordEncoder;
     /**
      *
      */
-    @Value("${security.jwt.token.secret-key:secret-key}")
-    private String secretKey;
-    // /**
-    // *
-    // */
-    // private SecretKey secretKey2;
+    private final String base64EncodedSecretKey;
     /**
-     * Default: 1 Stunde
+     *
      */
-    @Value("${security.jwt.token.expire-length:3600000}")
-    private long validityInMilliseconds = 3_600_000;
+    private final long validityInMilliseconds;
+
+    /**
+     * Erstellt ein neues {@link JwtTokenUtils} Object.
+     *
+     * @param base64EncodedSecretKey String: Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8))
+     * @param validityInMilliseconds long
+     */
+    public JwtTokenUtils(final String base64EncodedSecretKey, final long validityInMilliseconds)
+    {
+        super();
+
+        this.base64EncodedSecretKey = base64EncodedSecretKey;
+        this.validityInMilliseconds = validityInMilliseconds;
+    }
 
     /**
      * @param username String
@@ -66,7 +66,7 @@ public class JwtTokenProvider
      */
     public String createToken(final String username, final String password)
     {
-        return createToken(username, password, null);
+        return createToken(username, password, Collections.emptySet());
     }
 
     /**
@@ -87,57 +87,32 @@ public class JwtTokenProvider
 
         if (roles != null)
         {
-            // claims.put("roles", roles.stream().filter(Objects::nonNull).map(r -> new SimpleGrantedAuthority(r)).collect(Collectors.toList()));
-            claims.put("roles", roles);
+            // @formatter:off
+            String rolesString = roles.stream()
+                    .filter(Objects::nonNull)
+                    .map(GrantedAuthority::getAuthority)
+                    .distinct()
+                    .sorted()
+                    .collect(Collectors.joining(","))
+                    ;
+            // @formatter:on
+
+            claims.put("roles", rolesString);
         }
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + this.validityInMilliseconds);
 
         // @formatter:off
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .setClaims(claims)
                 .setIssuer("tommy")
                 .setIssuedAt(now)
                 .setExpiration(validity)
 //                .compressWith(CompressionCodecs.DEFLATE)
-                .signWith(SignatureAlgorithm.HS512, this.secretKey)
+                .signWith(SignatureAlgorithm.HS512, this.base64EncodedSecretKey)
                 .compact();
         // @formatter:on
-
-        return encodeToken(token);
-    }
-
-    /**
-     * @param token String
-     *
-     * @return String
-     */
-    protected String decodeToken(final String token)
-    {
-        // byte[] bytes = Encryptors.stronger("gehaim", "abcd").decrypt(token.getBytes());
-        // String t = new String(Base64.getDecoder().decode(bytes));
-        //
-        // String t = Base64.getEncoder().encodeToString(token.getBytes(StandardCharsets.UTF_8));
-        String t = token;
-
-        return t;
-    }
-
-    /**
-     * @param token String
-     *
-     * @return String
-     */
-    protected String encodeToken(final String token)
-    {
-        // byte[] bytes = Encryptors.stronger("gehaim", "abcd").encrypt(token.getBytes());
-        // String t = Base64.getEncoder().encodeToString(bytes);
-        //
-        // String t = new String(Base64.getDecoder().decode(token), StandardCharsets.UTF_8);
-        String t = token;
-
-        return t;
     }
 
     /**
@@ -165,12 +140,18 @@ public class JwtTokenProvider
      *
      * @return {@link Set}
      */
-    @SuppressWarnings("unchecked")
-    public Set<? extends GrantedAuthority> getRoles(final Jws<Claims> claims)
+    public Set<GrantedAuthority> getRoles(final Jws<Claims> claims)
     {
-        Collection<? extends GrantedAuthority> col = (Collection<? extends GrantedAuthority>) claims.getBody().get("roles");
+        String rolesString = (String) claims.getBody().get("roles");
 
-        return new HashSet<>(col);
+        if ((rolesString == null) || rolesString.isBlank())
+        {
+            return Collections.emptySet();
+        }
+
+        String[] rolesArray = rolesString.split(",");
+
+        return Arrays.stream(rolesArray).map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
     }
 
     /**
@@ -184,18 +165,15 @@ public class JwtTokenProvider
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @param token String
+     *
+     * @return String
      */
-    @PostConstruct
-    protected void init() throws Exception
+    public String getUsernameFromToken(final String token)
     {
-        this.secretKey = Base64.getEncoder().encodeToString(this.secretKey.getBytes(StandardCharsets.UTF_8));
+        Jws<Claims> claims = parseToken(token);
 
-        // byte[] salt = KeyGenerators.secureRandom(16).generateKey();
-        //
-        // PBEKeySpec keySpec = new PBEKeySpec(this.secretKey.toCharArray(), salt, 1024, 256);
-        // SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        // this.secretKey2 = factory.generateSecret(keySpec);
+        return getUsername(claims);
     }
 
     /**
@@ -217,9 +195,12 @@ public class JwtTokenProvider
      */
     public Jws<Claims> parseToken(final String token)
     {
-        String t = decodeToken(token);
-
-        return Jwts.parser().setSigningKey(this.secretKey).parseClaimsJws(t);
+        // @formatter:off
+        return Jwts.parser()
+                .setSigningKey(this.base64EncodedSecretKey)
+                .parseClaimsJws(token)
+                ;
+        // @formatter:on
     }
 
     /**
@@ -237,5 +218,18 @@ public class JwtTokenProvider
         }
 
         return null;
+    }
+
+    /**
+     * @param claims {@link Jws}
+     * @param userDetails {@link UserDetails}
+     *
+     * @return boolean
+     */
+    public boolean validateToken(final Jws<Claims> claims, final UserDetails userDetails)
+    {
+        final String username = getUsername(claims);
+
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(claims));
     }
 }

@@ -1,5 +1,5 @@
 // Created: 30.10.2018
-package de.freese.spring.jwt.token;
+package de.freese.spring.jwt.config.authenticationProvider;
 
 import java.util.Collection;
 
@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 /**
  * @author Thomas Freese
  */
-public class JwtAuthenticationToken extends AbstractAuthenticationToken
+class JwtAuthenticationToken extends AbstractAuthenticationToken
 {
     /**
      *

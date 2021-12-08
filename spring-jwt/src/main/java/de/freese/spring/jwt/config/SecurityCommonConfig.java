@@ -1,22 +1,18 @@
 // Created: 25.09.2018
 package de.freese.spring.jwt.config;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,56 +24,15 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
-import de.freese.spring.jwt.token.JwtTokenFilter;
+import de.freese.spring.jwt.token.JwtTokenUtils;
 
 /**
  * @author Thomas Freese
  */
 @Configuration
-public class WebSecurityComponentsConfig
+public class SecurityCommonConfig
 {
-    /**
-     * BasicAuthenticationEntryPoint liefert die volle HTML Fehler-Seite, dies ist bei REST nicht gewünscht.<br>
-     * Aussedem wird die FilterChain weiter ausgeführt, wenn keine Credentials vorhanden sind.<br>
-     * Dieser EntryPoint landet im {@link JwtTokenFilter}.
-     *
-     * @author Thomas Freese
-     */
-    private static class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
-    {
-        /**
-         * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#afterPropertiesSet()
-         */
-        @Override
-        public void afterPropertiesSet()
-        {
-            setRealmName("Tommy");
-
-            super.afterPropertiesSet();
-        }
-
-        /**
-         * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#commence(javax.servlet.http.HttpServletRequest,
-         *      javax.servlet.http.HttpServletResponse, org.springframework.security.core.AuthenticationException)
-         */
-        @Override
-        public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authEx) throws IOException
-        {
-            response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName());
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-
-            PrintWriter writer = response.getWriter();
-            writer.println("HTTP Status 401 - " + authEx.getMessage());
-            writer.flush();
-
-            // response.sendError(HttpStatus.UNAUTHORIZED.value(), authEx.getMessage());
-        }
-    }
-
     /**
      * @return {@link AuthenticationEntryPoint}
      */
@@ -85,6 +40,27 @@ public class WebSecurityComponentsConfig
     public AuthenticationEntryPoint authenticationEntryPoint()
     {
         return new RestAuthenticationEntryPoint();
+    }
+
+    /**
+     * @param secretKey String
+     * @param validityInMilliseconds long
+     *
+     * @return {@link JwtTokenUtils}
+     */
+    @Bean
+    public JwtTokenUtils jwtTokenUtils(@Value("${security.jwt.token.secret-key:secret-key}") final String secretKey,
+                                       @Value("${security.jwt.token.expire-length:3600000}") final long validityInMilliseconds)
+    {
+        String encodedSecretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
+
+        // byte[] salt = KeyGenerators.secureRandom(16).generateKey();
+        //
+        // PBEKeySpec keySpec = new PBEKeySpec(this.secretKey.toCharArray(), salt, 1024, 256);
+        // SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        // this.secretKey2 = factory.generateSecret(keySpec);
+
+        return new JwtTokenUtils(encodedSecretKey, validityInMilliseconds);
     }
 
     /**
@@ -121,17 +97,19 @@ public class WebSecurityComponentsConfig
     }
 
     /**
+     * @param passwordEncoder {@link PasswordEncoder}
+     *
      * @return {@link UserDetailsService}
      */
     @Bean
     @ConditionalOnMissingBean(DataSource.class)
-    public UserDetailsService userDetailsManager()
+    public UserDetailsService userDetailsManager(final PasswordEncoder passwordEncoder)
     {
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
 
         // Wird im CreateUserRunner gemacht, Passwörter immer über den PasswordEncoder encoden und setzen !
-        // userDetailsManager.createUser(User.withUsername("admin").password("pass").roles("ADMIN", "USER").build());
-        // userDetailsManager.createUser(User.withUsername("user").password("pass").roles("USER").build());
+        // userDetailsManager.createUser(User.withUsername("admin").password(passwordEncoder.encode("pass")).roles("ADMIN", "USER").build());
+        // userDetailsManager.createUser(User.withUsername("user").password(passwordEncoder.encode("pass")).roles("USER").build());
 
         return userDetailsManager;
     }

@@ -32,11 +32,9 @@ public class CacheConfig
      * @param cacheManager {@link CacheManager}
      *
      * @return {@link CacheManager}
-     *
-     * @throws Exception Falls was schief geht.
      */
     @Bean
-    public UserCache userCache(final CacheManager cacheManager) throws Exception
+    public UserCache userCache(final CacheManager cacheManager)
     {
         Cache cache = cacheManager.getCache("userCache");
 

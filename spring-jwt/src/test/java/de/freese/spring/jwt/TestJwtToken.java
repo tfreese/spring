@@ -29,14 +29,21 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.jayway.jsonpath.internal.JsonFormatter;
 
-import de.freese.spring.jwt.token.JwtTokenProvider;
+import de.freese.spring.jwt.token.JwtTokenUtils;
 
 /**
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = JwtAuthorisationApplication.class)
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
+// @ActiveProfiles(
+// {
+// "test", "AuthenticationProvider"
+// })
+@ActiveProfiles(
+{
+        "test", "Simple"
+})
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestJwtToken
 {
@@ -87,7 +94,7 @@ class TestJwtToken
      *
      */
     @Resource
-    private JwtTokenProvider tokenProvider;
+    private JwtTokenUtils tokenProvider;
 
     /**
      * @throws Exception Falls was schief geht.
@@ -123,7 +130,7 @@ class TestJwtToken
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/me", String.class);
 
-        assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
 
         if (responseEntity.hasBody())
         {
