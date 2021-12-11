@@ -11,14 +11,19 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
 
 /**
  * @author Thomas Freese
@@ -191,16 +196,37 @@ public class JwtTokenUtils
     /**
      * @param token String
      *
-     * @return boolean
+     * @return {@link Jws}
+     *
+     * @throws AuthenticationException Falls was schief geht.
      */
-    public Jws<Claims> parseToken(final String token)
+    public Jws<Claims> parseToken(final String token) throws AuthenticationException
     {
-        // @formatter:off
-        return Jwts.parser()
-                .setSigningKey(this.base64EncodedSecretKey)
-                .parseClaimsJws(token)
-                ;
-        // @formatter:on
+        try
+        {
+            // @formatter:off
+            return Jwts.parser()
+                    .setSigningKey(this.base64EncodedSecretKey)
+                    .parseClaimsJws(token)
+                    ;
+            // @formatter:on
+        }
+        catch (IllegalArgumentException ex)
+        {
+            throw new AuthenticationServiceException("Unable to get JWT Token");
+        }
+        catch (ExpiredJwtException ex)
+        {
+            throw new AuthenticationServiceException("JwtToken is expired");
+        }
+        catch (SignatureException ex)
+        {
+            throw new BadCredentialsException("Authentication Failed. Username or Password not valid");
+        }
+        catch (JwtException ex)
+        {
+            throw new AuthenticationServiceException("JwtToken is invalid");
+        }
     }
 
     /**
@@ -218,18 +244,5 @@ public class JwtTokenUtils
         }
 
         return null;
-    }
-
-    /**
-     * @param claims {@link Jws}
-     * @param userDetails {@link UserDetails}
-     *
-     * @return boolean
-     */
-    public boolean validateToken(final Jws<Claims> claims, final UserDetails userDetails)
-    {
-        final String username = getUsername(claims);
-
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(claims));
     }
 }

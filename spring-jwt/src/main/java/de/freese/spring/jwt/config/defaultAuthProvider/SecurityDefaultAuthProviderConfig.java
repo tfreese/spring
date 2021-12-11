@@ -1,5 +1,5 @@
 // Created: 25.09.2018
-package de.freese.spring.jwt.config.simple;
+package de.freese.spring.jwt.config.defaultAuthProvider;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;
@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +16,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -25,12 +25,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import de.freese.spring.jwt.token.JwtTokenUtils;
 
 /**
+ * Der {@link JwtRequestFilter} verwendet den Default-{@link AuthenticationProvider}.<br>
+ * Siehe {@link DaoAuthenticationProvider}.
+ *
  * @author Thomas Freese
  */
 @Configuration
 @EnableWebSecurity
-@Profile("Simple")
-public class SecuritySimpleConfig extends WebSecurityConfigurerAdapter
+@Profile(
+{
+        "defaultAuthProvider", "default"
+})
+public class SecurityDefaultAuthProviderConfig extends WebSecurityConfigurerAdapter
 {
     /**
      *
@@ -47,11 +53,6 @@ public class SecuritySimpleConfig extends WebSecurityConfigurerAdapter
     */
     @Resource
     private PasswordEncoder passwordEncoder;
-    /**
-     *
-     */
-    @Resource
-    private UserCache userCache;
     /**
      *
      */
@@ -131,13 +132,11 @@ public class SecuritySimpleConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/webjars/**")
                 .antMatchers("/v2/api-docs")
                 .antMatchers("/swagger-resources/**")
-                //.antMatchers("/configuration/**")
-                //.antMatchers("/public")
 
                 .antMatchers("/users/login")
 
                 // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
-                .antMatchers("/h2-console/**/**")
+                //.antMatchers("/h2-console/**/**")
                 ;
         // @formatter:on
     }
@@ -150,15 +149,10 @@ public class SecuritySimpleConfig extends WebSecurityConfigurerAdapter
     @Bean
     public Filter jwtTokenFilter() throws Exception
     {
-        JwtRequestFilterSimple jwtTokenFilter = new JwtRequestFilterSimple();
+        JwtRequestFilter jwtTokenFilter = new JwtRequestFilter();
+        jwtTokenFilter.setAuthenticationManager(authenticationManager());
+        jwtTokenFilter.setAuthenticationEntryPoint(this.authenticationEntryPoint);
         jwtTokenFilter.setJwtTokenUtils(this.jwtTokenUtils);
-        jwtTokenFilter.setPasswordEncoder(this.passwordEncoder);
-        jwtTokenFilter.setUserDetailsService(this.userDetailsManager);
-
-        // JwtRequestFilterSimple2 jwtTokenFilter = new JwtRequestFilterSimple2();
-        // jwtTokenFilter.setJwtTokenUtils(this.jwtTokenUtils);
-        // jwtTokenFilter.setAuthenticationEntryPoint(this.authenticationEntryPoint);
-        // jwtTokenFilter.setAuthenticationManager(authenticationManager());
 
         // BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
         // entryPoint.setRealmName("Tommy");

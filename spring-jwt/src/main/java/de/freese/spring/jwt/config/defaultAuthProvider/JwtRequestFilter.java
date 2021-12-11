@@ -1,7 +1,8 @@
 // Created: 30.10.2018
-package de.freese.spring.jwt.config.simple;
+package de.freese.spring.jwt.config.defaultAuthProvider;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -12,13 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -27,23 +26,22 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import de.freese.spring.jwt.token.JwtTokenUtils;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.SignatureException;
 
 /**
- * Diese Variante benutzt den {@link DaoAuthenticationProvider}.
+ * Der {@link JwtRequestFilter} verwendet den Default-{@link AuthenticationProvider}.<br>
+ * Siehe {@link DaoAuthenticationProvider}.
  *
  * @see BasicAuthenticationFilter
  *
  * @author Thomas Freese
  */
-public class JwtRequestFilterSimple2 extends OncePerRequestFilter
+class JwtRequestFilter extends OncePerRequestFilter
 {
     /**
     *
     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilterSimple2.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
 
     /**
     *
@@ -66,50 +64,21 @@ public class JwtRequestFilterSimple2 extends OncePerRequestFilter
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
         throws ServletException, IOException
     {
-        // JWT Token is in the form "Bearer token".
-        // Remove Bearer word and get only the Token.
-        String bearerToken = request.getHeader("Authorization");
+        String token = this.jwtTokenUtils.resolveToken(request);
 
         try
         {
-
-            String jwtToken = null;
-            Jws<Claims> claims = null;
             String username = null;
             String password = null;
 
-            if ((bearerToken != null) && bearerToken.startsWith("Bearer "))
+            if (token != null)
             {
-                jwtToken = bearerToken.substring(7);
+                Jws<Claims> claims = this.jwtTokenUtils.parseToken(token);
 
-                try
-                {
-                    claims = this.jwtTokenUtils.parseToken(jwtToken);
-
-                    username = this.jwtTokenUtils.getUsername(claims);
-                    password = this.jwtTokenUtils.getPassword(claims);
-                }
-                catch (IllegalArgumentException ex)
-                {
-                    getLogger().error("Unable to get JWT Token", ex);
-
-                    throw new AuthenticationServiceException("Unable to get JWT Token");
-                }
-                catch (ExpiredJwtException ex)
-                {
-                    getLogger().error("JWT Token has expired", ex);
-
-                    throw new AuthenticationServiceException("JWT Token has expired");
-                }
-                catch (SignatureException ex)
-                {
-                    getLogger().error("Authentication Failed. Username or Password not valid", ex);
-
-                    throw new BadCredentialsException("JWT Token has expired");
-                }
+                username = this.jwtTokenUtils.getUsername(claims);
+                password = this.jwtTokenUtils.getPassword(claims);
             }
 
-            // Once we get the token validate it.
             if ((username != null) && isAuthenticationIsRequired(username))
             {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
@@ -117,38 +86,19 @@ public class JwtRequestFilterSimple2 extends OncePerRequestFilter
 
                 Authentication authResult = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
-                SecurityContext context = SecurityContextHolder.createEmptyContext();
-                context.setAuthentication(authResult);
-                SecurityContextHolder.setContext(context);
-
-                // UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-                //
-                // // If token is valid configure Spring Security to manually set authentication.
-                // if (this.jwtTokenUtils.validateToken(claims, userDetails))
-                // {
-                // UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                // new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-                // usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                //
-                // Authentication authResult = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-                //
+                SecurityContextHolder.getContext().setAuthentication(authResult);
                 // SecurityContext context = SecurityContextHolder.createEmptyContext();
                 // context.setAuthentication(authResult);
                 // SecurityContextHolder.setContext(context);
-                // }
-                // else
-                // {
-                // throw new AuthenticationServiceException("Invalid JWT Token");
-                // }
             }
         }
         catch (AuthenticationException ex)
         {
             SecurityContextHolder.clearContext();
 
-            getLogger().debug("Authentication request failed: ", ex);
+            getLogger().error("Authentication request failed: {}", ex.getMessage());
 
-            // Deswegen würden Test die Logins über den RestController nicht mehr funktionieren !
+            // // Deswegen würden Tests der Logins über den RestController nicht mehr funktionieren !
             this.authenticationEntryPoint.commence(request, response, ex);
 
             return;
@@ -160,9 +110,22 @@ public class JwtRequestFilterSimple2 extends OncePerRequestFilter
     /**
      * @return {@link Logger}
      */
-    protected Logger getLogger()
+    private Logger getLogger()
     {
         return LOGGER;
+    }
+
+    /**
+     * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
+     */
+    @Override
+    protected void initFilterBean() throws ServletException
+    {
+        super.initFilterBean();
+
+        Objects.requireNonNull(this.authenticationManager, "authenticationManager requried");
+        Objects.requireNonNull(this.authenticationEntryPoint, "authenticationEntryPoint requried");
+        Objects.requireNonNull(this.jwtTokenUtils, "jwtTokenUtils requried");
     }
 
     /**

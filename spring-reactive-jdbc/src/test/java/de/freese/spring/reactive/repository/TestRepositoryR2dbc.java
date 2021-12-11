@@ -4,7 +4,6 @@ package de.freese.spring.reactive.repository;
 import javax.annotation.Resource;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
 import org.springframework.r2dbc.core.DatabaseClient;
@@ -15,7 +14,6 @@ import io.r2dbc.spi.ConnectionFactory;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest
 @ActiveProfiles(
 {
         "test", "r2dbc"

@@ -1,5 +1,5 @@
 // Created: 30.10.2018
-package de.freese.spring.jwt.config.authenticationProvider;
+package de.freese.spring.jwt.config.ownAuthProvider;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -22,6 +22,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
+ * Der {@link JwtRequestFilter} verwendet den {@link JwtTokenAuthenticationProvider}.<br>
+ *
  * @see BasicAuthenticationFilter
  *
  * @author Thomas Freese
@@ -55,20 +57,20 @@ class JwtRequestFilter extends OncePerRequestFilter
     {
         String bearerToken = request.getHeader("Authorization");
 
-        String jwtToken = null;
+        String token = null;
 
         if ((bearerToken != null) && bearerToken.startsWith("Bearer "))
         {
-            jwtToken = bearerToken.substring(7);
+            token = bearerToken.substring(7);
         }
 
         try
         {
-            if ((jwtToken != null) && !jwtToken.isBlank())
+            if ((token != null) && !token.isBlank())
             {
                 getLogger().debug("JwtToken Pre-Authentication Authorization header found");
 
-                JwtAuthenticationToken authRequest = new JwtAuthenticationToken(jwtToken);
+                JwtAuthenticationToken authRequest = new JwtAuthenticationToken(token);
                 authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
 
                 Authentication authResult = this.authenticationManager.authenticate(authRequest);
@@ -76,14 +78,18 @@ class JwtRequestFilter extends OncePerRequestFilter
                 getLogger().debug("Authentication success: {}", authResult);
 
                 SecurityContextHolder.getContext().setAuthentication(authResult);
+                // SecurityContext context = SecurityContextHolder.createEmptyContext();
+                // context.setAuthentication(authResult);
+                // SecurityContextHolder.setContext(context);
             }
         }
         catch (AuthenticationException ex)
         {
             SecurityContextHolder.clearContext();
 
-            getLogger().debug("Authentication request failed: ", ex);
+            getLogger().debug("Authentication request failed: {}", ex.getMessage());
 
+            // Deswegen würden Tests der Logins über den RestController nicht mehr funktionieren !
             this.authenticationEntryPoint.commence(request, response, ex);
 
             return;
@@ -95,7 +101,7 @@ class JwtRequestFilter extends OncePerRequestFilter
     /**
      * @return {@link Logger}
      */
-    public Logger getLogger()
+    private Logger getLogger()
     {
         return LOGGER;
     }

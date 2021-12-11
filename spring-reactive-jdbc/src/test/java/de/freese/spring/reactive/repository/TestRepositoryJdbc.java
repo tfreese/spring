@@ -4,7 +4,6 @@ package de.freese.spring.reactive.repository;
 import javax.annotation.Resource;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -13,7 +12,6 @@ import org.springframework.test.context.ActiveProfiles;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest
 @ActiveProfiles(
 {
         "test", "jdbc"

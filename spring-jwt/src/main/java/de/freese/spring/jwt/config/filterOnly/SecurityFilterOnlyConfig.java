@@ -1,5 +1,5 @@
 // Created: 25.09.2018
-package de.freese.spring.jwt.config.authenticationProvider;
+package de.freese.spring.jwt.config.filterOnly;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;
@@ -16,7 +16,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserCache;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -26,12 +26,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import de.freese.spring.jwt.token.JwtTokenUtils;
 
 /**
+ * Der {@link JwtRequestFilter} verwendet keinen {@link AuthenticationProvider},<br>
+ * sondern validiert das Token mit Passwort-Vergleich, Gültigkeit etc. selber und setzt es in den {@link SecurityContext}.
+ *
  * @author Thomas Freese
  */
 @Configuration
 @EnableWebSecurity
-@Profile("AuthenticationProvider")
-public class SecurityAuthenticationProviderConfig extends WebSecurityConfigurerAdapter
+@Profile("filterOnly")
+public class SecurityFilterOnlyConfig extends WebSecurityConfigurerAdapter
 {
     /**
      *
@@ -48,11 +51,6 @@ public class SecurityAuthenticationProviderConfig extends WebSecurityConfigurerA
     */
     @Resource
     private PasswordEncoder passwordEncoder;
-    /**
-     *
-     */
-    @Resource
-    private UserCache userCache;
     /**
      *
      */
@@ -80,7 +78,6 @@ public class SecurityAuthenticationProviderConfig extends WebSecurityConfigurerA
         // @formatter:off
         auth
             .eraseCredentials(true)
-            .authenticationProvider(jwtAuthenticationProvider())
             .userDetailsService(userDetailsService()) // Erzeugt DaoAuthenticationProvider
                 .passwordEncoder(this.passwordEncoder)
         ;
@@ -133,47 +130,26 @@ public class SecurityAuthenticationProviderConfig extends WebSecurityConfigurerA
                 .antMatchers("/webjars/**")
                 .antMatchers("/v2/api-docs")
                 .antMatchers("/swagger-resources/**")
-                //.antMatchers("/configuration/**")
-                //.antMatchers("/public")
 
                 .antMatchers("/users/login")
 
                 // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
-                .antMatchers("/h2-console/**/**")
+                //.antMatchers("/h2-console/**/**")
                 ;
         // @formatter:on
     }
 
     /**
-     * @return {@link AuthenticationProvider}
-     */
-    @Bean
-    public AuthenticationProvider jwtAuthenticationProvider()
-    {
-        JwtTokenAuthenticationProvider jwtAuthenticationProvider = new JwtTokenAuthenticationProvider();
-        jwtAuthenticationProvider.setUserDetailsService(userDetailsService());
-        jwtAuthenticationProvider.setUserCache(this.userCache);
-        jwtAuthenticationProvider.setPasswordEncoder(this.passwordEncoder);
-        jwtAuthenticationProvider.setJwtTokenUtils(this.jwtTokenUtils);
-
-        return jwtAuthenticationProvider;
-    }
-
-    /**
      * @return {@link Filter}
-     *
-     * @throws Exception Falls was schief geht.
      */
     @Bean
-    public Filter jwtTokenFilter() throws Exception
+    public Filter jwtTokenFilter()
     {
         JwtRequestFilter jwtTokenFilter = new JwtRequestFilter();
-        jwtTokenFilter.setAuthenticationManager(authenticationManager());
         jwtTokenFilter.setAuthenticationEntryPoint(this.authenticationEntryPoint);
-
-        // BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
-        // entryPoint.setRealmName("Tommy");
-        // jwtTokenFilter.setAuthenticationEntryPoint(entryPoint);
+        jwtTokenFilter.setUserDetailsService(this.userDetailsManager);
+        jwtTokenFilter.setPasswordEncoder(this.passwordEncoder);
+        jwtTokenFilter.setJwtTokenUtils(this.jwtTokenUtils);
 
         return jwtTokenFilter;
     }

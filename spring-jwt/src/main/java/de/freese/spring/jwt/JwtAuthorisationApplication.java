@@ -23,6 +23,7 @@ public class JwtAuthorisationApplication extends SpringBootServletInitializer
      * Konfiguriert die SpringApplication.
      *
      * @param builder {@link SpringApplicationBuilder}
+     *
      * @return {@link SpringApplicationBuilder}
      */
     private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder)

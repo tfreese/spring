@@ -1,0 +1,106 @@
+// Created: 11.12.2021
+package de.freese.spring.jwt;
+
+import java.io.IOException;
+
+import javax.annotation.Resource;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.web.client.DefaultResponseErrorHandler;
+
+import de.freese.spring.jwt.token.JwtTokenUtils;
+
+/**
+ * @author Thomas Freese
+ */
+abstract class AbstractTestJwtToken implements TestJwtToken
+{
+    /**
+     * Das Auslesen des Responses ist nur einmal möglich !<br>
+     * Das führt bei den Tests zu Fehlern, da für die Asserts ein 2. x auf den Response zugegriffen werden muss.
+     *
+     * @author Thomas Freese
+     */
+    private static class NoOpResponseErrorHandler extends DefaultResponseErrorHandler
+    {
+        /**
+         * @see org.springframework.web.client.DefaultResponseErrorHandler#handleError(org.springframework.http.client.ClientHttpResponse)
+         */
+        @Override
+        public void handleError(final ClientHttpResponse response) throws IOException
+        {
+            // Das Auslesen des Responses ist nur einmal möglich !
+            // Das führt bei den Tests zu Fehlern, da für die Asserts ein 2. x auf den Response zugegriffen werden muss.
+
+            // RestClientResponseException exception =
+            // new RestClientResponseException("Server Error: [" + response.getRawStatusCode() + "]" + " " + response.getStatusText(),
+            // response.getRawStatusCode(), response.getStatusText(), response.getHeaders(), getResponseBody(response), getCharset(response));
+            //
+            // System.err.println(exception);
+
+            // try
+            // {
+            // ApiError apiError = TestRestApi.this.objectMapper.readValue(exception.getResponseBodyAsByteArray(), ApiError.class);
+            // // exception.setStackTrace(apiError.getStackTrace());
+            // System.err.println(apiError);
+            // }
+            // catch (Exception ex)
+            // {
+            // // Empty
+            // }
+        }
+    }
+
+    /**
+    *
+    */
+    @Resource
+    private JwtTokenUtils jwtTokenUtils;
+    /**
+    *
+    */
+    @LocalServerPort
+    private int localServerPort;
+    /**
+    *
+    */
+    @Resource
+    private RestTemplateBuilder restTemplateBuilder;
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @BeforeEach
+    void beforeEach() throws Exception
+    {
+        String rootUri = "http://localhost:" + this.localServerPort;
+
+       // @formatter:off
+       this.restTemplateBuilder = this.restTemplateBuilder
+               .rootUri(rootUri)
+               .errorHandler(new NoOpResponseErrorHandler())
+               ;
+       // @formatter:on
+    }
+
+    /**
+     * @see de.freese.spring.jwt.TestJwtToken#getJwtTokenUtils()
+     */
+    @Override
+    public JwtTokenUtils getJwtTokenUtils()
+    {
+        return this.jwtTokenUtils;
+    }
+
+    /**
+     * @see de.freese.spring.jwt.TestJwtToken#getRestTemplateBuilder()
+     */
+    @Override
+    public RestTemplateBuilder getRestTemplateBuilder()
+    {
+        return this.restTemplateBuilder;
+    }
+}
