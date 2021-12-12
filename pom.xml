@@ -32,7 +32,7 @@
     </scm>
 
     <properties>
-        <version_com.esotericsoftware_kryo>5.2.0</version_com.esotericsoftware_kryo>
+        <version_com.esotericsoftware_kryo>5.2.1</version_com.esotericsoftware_kryo>
 
         <version_de.javakaffee_kryo-serializers>0.45</version_de.javakaffee_kryo-serializers>
         <version_de.codecentric_spring-boot-admin>2.5.4</version_de.codecentric_spring-boot-admin>

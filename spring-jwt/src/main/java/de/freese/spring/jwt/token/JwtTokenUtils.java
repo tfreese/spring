@@ -55,33 +55,49 @@ public class JwtTokenUtils
 
     /**
      * @param username String
-     *
-     * @return String
-     */
-    public String createToken(final String username)
-    {
-        return createToken(username, null);
-    }
-
-    /**
-     * @param username String
      * @param password String
      *
      * @return String
      */
     public String createToken(final String username, final String password)
     {
-        return createToken(username, password, Collections.emptySet());
+        return createToken(username, password, Set.of(""));
     }
 
     /**
      * @param username String
      * @param password String
-     * @param roles {@link Collection}
+     * @param roles {@link Collection}; Optional
      *
      * @return String
      */
     public String createToken(final String username, final String password, final Collection<? extends GrantedAuthority> roles)
+    {
+        Set<String> rolesSet = Collections.emptySet();
+
+        if (roles != null)
+        {
+            // @formatter:off
+            rolesSet = roles.stream()
+                    .filter(Objects::nonNull)
+                    .map(GrantedAuthority::getAuthority)
+                    .distinct()
+                    .collect(Collectors.toSet())
+                    ;
+            // @formatter:on
+        }
+
+        return createToken(username, password, rolesSet);
+    }
+
+    /**
+     * @param username String
+     * @param password String
+     * @param roles {@link Set}; Optional
+     *
+     * @return String
+     */
+    public String createToken(final String username, final String password, final Set<String> roles)
     {
         Claims claims = Jwts.claims().setSubject(username);
 
@@ -90,12 +106,11 @@ public class JwtTokenUtils
             claims.put("password", password);
         }
 
-        if (roles != null)
+        if ((roles != null) && !roles.isEmpty())
         {
             // @formatter:off
             String rolesString = roles.stream()
                     .filter(Objects::nonNull)
-                    .map(GrantedAuthority::getAuthority)
                     .distinct()
                     .sorted()
                     .collect(Collectors.joining(","))
@@ -116,7 +131,8 @@ public class JwtTokenUtils
                 .setExpiration(validity)
 //                .compressWith(CompressionCodecs.DEFLATE)
                 .signWith(SignatureAlgorithm.HS512, this.base64EncodedSecretKey)
-                .compact();
+                .compact()
+                ;
         // @formatter:on
     }
 
@@ -167,18 +183,6 @@ public class JwtTokenUtils
     public String getUsername(final Jws<Claims> claims)
     {
         return claims.getBody().getSubject();
-    }
-
-    /**
-     * @param token String
-     *
-     * @return String
-     */
-    public String getUsernameFromToken(final String token)
-    {
-        Jws<Claims> claims = parseToken(token);
-
-        return getUsername(claims);
     }
 
     /**
