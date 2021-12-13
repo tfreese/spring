@@ -82,7 +82,7 @@ public class SecurityDefaultAuthProviderConfig extends WebSecurityConfigurerAdap
             .eraseCredentials(true)
             .userDetailsService(userDetailsService()) // Erzeugt DaoAuthenticationProvider
                 .passwordEncoder(this.passwordEncoder)
-        ;
+            ;
         // @formatter:on
 
         // 2. AuthenticationProvider
@@ -102,8 +102,8 @@ public class SecurityDefaultAuthProviderConfig extends WebSecurityConfigurerAdap
             .formLogin().disable()
             .httpBasic().disable()
             .authorizeRequests()
-                //.antMatchers("/users/login").permitAll()
-                //.antMatchers("/users/register").permitAll()
+                //.antMatchers("/users/login").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                //.antMatchers("/users/register").hasRole("ADMIN")
                 .anyRequest().authenticated()
             .and()
                 .exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint)
@@ -113,7 +113,7 @@ public class SecurityDefaultAuthProviderConfig extends WebSecurityConfigurerAdap
 //                .apply(new JwtTokenFilterConfigurer(this.jwtTokenProvider))
                 .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
 
-        ;
+            ;
         // @formatter:on
     }
 
@@ -126,18 +126,17 @@ public class SecurityDefaultAuthProviderConfig extends WebSecurityConfigurerAdap
         // Pfade ohne Sicherheits-Prüfung.
         // @formatter:off
         webSecurity.ignoring()
+            // Für swagger
+            .antMatchers("/swagger-ui.html")
+            .antMatchers("/webjars/**")
+            .antMatchers("/v2/api-docs")
+            .antMatchers("/swagger-resources/**")
 
-                // Für swagger
-                .antMatchers("/swagger-ui.html")
-                .antMatchers("/webjars/**")
-                .antMatchers("/v2/api-docs")
-                .antMatchers("/swagger-resources/**")
+            .antMatchers("/users/login")
 
-                .antMatchers("/users/login")
-
-                // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
-                //.antMatchers("/h2-console/**/**")
-                ;
+            // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
+            //.antMatchers("/h2-console/**/**")
+            ;
         // @formatter:on
     }
 

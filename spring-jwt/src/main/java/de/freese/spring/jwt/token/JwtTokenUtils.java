@@ -61,7 +61,9 @@ public class JwtTokenUtils
      */
     public String createToken(final String username, final String password)
     {
-        return createToken(username, password, Set.of(""));
+        Set<String> roles = null;
+
+        return createToken(username, password, roles);
     }
 
     /**
@@ -73,9 +75,9 @@ public class JwtTokenUtils
      */
     public String createToken(final String username, final String password, final Collection<? extends GrantedAuthority> roles)
     {
-        Set<String> rolesSet = Collections.emptySet();
+        Set<String> rolesSet = null;
 
-        if (roles != null)
+        if ((roles != null) && !roles.isEmpty())
         {
             // @formatter:off
             rolesSet = roles.stream()

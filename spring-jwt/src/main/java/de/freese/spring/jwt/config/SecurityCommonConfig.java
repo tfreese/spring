@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -126,15 +127,15 @@ public class SecurityCommonConfig
     {
         JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
         userDetailsManager.setUserCache(userCache);
-        userDetailsManager.setUsersByUsernameQuery("select username, password, enabled from USER where username = ?");
-        userDetailsManager.setAuthoritiesByUsernameQuery("select username, role from AUTHORITY where username = ?");
+        userDetailsManager.setUsersByUsernameQuery(JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY);
+        userDetailsManager.setAuthoritiesByUsernameQuery(JdbcDaoImpl.DEF_AUTHORITIES_BY_USERNAME_QUERY);
 
         return userDetailsManager;
 
         // JdbcDaoImpl jdbcDao = new JdbcDaoImpl();
         // jdbcDao.setDataSource(dataSource);
-        // jdbcDao.setUsersByUsernameQuery("select username, password, enabled from USER where username = ?");
-        // jdbcDao.setAuthoritiesByUsernameQuery("select username, role from AUTHORITY where username = ?");
+        // jdbcDao.setUsersByUsernameQuery(JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY);
+        // jdbcDao.setAuthoritiesByUsernameQuery(JdbcDaoImpl.DEF_AUTHORITIES_BY_USERNAME_QUERY);
         //
         // CachingUserDetailsService cachingUserDetailsService = new CachingUserDetailsService(jdbcDao);
         // cachingUserDetailsService.setUserCache(userCache);

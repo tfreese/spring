@@ -6,7 +6,6 @@ import java.security.Principal;
 import javax.annotation.Resource;
 
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +38,7 @@ public class UserController
      * @return String
      */
     @DeleteMapping("delete/{username}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Secured("ROLE_ADMIN")
     // @ApiOperation(value = "Deletes specific user by username.")
     // @ApiResponses(value =
@@ -90,6 +89,7 @@ public class UserController
      * @return String
      */
     @PostMapping("register")
+    @Secured("ROLE_ADMIN")
     // @ApiOperation(value = "Creates user and returns its JWT token.")
     // @ApiResponses(value =
     // {
@@ -110,7 +110,7 @@ public class UserController
      * @return {@link UserDetails}
      */
     @GetMapping("search/{username}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Secured("ROLE_ADMIN")
     // @ApiOperation(value = "Returns specific user by username.")
     // @ApiResponses(value =
@@ -132,8 +132,11 @@ public class UserController
      * @return {@link Principal}
      */
     @GetMapping("me")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-    @Secured("ROLE_USER")
+    // @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @Secured(
+    {
+            "ROLE_ADMIN", "ROLE_USER"
+    })
     // @ApiOperation(value = "Returns current user's data.")
     // @ApiResponses(value =
     // {
