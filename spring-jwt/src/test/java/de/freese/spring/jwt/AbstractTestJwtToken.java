@@ -6,9 +6,11 @@ import java.io.IOException;
 import javax.annotation.Resource;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
 import de.freese.spring.jwt.token.JwtTokenUtils;
@@ -16,6 +18,7 @@ import de.freese.spring.jwt.token.JwtTokenUtils;
 /**
  * @author Thomas Freese
  */
+@AutoConfigureMockMvc
 abstract class AbstractTestJwtToken implements TestJwtToken
 {
     /**
@@ -68,6 +71,11 @@ abstract class AbstractTestJwtToken implements TestJwtToken
     *
     */
     @Resource
+    private MockMvc mockMvc;
+    /**
+    *
+    */
+    @Resource
     private RestTemplateBuilder restTemplateBuilder;
 
     /**
@@ -93,6 +101,15 @@ abstract class AbstractTestJwtToken implements TestJwtToken
     public JwtTokenUtils getJwtTokenUtils()
     {
         return this.jwtTokenUtils;
+    }
+
+    /**
+     * @see de.freese.spring.jwt.TestJwtToken#getMockMvc()
+     */
+    @Override
+    public MockMvc getMockMvc()
+    {
+        return this.mockMvc;
     }
 
     /**

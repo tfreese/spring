@@ -3,17 +3,20 @@ package de.freese.spring.jwt;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -25,7 +28,6 @@ import de.freese.spring.jwt.token.JwtTokenUtils;
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = JwtAuthorisationApplication.class)
-@AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.MethodName.class)
 interface TestJwtToken
 {
@@ -33,6 +35,11 @@ interface TestJwtToken
      * @return {@link JwtTokenUtils}
      */
     JwtTokenUtils getJwtTokenUtils();
+
+    /**
+     * @return {@link MockMvc}
+     */
+    MockMvc getMockMvc();
 
     /**
      * @return {@link RestTemplateBuilder}
@@ -61,8 +68,21 @@ interface TestJwtToken
 
         if (responseEntity.hasBody())
         {
-            System.out.printf("%nFail: %s%n", JsonFormatter.prettyPrint(responseEntity.getBody()));
+            System.out.printf("%nFail: %s%n", responseEntity.getBody());
         }
+
+        // @formatter:off
+        String response = getMockMvc().perform(get("/jwt/users/me")
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+            .andDo(print())
+            .andExpect(status().isUnauthorized())
+            .andReturn()
+            .getResponse()
+            .getContentAsString()
+            ;
+        // @formatter:end
+
+        System.out.printf("%nFail: %s%n", response);
     }
 
     /**
@@ -88,6 +108,15 @@ interface TestJwtToken
         assertEquals(MediaType.APPLICATION_JSON + ";charset=UTF-8", responseEntity.getHeaders().getFirst("Content-Type"));
 
         System.out.printf("%nWrong Pass: %s%n", responseEntity.getBody());
+
+//        // @formatter:off
+//        getMockMvc().perform(get("/jwt/users/me"))
+//            .andDo(print())
+//            .andExpect(status().isUnauthorized())
+//            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//            .andExpect(content().string("HTTP Status 401 - An Authentication object was not found in the SecurityContext"))
+//            ;
+//        // @formatter:end
     }
 
     /**
