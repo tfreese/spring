@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -123,14 +124,15 @@ public class JwtTokenUtils
         }
 
         Date now = new Date();
-        Date validity = new Date(now.getTime() + this.validityInMilliseconds);
+        Date expiration = new Date(now.getTime() + this.validityInMilliseconds);
 
         // @formatter:off
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuer("tommy")
                 .setIssuedAt(now)
-                .setExpiration(validity)
+                .setExpiration(expiration)
+                .setId(UUID.randomUUID().toString())
 //                .compressWith(CompressionCodecs.DEFLATE)
                 .signWith(SignatureAlgorithm.HS512, this.base64EncodedSecretKey)
                 .compact()

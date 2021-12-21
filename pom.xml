@@ -33,9 +33,10 @@
 
     <properties>
         <version_com.esotericsoftware_kryo>5.2.1</version_com.esotericsoftware_kryo>
+        <version_com.nimbusds_nimbus-jose-jwt>9.15.2</version_com.nimbusds_nimbus-jose-jwt>
 
         <version_de.javakaffee_kryo-serializers>0.45</version_de.javakaffee_kryo-serializers>
-        <version_de.codecentric_spring-boot-admin>2.5.4</version_de.codecentric_spring-boot-admin>
+        <version_de.codecentric_spring-boot-admin>2.5.5</version_de.codecentric_spring-boot-admin>
 
         <version_io.jsonwebtoken_jjwt>0.9.1</version_io.jsonwebtoken_jjwt>
         <version_io.springfox_swagger>3.0.0</version_io.springfox_swagger><!-- 2.9.2; 2.10.0 macht Probleme, GUI wird nicht angezeigt. -->
@@ -120,13 +121,19 @@
                 <artifactId>kryo</artifactId>
                 <version>${version_com.esotericsoftware_kryo}</version>
             </dependency>
+            <!-- JSON Web Token Support -->
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${version_com.nimbusds_nimbus-jose-jwt}</version>
+            </dependency>
             <dependency>
                 <groupId>de.javakaffee</groupId>
                 <artifactId>kryo-serializers</artifactId>
                 <version>${version_de.javakaffee_kryo-serializers}</version>
             </dependency>
+			<!-- JSON Web Token Support -->
             <dependency>
-				<!-- JSON Web Token Support -->
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
                 <version>${version_io.jsonwebtoken_jjwt}</version>
@@ -186,6 +193,11 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
                 <version>${version_spring-cloud-starter-netflix}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-authorization-server</artifactId>
+                <version>${version_org.springframework.security_spring-security-oauth2-authorization-server}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

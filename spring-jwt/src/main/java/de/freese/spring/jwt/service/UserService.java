@@ -33,7 +33,7 @@ public class UserService
      *
      */
     @Resource
-    private JwtTokenUtils jwtTokenProvider;
+    private JwtTokenUtils jwtTokenUtils;
     /**
      *
      */
@@ -67,7 +67,7 @@ public class UserService
 
         // UserDetails userDetails = this.userDetailsManager.loadUserByUsername(username);
 
-        return this.jwtTokenProvider.createToken(username, password);
+        return this.jwtTokenUtils.createToken(username, password);
     }
 
     /**
@@ -88,7 +88,7 @@ public class UserService
 
             this.userDetailsManager.createUser(mutableUser);
 
-            return this.jwtTokenProvider.createToken(mutableUser.getUsername(), userDetails.getPassword(), mutableUser.getAuthorities());
+            return this.jwtTokenUtils.createToken(mutableUser.getUsername(), userDetails.getPassword(), mutableUser.getAuthorities());
         }
 
         throw new AuthenticationServiceException("Username is already in use");
@@ -118,9 +118,9 @@ public class UserService
      */
     public UserDetails whoami(final HttpServletRequest req)
     {
-        String jwtToken = this.jwtTokenProvider.resolveToken(req);
-        Jws<Claims> claims = this.jwtTokenProvider.parseToken(jwtToken);
-        String username = this.jwtTokenProvider.getUsername(claims);
+        String jwtToken = this.jwtTokenUtils.resolveToken(req);
+        Jws<Claims> claims = this.jwtTokenUtils.parseToken(jwtToken);
+        String username = this.jwtTokenUtils.getUsername(claims);
 
         UserDetails userDetails = this.userDetailsManager.loadUserByUsername(username);
 
