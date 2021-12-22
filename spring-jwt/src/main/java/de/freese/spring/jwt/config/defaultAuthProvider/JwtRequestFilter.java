@@ -24,9 +24,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import de.freese.spring.jwt.token.JwtTokenUtils;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
+import de.freese.spring.jwt.token.JwtToken;
+import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * Der {@link JwtRequestFilter} verwendet den Default-{@link AuthenticationProvider}.<br>
@@ -54,7 +53,7 @@ class JwtRequestFilter extends OncePerRequestFilter
     /**
      *
      */
-    private JwtTokenUtils jwtTokenUtils;
+    private JwtTokenProvider jwtTokenProvider;
 
     /**
      * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
@@ -64,7 +63,7 @@ class JwtRequestFilter extends OncePerRequestFilter
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
         throws ServletException, IOException
     {
-        String token = this.jwtTokenUtils.resolveToken(request);
+        String token = this.jwtTokenProvider.resolveToken(request);
 
         try
         {
@@ -73,10 +72,10 @@ class JwtRequestFilter extends OncePerRequestFilter
 
             if (token != null)
             {
-                Jws<Claims> claims = this.jwtTokenUtils.parseToken(token);
+                JwtToken jwtToken = this.jwtTokenProvider.parseToken(token);
 
-                username = this.jwtTokenUtils.getUsername(claims);
-                password = this.jwtTokenUtils.getPassword(claims);
+                username = jwtToken.getUsername();
+                password = jwtToken.getPassword();
             }
 
             if ((username != null) && isAuthenticationIsRequired(username))
@@ -125,7 +124,7 @@ class JwtRequestFilter extends OncePerRequestFilter
 
         Objects.requireNonNull(this.authenticationManager, "authenticationManager requried");
         Objects.requireNonNull(this.authenticationEntryPoint, "authenticationEntryPoint requried");
-        Objects.requireNonNull(this.jwtTokenUtils, "jwtTokenUtils requried");
+        Objects.requireNonNull(this.jwtTokenProvider, "jwtTokenProvider requried");
     }
 
     /**
@@ -163,10 +162,10 @@ class JwtRequestFilter extends OncePerRequestFilter
     }
 
     /**
-     * @param jwtTokenUtils {@link JwtTokenUtils}
+     * @param jwtTokenProvider {@link JwtTokenProvider}
      */
-    public void setJwtTokenUtils(final JwtTokenUtils jwtTokenUtils)
+    public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider)
     {
-        this.jwtTokenUtils = jwtTokenUtils;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 }

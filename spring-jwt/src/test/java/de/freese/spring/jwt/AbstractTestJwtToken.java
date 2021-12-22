@@ -13,7 +13,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
-import de.freese.spring.jwt.token.JwtTokenUtils;
+import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * @author Thomas Freese
@@ -61,7 +61,7 @@ abstract class AbstractTestJwtToken implements TestJwtToken
     *
     */
     @Resource
-    private JwtTokenUtils jwtTokenUtils;
+    private JwtTokenProvider jwtTokenProvider;
     /**
     *
     */
@@ -95,12 +95,12 @@ abstract class AbstractTestJwtToken implements TestJwtToken
     }
 
     /**
-     * @see de.freese.spring.jwt.TestJwtToken#getJwtTokenUtils()
+     * @see de.freese.spring.jwt.TestJwtToken#getJwtTokenProvider()
      */
     @Override
-    public JwtTokenUtils getJwtTokenUtils()
+    public JwtTokenProvider getJwtTokenProvider()
     {
-        return this.jwtTokenUtils;
+        return this.jwtTokenProvider;
     }
 
     /**

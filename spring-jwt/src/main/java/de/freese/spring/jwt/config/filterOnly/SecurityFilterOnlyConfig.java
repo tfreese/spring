@@ -23,7 +23,7 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import de.freese.spring.jwt.token.JwtTokenUtils;
+import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * Der {@link JwtRequestFilter} verwendet keinen {@link AuthenticationProvider},<br>
@@ -45,7 +45,7 @@ public class SecurityFilterOnlyConfig extends WebSecurityConfigurerAdapter
      *
      */
     @Resource
-    private JwtTokenUtils jwtTokenUtils;
+    private JwtTokenProvider jwtTokenProvider;
     /**
     *
     */
@@ -148,7 +148,7 @@ public class SecurityFilterOnlyConfig extends WebSecurityConfigurerAdapter
         jwtTokenFilter.setAuthenticationEntryPoint(this.authenticationEntryPoint);
         jwtTokenFilter.setUserDetailsService(this.userDetailsManager);
         jwtTokenFilter.setPasswordEncoder(this.passwordEncoder);
-        jwtTokenFilter.setJwtTokenUtils(this.jwtTokenUtils);
+        jwtTokenFilter.setJwtTokenProvider(this.jwtTokenProvider);
 
         return jwtTokenFilter;
     }

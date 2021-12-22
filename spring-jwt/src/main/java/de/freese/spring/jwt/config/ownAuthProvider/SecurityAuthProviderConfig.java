@@ -23,7 +23,7 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import de.freese.spring.jwt.token.JwtTokenUtils;
+import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * Der {@link JwtRequestFilter} verwendet den {@link JwtTokenAuthenticationProvider}.<br>
@@ -44,7 +44,7 @@ public class SecurityAuthProviderConfig extends WebSecurityConfigurerAdapter
      *
      */
     @Resource
-    private JwtTokenUtils jwtTokenUtils;
+    private JwtTokenProvider jwtTokenProvider;
     /**
     *
     */
@@ -152,7 +152,7 @@ public class SecurityAuthProviderConfig extends WebSecurityConfigurerAdapter
         JwtTokenAuthenticationProvider jwtAuthenticationProvider = new JwtTokenAuthenticationProvider();
         jwtAuthenticationProvider.setUserDetailsService(userDetailsService());
         jwtAuthenticationProvider.setPasswordEncoder(this.passwordEncoder);
-        jwtAuthenticationProvider.setJwtTokenUtils(this.jwtTokenUtils);
+        jwtAuthenticationProvider.setJwtTokenProvider(this.jwtTokenProvider);
 
         // Böse Falle !
         // Der UserCache im AuthenticationProvider behält die UserDetails der User.

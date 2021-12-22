@@ -22,7 +22,7 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import de.freese.spring.jwt.token.JwtTokenUtils;
+import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * Der {@link JwtRequestFilter} verwendet den Default-{@link AuthenticationProvider}.<br>
@@ -47,7 +47,7 @@ public class SecurityDefaultAuthProviderConfig extends WebSecurityConfigurerAdap
      *
      */
     @Resource
-    private JwtTokenUtils jwtTokenUtils;
+    private JwtTokenProvider jwtTokenProvider;
     /**
     *
     */
@@ -151,7 +151,7 @@ public class SecurityDefaultAuthProviderConfig extends WebSecurityConfigurerAdap
         JwtRequestFilter jwtTokenFilter = new JwtRequestFilter();
         jwtTokenFilter.setAuthenticationManager(authenticationManager());
         jwtTokenFilter.setAuthenticationEntryPoint(this.authenticationEntryPoint);
-        jwtTokenFilter.setJwtTokenUtils(this.jwtTokenUtils);
+        jwtTokenFilter.setJwtTokenProvider(this.jwtTokenProvider);
 
         // BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
         // entryPoint.setRealmName("Tommy");

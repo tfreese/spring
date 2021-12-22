@@ -6,9 +6,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 
-import de.freese.spring.jwt.token.JwtTokenUtils;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
+import de.freese.spring.jwt.token.JwtToken;
+import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * Analog-implementierung zum {@link DaoAuthenticationProvider}.
@@ -20,7 +19,7 @@ class JwtTokenAuthenticationProvider extends DaoAuthenticationProvider
     /**
      *
      */
-    private JwtTokenUtils jwtTokenUtils;
+    private JwtTokenProvider jwtTokenProvider;
 
     /**
      * @see org.springframework.security.authentication.AuthenticationProvider#authenticate(org.springframework.security.core.Authentication)
@@ -38,20 +37,20 @@ class JwtTokenAuthenticationProvider extends DaoAuthenticationProvider
 
         String token = jwtAuthentication.getToken();
 
-        Jws<Claims> claims = getJwtTokenUtils().parseToken(token);
+        JwtToken jwtToken = getJwtTokenProvider().parseToken(token);
 
-        String username = getJwtTokenUtils().getUsername(claims);
-        String password = getJwtTokenUtils().getPassword(claims);
+        String username = jwtToken.getUsername();
+        String password = jwtToken.getPassword();
 
         return super.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 
     /**
-     * @return {@link JwtTokenUtils}
+     * @return {@link JwtTokenProvider}
      */
-    protected JwtTokenUtils getJwtTokenUtils()
+    protected JwtTokenProvider getJwtTokenProvider()
     {
-        return this.jwtTokenUtils;
+        return this.jwtTokenProvider;
     }
 
     /**
@@ -63,11 +62,11 @@ class JwtTokenAuthenticationProvider extends DaoAuthenticationProvider
     }
 
     /**
-     * @param jwtTokenUtils {@link JwtTokenUtils}
+     * @param jwtTokenProvider {@link JwtTokenProvider}
      */
-    public void setJwtTokenUtils(final JwtTokenUtils jwtTokenUtils)
+    public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider)
     {
-        this.jwtTokenUtils = jwtTokenUtils;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     /**

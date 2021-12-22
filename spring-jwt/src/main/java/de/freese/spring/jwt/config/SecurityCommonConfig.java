@@ -1,8 +1,6 @@
 // Created: 25.09.2018
 package de.freese.spring.jwt.config;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +24,8 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import de.freese.spring.jwt.token.JwtTokenUtils;
+import de.freese.spring.jwt.token.JwtTokenProvider;
+import de.freese.spring.jwt.token.nimbus.JwtTokenProviderNimbus;
 
 /**
  * @author Thomas Freese
@@ -47,21 +46,21 @@ public class SecurityCommonConfig
      * @param secretKey String
      * @param validityInMilliseconds long
      *
-     * @return {@link JwtTokenUtils}
+     * @return {@link JwtTokenProvider}
      */
     @Bean
-    public JwtTokenUtils jwtTokenUtils(@Value("${security.jwt.token.secret-key:secret-key}") final String secretKey,
-                                       @Value("${security.jwt.token.expire-length:3600000}") final long validityInMilliseconds)
+    public JwtTokenProvider jwtTokenUtils(@Value("${security.jwt.token.secret-key:secret-key}") final String secretKey,
+                                          @Value("${security.jwt.token.expire-length:3600000}") final long validityInMilliseconds)
     {
-        String encodedSecretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
-
         // byte[] salt = KeyGenerators.secureRandom(16).generateKey();
         //
         // PBEKeySpec keySpec = new PBEKeySpec(this.secretKey.toCharArray(), salt, 1024, 256);
         // SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        // this.secretKey2 = factory.generateSecret(keySpec);
+        // SecretKey secretKey = factory.generateSecret(keySpec);
 
-        return new JwtTokenUtils(encodedSecretKey, validityInMilliseconds);
+        return new JwtTokenProviderNimbus(secretKey, validityInMilliseconds);
+
+        // return new JwtTokenProviderJson(secretKey, validityInMilliseconds);
     }
 
     /**

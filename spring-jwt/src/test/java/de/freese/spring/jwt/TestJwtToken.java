@@ -22,7 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.jayway.jsonpath.internal.JsonFormatter;
 
-import de.freese.spring.jwt.token.JwtTokenUtils;
+import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * @author Thomas Freese
@@ -32,9 +32,9 @@ import de.freese.spring.jwt.token.JwtTokenUtils;
 interface TestJwtToken
 {
     /**
-     * @return {@link JwtTokenUtils}
+     * @return {@link JwtTokenProvider}
      */
-    JwtTokenUtils getJwtTokenUtils();
+    JwtTokenProvider getJwtTokenProvider();
 
     /**
      * @return {@link MockMvc}
@@ -93,7 +93,7 @@ interface TestJwtToken
     {
         // @formatter:off
         RestTemplate restTemplate = getRestTemplateBuilder()
-                .defaultHeader("Authorization", "Bearer " + getJwtTokenUtils().createToken("admin", "pas"))
+                .defaultHeader("Authorization", "Bearer " + getJwtTokenProvider().createToken("admin", "pas"))
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .build()
                 ;
@@ -173,7 +173,7 @@ interface TestJwtToken
     {
         // @formatter:off
         RestTemplate restTemplate = getRestTemplateBuilder()
-                .defaultHeader("Authorization", "Bearer " + getJwtTokenUtils().createToken("admin", "pass"))
+                .defaultHeader("Authorization", "Bearer " + getJwtTokenProvider().createToken("admin", "pass"))
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .build()
                 ;
@@ -196,7 +196,7 @@ interface TestJwtToken
     {
         // @formatter:off
         RestTemplate restTemplate = getRestTemplateBuilder()
-                .defaultHeader("Authorization", "Bearer " + getJwtTokenUtils().createToken("user", "pass"))
+                .defaultHeader("Authorization", "Bearer " + getJwtTokenProvider().createToken("user", "pass"))
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .build()
                 ;
@@ -219,7 +219,7 @@ interface TestJwtToken
     {
         // @formatter:off
         RestTemplate restTemplate = getRestTemplateBuilder()
-                .defaultHeader("Authorization", "Bearer " + getJwtTokenUtils().createToken("admin", "pass"))
+                .defaultHeader("Authorization", "Bearer " + getJwtTokenProvider().createToken("admin", "pass"))
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .build()
                 ;
@@ -242,7 +242,7 @@ interface TestJwtToken
     {
         // @formatter:off
         RestTemplate restTemplate = getRestTemplateBuilder()
-                .defaultHeader("Authorization", "Bearer " + getJwtTokenUtils().createToken("user", "pass"))
+                .defaultHeader("Authorization", "Bearer " + getJwtTokenProvider().createToken("user", "pass"))
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .build()
                 ;

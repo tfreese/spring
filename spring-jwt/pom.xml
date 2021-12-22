@@ -51,6 +51,11 @@
     <dependencies>
 		<!-- compile scope -->
         <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+        </dependency>
+        <!-- Ältere Alternative für nimbus-jose-jwt -->       
+        <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
         </dependency>
@@ -81,12 +86,6 @@
 
 		<!-- provided scope -->
 		<!-- test scope -->
-        <!-- Alternative für io.jsonwebtoken -->
-        <dependency>
-            <groupId>com.nimbusds</groupId>
-            <artifactId>nimbus-jose-jwt</artifactId>
-            <scope>test</scope>
-        </dependency>        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
