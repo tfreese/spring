@@ -10,10 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(properties =
-{
-        "spring.shell.interactive.enabled=false"
-})
+@SpringBootTest
 @ActiveProfiles("test")
 class RsocketClientApplicationTest
 {

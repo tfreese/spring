@@ -11,6 +11,7 @@ import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.RSocketRequester.Builder;
@@ -18,8 +19,7 @@ import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.messaging.rsocket.annotation.support.RSocketMessageHandler;
 import org.springframework.security.rsocket.metadata.SimpleAuthenticationEncoder;
 import org.springframework.security.rsocket.metadata.UsernamePasswordMetadata;
-import org.springframework.shell.standard.ShellComponent;
-import org.springframework.shell.standard.ShellMethod;
+import org.springframework.stereotype.Component;
 import org.springframework.util.MimeTypeUtils;
 
 import de.freese.spring.rsocket.client.data.MessageRequest;
@@ -34,9 +34,9 @@ import reactor.core.publisher.Mono;
 /**
  * @author Thomas Freese
  */
-@ShellComponent
-// @Profile("client & !test")
-public class RSocketClientShell
+@Component
+@Profile("!test")
+public class RSocketClient
 {
     /**
      * @author Thomas Freese
@@ -63,9 +63,9 @@ public class RSocketClientShell
      */
     private static Disposable disposable;
     /**
-    *
-    */
-    private static final Logger LOGGER = LoggerFactory.getLogger(RSocketClientShell.class);
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(RSocketClient.class);
     /**
      *
      */
@@ -75,17 +75,17 @@ public class RSocketClientShell
      */
     private final RSocketRequester.Builder rsocketRequesterBuilder;
     /**
-    *
-    */
+     *
+     */
     private final RSocketStrategies rsocketStrategies;
 
     /**
-     * Erstellt ein neues {@link RSocketClientShell} Object.
+     * Erstellt ein neues {@link RSocketClient} Object.
      *
      * @param builder {@link Builder}
      * @param strategies {@link RSocketStrategies}
      */
-    public RSocketClientShell(final RSocketRequester.Builder builder, @Qualifier("rSocketStrategies") final RSocketStrategies strategies)
+    public RSocketClient(final RSocketRequester.Builder builder, @Qualifier("rSocketStrategies") final RSocketStrategies strategies)
     {
         super();
 
@@ -96,7 +96,6 @@ public class RSocketClientShell
     /**
      *
      */
-    @ShellMethod("Stream five requests. five responses (stream) will be printed.")
     public void channel()
     {
         if (userIsLoggedIn())
@@ -124,7 +123,6 @@ public class RSocketClientShell
     /**
     *
     */
-    @ShellMethod("Retrieve an Error.")
     public void error()
     {
         if (userIsLoggedIn())
@@ -145,7 +143,6 @@ public class RSocketClientShell
     /**
      * @throws InterruptedException Falls was schief geht.
      */
-    @ShellMethod("Send one request. No response will be returned.")
     public void fireAndForget() throws InterruptedException
     {
         if (userIsLoggedIn())
@@ -169,7 +166,6 @@ public class RSocketClientShell
      * @param username String
      * @param password String
      */
-    @ShellMethod("Login with your username and password.")
     public void login(final String username, final String password)
     {
         String clientId = UUID.randomUUID().toString();
@@ -203,10 +199,11 @@ public class RSocketClientShell
                 ;
 
         this.rsocketRequester.rsocket()
-                .onClose()
-                .doOnError(error -> LOGGER.warn("Connection CLOSED"))
-                .doFinally(consumer -> LOGGER.info("Client DISCONNECTED"))
-                .subscribe();
+            .onClose()
+            .doOnError(error -> LOGGER.warn("Connection CLOSED"))
+            .doFinally(consumer -> LOGGER.info("Client DISCONNECTED"))
+            .subscribe()
+            ;
         // @formatter:on
     }
 
@@ -214,12 +211,11 @@ public class RSocketClientShell
      *
      */
     @PreDestroy
-    @ShellMethod("Logout and close your connection")
     public void logout()
     {
         if (userIsLoggedIn())
         {
-            s();
+            stopStream();
             this.rsocketRequester.rsocket().dispose();
             LOGGER.info("Logged out.");
         }
@@ -228,7 +224,6 @@ public class RSocketClientShell
     /**
      * @throws InterruptedException Falls was schief geht.
      */
-    @ShellMethod("Send one request. One response will be printed.")
     public void parameter() throws InterruptedException
     {
         if (userIsLoggedIn())
@@ -236,11 +231,11 @@ public class RSocketClientShell
             LOGGER.info("Parameter: Sending one request, waiting for one response...");
 
             //@formatter:off
-             this.rsocketRequester
-                    .route("parameter/me")
-                    .retrieveMono(MessageResponse.class)
-                    .subscribe(response -> LOGGER.info("\nResponse was: {}", response))
-                    ;
+            this.rsocketRequester
+                .route("parameter/me")
+                .retrieveMono(MessageResponse.class)
+                .subscribe(response -> LOGGER.info("\nResponse was: {}", response))
+                ;
             //@formatter:on
         }
     }
@@ -248,7 +243,6 @@ public class RSocketClientShell
     /**
      * @throws InterruptedException Falls was schief geht.
      */
-    @ShellMethod("Send one request. One response will be printed.")
     public void requestResponse() throws InterruptedException
     {
         if (userIsLoggedIn())
@@ -257,11 +251,11 @@ public class RSocketClientShell
 
             // @formatter:off
             this.rsocketRequester
-                    .route("request-response")
-                    .data(new MessageRequest("me"))
-                    .retrieveMono(MessageResponse.class)
-                    .subscribe(response -> LOGGER.info("\nResponse was: {}", response))
-                    ;
+                .route("request-response")
+                .data(new MessageRequest("me"))
+                .retrieveMono(MessageResponse.class)
+                .subscribe(response -> LOGGER.info("\nResponse was: {}", response))
+                ;
             // @formatter:on
         }
     }
@@ -269,22 +263,7 @@ public class RSocketClientShell
     /**
      *
      */
-    @ShellMethod("Stops Streams or Channels.")
-    public void s()
-    {
-        if (userIsLoggedIn() && (disposable != null))
-        {
-            LOGGER.info("Stopping the current stream.");
-            disposable.dispose();
-            LOGGER.info("Stream stopped.");
-        }
-    }
-
-    /**
-     *
-     */
-    @ShellMethod("Send one request. Many responses (stream) will be printed.")
-    public void stream()
+    public void startStream()
     {
         if (userIsLoggedIn())
         {
@@ -295,8 +274,22 @@ public class RSocketClientShell
                     .route("stream")
                     .data(new MessageRequest("me"))
                     .retrieveFlux(MessageResponse.class)
-                    .subscribe(response -> LOGGER.info("Response: {} \n(Type 's' to stop.)", response));
+                    .subscribe(response -> LOGGER.info("Response: {} \n(Type 's' to stop.)", response))
+                    ;
             //@formatter:on
+        }
+    }
+
+    /**
+     *
+     */
+    public void stopStream()
+    {
+        if (userIsLoggedIn() && (disposable != null))
+        {
+            LOGGER.info("Stopping the current stream.");
+            disposable.dispose();
+            LOGGER.info("Stream stopped.");
         }
     }
 

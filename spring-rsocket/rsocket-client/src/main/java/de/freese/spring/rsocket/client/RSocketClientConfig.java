@@ -42,8 +42,6 @@ public class RSocketClientConfig
     @Bean
     public RSocketRequester.Builder rSocketRequesterBuilder(final RSocketStrategies strategies)
     {
-        RSocketRequester.Builder builder = RSocketRequester.builder().rsocketStrategies(strategies);
-
-        return builder;
+        return RSocketRequester.builder().rsocketStrategies(strategies);
     }
 }

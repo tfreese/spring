@@ -44,7 +44,6 @@
         <version_org.apache.directory.server>2.0.0.AM26</version_org.apache.directory.server>
         <version_org.apache.qpid>8.0.6</version_org.apache.qpid>
         <version_org.springframework.security_spring-security-oauth2-authorization-server>0.2.1</version_org.springframework.security_spring-security-oauth2-authorization-server>
-        <version_org.springframework.shell>2.0.1.RELEASE</version_org.springframework.shell>
 
         <version_spring-cloud-starter-netflix>2.2.10.RELEASE</version_spring-cloud-starter-netflix>
     </properties>
@@ -173,11 +172,6 @@
                         <artifactId>je</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.shell</groupId>
-                <artifactId>spring-shell-starter</artifactId>
-                <version>${version_org.springframework.shell}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
