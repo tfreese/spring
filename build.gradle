@@ -42,7 +42,6 @@ subprojects {
 			dependency("org.springframework.cloud:spring-cloud-starter-netflix-ribbon:$version_springCloudNetflix")
 			dependency("org.springframework.cloud:spring-cloud-starter-netflix-hystrix:$version_springCloudNetflix")
 			dependency("org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard:$version_springCloudNetflix")
-			dependency("org.springframework.shell:spring-shell-starter:$version_springShell")
         }
     }
     
@@ -586,7 +585,6 @@ project("spring-rsocket:rsocket-client") {
 	dependencies {
 		implementation("org.springframework.boot:spring-boot-starter-rsocket")
 		implementation("org.springframework.security:spring-security-rsocket")
-		implementation("org.springframework.shell:spring-shell-starter")
 
 		testImplementation("io.projectreactor:reactor-test")
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
