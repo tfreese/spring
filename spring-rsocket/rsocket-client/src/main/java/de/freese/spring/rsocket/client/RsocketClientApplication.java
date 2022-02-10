@@ -9,6 +9,8 @@ import org.springframework.boot.autoconfigure.security.rsocket.RSocketSecurityAu
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 /**
+ * https://github.com/benwilcock/spring-rsocket-demo
+ *
  * @author Thomas Freese
  */
 @SpringBootApplication(exclude =

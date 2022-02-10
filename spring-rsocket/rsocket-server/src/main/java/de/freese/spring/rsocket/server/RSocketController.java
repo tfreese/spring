@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.annotation.PreDestroy;
 
+import de.freese.spring.rsocket.server.data.MessageRequest;
+import de.freese.spring.rsocket.server.data.MessageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -17,10 +19,9 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.annotation.ConnectMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-
-import de.freese.spring.rsocket.server.data.MessageRequest;
-import de.freese.spring.rsocket.server.data.MessageResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -41,14 +42,16 @@ public class RSocketController
 
     /**
      * @param requests {@link Flux}
+     * @param user {@link UserDetails}
      *
      * @return {@link Flux}
      */
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("channel")
-    public Flux<MessageResponse> channel(final Flux<MessageRequest> requests)
+    Flux<MessageResponse> channel(final Flux<MessageRequest> requests, @AuthenticationPrincipal final UserDetails user)
     {
         LOGGER.info("Received channel request (stream) at {}", Instant.now());
+        LOGGER.info("Channel initiated by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 
         // @formatter:off
         return requests
@@ -90,7 +93,8 @@ public class RSocketController
                     this.clients.remove(requester);
                     LOGGER.info("Client {} DISCONNECTED", client);
                 })
-                .subscribe();
+                .subscribe()
+                ;
 
         // Callback to client, confirming connection
         // RSocketClientShell.ClientHandler
@@ -98,7 +102,8 @@ public class RSocketController
                 .data("OPEN")
                 .retrieveFlux(Long.class)
                 .doOnNext(value -> LOGGER.info("Client: {} Free Memory: {}.", client, value))
-                .subscribe();
+                .subscribe()
+                ;
         // @formatter:on
     }
 
@@ -106,7 +111,7 @@ public class RSocketController
      * @return {@link MessageResponse}
      */
     @MessageMapping("error")
-    public Mono<MessageResponse> error()
+    Mono<MessageResponse> error()
     {
         return Mono.error(new IllegalArgumentException("Bad Exception"));
     }
@@ -117,7 +122,7 @@ public class RSocketController
      * @return {@link Flux}
      */
     @MessageExceptionHandler
-    public Mono<MessageResponse> errorHandler(final Throwable th)
+    Mono<MessageResponse> errorHandler(final Throwable th)
     {
         MessageResponse response = new MessageResponse();
         response.setMessage(th.getClass().getSimpleName() + ": " + th.getMessage());
@@ -127,14 +132,16 @@ public class RSocketController
 
     /**
      * @param request {@link MessageRequest}
+     * @param user {@link UserDetails}
      *
      * @return {@link Mono}
      */
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("fire-and-forget")
-    public Mono<Void> fireAndForget(final MessageRequest request)
+    Mono<Void> fireAndForget(final MessageRequest request, @AuthenticationPrincipal final UserDetails user)
     {
         LOGGER.info("Received fire-and-forget request: {}", request);
+        LOGGER.info("Fire-And-Forget initiated by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 
         return Mono.empty();
     }
@@ -146,7 +153,7 @@ public class RSocketController
      */
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("parameter/{name}")
-    public Mono<MessageResponse> parameter(@DestinationVariable final String name)
+    Mono<MessageResponse> parameter(@DestinationVariable final String name)
     {
         LOGGER.info("Received parameter request: {}", name);
 
@@ -155,14 +162,16 @@ public class RSocketController
 
     /**
      * @param request {@link MessageRequest}
+     * @param user {@link UserDetails}
      *
      * @return {@link MessageResponse}
      */
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("request-response")
-    public Mono<MessageResponse> requestResponse(final MessageRequest request)
+    Mono<MessageResponse> requestResponse(final MessageRequest request, @AuthenticationPrincipal final UserDetails user)
     {
         LOGGER.info("Received request-response request: {}", request);
+        LOGGER.info("Request-response initiated by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 
         return Mono.just(new MessageResponse(request.getMessage()));
     }
@@ -182,14 +191,16 @@ public class RSocketController
 
     /**
      * @param request {@link MessageRequest}
+     * @param user {@link UserDetails}
      *
      * @return {@link Flux}
      */
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("stream")
-    public Flux<MessageResponse> stream(final MessageRequest request)
+    Flux<MessageResponse> stream(final MessageRequest request, @AuthenticationPrincipal final UserDetails user)
     {
         LOGGER.info("Received stream request: {}", request);
+        LOGGER.info("Stream initiated by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 
         // @formatter:off
         return Flux
@@ -205,25 +216,5 @@ public class RSocketController
                 .log()
                 ;
         // @formatter:on
-
-//        // @formatter:off
-//        return Flux.fromStream(Stream.generate(() -> new GreetingResponse(request.getName())))
-//                .take(5L)
-//                .delayElements(Duration.ofSeconds(1))
-//                ;
-//        // @formatter:on
-        //
-//        // @formatter:off
-//        return Flux.range(1, 5)
-//                // Indizierung
-//                .index()
-//                // Response-Objekt erzeugen.
-//                .map(objects -> new GreetingResponse(request.getName(), objects.getT1()))
-//                // Eine Sekunde Pause
-//                .delayElements(Duration.ofSeconds(1))
-//                // Flux-Events loggen.
-//                .log()
-//                ;
-//        // @formatter:on
     }
 }

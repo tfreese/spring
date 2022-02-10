@@ -33,6 +33,46 @@ import org.springframework.security.rsocket.core.PayloadSocketAcceptorIntercepto
 public class RSocketServerSecurityConfig
 {
     /**
+     * @param security {@link RSocketSecurity}
+     *
+     * @return {@link PayloadSocketAcceptorInterceptor}
+     */
+    @Bean
+    public PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security)
+    {
+        //@formatter:off
+        security.authorizePayload(authorize -> {
+            authorize
+                    // User muss ROLE_SETUP haben um Verbindung zum Server herzustellen.
+                    //.setup().hasRole("SETUP")
+                    // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
+                    //.route("greet/*").hasRole("ADMIN")
+                    //.anyRequest().authenticated();
+                    .anyExchange().authenticated();
+        })
+        .simpleAuthentication(Customizer.withDefaults())
+        ;
+        //@formatter:on
+
+        return security.build();
+    }
+
+    /**
+     * @param passwordEncoder {@link PasswordEncoder}
+     *
+     * @return {@link ReactiveUserDetailsService}
+     */
+    @Bean
+    public ReactiveUserDetailsService authorization(final PasswordEncoder passwordEncoder)
+    {
+        UserDetails user = User.builder().username("user").password(passwordEncoder.encode("pass")).roles("USER").build();
+
+        UserDetails admin = User.builder().username("fail").password(passwordEncoder.encode("pass")).roles("NONE").build();
+
+        return new MapReactiveUserDetailsService(user, admin);
+    }
+
+    /**
      * @param rSocketStrategies {@link RSocketStrategies}
      *
      * @return {@link RSocketMessageHandler}
@@ -81,45 +121,5 @@ public class RSocketServerSecurityConfig
         // passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
 
         return passwordEncoder;
-    }
-
-    /**
-     * @param security {@link RSocketSecurity}
-     *
-     * @return {@link PayloadSocketAcceptorInterceptor}
-     */
-    @Bean
-    public PayloadSocketAcceptorInterceptor rsocketInterceptor(final RSocketSecurity security)
-    {
-        //@formatter:off
-        security.authorizePayload(authorize -> {
-            authorize
-                    // User muss ROLE_SETUP haben um Verbindung zum Server herzustellen.
-                    //.setup().hasRole("SETUP")
-                    // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
-                    //.route("greet/*").hasRole("ADMIN")
-                    //.anyRequest().authenticated();
-                    .anyExchange().authenticated();
-        })
-        .simpleAuthentication(Customizer.withDefaults())
-        ;
-        //@formatter:on
-
-        return security.build();
-    }
-
-    /**
-     * @param passwordEncoder {@link PasswordEncoder}
-     *
-     * @return {@link ReactiveUserDetailsService}
-     */
-    @Bean
-    public ReactiveUserDetailsService userDetailsService(final PasswordEncoder passwordEncoder)
-    {
-        UserDetails user = User.builder().username("user").password(passwordEncoder.encode("pass")).roles("USER").build();
-
-        UserDetails admin = User.builder().username("fail").password(passwordEncoder.encode("pass")).roles("NONE").build();
-
-        return new MapReactiveUserDetailsService(user, admin);
     }
 }

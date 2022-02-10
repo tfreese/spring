@@ -9,7 +9,6 @@ import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.RSocketRequester.Builder;
 import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.stereotype.Component;
-
 import reactor.netty.resources.LoopResources;
 
 /**
@@ -42,6 +41,7 @@ public class RSocketClientConfig
     @Bean
     public RSocketRequester.Builder rSocketRequesterBuilder(final RSocketStrategies strategies)
     {
+        // RSocketRequester.wrap(rSocket, dataMimeType, metaDataMimeType, strategies);
         return RSocketRequester.builder().rsocketStrategies(strategies);
     }
 }

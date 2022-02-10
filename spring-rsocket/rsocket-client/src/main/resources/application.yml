@@ -5,6 +5,6 @@
   
 rsocket:
    server:
-      address: localhost
-      port: 7000  
+      #address: localhost siehe RSocketClient.login
+      #port: 7000  
  

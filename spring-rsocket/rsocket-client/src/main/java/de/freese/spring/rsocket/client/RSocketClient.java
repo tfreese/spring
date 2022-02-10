@@ -7,11 +7,15 @@ import java.util.UUID;
 
 import javax.annotation.PreDestroy;
 
+import de.freese.spring.rsocket.client.data.MessageRequest;
+import de.freese.spring.rsocket.client.data.MessageResponse;
+import io.rsocket.SocketAcceptor;
+import io.rsocket.frame.decoder.PayloadDecoder;
+import io.rsocket.metadata.WellKnownMimeType;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.RSocketRequester.Builder;
@@ -21,12 +25,6 @@ import org.springframework.security.rsocket.metadata.SimpleAuthenticationEncoder
 import org.springframework.security.rsocket.metadata.UsernamePasswordMetadata;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MimeTypeUtils;
-
-import de.freese.spring.rsocket.client.data.MessageRequest;
-import de.freese.spring.rsocket.client.data.MessageResponse;
-import io.rsocket.SocketAcceptor;
-import io.rsocket.frame.decoder.PayloadDecoder;
-import io.rsocket.metadata.WellKnownMimeType;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -35,7 +33,7 @@ import reactor.core.publisher.Mono;
  * @author Thomas Freese
  */
 @Component
-@Profile("!test")
+// @Profile("!test")
 public class RSocketClient
 {
     /**
@@ -184,8 +182,7 @@ public class RSocketClient
                 .dataMimeType(MimeTypeUtils.APPLICATION_JSON)
 
                 // Wird für Login/Security benötigt.
-                .rsocketStrategies(builder ->
-                        builder.encoder(new SimpleAuthenticationEncoder()))
+                .rsocketStrategies(builder -> builder.encoder(new SimpleAuthenticationEncoder()))
                 //.rsocketStrategies(this.rsocketStrategies) // Für Verbindung ohne Login/Security.
 
                 .rsocketConnector(connector ->
@@ -195,7 +192,8 @@ public class RSocketClient
                         .payloadDecoder(PayloadDecoder.ZERO_COPY)
                         .fragment(1492)
                     )
-                .tcp("localhost", 7000)
+                .tcp("localhost", 7000) // Fehler: rsocketRequester.rsocket ist hier null !!!
+                //.connectTcp("localhost", 7000).block()
                 ;
 
         this.rsocketRequester.rsocket()

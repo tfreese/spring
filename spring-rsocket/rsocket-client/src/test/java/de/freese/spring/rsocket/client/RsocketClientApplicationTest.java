@@ -10,7 +10,10 @@ import org.springframework.test.context.ActiveProfiles;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest
+@SpringBootTest(classes =
+{
+        RsocketClientApplication.class
+})
 @ActiveProfiles("test")
 class RsocketClientApplicationTest
 {
