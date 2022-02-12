@@ -192,8 +192,8 @@ public class RSocketClient
                         .payloadDecoder(PayloadDecoder.ZERO_COPY)
                         .fragment(1492)
                     )
-                .tcp("localhost", 7000) // Fehler: rsocketRequester.rsocket ist hier null !!!
-                //.connectTcp("localhost", 7000).block()
+                //.tcp("localhost", 7000) // Fehler: rsocketRequester.rsocket ist hier null !!!
+                .connectTcp("localhost", 7000).block()
                 ;
 
         this.rsocketRequester.rsocket()

@@ -32,7 +32,7 @@
     </scm>
 
     <properties>
-        <version_com.esotericsoftware_kryo>5.2.1</version_com.esotericsoftware_kryo>
+        <version_com.esotericsoftware_kryo>5.3.0</version_com.esotericsoftware_kryo>
         <version_com.nimbusds_nimbus-jose-jwt>9.19</version_com.nimbusds_nimbus-jose-jwt>
 
         <version_de.javakaffee_kryo-serializers>0.45</version_de.javakaffee_kryo-serializers>
