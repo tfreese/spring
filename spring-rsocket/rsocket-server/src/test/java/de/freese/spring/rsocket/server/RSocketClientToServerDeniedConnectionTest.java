@@ -2,8 +2,11 @@
 package de.freese.spring.rsocket.server;
 
 import java.util.Optional;
-import java.util.UUID;
 
+import de.freese.spring.rsocket.server.data.MessageRequest;
+import io.rsocket.RSocket;
+import io.rsocket.core.RSocketClient;
+import io.rsocket.metadata.WellKnownMimeType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -19,11 +22,7 @@ import org.springframework.security.rsocket.metadata.UsernamePasswordMetadata;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;
-
-import de.freese.spring.rsocket.server.data.MessageRequest;
-import io.rsocket.RSocket;
-import io.rsocket.core.RSocketClient;
-import io.rsocket.metadata.WellKnownMimeType;
+import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -32,7 +31,7 @@ import reactor.test.StepVerifier;
  */
 @SpringBootTest(properties = "spring.rsocket.server.port=0", webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-class RSocketClientDeniedConnectionToSecuredServerTest
+class RSocketClientToServerDeniedConnectionTest
 {
     /**
      *
@@ -74,6 +73,13 @@ class RSocketClientDeniedConnectionToSecuredServerTest
     static void setupOnce(@Autowired final RSocketRequester.Builder builder, @LocalRSocketServerPort final int port,
                           @Autowired final RSocketStrategies strategies)
     {
+        // Fehlermeldung, wenn Client die Verbindung schliesst.
+        // Nur einmalig definieren, sonst gibs mehrere Logs-Meldungen !!!
+        // Hooks.onErrorDropped(th -> LOGGER.warn(th.getMessage()));
+        Hooks.onErrorDropped(th -> {
+            // Empty
+        });
+
         mimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
         reqbuilder = builder;
         thePort = port;
@@ -90,11 +96,7 @@ class RSocketClientDeniedConnectionToSecuredServerTest
     {
         // @formatter:off
         requester = reqbuilder
-                .setupRoute("client-connect")
-                .setupData(UUID.randomUUID().toString())
                 .setupMetadata(credentials, mimeType)
-
-                // Wird für Login/Security benötigt.
                 .rsocketStrategies(builder -> builder.encoder(new SimpleAuthenticationEncoder()))
                 .tcp("localhost", thePort)
                 ;
@@ -102,11 +104,13 @@ class RSocketClientDeniedConnectionToSecuredServerTest
         Mono<Void> result = requester
                 .route("fire-and-forget")
                 .data(new MessageRequest("TEST - fire-and-forget"))
-                .retrieveMono(Void.class);
+                .retrieveMono(Void.class)
+                ;
 
         StepVerifier
                 .create(result)
-                .verifyErrorMessage("Invalid Credentials");
+                .verifyErrorMessage("Invalid Credentials")
+                ;
         // @formatter:on
     }
 }

@@ -4,36 +4,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;
 import java.util.Optional;
-import java.util.UUID;
 
+import de.freese.spring.rsocket.server.data.MessageRequest;
+import de.freese.spring.rsocket.server.data.MessageResponse;
+import io.rsocket.RSocket;
+import io.rsocket.core.RSocketClient;
+import io.rsocket.metadata.WellKnownMimeType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.reactivestreams.Publisher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.rsocket.context.LocalRSocketServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.RSocketRequester.Builder;
 import org.springframework.messaging.rsocket.RSocketStrategies;
-import org.springframework.messaging.rsocket.annotation.support.RSocketMessageHandler;
 import org.springframework.security.rsocket.metadata.SimpleAuthenticationEncoder;
 import org.springframework.security.rsocket.metadata.UsernamePasswordMetadata;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;
-
-import de.freese.spring.rsocket.server.data.MessageRequest;
-import de.freese.spring.rsocket.server.data.MessageResponse;
-import io.rsocket.RSocket;
-import io.rsocket.SocketAcceptor;
-import io.rsocket.core.RSocketClient;
-import io.rsocket.metadata.WellKnownMimeType;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -44,37 +37,6 @@ import reactor.test.StepVerifier;
 @ActiveProfiles("test")
 class RSocketClientToServerTest
 {
-    /**
-     * @author Thomas Freese
-     */
-    static class ClientHandler
-    {
-        /**
-         * @param status String
-         *
-         * @return {@link Publisher}
-         */
-        @MessageMapping("client-status")
-        public Publisher<Long> statusUpdate(final String status)
-        {
-            LOGGER.info("Connection {}", status);
-
-            return Flux.interval(Duration.ofSeconds(3)).map(index -> Runtime.getRuntime().freeMemory());
-        }
-    }
-
-    /**
-     *
-     */
-    private static UsernamePasswordMetadata credentials;
-    /**
-    *
-    */
-    private static final Logger LOGGER = LoggerFactory.getLogger(RSocketClientToServerTest.class);
-    /**
-     *
-     */
-    private static MimeType mimeType;
     /**
      *
      */
@@ -99,20 +61,21 @@ class RSocketClientToServerTest
     public static void setupOnce(@Autowired final RSocketRequester.Builder builder, @LocalRSocketServerPort final int port,
                                  @Autowired final RSocketStrategies strategies)
     {
-        SocketAcceptor responder = RSocketMessageHandler.responder(strategies, new ClientHandler());
-        credentials = new UsernamePasswordMetadata("user", "pass");
-        mimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
+        // Fehlermeldung, wenn Client die Verbindung schliesst.
+        // Nur einmalig definieren, sonst gibs mehrere Logs-Meldungen !!!
+        // Hooks.onErrorDropped(th -> LOGGER.warn(th.getMessage()));
+        Hooks.onErrorDropped(th -> {
+            // Empty
+        });
+
+        UsernamePasswordMetadata credentials = new UsernamePasswordMetadata("user", "pass");
+        MimeType mimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
 
         // @formatter:off
         requester = builder.setupRoute("client-connect")
-                .setupData(UUID.randomUUID().toString())
+                //.setupData(UUID.randomUUID().toString())
                 .setupMetadata(credentials, mimeType)
-
-                // Wird für Login/Security benötigt.
                 .rsocketStrategies(b -> b.encoder(new SimpleAuthenticationEncoder()))
-                //.rsocketStrategies(this.rsocketStrategies) // Für Verbindung ohne Login/Security.
-
-                .rsocketConnector(connector -> connector.acceptor(responder))
                 .tcp("localhost", port)
                 ;
         // @formatter:on

@@ -38,18 +38,18 @@ public class RSocketServerSecurityConfig
      * @return {@link PayloadSocketAcceptorInterceptor}
      */
     @Bean
-    public PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security)
+    PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security)
     {
         //@formatter:off
-        security.authorizePayload(authorize -> {
+        security.authorizePayload(authorize ->
             authorize
                     // User muss ROLE_SETUP haben um Verbindung zum Server herzustellen.
                     //.setup().hasRole("SETUP")
                     // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
                     //.route("greet/*").hasRole("ADMIN")
                     //.anyRequest().authenticated();
-                    .anyExchange().authenticated();
-        })
+                    .anyExchange().authenticated()
+        )
         .simpleAuthentication(Customizer.withDefaults())
         ;
         //@formatter:on
@@ -63,7 +63,7 @@ public class RSocketServerSecurityConfig
      * @return {@link ReactiveUserDetailsService}
      */
     @Bean
-    public ReactiveUserDetailsService authorization(final PasswordEncoder passwordEncoder)
+    ReactiveUserDetailsService authorization(final PasswordEncoder passwordEncoder)
     {
         UserDetails user = User.builder().username("user").password(passwordEncoder.encode("pass")).roles("USER").build();
 
@@ -78,7 +78,7 @@ public class RSocketServerSecurityConfig
      * @return {@link RSocketMessageHandler}
      */
     @Bean
-    public RSocketMessageHandler messageHandler(final RSocketStrategies rSocketStrategies)
+    RSocketMessageHandler messageHandler(final RSocketStrategies rSocketStrategies)
     {
         RSocketMessageHandler handler = new RSocketMessageHandler();
         handler.setRSocketStrategies(rSocketStrategies);
@@ -93,7 +93,7 @@ public class RSocketServerSecurityConfig
      * @return {@link PasswordEncoder}
      */
     @Bean
-    public PasswordEncoder passwordEncoder()
+    PasswordEncoder passwordEncoder()
     {
         Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret");
         pbkdf2passwordEncoder.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
