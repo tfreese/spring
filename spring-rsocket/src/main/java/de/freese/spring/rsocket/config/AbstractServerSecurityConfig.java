@@ -1,17 +1,12 @@
-// Created: 12.03.2020
-package de.freese.spring.rsocket;
+// Created: 17.02.2022
+package de.freese.spring.rsocket.config;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.messaging.rsocket.annotation.support.RSocketMessageHandler;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
-import org.springframework.security.config.annotation.rsocket.EnableRSocketSecurity;
-import org.springframework.security.config.annotation.rsocket.RSocketSecurity;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
@@ -22,41 +17,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
 import org.springframework.security.messaging.handler.invocation.reactive.AuthenticationPrincipalArgumentResolver;
-import org.springframework.security.rsocket.core.PayloadSocketAcceptorInterceptor;
 
 /**
  * @author Thomas Freese
  */
-@Configuration
-@EnableRSocketSecurity
-@EnableReactiveMethodSecurity
-public class RSocketServerSecurityConfig
+public abstract class AbstractServerSecurityConfig
 {
-    /**
-     * @param security {@link RSocketSecurity}
-     *
-     * @return {@link PayloadSocketAcceptorInterceptor}
-     */
-    @Bean
-    PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security)
-    {
-        //@formatter:off
-        security.authorizePayload(authorize ->
-            authorize
-                    // User muss ROLE_SETUP haben um Verbindung zum Server herzustellen.
-                    //.setup().hasRole("SETUP")
-                    // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
-                    //.route("greet/*").hasRole("ADMIN")
-                    //.anyRequest().authenticated();
-                    .anyExchange().authenticated()
-        )
-        .simpleAuthentication(Customizer.withDefaults())
-        ;
-        //@formatter:on
-
-        return security.build();
-    }
-
     /**
      * @param passwordEncoder {@link PasswordEncoder}
      *

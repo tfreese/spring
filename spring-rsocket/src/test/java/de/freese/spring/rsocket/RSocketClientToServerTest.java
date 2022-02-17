@@ -42,7 +42,10 @@ import reactor.test.StepVerifier;
 // ReactiveSecurityAutoConfiguration.class,
 // RSocketSecurityAutoConfiguration.class
 // }
-@ActiveProfiles("test")
+@ActiveProfiles(
+{
+        "test", "simple"
+})
 class RSocketClientToServerTest
 {
     /**
@@ -79,6 +82,8 @@ class RSocketClientToServerTest
 
         UsernamePasswordMetadata credentials = new UsernamePasswordMetadata("user", "pass");
         MimeType mimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
+
+        // .setupMetadata(token, BearerTokenMetadata.BEARER_AUTHENTICATION_MIME_TYPE)
 
         // @formatter:off
         requester = builder

@@ -1,5 +1,5 @@
 // Created: 11.03.2020
-package de.freese.spring.rsocket;
+package de.freese.spring.rsocket.config;
 
 import io.rsocket.core.Resume;
 import io.rsocket.frame.decoder.PayloadDecoder;
@@ -18,12 +18,12 @@ import org.springframework.stereotype.Component;
  * @see RSocketServerAutoConfiguration
  */
 @Component
-public class RSocketServerConfig
+public class ServerConfig
 {
     /**
      *
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(RSocketServerConfig.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServerConfig.class);
 
     /**
      * @return {@link RSocketServerCustomizer}

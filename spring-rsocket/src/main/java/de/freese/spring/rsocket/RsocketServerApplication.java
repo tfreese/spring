@@ -10,10 +10,11 @@ import reactor.core.publisher.Hooks;
  **
  * @author Thomas Freese
  */
-@SpringBootApplication(scanBasePackages =
-{
-        "de.freese.spring.rsocket"
-})
+@SpringBootApplication
+// (scanBasePackages =
+// {
+// "de.freese.spring.rsocket"
+// })
 public class RsocketServerApplication
 {
     /**

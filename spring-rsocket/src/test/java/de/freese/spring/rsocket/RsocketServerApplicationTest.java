@@ -12,7 +12,10 @@ import org.springframework.test.context.ActiveProfiles;
  * @author Thomas Freese
  */
 @SpringBootTest(properties = "spring.rsocket.server.port = 0", webEnvironment = WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles(
+{
+        "test", "simple"
+})
 class RsocketServerApplicationTest
 {
     /**

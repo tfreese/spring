@@ -1,5 +1,5 @@
 // Created: 02.09.2021
-package de.freese.spring.rsocket.client;
+package de.freese.spring.rsocket.config;
 
 import java.time.Duration;
 
@@ -25,12 +25,12 @@ import reactor.util.retry.Retry;
  * @see RSocketStrategiesAutoConfiguration
  */
 @Component
-public class RSocketClientConfig
+public class ClientConfig
 {
     /**
     *
     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(RSocketClientConfig.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientConfig.class);
 
     // /**
     // * @return {@link ReactorResourceFactory}
