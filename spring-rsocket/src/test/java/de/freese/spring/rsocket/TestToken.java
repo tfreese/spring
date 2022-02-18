@@ -3,8 +3,8 @@ package de.freese.spring.rsocket;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import com.nimbusds.jose.EncryptionMethod;
@@ -45,7 +45,7 @@ class TestToken
                 //.issuer("test-app")
                 .subject("user")
                 .claim("password", "pass")
-                .expirationTime(Date.from(Instant.from(LocalDateTime.now().plusMinutes(60))))
+                .expirationTime(Date.from(LocalDateTime.now().plusMinutes(60).atZone(ZoneId.systemDefault()).toInstant()))
                 //.jwtID(UUID.randomUUID().toString())
                 .build()
                 ;

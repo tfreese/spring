@@ -1,5 +1,5 @@
 // Created: 02.09.2021
-package de.freese.spring.rsocket.config;
+package de.freese.spring.rsocket.config.client;
 
 import java.time.Duration;
 
@@ -10,11 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.rsocket.RSocketRequesterAutoConfiguration;
 import org.springframework.boot.autoconfigure.rsocket.RSocketStrategiesAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.codec.Encoder;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.RSocketRequester.Builder;
 import org.springframework.messaging.rsocket.RSocketStrategies;
-import org.springframework.security.rsocket.metadata.SimpleAuthenticationEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MimeTypeUtils;
 import reactor.util.retry.Retry;
 
@@ -24,13 +23,12 @@ import reactor.util.retry.Retry;
  * @see RSocketRequesterAutoConfiguration
  * @see RSocketStrategiesAutoConfiguration
  */
-@Component
-public class ClientConfig
+abstract class AbstractClientConfig
 {
     /**
     *
     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClientConfig.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     // /**
     // * @return {@link ReactorResourceFactory}
@@ -48,6 +46,19 @@ public class ClientConfig
     // }
 
     /**
+     * @return {@link Encoder}
+     */
+    protected abstract Encoder<?> createAuthenticationEncoder();
+
+    /**
+     * @return {@link Logger}
+     */
+    protected Logger getLogger()
+    {
+        return this.logger;
+    }
+
+    /**
      * @param strategies {@link org.springframework.messaging.rsocket.RSocketStrategies}
      *
      * @return {@link Builder}
@@ -55,20 +66,17 @@ public class ClientConfig
     @Bean
     RSocketRequester.Builder rSocketRequesterBuilder(final RSocketStrategies strategies)
     {
-        LOGGER.info("rSocketRequesterBuilder");
+        getLogger().info("rSocketRequesterBuilder");
 
         // RSocketRequester.wrap(rSocket, dataMimeType, metaDataMimeType, strategies);
 
         // @formatter:off
         return RSocketRequester.builder()
-                // metadataMimeType wird durch setupMetadata für Login-Infos überschrieben.
-                //.metadataMimeType(MimeTypeUtils.parseMimeType(WellKnownMimeType.APPLICATION_CBOR.getString()))
                 .dataMimeType(MimeTypeUtils.APPLICATION_JSON)
-                //.dataMimeType(MimeTypeUtils.parseMimeType(WellKnownMimeType.APPLICATION_CBOR.getString()))
                 .rsocketStrategies(strategies)
                 .rsocketStrategies(builder ->
                     builder
-                        .encoder(new SimpleAuthenticationEncoder()) // Nur für Security benötigt
+                        .encoder(createAuthenticationEncoder()) // Für Security benötigt
                 )
                 .rsocketConnector(connector ->
                     connector

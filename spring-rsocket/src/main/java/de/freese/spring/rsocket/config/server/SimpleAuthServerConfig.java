@@ -1,5 +1,5 @@
 // Created: 12.03.2020
-package de.freese.spring.rsocket.config;
+package de.freese.spring.rsocket.config.server;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ import org.springframework.security.rsocket.core.PayloadSocketAcceptorIntercepto
 @EnableRSocketSecurity
 @EnableReactiveMethodSecurity
 @Profile("simple")
-public class SimpleServerSecurityConfig extends AbstractServerSecurityConfig
+public class SimpleAuthServerConfig extends AbstractServerConfig
 {
     /**
      * @param security {@link RSocketSecurity}
@@ -34,6 +34,7 @@ public class SimpleServerSecurityConfig extends AbstractServerSecurityConfig
                     //.setup().hasRole("SETUP")
                     // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
                     //.route("greet/*").hasRole("ADMIN")
+                    //.route("greet/*").authenticated()
                     .anyRequest().authenticated()
                     .anyExchange().authenticated()
         )

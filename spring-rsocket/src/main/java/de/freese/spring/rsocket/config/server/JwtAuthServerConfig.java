@@ -1,5 +1,5 @@
 // Created: 12.03.2020
-package de.freese.spring.rsocket.config;
+package de.freese.spring.rsocket.config.server;
 
 import java.text.ParseException;
 import java.time.Instant;
@@ -19,6 +19,7 @@ import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.rsocket.EnableRSocketSecurity;
 import org.springframework.security.config.annotation.rsocket.RSocketSecurity;
@@ -29,7 +30,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtReactiveAuthenticationManager;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.rsocket.core.PayloadSocketAcceptorInterceptor;
@@ -43,7 +43,7 @@ import reactor.core.publisher.Mono;
 @EnableRSocketSecurity
 @EnableReactiveMethodSecurity
 @Profile("jwt")
-public class JwtServerSecurityConfig extends AbstractServerSecurityConfig
+public class JwtAuthServerConfig extends AbstractServerConfig
 {
     /**
      * @param security {@link RSocketSecurity}
@@ -61,6 +61,7 @@ public class JwtServerSecurityConfig extends AbstractServerSecurityConfig
                     //.setup().hasRole("SETUP")
                     // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
                     //.route("greet/*").hasRole("ADMIN")
+                    //.route("greet/*").authenticated()
                     .anyRequest().authenticated()
                     .anyExchange().authenticated()
         )
@@ -133,7 +134,11 @@ public class JwtServerSecurityConfig extends AbstractServerSecurityConfig
                 throw new NonceExpiredException("Token has expired");
             }
 
-            return new JwtAuthenticationToken(jwt, userDetails.getAuthorities(), user);
+            // @AuthenticationPrincipal final org.springframework.security.oauth2.jwt.Jwt jwt
+            // return new JwtAuthenticationToken(jwt, userDetails.getAuthorities(), user);
+
+            // @AuthenticationPrincipal final UserDetails user
+            return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         };
     }
 
@@ -181,9 +186,11 @@ public class JwtServerSecurityConfig extends AbstractServerSecurityConfig
 
                 // @formatter:off
                 Jwt jwtSpring = Jwt.withTokenValue(token)
+                        .issuer(jwt.getJWTClaimsSet().getIssuer())
                         .subject(jwt.getJWTClaimsSet().getSubject())
                         .claim("password", jwt.getJWTClaimsSet().getClaim("password"))
                         .expiresAt(jwt.getJWTClaimsSet().getExpirationTime().toInstant())
+                        .header("", "") // Header müssen gefüllt sein, sonst gibs Exception.
                         .build()
                         ;
                 // @formatter:on

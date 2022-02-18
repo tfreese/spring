@@ -2,7 +2,7 @@
 package de.freese.spring.rsocket;
 
 import java.time.Duration;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 import javax.annotation.PreDestroy;
 
@@ -41,7 +41,12 @@ public class RSocketController
     @MessageMapping("channel")
     Flux<MessageResponse> channel(final Flux<MessageRequest> requests, @AuthenticationPrincipal final UserDetails user)
     {
-        LOGGER.info("Received channel request (stream) at {}", Instant.now());
+        // ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication).subscribe(authentication -> {
+        // LOGGER.info("{}", authentication);
+        // LOGGER.info("Channel initiated by '{}' in the role '{}'", authentication.getPrincipal(), authentication.getAuthorities());
+        // });
+
+        LOGGER.info("Received channel request (stream) at {}", LocalDateTime.now());
         LOGGER.info("Channel initiated by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 
         // @formatter:off
@@ -155,8 +160,8 @@ public class RSocketController
         return Flux
                 // Jede Sekunde ein neues Element erzeugen.
                 .interval(Duration.ofSeconds(1))
-                // Nur die ersten 5 Elemente nehmen.
-                .take(5L)
+                // Nur die ersten 3 Elemente nehmen.
+                .take(3L)
                 // Indizierung
                 .index()
                 // Response-Objekt erzeugen.
