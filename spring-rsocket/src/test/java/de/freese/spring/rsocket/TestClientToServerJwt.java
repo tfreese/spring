@@ -1,9 +1,8 @@
 package de.freese.spring.rsocket;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.nimbusds.jose.EncryptionMethod;
 import com.nimbusds.jose.JWEAlgorithm;
@@ -33,16 +32,11 @@ import reactor.core.publisher.Hooks;
  * @author Thomas Freese
  */
 @ActiveProfiles(
-{
-        "test", "jwt"
-})
+        {
+                "test", "jwt"
+        })
 class TestClientToServerJwt implements TestClientToServer
 {
-    /**
-     *
-     */
-    private static RSocketRequester requester;
-
     /**
      *
      */
@@ -64,12 +58,13 @@ class TestClientToServerJwt implements TestClientToServer
     @BeforeAll
     public static void beforeAll(@Autowired final RSocketRequester.Builder builder, @Autowired final RSocketStrategies strategies,
                                  @Value("${spring.rsocket.server.address}") final String host, @LocalRSocketServerPort final int port)
-        throws Exception
+            throws Exception
     {
         // Fehlermeldung, wenn Client die Verbindung schliesst.
         // Nur einmalig definieren, sonst gibs mehrere Logs-Meldungen !!!
         // Hooks.onErrorDropped(th -> LOGGER.warn(th.getMessage()));
-        Hooks.onErrorDropped(th -> {
+        Hooks.onErrorDropped(th ->
+        {
             // Empty
         });
 
@@ -78,8 +73,8 @@ class TestClientToServerJwt implements TestClientToServer
                 .issuer("test-app")
                 .subject("user")
                 .claim("password", "pass")
-                .expirationTime(Date.from(LocalDateTime.now().plusMinutes(60).atZone(ZoneId.systemDefault()).toInstant()))
-                //.jwtID(UUID.randomUUID().toString())
+                .expirationTime(new Date(System.currentTimeMillis() + 3_600_000))
+                .jwtID(UUID.randomUUID().toString())
                 .build()
                 ;
         // @formatter:on
@@ -103,6 +98,10 @@ class TestClientToServerJwt implements TestClientToServer
                 ;
         // @formatter:on
     }
+    /**
+     *
+     */
+    private static RSocketRequester requester;
 
     /**
      * @see de.freese.spring.rsocket.TestClientToServer#getRequester()

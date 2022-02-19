@@ -3,11 +3,15 @@ package de.freese.spring.rsocket.config.server;
 
 import java.text.ParseException;
 import java.time.Instant;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWEDecrypter;
 import com.nimbusds.jose.crypto.PasswordBasedDecrypter;
 import com.nimbusds.jwt.EncryptedJWT;
+import com.nimbusds.jwt.JWTClaimsSet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -28,6 +32,7 @@ import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.MappedJwtClaimSetConverter;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtReactiveAuthenticationManager;
@@ -91,7 +96,8 @@ public class JwtAuthServerConfig extends AbstractServerConfig
         //
         // return authenticationConverter;
 
-        return jwt -> {
+        return jwt ->
+        {
             String user = jwt.getSubject();
             String password = jwt.getClaimAsString("password");
             Instant expiresAt = jwt.getExpiresAt();
@@ -175,7 +181,11 @@ public class JwtAuthServerConfig extends AbstractServerConfig
 //                .build()
 //                ;
 //        // @formatter:on
-        return token -> {
+        Converter<Map<String, Object>, Map<String, Object>> claimSetConverter = MappedJwtClaimSetConverter
+                .withDefaults(Collections.emptyMap());
+
+        return token ->
+        {
             try
             {
                 EncryptedJWT jwt = EncryptedJWT.parse(token);
@@ -184,13 +194,19 @@ public class JwtAuthServerConfig extends AbstractServerConfig
 
                 // JWT jwt = PlainJWT.parse(token);
 
+                Map<String, Object> headers = new LinkedHashMap<>(jwt.getHeader().toJSONObject());
+                JWTClaimsSet jwtClaimsSet = jwt.getJWTClaimsSet();
+                Map<String, Object> claims = claimSetConverter.convert(jwtClaimsSet.getClaims());
+
                 // @formatter:off
                 Jwt jwtSpring = Jwt.withTokenValue(token)
-                        .issuer(jwt.getJWTClaimsSet().getIssuer())
-                        .subject(jwt.getJWTClaimsSet().getSubject())
-                        .claim("password", jwt.getJWTClaimsSet().getClaim("password"))
-                        .expiresAt(jwt.getJWTClaimsSet().getExpirationTime().toInstant())
-                        .header("", "") // Header müssen gefüllt sein, sonst gibs Exception.
+                        .headers(map -> map.putAll(headers)) // Header müssen gefüllt sein, sonst gibs Exception.
+                        .claims(map -> map.putAll(claims))
+                        //.issuer(jwtClaimsSet.getIssuer())
+                        //.subject(jwtClaimsSet.getSubject())
+                        //.claim("password", jwtClaimsSet.getClaim("password"))
+                        //.expiresAt(jwtClaimsSet.getExpirationTime().toInstant())
+                        //.jti(jwtClaimsSet.getJWTID())
                         .build()
                         ;
                 // @formatter:on
