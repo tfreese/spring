@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import de.freese.spring.jwt.token.JwtToken;
+import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -32,9 +34,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import de.freese.spring.jwt.token.JwtToken;
-import de.freese.spring.jwt.token.JwtTokenProvider;
-
 /**
  * Der {@link JwtRequestFilter} verwendet keinen {@link AuthenticationProvider},<br>
  * sondern validiert das Token mit Passwort-Vergleich, Gültigkeit etc. selber und setzt es in den {@link SecurityContext}..
@@ -49,7 +48,6 @@ class JwtRequestFilter extends OncePerRequestFilter
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
-
     /**
     *
     */
@@ -68,61 +66,35 @@ class JwtRequestFilter extends OncePerRequestFilter
     private UserDetailsService userDetailsService;
 
     /**
-     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     *      javax.servlet.FilterChain)
+     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
      */
-    @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
-        throws ServletException, IOException
+    public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint)
     {
-        String token = this.jwtTokenProvider.resolveToken(request);
+        this.authenticationEntryPoint = authenticationEntryPoint;
+    }
 
-        try
-        {
-            String username = null;
-            String password = null;
+    /**
+     * @param jwtTokenProvider {@link JwtTokenProvider}
+     */
+    public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider)
+    {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
-            if (token != null)
-            {
-                JwtToken jwtToken = this.jwtTokenProvider.parseToken(token);
+    /**
+     * @param passwordEncoder {@link PasswordEncoder}
+     */
+    public void setPasswordEncoder(final PasswordEncoder passwordEncoder)
+    {
+        this.passwordEncoder = passwordEncoder;
+    }
 
-                username = jwtToken.getUsername();
-                password = jwtToken.getPassword();
-            }
-
-            if ((username != null) && isAuthenticationIsRequired(username))
-            {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-
-                if (isValid(userDetails, password))
-                {
-                    UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authResult.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                    SecurityContextHolder.getContext().setAuthentication(authResult);
-                    // SecurityContext context = SecurityContextHolder.createEmptyContext();
-                    // context.setAuthentication(authResult);
-                    // SecurityContextHolder.setContext(context);
-                }
-                else
-                {
-                    SecurityContextHolder.clearContext();
-                }
-            }
-        }
-        catch (AuthenticationException ex)
-        {
-            SecurityContextHolder.clearContext();
-
-            getLogger().error("Authentication request failed: {}", ex.getMessage());
-
-            // Deswegen würden Tests der Logins über den RestController nicht mehr funktionieren !
-            this.authenticationEntryPoint.commence(request, response, ex);
-
-            return;
-        }
-
-        filterChain.doFilter(request, response);
+    /**
+     * @param userDetailsService {@link UserDetailsService}
+     */
+    public void setUserDetailsService(final UserDetailsService userDetailsService)
+    {
+        this.userDetailsService = userDetailsService;
     }
 
     /**
@@ -131,20 +103,6 @@ class JwtRequestFilter extends OncePerRequestFilter
     private Logger getLogger()
     {
         return LOGGER;
-    }
-
-    /**
-     * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
-     */
-    @Override
-    protected void initFilterBean() throws ServletException
-    {
-        super.initFilterBean();
-
-        Objects.requireNonNull(this.authenticationEntryPoint, "authenticationEntryPoint requried");
-        Objects.requireNonNull(this.userDetailsService, "userDetailsService requried");
-        Objects.requireNonNull(this.passwordEncoder, "passwordEncoder requried");
-        Objects.requireNonNull(this.jwtTokenProvider, "jwtTokenProvider requried");
     }
 
     /**
@@ -222,34 +180,74 @@ class JwtRequestFilter extends OncePerRequestFilter
     }
 
     /**
-     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
+     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
+     *      javax.servlet.FilterChain)
      */
-    public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint)
+    @Override
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
+        throws ServletException, IOException
     {
-        this.authenticationEntryPoint = authenticationEntryPoint;
+        String token = this.jwtTokenProvider.resolveToken(request);
+
+        try
+        {
+            String username = null;
+            String password = null;
+
+            if (token != null)
+            {
+                JwtToken jwtToken = this.jwtTokenProvider.parseToken(token);
+
+                username = jwtToken.getUsername();
+                password = jwtToken.getPassword();
+            }
+
+            if ((username != null) && isAuthenticationIsRequired(username))
+            {
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+
+                if (isValid(userDetails, password))
+                {
+                    UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authResult.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                    SecurityContextHolder.getContext().setAuthentication(authResult);
+                    // SecurityContext context = SecurityContextHolder.createEmptyContext();
+                    // context.setAuthentication(authResult);
+                    // SecurityContextHolder.setContext(context);
+                }
+                else
+                {
+                    SecurityContextHolder.clearContext();
+                }
+            }
+        }
+        catch (AuthenticationException ex)
+        {
+            SecurityContextHolder.clearContext();
+
+            getLogger().error("Authentication request failed: {}", ex.getMessage());
+
+            // Deswegen würden Tests der Logins über den RestController nicht mehr funktionieren !
+            this.authenticationEntryPoint.commence(request, response, ex);
+
+            return;
+        }
+
+        filterChain.doFilter(request, response);
     }
 
     /**
-     * @param jwtTokenProvider {@link JwtTokenProvider}
+     * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
      */
-    public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider)
+    @Override
+    protected void initFilterBean() throws ServletException
     {
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
+        super.initFilterBean();
 
-    /**
-     * @param passwordEncoder {@link PasswordEncoder}
-     */
-    public void setPasswordEncoder(final PasswordEncoder passwordEncoder)
-    {
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    /**
-     * @param userDetailsService {@link UserDetailsService}
-     */
-    public void setUserDetailsService(final UserDetailsService userDetailsService)
-    {
-        this.userDetailsService = userDetailsService;
+        Objects.requireNonNull(this.authenticationEntryPoint, "authenticationEntryPoint requried");
+        Objects.requireNonNull(this.userDetailsService, "userDetailsService requried");
+        Objects.requireNonNull(this.passwordEncoder, "passwordEncoder requried");
+        Objects.requireNonNull(this.jwtTokenProvider, "jwtTokenProvider requried");
     }
 }

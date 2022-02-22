@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import de.freese.spring.jwt.token.JwtToken;
+import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -24,9 +26,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import de.freese.spring.jwt.token.JwtToken;
-import de.freese.spring.jwt.token.JwtTokenProvider;
-
 /**
  * Der {@link JwtRequestFilter} verwendet den Default-{@link AuthenticationProvider}.<br>
  * Siehe {@link DaoAuthenticationProvider}.
@@ -41,7 +40,6 @@ class JwtRequestFilter extends OncePerRequestFilter
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
-
     /**
     *
     */
@@ -54,6 +52,56 @@ class JwtRequestFilter extends OncePerRequestFilter
      *
      */
     private JwtTokenProvider jwtTokenProvider;
+
+    /**
+     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
+     */
+    public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint)
+    {
+        this.authenticationEntryPoint = authenticationEntryPoint;
+    }
+
+    /**
+     * @param authenticationManager {@link AuthenticationManager}
+     */
+    public void setAuthenticationManager(final AuthenticationManager authenticationManager)
+    {
+        this.authenticationManager = authenticationManager;
+    }
+
+    /**
+     * @param jwtTokenProvider {@link JwtTokenProvider}
+     */
+    public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider)
+    {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    private Logger getLogger()
+    {
+        return LOGGER;
+    }
+
+    /**
+     * @param username String
+     *
+     * @return boolean
+     */
+    private boolean isAuthenticationIsRequired(final String username)
+    {
+        Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
+
+        if ((existingAuth == null) || !existingAuth.isAuthenticated()
+                || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username)))
+        {
+            return true;
+        }
+
+        return (existingAuth instanceof AnonymousAuthenticationToken);
+    }
 
     /**
      * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
@@ -107,14 +155,6 @@ class JwtRequestFilter extends OncePerRequestFilter
     }
 
     /**
-     * @return {@link Logger}
-     */
-    private Logger getLogger()
-    {
-        return LOGGER;
-    }
-
-    /**
      * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
      */
     @Override
@@ -125,47 +165,5 @@ class JwtRequestFilter extends OncePerRequestFilter
         Objects.requireNonNull(this.authenticationManager, "authenticationManager requried");
         Objects.requireNonNull(this.authenticationEntryPoint, "authenticationEntryPoint requried");
         Objects.requireNonNull(this.jwtTokenProvider, "jwtTokenProvider requried");
-    }
-
-    /**
-     * @param username String
-     *
-     * @return boolean
-     */
-    private boolean isAuthenticationIsRequired(final String username)
-    {
-        Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
-
-        if ((existingAuth == null) || !existingAuth.isAuthenticated()
-                || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username)))
-        {
-            return true;
-        }
-
-        return (existingAuth instanceof AnonymousAuthenticationToken);
-    }
-
-    /**
-     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
-     */
-    public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint)
-    {
-        this.authenticationEntryPoint = authenticationEntryPoint;
-    }
-
-    /**
-     * @param authenticationManager {@link AuthenticationManager}
-     */
-    public void setAuthenticationManager(final AuthenticationManager authenticationManager)
-    {
-        this.authenticationManager = authenticationManager;
-    }
-
-    /**
-     * @param jwtTokenProvider {@link JwtTokenProvider}
-     */
-    public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider)
-    {
-        this.jwtTokenProvider = jwtTokenProvider;
     }
 }

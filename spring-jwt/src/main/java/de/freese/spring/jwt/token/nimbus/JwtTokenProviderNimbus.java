@@ -8,9 +8,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.core.AuthenticationException;
-
 import com.nimbusds.jose.EncryptionMethod;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWEAlgorithm;
@@ -23,9 +20,10 @@ import com.nimbusds.jwt.EncryptedJWT;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTClaimsSet.Builder;
-
 import de.freese.spring.jwt.token.JwtToken;
 import de.freese.spring.jwt.token.JwtTokenProvider;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.AuthenticationException;
 
 /**
  * @author Thomas Freese
@@ -80,7 +78,7 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider
                     ;
             // @formatter:on
 
-            builder.claim("roles", rolesString);
+            builder = builder.claim("roles", rolesString);
         }
 
         Date now = new Date();
