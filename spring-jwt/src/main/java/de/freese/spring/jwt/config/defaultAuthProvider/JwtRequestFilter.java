@@ -14,6 +14,7 @@ import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,6 +41,10 @@ class JwtRequestFilter extends OncePerRequestFilter
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
+    /**
+    *
+    */
+    private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
     /**
     *
     */
@@ -129,7 +134,7 @@ class JwtRequestFilter extends OncePerRequestFilter
             if ((username != null) && isAuthenticationIsRequired(username))
             {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                usernamePasswordAuthenticationToken.setDetails(this.authenticationDetailsSource.buildDetails(request));
 
                 Authentication authResult = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 

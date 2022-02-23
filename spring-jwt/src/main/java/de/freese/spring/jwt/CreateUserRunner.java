@@ -5,26 +5,23 @@ import java.util.Arrays;
 
 import javax.annotation.Resource;
 
+import de.freese.spring.jwt.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Component;
-
-import de.freese.spring.jwt.service.UserService;
 
 /**
  * @author Thomas Freese
  */
-@Component
-@Order(10)
+//@Component
+//@Order(10)
 public class CreateUserRunner implements CommandLineRunner
 {
     /**
-    *
-    */
+     *
+     */
     public static final Logger LOGGER = LoggerFactory.getLogger(CreateUserRunner.class);
     /**
      *
@@ -36,7 +33,7 @@ public class CreateUserRunner implements CommandLineRunner
      * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
      */
     @Override
-    public void run(final String...args) throws Exception
+    public void run(final String... args) throws Exception
     {
         LOGGER.info("Create Users & Roles");
 

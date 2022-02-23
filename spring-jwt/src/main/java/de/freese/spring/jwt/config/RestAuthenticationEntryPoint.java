@@ -33,7 +33,7 @@ class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
 
     /**
      * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#commence(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse, org.springframework.security.core.AuthenticationException)
+     * javax.servlet.http.HttpServletResponse, org.springframework.security.core.AuthenticationException)
      */
     @Override
     public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authEx) throws IOException

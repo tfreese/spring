@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -17,17 +17,17 @@
 
     <build>
         <plugins>
-			<!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
-			<!-- spring-boot:build-image -->
-			<!-- java -jar -D"server.port=8899" target/service-0.0.1-SNAPSHOT-jar-with-dependencies.jar -->
+            <!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
+            <!-- spring-boot:build-image -->
+            <!-- java -jar -D"server.port=8899" target/service-0.0.1-SNAPSHOT-jar-with-dependencies.jar -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>de.freese.spring.jwt.JwtAuthorisationApplication</mainClass>
-					<!--jvmArguments>
-						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
-						</jvmArguments -->
+                    <!--jvmArguments>
+                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+                        </jvmArguments -->
                     <image>
                         <name>${project.artifactId}</name>
                     </image>
@@ -49,12 +49,12 @@
     </build>
 
     <dependencies>
-		<!-- compile scope -->
+        <!-- compile scope -->
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
         </dependency>
-        <!-- Ältere Alternative für nimbus-jose-jwt -->       
+        <!-- Ältere Alternative für nimbus-jose-jwt -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
@@ -63,11 +63,11 @@
         <!--dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
-        </dependency-->        
+        </dependency-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-        </dependency>     
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
@@ -81,15 +81,15 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-		<!-- runtime scope -->
+        <!-- runtime scope -->
         <!--dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
             <scope>runtime</scope>
         </dependency-->
 
-		<!-- provided scope -->
-		<!-- test scope -->
+        <!-- provided scope -->
+        <!-- test scope -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

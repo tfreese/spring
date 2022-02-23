@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.annotation.Resource;
 
+import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -12,8 +13,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.DefaultResponseErrorHandler;
-
-import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * @author Thomas Freese
@@ -58,41 +57,20 @@ abstract class AbstractTestJwtToken implements TestJwtToken
     }
 
     /**
-    *
-    */
+     *
+     */
     @Resource
     private JwtTokenProvider jwtTokenProvider;
     /**
-    *
-    */
-    @LocalServerPort
-    private int localServerPort;
-    /**
-    *
-    */
+     *
+     */
     @Resource
     private MockMvc mockMvc;
     /**
-    *
-    */
+     *
+     */
     @Resource
     private RestTemplateBuilder restTemplateBuilder;
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @BeforeEach
-    void beforeEach() throws Exception
-    {
-        String rootUri = "http://localhost:" + this.localServerPort;
-
-       // @formatter:off
-       this.restTemplateBuilder = this.restTemplateBuilder
-               .rootUri(rootUri)
-               .errorHandler(new NoOpResponseErrorHandler())
-               ;
-       // @formatter:on
-    }
 
     /**
      * @see de.freese.spring.jwt.TestJwtToken#getJwtTokenProvider()
@@ -119,5 +97,23 @@ abstract class AbstractTestJwtToken implements TestJwtToken
     public RestTemplateBuilder getRestTemplateBuilder()
     {
         return this.restTemplateBuilder;
+    }
+
+    /**
+     * @param localServerPort int
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    @BeforeEach
+    void beforeEach(@LocalServerPort final int localServerPort) throws Exception
+    {
+        String rootUri = "http://localhost:" + localServerPort;
+
+        // @formatter:off
+       this.restTemplateBuilder = this.restTemplateBuilder
+               .rootUri(rootUri)
+               .errorHandler(new NoOpResponseErrorHandler())
+               ;
+       // @formatter:on
     }
 }

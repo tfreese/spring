@@ -10,11 +10,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
@@ -30,12 +29,12 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 public class SecurityFilterOnlyConfig
 {
     /**
-     * @param authenticationProviderDao {@link DaoAuthenticationProvider}
+     * @param authenticationProviderDao {@link AuthenticationProvider}
      *
      * @return {@link AuthenticationManager}
      */
     @Bean
-    AuthenticationManager authenticationManager(final DaoAuthenticationProvider authenticationProviderDao)
+    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao)
     {
         ProviderManager providerManager = new ProviderManager(authenticationProviderDao);
         // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
@@ -45,7 +44,7 @@ public class SecurityFilterOnlyConfig
     }
 
     /**
-     * @param userDetailsManager {@link UserDetailsManager}
+     * @param userDetailsService {@link UserDetailsService}
      * @param passwordEncoder {@link PasswordEncoder}
      * @param jwtTokenProvider {@link JwtTokenProvider}
      * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
@@ -53,11 +52,11 @@ public class SecurityFilterOnlyConfig
      * @return {@link Filter}
      */
     @Bean
-    Filter jwtRequestFilter(final UserDetailsManager userDetailsManager, final PasswordEncoder passwordEncoder, final JwtTokenProvider jwtTokenProvider,
+    Filter jwtRequestFilter(final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder, final JwtTokenProvider jwtTokenProvider,
                             final AuthenticationEntryPoint authenticationEntryPoint)
     {
         JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();
-        jwtRequestFilter.setUserDetailsService(userDetailsManager);
+        jwtRequestFilter.setUserDetailsService(userDetailsService);
         jwtRequestFilter.setPasswordEncoder(passwordEncoder);
         jwtRequestFilter.setJwtTokenProvider(jwtTokenProvider);
         jwtRequestFilter.setAuthenticationEntryPoint(authenticationEntryPoint);

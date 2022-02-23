@@ -45,7 +45,7 @@
 // * @return {@link Docket}
 // */
 // @Bean
-// public Docket api()
+// Docket api()
 // {
 //        // @formatter:off
 //        return new Docket(DocumentationType.SWAGGER_2)

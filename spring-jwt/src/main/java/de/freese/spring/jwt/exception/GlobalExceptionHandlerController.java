@@ -78,19 +78,6 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
 
     /**
      * @param ex {@link Exception}
-     * @param body Object
-     * @param status {@link HttpStatus}
-     * @param request {@link WebRequest}
-     *
-     * @return {@link ResponseEntity}
-     */
-    protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body, final HttpStatus status, final WebRequest request)
-    {
-        return super.handleExceptionInternal(ex, body, new HttpHeaders(), status, request);
-    }
-
-    /**
-     * @param ex {@link Exception}
      *
      * @return {@link ResponseEntity}
      *
@@ -100,5 +87,18 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
     public ResponseEntity<Object> handleGenericException(final Exception ex) throws IOException
     {
         return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * @param ex {@link Exception}
+     * @param body Object
+     * @param status {@link HttpStatus}
+     * @param request {@link WebRequest}
+     *
+     * @return {@link ResponseEntity}
+     */
+    protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body, final HttpStatus status, final WebRequest request)
+    {
+        return super.handleExceptionInternal(ex, body, new HttpHeaders(), status, request);
     }
 }

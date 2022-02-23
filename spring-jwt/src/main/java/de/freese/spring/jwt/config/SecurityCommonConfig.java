@@ -14,11 +14,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserCache;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,11 +30,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.util.Assert;
 
 /**
  * @author Thomas Freese
@@ -56,11 +58,11 @@ public class SecurityCommonConfig
      * @param userDetailsService {@link UserDetailsService}
      * @param userCache {@link UserCache}
      *
-     * @return {@link DaoAuthenticationProvider}
+     * @return {@link AuthenticationProvider}
      */
     @Bean
-    DaoAuthenticationProvider authenticationProviderDao(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService,
-                                                        final UserCache userCache)
+    AuthenticationProvider authenticationProviderDao(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService,
+                                                     final UserCache userCache)
     {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         // authenticationProvider.setMessageSource(applicationContext); // Wird automatisch gemacht.
@@ -71,10 +73,14 @@ public class SecurityCommonConfig
         // Der UserCache im AuthenticationProvider behält die UserDetails der User.
         // Bei diesen werden aber die Passwörter aus Sicherheitsgründen im ProviderManager entfernt.
         // Dadurch ist ein 2. Login dann nicht mehr möglich -> NullPointer wegen UserDetails.getPassword = null
-        authenticationProvider.setUserCache(userCache);
+        //authenticationProvider.setUserCache(userCache);
 
-        // Dieses Problem wird behoben indem nur der UserName und nicht das User-Object verwendet wird.
-        authenticationProvider.setForcePrincipalAsString(true);
+        // Dieses Problem könnte behoben werden, indem nur der UserName und nicht das User-Object verwendet wird.
+        // Dann kann aber nicht der User in die Controller-Methode übergeben werden.
+        // -> ..., @AuthenticationPrincipal final UserDetails user)
+        // authenticationProvider.setForcePrincipalAsString(true);
+
+        // Lösung: UserDetailsService mit Cache in der Methode #loadUserByUsername(String)
 
         return authenticationProvider;
     }
@@ -90,7 +96,7 @@ public class SecurityCommonConfig
      */
     @Bean
     SecurityFilterChain filterChain(final HttpSecurity http, final Filter jwtRequestFilter, final AuthenticationEntryPoint authenticationEntryPoint)
-        throws Exception
+            throws Exception
     {
         // @formatter:off
         http//.authorizeRequests().anyRequest().permitAll()
@@ -109,7 +115,6 @@ public class SecurityCommonConfig
             .and()
 //                .apply(new JwtTokenFilterConfigurer(this.jwtTokenProvider))
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-
             ;
         // @formatter:on
 
@@ -133,8 +138,7 @@ public class SecurityCommonConfig
         // SecretKey secretKey = factory.generateSecret(keySpec);
 
         return new JwtTokenProviderNimbus(secretKey, validityInMilliseconds);
-
-        // return new JwtTokenProviderJson(secretKey, validityInMilliseconds);
+        //return new JwtTokenProviderJson(secretKey, validityInMilliseconds);
     }
 
     /**
@@ -152,7 +156,7 @@ public class SecurityCommonConfig
         encoders.put("bcrypt", new BCryptPasswordEncoder(10));
         // encoders.put("scrypt", new SCryptPasswordEncoder()); // Benötigt BounyCastle
         // encoders.put("argon2", new Argon2PasswordEncoder()); // Benötigt BounyCastle
-        encoders.put("noop", new PasswordEncoder()
+        encoders.put("plain", new PasswordEncoder()
         {
             @Override
             public String encode(final CharSequence rawPassword)
@@ -167,23 +171,27 @@ public class SecurityCommonConfig
             }
         });
 
-        return new DelegatingPasswordEncoder("noop", encoders);
+        return new DelegatingPasswordEncoder("plain", encoders);
     }
 
     /**
      * @param passwordEncoder {@link PasswordEncoder}
      *
-     * @return {@link UserDetailsManager}
+     * @return {@link UserDetailsService}
      */
     @Bean
     @ConditionalOnMissingBean(DataSource.class)
-    UserDetailsManager userDetailsManager(final PasswordEncoder passwordEncoder)
+    UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder)
     {
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
 
-        // Wird im CreateUserRunner gemacht, Passwörter immer über den PasswordEncoder encoden und setzen !
-        // userDetailsManager.createUser(User.withUsername("admin").password(passwordEncoder.encode("pass")).roles("ADMIN", "USER").build());
-        // userDetailsManager.createUser(User.withUsername("user").password(passwordEncoder.encode("pass")).roles("USER").build());
+        userDetailsManager.createUser(User.withUsername("admin").password(passwordEncoder.encode("pass")).roles("ADMIN", "USER").build());
+        userDetailsManager.createUser(User.withUsername("user").password(passwordEncoder.encode("pass")).roles("USER").build());
+
+        // UserDetails kopieren, da bei ProviderManager.setEraseCredentialsAfterAuthentication(true)
+        // das Password auf null gesetzt wird -> kein zweiter Login mehr moglich -> NullPointer
+        // Siehe #userDetailsServiceJdbc()
+        // Das kopieren der UserDetails findet hier bereits im InMemoryUserDetailsManager#loadUserByUsername statt.
 
         return userDetailsManager;
     }
@@ -196,24 +204,57 @@ public class SecurityCommonConfig
      */
     @Bean
     @ConditionalOnBean(DataSource.class)
-    UserDetailsManager userDetailsManagerJdbc(final DataSource dataSource, final UserCache userCache)
+    UserDetailsService userDetailsServiceJdbc(final DataSource dataSource, final UserCache userCache)
     {
-        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
-        userDetailsManager.setUserCache(userCache);
-        userDetailsManager.setUsersByUsernameQuery(JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY);
-        userDetailsManager.setAuthoritiesByUsernameQuery(JdbcDaoImpl.DEF_AUTHORITIES_BY_USERNAME_QUERY);
+        JdbcDaoImpl jdbcDao = new JdbcDaoImpl();
+        jdbcDao.setDataSource(dataSource);
+        jdbcDao.setUsersByUsernameQuery(JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY);
+        jdbcDao.setAuthoritiesByUsernameQuery(JdbcDaoImpl.DEF_AUTHORITIES_BY_USERNAME_QUERY);
 
-        return userDetailsManager;
+//        CachingUserDetailsService cachingUserDetailsService = new CachingUserDetailsService(jdbcDao);
+//        cachingUserDetailsService.setUserCache(userCache);
 
-        // JdbcDaoImpl jdbcDao = new JdbcDaoImpl();
-        // jdbcDao.setDataSource(dataSource);
-        // jdbcDao.setUsersByUsernameQuery(JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY);
-        // jdbcDao.setAuthoritiesByUsernameQuery(JdbcDaoImpl.DEF_AUTHORITIES_BY_USERNAME_QUERY);
+        // UserDetails kopieren, da bei ProviderManager.setEraseCredentialsAfterAuthentication(true)
+        // das Password auf null gesetzt wird -> kein zweiter Login mehr moglich -> NullPointer
+        UserDetailsService cachingUserDetailsService = username ->
+        {
+            UserDetails userDetails = userCache.getUserFromCache(username);
+
+            if (userDetails == null)
+            {
+                userDetails = jdbcDao.loadUserByUsername(username);
+            }
+
+            Assert.notNull(userDetails, () -> "UserDetailsService " + jdbcDao + " returned null for username " + username
+                    + ". " + "This is an interface contract violation");
+
+            userCache.putUserInCache(userDetails);
+
+            // @formattter:off
+            UserDetails copy = new User(
+                    userDetails.getUsername()
+                    , userDetails.getPassword()
+                    , userDetails.isEnabled()
+                    , userDetails.isAccountNonExpired()
+                    , userDetails.isCredentialsNonExpired()
+                    , userDetails.isAccountNonLocked()
+                    , userDetails.getAuthorities()
+            );
+            // @formattter:on
+
+            //UserDetails copy = User.withUserDetails(userDetails).build();
+
+            return copy;
+        };
+
+        return cachingUserDetailsService;
+
+        // JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
+        // userDetailsManager.setUserCache(userCache);
+        // userDetailsManager.setUsersByUsernameQuery(JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY);
+        // userDetailsManager.setAuthoritiesByUsernameQuery(JdbcDaoImpl.DEF_AUTHORITIES_BY_USERNAME_QUERY);
         //
-        // CachingUserDetailsService cachingUserDetailsService = new CachingUserDetailsService(jdbcDao);
-        // cachingUserDetailsService.setUserCache(userCache);
-        //
-        // return cachingUserDetailsService;
+        // return userDetailsManager;
     }
 
     /**
@@ -222,21 +263,21 @@ public class SecurityCommonConfig
     @Bean
     WebSecurityCustomizer webSecurityCustomizer()
     {
-        return webSecurity ->
-        // Pfade ohne Sicherheits-Prüfung.
         // @formatter:off
-            webSecurity.ignoring()
-                // Für swagger
-                .antMatchers("/swagger-ui.html")
-                .antMatchers("/webjars/**")
-                .antMatchers("/v2/api-docs")
-                .antMatchers("/swagger-resources/**")
+        return webSecurity ->
+                // Pfade ohne Sicherheits-Prüfung.
+                webSecurity.ignoring()
+                    // Für swagger
+                    .antMatchers("/swagger-ui.html")
+                    .antMatchers("/webjars/**")
+                    .antMatchers("/v2/api-docs")
+                    .antMatchers("/swagger-resources/**")
 
-                .antMatchers("/users/login")
+                    .antMatchers("/users/login")
 
-                // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
-                //.antMatchers("/h2-console/**/**")
-            // @formatter:on
-        ;
+                    // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
+                    //.antMatchers("/h2-console/**/**")
+                ;
+        // @formatter:on
     }
 }

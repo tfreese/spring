@@ -19,11 +19,11 @@ public class CacheConfig
      * @return {@link CacheManager}
      */
     @Bean
-    public CacheManager cacheManager()
+    CacheManager cacheManager()
     {
         ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
         cacheManager.setAllowNullValues(false);
-        // cacheManager.setCacheNames(List.of("userCache")); // Damit wäre er nicht mehr dynamisch -> fest verdrahtete Cache-Namen.
+        // cacheManager.setCacheNames(List.of("userCache")); // Fest verdrahtete Cache-Namen, damit wäre er nicht mehr dynamisch.
 
         return cacheManager;
     }
@@ -34,7 +34,7 @@ public class CacheConfig
      * @return {@link CacheManager}
      */
     @Bean
-    public UserCache userCache(final CacheManager cacheManager)
+    UserCache userCache(final CacheManager cacheManager)
     {
         Cache cache = cacheManager.getCache("userCache");
 

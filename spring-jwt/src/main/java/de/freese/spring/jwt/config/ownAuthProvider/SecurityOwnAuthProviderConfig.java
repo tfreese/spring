@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,14 +26,14 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 public class SecurityOwnAuthProviderConfig
 {
     /**
-     * @param authenticationProviderJwt {@link JwtTokenAuthenticationProvider}
-     * @param authenticationProviderDao {@link DaoAuthenticationProvider}
+     * @param authenticationProviderJwt {@link AuthenticationProvider}
+     * @param authenticationProviderDao {@link AuthenticationProvider}
      *
      * @return {@link AuthenticationManager}
      */
     @Bean
-    AuthenticationManager authenticationManager(final JwtTokenAuthenticationProvider authenticationProviderJwt,
-                                                final DaoAuthenticationProvider authenticationProviderDao)
+    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderJwt,
+                                                final AuthenticationProvider authenticationProviderDao)
     {
         ProviderManager providerManager = new ProviderManager(authenticationProviderJwt, authenticationProviderDao);
         // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
@@ -47,11 +47,11 @@ public class SecurityOwnAuthProviderConfig
      * @param userDetailsService {@link UserDetailsService}
      * @param jwtTokenProvider {@link JwtTokenProvider}
      *
-     * @return {@link JwtTokenAuthenticationProvider}
+     * @return {@link AuthenticationProvider}
      */
     @Bean
-    JwtTokenAuthenticationProvider authenticationProviderJwt(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService,
-                                                             final JwtTokenProvider jwtTokenProvider)
+    AuthenticationProvider authenticationProviderJwt(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService,
+                                                     final JwtTokenProvider jwtTokenProvider)
     {
         JwtTokenAuthenticationProvider jwtAuthenticationProvider = new JwtTokenAuthenticationProvider();
         // jwtAuthenticationProvider.setMessageSource(applicationContext); // Wird automatisch gemacht.

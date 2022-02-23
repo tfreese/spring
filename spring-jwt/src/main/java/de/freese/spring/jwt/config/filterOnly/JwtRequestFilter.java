@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -48,6 +49,10 @@ class JwtRequestFilter extends OncePerRequestFilter
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
+    /**
+    *
+    */
+    private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
     /**
     *
     */
@@ -209,7 +214,7 @@ class JwtRequestFilter extends OncePerRequestFilter
                 if (isValid(userDetails, password))
                 {
                     UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authResult.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    authResult.setDetails(this.authenticationDetailsSource.buildDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authResult);
                     // SecurityContext context = SecurityContextHolder.createEmptyContext();

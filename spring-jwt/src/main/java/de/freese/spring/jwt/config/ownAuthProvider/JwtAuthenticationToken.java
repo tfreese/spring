@@ -24,7 +24,7 @@ class JwtAuthenticationToken extends AbstractAuthenticationToken
      *
      * @param token String
      */
-    public JwtAuthenticationToken(final String token)
+    JwtAuthenticationToken(final String token)
     {
         super(null);
 

@@ -24,18 +24,18 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @Configuration
 @EnableWebSecurity
 @Profile(
-{
-        "defaultAuthProvider", "default"
-})
+        {
+                "defaultAuthProvider", "default"
+        })
 public class SecurityDefaultAuthProviderConfig
 {
     /**
-     * @param authenticationProviderDao {@link DaoAuthenticationProvider}
+     * @param authenticationProviderDao {@link AuthenticationProvider}
      *
      * @return {@link AuthenticationManager}
      */
     @Bean
-    AuthenticationManager authenticationManager(final DaoAuthenticationProvider authenticationProviderDao)
+    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao)
     {
         ProviderManager providerManager = new ProviderManager(authenticationProviderDao);
         // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
@@ -56,7 +56,7 @@ public class SecurityDefaultAuthProviderConfig
     @Bean
     Filter jwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint,
                             final JwtTokenProvider jwtTokenProvider)
-        throws Exception
+            throws Exception
     {
         JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();
         jwtRequestFilter.setAuthenticationManager(authenticationManager);

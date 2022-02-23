@@ -1,13 +1,12 @@
 // Created: 30.10.2018
 package de.freese.spring.jwt.config.ownAuthProvider;
 
+import de.freese.spring.jwt.token.JwtToken;
+import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
-
-import de.freese.spring.jwt.token.JwtToken;
-import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * Analog-implementierung zum {@link DaoAuthenticationProvider}.
@@ -46,22 +45,6 @@ class JwtTokenAuthenticationProvider extends DaoAuthenticationProvider
     }
 
     /**
-     * @return {@link JwtTokenProvider}
-     */
-    protected JwtTokenProvider getJwtTokenProvider()
-    {
-        return this.jwtTokenProvider;
-    }
-
-    /**
-     * @return {@link MessageSourceAccessor}
-     */
-    protected MessageSourceAccessor getMessages()
-    {
-        return super.messages;
-    }
-
-    /**
      * @param jwtTokenProvider {@link JwtTokenProvider}
      */
     public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider)
@@ -76,5 +59,21 @@ class JwtTokenAuthenticationProvider extends DaoAuthenticationProvider
     public boolean supports(final Class<?> authentication)
     {
         return JwtAuthenticationToken.class.isAssignableFrom(authentication);
+    }
+
+    /**
+     * @return {@link JwtTokenProvider}
+     */
+    protected JwtTokenProvider getJwtTokenProvider()
+    {
+        return this.jwtTokenProvider;
+    }
+
+    /**
+     * @return {@link MessageSourceAccessor}
+     */
+    protected MessageSourceAccessor getMessages()
+    {
+        return super.messages;
     }
 }
