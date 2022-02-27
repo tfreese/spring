@@ -1,22 +1,24 @@
 // Created: 07.09.2018
 package de.freese.spring.thymeleaf.rest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.net.ssl.TrustManagerFactory;
 
-import org.junit.jupiter.api.Assertions;
+import com.jayway.jsonpath.JsonPath;
+import de.freese.spring.thymeleaf.ThymeleafApplication;
+import de.freese.spring.thymeleaf.model.Person;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,15 +26,6 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
-
-import de.freese.spring.thymeleaf.ThymeleafApplication;
-import de.freese.spring.thymeleaf.model.Person;
-import io.netty.handler.ssl.SslContext;
-import io.netty.handler.ssl.SslContextBuilder;
-import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
@@ -40,30 +33,12 @@ import reactor.netty.http.client.HttpClient;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
-@TestMethodOrder(MethodOrderer.MethodName.class)
-@AutoConfigureMockMvc
 @ActiveProfiles(
-{
-        "test", "with-ssl"
-})
+        {
+                "test", "with-ssl"
+        })
 class TestRestWithWebClientSSL extends AbstractRestTestCase
 {
-    /**
-    *
-    */
-    @Resource
-    private Environment environment;
-    /**
-    *
-    */
-    @LocalServerPort
-    private int localServerPort;
-    /**
-     *
-     */
-    @Resource
-    private ObjectMapper objectMapper;
     /**
      *
      */
@@ -76,7 +51,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
     @BeforeEach
     void beforeTest() throws Exception
     {
-        String rootUri = ThymeleafApplication.getRootUri(this.environment);
+        String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
 
         // final SslContext sslContext;
         //
@@ -144,11 +119,11 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test000HealthEndpoint()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testHealthEndpoint()
      */
     @Override
     @Test
-    void test000HealthEndpoint() throws Exception
+    void testHealthEndpoint() throws Exception
     {
         // @formatter:off
         WebClient webClient = this.webClientBuilder.build();
@@ -182,50 +157,207 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
 
         ResponseEntity<String> responseEntity = response.block();
 
-        Assertions.assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType());
+        assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType());
 
         String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
-        Assertions.assertEquals("UP", status);
+        assertEquals("UP", status);
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test010UserWithoutLogin()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testPost()
      */
     @Override
     @Test
-    void test010UserWithoutLogin() throws Exception
+    void testPost() throws Exception
     {
         WebClient webClient = this.webClientBuilder.build();
+        Person newPerson = new Person("Thomas", "Freese");
 
         // @formatter:off
-//        Flux<Person> personFlux = webClient.get()
-//                .repository("/rest/person/personList")
-//                .accept(MediaType.APPLICATION_JSON)
-//                .retrieve()
-//                .onStatus(status ->  !HttpStatus.UNAUTHORIZED.equals(status) , response -> Mono.just(new Exception()))
-//                .bodyToFlux(Person.class)
-
-//                .exchange()
-//                .flatMapIterable(clientResponse -> clientResponse.bodyToFlux(Person.class))
-//                ;
-        Mono<ResponseEntity<String>> response = webClient.get()
-                .uri("/rest/person/personList")
-                .accept(MediaType.APPLICATION_JSON)
+        Mono<ResponseEntity<String>> response = webClient.mutate()
+                .filter(ExchangeFilterFunctions.basicAuthentication("admin", "pw"))
+                .build()
+                .post()
+                .uri("/rest/person/personAdd")
+                .contentType(MediaType.APPLICATION_JSON)
+                //.body(Mono.just(newPerson), Person.class)
+                .bodyValue(newPerson)
                 .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
                 ;
         // @formatter:on
 
+        // ResponseEntity<ApiError> responseEntity = response.block();
         ResponseEntity<String> responseEntity = response.block();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
-        Assertions.assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+        // @formatter:off
+        Flux<Person> personFlux = webClient.mutate()
+                   .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
+                   .build()
+                   .get()
+                   .uri("/rest/person/personList")
+                   .accept(MediaType.APPLICATION_JSON)
+                   .retrieve()
+                   .bodyToFlux(Person.class)
+                   ;
+        // @formatter:on
+
+        List<Person> persons = personFlux.collectList().block();
+
+        assertNotNull(persons);
+        assertTrue(persons.size() >= 3);
+
+        assertEquals("Thomas", persons.get(persons.size() - 1).getFirstName());
+        assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test011UserWithWrongPass()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testPostWithWrongRole()
      */
     @Override
     @Test
-    void test011UserWithWrongPass() throws Exception
+    void testPostWithWrongRole() throws Exception
+    {
+        WebClient webClient = this.webClientBuilder.build();
+        Person newPerson = new Person("Thomas", "Freese");
+
+        // @formatter:off
+        Mono<ResponseEntity<String>> response = webClient.mutate()
+                .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
+                .build()
+                .post()
+                .uri("/rest/person/personList")
+                .contentType(MediaType.APPLICATION_JSON)
+                //.body(Mono.just(newPerson), Person.class)
+                .bodyValue(newPerson)
+                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
+                ;
+        // @formatter:on
+
+        // ResponseEntity<ApiError> responseEntity = response.block();
+        ResponseEntity<String> responseEntity = response.block();
+        // ApiError apiError = responseEntity.getBody();
+
+        // assertEquals(HttpStatus.FORBIDDEN.value(), apiError.getHttpStatus());
+        assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
+    }
+
+    /**
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithLoginJSON()
+     */
+    @Override
+    @Test
+    void testUserWithLoginJSON() throws Exception
+    {
+        WebClient webClient = this.webClientBuilder.build();
+
+        // @formatter:off
+        Flux<Person> personFlux = webClient.mutate()
+                   .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
+                   .build()
+                   .get()
+                   .uri("/rest/person/personList")
+                   .accept(MediaType.APPLICATION_JSON)
+                   .retrieve()
+                   .bodyToFlux(Person.class)
+                   ;
+        // @formatter:on
+
+        List<Person> persons = personFlux.collectList().block();
+
+        assertNotNull(persons);
+        assertTrue(persons.size() >= 2);
+    }
+
+    /**
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithLoginXML()
+     */
+    @Override
+    // @Test
+    void testUserWithLoginXML() throws Exception
+    {
+        WebClient webClient = this.webClientBuilder.build();
+
+        // @formatter:off
+        Flux<Person> personFlux = webClient.mutate()
+                   .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
+                   .build()
+                   .get()
+                   .uri("/rest/person/personList")
+                   .accept(MediaType.APPLICATION_XML)
+                   .acceptCharset(StandardCharsets.UTF_8)
+                   //.header("Accept", MediaType.APPLICATION_XML_VALUE+";charset=UTF-8")
+                   .retrieve()
+                   .bodyToFlux(Person.class)
+                   ;
+        // @formatter:on
+
+        List<Person> persons = personFlux.collectList().block();
+
+        assertNotNull(persons);
+        assertTrue(persons.size() >= 2);
+    }
+
+    /**
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithPreAuthJSON()
+     */
+    @Override
+    @Test
+    void testUserWithPreAuthJSON() throws Exception
+    {
+        WebClient webClient = this.webClientBuilder.build();
+
+        // @formatter:off
+        Flux<Person> personFlux = webClient
+                   .get()
+                   .uri("/rest/person/personList")
+                   .accept(MediaType.APPLICATION_JSON)
+                   .acceptCharset(StandardCharsets.UTF_8)
+                   .header("my-token", "user")
+                   .retrieve()
+                   .bodyToFlux(Person.class)
+                   ;
+        // @formatter:on
+
+        List<Person> persons = personFlux.collectList().block();
+
+        assertNotNull(persons);
+        assertTrue(persons.size() >= 2);
+    }
+
+    /**
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithPreAuthXML()
+     */
+    @Override
+    // @Test
+    void testUserWithPreAuthXML() throws Exception
+    {
+        WebClient webClient = this.webClientBuilder.build();
+
+        // @formatter:off
+        Flux<Person> personFlux = webClient
+                   .get()
+                   .uri("/rest/person/personList")
+                   .accept(MediaType.APPLICATION_XML)
+                   .acceptCharset(StandardCharsets.UTF_8)
+                   .header("my-token", "user")
+                   .retrieve()
+                   .bodyToFlux(Person.class)
+                   ;
+        // @formatter:on
+
+        List<Person> persons = personFlux.collectList().block();
+
+        assertNotNull(persons);
+        assertTrue(persons.size() >= 2);
+    }
+
+    /**
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithWrongPass()
+     */
+    @Override
+    @Test
+    void testUserWithWrongPass() throws Exception
     {
         WebClient webClient = this.webClientBuilder.build();
 
@@ -252,15 +384,15 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
 
         ResponseEntity<String> responseEntity = response.block();
 
-        Assertions.assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test020UserWithWrongRole()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithWrongRole()
      */
     @Override
     @Test
-    void test020UserWithWrongRole() throws Exception
+    void testUserWithWrongRole() throws Exception
     {
         WebClient webClient = this.webClientBuilder.build();
 
@@ -277,195 +409,38 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
 
         ResponseEntity<String> responseEntity = response.block();
 
-        Assertions.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test030UserWithLoginJSON()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithoutLogin()
      */
     @Override
     @Test
-    void test030UserWithLoginJSON() throws Exception
+    void testUserWithoutLogin() throws Exception
     {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
-        Flux<Person> personFlux = webClient.mutate()
-                   .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
-                   .build()
-                   .get()
-                   .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_JSON)
-                   .retrieve()
-                   .bodyToFlux(Person.class)
-                   ;
-        // @formatter:on
+//        Flux<Person> personFlux = webClient.get()
+//                .repository("/rest/person/personList")
+//                .accept(MediaType.APPLICATION_JSON)
+//                .retrieve()
+//                .onStatus(status ->  !HttpStatus.UNAUTHORIZED.equals(status) , response -> Mono.just(new Exception()))
+//                .bodyToFlux(Person.class)
 
-        List<Person> persons = personFlux.collectList().block();
-
-        Assertions.assertNotNull(persons);
-        Assertions.assertTrue(persons.size() >= 2);
-    }
-
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test031UserWithLoginXML()
-     */
-    @Override
-    // @Test
-    void test031UserWithLoginXML() throws Exception
-    {
-        WebClient webClient = this.webClientBuilder.build();
-
-        // @formatter:off
-        Flux<Person> personFlux = webClient.mutate()
-                   .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
-                   .build()
-                   .get()
-                   .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_XML)
-                   .acceptCharset(StandardCharsets.UTF_8)
-                   //.header("Accept", MediaType.APPLICATION_XML_VALUE+";charset=UTF-8")
-                   .retrieve()
-                   .bodyToFlux(Person.class)
-                   ;
-        // @formatter:on
-
-        List<Person> persons = personFlux.collectList().block();
-
-        Assertions.assertNotNull(persons);
-        Assertions.assertTrue(persons.size() >= 2);
-    }
-
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test040PostWithWrongRole()
-     */
-    @Override
-    @Test
-    void test040PostWithWrongRole() throws Exception
-    {
-        WebClient webClient = this.webClientBuilder.build();
-        Person newPerson = new Person("Thomas", "Freese");
-
-        // @formatter:off
-        Mono<ResponseEntity<String>> response = webClient.mutate()
-                .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
-                .build()
-                .post()
+//                .exchange()
+//                .flatMapIterable(clientResponse -> clientResponse.bodyToFlux(Person.class))
+//                ;
+        Mono<ResponseEntity<String>> response = webClient.get()
                 .uri("/rest/person/personList")
-                .contentType(MediaType.APPLICATION_JSON)
-                //.body(Mono.just(newPerson), Person.class)
-                .bodyValue(newPerson)
+                .accept(MediaType.APPLICATION_JSON)
                 .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
                 ;
         // @formatter:on
 
-        // ResponseEntity<ApiError> responseEntity = response.block();
         ResponseEntity<String> responseEntity = response.block();
-        // ApiError apiError = responseEntity.getBody();
 
-        // Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), apiError.getHttpStatus());
-        Assertions.assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
-    }
-
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test041Post()
-     */
-    @Override
-    @Test
-    void test041Post() throws Exception
-    {
-        WebClient webClient = this.webClientBuilder.build();
-        Person newPerson = new Person("Thomas", "Freese");
-
-        // @formatter:off
-        Mono<ResponseEntity<String>> response = webClient.mutate()
-                .filter(ExchangeFilterFunctions.basicAuthentication("admin", "pw"))
-                .build()
-                .post()
-                .uri("/rest/person/personAdd")
-                .contentType(MediaType.APPLICATION_JSON)
-                //.body(Mono.just(newPerson), Person.class)
-                .bodyValue(newPerson)
-                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
-                ;
-        // @formatter:on
-
-        // ResponseEntity<ApiError> responseEntity = response.block();
-        ResponseEntity<String> responseEntity = response.block();
-        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-
-        // @formatter:off
-        Flux<Person> personFlux = webClient.mutate()
-                   .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
-                   .build()
-                   .get()
-                   .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_JSON)
-                   .retrieve()
-                   .bodyToFlux(Person.class)
-                   ;
-        // @formatter:on
-
-        List<Person> persons = personFlux.collectList().block();
-
-        Assertions.assertNotNull(persons);
-        Assertions.assertTrue(persons.size() >= 3);
-
-        Assertions.assertEquals("Thomas", persons.get(persons.size() - 1).getFirstName());
-        Assertions.assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
-    }
-
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test050UserWithPreAuthJSON()
-     */
-    @Override
-    @Test
-    void test050UserWithPreAuthJSON() throws Exception
-    {
-        WebClient webClient = this.webClientBuilder.build();
-
-        // @formatter:off
-        Flux<Person> personFlux = webClient
-                   .get()
-                   .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_JSON)
-                   .acceptCharset(StandardCharsets.UTF_8)
-                   .header("my-token", "user")
-                   .retrieve()
-                   .bodyToFlux(Person.class)
-                   ;
-        // @formatter:on
-
-        List<Person> persons = personFlux.collectList().block();
-
-        Assertions.assertNotNull(persons);
-        Assertions.assertTrue(persons.size() >= 2);
-    }
-
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test051UserWithPreAuthXML()
-     */
-    @Override
-    // @Test
-    void test051UserWithPreAuthXML() throws Exception
-    {
-        WebClient webClient = this.webClientBuilder.build();
-
-        // @formatter:off
-        Flux<Person> personFlux = webClient
-                   .get()
-                   .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_XML)
-                   .acceptCharset(StandardCharsets.UTF_8)
-                   .header("my-token", "user")
-                   .retrieve()
-                   .bodyToFlux(Person.class)
-                   ;
-        // @formatter:on
-
-        List<Person> persons = personFlux.collectList().block();
-
-        Assertions.assertNotNull(persons);
-        Assertions.assertTrue(persons.size() >= 2);
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 }

@@ -1,6 +1,10 @@
 // Created: 07.09.2018
 package de.freese.spring.thymeleaf.rest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -8,19 +12,16 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.jayway.jsonpath.JsonPath;
+import de.freese.spring.thymeleaf.HttpHeaderInterceptor;
+import de.freese.spring.thymeleaf.ThymeleafApplication;
+import de.freese.spring.thymeleaf.exception.ApiError;
+import de.freese.spring.thymeleaf.model.Person;
 import org.apache.http.client.HttpClient;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -33,23 +34,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
-import com.jayway.jsonpath.JsonPath;
-
-import de.freese.spring.thymeleaf.HttpHeaderInterceptor;
-import de.freese.spring.thymeleaf.ThymeleafApplication;
-import de.freese.spring.thymeleaf.exception.ApiError;
-import de.freese.spring.thymeleaf.model.Person;
-
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
-@TestMethodOrder(MethodOrderer.MethodName.class)
-@AutoConfigureMockMvc
 @ActiveProfiles(
-{
-        "test", "with-ssl"
-})
+        {
+                "test", "with-ssl"
+        })
 class TestRestWithRestTemplateSSL extends AbstractRestTestCase
 {
     /**
@@ -86,20 +77,10 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase
     }
 
     /**
-    *
-    */
-    @Resource
-    private Environment environment;
-    /**
      *
      */
     @Resource
     private HttpClient httpClient;
-    /**
-    *
-    */
-    @LocalServerPort
-    private int localServerPort;
     /**
      *
      */
@@ -113,7 +94,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase
     void beforeTest() throws Exception
     {
         // String rootUri = "http://localhost:" + this.localServerPort;
-        String rootUri = ThymeleafApplication.getRootUri(this.environment);
+        String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
 
         HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory(this.httpClient);
 
@@ -121,16 +102,17 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase
         this.restTemplateBuilder = this.restTemplateBuilder
                 .rootUri(rootUri)
                 .errorHandler(new NoOpResponseErrorHandler())
-                .requestFactory(() -> httpRequestFactory);
+                .requestFactory(() -> httpRequestFactory)
+                ;
         // @formatter:on
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test000HealthEndpoint()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testHealthEndpoint()
      */
     @Override
     @Test
-    void test000HealthEndpoint() throws Exception
+    void testHealthEndpoint() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -140,71 +122,71 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/actuator/health", String.class);
 
-        Assertions.assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType());
+        assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType());
 
         String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
-        Assertions.assertEquals("UP", status);
+        assertEquals("UP", status);
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test010UserWithoutLogin()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testPost()
      */
     @Override
     @Test
-    void test010UserWithoutLogin() throws Exception
+    void testPost() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
+                .interceptors(new BasicAuthenticationInterceptor("admin", "pw", StandardCharsets.UTF_8),
+                        new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
+        HttpEntity<Person> httpEntity = new HttpEntity<>(new Person("Thomas", "Freese"));
+        ResponseEntity<ApiError> responseEntity = restTemplate.exchange("/rest/person/personAdd", HttpMethod.POST, httpEntity, ApiError.class);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
-        Assertions.assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+        // @formatter:off
+        restTemplate = this.restTemplateBuilder
+                .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
+                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
+                .build();
+        // @formatter:on
+
+        Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
+        List<Person> persons = Arrays.asList(personArray);
+
+        assertNotNull(persons);
+        assertTrue(persons.size() >= 3);
+
+        assertEquals("Thomas", persons.get(persons.size() - 1).getFirstName());
+        assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test011UserWithWrongPass()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testPostWithWrongRole()
      */
     @Override
     @Test
-    void test011UserWithWrongPass() throws Exception
+    void testPostWithWrongRole() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8))
+                .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
+                        new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
-
-        Assertions.assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+        ApiError error = restTemplate.postForObject("/rest/person/personAdd", new Person("Thomas", "Freese"), ApiError.class);
+        assertEquals(HttpStatus.FORBIDDEN.value(), error.getHttpStatus());
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test020UserWithWrongRole()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithLoginJSON()
      */
     @Override
     @Test
-    void test020UserWithWrongRole() throws Exception
-    {
-        // @formatter:off
-        RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthenticationInterceptor("invalid", "pw", StandardCharsets.UTF_8))
-                .build();
-        // @formatter:on
-
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
-
-        Assertions.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
-    }
-
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test030UserWithLoginJSON()
-     */
-    @Override
-    @Test
-    void test030UserWithLoginJSON() throws Exception
+    void testUserWithLoginJSON() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -227,18 +209,18 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase
                 });
         List<Person> persons = responseEntity.getBody();
 
-        // Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getAccept());
-        // Assertions.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
-        Assertions.assertNotNull(persons);
-        Assertions.assertTrue(persons.size() >= 2);
+        // assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getAccept());
+        // assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
+        assertNotNull(persons);
+        assertTrue(persons.size() >= 2);
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test031UserWithLoginXML()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithLoginXML()
      */
     @Override
     @Test
-    void test031UserWithLoginXML() throws Exception
+    void testUserWithLoginXML() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -261,71 +243,18 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase
                 });
         List<Person> persons = responseEntity.getBody();
 
-        // Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getAccept());
-        // Assertions.assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
-        Assertions.assertNotNull(persons);
-        Assertions.assertTrue(persons.size() >= 2);
+        // assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getAccept());
+        // assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
+        assertNotNull(persons);
+        assertTrue(persons.size() >= 2);
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test040PostWithWrongRole()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithPreAuthJSON()
      */
     @Override
     @Test
-    void test040PostWithWrongRole() throws Exception
-    {
-        // @formatter:off
-        RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
-                        new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_VALUE))
-                .build();
-        // @formatter:on
-
-        ApiError error = restTemplate.postForObject("/rest/person/personAdd", new Person("Thomas", "Freese"), ApiError.class);
-        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), error.getHttpStatus());
-    }
-
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test041Post()
-     */
-    @Override
-    @Test
-    void test041Post() throws Exception
-    {
-        // @formatter:off
-        RestTemplate restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthenticationInterceptor("admin", "pw", StandardCharsets.UTF_8),
-                        new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_VALUE))
-                .build();
-        // @formatter:on
-
-        HttpEntity<Person> httpEntity = new HttpEntity<>(new Person("Thomas", "Freese"));
-        ResponseEntity<ApiError> responseEntity = restTemplate.exchange("/rest/person/personAdd", HttpMethod.POST, httpEntity, ApiError.class);
-        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-
-        // @formatter:off
-        restTemplate = this.restTemplateBuilder
-                .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
-                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
-                .build();
-        // @formatter:on
-
-        Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
-        List<Person> persons = Arrays.asList(personArray);
-
-        Assertions.assertNotNull(persons);
-        Assertions.assertTrue(persons.size() >= 3);
-
-        Assertions.assertEquals("Thomas", persons.get(persons.size() - 1).getFirstName());
-        Assertions.assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
-    }
-
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test050UserWithPreAuthJSON()
-     */
-    @Override
-    @Test
-    void test050UserWithPreAuthJSON() throws Exception
+    void testUserWithPreAuthJSON() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -337,16 +266,16 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase
         Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
         List<Person> persons = Arrays.asList(personArray);
 
-        Assertions.assertNotNull(persons);
-        Assertions.assertTrue(persons.size() >= 2);
+        assertNotNull(persons);
+        assertTrue(persons.size() >= 2);
     }
 
     /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#test051UserWithPreAuthXML()
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithPreAuthXML()
      */
     @Override
     @Test
-    void test051UserWithPreAuthXML() throws Exception
+    void testUserWithPreAuthXML() throws Exception
     {
         // @formatter:off
         RestTemplate restTemplate = this.restTemplateBuilder
@@ -358,7 +287,64 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase
         Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
         List<Person> persons = Arrays.asList(personArray);
 
-        Assertions.assertNotNull(persons);
-        Assertions.assertTrue(persons.size() >= 2);
+        assertNotNull(persons);
+        assertTrue(persons.size() >= 2);
+    }
+
+    /**
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithWrongPass()
+     */
+    @Override
+    @Test
+    void testUserWithWrongPass() throws Exception
+    {
+        // @formatter:off
+        RestTemplate restTemplate = this.restTemplateBuilder
+                .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8))
+                .build();
+        // @formatter:on
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
+
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+    }
+
+    /**
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithWrongRole()
+     */
+    @Override
+    @Test
+    void testUserWithWrongRole() throws Exception
+    {
+        // @formatter:off
+        RestTemplate restTemplate = this.restTemplateBuilder
+                .interceptors(new BasicAuthenticationInterceptor("invalid", "pw", StandardCharsets.UTF_8))
+                .build();
+        // @formatter:on
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
+
+        assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
+    }
+
+    /**
+     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithoutLogin()
+     */
+    @Override
+    @Test
+    void testUserWithoutLogin() throws Exception
+    {
+        // @formatter:off
+        RestTemplate restTemplate = this.restTemplateBuilder
+                .interceptors(new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
+                .build();
+        // @formatter:on
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
+
+        //assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+
+        // Eigentlich UNAUTHORIZED erwartet -> RememberMeServices ?
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 }

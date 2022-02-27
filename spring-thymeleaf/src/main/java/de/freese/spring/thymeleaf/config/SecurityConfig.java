@@ -1,17 +1,15 @@
 // Created: 02.09.2018
 package de.freese.spring.thymeleaf.config;
 
-import javax.annotation.Resource;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.User;
@@ -22,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
@@ -30,6 +29,8 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 import org.springframework.web.filter.GenericFilterBean;
 
 /**
+ * https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
+ *
  * @author Thomas Freese
  */
 @Configuration
@@ -38,324 +39,12 @@ import org.springframework.web.filter.GenericFilterBean;
 public class SecurityConfig
 {
     /**
-     * @author Thomas Freese
+     * @return {@link AuthenticationEntryPoint}
      */
-    @Configuration
-    @Order(1)
-    public static class RestSecurity extends WebSecurityConfigurerAdapter
+    @Bean
+    AuthenticationEntryPoint authenticationEntryPoint()
     {
-        /**
-         *
-         */
-        @Resource
-        private AuthenticationEntryPoint authenticationEntryPoint;
-        /**
-         *
-         */
-        @Resource
-        private PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider;
-        /**
-         *
-         */
-        @Resource
-        private PasswordEncoder passwordEncoder;
-        // /**
-        // *
-        // */
-        // @Resource
-        // private UserCache userCache;
-        /**
-         *
-         */
-        @Resource
-        private RememberMeServices rememberMeServices;
-        /**
-         *
-         */
-        @Resource
-        private UserDetailsService userDetailsService;
-
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#authenticationManagerBean()
-         */
-        @Override
-        @Bean(name = "authenticationManagerRest")
-        public AuthenticationManager authenticationManagerBean() throws Exception
-        {
-            return super.authenticationManagerBean();
-        }
-
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsServiceBean()
-         */
-        @Override
-        public UserDetailsService userDetailsServiceBean() throws Exception
-        {
-            return userDetailsService();
-        }
-
-        /**
-         * @return {@link GenericFilterBean}
-         *
-         * @throws Exception Falls was schief geht.
-         */
-        // @Bean // Mit @Bean funktionieren die REST-Services nicht mehr !
-        GenericFilterBean myTokenFilterRest() throws Exception
-        {
-            // RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
-            // filter.setPrincipalRequestHeader("my-token");
-            // filter.setExceptionIfHeaderMissing(false); // Damit keine konkrete Fehlermeldung ausgegeben wird.
-            // filter.setCheckForPrincipalChanges(true);
-            // filter.setInvalidateSessionOnPrincipalChange(true);
-
-            MyTokenRequestHeaderAuthenticationFilter filter = new MyTokenRequestHeaderAuthenticationFilter();
-            filter.setAuthenticationManager(authenticationManagerBean());
-
-            // MyTokenBasicAuthAuthenticationFilter filter = new MyTokenBasicAuthAuthenticationFilter(authenticationManagerBean());
-
-            filter.afterPropertiesSet();
-
-            return filter;
-        }
-
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder)
-         */
-        @Override
-        protected void configure(final AuthenticationManagerBuilder auth) throws Exception
-        {
-            // DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-            // daoAuthenticationProvider.setUserDetailsService(userDetailsService());
-            // daoAuthenticationProvider.setPasswordEncoder(this.passwordEncoder);
-            // daoAuthenticationProvider.setUserCache(this.userCache);
-
-            // @formatter:off
-            auth
-                .eraseCredentials(true)
-                .userDetailsService(userDetailsService())
-                .passwordEncoder(this.passwordEncoder)
-                .and()
-                //.authenticationProvider(daoAuthenticationProvider)
-                .authenticationProvider(this.myTokenPreauthAuthProvider)
-                ;
-            // @formatter:on
-        }
-
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
-         */
-        @Override
-        protected void configure(final HttpSecurity httpSecurity) throws Exception
-        {
-            // Beispiel: https://developer.okta.com/blog/2018/07/30/10-ways-to-secure-spring-boot
-            // http.requiresChannel().anyRequest().requiresSecure();
-            //
-            // http.requiresChannel()
-            // .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-            // .requiresSecure();
-
-            // @formatter:off
-            httpSecurity
-                //.anonymous().disable()
-                .addFilterBefore(myTokenFilterRest(), RequestHeaderAuthenticationFilter.class)
-                .authenticationProvider(this.myTokenPreauthAuthProvider)
-                .antMatcher("/rest/**") // Nur auf den /rest Pfad beschränken.
-                    .authorizeRequests()
-                        .anyRequest().authenticated()// Alle HTTP Methoden zulässig.
-                .and()
-                    .httpBasic().authenticationEntryPoint(this.authenticationEntryPoint)
-                .and()
-                    //.formLogin().disable()
-                    .csrf().disable() // .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                    .exceptionHandling()
-                //.and()
-                    //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // REST-Services brauchen keine Session.
-                .and()
-                    .rememberMe()
-                        .rememberMeServices(this.rememberMeServices)
-                        .key("remember-me")
-                        .tokenValiditySeconds(10 * 60) // 10 Minuten Gültigkeit
-                 ;
-                // Weitere Berechtigungen übernimmt die WebAppSecurity.
-            // @formatter:on
-        }
-
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsService()
-         */
-        @Override
-        protected UserDetailsService userDetailsService()
-        {
-            return this.userDetailsService;
-        }
-    }
-
-    /**
-     * @author Thomas Freese
-     */
-    @Configuration
-    @Order(2)
-    public static class WebAppSecurity extends WebSecurityConfigurerAdapter
-    {
-        /**
-         *
-         */
-        @Resource
-        private PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider;
-        /**
-         *
-         */
-        @Resource
-        private PasswordEncoder passwordEncoder;
-        /**
-         *
-         */
-        @Resource
-        private RememberMeServices rememberMeServices;
-        // /**
-        // *
-        // */
-        // @Resource
-        // private UserCache userCache;
-        /**
-         *
-         */
-        @Resource
-        private UserDetailsService userDetailsService;
-
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#authenticationManagerBean()
-         */
-        @Override
-        @Bean(name = "authenticationManagerWeb")
-        public AuthenticationManager authenticationManagerBean() throws Exception
-        {
-            return super.authenticationManagerBean();
-        }
-
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsServiceBean()
-         */
-        @Override
-        public UserDetailsService userDetailsServiceBean() throws Exception
-        {
-            return userDetailsService();
-        }
-
-        /**
-         * @return {@link GenericFilterBean}
-         *
-         * @throws Exception Falls was schief geht.
-         */
-        // @Bean // Mit @Bean funktionieren die REST-Services nicht mehr !
-        GenericFilterBean myTokenFilterWeb() throws Exception
-        {
-            // RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
-            // filter.setPrincipalRequestHeader("my-token");
-            // filter.setExceptionIfHeaderMissing(false); // Damit keine konkrete Fehlermeldung ausgegeben wird.
-            // filter.setCheckForPrincipalChanges(true);
-            // filter.setInvalidateSessionOnPrincipalChange(true);
-
-            MyTokenRequestHeaderAuthenticationFilter filter = new MyTokenRequestHeaderAuthenticationFilter();
-            filter.setAuthenticationManager(authenticationManagerBean());
-
-            // MyTokenBasicAuthAuthenticationFilter filter = new MyTokenBasicAuthAuthenticationFilter(authenticationManagerBean());
-
-            filter.afterPropertiesSet();
-
-            return filter;
-        }
-
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder)
-         */
-        @Override
-        protected void configure(final AuthenticationManagerBuilder auth) throws Exception
-        {
-            // DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-            // daoAuthenticationProvider.setUserDetailsService(userDetailsService());
-            // daoAuthenticationProvider.setPasswordEncoder(this.passwordEncoder);
-            // daoAuthenticationProvider.setUserCache(this.userCache);
-
-            // @formatter:off
-            auth
-                .eraseCredentials(true)
-                .userDetailsService(userDetailsService())
-                .passwordEncoder(this.passwordEncoder)
-                .and()
-                    //.authenticationProvider(daoAuthenticationProvider)
-                    .authenticationProvider(this.myTokenPreauthAuthProvider)
-
-//                .inMemoryAuthentication()
-//                .withUser("admin").password("{noop}admin").roles("ADMIN","USER")
-//                .and()
-//                .withUser("user").password("{noop}user").roles("USER")
-                ;
-            // @formatter:on
-        }
-
-        /**
-         * Berechtigungen auf URL-Pfade.
-         *
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
-         */
-        @Override
-        protected void configure(final HttpSecurity httpSecurity) throws Exception
-        {
-            // Beispiel: https://developer.okta.com/blog/2018/07/30/10-ways-to-secure-spring-boot
-            // http.requiresChannel().anyRequest().requiresSecure();
-            //
-            // http.requiresChannel()
-            // .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-            // .requiresSecure();
-
-            // @formatter:off
-            httpSecurity
-                //.anonymous().disable()
-                .addFilterBefore(myTokenFilterWeb(), RequestHeaderAuthenticationFilter.class)
-                .authenticationProvider(this.myTokenPreauthAuthProvider)
-                .authorizeRequests()
-                    .antMatchers("/", "/index", "/createError", "/login/**", "/actuator/**").permitAll()
-                    //.antMatchers(HttpMethod.GET,"/admin/**").hasRole("ADMIN")
-                    .antMatchers("/web/**").authenticated()
-                    .anyRequest().denyAll()
-                .and()
-                    //.httpBasic().disable()
-                    .formLogin()
-                        .permitAll()
-                        .loginPage("/login")
-                        .failureUrl("/login?error=1")
-                        .loginProcessingUrl("/authenticate") // Führt den Login durch
-                        .defaultSuccessUrl("/web/person/personList") // Aufruf bei erfolgreichem Login
-                .and()
-                    .logout()
-                        .permitAll()
-                        .clearAuthentication(true)
-                        .deleteCookies("JSESSIONID", "remember-me")
-                        .invalidateHttpSession(true)
-                        // .logoutUrl("/logout")
-                        .logoutSuccessUrl("/index?logout")
-                .and()
-                    .csrf().disable() // .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                    .exceptionHandling()
-                .and()
-                    .rememberMe()
-                        .rememberMeServices(this.rememberMeServices)
-                        .key("remember-me")
-                        .tokenValiditySeconds(10 * 60) // 10 Minuten Gültigkeit
-                        //.tokenRepository(new InMemoryTokenRepositoryImpl())
-                ;
-            // @formatter:on
-        }
-
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsService()
-         */
-        @Override
-        protected UserDetailsService userDetailsService()
-        {
-            return this.userDetailsService;
-        }
+        return new RestAuthenticationEntryPoint();
     }
 
     /**
@@ -398,12 +87,182 @@ public class SecurityConfig
     // }
 
     /**
-     * @return {@link AuthenticationEntryPoint}
+     * @param authenticationProviderPreAuthenticated {@link AuthenticationProvider}
+     * @param authenticationProviderDao {@link AuthenticationProvider}
+     *
+     * @return {@link AuthenticationManager}
      */
     @Bean
-    AuthenticationEntryPoint authenticationEntryPoint()
+    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderPreAuthenticated,
+                                                final AuthenticationProvider authenticationProviderDao)
     {
-        return new RestAuthenticationEntryPoint();
+        ProviderManager providerManager = new ProviderManager(authenticationProviderPreAuthenticated, authenticationProviderDao);
+        // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
+        providerManager.setEraseCredentialsAfterAuthentication(true);
+
+        return providerManager;
+    }
+
+    /**
+     * Für Username/Password Login.<br>
+     * UserController.login(String, String)<br>
+     *
+     * @param passwordEncoder {@link PasswordEncoder}
+     * @param userDetailsService {@link UserDetailsService}
+     * @param userCache {@link UserCache}
+     *
+     * @return {@link AuthenticationProvider}
+     */
+    @Bean
+    AuthenticationProvider authenticationProviderDao(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService,
+                                                     final UserCache userCache)
+    {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        // authenticationProvider.setMessageSource(applicationContext); // Wird automatisch gemacht.
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+        authenticationProvider.setUserDetailsService(userDetailsService);
+
+        // Böse Falle !
+        // Der UserCache im AuthenticationProvider behält die UserDetails der User.
+        // Bei diesen werden aber die Passwörter aus Sicherheitsgründen im ProviderManager entfernt.
+        // Dadurch ist ein 2. Login dann nicht mehr möglich -> NullPointer wegen UserDetails.getPassword = null
+        // authenticationProvider.setUserCache(userCache);
+
+        // Dieses Problem könnte behoben werden, indem nur der UserName und nicht das User-Object verwendet wird.
+        // Dann kann aber nicht der User in die Controller-Methode übergeben werden.
+        // -> ..., @AuthenticationPrincipal final UserDetails user)
+        // authenticationProvider.setForcePrincipalAsString(true);
+
+        // Lösung: UserDetailsService mit Cache in der Methode #loadUserByUsername(String)
+
+        return authenticationProvider;
+    }
+
+    /**
+     * @param authenticationUserDetailsService {@link AuthenticationUserDetailsService}
+     *
+     * @return {@link AuthenticationProvider}
+     */
+    @Bean
+    AuthenticationProvider authenticationProviderPreAuthenticated(final AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> authenticationUserDetailsService)
+    {
+        PreAuthenticatedAuthenticationProvider preAuthenticatedAuthenticationProvider = new PreAuthenticatedAuthenticationProvider();
+        preAuthenticatedAuthenticationProvider.setPreAuthenticatedUserDetailsService(authenticationUserDetailsService);
+
+        return preAuthenticatedAuthenticationProvider;
+    }
+
+    /**
+     * @param userDetailsService {@link UserDetailsService}
+     *
+     * @return {@link AuthenticationUserDetailsService}
+     */
+    @Bean
+    AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> authenticationUserDetailsService(final UserDetailsService userDetailsService)
+    {
+        UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> wrapper = new UserDetailsByNameServiceWrapper<>();
+        wrapper.setUserDetailsService(userDetailsService);
+
+        return wrapper;
+    }
+
+    /**
+     * @param httpSecurity {@link HttpSecurity}
+     * @param myTokenPreauthAuthProvider {@link PreAuthenticatedAuthenticationProvider}
+     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
+     * @param rememberMeServices {@link RememberMeServices}
+     * @param authenticationManager {@link AuthenticationManager}
+     *
+     * @return {@link SecurityFilterChain}
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    @Bean
+    SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider,
+                                    final AuthenticationEntryPoint authenticationEntryPoint, final RememberMeServices rememberMeServices,
+                                    final AuthenticationManager authenticationManager)
+            throws Exception
+    {
+        // Beispiel: https://developer.okta.com/blog/2018/07/30/10-ways-to-secure-spring-boot
+        // http.requiresChannel().anyRequest().requiresSecure();
+        //
+        // http.requiresChannel()
+        // .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+        // .requiresSecure();
+
+        // @formatter:off
+        httpSecurity
+                //.anonymous().disable()
+                .addFilterBefore(myTokenFilter(authenticationManager), RequestHeaderAuthenticationFilter.class)
+                .authenticationProvider(myTokenPreauthAuthProvider)
+//                .antMatcher("/rest/**") // Nur auf den /rest Pfad beschränken.
+//                    .authorizeRequests()
+//                    .anyRequest().authenticated()// Alle HTTP Methoden zulässig.
+                .authorizeRequests()
+                    .antMatchers("/", "/index", "/createError", "/login/**", "/actuator/**").permitAll()
+                    //.antMatchers(HttpMethod.GET,"/admin/**").hasRole("ADMIN")
+                    .antMatchers("/web/**").authenticated()
+                    .antMatchers("/rest/**").authenticated()
+                    .anyRequest().denyAll()
+                .and()
+                    //.httpBasic().disable()
+                    .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
+                .and()
+                    .formLogin()
+                        .permitAll()
+                        .loginPage("/login")
+                        .failureUrl("/login?error=1")
+                        .loginProcessingUrl("/authenticate") // Führt den Login durch
+                        .defaultSuccessUrl("/web/person/personList") // Aufruf bei erfolgreichem Login
+                .and()
+                    .logout()
+                        .permitAll()
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID", "remember-me")
+                        .invalidateHttpSession(true)
+                        // .logoutUrl("/logout")
+                        .logoutSuccessUrl("/index?logout")
+                .and()
+                    .csrf().disable() // .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    .exceptionHandling()
+                //.and()
+                    //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // REST-Services brauchen keine Session.
+                .and()
+                    .rememberMe()
+                    .rememberMeServices(rememberMeServices)
+                    .key("remember-me")
+                    .tokenValiditySeconds(10 * 60) // 10 Minuten Gültigkeit
+                ;
+        // @formatter:on
+
+        return httpSecurity.build();
+    }
+
+    /**
+     * @param authenticationManager {@link AuthenticationManager}
+     *
+     * @return {@link GenericFilterBean}
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    // @Bean
+    // Mit @Bean funktionieren die REST-Services nicht mehr !
+    GenericFilterBean myTokenFilter(final AuthenticationManager authenticationManager) throws Exception
+    {
+        // RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
+        // filter.setPrincipalRequestHeader("my-token");
+        // filter.setExceptionIfHeaderMissing(false); // Damit keine konkrete Fehlermeldung ausgegeben wird.
+        // filter.setCheckForPrincipalChanges(true);
+        // filter.setInvalidateSessionOnPrincipalChange(true);
+
+        MyTokenRequestHeaderAuthenticationFilter filter = new MyTokenRequestHeaderAuthenticationFilter();
+        filter.setAuthenticationManager(authenticationManager);
+
+        // MyTokenBasicAuthAuthenticationFilter filter = new MyTokenBasicAuthAuthenticationFilter(aauthenticationManager);
+
+        filter.afterPropertiesSet();
+
+        return filter;
     }
 
     /**
@@ -426,9 +285,7 @@ public class SecurityConfig
     @Bean
     PasswordEncoder passwordEncoder()
     {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
-        return bCryptPasswordEncoder;
+        return new BCryptPasswordEncoder();
     }
 
     /**
@@ -440,20 +297,6 @@ public class SecurityConfig
     RememberMeServices rememberMeService(final UserDetailsService userDetailsService)
     {
         return new TokenBasedRememberMeServices("remember-me", userDetailsService);
-    }
-
-    /**
-     * @param userDetailsService {@link UserDetailsService}
-     *
-     * @return {@link UserDetailsByNameServiceWrapper}
-     */
-    @Bean
-    UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> userDetailsByNameServiceWrapper(final UserDetailsService userDetailsService)
-    {
-        UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> wrapper = new UserDetailsByNameServiceWrapper<>();
-        wrapper.setUserDetailsService(userDetailsService);
-
-        return wrapper;
     }
 
     /**

@@ -17,7 +17,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 /**
  * Der {@link JwtRequestFilter} verwendet den Default-{@link AuthenticationProvider}.<br>
  * Siehe {@link DaoAuthenticationProvider}.<br>
- * https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
  *
  * @author Thomas Freese
  */

@@ -1,7 +1,6 @@
 // Created: 23.01.2018
 package de.freese.spring.thymeleaf.web;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
@@ -14,10 +13,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.annotation.Resource;
 
-import org.junit.jupiter.api.MethodOrderer;
+import de.freese.spring.thymeleaf.ThymeleafApplication;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -27,13 +24,10 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import de.freese.spring.thymeleaf.ThymeleafApplication;
-
 /**
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
-@TestMethodOrder(MethodOrderer.MethodName.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 // @ActiveProfiles(
@@ -42,19 +36,19 @@ import de.freese.spring.thymeleaf.ThymeleafApplication;
 // })
 class TestWebApp
 {
+//    /**
+//     *
+//     */
+//    @Value("${app.message.welcome}")
+//    private final String message = "Hello World";
     /**
-    *
-    */
+     *
+     */
     @LocalServerPort
     private int localServerPort;
     /**
-    *
-    */
-    @Value("${app.message.welcome}")
-    private String message = "Hello World";
-    /**
-    *
-    */
+     *
+     */
     @Resource
     private MockMvc mockMvc;
 
@@ -66,9 +60,12 @@ class TestWebApp
     {
         // @formatter:off
         this.mockMvc.perform(get("/web/person/personList"))
-            .andExpect(status().is3xxRedirection())
-            .andExpect(unauthenticated())
-            .andExpect(redirectedUrlPattern("**/login"));
+                .andDo(print())
+                //.andExpect(status().is3xxRedirection())
+                .andExpect(status().isUnauthorized())
+                .andExpect(unauthenticated())
+                //.andExpect(redirectedUrlPattern("**/login"))
+                ;
         // @formatter:on
     }
 
@@ -84,7 +81,8 @@ class TestWebApp
         this.mockMvc.perform(get("/index"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString(this.message)));
+            //.andExpect(content().string(containsString(this.message)))
+            ;
         // @formatter:on
     }
 

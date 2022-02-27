@@ -36,6 +36,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.util.Assert;
 
 /**
+ * https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
+ *
  * @author Thomas Freese
  */
 @Configuration
@@ -86,7 +88,7 @@ public class SecurityCommonConfig
     }
 
     /**
-     * @param http {@link HttpSecurity}
+     * @param httpSecurity {@link HttpSecurity}
      * @param jwtRequestFilter {@link Filter}
      * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
      *
@@ -95,11 +97,11 @@ public class SecurityCommonConfig
      * @throws Exception Falls was schief geht.
      */
     @Bean
-    SecurityFilterChain filterChain(final HttpSecurity http, final Filter jwtRequestFilter, final AuthenticationEntryPoint authenticationEntryPoint)
+    SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final Filter jwtRequestFilter, final AuthenticationEntryPoint authenticationEntryPoint)
             throws Exception
     {
         // @formatter:off
-        http//.authorizeRequests().anyRequest().permitAll()
+        httpSecurity//.authorizeRequests().anyRequest().permitAll()
             .anonymous().disable()
             .csrf().disable()
             .formLogin().disable()
@@ -118,7 +120,7 @@ public class SecurityCommonConfig
             ;
         // @formatter:on
 
-        return http.build();
+        return httpSecurity.build();
     }
 
     /**
