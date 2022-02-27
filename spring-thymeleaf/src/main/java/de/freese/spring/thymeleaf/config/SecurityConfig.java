@@ -1,33 +1,23 @@
 // Created: 02.09.2018
 package de.freese.spring.thymeleaf.config;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.cache.SpringCacheBasedUserCache;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -37,7 +27,6 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.web.filter.GenericFilterBean;
 
 /**
@@ -48,41 +37,6 @@ import org.springframework.web.filter.GenericFilterBean;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig
 {
-    /**
-     * BasicAuthenticationEntryPoint liefert die volle HTML Fehler-Seite, dies ist bei REST nicht gewünscht.<br>
-     * Aussedem wird die FilterChain weiter ausgeführt, wenn keine Credentials vorhanden sind.
-     *
-     * @author Thomas Freese
-     */
-    private static class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
-    {
-        /**
-         * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#afterPropertiesSet()
-         */
-        @Override
-        public void afterPropertiesSet()
-        {
-            setRealmName("Tommy");
-
-            super.afterPropertiesSet();
-        }
-
-        /**
-         * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#commence(javax.servlet.http.HttpServletRequest,
-         *      javax.servlet.http.HttpServletResponse, org.springframework.security.core.AuthenticationException)
-         */
-        @Override
-        public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authException)
-            throws IOException
-        {
-            response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName());
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-
-            PrintWriter writer = response.getWriter();
-            writer.println("HTTP Status 401 - " + authException.getMessage());
-        }
-    }
     /**
      * @author Thomas Freese
      */
@@ -96,13 +50,13 @@ public class SecurityConfig
         @Resource
         private AuthenticationEntryPoint authenticationEntryPoint;
         /**
-        *
-        */
+         *
+         */
         @Resource
         private PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider;
         /**
-        *
-        */
+         *
+         */
         @Resource
         private PasswordEncoder passwordEncoder;
         // /**
@@ -111,13 +65,13 @@ public class SecurityConfig
         // @Resource
         // private UserCache userCache;
         /**
-        *
-        */
+         *
+         */
         @Resource
         private RememberMeServices rememberMeServices;
         /**
-        *
-        */
+         *
+         */
         @Resource
         private UserDetailsService userDetailsService;
 
@@ -129,6 +83,39 @@ public class SecurityConfig
         public AuthenticationManager authenticationManagerBean() throws Exception
         {
             return super.authenticationManagerBean();
+        }
+
+        /**
+         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsServiceBean()
+         */
+        @Override
+        public UserDetailsService userDetailsServiceBean() throws Exception
+        {
+            return userDetailsService();
+        }
+
+        /**
+         * @return {@link GenericFilterBean}
+         *
+         * @throws Exception Falls was schief geht.
+         */
+        // @Bean // Mit @Bean funktionieren die REST-Services nicht mehr !
+        GenericFilterBean myTokenFilterRest() throws Exception
+        {
+            // RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
+            // filter.setPrincipalRequestHeader("my-token");
+            // filter.setExceptionIfHeaderMissing(false); // Damit keine konkrete Fehlermeldung ausgegeben wird.
+            // filter.setCheckForPrincipalChanges(true);
+            // filter.setInvalidateSessionOnPrincipalChange(true);
+
+            MyTokenRequestHeaderAuthenticationFilter filter = new MyTokenRequestHeaderAuthenticationFilter();
+            filter.setAuthenticationManager(authenticationManagerBean());
+
+            // MyTokenBasicAuthAuthenticationFilter filter = new MyTokenBasicAuthAuthenticationFilter(authenticationManagerBean());
+
+            filter.afterPropertiesSet();
+
+            return filter;
         }
 
         /**
@@ -194,12 +181,74 @@ public class SecurityConfig
         }
 
         /**
+         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsService()
+         */
+        @Override
+        protected UserDetailsService userDetailsService()
+        {
+            return this.userDetailsService;
+        }
+    }
+
+    /**
+     * @author Thomas Freese
+     */
+    @Configuration
+    @Order(2)
+    public static class WebAppSecurity extends WebSecurityConfigurerAdapter
+    {
+        /**
+         *
+         */
+        @Resource
+        private PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider;
+        /**
+         *
+         */
+        @Resource
+        private PasswordEncoder passwordEncoder;
+        /**
+         *
+         */
+        @Resource
+        private RememberMeServices rememberMeServices;
+        // /**
+        // *
+        // */
+        // @Resource
+        // private UserCache userCache;
+        /**
+         *
+         */
+        @Resource
+        private UserDetailsService userDetailsService;
+
+        /**
+         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#authenticationManagerBean()
+         */
+        @Override
+        @Bean(name = "authenticationManagerWeb")
+        public AuthenticationManager authenticationManagerBean() throws Exception
+        {
+            return super.authenticationManagerBean();
+        }
+
+        /**
+         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsServiceBean()
+         */
+        @Override
+        public UserDetailsService userDetailsServiceBean() throws Exception
+        {
+            return userDetailsService();
+        }
+
+        /**
          * @return {@link GenericFilterBean}
          *
          * @throws Exception Falls was schief geht.
          */
         // @Bean // Mit @Bean funktionieren die REST-Services nicht mehr !
-        public GenericFilterBean myTokenFilterRest() throws Exception
+        GenericFilterBean myTokenFilterWeb() throws Exception
         {
             // RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
             // filter.setPrincipalRequestHeader("my-token");
@@ -215,68 +264,6 @@ public class SecurityConfig
             filter.afterPropertiesSet();
 
             return filter;
-        }
-
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsService()
-         */
-        @Override
-        protected UserDetailsService userDetailsService()
-        {
-            return this.userDetailsService;
-        }
-
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsServiceBean()
-         */
-        @Override
-        public UserDetailsService userDetailsServiceBean() throws Exception
-        {
-            return userDetailsService();
-        }
-    }
-
-    /**
-     * @author Thomas Freese
-     */
-    @Configuration
-    @Order(2)
-    public static class WebAppSecurity extends WebSecurityConfigurerAdapter
-    {
-        /**
-        *
-        */
-        @Resource
-        private PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider;
-        /**
-        *
-        */
-        @Resource
-        private PasswordEncoder passwordEncoder;
-        /**
-        *
-        */
-        @Resource
-        private RememberMeServices rememberMeServices;
-        // /**
-        // *
-        // */
-        // @Resource
-        // private UserCache userCache;
-        /**
-        *
-        */
-        @Resource
-        private UserDetailsService userDetailsService;
-
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#authenticationManagerBean()
-         */
-        @Override
-        @Bean(name = "authenticationManagerWeb")
-        public AuthenticationManager authenticationManagerBean() throws Exception
-        {
-            return super.authenticationManagerBean();
         }
 
         /**
@@ -362,60 +349,12 @@ public class SecurityConfig
         }
 
         /**
-         * Hier nur Web-Resourcen deklarieren.
-         *
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.WebSecurity)
-         */
-        @Override
-        public void configure(final WebSecurity webSecurity)
-        {
-            // @formatter:off
-            webSecurity
-                .ignoring()
-                .antMatchers("/favicon.ico", "/manifest.appcache", "/css/**", "/js/**", "/images/**");
-            // @formatter:on
-        }
-
-        /**
-         * @return {@link GenericFilterBean}
-         *
-         * @throws Exception Falls was schief geht.
-         */
-        // @Bean // Mit @Bean funktionieren die REST-Services nicht mehr !
-        public GenericFilterBean myTokenFilterWeb() throws Exception
-        {
-            // RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
-            // filter.setPrincipalRequestHeader("my-token");
-            // filter.setExceptionIfHeaderMissing(false); // Damit keine konkrete Fehlermeldung ausgegeben wird.
-            // filter.setCheckForPrincipalChanges(true);
-            // filter.setInvalidateSessionOnPrincipalChange(true);
-
-            MyTokenRequestHeaderAuthenticationFilter filter = new MyTokenRequestHeaderAuthenticationFilter();
-            filter.setAuthenticationManager(authenticationManagerBean());
-
-            // MyTokenBasicAuthAuthenticationFilter filter = new MyTokenBasicAuthAuthenticationFilter(authenticationManagerBean());
-
-            filter.afterPropertiesSet();
-
-            return filter;
-        }
-
-        /**
          * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsService()
          */
         @Override
         protected UserDetailsService userDetailsService()
         {
             return this.userDetailsService;
-        }
-
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsServiceBean()
-         */
-        @Override
-        public UserDetailsService userDetailsServiceBean() throws Exception
-        {
-            return userDetailsService();
         }
     }
 
@@ -462,11 +401,9 @@ public class SecurityConfig
      * @return {@link AuthenticationEntryPoint}
      */
     @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint()
+    AuthenticationEntryPoint authenticationEntryPoint()
     {
-        RestAuthenticationEntryPoint authenticationEntryPoint = new RestAuthenticationEntryPoint();
-
-        return authenticationEntryPoint;
+        return new RestAuthenticationEntryPoint();
     }
 
     /**
@@ -475,7 +412,7 @@ public class SecurityConfig
      * @return {@link PreAuthenticatedAuthenticationProvider}
      */
     @Bean
-    public PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider(final AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> auds)
+    PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider(final AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> auds)
     {
         PreAuthenticatedAuthenticationProvider preauthAuthProvider = new PreAuthenticatedAuthenticationProvider();
         preauthAuthProvider.setPreAuthenticatedUserDetailsService(auds);
@@ -484,24 +421,10 @@ public class SecurityConfig
     }
 
     /**
-     * @param userDetailsService {@link UserDetailsService}
-     *
-     * @return {@link UserDetailsByNameServiceWrapper}
-     */
-    @Bean
-    public UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> myTokenUserDetailsServiceWrapper(final UserDetailsService userDetailsService)
-    {
-        UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> wrapper = new UserDetailsByNameServiceWrapper<>();
-        wrapper.setUserDetailsService(userDetailsService);
-
-        return wrapper;
-    }
-
-    /**
      * @return {@link PasswordEncoder}
      */
     @Bean
-    public PasswordEncoder passwordEncoder()
+    PasswordEncoder passwordEncoder()
     {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
@@ -514,28 +437,23 @@ public class SecurityConfig
      * @return {@link RememberMeServices}
      */
     @Bean
-    public RememberMeServices rememberMeService(final UserDetailsService userDetailsService)
+    RememberMeServices rememberMeService(final UserDetailsService userDetailsService)
     {
         return new TokenBasedRememberMeServices("remember-me", userDetailsService);
     }
 
     /**
-     * Liefert den {@link UserCache} für den {@link AbstractUserDetailsAuthenticationProvider}.
+     * @param userDetailsService {@link UserDetailsService}
      *
-     * @return {@link UserCache}
-     *
-     * @throws Exception Falls was schief geht.
+     * @return {@link UserDetailsByNameServiceWrapper}
      */
     @Bean
-    public UserCache userCache() throws Exception
+    UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> userDetailsByNameServiceWrapper(final UserDetailsService userDetailsService)
     {
-        ConcurrentMapCacheFactoryBean bean = new ConcurrentMapCacheFactoryBean();
-        bean.setAllowNullValues(false);
-        bean.afterPropertiesSet();
+        UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> wrapper = new UserDetailsByNameServiceWrapper<>();
+        wrapper.setUserDetailsService(userDetailsService);
 
-        SpringCacheBasedUserCache userCache = new SpringCacheBasedUserCache(bean.getObject());
-
-        return userCache;
+        return wrapper;
     }
 
     /**
@@ -554,7 +472,7 @@ public class SecurityConfig
      * @throws Exception Falls was schief geht.
      */
     @Bean
-    public UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache) throws Exception
+    UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache) throws Exception
     {
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
         userDetailsManager.createUser(User.withUsername("admin").password(passwordEncoder.encode("pw")).roles("ADMIN", "USER").build());
@@ -580,5 +498,20 @@ public class SecurityConfig
         // }
 
         return userDetailsService;
+    }
+
+    /**
+     * @return {@link WebSecurityCustomizer}
+     */
+    @Bean
+    WebSecurityCustomizer webSecurityCustomizer()
+    {
+        // @formatter:off
+        return webSecurity ->
+                // Pfade ohne Sicherheits-Prüfung.
+                webSecurity.ignoring()
+                        .antMatchers("/favicon.ico", "/manifest.appcache", "/css/**", "/js/**", "/images/**")
+                ;
+        // @formatter:on
     }
 }
