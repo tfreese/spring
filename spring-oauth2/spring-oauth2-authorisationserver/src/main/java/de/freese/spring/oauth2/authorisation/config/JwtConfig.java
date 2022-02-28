@@ -26,13 +26,13 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  */
 @Configuration
 @Profile("jwt")
-public class JwtConfig
+class JwtConfig
 {
     /**
      * @return {@link AccessTokenConverter}
      */
     @Bean
-    public AccessTokenConverter accessTokenConverter()
+    AccessTokenConverter accessTokenConverter()
     {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey("gehaim");
@@ -47,7 +47,7 @@ public class JwtConfig
      * @return {@link ApprovalStore}
      */
     @Bean
-    public ApprovalStore approvalStore()
+    ApprovalStore approvalStore()
     {
         return new InMemoryApprovalStore();
     }
@@ -56,7 +56,7 @@ public class JwtConfig
      * @return {@link AuthorizationCodeServices}
      */
     @Bean
-    public AuthorizationCodeServices authorizationCodeServices()
+    AuthorizationCodeServices authorizationCodeServices()
     {
         return new InMemoryAuthorizationCodeServices();
     }
@@ -69,7 +69,7 @@ public class JwtConfig
      * @throws Exception Falls was schief geht.
      */
     @Bean
-    public ClientDetailsService myClientDetailsService(final PasswordEncoder passwordEncoder) throws Exception
+    ClientDetailsService myClientDetailsService(final PasswordEncoder passwordEncoder) throws Exception
     {
         // @formatter:off
         return new InMemoryClientDetailsServiceBuilder()
@@ -99,7 +99,7 @@ public class JwtConfig
      * @return {@link UserDetailsService}
      */
     @Bean
-    public UserDetailsService myUserDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache)
+    UserDetailsService myUserDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache)
     {
         // User.roles("USER",...) -> Authorities erhalten Prefix 'ROLE_' -> analog authorities("ROLE_USER")
 
@@ -120,7 +120,7 @@ public class JwtConfig
      * @return {@link TokenStore}
      */
     @Bean
-    public TokenStore tokenStore(final JwtAccessTokenConverter accessTokenConverter)
+    TokenStore tokenStore(final JwtAccessTokenConverter accessTokenConverter)
     {
         return new JwtTokenStore(accessTokenConverter);
     }

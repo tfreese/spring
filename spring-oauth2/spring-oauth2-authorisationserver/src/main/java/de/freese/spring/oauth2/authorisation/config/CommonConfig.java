@@ -27,13 +27,13 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  * @author Thomas Freese
  */
 @Configuration
-public class CommonConfig
+class CommonConfig
 {
     /**
      * @return {@link CacheManager}
      */
     @Bean
-    public CacheManager cacheManager()
+    CacheManager cacheManager()
     {
         ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
         cacheManager.setAllowNullValues(false);
@@ -46,7 +46,7 @@ public class CommonConfig
      * @return {@link OAuth2AccessDeniedHandler}
      */
     @Bean
-    public OAuth2AccessDeniedHandler oauthAccessDeniedHandler()
+    OAuth2AccessDeniedHandler oauthAccessDeniedHandler()
     {
         return new OAuth2AccessDeniedHandler();
     }
@@ -55,7 +55,7 @@ public class CommonConfig
      * @return {@link PasswordEncoder}
      */
     @Bean
-    public PasswordEncoder passwordEncoder()
+    PasswordEncoder passwordEncoder()
     {
         Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret");
         pbkdf2passwordEncoder.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
@@ -89,7 +89,7 @@ public class CommonConfig
      * @return {@link TokenEnhancer}
      */
     @Bean
-    public TokenEnhancer tokenEnhancer()
+    TokenEnhancer tokenEnhancer()
     {
         return new CustomTokenEnhancer();
     }
@@ -101,7 +101,7 @@ public class CommonConfig
      */
     @Bean
     @Primary
-    public DefaultTokenServices tokenServices(final TokenStore tokenStore)
+    DefaultTokenServices tokenServices(final TokenStore tokenStore)
     {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore);
@@ -118,7 +118,7 @@ public class CommonConfig
      * @throws Exception Falls was schief geht.
      */
     @Bean
-    public UserCache userCache(final CacheManager cacheManager) throws Exception
+    UserCache userCache(final CacheManager cacheManager) throws Exception
     {
         Cache cache = cacheManager.getCache("userCache");
 

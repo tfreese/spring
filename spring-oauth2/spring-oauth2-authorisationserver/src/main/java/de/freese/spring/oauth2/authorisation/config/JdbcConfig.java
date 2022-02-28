@@ -25,7 +25,6 @@ import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConv
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.util.SocketUtils;
 
 /**
  * @author Thomas Freese
@@ -33,26 +32,13 @@ import org.springframework.util.SocketUtils;
 @Configuration
 @EnableTransactionManagement
 @Profile("jdbc")
-public class JdbcConfig
+class JdbcConfig
 {
-    /**
-     * Erstellt ein neues {@link JdbcConfig} Object.
-     */
-    public JdbcConfig()
-    {
-        super();
-
-        int port = SocketUtils.findAvailableTcpPort();
-
-        // Damit die Placeholder in Properties funktionieren: ${hsqldb.server.port}
-        System.setProperty("hsqldb.server.port", Integer.toString(port));
-    }
-
     /**
      * @return {@link AccessTokenConverter}
      */
     @Bean
-    public AccessTokenConverter accessTokenConverter()
+    AccessTokenConverter accessTokenConverter()
     {
         return new DefaultAccessTokenConverter();
     }
@@ -64,7 +50,7 @@ public class JdbcConfig
      */
     @Bean
     @DependsOn("hsqldbServer")
-    public ApprovalStore approvalStore(final DataSource dataSource)
+    ApprovalStore approvalStore(final DataSource dataSource)
     {
         return new JdbcApprovalStore(dataSource);
     }
@@ -76,7 +62,7 @@ public class JdbcConfig
      */
     @Bean
     @DependsOn("hsqldbServer")
-    public AuthorizationCodeServices authorizationCodeServices(final DataSource dataSource)
+    AuthorizationCodeServices authorizationCodeServices(final DataSource dataSource)
     {
         return new JdbcAuthorizationCodeServices(dataSource);
     }
@@ -89,8 +75,8 @@ public class JdbcConfig
      * @return {@link Server}
      */
     @Bean(initMethod = "start", destroyMethod = "shutdown")
-    public Server hsqldbServer(@Value("${hsqldb.db.name}") final String dbName, @Value("${hsqldb.db.path}") final String dbPath,
-                               @Value("${hsqldb.server.port}") final int port)
+    Server hsqldbServer(@Value("${hsqldb.db.name}") final String dbName, @Value("${hsqldb.db.path}") final String dbPath,
+                        @Value("${hsqldb.server.port}") final int port)
     {
         Server server = new Server()
         {
@@ -127,7 +113,7 @@ public class JdbcConfig
      */
     @Bean
     @DependsOn("hsqldbServer")
-    public ClientDetailsService myClientDetailsService(final DataSource dataSource)
+    ClientDetailsService myClientDetailsService(final DataSource dataSource)
     {
         return new JdbcClientDetailsService(dataSource);
     }
@@ -140,7 +126,7 @@ public class JdbcConfig
      */
     @Bean
     @DependsOn("hsqldbServer")
-    public UserDetailsService myUserDetailsService(final DataSource dataSource, final UserCache userCache)
+    UserDetailsService myUserDetailsService(final DataSource dataSource, final UserCache userCache)
     {
         // "{bcrypt}" + passwordEncoder.encode("pw")
         // PasswordEncoder passwordEncoder = passwordEncoder();
@@ -165,7 +151,7 @@ public class JdbcConfig
      */
     @Bean
     @DependsOn("hsqldbServer")
-    public TokenStore tokenStore(final DataSource dataSource)
+    TokenStore tokenStore(final DataSource dataSource)
     {
         return new JdbcTokenStore(dataSource);
     }

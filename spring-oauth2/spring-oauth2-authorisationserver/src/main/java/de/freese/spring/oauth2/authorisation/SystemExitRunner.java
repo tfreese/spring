@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("!test")
 @Order(20)
-public class SystemExitRunner implements CommandLineRunner
+class SystemExitRunner implements CommandLineRunner
 {
     /**
     *

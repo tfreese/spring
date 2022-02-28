@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Thomas Freese
  */
 @FrameworkEndpoint
-public class RevokeTokenEndpoint
+class RevokeTokenEndpoint
 {
     /**
      *

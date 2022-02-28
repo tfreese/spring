@@ -13,7 +13,7 @@ import org.springframework.util.CollectionUtils;
 /**
  * @author Thomas Freese
  */
-public class CustomTokenEnhancer implements TokenEnhancer
+class CustomTokenEnhancer implements TokenEnhancer
 {
     /**
      * @see org.springframework.security.oauth2.provider.token.TokenEnhancer#enhance(org.springframework.security.oauth2.common.OAuth2AccessToken,

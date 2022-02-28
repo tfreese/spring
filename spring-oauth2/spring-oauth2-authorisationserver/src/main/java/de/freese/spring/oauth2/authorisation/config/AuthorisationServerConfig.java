@@ -29,7 +29,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  */
 @Configuration
 @EnableAuthorizationServer
-public class AuthorisationServerConfig extends AuthorizationServerConfigurerAdapter
+class AuthorisationServerConfig extends AuthorizationServerConfigurerAdapter
 {
     /**
     *

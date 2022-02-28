@@ -50,8 +50,7 @@ spring:
       
 hsqldb:
     server:
-        # Port wird dynamisch in JdbcConfig gesetzt.
-        #port: ${port}
+        port: 9998
         #port: ${random.int[10000,65000]}
     db:
         name: memory.db

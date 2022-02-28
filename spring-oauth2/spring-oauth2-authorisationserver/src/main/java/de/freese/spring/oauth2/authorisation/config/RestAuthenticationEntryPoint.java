@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
  *
  * @author Thomas Freese
  */
-public class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
+class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
 {
     /**
      * @see org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#afterPropertiesSet()

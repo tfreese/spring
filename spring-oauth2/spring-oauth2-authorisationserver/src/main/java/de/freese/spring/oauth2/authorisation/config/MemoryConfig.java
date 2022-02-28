@@ -26,13 +26,13 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  */
 @Configuration
 @Profile("memory")
-public class MemoryConfig
+class MemoryConfig
 {
     /**
      * @return {@link AccessTokenConverter}
      */
     @Bean
-    public AccessTokenConverter accessTokenConverter()
+    AccessTokenConverter accessTokenConverter()
     {
         return new DefaultAccessTokenConverter();
     }
@@ -41,7 +41,7 @@ public class MemoryConfig
      * @return {@link ApprovalStore}
      */
     @Bean
-    public ApprovalStore approvalStore()
+    ApprovalStore approvalStore()
     {
         return new InMemoryApprovalStore();
     }
@@ -50,7 +50,7 @@ public class MemoryConfig
      * @return {@link AuthorizationCodeServices}
      */
     @Bean
-    public AuthorizationCodeServices authorizationCodeServices()
+    AuthorizationCodeServices authorizationCodeServices()
     {
         return new InMemoryAuthorizationCodeServices();
     }
@@ -63,7 +63,7 @@ public class MemoryConfig
      * @throws Exception Falls was schief geht.
      */
     @Bean
-    public ClientDetailsService myClientDetailsService(final PasswordEncoder passwordEncoder) throws Exception
+    ClientDetailsService myClientDetailsService(final PasswordEncoder passwordEncoder) throws Exception
     {
         // @formatter:off
         return new InMemoryClientDetailsServiceBuilder()
@@ -82,7 +82,7 @@ public class MemoryConfig
     //            .withClient("...")
     //            .and()
                 .build()
-        ;
+                ;
         // @formatter:on
     }
 
@@ -93,7 +93,7 @@ public class MemoryConfig
      * @return {@link UserDetailsService}
      */
     @Bean
-    public UserDetailsService myUserDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache)
+    UserDetailsService myUserDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache)
     {
         // User.roles("USER",...) -> Authorities erhalten Prefix 'ROLE_' -> analog authorities("ROLE_USER")
 
@@ -112,18 +112,18 @@ public class MemoryConfig
      * @return {@link TokenStore}
      */
     @Bean
-    public TokenStore tokenStore()
+    TokenStore tokenStore()
     {
         return new InMemoryTokenStore();
     }
 
     // @Bean
-    // public TokenStore tokenStore() {
+    // TokenStore tokenStore() {
     // return new JwtTokenStore(jwtAccessTokenConverter());
     // }
     //
     // @Bean
-    // public JwtAccessTokenConverter jwtAccessTokenConverter() {
+    // JwtAccessTokenConverter jwtAccessTokenConverter() {
     // JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
     // converter.setSigningKey(JWTSigningKey);
     // return converter;

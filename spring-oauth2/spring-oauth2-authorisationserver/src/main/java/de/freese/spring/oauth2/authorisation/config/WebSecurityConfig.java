@@ -23,7 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @Order(1)
 @EnableWebSecurity
-public class WebSecurityConfig
+class WebSecurityConfig
 {
     /**
      *
@@ -35,34 +35,6 @@ public class WebSecurityConfig
      */
     @Resource
     private PasswordEncoder passwordEncoder;
-
-    /**
-     * @param http {@link HttpSecurity}
-     *
-     * @return {@link SecurityFilterChain}
-     *
-     * @throws Exception Falls was schief geht
-     */
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
-    {
-        // @formatter:off
-        http.authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/oauth/authorize").permitAll()
-                .antMatchers("/oauth/token/revokeById/**").permitAll()
-//            .antMatchers("/tokens/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().permitAll()
-                .and()
-                .csrf().disable()
-                .anonymous().disable()
-                ;
-        // @formatter:on);
-
-        return http.build();
-    }
 
     /**
      * @param authenticationProviderDao {@link AuthenticationProvider}
@@ -102,7 +74,7 @@ public class WebSecurityConfig
         // Der UserCache im AuthenticationProvider behält die UserDetails der User.
         // Bei diesen werden aber die Passwörter aus Sicherheitsgründen im ProviderManager entfernt.
         // Dadurch ist ein 2. Login dann nicht mehr möglich -> NullPointer wegen UserDetails.getPassword = null
-        //authenticationProvider.setUserCache(userCache);
+        // authenticationProvider.setUserCache(userCache);
 
         // Dieses Problem könnte behoben werden, indem nur der UserName und nicht das User-Object verwendet wird.
         // Dann kann aber nicht der User in die Controller-Methode übergeben werden.
@@ -112,5 +84,33 @@ public class WebSecurityConfig
         // Lösung: UserDetailsService mit Cache in der Methode #loadUserByUsername(String)
 
         return authenticationProvider;
+    }
+
+    /**
+     * @param http {@link HttpSecurity}
+     *
+     * @return {@link SecurityFilterChain}
+     *
+     * @throws Exception Falls was schief geht
+     */
+    @Bean
+    SecurityFilterChain filterChain(final HttpSecurity http) throws Exception
+    {
+        // @formatter:off
+        http.authorizeRequests()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/oauth/authorize").permitAll()
+                .antMatchers("/oauth/token/revokeById/**").permitAll()
+//            .antMatchers("/tokens/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().permitAll()
+                .and()
+                .csrf().disable()
+                .anonymous().disable()
+                ;
+        // @formatter:on);
+
+        return http.build();
     }
 }
