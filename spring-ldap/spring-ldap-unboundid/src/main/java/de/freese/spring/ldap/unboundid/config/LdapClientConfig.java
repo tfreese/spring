@@ -4,6 +4,7 @@ package de.freese.spring.ldap.unboundid.config;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
+import com.unboundid.ldap.listener.InMemoryDirectoryServer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,22 +12,20 @@ import org.springframework.core.env.Environment;
 import org.springframework.ldap.core.support.BaseLdapNameAware;
 import org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor;
 
-import com.unboundid.ldap.listener.InMemoryDirectoryServer;
-
 /**
  * @author Thomas Freese
  */
 @Configuration
-public class LdapClientConfig
+class LdapClientConfig
 {
     /**
-    *
-    */
+     *
+     */
     @Value("${spring.ldap.embedded.base-dn}")
     private String baseDN;
     /**
-    *
-    */
+     *
+     */
     @Resource
     private InMemoryDirectoryServer directoryServer;
     /**
@@ -41,7 +40,7 @@ public class LdapClientConfig
      * @see BaseLdapNameAware
      */
     @Bean
-    public BaseLdapPathBeanPostProcessor baseLdapPathBeanPostProcessor()
+    BaseLdapPathBeanPostProcessor baseLdapPathBeanPostProcessor()
     {
         BaseLdapPathBeanPostProcessor postProcessor = new BaseLdapPathBeanPostProcessor();
         postProcessor.setBasePath(this.baseDN);
@@ -53,7 +52,7 @@ public class LdapClientConfig
      * @throws Exception Falls was schief geht.
      */
     @PreDestroy
-    private void exportLDIF() throws Exception
+    void exportLDIF() throws Exception
     {
         System.out.println("LdapClientConfig.exportLDIF()");
 
@@ -94,7 +93,7 @@ public class LdapClientConfig
     // * @return {@link ContextSource}
     // */
     // @Bean
-    // public ContextSource ldapContextSource(final LdapProperties ldapProperties, final EmbeddedLdapProperties embeddedLdapProperties)
+    // ContextSource ldapContextSource(final LdapProperties ldapProperties, final EmbeddedLdapProperties embeddedLdapProperties)
     // {
     // LdapContextSource contextSource = new LdapContextSource();
     //
@@ -117,7 +116,7 @@ public class LdapClientConfig
     // * @return {@link LdapTemplate}
     // */
     // @Bean
-    // public LdapTemplate ldapTemplate(final ContextSource ldapContextSource)
+    // LdapTemplate ldapTemplate(final ContextSource ldapContextSource)
     // {
     // return new LdapTemplate(ldapContextSource);
     // }

@@ -7,12 +7,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * @author Thomas Freese
@@ -20,82 +23,94 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @Order(1)
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter
+public class WebSecurityConfig
 {
     /**
-    *
-    */
+     *
+     */
     @Resource
     private UserDetailsService myUserDetailsService;
     /**
-    *
-    */
+     *
+     */
     @Resource
     private PasswordEncoder passwordEncoder;
 
     /**
-     * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#authenticationManagerBean()
+     * @param http {@link HttpSecurity}
+     *
+     * @return {@link SecurityFilterChain}
+     *
+     * @throws Exception Falls was schief geht
      */
     @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception
-    {
-        return super.authenticationManagerBean();
-    }
-
-    /**
-     * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder)
-     */
-    @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception
-    {
-        // @formatter:off
-        auth
-            .eraseCredentials(false) // true löscht das Passwort, wird ein UserCache verwendet darf nicht das gleiche Objekt geliefert werden !
-            .userDetailsService(userDetailsService())
-            .passwordEncoder(this.passwordEncoder)
-        ;
-        // @formatter:on
-    }
-
-    /**
-     * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
-     */
-    @Override
-    protected void configure(final HttpSecurity http) throws Exception
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
     {
         // @formatter:off
         http.authorizeRequests()
-            .antMatchers("/login").permitAll()
-            .antMatchers("/oauth/authorize").permitAll()
-            .antMatchers("/oauth/token/revokeById/**").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/oauth/authorize").permitAll()
+                .antMatchers("/oauth/token/revokeById/**").permitAll()
 //            .antMatchers("/tokens/**").permitAll()
-            .anyRequest().authenticated()
-            .and()
+                .anyRequest().authenticated()
+                .and()
                 .formLogin().permitAll()
-            .and()
+                .and()
                 .csrf().disable()
                 .anonymous().disable()
-            ;
-        // @formatter:on
+                ;
+        // @formatter:on);
+
+        return http.build();
     }
 
     /**
-     * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsService()
+     * @param authenticationProviderDao {@link AuthenticationProvider}
+     *
+     * @return {@link AuthenticationManager}
      */
-    @Override
     @Bean
-    public UserDetailsService userDetailsService()
+    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao)
     {
-        return this.myUserDetailsService;
+        ProviderManager providerManager = new ProviderManager(authenticationProviderDao);
+        // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
+        providerManager.setEraseCredentialsAfterAuthentication(true);
+
+        return providerManager;
     }
 
     /**
-     * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#userDetailsServiceBean()
+     * Für Username/Password Login.<br>
+     * UserController.login(String, String)<br>
+     *
+     * @param passwordEncoder {@link PasswordEncoder}
+     * @param userDetailsService {@link UserDetailsService}
+     * @param userCache {@link UserCache}
+     *
+     * @return {@link AuthenticationProvider}
      */
-    @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception
+    @Bean
+    AuthenticationProvider authenticationProviderDao(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService,
+                                                     final UserCache userCache)
     {
-        return userDetailsService();
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        // authenticationProvider.setMessageSource(applicationContext); // Wird automatisch gemacht.
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+        authenticationProvider.setUserDetailsService(userDetailsService);
+
+        // Böse Falle !
+        // Der UserCache im AuthenticationProvider behält die UserDetails der User.
+        // Bei diesen werden aber die Passwörter aus Sicherheitsgründen im ProviderManager entfernt.
+        // Dadurch ist ein 2. Login dann nicht mehr möglich -> NullPointer wegen UserDetails.getPassword = null
+        //authenticationProvider.setUserCache(userCache);
+
+        // Dieses Problem könnte behoben werden, indem nur der UserName und nicht das User-Object verwendet wird.
+        // Dann kann aber nicht der User in die Controller-Methode übergeben werden.
+        // -> ..., @AuthenticationPrincipal final UserDetails user)
+        // authenticationProvider.setForcePrincipalAsString(true);
+
+        // Lösung: UserDetailsService mit Cache in der Methode #loadUserByUsername(String)
+
+        return authenticationProvider;
     }
 }

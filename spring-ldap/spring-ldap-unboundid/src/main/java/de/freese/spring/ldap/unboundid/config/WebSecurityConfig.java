@@ -16,10 +16,12 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
 
 /**
+ * https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
+ *
  * @author Thomas Freese
  */
 @Configuration
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter
+class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
     /**
      * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder)
@@ -36,27 +38,46 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             .and()
             .passwordCompare()
                 .passwordEncoder(passwordEncoder())
-                .passwordAttribute("userPassword");
+                .passwordAttribute("userPassword")
+            ;
         // @formatter:on
     }
 
-    @Override
-    protected void configure(final HttpSecurity http) throws Exception
-    {
-        // @formatter:off
-        http.authorizeRequests()
-            .anyRequest()
-            .fullyAuthenticated()
-            .and()
-            .formLogin();
-        // @formatter:on
-    }
+//    /**
+//     * @return EmbeddedLdapServerContextSourceFactoryBean
+//     */
+//    @Bean
+//    EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean()
+//    {
+//        EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean =
+//                EmbeddedLdapServerContextSourceFactoryBean.fromEmbeddedLdapServer();
+//        contextSourceFactoryBean.setPort(0);
+//
+//        return contextSourceFactoryBean;
+//    }
+//
+//    /**
+//     * @param contextSource {@link BaseLdapPathContextSource}
+//     *
+//     * @return AuthenticationManager
+//     */
+//    @Bean
+//    AuthenticationManager ldapAuthenticationManager(
+//            BaseLdapPathContextSource contextSource)
+//    {
+//        LdapBindAuthenticationManagerFactory factory =
+//                new LdapBindAuthenticationManagerFactory(contextSource);
+//        factory.setUserDnPatterns("uid={0},ou=people");
+//        factory.setUserDetailsContextMapper(new PersonContextMapper());
+//
+//        return factory.createAuthenticationManager();
+//    }
 
     /**
      * @return {@link PasswordEncoder}
      */
     @Bean
-    public PasswordEncoder passwordEncoder()
+    PasswordEncoder passwordEncoder()
     {
         Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret");
         pbkdf2passwordEncoder.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
@@ -86,5 +107,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         // passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
 
         return passwordEncoder;
+    }
+
+    @Override
+    protected void configure(final HttpSecurity http) throws Exception
+    {
+        // @formatter:off
+        http.authorizeRequests()
+            .anyRequest()
+            .fullyAuthenticated()
+            .and()
+            .formLogin()
+            ;
+        // @formatter:on
     }
 }

@@ -39,6 +39,11 @@ import org.springframework.stereotype.Repository;
 public class MyLdapDao implements BaseLdapNameAware
 {
     /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(MyLdapDao.class);
+
+    /**
      * cn
      *
      * @author Thomas Freese
@@ -122,26 +127,20 @@ public class MyLdapDao implements BaseLdapNameAware
     }
 
     /**
-     *
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(MyLdapDao.class);
-
-    /**
      * @return {@link Logger}
      */
     private static Logger getLogger()
     {
         return LOGGER;
     }
-
-    /**
-     *
-     */
-    private LdapName baseLdapPath;
     /**
      *
      */
     private final LdapTemplate ldapTemplate;
+    /**
+     *
+     */
+    private LdapName baseLdapPath;
 
     /**
      * Erstellt ein neues {@link MyLdapDao} Object.
@@ -169,53 +168,14 @@ public class MyLdapDao implements BaseLdapNameAware
         DirContextAdapter context = new DirContextAdapter(name);
 
         context.setAttributeValues("objectclass", new String[]
-        {
-                "top", "person", "organizationalPerson", "inetOrgPerson"
-        });
+                {
+                        "top", "person", "organizationalPerson", "inetOrgPerson"
+                });
         context.setAttributeValue("cn", firstName + " " + lastName);
         context.setAttributeValue("sn", lastName);
         context.setAttributeValue("userPassword", digestSHA(password));
 
         getLdapTemplate().bind(context);
-    }
-
-    /**
-     * @param password String
-     *
-     * @return String
-     */
-    private String digestSHA(final String password)
-    {
-        String base64 = null;
-
-        try
-        {
-            MessageDigest digest = MessageDigest.getInstance("SHA");
-            digest.update(password.getBytes(StandardCharsets.UTF_8));
-            base64 = Base64.getEncoder().encodeToString(digest.digest());
-        }
-        catch (NoSuchAlgorithmException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-
-        return "{SHA}" + base64;
-    }
-
-    /**
-     * @return {@link LdapName}
-     */
-    private LdapName getBaseLdapPath()
-    {
-        return this.baseLdapPath;
-    }
-
-    /**
-     * @return {@link LdapTemplate}
-     */
-    private LdapTemplate getLdapTemplate()
-    {
-        return this.ldapTemplate;
     }
 
     /**
@@ -273,9 +233,9 @@ public class MyLdapDao implements BaseLdapNameAware
         DirContextOperations context = getLdapTemplate().lookupContext(name);
 
         context.setAttributeValues("objectclass", new String[]
-        {
-                "top", "person", "organizationalPerson", "inetOrgPerson"
-        });
+                {
+                        "top", "person", "organizationalPerson", "inetOrgPerson"
+                });
         context.setAttributeValue("cn", firstName + " " + lastName);
         context.setAttributeValue("sn", lastName);
         context.setAttributeValue("userPassword", digestSHA(password));
@@ -362,5 +322,44 @@ public class MyLdapDao implements BaseLdapNameAware
     public void setBaseLdapPath(final LdapName baseLdapPath)
     {
         this.baseLdapPath = Objects.requireNonNull(baseLdapPath, "baseLdapPath required");
+    }
+
+    /**
+     * @param password String
+     *
+     * @return String
+     */
+    private String digestSHA(final String password)
+    {
+        String base64 = null;
+
+        try
+        {
+            MessageDigest digest = MessageDigest.getInstance("SHA");
+            digest.update(password.getBytes(StandardCharsets.UTF_8));
+            base64 = Base64.getEncoder().encodeToString(digest.digest());
+        }
+        catch (NoSuchAlgorithmException ex)
+        {
+            throw new RuntimeException(ex);
+        }
+
+        return "{SHA}" + base64;
+    }
+
+    /**
+     * @return {@link LdapName}
+     */
+    private LdapName getBaseLdapPath()
+    {
+        return this.baseLdapPath;
+    }
+
+    /**
+     * @return {@link LdapTemplate}
+     */
+    private LdapTemplate getLdapTemplate()
+    {
+        return this.ldapTemplate;
     }
 }
