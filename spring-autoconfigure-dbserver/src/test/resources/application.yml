@@ -1,10 +1,9 @@
-
 debug: false
 
 h2:
     port: ${portH2}
     path: ${user.dir}/target/h2
-    
+
 hsqldb:
     server:
         enabled: true
@@ -14,31 +13,51 @@ hsqldb:
         silent: true
         trace: false
         db:
-            - name: file-db
-              path: file:target/file.db
-            - name: memory-db
-              path: mem:mem.db 
-    
+            -   name: file-db
+                path: file:target/hsqldb/file.db
+            -   name: memory-db
+                path: mem:mem.db
+
+# Funktioniert nicht mit ConfigurationProperties(prefix = "...")
+#spring:
+#    datasource:
+#        hikari:
+#            auto-commit: false
+#            minimum-idle: 1
+#            maximum-pool-size: 3
+
 datasource:
     hsqldb:
         file:
-            jdbcUrl: jdbc:hsqldb:hsql://localhost:${hsqldb.server.port}/file-db
+            jdbc-url: jdbc:hsqldb:hsql://localhost:${hsqldb.server.port}/hsqldb/file-db
             username: sa
             password:
-            poolName: hsqldbFile
+            pool-name: hsqldbFile
+            auto-commit: false
+            minimum-idle: 1
+            maximum-pool-size: 3
         memory:
-            jdbcUrl: jdbc:hsqldb:hsql://localhost:${hsqldb.server.port}/memory-db
+            jdbc-url: jdbc:hsqldb:hsql://localhost:${hsqldb.server.port}/memory-db;shutdown=false
             username: sa
             password:
-            poolName: hsqldbMemory
+            pool-name: hsqldbMemory
+            auto-commit: false
+            minimum-idle: 1
+            maximum-pool-size: 3
     h2:
         file:
-            jdbcUrl: jdbc:h2:tcp://localhost:${h2.port}/file-db
+            jdbc-url: jdbc:h2:tcp://localhost:${h2.port}/file-db;CIPHER=AES"
             username: sa
-            password:
-            poolName: h2File
+            password: cipherPasswort ''
+            pool-name: h2File
+            auto-commit: false
+            minimum-idle: 1
+            maximum-pool-size: 3
         memory:
-            jdbcUrl: jdbc:h2:tcp://localhost:${h2.port}/mem:memory-db;DB_CLOSE_DELAY=-1
+            jdbc-url: jdbc:h2:tcp://localhost:${h2.port}/mem:memory-db;DB_CLOSE_DELAY=-1
             username: sa
             password:
-            poolName: h2Memory
+            pool-name: h2Memory
+            auto-commit: false
+            minimum-idle: 1
+            maximum-pool-size: 3

@@ -4,6 +4,7 @@ package de.freese.spring.autoconfigure;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -60,14 +61,24 @@ public interface TestAutoConfiguration
     {
         assertNotNull(dataSource);
 
-        try (Connection con = dataSource.getConnection();
-             PreparedStatement stmt = con.prepareStatement("insert into PERSON (ID, NAME) values (?, ?)"))
+        try (Connection con = dataSource.getConnection())
         {
-            stmt.setLong(1, 7);
-            stmt.setString(2, "Test");
+            con.setAutoCommit(false);
 
-            stmt.execute();
-            con.commit();
+            try (PreparedStatement stmt = con.prepareStatement("insert into PERSON (ID, NAME) values (?, ?)"))
+            {
+                stmt.setLong(1, 7);
+                stmt.setString(2, "Test");
+
+                int affectedRows = stmt.executeUpdate();
+                assertEquals(1, affectedRows);
+
+                con.commit();
+            }
+            catch (Exception ex)
+            {
+                con.rollback();
+            }
         }
     }
 
@@ -97,14 +108,14 @@ public interface TestAutoConfiguration
             }
             else
             {
-                assertTrue(false);
+                fail("no data");
             }
         }
     }
 
     /**
-    *
-    */
+     *
+     */
     @Test
     default void testContextLoads()
     {
@@ -118,9 +129,11 @@ public interface TestAutoConfiguration
     // @Transactional("nameOfTransactionManager")
     default void testDataSourceFile() throws SQLException
     {
-        createTable(getDataSourceFile());
-        insert(getDataSourceFile());
-        select(getDataSourceFile());
+        DataSource dataSource = getDataSourceFile();
+
+        createTable(dataSource);
+        insert(dataSource);
+        select(dataSource);
     }
 
     /**
@@ -130,8 +143,10 @@ public interface TestAutoConfiguration
     // @Transactional("nameOfTransactionManager")
     default void testDataSourceMemory() throws SQLException
     {
-        createTable(getDataSourceMemory());
-        insert(getDataSourceMemory());
-        select(getDataSourceMemory());
+        DataSource dataSource = getDataSourceMemory();
+
+        createTable(dataSource);
+        insert(dataSource);
+        select(dataSource);
     }
 }

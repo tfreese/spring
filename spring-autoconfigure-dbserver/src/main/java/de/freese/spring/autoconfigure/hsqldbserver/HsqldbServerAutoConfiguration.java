@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import de.freese.spring.autoconfigure.hsqldbserver.HsqldbServerProperties.DB;
 import org.hsqldb.Database;
 import org.hsqldb.server.Server;
 import org.slf4j.Logger;
@@ -17,8 +18,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import de.freese.spring.autoconfigure.hsqldbserver.HsqldbServerProperties.DB;
 
 /**
  * AutoConfiguration für ein HSQLDB-{@link Server}.<br>

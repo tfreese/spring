@@ -83,20 +83,20 @@ public class HsqldbServerProperties
      */
     private boolean enabled = true;
     /**
-    *
-    */
+     *
+     */
     private boolean noSystemExit = true;
     /**
-    *
-    */
+     *
+     */
     private int port;
     /**
      *
      */
     private boolean silent = true;
     /**
-      *
-      */
+     *
+     */
     private boolean trace;
 
     /**

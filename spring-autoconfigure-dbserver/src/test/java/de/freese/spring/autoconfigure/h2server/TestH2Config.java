@@ -58,7 +58,7 @@ public class TestH2Config
         // }
 
         // , "-trace"
-        return Server.createTcpServer("-tcpPort", Integer.toString(port), "-tcpDaemon", "-ifNotExists", "-baseDir", path);
+        return Server.createTcpServer("-tcpPort", Integer.toString(port), "-trace", "-tcpDaemon", "-ifNotExists", "-baseDir", path);
     }
 
     /**
