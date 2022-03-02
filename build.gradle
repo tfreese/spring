@@ -11,86 +11,87 @@ subprojects {
 
     dependencyManagement {
         imports {
-        	mavenBom "de.codecentric:spring-boot-admin-dependencies:$version_springBootAdmin"
+            mavenBom "de.codecentric:spring-boot-admin-dependencies:$version_springBootAdmin"
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:$version_springCloud"
         }
 
         dependencies {
-        	dependency("com.esotericsoftware:kryo:$version_kryo")
-			dependency("com.sun.faces:jsf-api:$version_jsf")
-			dependency("com.sun.faces:jsf-impl:$version_jsf")
-			
-			dependency("de.javakaffee:kryo-serializers:$version_kryoSerializers")
-			
-			dependency("io.jsonwebtoken:jjwt:$version_jjwt")
-			dependency("io.r2dbc:r2dbc-client:$version_r2dbcClient")
-			dependency("io.springfox:springfox-swagger2:$version_swagger")
-			dependency("io.springfox:springfox-swagger-ui:$version_swagger")
-			
-			dependency("javax:javaee-web-api:$version_javaee")
-			
-			dependency("org.apache.directory.server:apacheds-all:$version_apacheds")
-			dependency("org.apache.qpid:qpid-broker:$version_qpid")
-			dependency("org.apache.qpid:qpid-bdbstore:$version_qpid") {
+            dependency("com.esotericsoftware:kryo:$version_kryo")
+            dependency("com.nimbusds:nimbus-jose-jwt:$version_nimbus")
+            dependency("com.sun.faces:jsf-api:$version_jsf")
+            dependency("com.sun.faces:jsf-impl:$version_jsf")
+
+            dependency("de.javakaffee:kryo-serializers:$version_kryoSerializers")
+
+            dependency("io.jsonwebtoken:jjwt:$version_jjwt")
+            dependency("io.r2dbc:r2dbc-client:$version_r2dbcClient")
+            dependency("io.springfox:springfox-swagger2:$version_swagger")
+            dependency("io.springfox:springfox-swagger-ui:$version_swagger")
+
+            dependency("javax:javaee-web-api:$version_javaee")
+
+            dependency("org.apache.directory.server:apacheds-all:$version_apacheds")
+            dependency("org.apache.qpid:qpid-broker:$version_qpid")
+            dependency("org.apache.qpid:qpid-bdbstore:$version_qpid") {
                 exclude "com.sleepycat:je" // Wird in keinem Repository gefunden.
             }
-			dependency("org.openjdk.jmh:jmh-core:$version_jmh")
-			dependency("org.openjdk.jmh:jmh-generator-annprocess:$version_jmh")
-			dependency("org.primefaces:primefaces:$version_primefaces")
-			dependency("org.primefaces.extensions:primefaces-extensions:$version_primefacesExtensions")
-			dependency("org.primefaces.themes:all-themes:$version_primefacesThemes")
-			dependency("org.springframework.cloud:spring-cloud-starter-netflix-ribbon:$version_springCloudNetflix")
-			dependency("org.springframework.cloud:spring-cloud-starter-netflix-hystrix:$version_springCloudNetflix")
-			dependency("org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard:$version_springCloudNetflix")
+            dependency("org.openjdk.jmh:jmh-core:$version_jmh")
+            dependency("org.openjdk.jmh:jmh-generator-annprocess:$version_jmh")
+            dependency("org.primefaces:primefaces:$version_primefaces")
+            dependency("org.primefaces.extensions:primefaces-extensions:$version_primefacesExtensions")
+            dependency("org.primefaces.themes:all-themes:$version_primefacesThemes")
+            dependency("org.springframework.cloud:spring-cloud-starter-netflix-ribbon:$version_springCloudNetflix")
+            dependency("org.springframework.cloud:spring-cloud-starter-netflix-hystrix:$version_springCloudNetflix")
+            dependency("org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard:$version_springCloudNetflix")
         }
     }
-    
-	dependencies {
-		//implementation(platform("de.freese:maven-bom:$version_mavenBom"))
-		//testImplementation("org.junit.jupiter:junit-jupiter-engine")
-	}
+
+    dependencies {
+        //implementation(platform("de.freese:maven-bom:$version_mavenBom"))
+        //testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    }
 }
 
 project("kubernetes") {
-	description = "Folder project"
+    description = "Folder project"
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-	// The archive name. If the name has not been explicitly set, the pattern for the name is:
-	// [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
-	// archiveFileName = "my-boot.jar"	
-	bootJar {
-	    mainClass = "disabled"
-	}
+    // The archive name. If the name has not been explicitly set, the pattern for the name is:
+    // [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
+    // archiveFileName = "my-boot.jar"
+    bootJar {
+        mainClass = "disabled"
+    }
 }
 
 project("kubernetes:kubernetes-microservice") {
-	description = "Demo project for Kubernetes"
-	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter-webflux")
-		
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	// The archive name. If the name has not been explicitly set, the pattern for the name is:
-	// [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
-	// archiveFileName = "my-boot.jar"		
-	bootJar {
-	    mainClass = "de.freese.kubernetes.microservice.MyApplication"
-	}
+    description = "Demo project for Kubernetes"
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    // The archive name. If the name has not been explicitly set, the pattern for the name is:
+    // [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
+    // archiveFileName = "my-boot.jar"
+    bootJar {
+        mainClass = "de.freese.kubernetes.microservice.MyApplication"
+    }
 }
 
 project("spring-autoconfigure-hsqldbserver") {
-	description = "spring-autoconfigure-hsqldbserver"
-	dependencies {
-		implementation("org.hsqldb:hsqldb")
-		implementation("org.springframework.boot:spring-boot-starter-jdbc")
-		
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	// Deaktiviert, da wir 2 main-Klassen haben.
-	bootJar {
-	    mainClass = "disabled"
-	}
+    description = "spring-autoconfigure-hsqldbserver"
+    dependencies {
+        implementation("org.hsqldb:hsqldb")
+        implementation("org.springframework.boot:spring-boot-starter-jdbc")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    // Deaktiviert, da wir 2 main-Klassen haben.
+    bootJar {
+        mainClass = "disabled"
+    }
 }
 
 project("spring-cloud") {
@@ -105,26 +106,26 @@ project("spring-cloud:spring-cloud-api-gateway") {
     dependencies {
         implementation("org.springframework.cloud:spring-cloud-starter-gateway")
         implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
-        
+
         runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
         runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
         runtimeOnly("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
         runtimeOnly("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-        
+
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
     bootJar {
         mainClass = "de.freese.spring.gateway.GatewayApplication"
     }
-    
+
     //Für Platzhalter in application.properties
     ext.artifactId = project.name
-    
+
     processResources {
         filesMatching("application.yml") {
             filteringCharset = "UTF-8"
-            
+
             // Bei Problemen müssen die Platzhalter escaped werden: \${...}
             //expand(project.properties)            
         }
@@ -132,39 +133,39 @@ project("spring-cloud:spring-cloud-api-gateway") {
 }
 
 project("spring-cloud:spring-cloud-boot-admin") {
-	description = "Monitor für Spring-Boot Anwendungen"
-	dependencies {
-		implementation("de.codecentric:spring-boot-admin-starter-server")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.boot.admin.SpringBootAdminApplication"
-	}
+    description = "Monitor für Spring-Boot Anwendungen"
+    dependencies {
+        implementation("de.codecentric:spring-boot-admin-starter-server")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.boot.admin.SpringBootAdminApplication"
+    }
 }
 
 project("spring-cloud:spring-cloud-eureka") {
-	description = "EUREKA-Server (ServiceDiscovery) von spring-boot"
-	dependencies {
-		implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-server")
-		
-		runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.eureka.EurekaServerApplication"
-	}
-	
-	//Für Platzhalter in application.properties
-	ext.artifactId = project.name
-	
-	processResources {
-	    filesMatching("application.properties") {
-	    	filteringCharset = "UTF-8"
-	    	
-	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}.}
-	        //expand(project.properties)           	
-	    }
-	}
+    description = "EUREKA-Server (ServiceDiscovery) von spring-boot"
+    dependencies {
+        implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-server")
+
+        runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.eureka.EurekaServerApplication"
+    }
+
+    //Für Platzhalter in application.properties
+    ext.artifactId = project.name
+
+    processResources {
+        filesMatching("application.properties") {
+            filteringCharset = "UTF-8"
+
+            // Bei Problemen müssen die Platzhalter escaped werden: \${...}.}
+            //expand(project.properties)
+        }
+    }
 }
 
 project("spring-cloud:spring-cloud-microservice") {
@@ -173,7 +174,7 @@ project("spring-cloud:spring-cloud-microservice") {
         implementation("org.springframework.boot:spring-boot-starter-jdbc")
         implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-        
+
         runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
         runtimeOnly("org.hsqldb:hsqldb")
         runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
@@ -185,14 +186,14 @@ project("spring-cloud:spring-cloud-microservice") {
     bootJar {
         mainClass = "de.freese.spring.MicroServiceApplication"
     }
-        
+
     //Für Platzhalter in application.properties
     ext.artifactId = project.name
-    
+
     processResources {
         filesMatching("application.properties") {
             filteringCharset = "UTF-8"
-            
+
             // Bei Problemen müssen die Platzhalter escaped werden: \${...}
             //expand(project.properties)                
         }
@@ -200,515 +201,503 @@ project("spring-cloud:spring-cloud-microservice") {
 }
 
 project("spring-hateoas") {
-	description = "Demo für REST-HATEOAS"
-	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter-hateoas")
-		
-		runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
-		
-		testImplementation("com.jayway.jsonpath:json-path")
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.hateoas.HateoasApplication"
-	}
-	
-	//Für Platzhalter in application.properties
-	ext.artifactId = project.name
-	
-	processResources {
-	    filesMatching("application.properties") {
-	    	filteringCharset = "UTF-8"
-	    	
-	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
-	        expand(project.properties)           	
-	    }
-	}
+    description = "Demo für REST-HATEOAS"
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-hateoas")
+        implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+        runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+
+        testImplementation("com.jayway.jsonpath:json-path")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.hateoas.HateoasApplication"
+    }
+
+    //Für Platzhalter in application.properties
+    ext.artifactId = project.name
+
+    processResources {
+        filesMatching("application.properties") {
+            filteringCharset = "UTF-8"
+
+            // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+            expand(project.properties)
+        }
+    }
 }
 
 project("spring-hystrix") {
-	description = "Hystrix-Demo von spring-boot"
-	dependencies {
-		implementation("org.springframework.cloud:spring-cloud-starter-netflix-hystrix")
-		implementation("org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard")
-		
-		runtimeOnly("org.springframework.boot:spring-boot-starter-json")
-		runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
-		
-		testImplementation("org.junit.jupiter:junit-jupiter-engine")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	// Deaktiviert, da wir 2 main-Klassen haben.
-	bootJar {
-	    mainClass = "disabled"
-	}	
+    description = "Hystrix-Demo von spring-boot"
+    dependencies {
+        implementation("org.springframework.cloud:spring-cloud-starter-netflix-hystrix")
+        implementation("org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard")
+
+        runtimeOnly("org.springframework.boot:spring-boot-starter-json")
+        runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+
+        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    // Deaktiviert, da wir 2 main-Klassen haben.
+    bootJar {
+        mainClass = "disabled"
+    }
 }
 
 project("spring-integration") {
-	description = "Test Projekt für das Spring-Integration Modul"
-	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter-integration") {
+    description = "Test Projekt für das Spring-Integration Modul"
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-integration") {
             exclude group: "ch.qos.logback", module: "logback-classic"
         }
-		
-		testImplementation("org.junit.jupiter:junit-jupiter-engine")
-		testImplementation("org.slf4j:slf4j-simple")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	// Deaktiviert, da wir keine main-Klasse haben.
-	bootJar {
-	    mainClass = "disabled"
-	}
+
+        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.slf4j:slf4j-simple")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    // Deaktiviert, da wir keine main-Klasse haben.
+    bootJar {
+        mainClass = "disabled"
+    }
 }
 
 project("spring-javafx") {
-	apply plugin: "org.openjfx.javafxplugin"
-	description = "spring with javafx"
-	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter")
-		
-		javafx {
-        	version = "$version_javafxBase"
+    apply plugin: "org.openjfx.javafxplugin"
+    description = "spring with javafx"
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter")
+
+        javafx {
+            version = "$version_javafxBase"
             modules = ["javafx.controls", "javafx.fxml"]
         }
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.javafx.MainSpringFxApplication"
-	}
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.javafx.MainSpringFxApplication"
+    }
 }
 
 project("spring-jwt") {
-	description = "JWT-Demo"
-	dependencies {
-		implementation("io.jsonwebtoken:jjwt")
-		implementation("io.springfox:springfox-swagger2")
-		implementation("io.springfox:springfox-swagger-ui")
-		
-		implementation("org.springframework.boot:spring-boot-starter-cache")
-		implementation("org.springframework.boot:spring-boot-starter-security")
-		implementation("org.springframework.boot:spring-boot-starter-web")
-		
-		runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
-		
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-		testImplementation("org.springframework.security:spring-security-test")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.jwt.JwtAuthorisationApplication"
-	}		
+    description = "JWT-Demo"
+    dependencies {
+        implementation("com.nimbusds:nimbus-jose-jwt")
+
+        // Ältere Alternative für nimbus-jose-jwt
+        implementation("io.jsonwebtoken:jjwt")
+
+        //implementation("io.springfox:springfox-swagger2")
+        //implementation("io.springfox:springfox-swagger-ui")
+
+        implementation("org.springframework:spring-jdbc")
+        implementation("org.springframework.boot:spring-boot-starter-cache")
+        implementation("org.springframework.boot:spring-boot-starter-security")
+        implementation("org.springframework.boot:spring-boot-starter-web")
+
+        //runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testImplementation("org.springframework.security:spring-security-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.jwt.JwtAuthorisationApplication"
+    }
 }
 
 project("spring-kryo") {
-	description = "Kryo Demo"
-	dependencies {
-		implementation("com.esotericsoftware:kryo")
-		implementation("de.javakaffee:kryo-serializers")
-		
-		implementation("org.springframework.boot:spring-boot-starter-web")
-		implementation("org.springframework.boot:spring-boot-starter-webflux")
-		
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.kryo.KryoApplication"
-	}
+    description = "Kryo Demo"
+    dependencies {
+        implementation("com.esotericsoftware:kryo")
+        implementation("de.javakaffee:kryo-serializers")
+
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.kryo.KryoApplication"
+    }
 }
 
 project("spring-ldap") {
-	description = "Folder project"
-	bootJar {
-	    mainClass = "disabled"
-	}
+    description = "Folder project"
+    bootJar {
+        mainClass = "disabled"
+    }
 }
 
 project("spring-ldap:spring-ldap-apacheds") {
-	description = "spring with ldap (apacheds)"
-	dependencies {
-		implementation("org.apache.directory.server:apacheds-all")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.ldap.apacheds.EmbeddedLdapServer"
-	}		
+    description = "spring with ldap (apacheds)"
+    dependencies {
+        implementation("org.apache.directory.server:apacheds-all")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.ldap.apacheds.EmbeddedLdapServer"
+    }
 }
 
 project("spring-ldap:spring-ldap-unboundid") {
-	description = "spring with ldap (unboundid)"
-	dependencies {
-		implementation("com.unboundid:unboundid-ldapsdk")
-		implementation("org.springframework.boot:spring-boot-starter-security")
-		implementation("org.springframework.boot:spring-boot-starter-web")
-		implementation("org.springframework.security:spring-security-ldap")
-		
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.ldap.unboundid.LdapApplication"
-	}
+    description = "spring with ldap (unboundid)"
+    dependencies {
+        implementation("com.unboundid:unboundid-ldapsdk")
+        implementation("org.springframework.boot:spring-boot-starter-security")
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.security:spring-security-ldap")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.ldap.unboundid.LdapApplication"
+    }
 }
 
 project("spring-messaging") {
-	description = "Folder project"
-	bootJar {
-	    mainClass = "disabled"
-	}
+    description = "Folder project"
+    bootJar {
+        mainClass = "disabled"
+    }
 }
 
 project("spring-messaging:spring-messaging-amqp-qpid") {
-	description = "Messaging with qpid"
-	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter-amqp") {
+    description = "Messaging with qpid"
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-amqp") {
             exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
         }
-        
-		implementation("org.springframework.boot:spring-boot-starter-json")
-		
-		implementation("org.apache.qpid:qpid-broker")
-		//implementation("org.apache.qpid:qpid-bdbstore")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "org.spring.messaging.amqp.qpid.SpringQpidApplication"
-	}		
+
+        implementation("org.springframework.boot:spring-boot-starter-json")
+
+        implementation("org.apache.qpid:qpid-broker")
+        //implementation("org.apache.qpid:qpid-bdbstore")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "org.spring.messaging.amqp.qpid.SpringQpidApplication"
+    }
 }
 
 project("spring-messaging:spring-messaging-amqp-rabbitmq") {
-	description = "Messaging with RabbitMQ"
-	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter-amqp") {
+    description = "Messaging with RabbitMQ"
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-amqp") {
             exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
         }
-        
-		implementation("org.springframework.boot:spring-boot-starter-json")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "org.spring.messaging.amqp.rabbitmq.SpringRabbitMqApplication"
-	}
+
+        implementation("org.springframework.boot:spring-boot-starter-json")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "org.spring.messaging.amqp.rabbitmq.SpringRabbitMqApplication"
+    }
 }
 
 project("spring-messaging:spring-messaging-jms") {
-	description = "JMS with ActiveMQ"
-	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter-activemq")
-		implementation("org.springframework.boot:spring-boot-starter-json")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.messaging.jms.SpringJmsApplication"
-	}
+    description = "JMS with ActiveMQ"
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-activemq")
+        implementation("org.springframework.boot:spring-boot-starter-json")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.messaging.jms.SpringJmsApplication"
+    }
 }
 
 project("spring-microservice-jmh") {
-	description = "JMH-Benchmark eines MicroService mit spring-boot"
-	dependencies {
-		implementation("org.openjdk.jmh:jmh-core")
-		implementation("org.springframework.boot:spring-boot-starter-web")
-		implementation("org.springframework.boot:spring-boot-starter-webflux")
-	
-		//compileOnly("org.openjdk.jmh:jmh-generator-annprocess")
-		//testAnnotationProcessor("org.openjdk.jmh:jmh-generator-annprocess")
-		//runtimeOnly("org.openjdk.jmh:jmh-generator-annprocess")
-		//implementation("org.openjdk.jmh:jmh-generator-annprocess")
+    description = "JMH-Benchmark eines MicroService mit spring-boot"
+    dependencies {
+        implementation("org.openjdk.jmh:jmh-core")
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.boot:spring-boot-starter-webflux")
 
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.Benchmarks"
-	}	
-		
-	test {
-		filter {
-        	// JMH-Test deaktivieren, weil das mit den Annotation-Processor nicht klappt.
-        	excludeTestsMatching "de.freese.spring.TestRestService.testBenchmark"
-		}
-	}
-	
-	//Für Platzhalter in application.properties
-	ext.artifactId = project.name
-	
-	processResources {
-	    filesMatching("application.yml") {
-	    	filteringCharset = "UTF-8"
-	    	
-	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
-	        expand(project.properties)
-	    }
-	}
+        //compileOnly("org.openjdk.jmh:jmh-generator-annprocess")
+        //testAnnotationProcessor("org.openjdk.jmh:jmh-generator-annprocess")
+        //runtimeOnly("org.openjdk.jmh:jmh-generator-annprocess")
+        //implementation("org.openjdk.jmh:jmh-generator-annprocess")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.Benchmarks"
+    }
+
+    test {
+        filter {
+            // JMH-Test deaktivieren, weil das mit den Annotation-Processor nicht klappt.
+            excludeTestsMatching "de.freese.spring.TestRestService.testBenchmark"
+        }
+    }
+
+    //Für Platzhalter in application.properties
+    ext.artifactId = project.name
+
+    processResources {
+        filesMatching("application.yml") {
+            filteringCharset = "UTF-8"
+
+            // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+            expand(project.properties)
+        }
+    }
 }
 
 project("spring-oauth2") {
-	description = "Folder project"
-	bootJar {
-	    mainClass = "disabled"
-	}
+    description = "Folder project"
+    bootJar {
+        mainClass = "disabled"
+    }
 }
 
 project("spring-oauth2:spring-oauth2-authorisationserver") {
-	description = "OAuth2 Authorisation Server"
-	dependencies {
-		implementation("de.freese.spring:spring-autoconfigure-hsqldbserver:$version")
-		implementation("org.springframework.boot:spring-boot-starter-cache")
-		implementation("org.springframework.boot:spring-boot-starter-jdbc")
-		implementation("org.springframework.boot:spring-boot-starter-security")
-		implementation("org.springframework.boot:spring-boot-starter-web")
-		implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure")
-		
-		runtimeOnly("org.flywaydb:flyway-core")
-		runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
-		runtimeOnly("org.hsqldb:hsqldb")
+    description = "OAuth2 Authorisation Server"
+    dependencies {
+        implementation("org.hsqldb:hsqldb")
+        implementation("org.springframework.boot:spring-boot-starter-cache")
+        implementation("org.springframework.boot:spring-boot-starter-jdbc")
+        implementation("org.springframework.boot:spring-boot-starter-security")
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure")
 
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}	
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.oauth2.authorisation.OAuth2AuthorisationServerApplication"
-	}
+        runtimeOnly("org.flywaydb:flyway-core")
+        runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.oauth2.authorisation.OAuth2AuthorisationServerApplication"
+    }
 }
 
 project("spring-oauth2:spring-oauth2-client-rest") {
-	description = "OAuth2 Rest-Client"
-	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter-web")
-		implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure")
+    description = "OAuth2 Rest-Client"
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure")
 
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}	
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.oauth2.client.rest.OAuth2ClientRestApplication"
-	}
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.oauth2.client.rest.OAuth2ClientRestApplication"
+    }
 }
 
 project("spring-oauth2:spring-oauth2-client-web") {
-	description = "OAuth2 Web-Client"
-	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
-		implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-		implementation("org.springframework.boot:spring-boot-starter-web")
-		implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure")
-		implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
+    description = "OAuth2 Web-Client"
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+        implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure")
+        implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
 
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}	
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.oauth2.client.web.OAuth2ClientWebApplication"
-	}
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.oauth2.client.web.OAuth2ClientWebApplication"
+    }
 }
 
 project("spring-reactive-jdbc") {
-	description = "Reactive JDBC with Spring"
-	dependencies {
-		implementation("io.r2dbc:r2dbc-client")
-		implementation("io.r2dbc:r2dbc-h2")
-		implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-		implementation("org.springframework.boot:spring-boot-starter-jdbc")
-		implementation("org.springframework.boot:spring-boot-starter-webflux")
+    description = "Reactive JDBC with Spring"
+    dependencies {
+        implementation("io.r2dbc:r2dbc-client")
+        implementation("io.r2dbc:r2dbc-h2")
+        implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+        implementation("org.springframework.boot:spring-boot-starter-jdbc")
+        implementation("org.springframework.boot:spring-boot-starter-webflux")
 
-		testImplementation("io.projectreactor:reactor-test")
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.reactive.SpringReactiveJdbcApplication"
-	}
+        testImplementation("io.projectreactor:reactor-test")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.reactive.SpringReactiveJdbcApplication"
+    }
 
-	test.enabled = false
+    test.enabled = false
 }
 
 project("spring-resilience") {
-	description = "Demo project for Spring Boot"
-	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter-webflux")
-		implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
+    description = "Demo project for Spring Boot"
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-webflux")
+        implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
 
-		runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
-		runtimeOnly("io.micrometer:micrometer-registry-prometheus")
-		runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
-		
-		testImplementation("io.github.resilience4j:resilience4j-all")
-		testImplementation("io.projectreactor:reactor-test")
-		testImplementation("org.springframework.boot:spring-boot-starter-test")		
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.resilience.SpringResilienceApplication"
-	}
+        runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
+        runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+        runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
-	//Für Platzhalter in application.properties
-	ext.artifactId = project.name
-	
-	processResources {
-	    filesMatching("application.yml") {
-	    	filteringCharset = "UTF-8"
-	    	
-	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
-	        //expand(project.properties) 
-	    }
-	}
+        testImplementation("io.github.resilience4j:resilience4j-all")
+        testImplementation("io.projectreactor:reactor-test")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.resilience.SpringResilienceApplication"
+    }
+
+    //Für Platzhalter in application.properties
+    ext.artifactId = project.name
+
+    processResources {
+        filesMatching("application.yml") {
+            filteringCharset = "UTF-8"
+
+            // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+            //expand(project.properties)
+        }
+    }
 }
 
 project("spring-ribbon") {
-	description = "ribbon Loadbalancer von spring-boot"
-	dependencies {
-		implementation("org.apache.httpcomponents:httpclient")
-		implementation("org.springframework.boot:spring-boot-starter-web")
-		implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-		implementation("org.springframework.cloud:spring-cloud-starter-netflix-ribbon")
+    description = "ribbon Loadbalancer von spring-boot"
+    dependencies {
+        implementation("org.apache.httpcomponents:httpclient")
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+        implementation("org.springframework.cloud:spring-cloud-starter-netflix-ribbon")
 
-		testImplementation("io.projectreactor:reactor-test")
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}	
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	// Deaktiviert, da wir 2 main-Klassen haben.
-	bootJar {
-	    mainClass = "disabled"
-	}
+        testImplementation("io.projectreactor:reactor-test")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    // Deaktiviert, da wir 2 main-Klassen haben.
+    bootJar {
+        mainClass = "disabled"
+    }
 }
 
 project("spring-rsocket") {
-	description = "Folder project"
-	bootJar {
-	    mainClass = "disabled"
-	}
-}
+    description = "rsocket-Server"
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+        implementation("org.springframework.boot:spring-boot-starter-rsocket")
+        implementation("org.springframework.boot:spring-boot-starter-security")
+        implementation("org.springframework.security:spring-security-messaging")
+        implementation("org.springframework.security:spring-security-rsocket")
 
-project("spring-rsocket:rsocket-client") {
-	description = "rsocket-Client"
-	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter-rsocket")
-		implementation("org.springframework.security:spring-security-rsocket")
-
-		testImplementation("io.projectreactor:reactor-test")
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}
-}
-
-project("spring-rsocket:rsocket-server") {
-	description = "rsocket-Server"
-	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter-rsocket")
-		implementation("org.springframework.boot:spring-boot-starter-security")
-		implementation("org.springframework.security:spring-security-messaging")
-		implementation("org.springframework.security:spring-security-rsocket")
-		
-		testImplementation("io.projectreactor:reactor-test")
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-	}
+        testImplementation("io.projectreactor:reactor-test")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
 }
 
 project("spring-thymeleaf") {
-	description = "Spring Boot Web Thymeleaf mit Security Beispiel"
-	dependencies {
-		implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
-	
-		implementation("org.apache.httpcomponents:httpclient")
-		implementation("org.springframework.boot:spring-boot-starter-json")
-		implementation("org.springframework.boot:spring-boot-starter-security")
-		implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-		implementation("org.springframework.boot:spring-boot-starter-validation")
-		implementation("org.springframework.boot:spring-boot-starter-web")
+    description = "Spring Boot Web Thymeleaf mit Security Beispiel"
+    dependencies {
+        implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
 
-		// hot swapping, disable cache for template, enable live reload
-		//implementation("org.springframework.boot:spring-boot-devtools")
-				
-		implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
-		
-		runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
-		
-		// Optional, for bootstrap
-		//runtimeOnly("org.webjars:bootstrap:4.6.0")
-		
-		testImplementation("org.junit.platform:junit-platform-runner")
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
-		testImplementation("org.springframework.boot:spring-boot-starter-webflux")
-		testImplementation("org.springframework.security:spring-security-test")
-	}
-	
-	// Durch die parallelen Tests kann es passsieren, das die Ports 8080 und 8443 bereits belegt sind.
-	// Die Alternative wäre den Build durch 'gradle --no-parallel --max-workers 1 test' zu starten.
-	test {
-		filter {
-        	// Klasse deaktivieren
-        	excludeTestsMatching "de.freese.spring.thymeleaf.rest.TestRestWithWebClientSSL"
-        	
-        	// Einzelne Methode deaktivieren
-        	// excludeTestsMatching "de.freese.spring.thymeleaf.rest.TestRestWithWebClientSSL.test000HealthEndpoint"
-        	
-        	// Package Deaktivierung mit Wildscards
-        	//excludeTestsMatching "*.integration.*"
-        	
-        	// Methoden Deaktivierung mit Wildscards
-        	//excludeTestsMatching "*stress*"
-		}
-	}	
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.thymeleaf.ThymeleafApplication"
-	}
-		
-	//Für Platzhalter in application.properties
-	ext.artifactId = project.name
-	
-	processResources {
-	    filesMatching("application.yml") {
-	    	filteringCharset = "UTF-8"
-	    	
-	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
-	        expand(project.properties)
-	    }
-	}
+        implementation("org.apache.httpcomponents:httpclient")
+        implementation("org.springframework.boot:spring-boot-starter-json")
+        implementation("org.springframework.boot:spring-boot-starter-security")
+        implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+        implementation("org.springframework.boot:spring-boot-starter-validation")
+        implementation("org.springframework.boot:spring-boot-starter-web")
+
+        // hot swapping, disable cache for template, enable live reload
+        //implementation("org.springframework.boot:spring-boot-devtools")
+
+        implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
+
+        runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+
+        // Optional, for bootstrap
+        //runtimeOnly("org.webjars:bootstrap:4.6.0")
+
+        testImplementation("org.junit.platform:junit-platform-runner")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testImplementation("org.springframework.boot:spring-boot-starter-webflux")
+        testImplementation("org.springframework.security:spring-security-test")
+    }
+
+    // Durch die parallelen Tests kann es passsieren, das die Ports 8080 und 8443 bereits belegt sind.
+    // Die Alternative wäre den Build durch 'gradle --no-parallel --max-workers 1 test' zu starten.
+    test {
+        filter {
+            // Klasse deaktivieren
+            excludeTestsMatching "de.freese.spring.thymeleaf.rest.TestRestWithWebClientSSL"
+
+            // Einzelne Methode deaktivieren
+            // excludeTestsMatching "de.freese.spring.thymeleaf.rest.TestRestWithWebClientSSL.test000HealthEndpoint"
+
+            // Package Deaktivierung mit Wildscards
+            //excludeTestsMatching "*.integration.*"
+
+            // Methoden Deaktivierung mit Wildscards
+            //excludeTestsMatching "*stress*"
+        }
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.thymeleaf.ThymeleafApplication"
+    }
+
+    //Für Platzhalter in application.properties
+    ext.artifactId = project.name
+
+    processResources {
+        filesMatching("application.yml") {
+            filteringCharset = "UTF-8"
+
+            // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+            expand(project.properties)
+        }
+    }
 }
 
 project("spring-web") {
-	description = "Demo für spring-boot-web mit JSF"
-	dependencies {
-	    implementation("com.sun.faces:jsf-api")
-	    implementation("com.sun.faces:jsf-impl")
-	    implementation("org.springframework.boot:spring-boot-actuator")	
-	    implementation("org.springframework.boot:spring-boot-starter-web") {
-	        //exclude module: "spring-boot-starter-tomcat"
-	    }
-	    //implementation("javax:javaee-web-api") // Falls nicht Tomcat verwendet werden soll-
-	    
-	    runtimeOnly("org.primefaces:primefaces")
-	    runtimeOnly("org.primefaces.extensions:primefaces-extensions")
-	    runtimeOnly("org.primefaces.themes:all-themes")
-	    //runtimeOnly("org.springframework.boot:spring-boot-starter-jetty") // -> javax:javaee-web-api
-	    //runtimeOnly("org.glassfish.web:el-impl:2.2.1-b05")
-	}
-	// Start: gradle bootRun --args="--spring.profiles.active=dev"
-	bootJar {
-	    mainClass = "de.freese.spring.web.SpringBootWebApp"
-	}
-	
-	//Für Platzhalter in application.properties
-	ext.artifactId = project.name
+    description = "Demo für spring-boot-web mit JSF"
+    dependencies {
+        implementation("com.sun.faces:jsf-api")
+        implementation("com.sun.faces:jsf-impl")
+        implementation("org.springframework.boot:spring-boot-actuator")
+        implementation("org.springframework.boot:spring-boot-starter-web") {
+            //exclude module: "spring-boot-starter-tomcat"
+        }
+        //implementation("javax:javaee-web-api") // Falls nicht Tomcat verwendet werden soll-
 
-	processResources {
+        runtimeOnly("org.primefaces:primefaces")
+        runtimeOnly("org.primefaces.extensions:primefaces-extensions")
+        runtimeOnly("org.primefaces.themes:all-themes")
+        //runtimeOnly("org.springframework.boot:spring-boot-starter-jetty") // -> javax:javaee-web-api
+        //runtimeOnly("org.glassfish.web:el-impl:2.2.1-b05")
+    }
+    // Start: gradle bootRun --args="--spring.profiles.active=dev"
+    bootJar {
+        mainClass = "de.freese.spring.web.SpringBootWebApp"
+    }
+
+    //Für Platzhalter in application.properties
+    ext.artifactId = project.name
+
+    processResources {
         // filesMatching("**/*.properties")        
-	    filesMatching("application.properties") {
-	    	filteringCharset = "UTF-8"
-	    	
-	    	// Bei Problemen müssen die Platzhalter escaped werden: \${...}
-	        expand(project.properties)
+        filesMatching("application.properties") {
+            filteringCharset = "UTF-8"
+
+            // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+            expand(project.properties)
 
             //expand ("@project.description@": project.description,
             //		"@project.artifactId@": project.name,
             //		"@project.version@": project.version
             //)   
-            	        
-    		//filter{ it.replaceAll("@project.description@", project.description)} 
-    		//filter{ it.replaceAll("@project.artifactId@", project.name)}  
-    		//filter{ it.replaceAll("@project.version@", project.version)}
-	    }
-	}
+
+            //filter{ it.replaceAll("@project.description@", project.description)}
+            //filter{ it.replaceAll("@project.artifactId@", project.name)}
+            //filter{ it.replaceAll("@project.version@", project.version)}
+        }
+    }
 }
 

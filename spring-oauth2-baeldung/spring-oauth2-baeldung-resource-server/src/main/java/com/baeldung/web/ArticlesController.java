@@ -16,8 +16,8 @@ public class ArticlesController
     public String[] getArticles()
     {
         return new String[]
-        {
-                "Article 1", "Article 2", "Article 3"
-        };
+                {
+                        "Article 1", "Article 2", "Article 3"
+                };
     }
 }

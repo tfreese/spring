@@ -31,8 +31,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter
     {
         // @formatter:off
         auth.ldapAuthentication()
-            .userDnPatterns("uid={0},ou=people")
             .groupSearchBase("ou=groups")
+            .userDnPatterns("uid={0},ou=people")
             .contextSource()
                 .url("ldap://localhost:8389/dc=springframework,dc=org")
             .and()
@@ -49,11 +49,33 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter
 //    @Bean
 //    EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean()
 //    {
-//        EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean =
-//                EmbeddedLdapServerContextSourceFactoryBean.fromEmbeddedLdapServer();
+//        EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean = EmbeddedLdapServerContextSourceFactoryBean.fromEmbeddedLdapServer();
 //        contextSourceFactoryBean.setPort(0);
 //
 //        return contextSourceFactoryBean;
+//    }
+//
+//    /**
+//     * @param httpSecurity {@link HttpSecurity}
+//     *
+//     * @return {@link SecurityFilterChain}
+//     *
+//     * @throws Exception Falls was schief geht.
+//     */
+//    @Bean
+//    SecurityFilterChain filterChain(final HttpSecurity httpSecurity)
+//            throws Exception
+//    {
+//        // @formatter:off
+//        httpSecurity.authorizeRequests()
+//                .anyRequest()
+//                .fullyAuthenticated()
+//                .and()
+//                .formLogin()
+//        ;
+//        // @formatter:o
+//
+//        return httpSecurity.build();
 //    }
 //
 //    /**
@@ -62,11 +84,10 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter
 //     * @return AuthenticationManager
 //     */
 //    @Bean
-//    AuthenticationManager ldapAuthenticationManager(
-//            BaseLdapPathContextSource contextSource)
+//    AuthenticationManager ldapAuthenticationManager(BaseLdapPathContextSource contextSource)
 //    {
-//        LdapBindAuthenticationManagerFactory factory =
-//                new LdapBindAuthenticationManagerFactory(contextSource);
+//        LdapBindAuthenticationManagerFactory factory = new LdapBindAuthenticationManagerFactory(contextSource);
+//        factory.setUserSearchBase("ou=groups");
 //        factory.setUserDnPatterns("uid={0},ou=people");
 //        factory.setUserDetailsContextMapper(new PersonContextMapper());
 //
@@ -110,10 +131,10 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     @Override
-    protected void configure(final HttpSecurity http) throws Exception
+    protected void configure(final HttpSecurity httpSecurity) throws Exception
     {
         // @formatter:off
-        http.authorizeRequests()
+        httpSecurity.authorizeRequests()
             .anyRequest()
             .fullyAuthenticated()
             .and()
