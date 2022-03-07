@@ -36,11 +36,15 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
     /**
      *
      */
+    private final HttpMessageConverter<String> messageConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
+    /**
+     *
+     */
     private String expectedContent;
     /**
      *
      */
-    private ClientHttpRequestFactory httpRequestFactory;
+    private volatile ClientHttpRequestFactory httpRequestFactory;
     /**
      *
      */
@@ -48,56 +52,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
     /**
      *
      */
-    private final HttpMessageConverter<String> messageConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
-    /**
-     *
-     */
     private String pingAppendString = "";
-
-    /**
-     * Prüft den erwarteten Inhalt des isAlive-Requests.
-     *
-     * @param expectedContent String
-     * @param returnedContent String
-     *
-     * @return boolean; true, wenn der Content den erwarteten Wert hat
-     */
-    protected boolean checkAliveByContent(final String expectedContent, final String returnedContent)
-    {
-        boolean isAlive = returnedContent.equals(expectedContent);
-
-        return isAlive;
-    }
-
-    /**
-     * @param inputStream {@link InputStream}
-     *
-     * @return String
-     *
-     * @throws IOException Falls was schief geht.
-     */
-    protected String getContent(final InputStream inputStream) throws IOException
-    {
-        if (inputStream == null)
-        {
-            return null;
-        }
-
-        try (ReadableByteChannel channel = Channels.newChannel(inputStream))
-        {
-            int capacity = inputStream.available();
-
-            ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);
-
-            channel.read(byteBuffer);
-            byteBuffer.rewind();
-
-            Charset charset = StandardCharsets.UTF_8;
-            String content = charset.decode(byteBuffer).toString();
-
-            return content;
-        }
-    }
 
     /**
      * Welcher Content muss der Ping liefern ?
@@ -188,14 +143,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
                 }
                 else
                 {
-                    if (checkAliveByContent(getExpectedContent(), content))
-                    {
-                        isAlive = true;
-                    }
-                    else
-                    {
-                        isAlive = false;
-                    }
+                    isAlive = checkAliveByContent(getExpectedContent(), content);
                 }
             }
 
@@ -256,5 +204,50 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
     public void setSecure(final boolean isSecure)
     {
         this.isSecure = isSecure;
+    }
+
+    /**
+     * Prüft den erwarteten Inhalt des isAlive-Requests.
+     *
+     * @param expectedContent String
+     * @param returnedContent String
+     *
+     * @return boolean; true, wenn der Content den erwarteten Wert hat
+     */
+    protected boolean checkAliveByContent(final String expectedContent, final String returnedContent)
+    {
+        boolean isAlive = returnedContent.equals(expectedContent);
+
+        return isAlive;
+    }
+
+    /**
+     * @param inputStream {@link InputStream}
+     *
+     * @return String
+     *
+     * @throws IOException Falls was schief geht.
+     */
+    protected String getContent(final InputStream inputStream) throws IOException
+    {
+        if (inputStream == null)
+        {
+            return null;
+        }
+
+        try (ReadableByteChannel channel = Channels.newChannel(inputStream))
+        {
+            int capacity = inputStream.available();
+
+            ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);
+
+            channel.read(byteBuffer);
+            byteBuffer.rewind();
+
+            Charset charset = StandardCharsets.UTF_8;
+            String content = charset.decode(byteBuffer).toString();
+
+            return content;
+        }
     }
 }

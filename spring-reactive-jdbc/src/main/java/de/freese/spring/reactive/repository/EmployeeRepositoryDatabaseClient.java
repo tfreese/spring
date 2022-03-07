@@ -4,15 +4,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
-import org.springframework.context.annotation.Profile;
-import org.springframework.r2dbc.core.DatabaseClient;
-import org.springframework.stereotype.Repository;
-
 import de.freese.spring.reactive.model.Department;
 import de.freese.spring.reactive.model.Employee;
 import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.Row;
 import io.r2dbc.spi.RowMetadata;
+import org.springframework.context.annotation.Profile;
+import org.springframework.r2dbc.core.DatabaseClient;
+import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -23,10 +22,8 @@ import reactor.core.publisher.Mono;
 @Profile("r2dbc")
 public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
 {
-    /**
-     * @author Thomas Freese
-     */
-    private static BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) -> {
+    private static final BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) ->
+    {
         Department department = new Department();
         department.setId(row.get("department_id", Integer.class));
         department.setName(row.get("department_name", String.class));
@@ -34,10 +31,8 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
         return department;
     };
 
-    /**
-     * @author Thomas Freese
-     */
-    private static BiFunction<Row, RowMetadata, Employee> EMPLOYEE_ROWMAPPER = (row, rowMetadata) -> {
+    private static final BiFunction<Row, RowMetadata, Employee> EMPLOYEE_ROWMAPPER = (row, rowMetadata) ->
+    {
         Employee employee = new Employee();
         employee.setId(row.get("employee_id", Integer.class));
         employee.setLastName(row.get("employee_lastname", String.class));
@@ -198,7 +193,8 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
      */
     public Flux<Long> saveAll(final List<Department> data)
     {
-        return this.databaseClient.inConnectionMany(connection -> {
+        return this.databaseClient.inConnectionMany(connection ->
+        {
 
             var statement = connection.createStatement("INSERT INTO department (department_name) VALUES (:name)").returnGeneratedValues("department_id");
 

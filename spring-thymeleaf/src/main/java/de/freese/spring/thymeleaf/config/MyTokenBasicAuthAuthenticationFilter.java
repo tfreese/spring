@@ -25,7 +25,6 @@ import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
@@ -43,15 +42,15 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
     /**
      *
      */
+    private final AuthenticationManager authenticationManager;
+    /**
+     *
+     */
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
     /**
      *
      */
     private AuthenticationEntryPoint authenticationEntryPoint;
-    /**
-     *
-     */
-    private AuthenticationManager authenticationManager;
     /**
      *
      */
@@ -70,8 +69,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
     {
         super();
 
-        Assert.notNull(authenticationManager, "authenticationManager cannot be null");
-        this.authenticationManager = authenticationManager;
+        this.authenticationManager = Objects.requireNonNull(authenticationManager, "authenticationManager required");
         this.ignoreFailure = true;
     }
 
@@ -93,6 +91,30 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
         // setExceptionIfHeaderMissing(false); // Damit keine Fehlermeldung ausgegeben wird.
         // setCheckForPrincipalChanges(true);
         // setInvalidateSessionOnPrincipalChange(true);
+    }
+
+    /**
+     * @param authenticationDetailsSource {@link AuthenticationDetailsSource}
+     */
+    public void setAuthenticationDetailsSource(final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource)
+    {
+        this.authenticationDetailsSource = Objects.requireNonNull(authenticationDetailsSource, "authenticationDetailsSource required");
+    }
+
+    /**
+     * @param ignoreFailure boolean
+     */
+    public void setIgnoreFailure(final boolean ignoreFailure)
+    {
+        this.ignoreFailure = ignoreFailure;
+    }
+
+    /**
+     * @param rememberMeServices {@link RememberMeServices}
+     */
+    public void setRememberMeServices(final RememberMeServices rememberMeServices)
+    {
+        this.rememberMeServices = Objects.requireNonNull(rememberMeServices, "rememberMeServices required");
     }
 
     /**
@@ -132,21 +154,16 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
         // both of which force re-authentication if the respective header is detected (and
         // in doing so replace
         // any existing AnonymousAuthenticationToken). See SEC-610.
-        if (existingAuth instanceof AnonymousAuthenticationToken)
-        {
-            return true;
-        }
-
-        return false;
+        return existingAuth instanceof AnonymousAuthenticationToken;
     }
 
     /**
      * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     *      javax.servlet.FilterChain)
+     * javax.servlet.FilterChain)
      */
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
-        throws ServletException, IOException
+            throws ServletException, IOException
     {
         String header = request.getHeader("my-token");
 
@@ -223,7 +240,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
      * @throws IOException Falls was schief geht.
      */
     protected void onSuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final Authentication authResult)
-        throws IOException
+            throws IOException
     {
         // Empty
     }
@@ -236,32 +253,8 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
      * @throws IOException Falls was schief geht.
      */
     protected void onUnsuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException failed)
-        throws IOException
+            throws IOException
     {
         // Empty
-    }
-
-    /**
-     * @param authenticationDetailsSource {@link AuthenticationDetailsSource}
-     */
-    public void setAuthenticationDetailsSource(final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource)
-    {
-        this.authenticationDetailsSource = Objects.requireNonNull(authenticationDetailsSource, "authenticationDetailsSource required");
-    }
-
-    /**
-     * @param ignoreFailure boolean
-     */
-    public void setIgnoreFailure(final boolean ignoreFailure)
-    {
-        this.ignoreFailure = ignoreFailure;
-    }
-
-    /**
-     * @param rememberMeServices {@link RememberMeServices}
-     */
-    public void setRememberMeServices(final RememberMeServices rememberMeServices)
-    {
-        this.rememberMeServices = Objects.requireNonNull(rememberMeServices, "rememberMeServices required");
     }
 }

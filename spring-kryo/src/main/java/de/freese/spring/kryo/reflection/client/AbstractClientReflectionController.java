@@ -14,6 +14,13 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Objects;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.KryoException;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.util.Pool;
+import de.freese.spring.kryo.reflection.ReflectionControllerApi;
+import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -21,19 +28,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.KryoException;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
-import com.esotericsoftware.kryo.util.Pool;
-
-import de.freese.spring.kryo.reflection.ReflectionControllerApi;
-import de.freese.spring.kryo.web.KryoHttpMessageConverter;
-
 /**
- * @author Thomas Freese
- *
  * @param <T> Konkreter Klassetyp der Fassade.
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractClientReflectionController<T>
 {
@@ -49,7 +47,7 @@ public abstract class AbstractClientReflectionController<T>
         /**
          *
          */
-        REST_TEMPLATE;
+        REST_TEMPLATE
     }
 
     /**
@@ -127,9 +125,10 @@ public abstract class AbstractClientReflectionController<T>
     protected T lookupProxyHttpConnection(final Class<T> fassadeType)
     {
         return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
+                {
+                        fassadeType
+                }, (proxy, method, args) ->
         {
-                fassadeType
-        }, (proxy, method, args) -> {
 
             URL url = new URL(this.rootUri + "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -162,9 +161,9 @@ public abstract class AbstractClientReflectionController<T>
                     {
                         // Parameter-Typen und -Argumente zuerst.
                         kryo.writeClassAndObject(output, new Object[]
-                        {
-                                method.getParameterTypes(), Arrays.copyOfRange(args, 0, args.length - 1)
-                        });
+                                {
+                                        method.getParameterTypes(), Arrays.copyOfRange(args, 0, args.length - 1)
+                                });
 
                         // Marker für den Start des InputStreams schreiben.
                         kryo.writeClassAndObject(output, output.total());
@@ -179,9 +178,9 @@ public abstract class AbstractClientReflectionController<T>
                     {
                         // Parameter-Typen und -Argumente zuerst.
                         kryo.writeClassAndObject(output, new Object[]
-                        {
-                                method.getParameterTypes(), Arrays.copyOfRange(args, 0, args.length - 1)
-                        });
+                                {
+                                        method.getParameterTypes(), Arrays.copyOfRange(args, 0, args.length - 1)
+                                });
 
                         // Das Schreiben des OutputStreams erfolgt später.
                     }
@@ -189,9 +188,9 @@ public abstract class AbstractClientReflectionController<T>
                     {
                         // Kein Stream vorhanden.
                         kryo.writeClassAndObject(output, new Object[]
-                        {
-                                method.getParameterTypes(), args
-                        });
+                                {
+                                        method.getParameterTypes(), args
+                                });
                     }
 
                     output.flush();
@@ -245,9 +244,10 @@ public abstract class AbstractClientReflectionController<T>
     protected T lookupProxyRestTemplate(final Class<T> fassadeType)
     {
         return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
+                {
+                        fassadeType
+                }, (proxy, method, args) ->
         {
-                fassadeType
-        }, (proxy, method, args) -> {
 
             // @formatter:off
             RestTemplate restTemplate = new RestTemplateBuilder()
@@ -330,14 +330,25 @@ public abstract class AbstractClientReflectionController<T>
         final int retryDelay = 3000;
 
         return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
-        {
-                fassadeType
-        }, new InvocationHandler()
+                {
+                        fassadeType
+                }, new InvocationHandler()
         {
             /**
              *
              */
             private int invocationCount;
+
+            /**
+             * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+             */
+            @Override
+            public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable
+            {
+                // this.invocationTime = System.currentTimeMillis();
+
+                return invoke(fassadeType, method, args);
+            }
 
             /**
              * @param fassadeType Class
@@ -380,17 +391,6 @@ public abstract class AbstractClientReflectionController<T>
                     getLogger().error("Retry failed: {}.{}", fassadeType.getSimpleName(), method.getName());
                     throw cause;
                 }
-            }
-
-            /**
-             * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-             */
-            @Override
-            public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable
-            {
-                // this.invocationTime = System.currentTimeMillis();
-
-                return invoke(fassadeType, method, args);
             }
         });
     }

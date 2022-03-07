@@ -31,27 +31,26 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * Der {@link JwtRequestFilter} verwendet den Default-{@link AuthenticationProvider}.<br>
  * Siehe {@link DaoAuthenticationProvider}.
  *
- * @see BasicAuthenticationFilter
- *
  * @author Thomas Freese
+ * @see BasicAuthenticationFilter
  */
 class JwtRequestFilter extends OncePerRequestFilter
 {
     /**
-    *
-    */
+     *
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
     /**
-    *
-    */
-    private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
+     *
+     */
+    private final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
     /**
-    *
-    */
+     *
+     */
     private AuthenticationEntryPoint authenticationEntryPoint;
     /**
-    *
-    */
+     *
+     */
     private AuthenticationManager authenticationManager;
     /**
      *
@@ -83,38 +82,12 @@ class JwtRequestFilter extends OncePerRequestFilter
     }
 
     /**
-     * @return {@link Logger}
-     */
-    private Logger getLogger()
-    {
-        return LOGGER;
-    }
-
-    /**
-     * @param username String
-     *
-     * @return boolean
-     */
-    private boolean isAuthenticationIsRequired(final String username)
-    {
-        Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
-
-        if ((existingAuth == null) || !existingAuth.isAuthenticated()
-                || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username)))
-        {
-            return true;
-        }
-
-        return (existingAuth instanceof AnonymousAuthenticationToken);
-    }
-
-    /**
      * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     *      javax.servlet.FilterChain)
+     * javax.servlet.FilterChain)
      */
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
-        throws ServletException, IOException
+            throws ServletException, IOException
     {
         String token = this.jwtTokenProvider.resolveToken(request);
 
@@ -170,5 +143,31 @@ class JwtRequestFilter extends OncePerRequestFilter
         Objects.requireNonNull(this.authenticationManager, "authenticationManager requried");
         Objects.requireNonNull(this.authenticationEntryPoint, "authenticationEntryPoint requried");
         Objects.requireNonNull(this.jwtTokenProvider, "jwtTokenProvider requried");
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    private Logger getLogger()
+    {
+        return LOGGER;
+    }
+
+    /**
+     * @param username String
+     *
+     * @return boolean
+     */
+    private boolean isAuthenticationIsRequired(final String username)
+    {
+        Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
+
+        if ((existingAuth == null) || !existingAuth.isAuthenticated()
+                || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username)))
+        {
+            return true;
+        }
+
+        return (existingAuth instanceof AnonymousAuthenticationToken);
     }
 }

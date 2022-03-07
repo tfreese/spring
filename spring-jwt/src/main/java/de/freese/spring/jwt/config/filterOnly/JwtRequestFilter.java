@@ -39,31 +39,30 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * Der {@link JwtRequestFilter} verwendet keinen {@link AuthenticationProvider},<br>
  * sondern validiert das Token mit Passwort-Vergleich, Gültigkeit etc. selber und setzt es in den {@link SecurityContext}..
  *
- * @see BasicAuthenticationFilter
- *
  * @author Thomas Freese
+ * @see BasicAuthenticationFilter
  */
 class JwtRequestFilter extends OncePerRequestFilter
 {
     /**
-    *
-    */
+     *
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
     /**
-    *
-    */
-    private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
+     *
+     */
+    private final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
     /**
-    *
-    */
+     *
+     */
     private AuthenticationEntryPoint authenticationEntryPoint;
     /**
      *
      */
     private JwtTokenProvider jwtTokenProvider;
     /**
-    *
-    */
+     *
+     */
     private PasswordEncoder passwordEncoder;
     /**
      *
@@ -103,94 +102,12 @@ class JwtRequestFilter extends OncePerRequestFilter
     }
 
     /**
-     * @return {@link Logger}
-     */
-    private Logger getLogger()
-    {
-        return LOGGER;
-    }
-
-    /**
-     * @param username String
-     *
-     * @return boolean
-     */
-    private boolean isAuthenticationIsRequired(final String username)
-    {
-        Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
-
-        if ((existingAuth == null) || !existingAuth.isAuthenticated()
-                || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username)))
-        {
-            return true;
-        }
-
-        return (existingAuth instanceof AnonymousAuthenticationToken);
-    }
-
-    /**
-     * @param userDetails {@link UserDetails}
-     * @param password String
-     *
-     * @return boolean
-     *
-     * @throws AuthenticationException Falls was schief geht.
-     *
-     * @see DaoAuthenticationProvider
-     */
-    private boolean isValid(final UserDetails userDetails, final String password) throws AuthenticationException
-    {
-        if (userDetails == null)
-        {
-            return false;
-        }
-
-        if (!userDetails.isAccountNonLocked())
-        {
-            getLogger().error("Failed to authenticate since user account is locked");
-            throw new LockedException("User account is locked");
-        }
-
-        if (!userDetails.isEnabled())
-        {
-            getLogger().error("Failed to authenticate since user account is disabled");
-            throw new DisabledException("User is disabled");
-        }
-
-        if (!userDetails.isAccountNonExpired())
-        {
-            getLogger().error("Failed to authenticate since user account has expired");
-            throw new AccountExpiredException("User account has expired");
-        }
-
-        if (!userDetails.isCredentialsNonExpired())
-        {
-            getLogger().error("Failed to authenticate since user account credentials have expired");
-            throw new CredentialsExpiredException("User credentials have expired");
-        }
-
-        if (userDetails.getPassword() == null)
-        {
-            getLogger().error("Failed to authenticate since no credentials provided");
-            throw new BadCredentialsException("Bad credentials");
-        }
-
-        if (!this.passwordEncoder.matches(password, userDetails.getPassword()))
-        {
-            getLogger().error("Failed to authenticate since password does not match stored value");
-            throw new BadCredentialsException("Bad credentials");
-        }
-
-        return true;
-    }
-
-    /**
      * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     *      javax.servlet.FilterChain)
+     * javax.servlet.FilterChain)
      */
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
-        throws ServletException, IOException
+            throws ServletException, IOException
     {
         String token = this.jwtTokenProvider.resolveToken(request);
 
@@ -254,5 +171,86 @@ class JwtRequestFilter extends OncePerRequestFilter
         Objects.requireNonNull(this.userDetailsService, "userDetailsService requried");
         Objects.requireNonNull(this.passwordEncoder, "passwordEncoder requried");
         Objects.requireNonNull(this.jwtTokenProvider, "jwtTokenProvider requried");
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    private Logger getLogger()
+    {
+        return LOGGER;
+    }
+
+    /**
+     * @param username String
+     *
+     * @return boolean
+     */
+    private boolean isAuthenticationIsRequired(final String username)
+    {
+        Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
+
+        if ((existingAuth == null) || !existingAuth.isAuthenticated()
+                || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username)))
+        {
+            return true;
+        }
+
+        return (existingAuth instanceof AnonymousAuthenticationToken);
+    }
+
+    /**
+     * @param userDetails {@link UserDetails}
+     * @param password String
+     *
+     * @return boolean
+     *
+     * @throws AuthenticationException Falls was schief geht.
+     * @see DaoAuthenticationProvider
+     */
+    private boolean isValid(final UserDetails userDetails, final String password) throws AuthenticationException
+    {
+        if (userDetails == null)
+        {
+            return false;
+        }
+
+        if (!userDetails.isAccountNonLocked())
+        {
+            getLogger().error("Failed to authenticate since user account is locked");
+            throw new LockedException("User account is locked");
+        }
+
+        if (!userDetails.isEnabled())
+        {
+            getLogger().error("Failed to authenticate since user account is disabled");
+            throw new DisabledException("User is disabled");
+        }
+
+        if (!userDetails.isAccountNonExpired())
+        {
+            getLogger().error("Failed to authenticate since user account has expired");
+            throw new AccountExpiredException("User account has expired");
+        }
+
+        if (!userDetails.isCredentialsNonExpired())
+        {
+            getLogger().error("Failed to authenticate since user account credentials have expired");
+            throw new CredentialsExpiredException("User credentials have expired");
+        }
+
+        if (userDetails.getPassword() == null)
+        {
+            getLogger().error("Failed to authenticate since no credentials provided");
+            throw new BadCredentialsException("Bad credentials");
+        }
+
+        if (!this.passwordEncoder.matches(password, userDetails.getPassword()))
+        {
+            getLogger().error("Failed to authenticate since password does not match stored value");
+            throw new BadCredentialsException("Bad credentials");
+        }
+
+        return true;
     }
 }

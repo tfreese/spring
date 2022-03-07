@@ -11,11 +11,11 @@ public class Order
     /**
      *
      */
-    private int number;
+    private final int number;
     /**
      *
      */
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private final List<OrderItem> orderItems = new ArrayList<>();
 
     /**
      * Erstellt ein neues {@link Order} Object.

@@ -5,14 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.concurrent.Future;
 
+import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
-
 import rx.Observable;
 import rx.Observer;
 
@@ -29,7 +27,7 @@ class TestHelloWorld
     /**
      *
      */
-    private static HystrixRequestContext context = null;
+    private static HystrixRequestContext context;
 
     /**
      *
@@ -104,7 +102,8 @@ class TestHelloWorld
     /**
      * @throws Exception Falls was schief geht.
      */
-    @Test// (expected = RuntimeException.class)
+    @Test
+// (expected = RuntimeException.class)
     void testFailAsynchronous() throws Exception
     {
         Future<String> fWorld = new CommandHelloFailure("World").queue();
@@ -117,7 +116,8 @@ class TestHelloWorld
     /**
      *
      */
-    @Test// (expected = RuntimeException.class)
+    @Test
+// (expected = RuntimeException.class)
     void testFailSynchronous()
     {
         assertEquals("Hello Failure World!", new CommandHelloFailure("World").execute());
@@ -139,7 +139,7 @@ class TestHelloWorld
 
         // non-blocking
         // - this is a verbose anonymous inner-class approach and doesn't do assertions
-        oWorld.subscribe(new Observer<String>()
+        oWorld.subscribe(new Observer<>()
         {
             /**
              * @see rx.Observer#onCompleted()

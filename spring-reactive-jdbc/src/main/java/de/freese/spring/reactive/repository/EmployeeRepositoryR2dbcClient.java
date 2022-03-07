@@ -19,10 +19,8 @@ import reactor.core.publisher.Mono;
 // @Profile("r2dbc")
 public class EmployeeRepositoryR2dbcClient implements EmployeeRepository
 {
-    /**
-     * @author Thomas Freese
-     */
-    private static BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) -> {
+    private static final BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) ->
+    {
         Department department = new Department();
         department.setId(row.get("department_id", Integer.class));
         department.setName(row.get("department_name", String.class));
@@ -30,10 +28,8 @@ public class EmployeeRepositoryR2dbcClient implements EmployeeRepository
         return department;
     };
 
-    /**
-     * @author Thomas Freese
-     */
-    private static BiFunction<Row, RowMetadata, Employee> EMPLOYEE_ROWMAPPER = (row, rowMetadata) -> {
+    private static final BiFunction<Row, RowMetadata, Employee> EMPLOYEE_ROWMAPPER = (row, rowMetadata) ->
+    {
         Employee employee = new Employee();
         employee.setId(row.get("employee_id", Integer.class));
         employee.setLastName(row.get("employee_lastname", String.class));

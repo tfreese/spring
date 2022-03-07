@@ -2,14 +2,13 @@ package de.freese.spring.reactive;
 
 import javax.annotation.Resource;
 
+import de.freese.spring.reactive.model.Department;
+import de.freese.spring.reactive.model.Employee;
 import org.reactivestreams.Publisher;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-
-import de.freese.spring.reactive.model.Department;
-import de.freese.spring.reactive.model.Employee;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -47,7 +46,7 @@ public class EmployeeHandler
      */
     public Mono<ServerResponse> deleteEmployee(final ServerRequest request)
     {
-        Long id = Long.valueOf(request.pathVariable("id"));
+        long id = Long.parseLong(request.pathVariable("id"));
 
         Mono<Integer> count = this.service.deleteEmployee(id);
 

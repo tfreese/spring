@@ -1,18 +1,15 @@
 // Created: 29.01.2020
 package de.freese.spring.kryo.webflux;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
-import org.springframework.http.MediaType;
-import org.springframework.util.MimeType;
+import java.util.stream.Stream;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.util.Pool;
-
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
+import org.springframework.http.MediaType;
+import org.springframework.util.MimeType;
 
 /**
  * @author Thomas Freese
@@ -27,14 +24,14 @@ public abstract class AbstractKryoCodecSupport
      *
      */
     protected static final List<MediaType> MEDIA_TYPES =
-            Arrays.asList(APPLICATION_KRYO).stream().map(mimeType -> new MediaType(mimeType.getType(), mimeType.getSubtype())).toList();
+            Stream.of(APPLICATION_KRYO).map(mimeType -> new MediaType(mimeType.getType(), mimeType.getSubtype())).toList();
     /**
      *
      */
-    protected static final List<MimeType> MIME_TYPES = Collections.unmodifiableList(Arrays.asList(APPLICATION_KRYO));
+    protected static final List<MimeType> MIME_TYPES = List.of(APPLICATION_KRYO);
     /**
-    *
-    */
+     *
+     */
     private final Pool<Kryo> kryoPool;
 
     /**

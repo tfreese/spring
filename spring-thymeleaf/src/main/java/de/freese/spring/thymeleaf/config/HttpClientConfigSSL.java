@@ -40,20 +40,20 @@ import org.springframework.util.ResourceUtils;
 public class HttpClientConfigSSL
 {
     /**
-    *
-    */
-    private static final int CLOSE_IDLE_CONNECTION_WAIT_TIME_SECS = 30;
-    /**
-    *
-    */
-    private static final int DEFAULT_KEEP_ALIVE_TIME_MILLIS = 20 * 1000;
-    /**
-    *
-    */
+     *
+     */
     public static final Logger LOGGER = LoggerFactory.getLogger(HttpClientConfigSSL.class);
     /**
-    *
-    */
+     *
+     */
+    private static final int CLOSE_IDLE_CONNECTION_WAIT_TIME_SECS = 30;
+    /**
+     *
+     */
+    private static final int DEFAULT_KEEP_ALIVE_TIME_MILLIS = 20 * 1000;
+    /**
+     *
+     */
     private static final int MAX_TOTAL_CONNECTIONS = 50;
 
     /**
@@ -70,7 +70,7 @@ public class HttpClientConfigSSL
         {
             /**
              * @see org.apache.http.impl.client.DefaultConnectionKeepAliveStrategy#getKeepAliveDuration(org.apache.http.HttpResponse,
-             *      org.apache.http.protocol.HttpContext)
+             * org.apache.http.protocol.HttpContext)
              */
             @Override
             public long getKeepAliveDuration(final HttpResponse response, final HttpContext context)
@@ -178,8 +178,9 @@ public class HttpClientConfigSSL
     @Bean
     public SSLContext sslContext() throws Exception
     {
-        PrivateKeyStrategy privateKeyStrategy = (aliases, socket) -> {
-            System.out.println(aliases);
+        PrivateKeyStrategy privateKeyStrategy = (aliases, socket) ->
+        {
+            LOGGER.debug("{}", aliases);
             return "server";
         };
 

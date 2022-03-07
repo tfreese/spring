@@ -25,20 +25,20 @@ public class EmployeeRouter
     public RouterFunction<ServerResponse> route(final EmployeeHandler handler)
     {
         // @formatter:off
-		return RouterFunctions
-		        .route(RequestPredicates.GET("/employee/ln/{ln}/fn/{fn}")
-		                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getEmployee)
-		        .andRoute(RequestPredicates.GET("/departments")
-		                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getAllDepartments)
-		        .andRoute(RequestPredicates.GET("/employees")
-		                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getAllEmployees)
-		        .andRoute(RequestPredicates.DELETE("/employee/id/{id}")
-		                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::deleteEmployee)
+        return RouterFunctions
+                .route(RequestPredicates.GET("/employee/ln/{ln}/fn/{fn}")
+                        .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getEmployee)
+                .andRoute(RequestPredicates.GET("/departments")
+                        .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getAllDepartments)
+                .andRoute(RequestPredicates.GET("/employees")
+                        .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getAllEmployees)
+                .andRoute(RequestPredicates.DELETE("/employee/id/{id}")
+                        .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::deleteEmployee)
 
-		        // Diese Route wird über den EmployeeRestController behandelt.
+                // Diese Route wird über den EmployeeRestController behandelt.
 //				.andRoute(RequestPredicates.PUT("/employee")
 //						.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::createNewEmployee)
-				;
-		// @formatter:on
+                ;
+        // @formatter:on
     }
 }

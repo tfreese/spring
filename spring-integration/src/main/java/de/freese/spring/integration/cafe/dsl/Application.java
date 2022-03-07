@@ -4,6 +4,10 @@ package de.freese.spring.integration.cafe.dsl;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import de.freese.spring.integration.cafe.Delivery;
+import de.freese.spring.integration.cafe.Drink;
+import de.freese.spring.integration.cafe.Order;
+import de.freese.spring.integration.cafe.OrderItem;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.integration.annotation.Gateway;
@@ -11,11 +15,6 @@ import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.scheduling.PollerMetadata;
-
-import de.freese.spring.integration.cafe.Delivery;
-import de.freese.spring.integration.cafe.Drink;
-import de.freese.spring.integration.cafe.Order;
-import de.freese.spring.integration.cafe.OrderItem;
 
 /**
  * https://github.com/spring-projects/spring-integration-samples/blob/master/dsl/cafe-dsl/src/main/java/org/springframework/integration/samples/dsl/cafe/lambda/Application.java
@@ -58,11 +57,11 @@ public class Application
     /**
      *
      */
-    private AtomicInteger coldDrinkCounter = new AtomicInteger();
+    private final AtomicInteger coldDrinkCounter = new AtomicInteger();
     /**
      *
      */
-    private AtomicInteger hotDrinkCounter = new AtomicInteger();
+    private final AtomicInteger hotDrinkCounter = new AtomicInteger();
 
     /**
      * @return {@link IntegrationFlow}

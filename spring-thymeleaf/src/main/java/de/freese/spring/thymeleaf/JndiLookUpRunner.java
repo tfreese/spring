@@ -23,22 +23,21 @@ import org.springframework.stereotype.Component;
 public class JndiLookUpRunner implements CommandLineRunner
 {
     /**
-    *
-    */
+     *
+     */
     public static final Logger LOGGER = LoggerFactory.getLogger(JndiLookUpRunner.class);
 
     /**
      * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
      */
     @Override
-    public void run(final String...args) throws Exception
+    public void run(final String... args) throws Exception
     {
         LOGGER.info("");
 
         try
         {
-            System.out.println();
-            System.out.println("JNDI Content");
+            LOGGER.info("JNDI Content");
 
             // TomcatServletWebServerFactory#getTomcatWebServer
             // Tomcat#enableNaming
@@ -59,7 +58,7 @@ public class JndiLookUpRunner implements CommandLineRunner
                 while (enumeration.hasMoreElements())
                 {
                     NameClassPair nameClassPair = enumeration.nextElement();
-                    System.out.println(nameClassPair);
+                    LOGGER.info("{}", nameClassPair);
                 }
             }
             catch (Exception ex)
@@ -72,7 +71,7 @@ public class JndiLookUpRunner implements CommandLineRunner
             try
             {
                 object = context.lookup("test");
-                System.out.println(object);
+                LOGGER.info("{}", object);
             }
             catch (Exception ex)
             {
@@ -84,7 +83,7 @@ public class JndiLookUpRunner implements CommandLineRunner
             bean.afterPropertiesSet();
             object = bean.getObject();
 
-            System.out.println(object);
+            LOGGER.info("{}", object);
 
             // context.close();
             // initialContext.close();

@@ -11,14 +11,13 @@ import java.util.TreeMap;
 
 import javax.validation.ConstraintViolation;
 
-import org.hibernate.validator.internal.engine.path.PathImpl;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.hibernate.validator.internal.engine.path.PathImpl;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 
 /**
  * @author Thomas Freese
@@ -172,7 +171,12 @@ public class ApiError
             this.rejectedValue = rejectedValue;
         }
     }
-
+    /**
+     *
+     */
+    // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss.SSS")
+    // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private final LocalDateTime timestamp;
     /**
      *
      */
@@ -182,16 +186,16 @@ public class ApiError
      */
     private String exceptionMessage;
     /**
-    *
-    */
+     *
+     */
     private int httpStatus;
     /**
-    *
-    */
+     *
+     */
     private String message;
     /**
-    *
-    */
+     *
+     */
     private String path;
     /**
      *
@@ -201,12 +205,6 @@ public class ApiError
      *
      */
     private List<AbstractApiSubError> subErrors;
-    /**
-    *
-    */
-    // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss.SSS")
-    // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    private LocalDateTime timestamp;
 
     /**
      * Erstellt ein neues {@link ApiError} Object.
@@ -230,94 +228,6 @@ public class ApiError
         }
 
         this.details.put(key, value);
-    }
-
-    /**
-     * @param subError {@link AbstractApiSubError}
-     */
-    private void addSubError(final AbstractApiSubError subError)
-    {
-        if (this.subErrors == null)
-        {
-            this.subErrors = new ArrayList<>();
-        }
-
-        this.subErrors.add(subError);
-    }
-
-    /**
-     * Utility method for adding error of ConstraintViolation. Usually when a @Validated validation fails.
-     *
-     * @param cv the {@link ConstraintViolation}
-     */
-    private void addValidationError(final ConstraintViolation<?> cv)
-    {
-        // @formatter:off
-        this.addValidationError(cv.getRootBeanClass().getSimpleName()
-                , ((PathImpl) cv.getPropertyPath()).getLeafNode().asString()
-                , cv.getInvalidValue()
-                , cv.getMessage());
-        // @formatter:on
-    }
-
-    /**
-     * @param fieldError {@link FieldError}
-     */
-    private void addValidationError(final FieldError fieldError)
-    {
-        this.addValidationError(fieldError.getObjectName(), fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage());
-    }
-
-    /**
-     * @param globalErrors {@link List}
-     */
-    void addValidationError(final List<ObjectError> globalErrors)
-    {
-        globalErrors.forEach(this::addValidationError);
-    }
-
-    /**
-     * @param objectError {@link ObjectError}
-     */
-    private void addValidationError(final ObjectError objectError)
-    {
-        this.addValidationError(objectError.getObjectName(), objectError.getDefaultMessage());
-    }
-
-    /**
-     * @param object String
-     * @param message String
-     */
-    private void addValidationError(final String object, final String message)
-    {
-        addSubError(new ApiValidationError(object, message));
-    }
-
-    /**
-     * @param object String
-     * @param field String
-     * @param rejectedValue Object
-     * @param message String
-     */
-    private void addValidationError(final String object, final String field, final Object rejectedValue, final String message)
-    {
-        addSubError(new ApiValidationError(object, field, rejectedValue, message));
-    }
-
-    /**
-     * @param fieldErrors {@link List}
-     */
-    void addValidationErrors(final List<FieldError> fieldErrors)
-    {
-        fieldErrors.forEach(this::addValidationError);
-    }
-
-    /**
-     * @param constraintViolations {@link Set}
-     */
-    void addValidationErrors(final Set<ConstraintViolation<?>> constraintViolations)
-    {
-        constraintViolations.forEach(this::addValidationError);
     }
 
     /**
@@ -443,6 +353,94 @@ public class ApiError
         builder.append("]");
 
         return builder.toString();
+    }
+
+    /**
+     * @param globalErrors {@link List}
+     */
+    void addValidationError(final List<ObjectError> globalErrors)
+    {
+        globalErrors.forEach(this::addValidationError);
+    }
+
+    /**
+     * @param fieldErrors {@link List}
+     */
+    void addValidationErrors(final List<FieldError> fieldErrors)
+    {
+        fieldErrors.forEach(this::addValidationError);
+    }
+
+    /**
+     * @param constraintViolations {@link Set}
+     */
+    void addValidationErrors(final Set<ConstraintViolation<?>> constraintViolations)
+    {
+        constraintViolations.forEach(this::addValidationError);
+    }
+
+    /**
+     * @param subError {@link AbstractApiSubError}
+     */
+    private void addSubError(final AbstractApiSubError subError)
+    {
+        if (this.subErrors == null)
+        {
+            this.subErrors = new ArrayList<>();
+        }
+
+        this.subErrors.add(subError);
+    }
+
+    /**
+     * Utility method for adding error of ConstraintViolation. Usually when a @Validated validation fails.
+     *
+     * @param cv the {@link ConstraintViolation}
+     */
+    private void addValidationError(final ConstraintViolation<?> cv)
+    {
+        // @formatter:off
+        this.addValidationError(cv.getRootBeanClass().getSimpleName()
+                , ((PathImpl) cv.getPropertyPath()).getLeafNode().asString()
+                , cv.getInvalidValue()
+                , cv.getMessage());
+        // @formatter:on
+    }
+
+    /**
+     * @param fieldError {@link FieldError}
+     */
+    private void addValidationError(final FieldError fieldError)
+    {
+        this.addValidationError(fieldError.getObjectName(), fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage());
+    }
+
+    /**
+     * @param objectError {@link ObjectError}
+     */
+    private void addValidationError(final ObjectError objectError)
+    {
+        this.addValidationError(objectError.getObjectName(), objectError.getDefaultMessage());
+    }
+
+    /**
+     * @param object String
+     * @param message String
+     */
+    private void addValidationError(final String object, final String message)
+    {
+        addSubError(new ApiValidationError(object, message));
+    }
+
+    /**
+     * @param object String
+     * @param field String
+     * @param rejectedValue Object
+     * @param message String
+     */
+    private void addValidationError(final String object, final String field, final Object rejectedValue, final String message)
+    {
+        addSubError(new ApiValidationError(object, field, rejectedValue, message));
     }
 }
 

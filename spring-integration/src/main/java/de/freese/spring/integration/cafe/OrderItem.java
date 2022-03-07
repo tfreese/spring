@@ -8,7 +8,7 @@ public class OrderItem
     /**
      *
      */
-    private boolean iced;
+    private final boolean iced;
     /**
      *
      */
@@ -16,7 +16,7 @@ public class OrderItem
     /**
      *
      */
-    private DrinkType type;
+    private final DrinkType type;
 
     /**
      * Erstellt ein neues {@link OrderItem} Object.
