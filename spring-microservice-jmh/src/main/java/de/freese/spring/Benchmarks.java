@@ -18,7 +18,10 @@ public class Benchmarks
      */
     public static void main(final String[] args) throws Exception
     {
+        // org.openjdk.jmh.Main.main(args);
+
         // Der Builder überschreibt die Klassen-Annotationen.
+        // Benötigt befüllte target\classes\META-INF\BenchmarkList -> Rebuild vor der Ausführung notwendig.
         // @formatter:off
         Options options = new OptionsBuilder()
                 .include(MicroServiceBenchmark.class.getSimpleName())
