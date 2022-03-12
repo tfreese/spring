@@ -2,7 +2,7 @@
 rootProject.name = "spring"
 
 include "kubernetes:kubernetes-microservice"
-include "spring-autoconfigure-hsqldbserver"
+include "spring-autoconfigure-dbserver"
 include "spring-cloud:spring-cloud-api-gateway"
 include "spring-cloud:spring-cloud-boot-admin"
 include "spring-cloud:spring-cloud-eureka"
