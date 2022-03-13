@@ -79,8 +79,8 @@ project("kubernetes:kubernetes-microservice") {
     }
 }
 
-project("spring-autoconfigure-hsqldbserver") {
-    description = "spring-autoconfigure-hsqldbserver"
+project("spring-autoconfigure-dbserver") {
+    description = "spring-autoconfigure-dbserver"
     dependencies {
         implementation("org.hsqldb:hsqldb")
         implementation("org.springframework.boot:spring-boot-starter-jdbc")
@@ -700,4 +700,3 @@ project("spring-web") {
         }
     }
 }
-
