@@ -167,10 +167,10 @@ class JwtRequestFilter extends OncePerRequestFilter
     {
         super.initFilterBean();
 
-        Objects.requireNonNull(this.authenticationEntryPoint, "authenticationEntryPoint requried");
-        Objects.requireNonNull(this.userDetailsService, "userDetailsService requried");
-        Objects.requireNonNull(this.passwordEncoder, "passwordEncoder requried");
-        Objects.requireNonNull(this.jwtTokenProvider, "jwtTokenProvider requried");
+        Objects.requireNonNull(this.authenticationEntryPoint, "authenticationEntryPoint required");
+        Objects.requireNonNull(this.userDetailsService, "userDetailsService required");
+        Objects.requireNonNull(this.passwordEncoder, "passwordEncoder required");
+        Objects.requireNonNull(this.jwtTokenProvider, "jwtTokenProvider required");
     }
 
     /**

@@ -23,9 +23,10 @@ public class RsocketServerApplication
     public static void main(final String[] args)
     {
         // Fehlermeldung, wenn Client die Verbindung schliesst.
-        // Nur einmalig definieren, sonst gibs mehrere Logs-Meldungen !!!
+        // Nur einmalig definieren, sonst gib es mehrere Logs-Meldungen !!!
         // Hooks.onErrorDropped(th -> LOGGER.warn(th.getMessage()));
-        Hooks.onErrorDropped(th -> {
+        Hooks.onErrorDropped(th ->
+        {
             // Empty
         });
 

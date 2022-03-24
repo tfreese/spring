@@ -28,7 +28,7 @@ public interface TestAutoConfiguration
     /**
      * @param dataSource {@link DataSource}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     default void createTable(final DataSource dataSource) throws SQLException
     {
@@ -55,7 +55,7 @@ public interface TestAutoConfiguration
     /**
      * @param dataSource {@link DataSource}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     default void insert(final DataSource dataSource) throws SQLException
     {
@@ -85,7 +85,7 @@ public interface TestAutoConfiguration
     /**
      * @param dataSource {@link DataSource}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     default void select(final DataSource dataSource) throws SQLException
     {
@@ -123,7 +123,7 @@ public interface TestAutoConfiguration
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     // @Transactional("nameOfTransactionManager")
@@ -137,7 +137,7 @@ public interface TestAutoConfiguration
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     // @Transactional("nameOfTransactionManager")

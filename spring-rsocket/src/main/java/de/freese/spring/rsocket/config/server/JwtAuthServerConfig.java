@@ -200,7 +200,7 @@ public class JwtAuthServerConfig extends AbstractServerConfig
 
                 // @formatter:off
                 Jwt jwtSpring = Jwt.withTokenValue(token)
-                        .headers(map -> map.putAll(headers)) // Header müssen gefüllt sein, sonst gibs Exception.
+                        .headers(map -> map.putAll(headers)) // Header müssen gefüllt sein, sonst gib es Exception.
                         .claims(map -> map.putAll(claims))
                         //.issuer(jwtClaimsSet.getIssuer())
                         //.subject(jwtClaimsSet.getSubject())

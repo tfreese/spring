@@ -40,6 +40,11 @@ class TestClientToServerJwt implements TestClientToServer
     /**
      *
      */
+    private static RSocketRequester requester;
+
+    /**
+     *
+     */
     @AfterAll
     public static void afterAll()
     {
@@ -61,7 +66,7 @@ class TestClientToServerJwt implements TestClientToServer
             throws Exception
     {
         // Fehlermeldung, wenn Client die Verbindung schliesst.
-        // Nur einmalig definieren, sonst gibs mehrere Logs-Meldungen !!!
+        // Nur einmalig definieren, sonst gib es mehrere Logs-Meldungen !!!
         // Hooks.onErrorDropped(th -> LOGGER.warn(th.getMessage()));
         Hooks.onErrorDropped(th ->
         {
@@ -98,10 +103,6 @@ class TestClientToServerJwt implements TestClientToServer
                 ;
         // @formatter:on
     }
-    /**
-     *
-     */
-    private static RSocketRequester requester;
 
     /**
      * @see de.freese.spring.rsocket.TestClientToServer#getRequester()

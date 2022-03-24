@@ -37,12 +37,12 @@ import org.springframework.util.ResourceUtils;
  */
 @Configuration
 @Profile("with-ssl")
-public class HttpClientConfigSSL
+public class HttpClientConfigSsl
 {
     /**
      *
      */
-    public static final Logger LOGGER = LoggerFactory.getLogger(HttpClientConfigSSL.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(HttpClientConfigSsl.class);
     /**
      *
      */

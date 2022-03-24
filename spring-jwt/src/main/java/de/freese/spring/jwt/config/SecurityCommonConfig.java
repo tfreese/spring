@@ -191,9 +191,9 @@ public class SecurityCommonConfig
         userDetailsManager.createUser(User.withUsername("user").password(passwordEncoder.encode("pass")).roles("USER").build());
 
         // UserDetails kopieren, da bei ProviderManager.setEraseCredentialsAfterAuthentication(true)
-        // das Password auf null gesetzt wird -> kein zweiter Login mehr moglich -> NullPointer
+        // das Password auf null gesetzt wird -> kein zweiter Login mehr möglich -> NullPointer
         // Siehe #userDetailsServiceJdbc()
-        // Das kopieren der UserDetails findet hier bereits im InMemoryUserDetailsManager#loadUserByUsername statt.
+        // Das Kopieren der UserDetails findet hier bereits im InMemoryUserDetailsManager#loadUserByUsername statt.
 
         return userDetailsManager;
     }
@@ -217,7 +217,7 @@ public class SecurityCommonConfig
 //        cachingUserDetailsService.setUserCache(userCache);
 
         // UserDetails kopieren, da bei ProviderManager.setEraseCredentialsAfterAuthentication(true)
-        // das Password auf null gesetzt wird -> kein zweiter Login mehr moglich -> NullPointer
+        // das Password auf null gesetzt wird -> kein zweiter Login mehr möglich -> NullPointer
         UserDetailsService cachingUserDetailsService = username ->
         {
             UserDetails userDetails = userCache.getUserFromCache(username);
@@ -232,7 +232,7 @@ public class SecurityCommonConfig
 
             userCache.putUserInCache(userDetails);
 
-            // @formattter:off
+            // @formatter:off
             UserDetails copy = new User(
                     userDetails.getUsername()
                     , userDetails.getPassword()
@@ -242,7 +242,7 @@ public class SecurityCommonConfig
                     , userDetails.isAccountNonLocked()
                     , userDetails.getAuthorities()
             );
-            // @formattter:on
+            // @formatter:on
 
             //UserDetails copy = User.withUserDetails(userDetails).build();
 
@@ -267,7 +267,7 @@ public class SecurityCommonConfig
     {
         // @formatter:off
         return webSecurity ->
-                // Pfade ohne Sicherheits-Prüfung.
+                // Pfade ohne Sicherheitsprüfung.
                 webSecurity.ignoring()
                     // Für swagger
                     .antMatchers("/swagger-ui.html")

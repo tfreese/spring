@@ -9,10 +9,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.AuthenticationException;
-
 import de.freese.spring.jwt.token.JwtToken;
 import de.freese.spring.jwt.token.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
@@ -25,6 +21,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.impl.DefaultHeader;
 import io.jsonwebtoken.impl.DefaultJwt;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 
 /**
  * @author Thomas Freese
@@ -32,12 +31,12 @@ import io.jsonwebtoken.impl.DefaultJwt;
 public class JwtTokenProviderJson implements JwtTokenProvider
 {
     /**
-    *
-    */
+     *
+     */
     private final String base64EncodedSecretKey;
     /**
-    *
-    */
+     *
+     */
     private final long validityInMilliseconds;
 
     /**

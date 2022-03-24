@@ -39,27 +39,6 @@ class TestCafe
     // }
 
     /**
-     * @param context {@link ApplicationContext}
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    private void testCafe(final ApplicationContext context) throws Exception
-    {
-        Cafe cafe = context.getBean(Cafe.class);
-
-        for (int i = 1; i < 4; i++)
-        {
-            Order order = new Order(i);
-            order.addItem(DrinkType.LATTE, false);
-            order.addItem(DrinkType.MOCHA, true);
-            cafe.placeOrder(order);
-        }
-
-        // Zeit für Arbeit des Springframeworks.
-        TimeUnit.MILLISECONDS.sleep(5000);
-    }
-
-    /**
      * @throws Exception Falls was schief geht.
      */
     @Test
@@ -129,5 +108,26 @@ class TestCafe
         {
             testCafe(context);
         }
+    }
+
+    /**
+     * @param context {@link ApplicationContext}
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    private void testCafe(final ApplicationContext context) throws Exception
+    {
+        Cafe cafe = context.getBean(Cafe.class);
+
+        for (int i = 1; i < 4; i++)
+        {
+            Order order = new Order(i);
+            order.addItem(DrinkType.LATTE, false);
+            order.addItem(DrinkType.MOCHA, true);
+            cafe.placeOrder(order);
+        }
+
+        // Zeit für Arbeit des Spring-Frameworks.
+        TimeUnit.MILLISECONDS.sleep(5000);
     }
 }

@@ -31,9 +31,9 @@ import reactor.test.StepVerifier;
  */
 @SpringBootTest(properties = "spring.rsocket.server.port = 0", webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(
-{
-        "test", "simple"
-})
+        {
+                "test", "simple"
+        })
 class RSocketClientToServerDeniedConnectionTest
 {
     /**
@@ -62,9 +62,10 @@ class RSocketClientToServerDeniedConnectionTest
                           @Value("${spring.rsocket.server.address}") final String host, @LocalRSocketServerPort final int port)
     {
         // Fehlermeldung, wenn Client die Verbindung schliesst.
-        // Nur einmalig definieren, sonst gibs mehrere Logs-Meldungen !!!
+        // Nur einmalig definieren, sonst gib es mehrere Logs-Meldungen !!!
         // Hooks.onErrorDropped(th -> LOGGER.warn(th.getMessage()));
-        Hooks.onErrorDropped(th -> {
+        Hooks.onErrorDropped(th ->
+        {
             // Empty
         });
 

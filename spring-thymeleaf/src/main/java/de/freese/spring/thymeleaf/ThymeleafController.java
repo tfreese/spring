@@ -7,15 +7,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import de.freese.spring.thymeleaf.exception.ThymeleafControllerExceptionHandler;
 import org.springframework.stereotype.Controller;
 
-import de.freese.spring.thymeleaf.exception.ThymeleafControllerExceptionHandler;
-
 /**
- * Extra-Annotation für ThymeleafController zum vereinfachen des ExceptionHandlings.
+ * Extra-Annotation für ThymeleafController zum Vereinfachen des ExceptionHandlings.
  *
  * @author Thomas Freese
- *
  * @see ThymeleafControllerExceptionHandler
  */
 @Target(ElementType.TYPE)

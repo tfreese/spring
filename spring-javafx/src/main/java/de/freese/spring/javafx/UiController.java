@@ -3,12 +3,11 @@ package de.freese.spring.javafx;
 
 import java.util.Objects;
 
-import org.springframework.stereotype.Component;
-
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
@@ -19,12 +18,12 @@ public class UiController // implements javafx.fxml.Initializable
     /**
      *
      */
-    @FXML
-    private Button button;
+    private final HostServices hostServices;
     /**
      *
      */
-    private final HostServices hostServices;
+    @FXML
+    private Button button;
     /**
      *
      */
@@ -40,7 +39,7 @@ public class UiController // implements javafx.fxml.Initializable
     {
         super();
 
-        this.hostServices = Objects.requireNonNull(hostServices, "hostServices requred");
+        this.hostServices = Objects.requireNonNull(hostServices, "hostServices required");
     }
 
     /**

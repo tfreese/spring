@@ -122,23 +122,6 @@ class TestWebApp
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void testLoginWithInknownUser() throws Exception
-    {
-        FormLoginRequestBuilder login = formLogin().loginProcessingUrl("/authenticate").user("unknown").password("pw");
-
-        // @formatter:off
-        this.mockMvc.perform(login)
-            .andExpect(status().is3xxRedirection())
-            .andExpect(unauthenticated())
-            .andExpect(redirectedUrlPattern("/login?error=1"));
-        // this.mockMvc.perform(login).andExpect(status().isForbidden()).andExpect(unauthenticated());
-        // @formatter:on
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
     void testLoginWithPreAuth() throws Exception
     {
         this.mockMvc.perform(get("/web/person/personList").header("my-token", "admin")).andExpect(status().isOk())
@@ -149,5 +132,22 @@ class TestWebApp
 
         this.mockMvc.perform(get("/web/person/personList").header("my-token", "invalid")).andExpect(status().isOk())
                 .andExpect(authenticated().withUsername("invalid"));
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testLoginWithUnknownUser() throws Exception
+    {
+        FormLoginRequestBuilder login = formLogin().loginProcessingUrl("/authenticate").user("unknown").password("pw");
+
+        // @formatter:off
+        this.mockMvc.perform(login)
+            .andExpect(status().is3xxRedirection())
+            .andExpect(unauthenticated())
+            .andExpect(redirectedUrlPattern("/login?error=1"));
+        // this.mockMvc.perform(login).andExpect(status().isForbidden()).andExpect(unauthenticated());
+        // @formatter:on
     }
 }

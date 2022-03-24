@@ -20,13 +20,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.spring.ribbon.myloadbalancer.ping.LoadBalancerPing;
 import de.freese.spring.ribbon.myloadbalancer.ping.LoadBalancerPingNoOp;
 import de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategy;
 import de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategyRoundRobin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -34,10 +33,38 @@ import de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategyRound
 public class LoadBalancer implements LoadBalancerPing
 {
     /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancer.class);
+
+    /**
      * @author Thomas Freese
      */
     class Pinger extends TimerTask
     {
+        /**
+         * @see java.lang.Runnable#run()
+         */
+        @Override
+        public void run()
+        {
+            LoggerFactory.getLogger(getClass()).debug("Pinger");
+
+            List<String> allServers = getAllServer();
+
+            if (allServers.isEmpty())
+            {
+                return;
+            }
+
+            List<String> workingServers = pingWithCompletionService(allServers);
+            // List<String> workingServers = pingWithCompletableFuture(allServers);
+            // List<String> workingServers = pingWithStreams(allServers);
+            // List<String> workingServers = pingSequentiell(allServers);
+
+            refreshAliveServer(workingServers);
+        }
+
         /**
          * Sequentielle Pings.
          *
@@ -164,42 +191,15 @@ public class LoadBalancer implements LoadBalancerPing
 
             return workingServers;
         }
-
-        /**
-         * @see java.lang.Runnable#run()
-         */
-        @Override
-        public void run()
-        {
-            LoggerFactory.getLogger(getClass()).debug("Pinger");
-
-            List<String> allServers = getAllServer();
-
-            if (allServers.isEmpty())
-            {
-                return;
-            }
-
-            List<String> workingServers = pingWithCompletionService(allServers);
-            // List<String> workingServers = pingWithCompletableFuture(allServers);
-            // List<String> workingServers = pingWithStreams(allServers);
-            // List<String> workingServers = pingSequentiell(allServers);
-
-            refreshAliveServer(workingServers);
-        }
     }
 
     /**
      *
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancer.class);
-    /**
-    *
-    */
     private final List<String> aliveServer = new LinkedList<>();
     /**
-    *
-    */
+     *
+     */
     private final List<String> allServer = new LinkedList<>();
     /**
      *
@@ -229,10 +229,21 @@ public class LoadBalancer implements LoadBalancerPing
     /**
      * Erzeugt eine neue Instanz von {@link LoadBalancer}.
      *
+     * @param server String[]; z.B. localhost:8080, localhost:8081
+     */
+    public LoadBalancer(final String... server)
+    {
+        this(null, server);
+        // this(Executors.newSingleThreadScheduledExecutor(), server);
+    }
+
+    /**
+     * Erzeugt eine neue Instanz von {@link LoadBalancer}.
+     *
      * @param scheduledExecutorService {@link ScheduledExecutorService}; Ohne diesen Service wird für das Pinkgen ein {@link javax.swing.Timer} verwendet.
      * @param server String[]; z.B. localhost:8080, localhost:8081
      */
-    private LoadBalancer(final ScheduledExecutorService scheduledExecutorService, final String...server)
+    private LoadBalancer(final ScheduledExecutorService scheduledExecutorService, final String... server)
     {
         super();
 
@@ -250,17 +261,6 @@ public class LoadBalancer implements LoadBalancerPing
         setupPingTask();
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
-    }
-
-    /**
-     * Erzeugt eine neue Instanz von {@link LoadBalancer}.
-     *
-     * @param server String[]; z.B. localhost:8080, localhost:8081
-     */
-    public LoadBalancer(final String...server)
-    {
-        this(null, server);
-        // this(Executors.newSingleThreadScheduledExecutor(), server);
     }
 
     /**
@@ -291,7 +291,7 @@ public class LoadBalancer implements LoadBalancerPing
     /**
      * Liefert den nächsten Server.<br>
      *
-     * @param key String; Wird noch nicht berücksichtigt
+     * @param key String, wird noch nicht berücksichtigt
      *
      * @return String
      */
@@ -378,7 +378,7 @@ public class LoadBalancer implements LoadBalancerPing
     }
 
     /**
-     * Ersetzt den ServiceName durch einen aktiven Server.<br>
+     * Ersetzt den ServiceNamen durch einen aktiven Server.<br>
      * Beispiel: http://date-service/something -> http://localhost:8080/something
      *
      * @param serviceName String
@@ -400,26 +400,6 @@ public class LoadBalancer implements LoadBalancerPing
         catch (URISyntaxException ex)
         {
             throw new RuntimeException(ex);
-        }
-    }
-
-    /**
-     * Aktualisiert die Liste der ansprechbaren Server.
-     *
-     * @param workingServers {@link List}
-     */
-    protected void refreshAliveServer(final List<String> workingServers)
-    {
-        this.lock.lock();
-
-        try
-        {
-            this.aliveServer.clear();
-            this.aliveServer.addAll(workingServers);
-        }
-        finally
-        {
-            this.lock.unlock();
         }
     }
 
@@ -468,6 +448,42 @@ public class LoadBalancer implements LoadBalancerPing
     }
 
     /**
+     * Beenden des Pingers.
+     */
+    public void shutdown()
+    {
+        if (this.timer != null)
+        {
+            this.timer.cancel();
+        }
+
+        // if (this.scheduledExecutorService != null)
+        // {
+        // this.scheduledExecutorService.shutdown();
+        // }
+    }
+
+    /**
+     * Aktualisiert die Liste der ansprechbaren Server.
+     *
+     * @param workingServers {@link List}
+     */
+    protected void refreshAliveServer(final List<String> workingServers)
+    {
+        this.lock.lock();
+
+        try
+        {
+            this.aliveServer.clear();
+            this.aliveServer.addAll(workingServers);
+        }
+        finally
+        {
+            this.lock.unlock();
+        }
+    }
+
+    /**
      * Startet den Ping-Task.
      */
     protected void setupPingTask()
@@ -486,22 +502,6 @@ public class LoadBalancer implements LoadBalancerPing
 
         this.timer = new Timer(getClass().getSimpleName());
         this.timer.schedule(new Pinger(), 3000L, getPingDelay());
-        // }
-    }
-
-    /**
-     * Beenden des Pingers.
-     */
-    public void shutdown()
-    {
-        if (this.timer != null)
-        {
-            this.timer.cancel();
-        }
-
-        // if (this.scheduledExecutorService != null)
-        // {
-        // this.scheduledExecutorService.shutdown();
         // }
     }
 }

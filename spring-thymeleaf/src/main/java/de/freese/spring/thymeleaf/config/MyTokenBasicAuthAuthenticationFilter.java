@@ -143,7 +143,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
 
         // Handle unusual condition where an AnonymousAuthenticationToken is already
         // present
-        // This shouldn't happen very often, as BasicProcessingFitler is meant to be
+        // This shouldn't happen very often, as BasicProcessingFilter is meant to be
         // earlier in the filter
         // chain than AnonymousAuthenticationFilter. Nevertheless, presence of both an
         // AnonymousAuthenticationToken

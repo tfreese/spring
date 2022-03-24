@@ -47,7 +47,7 @@ public class TestH2Config
      *
      * @return {@link Server}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Server serverH2(@Value("${h2.port}") final int port, @Value("${h2.path}") final String path) throws SQLException

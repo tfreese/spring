@@ -4,17 +4,16 @@ package de.freese.spring.javafx;
 import java.io.IOException;
 import java.net.URL;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationListener;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
-
 import de.freese.spring.javafx.JavaFxApplication.StageReadyEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationListener;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
@@ -43,7 +42,7 @@ public class StageListener implements ApplicationListener<StageReadyEvent>
      * @param fxml {@link Resource}
      */
     public StageListener(final ApplicationContext applicationContext, @Value("${spring.application.ui.title}") final String applicationTitle,
-            @Value("classpath:/ui.fxml") final Resource fxml)
+                         @Value("classpath:/ui.fxml") final Resource fxml)
     {
         super();
 
@@ -72,9 +71,9 @@ public class StageListener implements ApplicationListener<StageReadyEvent>
             stage.setTitle(this.applicationTitle);
             stage.show();
         }
-        catch (IOException ioex)
+        catch (IOException ex)
         {
-            throw new RuntimeException(ioex);
+            throw new RuntimeException(ex);
         }
     }
 }

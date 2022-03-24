@@ -258,7 +258,7 @@ public class SecurityConfig
         MyTokenRequestHeaderAuthenticationFilter filter = new MyTokenRequestHeaderAuthenticationFilter();
         filter.setAuthenticationManager(authenticationManager);
 
-        // MyTokenBasicAuthAuthenticationFilter filter = new MyTokenBasicAuthAuthenticationFilter(aauthenticationManager);
+        // MyTokenBasicAuthAuthenticationFilter filter = new MyTokenBasicAuthAuthenticationFilter(authenticationManager);
 
         filter.afterPropertiesSet();
 
@@ -351,7 +351,7 @@ public class SecurityConfig
     {
         // @formatter:off
         return webSecurity ->
-                // Pfade ohne Sicherheits-Prüfung.
+                // Pfade ohne Sicherheitsprüfung.
                 webSecurity.ignoring()
                         .antMatchers("/favicon.ico", "/manifest.appcache", "/css/**", "/js/**", "/images/**")
                 ;

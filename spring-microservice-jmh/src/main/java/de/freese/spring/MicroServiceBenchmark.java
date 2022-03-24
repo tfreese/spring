@@ -33,10 +33,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Warmup(iterations = 3, time = 1, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 3, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(value = 1, jvmArgsAppend =
-{
-        // Fork multipliziert die Anzahl der Iterationen
-        "-disablesystemassertions"
-})
+        {
+                // Fork multipliziert die Anzahl der Iterationen
+                "-disablesystemassertions"
+        })
 @Threads(1)
 public class MicroServiceBenchmark
 {
@@ -54,21 +54,21 @@ public class MicroServiceBenchmark
         /**
          *
          */
+        RestTemplate restTemplate;
+        /**
+         *
+         */
+        WebClient webClient;
+        /**
+         *
+         */
         @Value("${server.port}")
         private int port;
         /**
          *
          */
-        RestTemplate restTemplate;
-        /**
-         *
-         */
         @Resource
         private RestTemplateBuilder restTemplateBuilder;
-        /**
-        *
-        */
-        WebClient webClient;
         /**
          *
          */
@@ -91,7 +91,16 @@ public class MicroServiceBenchmark
         }
 
         /**
-         * Führt die Injizierung der Resourcen durch.
+         *
+         */
+        @TearDown
+        public void close()
+        {
+            this.context.close();
+        }
+
+        /**
+         * Führt die Injizierung der Ressourcen durch.
          *
          * @param bean Object
          */
@@ -99,15 +108,6 @@ public class MicroServiceBenchmark
         {
             AutowireCapableBeanFactory factory = this.context.getAutowireCapableBeanFactory();
             factory.autowireBean(bean);
-        }
-
-        /**
-         *
-         */
-        @TearDown
-        public void close()
-        {
-            this.context.close();
         }
     }
 

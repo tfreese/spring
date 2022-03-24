@@ -90,7 +90,7 @@ public class SpringRabbitMqApplication
     // * @return {@link MessageListenerContainer}
     // */
     // @Bean
-    // public MessageListenerContainer myMmessageListenerContainer(final ConnectionFactory connectionFactory, final MessageListenerAdapter
+    // public MessageListenerContainer myMessageListenerContainer(final ConnectionFactory connectionFactory, final MessageListenerAdapter
     // myMessageListenerAdapter)
     // {
     // SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();

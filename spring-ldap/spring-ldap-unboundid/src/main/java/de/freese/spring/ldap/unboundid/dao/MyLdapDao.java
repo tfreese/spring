@@ -83,7 +83,7 @@ public class MyLdapDao implements BaseLdapNameAware
         {
             super();
 
-            this.attributeId = Objects.requireNonNull(attributeId, "attributeId requried");
+            this.attributeId = Objects.requireNonNull(attributeId, "attributeId required");
         }
 
         /**
@@ -133,6 +133,7 @@ public class MyLdapDao implements BaseLdapNameAware
     {
         return LOGGER;
     }
+
     /**
      *
      */

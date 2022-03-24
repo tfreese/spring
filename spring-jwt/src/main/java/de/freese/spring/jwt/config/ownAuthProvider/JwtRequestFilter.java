@@ -24,36 +24,59 @@ import org.springframework.web.filter.OncePerRequestFilter;
 /**
  * Der {@link JwtRequestFilter} verwendet den {@link JwtTokenAuthenticationProvider}.<br>
  *
- * @see BasicAuthenticationFilter
- *
  * @author Thomas Freese
+ * @see BasicAuthenticationFilter
  */
 class JwtRequestFilter extends OncePerRequestFilter
 {
     /**
-    *
-    */
+     *
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
     /**
-    *
-    */
+     *
+     */
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
     /**
-    *
-    */
+     *
+     */
     private AuthenticationEntryPoint authenticationEntryPoint;
     /**
-    *
-    */
+     *
+     */
     private AuthenticationManager authenticationManager;
 
     /**
+     * @param authenticationDetailsSource {@link AuthenticationDetailsSource}
+     */
+    public void setAuthenticationDetailsSource(final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource)
+    {
+        this.authenticationDetailsSource = authenticationDetailsSource;
+    }
+
+    /**
+     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
+     */
+    public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint)
+    {
+        this.authenticationEntryPoint = authenticationEntryPoint;
+    }
+
+    /**
+     * @param authenticationManager {@link AuthenticationManager}
+     */
+    public void setAuthenticationManager(final AuthenticationManager authenticationManager)
+    {
+        this.authenticationManager = authenticationManager;
+    }
+
+    /**
      * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     *      javax.servlet.FilterChain)
+     * javax.servlet.FilterChain)
      */
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
-        throws ServletException, IOException
+            throws ServletException, IOException
     {
         String bearerToken = request.getHeader("Authorization");
 
@@ -99,14 +122,6 @@ class JwtRequestFilter extends OncePerRequestFilter
     }
 
     /**
-     * @return {@link Logger}
-     */
-    private Logger getLogger()
-    {
-        return LOGGER;
-    }
-
-    /**
      * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
      */
     @Override
@@ -114,32 +129,16 @@ class JwtRequestFilter extends OncePerRequestFilter
     {
         super.initFilterBean();
 
-        Objects.requireNonNull(this.authenticationManager, "authenticationManager requried");
-        Objects.requireNonNull(this.authenticationEntryPoint, "authenticationEntryPoint requried");
-        Objects.requireNonNull(this.authenticationDetailsSource, "authenticationDetailsSource requried");
+        Objects.requireNonNull(this.authenticationManager, "authenticationManager required");
+        Objects.requireNonNull(this.authenticationEntryPoint, "authenticationEntryPoint required");
+        Objects.requireNonNull(this.authenticationDetailsSource, "authenticationDetailsSource required");
     }
 
     /**
-     * @param authenticationDetailsSource {@link AuthenticationDetailsSource}
+     * @return {@link Logger}
      */
-    public void setAuthenticationDetailsSource(final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource)
+    private Logger getLogger()
     {
-        this.authenticationDetailsSource = authenticationDetailsSource;
-    }
-
-    /**
-     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
-     */
-    public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint)
-    {
-        this.authenticationEntryPoint = authenticationEntryPoint;
-    }
-
-    /**
-     * @param authenticationManager {@link AuthenticationManager}
-     */
-    public void setAuthenticationManager(final AuthenticationManager authenticationManager)
-    {
-        this.authenticationManager = authenticationManager;
+        return LOGGER;
     }
 }

@@ -5,15 +5,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-
 import de.freese.spring.thymeleaf.ThymeleafController;
 import de.freese.spring.thymeleaf.model.Person;
 import de.freese.spring.thymeleaf.model.PersonForm;
 import de.freese.spring.thymeleaf.service.PersonService;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * @author Thomas Freese
@@ -63,7 +62,7 @@ public class PersonThymeleafController
             this.service.addPerson(newPerson);
 
         }
-        catch (IllegalArgumentException iaex)
+        catch (IllegalArgumentException ex)
         {
             model.addAttribute("errorMessage", "Invalid First- and Lastname !");
 
