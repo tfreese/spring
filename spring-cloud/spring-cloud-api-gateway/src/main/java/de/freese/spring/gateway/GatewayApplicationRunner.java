@@ -11,16 +11,17 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.Response;
 import org.springframework.cloud.client.loadbalancer.reactive.ReactiveLoadBalancer;
 import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import reactor.core.publisher.Mono;
 
 /**
  * @author Thomas Freese
  */
 @Component
+@Order(1)
 public class GatewayApplicationRunner implements ApplicationRunner
 {
     /**
@@ -28,19 +29,19 @@ public class GatewayApplicationRunner implements ApplicationRunner
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(GatewayApplicationRunner.class);
     /**
-    *
-    */
+     *
+     */
     @Resource
     private ReactorLoadBalancerExchangeFilterFunction lbFunction;
 
     /**
-        *
-        */
+     *
+     */
     @Resource
     private WebClient.Builder loadBalancedWebClientBuilder;
     /**
-    *
-    */
+     *
+     */
     @Resource
     private ReactiveLoadBalancer.Factory<ServiceInstance> serviceInstanceFactory;
 
@@ -87,7 +88,8 @@ public class GatewayApplicationRunner implements ApplicationRunner
         ReactiveLoadBalancer<ServiceInstance> loadBalancer = this.serviceInstanceFactory.getInstance("DATE-SERVICE");
         Mono<Response<ServiceInstance>> chosen = Mono.from(loadBalancer.choose());
 
-        chosen.map(serviceInstance -> {
+        chosen.map(serviceInstance ->
+        {
             ServiceInstance server = serviceInstance.getServer();
 
             if (server == null)
