@@ -39,7 +39,7 @@ public class TxService
      * @param personName String
      * @param city String
      *
-     * @throws Exception
+     * @throws Exception Falls was schiefgeht
      */
     @Transactional(rollbackOn = Exception.class)
     public void insertData(String personName, String city) throws Exception
@@ -79,7 +79,7 @@ public class TxService
     }
 
     /**
-     *
+     * @throws Exception Falls was schiefgeht
      */
     public void selectAll() throws Exception
     {
