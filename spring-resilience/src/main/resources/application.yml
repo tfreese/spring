@@ -6,38 +6,37 @@
 debug: false
 
 pattern:
-   logback:
-      console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
-      file: "%date{yyyy-MM-dd HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
-   log4j2:
-      console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace{%-40.-40logger{0}}{ }{.} - %message%n"
-      file: "%date{yyyy-MM-dd HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace{%-40.-40logger{0}}{ }{.} - %message%n"
+    logback:
+        console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
+        file: "%date{yyyy-MM-dd HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
+    log4j2:
+        console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace{%-40.-40logger{0}}{ }{.} - %message%n"
+        file: "%date{yyyy-MM-dd HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace{%-40.-40logger{0}}{ }{.} - %message%n"
 
 info:
     app:
         description: ${project.description}
         name: ${project.artifactId}
         version: ${project.version}
-   
+
 logging:
-#  config: classpath:logback-default.xml
-#  config: classpath:log4j-default.xml 
-   level:
-      root: INFO
-      org.springframework: INFO
-   file:
-        #path: ${user.dir}/logs
+    #  config: classpath:logback-default.xml
+    #  config: classpath:log4j-default.xml
+    level:
+        root: INFO
+        org.springframework: INFO
+    file:
+        #path: ${user.home}/.java/logs
         #path: /tmp/logs
-        #name: ${user.dir}/logs/resilience.log
-        name: logs/resilience.log
+        name: ${user.home}/.java/logs/resilience.log
         max-history: 30
         max-size: 10MB
-        total-size-cap: 1GB      
-   pattern:
-      console: ${pattern.logback.console}
-      file: ${pattern.logback.file}
-   register-shutdown-hook: false
-   
+        total-size-cap: 1GB
+    pattern:
+        console: ${pattern.logback.console}
+        file: ${pattern.logback.file}
+    register-shutdown-hook: false
+
 management:
     endpoints:
         enabled-by-default: true
@@ -46,7 +45,7 @@ management:
                 include: '*'
     endpoint:
         health:
-            show-details: ALWAYS      
+            show-details: ALWAYS
 
 spring:
     boot:
@@ -58,9 +57,8 @@ spring:
                 url: http://localhost:9000
     main:
         lazy-initialisation: false
-      
+
 server:
     http2:
-        enabled: true 
+        enabled: true
     port: 8080      
-   
