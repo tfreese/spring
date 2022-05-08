@@ -9,13 +9,13 @@
     <!--Levels are ordered: TRACE < DEBUG < INFO < WARN < ERROR -->
     <!--property name="pattern" value="%date{yyyy-MM-dd HH:mm:ss.SSS} - %-5level[%thread] - %logger{0}[%method] - %message%n" /-->
     <property name="pattern" value="%date{HH:mm:ss.SSS} - %clr(%.-1level-${PID}){yellow} - %-35.-35logger{0} - %message%n" />
-    <property name="log.dir" value="${user.home}/.java/logs" />
+    <property name="log.dir" value="${user.home}/.java-apps/spring-web" />
 
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
 
     <!--if condition='isNull("log.dir")'>
         <then>
-            <property name="log.dir" value="${user.home}/logs/spring-boot-web" />
+            <property name="log.dir" value="${user.home}/.java-apps/spring-web" />
         </then>
         <else>
         </else>

@@ -26,9 +26,9 @@ logging:
         root: INFO
         org.springframework: INFO
     file:
-        #path: ${user.home}/.java/logs
+        #path: ${user.home}/.java-apps/spring-resilience
         #path: /tmp/logs
-        name: ${user.home}/.java/logs/resilience.log
+        name: ${user.home}/.java-apps/spring-resilience/resilience.log
         max-history: 30
         max-size: 10MB
         total-size-cap: 1GB
