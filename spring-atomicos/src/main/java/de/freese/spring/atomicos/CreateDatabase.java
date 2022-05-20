@@ -46,7 +46,7 @@ public class CreateDatabase implements ApplicationRunner
         {
             String sql = """
                     create table PERSON (
-                        ID bigint primary key,
+                        ID bigint  not null primary key,
                         NAME varchar(20) not null
                     )
                     """;
@@ -61,7 +61,7 @@ public class CreateDatabase implements ApplicationRunner
         {
             String sql = """
                     create table ADDRESS (
-                        PERSON_ID bigint primary key,
+                        PERSON_ID bigint  not null primary key,
                         CITY varchar(20) not null
                     )
                     """;

@@ -16,9 +16,9 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("jdbc")
 @EnableAutoConfiguration(exclude =
-{
-        R2dbcAutoConfiguration.class
-})
+        {
+                R2dbcAutoConfiguration.class
+        })
 public class JdbcConfiguration
 {
     /**
@@ -62,7 +62,7 @@ public class JdbcConfiguration
     // DataSourceInitializer initializer(final DataSource dataSource)
     // {
     // ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-    // populator.addScript(new ClassPathResource("sql/schema-h2.sql"));
+    // populator.addScript(new ClassPathResource("sql/schema.sql"));
     // populator.addScript(new ClassPathResource("sql/data.sql"));
     // // populator.execute(this.dataSource);
     //

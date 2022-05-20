@@ -25,7 +25,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
     private static final BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) ->
     {
         Department department = new Department();
-        department.setId(row.get("department_id", Integer.class));
+        department.setId(row.get("department_id", Long.class));
         department.setName(row.get("department_name", String.class));
 
         return department;
@@ -34,7 +34,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
     private static final BiFunction<Row, RowMetadata, Employee> EMPLOYEE_ROWMAPPER = (row, rowMetadata) ->
     {
         Employee employee = new Employee();
-        employee.setId(row.get("employee_id", Integer.class));
+        employee.setId(row.get("employee_id", Long.class));
         employee.setLastName(row.get("employee_lastname", String.class));
         employee.setFirstName(row.get("employee_firstname", String.class));
         employee.setDepartment(row.get("department_name", String.class));
@@ -72,7 +72,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
 
         // AtomicInteger departmentId = new AtomicInteger(-1);
         //
-//        // @formatter:off
+        //        // @formatter:off
 //        this.databaseClient.sql("SELECT department_id from department where department_name = :name")
 //                .bind("name", newEmployee.getDepartment())
 //                .map((row, rowMetadata) -> row.get("department_id", Integer.class))
@@ -82,7 +82,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
 //                ;
 //        // @formatter:on
         //
-//        // @formatter:off
+        //        // @formatter:off
 //        return this.databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
 //                .filter((statement, executeFunction) -> statement.returnGeneratedValues("employee_id").execute())
 //                .bind("lastName", newEmployee.getLastName())
@@ -91,7 +91,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
 //                .fetch()
 //                .first()
 //                .map(r -> {
-//                    int employeeId = (Integer) r.get("employee_id");
+//                    long employeeId = (Long) r.get("employee_id");
 //                    newEmployee.setId(employeeId);
 //                    return newEmployee;
 //                })
@@ -101,7 +101,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
         // @formatter:off
         return this.databaseClient.sql("SELECT department_id from department where department_name = :name")
                 .bind("name", newEmployee.getDepartment())
-                .map((row, rowMetadata) -> row.get("department_id", Integer.class))
+                .map((row, rowMetadata) -> row.get("department_id", Long.class))
                 .one()
                 .flatMap(depId ->
                     this.databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
@@ -112,7 +112,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
                         .fetch()
                         .first()
                         .map(r -> {
-                            int employeeId = (Integer) r.get("employee_id");
+                            long employeeId = (Long) r.get("employee_id");
                             newEmployee.setId(employeeId);
                             return newEmployee;
                         }))
@@ -150,12 +150,14 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
     @Override
     public Flux<Employee> getAllEmployees()
     {
-        StringBuilder sql = new StringBuilder("select e.*, d.department_name");
-        sql.append(" from employee e");
-        sql.append(" INNER JOIN department d ON d.department_id = e.department_id");
+        String sql = """
+                select e.*, d.department_name
+                from employee e
+                INNER JOIN department d ON d.department_id = e.department_id
+                """;
 
         // @formatter:off
-        return this.databaseClient.sql(sql.toString())
+        return this.databaseClient.sql(sql)
                 //.filter((statement, executeFunction) -> statement.fetchSize(10).execute())
                 .map(EMPLOYEE_ROWMAPPER)
                 .all()
@@ -169,15 +171,17 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
     @Override
     public Mono<Employee> getEmployee(final String lastName, final String firstName)
     {
-        StringBuilder sql = new StringBuilder("select e.*, d.department_name");
-        sql.append(" from employee e");
-        sql.append(" INNER JOIN department d ON d.department_id = e.department_id");
-        sql.append(" where");
-        sql.append(" e.employee_lastname = :lastName");
-        sql.append(" and e.employee_firstname = :firstName");
+        String sql = """
+                select e.*, d.department_name
+                from employee e
+                INNER JOIN department d ON d.department_id = e.department_id
+                where
+                e.employee_lastname = :lastName
+                and e.employee_firstname = :firstName
+                """;
 
         // @formatter:off
-        return this.databaseClient.sql(sql.toString())
+        return this.databaseClient.sql(sql)
                 .bind("lastName", lastName)
                 .bind("firstName", firstName)
                 .map(EMPLOYEE_ROWMAPPER)
@@ -195,7 +199,6 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
     {
         return this.databaseClient.inConnectionMany(connection ->
         {
-
             var statement = connection.createStatement("INSERT INTO department (department_name) VALUES (:name)").returnGeneratedValues("department_id");
 
             for (var d : data)

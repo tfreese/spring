@@ -9,15 +9,14 @@ import java.util.Objects;
 
 import javax.sql.DataSource;
 
+import de.freese.spring.reactive.model.Department;
+import de.freese.spring.reactive.model.Employee;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-
-import de.freese.spring.reactive.model.Department;
-import de.freese.spring.reactive.model.Employee;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -40,7 +39,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
         public Department mapRow(final ResultSet rs, final int rowNum) throws SQLException
         {
             Department department = new Department();
-            department.setId(rs.getInt("department_id"));
+            department.setId(rs.getLong("department_id"));
             department.setName(rs.getString("department_name"));
 
             return department;
@@ -59,7 +58,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
         public Employee mapRow(final ResultSet rs, final int rowNum) throws SQLException
         {
             Employee employee = new Employee();
-            employee.setId(rs.getInt("employee_id"));
+            employee.setId(rs.getLong("employee_id"));
             employee.setLastName(rs.getString("employee_lastname"));
             employee.setFirstName(rs.getString("employee_firstname"));
             employee.setDepartment(rs.getString("department_name"));
@@ -94,22 +93,23 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
         StringBuilder sqlSelect = new StringBuilder();
         sqlSelect.append("SELECT department_id from department where department_name = ?");
 
-        int departmentId = this.jdbcTemplate.queryForObject(sqlSelect.toString(), Integer.class, newEmployee.getDepartment());
+        long departmentId = this.jdbcTemplate.queryForObject(sqlSelect.toString(), Long.class, newEmployee.getDepartment());
 
         final StringBuilder sqlInsert = new StringBuilder();
         sqlInsert.append("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (?, ?, ?)");
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        this.jdbcTemplate.update(connection -> {
+        this.jdbcTemplate.update(connection ->
+        {
             PreparedStatement prepStmt = connection.prepareStatement(sqlInsert.toString(), Statement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, newEmployee.getLastName());
             prepStmt.setString(2, newEmployee.getFirstName());
-            prepStmt.setInt(3, departmentId);
+            prepStmt.setLong(3, departmentId);
             return prepStmt;
         }, keyHolder);
 
-        int employeeId = keyHolder.getKey().intValue();
+        long employeeId = keyHolder.getKey().longValue();
         newEmployee.setId(employeeId);
 
         return Mono.just(newEmployee);
@@ -148,11 +148,13 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
     @Override
     public Flux<Employee> getAllEmployees()
     {
-        StringBuilder sql = new StringBuilder("select e.*, d.department_name");
-        sql.append(" from employee e");
-        sql.append(" INNER JOIN department d ON d.department_id = e.department_id");
+        String sql = """
+                select e.*, d.department_name
+                from employee e
+                INNER JOIN department d ON d.department_id = e.department_id
+                """;
 
-        List<Employee> result = this.jdbcTemplate.query(sql.toString(), new EmployeeRowMapper());
+        List<Employee> result = this.jdbcTemplate.query(sql, new EmployeeRowMapper());
 
         return Flux.fromIterable(result);
     }
@@ -163,12 +165,14 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
     @Override
     public Mono<Employee> getEmployee(final String lastName, final String firstName)
     {
-        StringBuilder sql = new StringBuilder("select e.*, d.department_name");
-        sql.append(" from employee e");
-        sql.append(" INNER JOIN department d ON d.department_id = e.department_id");
-        sql.append(" where");
-        sql.append(" e.employee_lastname = ?");
-        sql.append(" and e.employee_firstname = ?");
+        String sql = """
+                select e.*, d.department_name
+                from employee e
+                INNER JOIN department d ON d.department_id = e.department_id
+                where
+                e.employee_lastname = ?
+                and e.employee_firstname = ?
+                """;
 
         Employee result = this.jdbcTemplate.queryForObject(sql.toString(), new EmployeeRowMapper(), lastName, firstName);
 

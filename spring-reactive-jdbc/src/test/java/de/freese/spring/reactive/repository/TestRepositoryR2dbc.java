@@ -3,36 +3,35 @@ package de.freese.spring.reactive.repository;
 
 import javax.annotation.Resource;
 
+import io.r2dbc.spi.ConnectionFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.test.context.ActiveProfiles;
 
-import io.r2dbc.spi.ConnectionFactory;
-
 /**
  * @author Thomas Freese
  */
 @ActiveProfiles(
-{
-        "test", "r2dbc"
-})
+        {
+                "test", "r2dbc"
+        })
 class TestRepositoryR2dbc implements TestRepository
 {
     /**
-    *
-    */
+     *
+     */
     @Resource
     private ConnectionFactory connectionFactory;
     /**
-    *
-    */
+     *
+     */
     @Resource
     private DatabaseClient databaseClient;
     /**
-    *
-    */
+     *
+     */
     @Resource
     private EmployeeRepository repository;
 
@@ -53,7 +52,7 @@ class TestRepositoryR2dbc implements TestRepository
     public void doBeforeEach()
     {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("sql/schema-h2.sql"));
+        populator.addScript(new ClassPathResource("sql/schema.sql"));
         populator.addScript(new ClassPathResource("sql/data.sql"));
         populator.populate(this.connectionFactory).block();
 

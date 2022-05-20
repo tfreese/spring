@@ -22,7 +22,7 @@ public class EmployeeRepositoryR2dbcClient implements EmployeeRepository
     private static final BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) ->
     {
         Department department = new Department();
-        department.setId(row.get("department_id", Integer.class));
+        department.setId(row.get("department_id", Long.class));
         department.setName(row.get("department_name", String.class));
 
         return department;
@@ -31,7 +31,7 @@ public class EmployeeRepositoryR2dbcClient implements EmployeeRepository
     private static final BiFunction<Row, RowMetadata, Employee> EMPLOYEE_ROWMAPPER = (row, rowMetadata) ->
     {
         Employee employee = new Employee();
-        employee.setId(row.get("employee_id", Integer.class));
+        employee.setId(row.get("employee_id", Long.class));
         employee.setLastName(row.get("employee_lastname", String.class));
         employee.setFirstName(row.get("employee_firstname", String.class));
         employee.setDepartment(row.get("department_name", String.class));
@@ -146,13 +146,15 @@ public class EmployeeRepositoryR2dbcClient implements EmployeeRepository
     @Override
     public Flux<Employee> getAllEmployees()
     {
-        StringBuilder sql = new StringBuilder("select e.*, d.department_name from employee e");
-        sql.append(" INNER JOIN department d ON e.department_id = d.department_id");
+        String sql = """
+                select e.*, d.department_name from employee e
+                INNER JOIN department d ON e.department_id = d.department_id
+                """;
 
         // @formatter:off
         return this.r2dbc.withHandle(handle ->
             handle
-                .select(sql.toString())
+                .select(sql)
                 .mapRow(EMPLOYEE_ROWMAPPER)
         )
         ;
@@ -165,16 +167,18 @@ public class EmployeeRepositoryR2dbcClient implements EmployeeRepository
     @Override
     public Mono<Employee> getEmployee(final String lastName, final String firstName)
     {
-        StringBuilder sql = new StringBuilder("select e.*, d.department_name from employee e");
-        sql.append(" INNER JOIN department d ON e.department_id = d.department_id");
-        sql.append(" where");
-        sql.append(" e.employee_lastname = ?");
-        sql.append(" and e.employee_firstname = ?");
+        String sql = """
+                select e.*, d.department_name from employee e
+                INNER JOIN department d ON e.department_id = d.department_id
+                where
+                e.employee_lastname = ?
+                and e.employee_firstname = ?
+                """;
 
         // @formatter:off
         return this.r2dbc.withHandle(handle ->
             handle
-                .select(sql.toString(), lastName, firstName)
+                .select(sql, lastName, firstName)
                 .mapRow(EMPLOYEE_ROWMAPPER)
        )
        .single()

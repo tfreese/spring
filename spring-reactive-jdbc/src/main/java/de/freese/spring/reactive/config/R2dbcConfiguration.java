@@ -1,14 +1,13 @@
 // Created: 12.10.2021
 package de.freese.spring.reactive.config;
 
+import io.r2dbc.h2.H2ConnectionFactory;
+import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-
-import io.r2dbc.h2.H2ConnectionFactory;
-import io.r2dbc.spi.ConnectionFactory;
 
 /**
  * @author Thomas Freese
@@ -16,9 +15,9 @@ import io.r2dbc.spi.ConnectionFactory;
 @Configuration
 @Profile("r2dbc")
 @EnableAutoConfiguration(exclude =
-{
-        DataSourceAutoConfiguration.class
-})
+        {
+                DataSourceAutoConfiguration.class
+        })
 public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
 {
     /**
@@ -33,7 +32,7 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
         return H2ConnectionFactory.inMemory("testR2dbc");
         // return new H2ConnectionFactory(H2ConnectionConfiguration.builder().inMemory("testR2dbc").property(H2ConnectionOption.DB_CLOSE_DELAY, "-1").build());
 
-//        // @formatter:off
+        //        // @formatter:off
 //        ConnectionFactoryOptions options = ConnectionFactoryOptions.builder()
 //                .option(ConnectionFactoryOptions.DRIVER, "h2")
 //                .option(ConnectionFactoryOptions.PROTOCOL, "mem")
@@ -97,7 +96,7 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
     // public ConnectionFactoryInitializer initializer(final ConnectionFactory connectionFactory)
     // {
     // ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-    // populator.addScript(new ClassPathResource("sql/schema-h2.sql"));
+    // populator.addScript(new ClassPathResource("sql/schema.sql"));
     // populator.addScript(new ClassPathResource("sql/data.sql"));
     //
     // ConnectionFactoryInitializer initializer = new ConnectionFactoryInitializer();

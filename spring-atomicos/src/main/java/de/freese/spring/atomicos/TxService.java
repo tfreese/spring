@@ -85,26 +85,21 @@ public class TxService
     {
         try (Connection connectionPerson = this.dataSourcePerson.getConnection();
              Statement statementPerson = connectionPerson.createStatement();
-             ResultSet resultSetPerson = statementPerson.executeQuery("select * from PERSON");
-             Connection connectionAddress = this.dataSourceAddress.getConnection();
-             PreparedStatement preparedStatementAddress = connectionAddress.prepareStatement("select * from ADDRESS where PERSON_ID = ?"))
+             ResultSet resultSetPerson = statementPerson.executeQuery("select * from PERSON"))
         {
-
             while (resultSetPerson.next())
             {
-                long id = resultSetPerson.getLong("ID");
+                LOGGER.info("{} - {}", resultSetPerson.getLong("ID"), resultSetPerson.getString("NAME"));
+            }
+        }
 
-                LOGGER.info("{} - {}", id, resultSetPerson.getString("NAME"));
-
-                preparedStatementAddress.setLong(1, id);
-
-                try (ResultSet resultSetAddress = preparedStatementAddress.executeQuery())
-                {
-                    while (resultSetAddress.next())
-                    {
-                        LOGGER.info("\t{} - {}", id, resultSetAddress.getString("CITY"));
-                    }
-                }
+        try (Connection connectionAddress = this.dataSourceAddress.getConnection();
+             PreparedStatement preparedStatementAddress = connectionAddress.prepareStatement("select * from ADDRESS");
+             ResultSet resultSetAddress = preparedStatementAddress.executeQuery())
+        {
+            while (resultSetAddress.next())
+            {
+                LOGGER.info("\t{} - {}", resultSetAddress.getLong("PERSON_ID"), resultSetAddress.getString("CITY"));
             }
         }
     }

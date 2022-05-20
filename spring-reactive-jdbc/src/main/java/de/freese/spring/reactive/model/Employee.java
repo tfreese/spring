@@ -18,7 +18,7 @@ public class Employee
     /**
      *
      */
-    private int id;
+    private long id;
     /**
      *
      */
@@ -54,9 +54,9 @@ public class Employee
      * @param lastName String
      * @param firstName String
      * @param department String
-     * @param id int
+     * @param id long
      */
-    public Employee(final String lastName, final String firstName, final String department, final int id)
+    public Employee(final String lastName, final String firstName, final String department, final long id)
     {
         this(lastName, firstName, department);
 
@@ -107,9 +107,9 @@ public class Employee
     }
 
     /**
-     * @return int
+     * @return long
      */
-    public int getId()
+    public long getId()
     {
         return this.id;
     }
@@ -148,9 +148,9 @@ public class Employee
     }
 
     /**
-     * @param id int
+     * @param id long
      */
-    public void setId(final int id)
+    public void setId(final long id)
     {
         this.id = id;
     }

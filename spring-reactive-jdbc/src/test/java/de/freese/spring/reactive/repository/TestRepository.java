@@ -1,14 +1,13 @@
 // Created: 24.06.2019
 package de.freese.spring.reactive.repository;
 
+import de.freese.spring.reactive.model.Employee;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import de.freese.spring.reactive.model.Employee;
 import reactor.test.StepVerifier;
 
 /**
@@ -52,7 +51,7 @@ public interface TestRepository
     EmployeeRepository getRepository();
 
     /**
-      *
+     *
      */
     @Test
     default void testCreateNewEmployee()
@@ -78,7 +77,7 @@ public interface TestRepository
 
     /**
      *
-    */
+     */
     @Test
     default void testDeleteEmployee()
     {

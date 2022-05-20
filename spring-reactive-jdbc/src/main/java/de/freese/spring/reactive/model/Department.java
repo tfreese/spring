@@ -8,16 +8,16 @@ public class Department
     /**
      *
      */
-    private int id;
+    private long id;
     /**
      *
      */
     private String name;
 
     /**
-     * @return int
+     * @return long
      */
-    public int getId()
+    public long getId()
     {
         return this.id;
     }
@@ -31,9 +31,9 @@ public class Department
     }
 
     /**
-     * @param id int
+     * @param id long
      */
-    public void setId(final int id)
+    public void setId(final long id)
     {
         this.id = id;
     }

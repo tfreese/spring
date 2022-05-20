@@ -13,19 +13,19 @@ import org.springframework.test.context.ActiveProfiles;
  * @author Thomas Freese
  */
 @ActiveProfiles(
-{
-        "test", "jdbc"
-})
+        {
+                "test", "jdbc"
+        })
 class TestRepositoryJdbc implements TestRepository
 {
     /**
-    *
-    */
+     *
+     */
     @Resource
     private JdbcTemplate jdbcTemplate;
     /**
-    *
-    */
+     *
+     */
     @Resource
     private EmployeeRepository repository;
 
@@ -46,7 +46,7 @@ class TestRepositoryJdbc implements TestRepository
     public void doBeforeEach()
     {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("sql/schema-h2.sql"));
+        populator.addScript(new ClassPathResource("sql/schema.sql"));
         populator.addScript(new ClassPathResource("sql/data.sql"));
         populator.execute(this.jdbcTemplate.getDataSource());
     }

@@ -4,7 +4,7 @@ package de.freese.spring.reactive.web;
 import javax.annotation.Resource;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -16,28 +16,28 @@ import org.springframework.web.reactive.function.client.WebClient;
  * @author Thomas Freese
  */
 @ActiveProfiles(
-{
-        "test", "jdbc"
-})
+        {
+                "test", "jdbc"
+        })
 class TestWebJdbc implements TestWeb
 {
     /**
-    *
-    */
+     *
+     */
     @Resource
     private JdbcTemplate jdbcTemplate;
     /**
-    *
-    */
-    @LocalServerPort
+     *
+     */
+    @Value("${local.server.port}")
     private int port = -1;
     /**
-    *
-    */
+     *
+     */
     private WebClient webClient;
     /**
-    *
-    */
+     *
+     */
     @Resource
     private WebTestClient webTestClient;
 
@@ -60,7 +60,7 @@ class TestWebJdbc implements TestWeb
         this.webClient = WebClient.create("http://localhost:" + this.port);
 
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("sql/schema-h2.sql"));
+        populator.addScript(new ClassPathResource("sql/schema.sql"));
         populator.addScript(new ClassPathResource("sql/data.sql"));
         populator.execute(this.jdbcTemplate.getDataSource());
     }
