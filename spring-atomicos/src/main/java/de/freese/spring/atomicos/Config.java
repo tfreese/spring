@@ -3,6 +3,7 @@ package de.freese.spring.atomicos;
 
 import java.util.Properties;
 
+import javax.sql.XADataSource;
 import javax.transaction.SystemException;
 
 import com.atomikos.icatch.jta.UserTransactionManager;
@@ -57,8 +58,10 @@ public class Config
         h2DataSource.setUser("sa");
         h2DataSource.setUser("");
 
+        XADataSource xaDataSource = h2DataSource;
+
         AtomikosDataSourceBean dataSource = new AtomikosDataSourceBean();
-        dataSource.setXaDataSource(h2DataSource);
+        dataSource.setXaDataSource(xaDataSource);
         dataSource.setUniqueResourceName("person");
         dataSource.setLocalTransactionMode(true);
         dataSource.setMinPoolSize(2);

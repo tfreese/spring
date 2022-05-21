@@ -1,14 +1,15 @@
 debug: false
 
+# ${random.int[10000,65000]}
+
 h2:
-    port: ${portH2}
+    port: 12345
     path: ${user.dir}/target/h2
 
 hsqldb:
     server:
         enabled: true
-        port: ${portHsqldb}
-        #port: ${random.int[10000,65000]}
+        port: 12346
         noSystemExit: true
         silent: true
         trace: false
