@@ -90,19 +90,15 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
     @Override
     public Mono<Employee> createNewEmployee(final Employee newEmployee)
     {
-        StringBuilder sqlSelect = new StringBuilder();
-        sqlSelect.append("SELECT department_id from department where department_name = ?");
+        String sqlSelect = "SELECT department_id from department where department_name = ?";
+        long departmentId = this.jdbcTemplate.queryForObject(sqlSelect, Long.class, newEmployee.getDepartment());
 
-        long departmentId = this.jdbcTemplate.queryForObject(sqlSelect.toString(), Long.class, newEmployee.getDepartment());
-
-        final StringBuilder sqlInsert = new StringBuilder();
-        sqlInsert.append("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (?, ?, ?)");
-
+        String sqlInsert = "INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         this.jdbcTemplate.update(connection ->
         {
-            PreparedStatement prepStmt = connection.prepareStatement(sqlInsert.toString(), Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement prepStmt = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, newEmployee.getLastName());
             prepStmt.setString(2, newEmployee.getFirstName());
             prepStmt.setLong(3, departmentId);
@@ -121,10 +117,9 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
     @Override
     public Mono<Integer> deleteEmployee(final long id)
     {
-        StringBuilder sql = new StringBuilder();
-        sql.append("DELETE FROM employee WHERE employee_id = ?");
+        String sql = "DELETE FROM employee WHERE employee_id = ?";
 
-        int affectedRows = this.jdbcTemplate.update(sql.toString(), id);
+        int affectedRows = this.jdbcTemplate.update(sql, id);
 
         return Mono.just(affectedRows);
     }
@@ -174,7 +169,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
                 and e.employee_firstname = ?
                 """;
 
-        Employee result = this.jdbcTemplate.queryForObject(sql.toString(), new EmployeeRowMapper(), lastName, firstName);
+        Employee result = this.jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), lastName, firstName);
 
         return Mono.just(result);
     }

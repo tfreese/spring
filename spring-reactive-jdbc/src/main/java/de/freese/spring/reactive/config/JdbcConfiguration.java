@@ -5,10 +5,11 @@ import javax.sql.DataSource;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 /**
  * @author Thomas Freese
@@ -27,16 +28,16 @@ public class JdbcConfiguration
     @Bean
     DataSource dataSource()
     {
-        // return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName("testJdbc").build();
+        return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName("testJdbc").build();
 
         // @formatter:off
-        return DataSourceBuilder.create()
-                .driverClassName("org.h2.Driver")
-                .url("jdbc:h2:mem:testJdbc") // :create=true;shutdown=true
-                .username("SA")
-                .password("")
-                .build()
-                ;
+//        return DataSourceBuilder.create()
+//                .driverClassName("org.h2.Driver")
+//                .url("jdbc:h2:mem:testJdbc") // :create=true;shutdown=true
+//                .username("SA")
+//                .password("")
+//                .build()
+//                ;
         // @formatter:on
     }
 

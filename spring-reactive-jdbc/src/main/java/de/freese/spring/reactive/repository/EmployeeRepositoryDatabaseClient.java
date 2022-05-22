@@ -56,9 +56,13 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
     {
         super();
 
-        // this.databaseClient = DatabaseClient.create(Objects.requireNonNull(connectionFactory, "connectionFactory required"));
-        this.databaseClient = DatabaseClient.builder().connectionFactory(Objects.requireNonNull(connectionFactory, "connectionFactory required"))
-                .namedParameters(true).build();
+        // @formatter:off
+        this.databaseClient = DatabaseClient.builder()
+                .connectionFactory(Objects.requireNonNull(connectionFactory, "connectionFactory required"))
+                .namedParameters(true)
+                .build()
+        ;
+        // @formatter:on
     }
 
     /**
@@ -101,7 +105,8 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
         // @formatter:off
         return this.databaseClient.sql("SELECT department_id from department where department_name = :name")
                 .bind("name", newEmployee.getDepartment())
-                .map((row, rowMetadata) -> row.get("department_id", Long.class))
+                //.map((row, rowMetadata) -> row.get("department_id", Long.class))
+                .map(row -> row.get("department_id", Long.class))
                 .one()
                 .flatMap(depId ->
                     this.databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
@@ -111,8 +116,8 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
                         .bind("depId", depId)
                         .fetch()
                         .first()
-                        .map(r -> {
-                            long employeeId = (Long) r.get("employee_id");
+                        .map(generatedValues -> {
+                            long employeeId = (Long) generatedValues.get("employee_id");
                             newEmployee.setId(employeeId);
                             return newEmployee;
                         }))
