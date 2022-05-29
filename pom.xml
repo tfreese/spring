@@ -33,7 +33,7 @@
 
     <properties>
         <version_com.esotericsoftware_kryo>5.3.0</version_com.esotericsoftware_kryo>
-        <version_com.nimbusds_nimbus-jose-jwt>9.22</version_com.nimbusds_nimbus-jose-jwt>
+        <version_com.nimbusds_nimbus-jose-jwt>9.23</version_com.nimbusds_nimbus-jose-jwt>
 
         <version_de.javakaffee_kryo-serializers>0.45</version_de.javakaffee_kryo-serializers>
         <version_de.codecentric_spring-boot-admin>2.6.7</version_de.codecentric_spring-boot-admin>
@@ -43,7 +43,7 @@
 
         <version_org.apache.directory.server>2.0.0.AM26</version_org.apache.directory.server>
         <version_org.apache.qpid>8.0.6</version_org.apache.qpid>
-        <version_org.springframework.security_spring-security-oauth2-authorization-server>0.2.3</version_org.springframework.security_spring-security-oauth2-authorization-server>
+        <version_org.springframework.security_spring-security-oauth2-authorization-server>0.3.0</version_org.springframework.security_spring-security-oauth2-authorization-server>
 
         <version_spring-cloud-starter-netflix>2.2.10.RELEASE</version_spring-cloud-starter-netflix>
     </properties>
