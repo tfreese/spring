@@ -1,25 +1,24 @@
 package de.freese.spring.kryo;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import org.objenesis.strategy.StdInstantiatorStrategy;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.serializers.MapSerializer;
 import com.esotericsoftware.kryo.serializers.TimeSerializers.LocalDateTimeSerializer;
 import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy;
 import com.esotericsoftware.kryo.util.Pool;
-
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 import de.javakaffee.kryoserializers.DateSerializer;
+import org.objenesis.strategy.StdInstantiatorStrategy;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @author Thomas Freese
@@ -40,11 +39,13 @@ public class KryoApplication implements WebMvcConfigurer
         {
             Kryo kryo = new Kryo();
 
-            kryo.setReferences(true); // Verhindert Rekursion.
             kryo.setClassLoader(Thread.currentThread().getContextClassLoader());
             kryo.setInstantiatorStrategy(new DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
+            kryo.setReferences(true); // Verhindert Rekursion.
+            kryo.setRegistrationRequired(false);
 
             kryo.register(Date.class, new DateSerializer(Date.class));
+            kryo.register(Timestamp.class, new TimestampSerializer());
 
             // Unable to make field private java.util.TimeZone java.util.Calendar.zone accessible
             // kryo.register(GregorianCalendar.class, new GregorianCalendarSerializer());
