@@ -23,8 +23,10 @@ public class ResourceServerConfig
     {
         // @formatter:off
         http
-            .mvcMatcher("/articles/**").authorizeRequests()
-            .mvcMatchers("/articles/**").access("hasAuthority('SCOPE_articles.read')")
+            .mvcMatcher("/articles/**")
+                .authorizeRequests()
+            .mvcMatchers("/articles/**")
+                .access("hasAuthority('SCOPE_articles.read')")
             .and()
             .oauth2ResourceServer()
             .jwt()

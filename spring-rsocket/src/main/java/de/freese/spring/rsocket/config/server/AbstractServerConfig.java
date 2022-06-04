@@ -29,8 +29,8 @@ import org.springframework.security.messaging.handler.invocation.reactive.Authen
 abstract class AbstractServerConfig
 {
     /**
-    *
-    */
+     *
+     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -49,9 +49,9 @@ abstract class AbstractServerConfig
     @Bean
     ReactiveUserDetailsService authorization(final PasswordEncoder passwordEncoder)
     {
-        UserDetails user = User.builder().username("user").password(passwordEncoder.encode("pass")).roles("USER").build();
+        UserDetails user = User.builder().passwordEncoder(passwordEncoder::encode).username("user").password("pass").roles("USER").build();
 
-        UserDetails admin = User.builder().username("fail").password(passwordEncoder.encode("pass")).roles("NONE").build();
+        UserDetails admin = User.builder().passwordEncoder(passwordEncoder::encode).username("fail").password("pass").roles("NONE").build();
 
         return new MapReactiveUserDetailsService(user, admin);
     }
@@ -83,7 +83,7 @@ abstract class AbstractServerConfig
     // RSocketServerFactory rSocketServerFactory()
     // {
     // // TODO RSocketServer manuell erstellen und konfigurieren.
-//        // @formatter:off
+    //        // @formatter:off
 //        return socketAcceptor -> null;
 //        // @formatter:on
     // }
@@ -116,9 +116,9 @@ abstract class AbstractServerConfig
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
         Map<String, PasswordEncoder> encoders = new HashMap<>();
-        encoders.put("BCRYPT", new BCryptPasswordEncoder(10));
-        encoders.put("PBKDF2", pbkdf2passwordEncoder);
-        encoders.put("PLAIN", new PasswordEncoder()
+        encoders.put("bcrypt", new BCryptPasswordEncoder(10));
+        encoders.put("pbkdf2", pbkdf2passwordEncoder);
+        encoders.put("noop", new PasswordEncoder()
         {
             @Override
             public String encode(final CharSequence rawPassword)
@@ -133,7 +133,7 @@ abstract class AbstractServerConfig
             }
         });
 
-        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("PLAIN", encoders);
+        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("noop", encoders);
         // passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
 
         return passwordEncoder;
@@ -160,7 +160,7 @@ abstract class AbstractServerConfig
     // @Bean
     // RSocketStrategiesCustomizer rSocketStrategiesCustomizer()
     // {
-//        // @formatter:off
+    //        // @formatter:off
 //        return strategies ->
 //            //strategies.dataBufferFactory(null)
 //        ;
@@ -177,7 +177,7 @@ abstract class AbstractServerConfig
     // {
     // LOGGER.info("rsocketStrategies");
     //
-//        // @formatter:off
+    //        // @formatter:off
 //        return RSocketStrategies.builder()
 ////                .decoder(new Jackson2JsonDecoder())
 ////                .encoder(new Jackson2JsonEncoder())

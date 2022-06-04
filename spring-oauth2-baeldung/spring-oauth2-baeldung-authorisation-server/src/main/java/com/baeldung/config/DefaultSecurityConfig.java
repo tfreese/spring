@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -35,7 +34,13 @@ public class DefaultSecurityConfig
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(final HttpSecurity http) throws Exception
     {
-        http.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated()).formLogin(withDefaults());
+        // @formatter: off
+        http.authorizeRequests(authorizeRequests ->
+                        authorizeRequests.anyRequest().authenticated()
+                )
+                .formLogin(withDefaults())
+        ;
+        // @formatter: on
 
         return http.build();
     }
@@ -47,7 +52,7 @@ public class DefaultSecurityConfig
     public PasswordEncoder passwordEncoder()
     {
         Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret");
-        pbkdf2passwordEncoder.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
+        pbkdf2passwordEncoder.setAlgorithm(Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
         Map<String, PasswordEncoder> encoders = new HashMap<>();

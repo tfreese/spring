@@ -90,8 +90,8 @@ public class JwtAuthServerConfig extends AbstractServerConfig
         // JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         // jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
         //
-        // // TODO Eigenen AuthenticationConverter um aus dem Token die UserDetails zu laden und ein JwtAuthenticationToken zu erstellen.
-        // JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter(); // TODO
+        // // TODO Eigener AuthenticationConverter um aus dem Token die UserDetails zu laden und ein JwtAuthenticationToken zu erstellen.
+        // JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter();
         // authenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         //
         // return authenticationConverter;
@@ -175,7 +175,7 @@ public class JwtAuthServerConfig extends AbstractServerConfig
         // Mac mac = Mac.getInstance("HmacSHA256");
         // SecretKeySpec secretKey = new SecretKeySpec("my-secret".getBytes(), mac.getAlgorithm());
         //
-//        // @formatter:off
+        //        // @formatter:off
 //        return NimbusReactiveJwtDecoder.withSecretKey(secretKey)
 //                .macAlgorithm(MacAlgorithm.HS256)
 //                .build()

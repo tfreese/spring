@@ -3,14 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.freese.spring</groupId>
-		<artifactId>spring-oauth2-baeldung</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>de.freese.spring</groupId>
+        <artifactId>spring-oauth2-baeldung</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>spring-oauth2-baeldung-client-server</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>spring-oauth2-baeldung-client-server</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
