@@ -74,7 +74,7 @@ public class SecurityConfig
     // @Bean
     // public AccessDecisionManager accessDecisionManager()
     // {
-//        // @formatter:off
+    //        // @formatter:off
 //        List<AccessDecisionVoter<? extends Object>> decisionVoters =
 //                Arrays.asList(
 //                        new WebExpressionVoter(),
@@ -318,9 +318,9 @@ public class SecurityConfig
     UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache) throws Exception
     {
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
-        userDetailsManager.createUser(User.withUsername("admin").password(passwordEncoder.encode("pw")).roles("ADMIN", "USER").build());
-        userDetailsManager.createUser(User.withUsername("user").password(passwordEncoder.encode("pw")).roles("USER").build());
-        userDetailsManager.createUser(User.withUsername("invalid").password(passwordEncoder.encode("pw")).roles("OTHER").build());
+        userDetailsManager.createUser(User.withUsername("admin").passwordEncoder(passwordEncoder::encode).password("pw").roles("ADMIN", "USER").build());
+        userDetailsManager.createUser(User.withUsername("user").passwordEncoder(passwordEncoder::encode).password("pw").roles("USER").build());
+        userDetailsManager.createUser(User.withUsername("invalid").passwordEncoder(passwordEncoder::encode).password("pw").roles("OTHER").build());
 
         UserDetailsService userDetailsService = userDetailsManager;
 

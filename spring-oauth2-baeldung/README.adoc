@@ -1,7 +1,0 @@
-= Spring Demo
-
-== Original Links
-
-* https://www.baeldung.com/spring-security-oauth-auth-server[spring-security-oauth-auth-server, window="_blank"]
-* https://github.com/Baeldung/spring-security-oauth/tree/master/oauth-authorization-server[github, window="_blank"]
-* http://localhost:8080/articles

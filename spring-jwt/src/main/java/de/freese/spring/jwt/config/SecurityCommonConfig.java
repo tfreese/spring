@@ -158,7 +158,7 @@ public class SecurityCommonConfig
         encoders.put("bcrypt", new BCryptPasswordEncoder(10));
         // encoders.put("scrypt", new SCryptPasswordEncoder()); // Benötigt BounyCastle
         // encoders.put("argon2", new Argon2PasswordEncoder()); // Benötigt BounyCastle
-        encoders.put("plain", new PasswordEncoder()
+        encoders.put("noop", new PasswordEncoder()
         {
             @Override
             public String encode(final CharSequence rawPassword)
@@ -173,7 +173,7 @@ public class SecurityCommonConfig
             }
         });
 
-        return new DelegatingPasswordEncoder("plain", encoders);
+        return new DelegatingPasswordEncoder("noop", encoders);
     }
 
     /**
@@ -187,8 +187,8 @@ public class SecurityCommonConfig
     {
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
 
-        userDetailsManager.createUser(User.withUsername("admin").password(passwordEncoder.encode("pass")).roles("ADMIN", "USER").build());
-        userDetailsManager.createUser(User.withUsername("user").password(passwordEncoder.encode("pass")).roles("USER").build());
+        userDetailsManager.createUser(User.withUsername("admin").passwordEncoder(passwordEncoder::encode).password("pass").roles("ADMIN", "USER").build());
+        userDetailsManager.createUser(User.withUsername("user").passwordEncoder(passwordEncoder::encode).password("pass").roles("USER").build());
 
         // UserDetails kopieren, da bei ProviderManager.setEraseCredentialsAfterAuthentication(true)
         // das Password auf null gesetzt wird -> kein zweiter Login mehr möglich -> NullPointer
@@ -213,8 +213,8 @@ public class SecurityCommonConfig
         jdbcDao.setUsersByUsernameQuery(JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY);
         jdbcDao.setAuthoritiesByUsernameQuery(JdbcDaoImpl.DEF_AUTHORITIES_BY_USERNAME_QUERY);
 
-//        CachingUserDetailsService cachingUserDetailsService = new CachingUserDetailsService(jdbcDao);
-//        cachingUserDetailsService.setUserCache(userCache);
+        //        CachingUserDetailsService cachingUserDetailsService = new CachingUserDetailsService(jdbcDao);
+        //        cachingUserDetailsService.setUserCache(userCache);
 
         // UserDetails kopieren, da bei ProviderManager.setEraseCredentialsAfterAuthentication(true)
         // das Password auf null gesetzt wird -> kein zweiter Login mehr möglich -> NullPointer
@@ -228,7 +228,7 @@ public class SecurityCommonConfig
             }
 
             Assert.notNull(userDetails, () -> "UserDetailsService " + jdbcDao + " returned null for username " + username
-                    + ". " + "This is an interface contract violation");
+                    + ". This is an interface contract violation");
 
             userCache.putUserInCache(userDetails);
 
