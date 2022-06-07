@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("users")
-// @Api(tags = "users")
 public class UserController
 {
     /**
@@ -46,16 +45,7 @@ public class UserController
     @DeleteMapping("delete/{username}")
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Secured("ROLE_ADMIN")
-    // @ApiOperation(value = "Deletes specific user by username.")
-    // @ApiResponses(value =
-    // {
-    // @ApiResponse(code = 400, message = "Something went wrong"),
-    // @ApiResponse(code = 403, message = "Access denied"),
-    // @ApiResponse(code = 404, message = "The user doesn't exist"),
-    // @ApiResponse(code = 500, message = "Expired or invalid JWT token")
-    // })
-    public String delete(// @ApiParam("username")
-                         @PathVariable final String username)
+    public String delete(@PathVariable final String username)
     {
         this.userService.delete(username);
 
@@ -69,14 +59,7 @@ public class UserController
      * @return String
      */
     @GetMapping("login")
-    // @ApiOperation(value = "Authenticates user and returns its JWT token.")
-    // @ApiResponses(value =
-    // {
-    // @ApiResponse(code = 400, message = "Something went wrong"),//
-    // @ApiResponse(code = 422, message = "Invalid username/password supplied")
-    // })
-    public String login(// @ApiParam("username")
-                        @RequestParam final String username, // @ApiParam("password")
+    public String login(@RequestParam final String username,
                         @RequestParam final String password)
     {
         return this.userService.login(username, password);
@@ -90,16 +73,7 @@ public class UserController
      */
     @PostMapping("register")
     @Secured("ROLE_ADMIN")
-    // @ApiOperation(value = "Creates user and returns its JWT token.")
-    // @ApiResponses(value =
-    // {
-    // @ApiResponse(code = 400, message = "Something went wrong"),
-    // @ApiResponse(code = 403, message = "Access denied"),
-    // @ApiResponse(code = 422, message = "Username is already in use"),
-    // @ApiResponse(code = 500, message = "Expired or invalid JWT token")
-    // })
-    public String register(// @ApiParam("Signup User")
-                           @RequestBody final UserDetails userDetails, @AuthenticationPrincipal final UserDetails user)
+    public String register(@RequestBody final UserDetails userDetails, @AuthenticationPrincipal final UserDetails user)
     {
         LOGGER.info("register called by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 
@@ -115,16 +89,7 @@ public class UserController
     @GetMapping("search/{username}")
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Secured("ROLE_ADMIN")
-    // @ApiOperation(value = "Returns specific user by username.")
-    // @ApiResponses(value =
-    // {
-    // @ApiResponse(code = 400, message = "Something went wrong"),
-    // @ApiResponse(code = 403, message = "Access denied"),
-    // @ApiResponse(code = 404, message = "The user doesn't exist"),
-    // @ApiResponse(code = 500, message = "Expired or invalid JWT token")
-    // })
-    public UserDetails search(// @ApiParam("userName")
-                              @PathVariable final String username, @AuthenticationPrincipal final UserDetails user)
+    public UserDetails search(@PathVariable final String username, @AuthenticationPrincipal final UserDetails user)
     {
         LOGGER.info("search called by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 
@@ -143,13 +108,6 @@ public class UserController
             {
                     "ROLE_ADMIN", "ROLE_USER"
             })
-    // @ApiOperation(value = "Returns current user's data.")
-    // @ApiResponses(value =
-    // {
-    // @ApiResponse(code = 400, message = "Something went wrong"),
-    // @ApiResponse(code = 403, message = "Access denied"),
-    // @ApiResponse(code = 500, message = "Expired or invalid JWT token")
-    // })
     public Principal whoami(final Principal principal, @AuthenticationPrincipal final UserDetails user)
     {
         LOGGER.info("whoami called by '{}'", principal.getName());

@@ -60,6 +60,7 @@
         <module>spring-ldap</module>
         <module>spring-messaging</module>
         <module>spring-microservice-jmh</module>
+        <module>spring-openapi</module>
         <module>spring-reactive-jdbc</module>
         <module>spring-resilience</module>
         <module>spring-ribbon</module>
