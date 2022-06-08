@@ -3,12 +3,11 @@ package de.freese.spring.kryo;
 
 import java.time.LocalDateTime;
 
+import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 
 /**
  * @author Thomas Freese
@@ -18,7 +17,6 @@ import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 public class RestKryoController
 {
     /**
-     * http://8081/json<br>
      * curl -X GET "http://localhost:8081/json"
      *
      * @return {@link LocalDateTime}
@@ -32,7 +30,6 @@ public class RestKryoController
     }
 
     /**
-     * http://8081/kryo<br>
      * curl -X GET "http://localhost:8081/kryo" --output -
      *
      * @return {@link LocalDateTime}

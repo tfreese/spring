@@ -41,8 +41,8 @@
         <version_io.jsonwebtoken_jjwt>0.9.1</version_io.jsonwebtoken_jjwt>
         <version_io.springfox_swagger>3.0.0</version_io.springfox_swagger><!-- 2.9.2; 2.10.0 macht Probleme, GUI wird nicht angezeigt. -->
 
-        <version_org.apache.directory.server>2.0.0.AM26</version_org.apache.directory.server>
         <version_org.apache.qpid>8.0.6</version_org.apache.qpid>
+        <version_org.springdoc>1.6.9</version_org.springdoc>
 
         <version_spring-cloud-starter-netflix>2.2.10.RELEASE</version_spring-cloud-starter-netflix>
     </properties>
@@ -142,11 +142,6 @@
                 <version>${version_io.springfox_swagger}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.directory.server</groupId>
-                <artifactId>apacheds-all</artifactId>
-                <version>${version_org.apache.directory.server}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.apache.qpid</groupId>
                 <artifactId>qpid-broker</artifactId>
                 <version>${version_org.apache.qpid}</version>
@@ -171,6 +166,11 @@
                         <artifactId>je</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${version_org.springdoc}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>

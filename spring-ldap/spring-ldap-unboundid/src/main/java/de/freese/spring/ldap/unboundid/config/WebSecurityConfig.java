@@ -43,30 +43,32 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter
         // @formatter:on
     }
 
-//    /**
-//     * @return EmbeddedLdapServerContextSourceFactoryBean
-//     */
-//    @Bean
-//    EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean()
-//    {
-//        EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean = EmbeddedLdapServerContextSourceFactoryBean.fromEmbeddedLdapServer();
-//        contextSourceFactoryBean.setPort(0);
-//
-//        return contextSourceFactoryBean;
-//    }
-//
-//    /**
-//     * @param httpSecurity {@link HttpSecurity}
-//     *
-//     * @return {@link SecurityFilterChain}
-//     *
-//     * @throws Exception Falls was schief geht.
-//     */
-//    @Bean
-//    SecurityFilterChain filterChain(final HttpSecurity httpSecurity)
-//            throws Exception
-//    {
-//        // @formatter:off
+    //    /**
+    //     * @return EmbeddedLdapServerContextSourceFactoryBean
+    //     */
+    //    @Bean
+    //    EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean()
+    //    {
+    //        EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean = EmbeddedLdapServerContextSourceFactoryBean.fromEmbeddedLdapServer();
+    //        contextSourceFactoryBean.setPort(8389);
+    //        contextSourceFactoryBean.setRoot("dc=springframework,dc=org");
+    //        contextSourceFactoryBean.setLdif("classpath:test-server.ldif");
+    //
+    //        return contextSourceFactoryBean;
+    //    }
+    //
+    //    /**
+    //     * @param httpSecurity {@link HttpSecurity}
+    //     *
+    //     * @return {@link SecurityFilterChain}
+    //     *
+    //     * @throws Exception Falls was schief geht.
+    //     */
+    //    @Bean
+    //    SecurityFilterChain filterChain(final HttpSecurity httpSecurity)
+    //            throws Exception
+    //    {
+    //        // @formatter:off
 //        httpSecurity.authorizeRequests()
 //                .anyRequest()
 //                .fullyAuthenticated()
@@ -105,9 +107,9 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
         Map<String, PasswordEncoder> encoders = new HashMap<>();
-        encoders.put("PBKDF2", pbkdf2passwordEncoder);
-        encoders.put("BCRYPT", new BCryptPasswordEncoder(10));
-        // encoders.put("SSHA", new LdapShaPasswordEncoder());
+        encoders.put("pbkdf2", pbkdf2passwordEncoder);
+        encoders.put("bcrypt", new BCryptPasswordEncoder(10));
+        // encoders.put("ssha", new LdapShaPasswordEncoder());
         // encoders.put("", NoOpPasswordEncoder.getInstance());
         encoders.put("", new PasswordEncoder()
         {

@@ -4,9 +4,9 @@
 # docker run [-d] --cpus="2" --name <CONTAINER_NAME> -e VM_PARAMS="-Xms64m -Xmx128m" -p 8081:8081 <IMAGE_NAME>:<VERSION> --spring.profiles.active=test;
 # docker start/stop <CONTAINER_NAME>;
 
-#FROM localhost:5083/openjdk:11-jre-slim
-#FROM localhost:5083/openjdk:12
-FROM openjdk:16
+#FROM localhost:5083/openjdk:17-jre-slim
+#FROM localhost:5083/openjdk:17
+FROM openjdk:17
  
 MAINTAINER Thomas Freese <commercial@freese-home.de>
  

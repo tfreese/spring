@@ -22,6 +22,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.freese.spring.kryo.web.KryoHttpMessageConverter;
+import de.freese.spring.kryo.webflux.AbstractKryoCodecSupport;
+import de.freese.spring.kryo.webflux.KryoDecoder;
+import de.freese.spring.kryo.webflux.KryoEncoder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -29,8 +34,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -47,13 +52,6 @@ import org.springframework.web.client.HttpMessageConverterExtractor;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import de.freese.spring.kryo.web.KryoHttpMessageConverter;
-import de.freese.spring.kryo.webflux.AbstractKryoCodecSupport;
-import de.freese.spring.kryo.webflux.KryoDecoder;
-import de.freese.spring.kryo.webflux.KryoEncoder;
 import reactor.core.publisher.Mono;
 
 /**
@@ -92,8 +90,8 @@ class TestKryo
     @LocalServerPort
     private int localServerPort;
     /**
-    *
-    */
+     *
+     */
     @Resource
     private MockMvc mockMvc;
     // /**
@@ -116,8 +114,8 @@ class TestKryo
     @Resource
     private WebApplicationContext webApplicationContext;
     /**
-    *
-    */
+     *
+     */
     @Resource
     private WebClient.Builder webClientBuilder;
 
@@ -281,7 +279,7 @@ class TestKryo
      */
     protected void testRestTemplate(final String path, final MediaType mediaType)
     {
-//        // @formatter:off
+        //        // @formatter:off
 //        RestTemplateBuilder builder = new RestTemplateBuilder()
 //                .rootUri("http://localhost:" + this.localServerPort)
 //                .messageConverters(this.kryoHttpMessageConverter,
