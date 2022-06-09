@@ -321,14 +321,7 @@ project("spring-kryo") {
     }
 }
 
-project("spring-ldap") {
-    description = "Folder project"
-    bootJar {
-        mainClass = "disabled"
-    }
-}
-
-project("spring-ldap:spring-ldap-unboundid") {
+project("spring-ldap-unboundid") {
     description = "spring with ldap (unboundid)"
     dependencies {
         implementation("com.unboundid:unboundid-ldapsdk")

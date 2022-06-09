@@ -57,7 +57,7 @@
         <module>spring-javafx</module>
         <module>spring-jwt</module>
         <module>spring-kryo</module>
-        <module>spring-ldap</module>
+        <module>spring-ldap-unboundid</module>
         <module>spring-messaging</module>
         <module>spring-microservice-jmh</module>
         <module>spring-openapi</module>
