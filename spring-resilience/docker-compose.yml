@@ -14,6 +14,9 @@
 version: '3'
 services:
 
+    # docker build -t spring-resilience .
+    # docker run -d --name=spring-resilience -p 8080:8080 spring-resilience
+    # docker start/stop spring-resilience
     spring-resilience:
         container_name: spring-resilience
         build:
@@ -22,9 +25,10 @@ services:
         image: spring-resilience:latest
         ports:
             - 8080:8080
-        restart: unless-stopped             
+        restart: unless-stopped
 
-    # docker run -d --name=prometheus -p 9090:9090 -v prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
+    # prometheus.yml anpassen: docker inspect spring-resilience | grep IPAddress
+    # docker run -d --name=prometheus -p 9090:9090 -v <PATH>/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
     # docker start/stop prometheus
     prometheus:
         image: prom/prometheus:latest
@@ -32,14 +36,14 @@ services:
         ports:
             - 9090:9090
         command:
-            - '--config.file=/etc/prometheus/prometheus.yml'                   
+            - '--config.file=/etc/prometheus/prometheus.yml'
         volumes:
             - ./prometheus.yml:/etc/prometheus/prometheus.yml
             - "/etc/timezone:/etc/timezone:ro"
             - "/etc/localtime:/etc/localtime:ro"
         environment:
             - TZ=Europe/Berlin
-        restart: unless-stopped                                            
+        restart: unless-stopped
         depends_on:
             - spring-resilience
         deploy:
@@ -49,14 +53,14 @@ services:
                     memory: 64M
                 reservations:
                     #cpus: "0.0001"
-                    memory: 20M            
-            
+                    memory: 20M
+
     # docker run -d --name=grafana -p 3000:3000 grafana/grafana
     # docker start/stop grafana
     # admin:admin
     # Add Datasource
-    # prometheus:9090
-    # docker inspect misc-micrometer_prometheus_1 | grep IPAddress
+    # prometheus localhost:9090
+    # docker inspect prometheus | grep IPAddress
     grafana:
         image: grafana/grafana:latest
         container_name: grafana
@@ -69,8 +73,8 @@ services:
             - TZ=Europe/Berlin
             - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
             - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
-            - GF_LOG_LEVEL=warn            
-        restart: unless-stopped            
+            - GF_LOG_LEVEL=warn
+        restart: unless-stopped
         depends_on:
             - prometheus
         deploy:

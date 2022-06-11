@@ -4,8 +4,8 @@
 # -e "VM_PARAMS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"
 # docker start/stop <CONTAINER_NAME>;
 
-#FROM localhost:5083/openjdk:11-jre-slim
-FROM localhost:5083/openjdk:12
+#FROM localhost:5083/openjdk:17
+FROM openjdk:latest
  
 MAINTAINER Thomas Freese <commercial@freese-home.de>
  
@@ -45,7 +45,3 @@ ENTRYPOINT exec java \
 
 #CMD /usr/bin/java -Xms64m -Xmx256m -XX:TieredStopAtLevel=1 -noverify -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=default -jar /app/app.jar
 #RUN [“java”, “...”]
-
-
- 
- 
