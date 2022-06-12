@@ -1,6 +1,6 @@
 # docker build --build-arg JAR_FILE=<JAR in target Folder> -t <IMAGE_NAME>:<VERSION> .;
 # docker build --build-arg JAR_FILE=<JAR in target Folder> -t <IMAGE_NAME>:<VERSION> -f <Dockerfile>;
-# docker run [-d] --cpus="2" --name <CONTAINER_NAME> -e JAVA_OPTS="-Xms32m -Xmx128m" -p 8080:8080 <IMAGE_NAME>:<VERSION> --spring.profiles.active=test;
+# docker run [-d] -m 128m --cpus="2" --name <CONTAINER_NAME> -e JAVA_OPTS="-Xms32m -Xmx128m" -p 8080:8080 <IMAGE_NAME>:<VERSION> --spring.profiles.active=test;
 # -e "VM_PARAMS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"
 # docker start/stop <CONTAINER_NAME>;
 

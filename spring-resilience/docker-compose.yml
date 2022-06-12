@@ -11,6 +11,12 @@
 #
 # multi-stage builds: https://docs.docker.com/develop/develop-images/multistage-build/
 
+# Aufräumen
+# docker rm $(docker ps -a -q);
+# docker container rm ID/NAME;
+# docker rmi $(docker images -q);
+# docker image rm ID/NAME;
+
 version: '3'
 services:
 
@@ -26,6 +32,14 @@ services:
         ports:
             - 8080:8080
         restart: unless-stopped
+        deploy:
+            resources:
+                limits:
+                    #cpus: "0.001"
+                    memory: 128M
+                reservations:
+                    #cpus: "0.0001"
+                    memory: 32M
 
     # prometheus.yml anpassen: docker inspect spring-resilience | grep IPAddress
     # docker run -d --name=prometheus -p 9090:9090 -v <PATH>/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
@@ -35,12 +49,12 @@ services:
         container_name: prometheus
         ports:
             - 9090:9090
-        command:
-            - '--config.file=/etc/prometheus/prometheus.yml'
         volumes:
             - ./prometheus.yml:/etc/prometheus/prometheus.yml
             - "/etc/timezone:/etc/timezone:ro"
             - "/etc/localtime:/etc/localtime:ro"
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
         environment:
             - TZ=Europe/Berlin
         restart: unless-stopped
@@ -50,16 +64,16 @@ services:
             resources:
                 limits:
                     #cpus: "0.001"
-                    memory: 64M
+                    memory: 128M
                 reservations:
                     #cpus: "0.0001"
-                    memory: 20M
+                    memory: 32M
 
     # docker run -d --name=grafana -p 3000:3000 grafana/grafana
     # docker start/stop grafana
     # admin:admin
     # Add Datasource
-    # prometheus localhost:9090
+    # prometheus http://192.168.155.100:9090
     # docker inspect prometheus | grep IPAddress
     grafana:
         image: grafana/grafana:latest
@@ -81,7 +95,7 @@ services:
             resources:
                 limits:
                     #cpus: "0.001"
-                    memory: 64M
+                    memory: 128M
                 reservations:
                     #cpus: "0.0001"
-                    memory: 20M            
+                    memory: 32M
