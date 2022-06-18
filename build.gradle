@@ -330,6 +330,7 @@ project("spring-ldap-unboundid") {
         implementation("org.springframework.security:spring-security-ldap")
 
         testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testImplementation("org.springframework.security:spring-security-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
     bootJar {
