@@ -1,6 +1,7 @@
 package de.freese.kubernetes.microservice;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.hamcrest.core.StringStartsWith;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import de.freese.kubernetes.microservice.MyApplication.MyRestController;
 
 /**
  * @author Thomas Freese
@@ -28,8 +28,8 @@ class MyApplicationTest
     }
 
     /**
-    *
-    */
+     *
+     */
     @Test
     void testRequest()
     {

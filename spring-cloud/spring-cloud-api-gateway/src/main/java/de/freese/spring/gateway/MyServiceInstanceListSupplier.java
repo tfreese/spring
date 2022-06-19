@@ -7,11 +7,11 @@ import java.util.Objects;
 import org.springframework.cloud.client.DefaultServiceInstance;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
-
 import reactor.core.publisher.Flux;
 
 /**
  * @author Thomas Freese
+ * @see "https://www.baeldung.com/spring-cloud-load-balancer"
  */
 public class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier
 {

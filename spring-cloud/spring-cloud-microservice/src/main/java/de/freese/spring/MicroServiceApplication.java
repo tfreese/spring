@@ -16,16 +16,16 @@ import org.springframework.context.annotation.ComponentScan;
  * @author Thomas Freese
  */
 @SpringBootApplication(exclude =
-{
-        GsonAutoConfiguration.class, SecurityAutoConfiguration.class
-}) // GSON hat Fehler verursacht -->
-   //// @EnableEurekaClient
+        {
+                GsonAutoConfiguration.class, SecurityAutoConfiguration.class
+        }) // GSON hat Fehler verursacht -->
+//// @EnableEurekaClient
 @EnableDiscoveryClient
 @ComponentScan(basePackages =
-{
-        "de.freese.spring"
-})
-public class MicroServiceApplication extends SpringBootServletInitializer // extends WebSecurityConfigurerAdapter // implements WebMvcConfigurer
+        {
+                "de.freese.spring"
+        })
+public class MicroServiceApplication extends SpringBootServletInitializer
 {
     /**
      * Konfiguriert die SpringApplication.
@@ -51,6 +51,7 @@ public class MicroServiceApplication extends SpringBootServletInitializer // ext
     // {
     // System.setProperty("server.port", Integer.toString(65501));
     // }
+
     /**
      * @param args String[]
      */

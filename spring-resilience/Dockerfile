@@ -10,7 +10,7 @@ FROM openjdk:latest
 MAINTAINER Thomas Freese <commercial@freese-home.de>
  
 ARG JAR_FILE=target/*-jar-with-dependencies.jar
-ENV VM_PARAMS="-Xms64m -Xmx256m"
+ENV VM_PARAMS="-Xms64m -Xmx128m"
 
 COPY ${JAR_FILE} /app/app.jar
 
