@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.annotation.Resource;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -20,20 +19,20 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  */
 // @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT
-// , properties =
-// {
-// "httpbin=http://localhost:${wiremock.server.port}"
-// }
+        // , properties =
+        // {
+        // "httpbin=http://localhost:${wiremock.server.port}"
+        // }
 )
 // @AutoConfigureWireMock(port = 0)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
-@Disabled("Funktioniert nur zusammen mit spring-eureka und spring-microservice")
+        //@Disabled("Funktioniert nur zusammen mit spring-eureka und spring-microservice")
 class GatewayTest
 {
     /**
-    *
-    */
+     *
+     */
     @Resource
     private WebTestClient webClient;
 
@@ -83,11 +82,11 @@ class GatewayTest
      * Funktioniert nur zusammen mit spring-eureka und spring-microservice.
      */
     @Test
-    void testSysdate()
+    void testHello()
     {
-       // @formatter:off
+        // @formatter:off
        this.webClient
-           .get().uri("/sysdate")
+           .get().uri("/hello")
            .exchange()
            .expectStatus().isOk()
            .expectBody()
@@ -99,11 +98,11 @@ class GatewayTest
      * Funktioniert nur zusammen mit spring-eureka und spring-microservice.
      */
     @Test
-    void testSysdateLb()
+    void testHelloLb()
     {
-       // @formatter:off
+        // @formatter:off
        this.webClient
-           .get().uri("/sysdatelb")
+           .get().uri("/lb")
            .exchange()
            .expectStatus().isOk()
            .expectBody()
@@ -115,11 +114,11 @@ class GatewayTest
      * Funktioniert nur zusammen mit spring-eureka und spring-microservice.
      */
     @Test
-    void testSysdateLbManuell()
+    void testHelloLbManuell()
     {
-       // @formatter:off
+        // @formatter:off
        this.webClient
-           .get().uri("/sysdatelbman")
+           .get().uri("/lbman")
            .exchange()
            .expectStatus().isOk()
            .expectBody()

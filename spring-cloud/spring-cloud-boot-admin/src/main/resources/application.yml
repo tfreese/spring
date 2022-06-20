@@ -3,6 +3,11 @@
 # https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+logging:
+    level:
+        root: INFO
+        org.springframework: INFO
+
 spring:
     boot:
         admin:
@@ -28,8 +33,8 @@ spring:
     application:
         name: admin-server
     jmx:
-        enabled: false 
-           
+        enabled: false
+
 server:
     port: 9000
 

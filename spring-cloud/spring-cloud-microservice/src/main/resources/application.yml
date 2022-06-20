@@ -24,8 +24,8 @@ info:
 
 logging:
     #level:
-        #root: INFO
-        #org.springframework: INFO
+    #root: INFO
+    #org.springframework: INFO
     pattern:
         console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
 
@@ -38,29 +38,23 @@ management:
     endpoint:
         health:
             enabled: true
-            show-details: ALWAYS         
+            show-details: ALWAYS
 
 server:
     port: 8081
     #servlet:
-        #context-path: /
+    #context-path: /
 
 spring:
     application:
-        name: date-service
+        name: hello-service
     boot:
         admin:
             client:
                 enabled: true
                 instance:
-                   prefer-ip: true
+                    prefer-ip: true
                 url: ${ADMIN_SERVER:http://localhost:9000}
-    datasource:
-        hikari:
-            auto-commit: true
-        initialization-mode: never
-        platform: HSQL
-        name: microservice                                 
 
 ---
 
@@ -89,7 +83,7 @@ spring:
             WRAP_ROOT_VALUE: false
             WRITE_DATES_AS_TIMESTAMPS: false
             WRITE_DATES_WITH_ZONE_ID: false
-        time-zone: Europe/Berlin   
+        time-zone: Europe/Berlin
     main:
         banner-mode: "OFF"
     mvc:
@@ -98,6 +92,3 @@ spring:
     output:
         ansi:
             enabled: DETECT   
-
-            
-            

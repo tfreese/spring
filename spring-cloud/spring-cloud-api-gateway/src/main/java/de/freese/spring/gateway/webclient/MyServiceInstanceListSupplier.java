@@ -1,8 +1,7 @@
 // Created: 10.10.2021
-package de.freese.spring.gateway;
+package de.freese.spring.gateway.webclient;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.cloud.client.DefaultServiceInstance;
 import org.springframework.cloud.client.ServiceInstance;
@@ -13,33 +12,29 @@ import reactor.core.publisher.Flux;
  * @author Thomas Freese
  * @see "https://www.baeldung.com/spring-cloud-load-balancer"
  */
-public class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier
+class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier
 {
     /**
      *
      */
-    private final List<ServiceInstance> instances;
+    public static final String SERVICE_ID = "DATE-SERVICE-MANUELL";
     /**
      *
      */
-    private final String serviceId;
+    private final List<ServiceInstance> instances;
 
     /**
      * Erstellt ein neues {@link MyServiceInstanceListSupplier} Object.
-     *
-     * @param serviceId String
      */
-    public MyServiceInstanceListSupplier(final String serviceId)
+    MyServiceInstanceListSupplier()
     {
         super();
 
-        this.serviceId = Objects.requireNonNull(serviceId, "serviceId required");
-
         // @formatter:off
         this.instances = List.of(
-                new DefaultServiceInstance(serviceId + "-1", serviceId, "localhost", 8081, false),
-                new DefaultServiceInstance(serviceId + "-2", serviceId, "localhost", 8082, false),
-                new DefaultServiceInstance(serviceId + "-3", serviceId, "localhost", 8083, false)
+                new DefaultServiceInstance(SERVICE_ID + "-1", SERVICE_ID, "127.0.0.1", 8081, false),
+                new DefaultServiceInstance(SERVICE_ID + "-2", SERVICE_ID, "127.0.0.1", 8082, false),
+                new DefaultServiceInstance(SERVICE_ID + "-3", SERVICE_ID, "127.0.0.1", 8083, false)
                 )
                 ;
         // @formatter:on
@@ -60,6 +55,6 @@ public class MyServiceInstanceListSupplier implements ServiceInstanceListSupplie
     @Override
     public String getServiceId()
     {
-        return this.serviceId;
+        return SERVICE_ID;
     }
 }

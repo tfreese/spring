@@ -10,7 +10,6 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import reactor.core.publisher.Mono;
 
 /**
@@ -75,26 +74,27 @@ public class GatewayApplication
                         .uri(httpUri)
                       )
                 .route(p -> p.host("*.circuitbreaker.com")
-                        .filters(f -> f.circuitBreaker(config -> config.setName("mycmd")
-                                        .setFallbackUri("forward:/fallback")))
+                        .filters(f ->
+                                f.circuitBreaker(config -> config.setName("mycmd")
+                                .setFallbackUri("forward:/fallback"))
+                        )
                         .customize(asyncBuilder -> asyncBuilder.id("circuitbreaker_route"))
                         .uri(httpUri)
                       )
-                .route(p -> p.path("/sysdate")
-//                        .filters(f -> f.rewritePath("/sysdate/(?<segment>.*)", "/service/sysdate/${segment}"))
-                        .filters(f -> f.rewritePath("/sysdate", "/service/sysdate"))
+                .route(p -> p.path("/hello/**")
+                        .filters(f -> f.rewritePath("/hello(?<segment>/?.*)", "/${segment}"))
                         .customize(asyncBuilder -> asyncBuilder.id("rewritepath_route"))
                         .uri("http://localhost:8081")
                       )
-                .route(p -> p.path("/sysdatelb")
-                      .filters(f -> f.rewritePath("/sysdatelb", "/service/sysdate"))
+                .route(p -> p.path("/lb/**")
+                      .filters(f -> f.rewritePath("/lb", "/"))
                       .customize(asyncBuilder -> asyncBuilder.id("loadbalancer_route"))
-                      .uri("lb://DATE-SERVICE") // Kommt von Eureka
+                      .uri("lb://HELLO-SERVICE") // Kommt von Eureka
                     )
-                .route(p -> p.path("/sysdatelbman")
-                        .filters(f -> f.rewritePath("/sysdatelbman", "/service/sysdate"))
+                .route(p -> p.path("/lbman/**")
+                        .filters(f -> f.rewritePath("/lbman", "/"))
                         .customize(asyncBuilder -> asyncBuilder.id("loadbalancer_route_manuell"))
-                        .uri("lb://DATE-SERVICE-MANUELL") // Kommt von MyServiceInstanceListSupplierConfig
+                        .uri("lb://HELLO-SERVICE-MANUELL") // Kommt von MyServiceInstanceListSupplierConfig
                       )
                 .build();
         // @formatter:on

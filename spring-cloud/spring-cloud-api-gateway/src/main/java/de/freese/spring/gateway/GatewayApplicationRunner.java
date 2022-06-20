@@ -1,6 +1,8 @@
 // Created: 10.10.2021
 package de.freese.spring.gateway;
 
+import java.time.Duration;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -12,10 +14,10 @@ import org.springframework.cloud.client.loadbalancer.Response;
 import org.springframework.cloud.client.loadbalancer.reactive.ReactiveLoadBalancer;
 import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
 
 /**
  * @author Thomas Freese
@@ -32,7 +34,7 @@ public class GatewayApplicationRunner implements ApplicationRunner
      *
      */
     @Resource
-    private ReactorLoadBalancerExchangeFilterFunction lbFunction;
+    private ReactorLoadBalancerExchangeFilterFunction loadBalancedFunction;
 
     /**
      *
@@ -46,62 +48,101 @@ public class GatewayApplicationRunner implements ApplicationRunner
     private ReactiveLoadBalancer.Factory<ServiceInstance> serviceInstanceFactory;
 
     /**
-     * @param http {@link WebClient}
-     * @param url String
      *
-     * @return {@link Mono}
      */
-    private Mono<String> call(final WebClient http, final String url)
+    private void callByWebClientWithLoadBalancer()
     {
-        if (url.isBlank())
-        {
-            return Mono.just("url is blank");
-        }
+        // @formatter:off
+//        ResponseEntity<String> response = this.loadBalancedWebClientBuilder.build()
+//                .get()
+//                .uri("http://HELLO-SERVICE")
+//                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
+//                .block()
+//                ;
+        // @formatter:on
 
-        return http.get().uri(url).retrieve().bodyToMono(String.class);
+        // @formatter:off
+        String response = this.loadBalancedWebClientBuilder.build()
+                .get()
+                .uri("http://HELLO-SERVICE")
+                .retrieve()
+                .bodyToMono(String.class)
+                .retryWhen(Retry.fixedDelay(2, Duration.ofMillis(100)))
+                //.timeout(Duration.ofMillis(200), Mono.just("fallback"))
+                .onErrorResume(throwable -> Mono.just("fallback"))
+                .block()
+                //.subscribe(response -> LOGGER.info("callByWebClientWithLoadBalancer: {}", response.strip()) )
+                ;
+        // @formatter:on
+
+        LOGGER.info("callByWebClientWithLoadBalancer: {}", response.strip());
     }
 
     /**
      *
      */
-    private void checkLoadBalancer()
+    private void callByWebClientWithLoadBalancedFunction()
     {
-        // LoadBalancing über WebFilter
-        ResponseEntity<String> response = WebClient.builder().filter(this.lbFunction).baseUrl("http://DATE-SERVICE").build().get().uri("/service/sysdate")
-                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class)).block();
-        LOGGER.info(response.getBody());
+        // @formatter:off
+        String response = WebClient.builder()
+                .filter(this.loadBalancedFunction)
+                .baseUrl("http://HELLO-SERVICE")
+                .build()
+                .get()
+                .uri("/")
+                .retrieve()
+                .bodyToMono(String.class)
+                .retryWhen(Retry.fixedDelay(2, Duration.ofMillis(100)))
+                //.timeout(Duration.ofMillis(200), Mono.just("fallback"))
+                .onErrorResume(throwable -> Mono.just("fallback"))
+                .block()
+                //.subscribe(response -> LOGGER.info("callByWebClientWithLoadBalancedFunction: {}", response.strip()) )
+                ;
+        // @formatter:on
 
-        // Fertige Builder-Instanz, Funktioniert nur zusammen mit MyWebClientConfig, aber dann klappt gar nix mehr !
-        //
-        // response = this.loadBalancedWebClientBuilder.build().get().uri("http://DATE-SERVICE/service/sysdate")
-        // .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class)).block();
-        // LOGGER.info(response.getBody());
+        LOGGER.info("callByWebClientWithLoadBalancedFunction: {}", response.strip());
     }
 
     /**
      *
      */
-    private void lookupServiceDiscovery()
+    private void callByServiceDiscovery()
     {
-        WebClient http = WebClient.builder().build();
-
-        ReactiveLoadBalancer<ServiceInstance> loadBalancer = this.serviceInstanceFactory.getInstance("DATE-SERVICE");
+        ReactiveLoadBalancer<ServiceInstance> loadBalancer = this.serviceInstanceFactory.getInstance("HELLO-SERVICE");
         Mono<Response<ServiceInstance>> chosen = Mono.from(loadBalancer.choose());
 
-        chosen.map(serviceInstance ->
-        {
-            ServiceInstance server = serviceInstance.getServer();
+        // @formatter:off
+        String url = chosen.map(serviceInstance ->
+                {
+                    ServiceInstance server = serviceInstance.getServer();
 
-            if (server == null)
-            {
-                return "";
-            }
+                    if (server == null)
+                    {
+                        return "";
+                    }
 
-            String url = "http://" + server.getHost() + ':' + server.getPort() + "/service/sysdate";
-            LOGGER.info(url);
+                    return "http://" + server.getHost() + ':' + server.getPort() + "/";
+                })
+                .block()
+                ;
+        // @formatter:on
 
-            return url;
-        }).flatMap(url -> call(http, url)).subscribe(result -> LOGGER.info("{}", result));
+        // @formatter:off
+        String response = WebClient.builder()
+                .baseUrl(url)
+                .build()
+                .get()
+                .uri("/")
+                .retrieve()
+                .bodyToMono(String.class)
+                .retryWhen(Retry.fixedDelay(2, Duration.ofMillis(100)))
+                //.timeout(Duration.ofMillis(200), Mono.just("fallback"))
+                .onErrorResume(throwable -> Mono.just("fallback"))
+                .block()
+                ;
+        // @formatter:on
+
+        LOGGER.info("callByServiceDiscovery: {}", response.strip());
     }
 
     /**
@@ -110,7 +151,19 @@ public class GatewayApplicationRunner implements ApplicationRunner
     @Override
     public void run(final ApplicationArguments args) throws Exception
     {
-        lookupServiceDiscovery();
-        checkLoadBalancer();
+        for (int i = 0; i < 4; i++)
+        {
+            callByWebClientWithLoadBalancer();
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            callByWebClientWithLoadBalancedFunction();
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            callByServiceDiscovery();
+        }
     }
 }

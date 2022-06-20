@@ -3,8 +3,6 @@ package de.freese.spring;
 
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -15,11 +13,11 @@ import org.springframework.context.annotation.ComponentScan;
  *
  * @author Thomas Freese
  */
-@SpringBootApplication(exclude =
-        {
-                GsonAutoConfiguration.class, SecurityAutoConfiguration.class
-        }) // GSON hat Fehler verursacht -->
-//// @EnableEurekaClient
+@SpringBootApplication
+//        (exclude =
+//        {
+//                GsonAutoConfiguration.class, SecurityAutoConfiguration.class
+//        }) // GSON hat Fehler verursacht -->
 @EnableDiscoveryClient
 @ComponentScan(basePackages =
         {
@@ -58,6 +56,8 @@ public class MicroServiceApplication extends SpringBootServletInitializer
     public static void main(final String[] args)
     {
         configureApplication(new SpringApplicationBuilder()).run(args);
+
+        //        SpringApplication.run(MicroServiceApplication.class, args);
     }
 
     /**

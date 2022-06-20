@@ -6,8 +6,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import de.freese.spring.gateway.MyServiceInstanceListSupplier;
-
 /**
  * @author Thomas Freese
  */
@@ -25,19 +23,20 @@ public class MyServiceInstanceListSupplierConfig
     // @Primary
     ServiceInstanceListSupplier serviceInstanceListSupplier(final ConfigurableApplicationContext context)
     {
-        final ServiceInstanceListSupplier instanceListSupplier = new MyServiceInstanceListSupplier("DATE-SERVICE-MANUELL");
+        final ServiceInstanceListSupplier instanceListSupplier = new MyServiceInstanceListSupplier();
 
-        // return instanceListSupplier;
+        return instanceListSupplier;
 
+        // Hiermit funktioniert gar nix !
         // @formatter:off
-        return ServiceInstanceListSupplier.builder()
-                //.withDiscoveryClient()
-                //.withRequestBasedStickySession()
-                .withBase(instanceListSupplier)
-                //.withBlockingHealthChecks() // RestTemplate muss vorhanden sein !
-                .withHealthChecks()
-                .build(context)
-                ;
+//        return ServiceInstanceListSupplier.builder()
+//                //.withDiscoveryClient()
+//                //.withRequestBasedStickySession()
+//                .withBase(instanceListSupplier)
+//                //.withBlockingHealthChecks() // RestTemplate muss vorhanden sein !
+//                .withHealthChecks()
+//                .build(context)
+//                ;
         // @formatter:on
     }
 }

@@ -15,24 +15,24 @@ eureka:
             defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
     instance:
         preferIpAddress: true
-        
-gateway:
-    remoteUri: http://httpbin.org:80  
-    server1: ${MICRO_SERVICE:localhost:8081}
-    servers: ${gateway.server1}, localhost:8082, localhost:8083
-    
+
 info:
     app:
         description: ${project.description}
         name: ${project.artifactId}
-        version: ${project.version}    
+        version: ${project.version}
+
+logging:
+    level:
+        root: INFO
+        org.springframework: INFO
 
 management:
     endpoints:
         enabled-by-default: true
         web:
             exposure:
-                include: '*'
+                include: "*"
                 #include: health, gateway
     endpoint:
         gateway:
@@ -40,26 +40,26 @@ management:
         health:
             enabled: true
             show-details: ALWAYS
-            
+
 server:
-   port: 8091
-   
+    port: 8091
+
 spring:
     application:
-        name: gateway-demo
+        name: api-gateway
     boot:
         admin:
             client:
                 enabled: true
                 instance:
-                   prefer-ip: true
+                    prefer-ip: true
                 url: ${ADMIN_SERVER:http://localhost:9000}
-    cloud:
-        loadbalancer:
-            ribbon:
-                enabled: false
-            health-check:
-                interval: 5s
+            cloud:
+                loadbalancer:
+                    ribbon:
+                        enabled: false
+                    health-check:
+                        interval: 5s
         #discovery:
         #    client:
         #        simple:
@@ -76,10 +76,9 @@ spring:
     boot:
         admin:
             client:
-                enabled: false 
-    profiles: test                       
+                enabled: false
+    profiles: test
 
 eureka:
     client:
         enabled: false
-              
