@@ -8,47 +8,45 @@
 #
 # multi-stage builds: https://docs.docker.com/develop/develop-images/multistage-build/
 
-# mvn -f spring-cloud-api-gateway clean package & mvn -f spring-cloud-boot-admin clean package & mvn -f spring-cloud-eureka clean package & mvn -f spring-cloud-microservice clean package;
-
 HOST=localhost
 PORT=5000
 
-mvn -f spring-cloud-api-gateway     clean package; 
-mvn -f spring-cloud-boot-admin      clean package; 
-mvn -f spring-cloud-eureka		    clean package; 
-mvn -f spring-cloud-microservice	clean package; 
+mvn -f spring-cloud-api-gateway     clean package spring-boot:repackage;
+mvn -f spring-cloud-boot-admin      clean package spring-boot:repackage;
+mvn -f spring-cloud-eureka		    clean package spring-boot:repackage;
+mvn -f spring-cloud-microservice	clean package spring-boot:repackage;
 
-# Image bauen
+# Image bauen mit Version.
 docker build --tag=spring-cloud-api-gateway:1		spring-cloud-api-gateway;
 docker build --tag=spring-cloud-boot-admin:1		spring-cloud-boot-admin;
 docker build --tag=spring-cloud-eureka:1			spring-cloud-eureka;
 docker build --tag=spring-cloud-microservice:1      spring-cloud-microservice;
 
-# Version taggen
+# Image taggen als aktuellste Version.
 docker tag spring-cloud-api-gateway:1		spring-cloud-api-gateway:latest;
 docker tag spring-cloud-boot-admin:1		spring-cloud-boot-admin:latest;
 docker tag spring-cloud-eureka:1			spring-cloud-eureka:latest;
 docker tag spring-cloud-microservice:1      spring-cloud-microservice:latest;
 
-# Für eigene Registry taggen
+# Für eigene Registry taggen.
 docker tag spring-cloud-api-gateway:latest      $HOST:$PORT/spring-cloud-api-gateway:latest;
 docker tag spring-cloud-boot-admin:latest		$HOST:$PORT/spring-cloud-boot-admin:latest;
 docker tag spring-cloud-eureka:latest			$HOST:$PORT/spring-cloud-eureka:latest;
 docker tag spring-cloud-microservice:latest     $HOST:$PORT/spring-cloud-microservice:latest;
 
-# In die eigene Registry pushen
+# In die eigene Registry pushen.
 docker push $HOST:$PORT/spring-cloud-api-gateway:latest;
 docker push $HOST:$PORT/spring-cloud-boot-admin:latest;
 docker push $HOST:$PORT/spring-cloud-eureka:latest;
 docker push $HOST:$PORT/spring-cloud-microservice:latest;
 
-# Lokale Images löschen
+# Lokale Images löschen.
 docker image remove -f spring-cloud-api-gateway		spring-cloud-api-gateway:1     $HOST:$PORT/spring-cloud-api-gateway:latest;
 docker image remove -f spring-cloud-boot-admin		spring-cloud-boot-admin:1      $HOST:$PORT/spring-cloud-boot-admin:latest;
 docker image remove -f spring-cloud-eureka			spring-cloud-eureka:1          $HOST:$PORT/spring-cloud-eureka:latest;
 docker image remove -f spring-cloud-microservice	spring-cloud-microservice:1    $HOST:$PORT/spring-cloud-microservice:latest;
 
-# Image aus eigener Registry neu laden (Kontrolle)
+# Image aus eigener Registry neu laden (Kontrolle).
 docker pull $HOST:$PORT/spring-cloud-api-gateway:latest;
 docker pull $HOST:$PORT/spring-cloud-boot-admin:latest;
 docker pull $HOST:$PORT/spring-cloud-eureka:latest;

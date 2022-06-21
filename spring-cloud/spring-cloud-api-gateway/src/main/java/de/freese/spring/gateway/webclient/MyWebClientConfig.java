@@ -3,9 +3,6 @@ package de.freese.spring.gateway.webclient;
 
 import java.util.concurrent.TimeUnit;
 
-import de.codecentric.boot.admin.client.config.ClientProperties;
-import de.codecentric.boot.admin.client.registration.ReactiveRegistrationClient;
-import de.codecentric.boot.admin.client.registration.RegistrationClient;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
@@ -14,6 +11,7 @@ import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
@@ -22,17 +20,43 @@ import reactor.netty.http.client.HttpClient;
  * @author Thomas Freese
  */
 @Configuration
-@LoadBalancerClient(name = "HELLO-SERVICE", configuration = MyServiceInstanceListSupplierConfig.class)
+@LoadBalancerClient(name = "HELLO-SERVICE")//, configuration = HelloServiceInstanceListSupplierConfig.class)
 public class MyWebClientConfig
 {
+    /**
+     * Siehe unten "Bugfix: ReactiveRegistrationClient".<br>
+     * Ein Default-WebClient wird immer benötigt.
+     *
+     * @return WebClient.Builder
+     */
+    @Bean
+    @Primary
+    WebClient.Builder webClientBuilder()
+    {
+        // @formatter:off
+        HttpClient httpClient = HttpClient.create()
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000)
+                .doOnConnected(connection ->
+                        connection
+                                .addHandlerLast(new ReadTimeoutHandler(2, TimeUnit.SECONDS))
+                                .addHandlerLast(new WriteTimeoutHandler(2, TimeUnit.SECONDS))
+                )
+                ;
+
+        return WebClient.builder()
+                .clientConnector(new ReactorClientHttpConnector(httpClient))
+                ;
+        // @formatter:on
+    }
+
     /**
      * @return WebClient.Builder
      *
      * @see LoadBalancerClientConfiguration
      */
-    @LoadBalanced
     @Bean
-    WebClient.Builder webClientBuilder()
+    @LoadBalanced
+    WebClient.Builder webClientBuilderLoadBalanced()
     {
         // @formatter:off
         HttpClient httpClient = HttpClient.create()
@@ -63,14 +87,14 @@ public class MyWebClientConfig
     //        return new RandomLoadBalancer(loadBalancerClientFactory.getLazyProvider(name, ServiceInstanceListSupplier.class), name);
     //    }
 
-    /**
-     * Bugfix: ReactiveRegistrationClient von boot.admin funktioniert nicht mit LoadBalanced WebClient.
-     *
-     * @see de.codecentric.boot.admin.client.config.SpringBootAdminClientAutoConfiguration.ReactiveRegistrationClientConfig
-     */
-    @Bean
-    public RegistrationClient registrationClient(ClientProperties client)
-    {
-        return new ReactiveRegistrationClient(WebClient.builder().build(), client.getReadTimeout());
-    }
+    //    /**
+    //     * Bugfix: ReactiveRegistrationClient von boot.admin funktioniert nicht mit LoadBalanced WebClient.
+    //     *
+    //     * @see de.codecentric.boot.admin.client.config.SpringBootAdminClientAutoConfiguration.ReactiveRegistrationClientConfig
+    //     */
+    //    @Bean
+    //    public RegistrationClient registrationClient(ClientProperties client)
+    //    {
+    //        return new ReactiveRegistrationClient(WebClient.builder().build(), client.getReadTimeout());
+    //    }
 }

@@ -30,7 +30,7 @@ services:
             dockerfile: Dockerfile
         image: spring-resilience:latest
         ports:
-            - 8080:8080
+            - "8080:8080"
         restart: unless-stopped
         deploy:
             resources:
@@ -48,7 +48,7 @@ services:
         image: prom/prometheus:latest
         container_name: prometheus
         ports:
-            - 9090:9090
+            - "9090:9090"
         volumes:
             - ./prometheus.yml:/etc/prometheus/prometheus.yml
             - "/etc/timezone:/etc/timezone:ro"
@@ -79,7 +79,7 @@ services:
         image: grafana/grafana:latest
         container_name: grafana
         ports:
-            - 3000:3000
+            - "3000:3000"
         volumes:
             - "/etc/timezone:/etc/timezone:ro"
             - "/etc/localtime:/etc/localtime:ro"

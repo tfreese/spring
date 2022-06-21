@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.annotation.Resource;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -19,15 +20,10 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  */
 // @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT
-        // , properties =
-        // {
-        // "httpbin=http://localhost:${wiremock.server.port}"
-        // }
 )
-// @AutoConfigureWireMock(port = 0)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
-        //@Disabled("Funktioniert nur zusammen mit spring-eureka und spring-microservice")
+@Disabled("Funktioniert nur zusammen mit spring-eureka und spring-microservice")
 class GatewayTest
 {
     /**
@@ -114,6 +110,7 @@ class GatewayTest
      * Funktioniert nur zusammen mit spring-eureka und spring-microservice.
      */
     @Test
+    @Disabled
     void testHelloLbManuell()
     {
         // @formatter:off

@@ -91,11 +91,11 @@ public class GatewayApplication
                       .customize(asyncBuilder -> asyncBuilder.id("loadbalancer_route"))
                       .uri("lb://HELLO-SERVICE") // Kommt von Eureka
                     )
-                .route(p -> p.path("/lbman/**")
-                        .filters(f -> f.rewritePath("/lbman", "/"))
-                        .customize(asyncBuilder -> asyncBuilder.id("loadbalancer_route_manuell"))
-                        .uri("lb://HELLO-SERVICE-MANUELL") // Kommt von MyServiceInstanceListSupplierConfig
-                      )
+//                .route(p -> p.path("/lbman/**")
+//                        .filters(f -> f.rewritePath("/lbman", "/"))
+//                        .customize(asyncBuilder -> asyncBuilder.id("loadbalancer_route_manuell"))
+//                        .uri("lb://HELLO-SERVICE-MANUELL") // Kommt von MyServiceInstanceListSupplierConfig
+//                      )
                 .build();
         // @formatter:on
     }

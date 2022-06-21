@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import javax.annotation.Resource;
 
 import de.freese.spring.MicroServiceApplication;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -19,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 /**
  * @author Thomas Freese
@@ -76,10 +74,8 @@ class TestRestController
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 //          .andDo(MockMvcResultHandlers.print())
-            .andExpect(content().string("true"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$").value("true")) // Alternative zu string("true")
-            .andExpect(MockMvcResultMatchers.jsonPath("$").value(Matchers.is(true))); // Alternative zu string("true")
-
+            .andExpect(content().string(containsString("Ping from")))
+            ;
 //        this.webClient.get().repository("/")
 //            .exchange()
 //            .expectStatus().isOk()

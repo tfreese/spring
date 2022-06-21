@@ -3,47 +3,13 @@
 # https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-# direkt: curl http://localhost:8081/service/sysdate
-# addrequestheader_route:    curl http://localhost:9999/get
-# rewritepath_route:         curl http://localhost:9999/sysdate 
-# loadbalancer_eureka:       curl http://localhost:9999/sysdatelb/service/sysdate
-# loadbalancer_manuel:       curl http://localhost:9999/sysdatelbmanuell/service/sysdate
-# hystrix_route:             curl --dump-header - --header 'Host: www.hystrix.com' http://localhost:9999/delay/3
- 
-debug: false
-
-server:
-   port: 9999
-
-gateway:
-    remoteUri: http://httpbin.org:80  
-    server1: ${MICRO_SERVICE:localhost:8081}
-    servers: ${gateway.server1}, localhost:8082, localhost:8083
-    
-info:
-    app:
-        description: ${project.description}
-        name: ${project.artifactId}
-        version: ${project.version}    
-       
-eureka:
-    client:
-        enabled: true
-        healthcheck:
-            enabled: true
-        registerWithEureka: true
-        serviceUrl:
-            defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
-    instance:
-        preferIpAddress: true        
-
 spring:
     boot:
         admin:
             client:
                 enabled: true
                 instance:
-                   prefer-ip: true
+                    prefer-ip: true
                 url: ${ADMIN_SERVER:http://localhost:9000}
     cloud:
         config:
@@ -53,89 +19,46 @@ spring:
             metrics:
                 enabled: true
             routes:
-         
-                - id: addrequestheader_route
-                  # Demo für httpbin.org
-                  uri: ${gateway.remoteUri}
-                  predicates:
-                  - Path=/get
-                  filters:
-                  - AddRequestHeader=Hello, World
-              
-                - id: rewritepath_route
-                  # Einfache Weiterleitung
-                  #- RewritePath=/articles/(?<articleId>.*), /$\{articleId} 
-                  uri: http://${gateway.server1}
-                  predicates:
-                  - Path=/sysdate
-                  filters:                    
-                  - RewritePath=/sysdate, /service/sysdate
-              
-                - id: loadbalancer_eureka
-                  # Eureka LoadBalancer, nur wenn ribbon.eureka.enabled = true
-                  # /sysdatelb/service/sysdate -> /service/sysdate
-                  uri: lb://date-service
-                  predicates:
-                  - Path=/sysdatelb/**
-                  filters:                  
-                  - StripPrefix=1 
-                                
-                - id: loadbalancer_manuell
-                  # Manueller LoadBalancer, nur wenn ribbon.eureka.enabled = false
-                  # /sysdatelbmanuell -> /service/sysdate
-                  uri: lb://date-service-manuell
-                  predicates:
-                  - Path=/sysdatelbmanuell
-                  filters:
-                  - RewritePath=/sysdatelbmanuell, /service/sysdate             
-              
-                - id: circuitbreaker_route
-                  uri: ${gateway.remoteUri}
-                  predicates:
-                  - Host=*.circuitbreaker.com
-                  filters:
-                  - name: circuitbreaker
-                    args:
-                      name: mycmd
-                      fallbackUri: forward:/fallback                  
 
-ribbon:
-    eureka:
-        # Umschalten zwischen manueller und eureka LoadBalancer.
-        enabled: ${ENABLE_EUREKA:true}
-                     
-date-service-manuell:
-    ribbon:
-        listOfServers: ${gateway.servers}
-   
-management:
-    endpoints:
-        enabled-by-default: true
-        web:
-            exposure:
-                include: '*'
-                #include: health, gateway
-    endpoint:
-        gateway:
-            enabled: true
-        health:
-            enabled: true
-            show-details: ALWAYS
+                -   id: addrequestheader_route
+                    # Demo für httpbin.org
+                    uri: http://httpbin.org:80
+                    predicates:
+                        - Path=/get
+                    filters:
+                        - AddRequestHeader=Hello, World
+                        -
+                -   id: circuitbreaker_route
+                    uri: http://httpbin.org:80
+                    predicates:
+                        - Host=*.circuitbreaker.com
+                    filters:
+                        -   name: circuitbreaker
+                            args:
+                                name: mycmd
+                                fallbackUri: forward:/fallback
 
----
+                -   id: rewritepath_route
+                    # Einfache Weiterleitung
+                    uri: "http://localhost:8081"
+                    predicates:
+                        - Path=/hello
+                    filters:
+                        - RewritePath="/hello(?<segment>/?.*)", "/${segment}"
 
-spring:
-    boot:
-        admin:
-            client:
-                enabled: false 
-    profiles: test                       
+                -   id: loadbalancer_eureka
+                    # Eureka LoadBalancer, nur wenn ribbon.eureka.enabled = true
+                    # /sysdatelb/service/sysdate -> /service/sysdate
+                    uri: lb://HELLO-SERVICE
+                    predicates:
+                        - Path=/lb/**
+                    filters:
+                        - StripPrefix=1
 
-eureka:
-    client:
-        enabled: false
-        
-ribbon:
-    eureka:
-        enabled: false
-              
+                -   id: loadbalancer_manuell
+                    # Manueller LoadBalancer, nur wenn ribbon.eureka.enabled = false
+                    uri: lb://HELLO-SERVICE-MANUELL
+                    predicates:
+                        - Path=/lbman
+                    filters:
+                        - RewritePath=/lbman, /

@@ -12,21 +12,21 @@ import reactor.core.publisher.Flux;
  * @author Thomas Freese
  * @see "https://www.baeldung.com/spring-cloud-load-balancer"
  */
-class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier
+class HelloServiceInstanceListSupplier implements ServiceInstanceListSupplier
 {
     /**
      *
      */
-    public static final String SERVICE_ID = "DATE-SERVICE-MANUELL";
+    public static final String SERVICE_ID = "HELLO-SERVICE-MANUELL";
     /**
      *
      */
     private final List<ServiceInstance> instances;
 
     /**
-     * Erstellt ein neues {@link MyServiceInstanceListSupplier} Object.
+     * Erstellt ein neues {@link HelloServiceInstanceListSupplier} Object.
      */
-    MyServiceInstanceListSupplier()
+    HelloServiceInstanceListSupplier()
     {
         super();
 

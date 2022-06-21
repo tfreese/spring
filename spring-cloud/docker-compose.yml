@@ -5,14 +5,11 @@
 # docker run -i -t --name container2 --net=my-fancy-network --net-alias=container2 ubuntu:trusty /bin/bash
 # Die Container können sich nun untereinander über ihre Aliasnamen ansprechen (HTTP://container1), keine IPs verwenden !
 
-# docker image remove -f spring-cloud-api-gateway;
-# mvn clean package;
-# docker-compose up -p "test" --scale spring-cloud-microservice=3 --remove-orphans;
+# docker-compose --file docker-compose.yml up --build --scale spring-cloud-microservice=3 --remove-orphans;
+# docker-compose up --build --scale spring-cloud-microservice=3 --remove-orphans;
 # docker-compose down;
 # docker-compose rm;
 
-# docker-compose build;
-# docker-compose up --build -d;
 # docker-compose ps;
 # docker logs ID/NAME;
 
@@ -32,8 +29,10 @@ services:
             dockerfile: Dockerfile
         image: spring-cloud-boot-admin:latest
         ports:
-            - 9000:9000
-        restart: unless-stopped
+            - "9000:9000"
+        restart: "no"
+        networks:
+            - spring-cloud-network
 
     spring-cloud-eureka:
         container_name: spring-cloud-eureka
@@ -45,8 +44,10 @@ services:
             - VM_PARAMS=
                 -DADMIN_SERVER=http://spring-cloud-boot-admin:9000
         ports:
-            - 8761:8761
-        restart: unless-stopped
+            - "8761:8761"
+        restart: "no"
+        networks:
+            - spring-cloud-network
 
     spring-cloud-microservice:
         # Kein 'container_name' möglich wegen Scaling: docker-compose up --scale spring-cloud-microservice=3
@@ -61,25 +62,32 @@ services:
                 -Xmx128m
                 -DEUREKA_SERVER=http://spring-cloud-eureka:8761/eureka
                 -DADMIN_SERVER=http://spring-cloud-boot-admin:9000
+        ports:
+            - "18888-19000:8888"
         depends_on:
             - spring-cloud-boot-admin
             - spring-cloud-eureka
-        restart: unless-stopped
+        restart: "no"
+        networks:
+            - spring-cloud-network
 
-    haproxy-loadbalancer:
-        image: "${HAPROXY_IMAGE:-dockercloud/haproxy:latest}"
-        #image: "${HAPROXY_IMAGE:-localhost:5083/haproxy:latest}"
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-        ports:
-            - 8090:80
-        depends_on:
-            - spring-cloud-microservice
-        links:
-            - spring-cloud-microservice
-        restart: unless-stopped
+    #    haproxy-loadbalancer:
+    #        image: "${HAPROXY_IMAGE:-dockercloud/haproxy:latest}"
+    #        #image: "${HAPROXY_IMAGE:-localhost:5083/haproxy:latest}"
+    #        volumes:
+    #            - /var/run/docker.sock:/var/run/docker.sock
+    #        ports:
+    #            - "8090:80"
+    #        depends_on:
+    #            - spring-cloud-microservice
+    #        links:
+    #            - spring-cloud-microservice
+    #        restart: "no"
+    #        networks:
+    #            - spring-cloud-network
 
     spring-cloud-api-gateway:
+        container_name: spring-cloud-api-gateway
         build:
             context: ./spring-cloud-api-gateway
             dockerfile: Dockerfile
@@ -90,19 +98,25 @@ services:
                 -Xmx128m
                 -DEUREKA_SERVER=http://spring-cloud-eureka:8761/eureka
                 -DADMIN_SERVER=http://spring-cloud-boot-admin:9000
-                -DMICRO_SERVICE=haproxy-loadbalancer:80
+            #-DMICRO_SERVICE=haproxy-loadbalancer:80
         ports:
-            - 8091:8091
+            - "8091:8091"
         depends_on:
             - spring-cloud-boot-admin
             - spring-cloud-eureka
             - spring-cloud-microservice
-            - haproxy-loadbalancer
-        restart: unless-stopped
+            #- haproxy-loadbalancer
+        restart: "no"
+        networks:
+            - spring-cloud-network
+
+networks:
+    spring-cloud-network:
+        driver: bridge
 
 
-          # localhost im Docker-Netz finden:
-          # ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1;
+        # localhost im Docker-Netz finden:
+        # ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1;
 
 
         #image: localhost:5000/spring-cloud-microservice:latest

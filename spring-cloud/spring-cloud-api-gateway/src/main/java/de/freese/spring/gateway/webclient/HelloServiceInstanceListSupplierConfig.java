@@ -3,14 +3,12 @@ package de.freese.spring.gateway.webclient;
 
 import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Thomas Freese
  */
-@Configuration
-public class MyServiceInstanceListSupplierConfig
+//@Configuration
+public class HelloServiceInstanceListSupplierConfig
 {
     /**
      * Alternative: Konfiguration in application.yml
@@ -19,24 +17,25 @@ public class MyServiceInstanceListSupplierConfig
      *
      * @return {@link ServiceInstanceListSupplier}
      */
-    @Bean
-    // @Primary
+    //    @Bean
+    ////@Primary
     ServiceInstanceListSupplier serviceInstanceListSupplier(final ConfigurableApplicationContext context)
     {
-        final ServiceInstanceListSupplier instanceListSupplier = new MyServiceInstanceListSupplier();
+        final ServiceInstanceListSupplier instanceListSupplier = new HelloServiceInstanceListSupplier();
 
         return instanceListSupplier;
 
-        // Hiermit funktioniert gar nix !
-        // @formatter:off
+        //        // @formatter:off
 //        return ServiceInstanceListSupplier.builder()
 //                //.withDiscoveryClient()
-//                //.withRequestBasedStickySession()
 //                .withBase(instanceListSupplier)
 //                //.withBlockingHealthChecks() // RestTemplate muss vorhanden sein !
-//                .withHealthChecks()
+//                //.withHealthChecks() // Funktioniert nicht !
+//                //.withHealthChecks(WebClient.builder().build()) // Funktioniert nicht !
+//                //.withCaching()
+//                //.withRequestBasedStickySession()
 //                .build(context)
 //                ;
-        // @formatter:on
+//        // @formatter:on
     }
 }
