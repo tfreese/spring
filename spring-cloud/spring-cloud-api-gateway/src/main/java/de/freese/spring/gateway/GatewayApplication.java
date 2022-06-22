@@ -1,6 +1,8 @@
 // Created: 09.02.2019
 package de.freese.spring.gateway;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -39,8 +41,11 @@ public class GatewayApplication
     /**
      * @param args String[]
      */
-    public static void main(final String[] args)
+    public static void main(final String[] args) throws InterruptedException
     {
+        // Warten bis sich die MicroServices bei Eureka registriert haben.
+        TimeUnit.SECONDS.sleep(15);
+
         SpringApplication.run(GatewayApplication.class, args);
     }
 

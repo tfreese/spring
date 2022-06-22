@@ -1,9 +1,9 @@
 // Created: 10.10.2017
 package de.freese.spring.boot.admin;
 
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import de.codecentric.boot.admin.server.config.EnableAdminServer;
 
 /**
  * @author Thomas Freese

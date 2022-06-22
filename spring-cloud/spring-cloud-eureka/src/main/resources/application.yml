@@ -6,15 +6,16 @@
 
 eureka:
     client:
-        fetchRegistry: false  
-        registerWithEureka: false
+        fetchRegistry: false
+        register-with-eureka: false
+        region: eu-west-1
 
 info:
     app:
         description: ${project.description}
         name: ${project.artifactId}
-        version: ${project.version} 
-        
+        version: ${project.version}
+
 management:
     endpoints:
         enabled-by-default: true
@@ -29,8 +30,8 @@ management:
 server:
     port: 8761
     #servlet:
-        #context-path: /eureka
-        
+    #context-path: /eureka
+
 spring:
     application:
         name: eureka-server
@@ -39,32 +40,5 @@ spring:
             client:
                 enabled: true
                 instance:
-                   prefer-ip: true
+                    prefer-ip: true
                 url: ${ADMIN_SERVER:http://localhost:9000}        
-        
----
-
-spring:
-    profiles: detailed
-   
-eureka:
-    client:
-        #lease:
-            #duration: 5
-        # Sich selbst nirgendwo als Client registrieren (No Replication, Standalone Mode).  
-        registerWithEureka: false
-        serviceUrl:
-            defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
-    instance:
-        hostname: eureka
-        #leaseRenewalIntervalInSeconds: 10
-        #leaseExpirationDurationInSeconds: 20
-        healthCheckUrlPath: health
-        statusPageUrlPath: info
-    server:
-        #renewalPercentThreshold: 0.5
-        enableSelfPreservation: true
-        #waitTimeInMsWhenSyncEmpty: 0
-
-
-    

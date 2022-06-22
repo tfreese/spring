@@ -10,7 +10,7 @@ eureka:
         enabled: true
         healthcheck:
             enabled: true
-        registerWithEureka: false
+        register-with-eureka: false
         serviceUrl:
             defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
     instance:
@@ -54,12 +54,19 @@ spring:
                 instance:
                     prefer-ip: true
                 url: ${ADMIN_SERVER:http://localhost:9000}
-            cloud:
-                loadbalancer:
-                    ribbon:
-                        enabled: false
-                    health-check:
-                        interval: 5s
+    cloud:
+        loadbalancer:
+            health-check:
+                interval: 5s
+            cache:
+                ttl: 10s
+            retry:
+                enabled: true
+                max-retries-on-next-service-instance: 2
+                max-retries-on-same-service-instance: 2
+            ribbon:
+                enabled: false
+
         #discovery:
         #    client:
         #        simple:

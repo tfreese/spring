@@ -11,10 +11,10 @@
 HOST=localhost
 PORT=5000
 
-mvn -f spring-cloud-api-gateway     clean package spring-boot:repackage;
-mvn -f spring-cloud-boot-admin      clean package spring-boot:repackage;
-mvn -f spring-cloud-eureka		    clean package spring-boot:repackage;
-mvn -f spring-cloud-microservice	clean package spring-boot:repackage;
+mvn -f spring-cloud-api-gateway     clean package;
+mvn -f spring-cloud-boot-admin      clean package;
+mvn -f spring-cloud-eureka		    clean package;
+mvn -f spring-cloud-microservice	clean package;
 
 # Image bauen mit Version.
 docker build --tag=spring-cloud-api-gateway:1		spring-cloud-api-gateway;

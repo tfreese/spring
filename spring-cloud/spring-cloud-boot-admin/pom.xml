@@ -3,62 +3,63 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.freese.spring</groupId>
-		<artifactId>spring-cloud</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>de.freese.spring</groupId>
+        <artifactId>spring-cloud</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>spring-cloud-boot-admin</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>spring-cloud-boot-admin</artifactId>
+    <packaging>jar</packaging>
 
-	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>Monitor für Spring-Boot Anwendungen</description>
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Monitor für Spring-Boot Anwendungen</description>
 
-	<properties>
-	</properties>
+    <properties>
+    </properties>
 
-	<build>
-		<plugins>
-			<plugin>
-				<!-- spring-boot:run, clean package spring-boot:repackage für executable
-					jar -->
-				<!--jvmArguments>
-					-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
-					</jvmArguments -->
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<mainClass>de.freese.spring.boot.admin.SpringBootAdminApplication</mainClass>
-					<layout>ZIP</layout>
-					<classifier>jar-with-dependencies</classifier>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <!-- spring-boot:run -->
+                <!-- spring-boot:repackage für executable jar -->
+                <!-- mvn package enthält hiermit schon spring-boot:repackage-->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>de.freese.spring.boot.admin.SpringBootAdminApplication</mainClass>
+                    <layout>ZIP</layout>
+                    <classifier>jar-with-dependencies</classifier>
+                    <!--jvmArguments>
+                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+                        </jvmArguments -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-	<dependencies>
-		<!-- compile scope -->
-		<dependency>
-			<groupId>de.codecentric</groupId>
-			<artifactId>spring-boot-admin-starter-server</artifactId>
-		</dependency>
+    <dependencies>
+        <!-- compile scope -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-server</artifactId>
+        </dependency>
 
-		<!-- runtime scope -->
+        <!-- runtime scope -->
         <!--dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
             <scope>runtime</scope>
         </dependency-->
-        		
-		<!-- provided scope -->
-		<!-- test scope -->
-	</dependencies>
+
+        <!-- provided scope -->
+        <!-- test scope -->
+    </dependencies>
 </project>

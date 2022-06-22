@@ -19,6 +19,17 @@
 # multi-stage builds: https://docs.docker.com/develop/develop-images/multistage-build/
 # https://github.com/benwilcock/spring-cloud-gateway-demo
 
+
+# Direkt nach dem Hochfahren funktioniert das API-Gateway noch nicht,
+# da sich die Micro-Services erst beim EUREKA registrieren müssen,
+# und das API-Gateway sich die aktuelle Server-Liste ziehen muss !
+# Das dauert ca. 10 Sekunden !
+# Und da alle Container parallel gestartet werden klappt das initial leider nicht.
+# Mögliche Lösung:
+# - Boot-Admin normal starten
+# - Eureka normal starten
+# - MicroServices mit 5 Sekunden Delay starten
+# - API-GATEWAY mit 10 Sekunden Delay starten
 version: '3'
 services:
 

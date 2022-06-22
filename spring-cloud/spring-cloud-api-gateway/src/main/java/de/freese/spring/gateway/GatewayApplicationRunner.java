@@ -12,8 +12,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.Response;
+import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancedExchangeFilterFunction;
 import org.springframework.cloud.client.loadbalancer.reactive.ReactiveLoadBalancer;
-import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -37,7 +37,7 @@ public class GatewayApplicationRunner implements ApplicationRunner
      *
      */
     @Resource
-    private ReactorLoadBalancerExchangeFilterFunction loadBalancedFunction;
+    private LoadBalancedExchangeFilterFunction loadBalancedFunction;
     /**
      *
      */
