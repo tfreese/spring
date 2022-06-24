@@ -34,7 +34,7 @@ server:
 
 spring:
     application:
-        name: eureka-server
+        name: cloud-eureka-server
     boot:
         admin:
             client:

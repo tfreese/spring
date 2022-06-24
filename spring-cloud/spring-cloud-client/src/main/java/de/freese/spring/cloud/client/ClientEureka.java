@@ -1,5 +1,5 @@
 // Created: 14.02.2017
-package de.freese.spring;
+package de.freese.spring.cloud.client;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
@@ -8,7 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  *
  * @author Thomas Freese
  */
-public class MicroService1
+public class ClientEureka
 {
     /**
      * @param args String[]
@@ -16,10 +16,8 @@ public class MicroService1
     public static void main(final String[] args)
     {
         // @formatter:off
-        new SpringApplicationBuilder(MicroServiceApplication.class)
-                //.properties("server.port=8081") // Funktioniert nicht, wenn server.port in application.yml enthalten ist.
-                //.run(args);
-                .run("--server.port=8081");
+        new SpringApplicationBuilder(ClientApplication.class)
+                .run("--spring.profiles.active=eureka");
         // @formatter:on
     }
 }

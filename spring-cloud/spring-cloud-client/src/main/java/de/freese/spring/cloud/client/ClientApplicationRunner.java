@@ -1,9 +1,8 @@
 // Created: 10.10.2021
-package de.freese.spring.gateway;
+package de.freese.spring.cloud.client;
 
 import java.time.Duration;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -15,29 +14,32 @@ import org.springframework.cloud.client.loadbalancer.Response;
 import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancedExchangeFilterFunction;
 import org.springframework.cloud.client.loadbalancer.reactive.ReactiveLoadBalancer;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import reactor.util.retry.Retry;
 
 /**
  * @author Thomas Freese
  */
 @Component
-@Order(1)
+//@Order(Ordered.LOWEST_PRECEDENCE)
 @Profile("!test")
-public class GatewayApplicationRunner implements ApplicationRunner
+public class ClientApplicationRunner implements ApplicationRunner
 {
     /**
      *
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(GatewayApplicationRunner.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientApplicationRunner.class);
     /**
      *
      */
     @Resource
     private LoadBalancedExchangeFilterFunction loadBalancedFunction;
+    /**
+     *
+     */
+    @Resource
+    private ReactiveLoadBalancer.Factory<ServiceInstance> serviceInstanceFactory;
     /**
      *
      */
@@ -48,34 +50,32 @@ public class GatewayApplicationRunner implements ApplicationRunner
      */
     @Resource
     private WebClient.Builder webClientBuilderLoadBalanced;
-    /**
-     *
-     */
-    private WebClient webClient;
-    /**
-     *
-     */
-    private WebClient webClientWithLoadBalancedFunction;
-    /**
-     *
-     */
-    private WebClient webClientLoadBalanced;
-    /**
-     *
-     */
-    @Resource
-    private ReactiveLoadBalancer.Factory<ServiceInstance> serviceInstanceFactory;
 
     /**
-     *
+     * @see ApplicationRunner#run(ApplicationArguments)
      */
-    @PostConstruct
-    void postConstruct()
+    @Override
+    public void run(final ApplicationArguments args) throws Exception
     {
         // Die Erzeugung im Konstruktor funktioniert nicht, da dort die WebClient.Builder noch nicht fertig konfiguriert sind.
-        this.webClient = webClientBuilder.build();
-        this.webClientWithLoadBalancedFunction = webClientBuilder.clone().filter(this.loadBalancedFunction).baseUrl("http://HELLO-SERVICE").build();
-        this.webClientLoadBalanced = webClientBuilderLoadBalanced.clone().baseUrl("http://HELLO-SERVICE").build();
+        WebClient webClient = webClientBuilder.build();
+        WebClient webClientLoadBalanced = webClientBuilderLoadBalanced.clone().baseUrl("http://CLOUD-HELLO-SERVICE").build();
+        WebClient webClientWithLoadBalancedFunction = webClientBuilder.clone().baseUrl("http://CLOUD-HELLO-SERVICE").filter(this.loadBalancedFunction).build();
+
+        for (int i = 0; i < 4; i++)
+        {
+            runServiceDiscovery(webClient);
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            runWebClientWithLoadBalancer(webClientLoadBalanced);
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            runWebClientWithLoadBalancedFunction(webClientWithLoadBalancedFunction);
+        }
     }
 
     private String call(WebClient webClient, String uri)
@@ -99,7 +99,7 @@ public class GatewayApplicationRunner implements ApplicationRunner
                 .uri(uri)
                 .retrieve()
                 .bodyToMono(String.class)
-                .retryWhen(Retry.fixedDelay(2, Duration.ofMillis(200)))
+                //.retryWhen(Retry.fixedDelay(2, Duration.ofMillis(200)))
                 .timeout(Duration.ofMillis(1000), Mono.just("fallback"))
                 .onErrorResume(throwable -> {
                     LOGGER.error(throwable.getMessage());
@@ -114,29 +114,9 @@ public class GatewayApplicationRunner implements ApplicationRunner
     /**
      *
      */
-    private void callByWebClientWithLoadBalancer()
+    private void runServiceDiscovery(WebClient webClient)
     {
-        String response = call(this.webClientLoadBalanced, "/");
-
-        LOGGER.info("callByWebClientWithLoadBalancer: {}", response.strip());
-    }
-
-    /**
-     *
-     */
-    private void callByWebClientWithLoadBalancedFunction()
-    {
-        String response = call(this.webClientWithLoadBalancedFunction, "/");
-
-        LOGGER.info("callByWebClientWithLoadBalancedFunction: {}", response.strip());
-    }
-
-    /**
-     *
-     */
-    private void callByServiceDiscovery()
-    {
-        ReactiveLoadBalancer<ServiceInstance> loadBalancer = this.serviceInstanceFactory.getInstance("HELLO-SERVICE");
+        ReactiveLoadBalancer<ServiceInstance> loadBalancer = this.serviceInstanceFactory.getInstance("CLOUD-HELLO-SERVICE");
 
         // @formatter:off
         String url = Mono.from(loadBalancer.choose())
@@ -152,30 +132,28 @@ public class GatewayApplicationRunner implements ApplicationRunner
                 ;
         // @formatter:on
 
-        String response = call(this.webClient, url);
+        String response = call(webClient, url);
 
-        LOGGER.info("callByServiceDiscovery: {}", response.strip());
+        LOGGER.info("runServiceDiscovery: {}", response.strip());
     }
 
     /**
-     * @see org.springframework.boot.ApplicationRunner#run(org.springframework.boot.ApplicationArguments)
+     *
      */
-    @Override
-    public void run(final ApplicationArguments args) throws Exception
+    private void runWebClientWithLoadBalancedFunction(WebClient webClient)
     {
-        for (int i = 0; i < 4; i++)
-        {
-            callByWebClientWithLoadBalancer();
-        }
+        String response = call(webClient, "/");
 
-        for (int i = 0; i < 4; i++)
-        {
-            callByWebClientWithLoadBalancedFunction();
-        }
+        LOGGER.info("runWebClientWithLoadBalancedFunction: {}", response.strip());
+    }
 
-        for (int i = 0; i < 4; i++)
-        {
-            callByServiceDiscovery();
-        }
+    /**
+     *
+     */
+    private void runWebClientWithLoadBalancer(WebClient webClient)
+    {
+        String response = call(webClient, "/");
+
+        LOGGER.info("runWebClientWithLoadBalancer: {}", response.strip());
     }
 }

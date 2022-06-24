@@ -1,5 +1,5 @@
 // Created: 14.02.2017
-package de.freese.spring;
+package de.freese.spring.cloud.microservice;
 
 import java.util.concurrent.TimeUnit;
 
@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Startklasse des Servers.<br>
@@ -16,15 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author Thomas Freese
  */
 @SpringBootApplication
-//        (exclude =
-//        {
-//                GsonAutoConfiguration.class, SecurityAutoConfiguration.class
-//        }) // GSON hat Fehler verursacht -->
 @EnableDiscoveryClient
-@ComponentScan(basePackages =
-        {
-                "de.freese.spring"
-        })
 public class MicroServiceApplication extends SpringBootServletInitializer
 {
     /**

@@ -23,6 +23,7 @@
 		<module>spring-cloud-boot-admin</module>
 		<module>spring-cloud-eureka</module>
 		<module>spring-cloud-microservice</module>
-	</modules>
+        <module>spring-cloud-client</module>
+    </modules>
 
 </project>

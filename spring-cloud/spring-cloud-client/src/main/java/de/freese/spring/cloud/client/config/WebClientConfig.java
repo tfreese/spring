@@ -1,5 +1,5 @@
 // Created: 10.10.2021
-package de.freese.spring.gateway.webclient;
+package de.freese.spring.cloud.client.config;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,8 +20,9 @@ import reactor.netty.http.client.HttpClient;
  * @author Thomas Freese
  */
 @Configuration
-@LoadBalancerClient(name = "HELLO-SERVICE")//, configuration = HelloServiceInstanceListSupplierConfig.class)
-public class MyWebClientConfig
+@LoadBalancerClient(name = "CLOUD-HELLO-SERVICE")
+//@Profile("manuell")
+public class WebClientConfig
 {
     /**
      * Siehe unten "Bugfix: ReactiveRegistrationClient".<br>

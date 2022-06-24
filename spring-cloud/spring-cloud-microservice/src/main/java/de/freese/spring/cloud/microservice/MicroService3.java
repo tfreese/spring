@@ -1,5 +1,5 @@
 // Created: 14.02.2017
-package de.freese.spring;
+package de.freese.spring.cloud.microservice;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
@@ -8,7 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  *
  * @author Thomas Freese
  */
-public class MicroService2
+public class MicroService3
 {
     /**
      * @param args String[]
@@ -17,9 +17,9 @@ public class MicroService2
     {
         // @formatter:off
         new SpringApplicationBuilder(MicroServiceApplication.class)
-                //.properties("server.port=8082") // Funktioniert nicht, wenn server.port in application.yml enthalten ist.
+                //.properties("server.port=8083") // Funktioniert nicht, wenn server.port in application.yml enthalten ist.
                 //.run(args);
-                .run("--server.port=8082");
+                .run("--server.port=8083");
         // @formatter:on
     }
 }

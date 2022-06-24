@@ -46,7 +46,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>de.freese.spring.eureka.EurekaServerApplication</mainClass>
+                    <mainClass>de.freese.spring.cloud.eureka.EurekaServerApplication</mainClass>
                     <layout>ZIP</layout>
                     <classifier>jar-with-dependencies</classifier>
                     <!--jvmArguments>

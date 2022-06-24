@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.annotation.Resource;
 
-import de.freese.spring.MicroServiceApplication;
+import de.freese.spring.cloud.microservice.MicroServiceApplication;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;

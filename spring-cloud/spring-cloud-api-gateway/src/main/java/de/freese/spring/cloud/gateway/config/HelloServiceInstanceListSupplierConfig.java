@@ -1,5 +1,5 @@
 // Created: 10.10.2021
-package de.freese.spring.gateway.webclient;
+package de.freese.spring.cloud.gateway.config;
 
 import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
 import org.springframework.context.ConfigurableApplicationContext;

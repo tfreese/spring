@@ -1,5 +1,5 @@
 // Created: 09.02.2019
-package de.freese.spring.gateway;
+package de.freese.spring.cloud.gateway;
 
 import java.util.concurrent.TimeUnit;
 

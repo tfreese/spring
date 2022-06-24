@@ -1,0 +1,60 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+spring:
+    application:
+        name: cloud-client
+    cloud:
+        loadbalancer:
+            health-check:
+                interval: 5s
+            cache:
+                ttl: 10s
+            retry:
+                enabled: true
+                max-retries-on-next-service-instance: 2
+                max-retries-on-same-service-instance: 2
+            ribbon:
+                enabled: false
+    main:
+        web-application-type: none
+
+---
+
+eureka:
+    client:
+        enabled: false
+
+spring:
+    config:
+        activate:
+            on-profile: manuell
+    cloud:
+        discovery:
+            client:
+                simple:
+                    instances:
+                        HELLO-SERVICE:
+                            -   URI: http://localhost:8083
+                            -   URI: http://localhost:8082
+                            -   URI: http://localhost:8081
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: eureka
+
+eureka:
+    client:
+        enabled: true
+        healthcheck:
+            enabled: true
+        register-with-eureka: false
+        serviceUrl:
+            defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+    instance:
+        preferIpAddress: true

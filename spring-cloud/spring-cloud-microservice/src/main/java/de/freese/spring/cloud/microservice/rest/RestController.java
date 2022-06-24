@@ -1,5 +1,5 @@
 // Created: 14.02.2017
-package de.freese.spring.rest;
+package de.freese.spring.cloud.microservice.rest;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

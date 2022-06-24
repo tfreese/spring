@@ -1,5 +1,5 @@
 // Created: 10.10.2021
-package de.freese.spring.gateway.webclient;
+package de.freese.spring.cloud.gateway.config;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ class HelloServiceInstanceListSupplier implements ServiceInstanceListSupplier
     /**
      *
      */
-    public static final String SERVICE_ID = "HELLO-SERVICE-MANUELL";
+    public static final String SERVICE_ID = "CLOUD-HELLO-SERVICE-MANUELL";
     /**
      *
      */

@@ -46,7 +46,7 @@ server:
 
 spring:
     application:
-        name: api-gateway
+        name: cloud-api-gateway
     boot:
         admin:
             client:
