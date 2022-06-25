@@ -19,11 +19,10 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  * @author Thomas Freese
  */
 // @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT
-)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
-@Disabled("Funktioniert nur zusammen mit spring-eureka und spring-microservice")
+@Disabled("Funktioniert nur zusammen mit spring-cloud-eureka und spring-cloud-microservice")
 class GatewayTest
 {
     /**

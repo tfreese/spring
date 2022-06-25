@@ -1,12 +1,9 @@
 // Created: 09.02.2019
 package de.freese.spring.cloud.gateway;
 
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +30,6 @@ import reactor.core.publisher.Mono;
  * @author Thomas Freese
  */
 @SpringBootApplication
-@EnableDiscoveryClient
 @EnableConfigurationProperties(UriConfiguration.class)
 @RestController
 public class GatewayApplication
@@ -43,9 +39,6 @@ public class GatewayApplication
      */
     public static void main(final String[] args) throws InterruptedException
     {
-        // Warten bis sich die MicroServices bei Eureka registriert haben.
-        TimeUnit.SECONDS.sleep(15);
-
         SpringApplication.run(GatewayApplication.class, args);
     }
 
@@ -94,13 +87,8 @@ public class GatewayApplication
                 .route(p -> p.path("/lb/**")
                       .filters(f -> f.rewritePath("/lb", "/"))
                       .customize(asyncBuilder -> asyncBuilder.id("loadbalancer_route"))
-                      .uri("lb://HELLO-SERVICE") // Kommt von Eureka
+                      .uri("lb://CLOUD-HELLO-SERVICE") // Kommt von Eureka
                     )
-//                .route(p -> p.path("/lbman/**")
-//                        .filters(f -> f.rewritePath("/lbman", "/"))
-//                        .customize(asyncBuilder -> asyncBuilder.id("loadbalancer_route_manuell"))
-//                        .uri("lb://HELLO-SERVICE-MANUELL") // Kommt von MyServiceInstanceListSupplierConfig
-//                      )
                 .build();
         // @formatter:on
     }

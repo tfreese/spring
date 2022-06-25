@@ -1,8 +1,6 @@
 // Created: 14.02.2017
 package de.freese.spring.cloud.microservice;
 
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -48,9 +46,6 @@ public class MicroServiceApplication extends SpringBootServletInitializer
      */
     public static void main(final String[] args) throws InterruptedException
     {
-        // Warten bis Boot-Admin und Eureka gestartet sind.
-        TimeUnit.SECONDS.sleep(5);
-
         configureApplication(new SpringApplicationBuilder()).run(args);
 
         //        SpringApplication.run(MicroServiceApplication.class, args);

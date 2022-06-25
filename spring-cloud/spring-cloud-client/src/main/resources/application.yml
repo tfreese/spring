@@ -11,6 +11,7 @@ spring:
             health-check:
                 interval: 5s
             cache:
+                enabled: true
                 ttl: 10s
             retry:
                 enabled: true
@@ -36,7 +37,7 @@ spring:
             client:
                 simple:
                     instances:
-                        HELLO-SERVICE:
+                        CLOUD-HELLO-SERVICE:
                             -   URI: http://localhost:8083
                             -   URI: http://localhost:8082
                             -   URI: http://localhost:8081

@@ -9,6 +9,7 @@ import io.netty.handler.timeout.WriteTimeoutHandler;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration;
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -20,8 +21,9 @@ import reactor.netty.http.client.HttpClient;
  * @author Thomas Freese
  */
 @Configuration
-@LoadBalancerClient(name = "CLOUD-HELLO-SERVICE")
-//@Profile("manuell")
+@LoadBalancerClients(
+        @LoadBalancerClient(name = "CLOUD-HELLO-SERVICE"/*, configuration = HelloServiceInstanceListSupplierConfig.class)*/)
+)
 public class WebClientConfig
 {
     /**

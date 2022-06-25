@@ -70,7 +70,9 @@ spring:
         admin:
             client:
                 enabled: false
-    profiles: test
+    config:
+        activate:
+            on-profile: test
     jackson:
         date-format: "yyyy-MM-dd HH:mm:ss"
         deserialization:

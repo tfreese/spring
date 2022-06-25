@@ -25,11 +25,6 @@
 # und das API-Gateway sich die aktuelle Server-Liste ziehen muss !
 # Das dauert ca. 10 Sekunden !
 # Und da alle Container parallel gestartet werden klappt das initial leider nicht.
-# Mögliche Lösung:
-# - Boot-Admin normal starten
-# - Eureka normal starten
-# - MicroServices mit 5 Sekunden Delay starten
-# - API-GATEWAY mit 10 Sekunden Delay starten
 version: '3'
 services:
 

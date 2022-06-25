@@ -67,16 +67,6 @@ spring:
             ribbon:
                 enabled: false
 
-        #discovery:
-        #    client:
-        #        simple:
-        #            instances:
-        #                DATE-SERVICE-MANUELL:
-        #                  - URI: http://localhost:8081
-        #                  - URI: http://localhost:8082
-        #                  - URI: http://localhost:8083
-        # HealthCheck Konfiguration ???           
-
 ---
 
 spring:
@@ -84,7 +74,9 @@ spring:
         admin:
             client:
                 enabled: false
-    profiles: test
+    config:
+        activate:
+            on-profile: test
 
 eureka:
     client:

@@ -22,14 +22,14 @@ import reactor.core.publisher.Mono;
  * @author Thomas Freese
  */
 @Component
-//@Order(Ordered.LOWEST_PRECEDENCE)
+//@Order(1)
 @Profile("!test")
-public class ClientApplicationRunner implements ApplicationRunner
+public class ClientRunner implements ApplicationRunner
 {
     /**
      *
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClientApplicationRunner.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientRunner.class);
     /**
      *
      */
@@ -49,6 +49,7 @@ public class ClientApplicationRunner implements ApplicationRunner
      *
      */
     @Resource
+    //    @LoadBalanced
     private WebClient.Builder webClientBuilderLoadBalanced;
 
     /**
@@ -125,7 +126,7 @@ public class ClientApplicationRunner implements ApplicationRunner
                 {
                     String protocol = server.isSecure() ? "https" : "http";
 
-                    return protocol + "://" + server.getHost() + ':' + server.getPort() + "/";
+                    return String.format("%s://%s:%d/",protocol, server.getHost(), server.getPort());
                 })
                 .onErrorResume(throwable -> Mono.empty())
                 .block()

@@ -1,8 +1,9 @@
 // Created: 10.10.2021
-package de.freese.spring.cloud.gateway.config;
+package de.freese.spring.cloud.client.config;
 
 import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 /**
  * @author Thomas Freese
@@ -11,13 +12,13 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class HelloServiceInstanceListSupplierConfig
 {
     /**
-     * Alternative: Konfiguration in application.yml
+     * Alternative zu spring.cloud.discovery.client.simple.instances
      *
      * @param context {@link ConfigurableApplicationContext}
      *
      * @return {@link ServiceInstanceListSupplier}
      */
-    //    @Bean
+    @Bean
     ////@Primary
     ServiceInstanceListSupplier serviceInstanceListSupplier(final ConfigurableApplicationContext context)
     {
@@ -32,7 +33,7 @@ public class HelloServiceInstanceListSupplierConfig
 //                //.withBlockingHealthChecks() // RestTemplate muss vorhanden sein !
 //                //.withHealthChecks() // Funktioniert nicht !
 //                //.withHealthChecks(WebClient.builder().build()) // Funktioniert nicht !
-//                //.withCaching()
+//                .withCaching()
 //                //.withRequestBasedStickySession()
 //                .build(context)
 //                ;

@@ -1,5 +1,5 @@
 // Created: 10.10.2021
-package de.freese.spring.cloud.gateway.config;
+package de.freese.spring.cloud.client.config;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ class HelloServiceInstanceListSupplier implements ServiceInstanceListSupplier
     /**
      *
      */
-    public static final String SERVICE_ID = "CLOUD-HELLO-SERVICE-MANUELL";
+    public static final String SERVICE_ID = "CLOUD-HELLO-SERVICE";
     /**
      *
      */
@@ -30,14 +30,11 @@ class HelloServiceInstanceListSupplier implements ServiceInstanceListSupplier
     {
         super();
 
-        // @formatter:off
         this.instances = List.of(
-                new DefaultServiceInstance(SERVICE_ID + "-1", SERVICE_ID, "127.0.0.1", 8081, false),
+                new DefaultServiceInstance(SERVICE_ID + "-1", SERVICE_ID, "127.0.0.1", 8083, false),
                 new DefaultServiceInstance(SERVICE_ID + "-2", SERVICE_ID, "127.0.0.1", 8082, false),
-                new DefaultServiceInstance(SERVICE_ID + "-3", SERVICE_ID, "127.0.0.1", 8083, false)
-                )
-                ;
-        // @formatter:on
+                new DefaultServiceInstance(SERVICE_ID + "-3", SERVICE_ID, "127.0.0.1", 8081, false)
+        );
     }
 
     /**
