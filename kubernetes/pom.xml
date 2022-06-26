@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
-    <description>Parent für Kubernetes-Projekte.</description>
+    <description>Parent für Kubernetes-Projekte</description>
 
     <modules>
         <module>kubernetes-microservice</module>
