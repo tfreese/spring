@@ -19,8 +19,11 @@ subprojects {
         dependencies {
             dependency("com.esotericsoftware:kryo:$version_kryo")
             dependency("com.nimbusds:nimbus-jose-jwt:$version_nimbus")
-            dependency("com.sun.faces:jsf-api:$version_jsf")
-            dependency("com.sun.faces:jsf-impl:$version_jsf")
+
+            dependencySet(group: "com.sun.faces", version: "$version_jsf") {
+                entry "jsf-api"
+                entry "jsf-impl"
+            }
 
             dependency("de.javakaffee:kryo-serializers:$version_kryoSerializers")
 
@@ -33,15 +36,22 @@ subprojects {
             dependency("org.apache.qpid:qpid-bdbstore:$version_qpid") {
                 exclude "com.sleepycat:je" // Wird in keinem Repository gefunden.
             }
-            dependency("org.openjdk.jmh:jmh-core:$version_jmh")
-            dependency("org.openjdk.jmh:jmh-generator-annprocess:$version_jmh")
+
+            dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {
+                entry "jmh-core"
+                entry "jmh-generator-annprocess"
+            }
+
             dependency("org.primefaces:primefaces:$version_primefaces")
             dependency("org.primefaces.extensions:primefaces-extensions:$version_primefacesExtensions")
             dependency("org.primefaces.themes:all-themes:$version_primefacesThemes")
             dependency("org.springdoc:springdoc-openapi-ui:$version_springdoc")
-            dependency("org.springframework.cloud:spring-cloud-starter-netflix-ribbon:$version_springCloudNetflix")
-            dependency("org.springframework.cloud:spring-cloud-starter-netflix-hystrix:$version_springCloudNetflix")
-            dependency("org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard:$version_springCloudNetflix")
+
+            dependencySet(group: "org.springframework.cloud", version: "$version_springCloudNetflix") {
+                entry "spring-cloud-starter-netflix-ribbon"
+                entry "spring-cloud-starter-netflix-hystrix"
+                entry "spring-cloud-starter-netflix-hystrix-dashboard"
+            }
         }
     }
 
@@ -479,7 +489,7 @@ project("spring-reactive-jdbc") {
         mainClass = "de.freese.spring.reactive.SpringReactiveJdbcApplication"
     }
 
-    test.enabled = false
+//    test.enabled = false
 }
 
 project("spring-resilience") {
