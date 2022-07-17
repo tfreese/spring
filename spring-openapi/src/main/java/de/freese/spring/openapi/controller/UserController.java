@@ -31,7 +31,7 @@ public class UserController
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    private Map<String, String> userMap = new HashMap<>();
+    private final Map<String, String> userMap = new HashMap<>();
 
     public UserController()
     {

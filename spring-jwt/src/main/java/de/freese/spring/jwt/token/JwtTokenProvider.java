@@ -69,7 +69,7 @@ public interface JwtTokenProvider
      *
      * @return {@link JwtToken}
      *
-     * @throws AuthenticationException Falls was schief geht.
+     * @throws AuthenticationException Falls was schiefgeht.
      */
     JwtToken parseToken(final String token) throws AuthenticationException;
 

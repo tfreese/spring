@@ -40,59 +40,58 @@ abstract class AbstractRestTestCase
     private Jackson2ObjectMapperBuilder objectMapperBuilder;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     abstract void testHealthEndpoint() throws Exception;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     abstract void testPost() throws Exception;
 
     /**
      * User "user" hat keine Berechtigung für "person/personAdd".
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     abstract void testPostWithWrongRole() throws Exception;
 
     /**
      * User "invalid" hat keine Berechtigung für "person/personList".
      *
-     * @throws Exception Falls was schief geht. abstract void test020UserWithWrongRole() throws Exception; /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     abstract void testUserWithLoginJSON() throws Exception;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     abstract void testUserWithLoginXML() throws Exception;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     abstract void testUserWithPreAuthJSON() throws Exception;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     abstract void testUserWithPreAuthXML() throws Exception;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     abstract void testUserWithWrongPass() throws Exception;
 
     /**
      * User "invalid" hat keine Berechtigung für "person/personList".
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     abstract void testUserWithWrongRole() throws Exception;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     abstract void testUserWithoutLogin() throws Exception;
 

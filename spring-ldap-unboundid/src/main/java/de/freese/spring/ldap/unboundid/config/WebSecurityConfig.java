@@ -77,8 +77,6 @@ public class WebSecurityConfig
             }
         });
 
-        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("", encoders);
-
-        return passwordEncoder;
+        return new DelegatingPasswordEncoder("", encoders);
     }
 }

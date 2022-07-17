@@ -34,7 +34,7 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
     /**
      * @param args String[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static void main(final String[] args) throws Exception
     {
@@ -80,7 +80,7 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
     public LoadBalancer loadBalancer(final Environment env, final RestTemplate restTemplate)
     {
         String serverList = env.getProperty("loadbalancer.servers");
-        String[] servers = serverList.split("[,]");
+        String[] servers = serverList.split(",");
 
         LoadBalancerPingUrl ping = new LoadBalancerPingUrl();
         ping.setPingAppendString("/service/ping"); // /netflix/service/actuator/health

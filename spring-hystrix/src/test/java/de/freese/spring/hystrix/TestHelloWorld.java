@@ -8,9 +8,7 @@ import java.util.concurrent.Future;
 import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import rx.Observable;
 import rx.Observer;
 
@@ -21,7 +19,6 @@ import rx.Observer;
  *
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestHelloWorld
 {
     /**
@@ -87,7 +84,7 @@ class TestHelloWorld
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testAsynchronous() throws Exception
@@ -100,10 +97,10 @@ class TestHelloWorld
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
-// (expected = RuntimeException.class)
+    // (expected = RuntimeException.class)
     void testFailAsynchronous() throws Exception
     {
         Future<String> fWorld = new CommandHelloFailure("World").queue();
@@ -117,7 +114,7 @@ class TestHelloWorld
      *
      */
     @Test
-// (expected = RuntimeException.class)
+    // (expected = RuntimeException.class)
     void testFailSynchronous()
     {
         assertEquals("Hello Failure World!", new CommandHelloFailure("World").execute());
@@ -125,7 +122,7 @@ class TestHelloWorld
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testObservable() throws Exception

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import de.freese.spring.thymeleaf.ThymeleafApplication;
+import de.freese.spring.thymeleaf.ThymeleafController;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,9 +30,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import de.freese.spring.thymeleaf.ThymeleafApplication;
-import de.freese.spring.thymeleaf.ThymeleafController;
 
 /**
  * @author Thomas Freese
@@ -72,9 +71,9 @@ public class HomeThymeleafController
      * @return String
      */
     @GetMapping(value =
-    {
-            "/", "/index"
-    })
+            {
+                    "/", "/index"
+            })
     public String index(final Model model, final Principal principal)
     // public String index(final Map<String, Object> model)
     {
@@ -196,7 +195,7 @@ public class HomeThymeleafController
      *
      * @return String
      *
-     * @throws ServletException Falls was schief geht.
+     * @throws ServletException Falls was schiefgeht.
      */
     @GetMapping("/logout")
     protected String logout(final HttpServletRequest request, final HttpServletResponse response) throws ServletException

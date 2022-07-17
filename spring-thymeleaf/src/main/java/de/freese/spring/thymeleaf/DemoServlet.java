@@ -3,7 +3,7 @@ package de.freese.spring.thymeleaf;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,7 +32,7 @@ public class DemoServlet extends HttpServlet
 
         try (PrintWriter writer = resp.getWriter())
         {
-            writer.append("<b>").append(new Date().toString()).append("</b>");
+            writer.append("<b>").append(LocalDateTime.now().toString()).append("</b>");
         }
     }
 }

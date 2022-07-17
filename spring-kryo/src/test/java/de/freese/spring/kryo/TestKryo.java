@@ -28,9 +28,7 @@ import de.freese.spring.kryo.webflux.AbstractKryoCodecSupport;
 import de.freese.spring.kryo.webflux.KryoDecoder;
 import de.freese.spring.kryo.webflux.KryoEncoder;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -58,7 +56,6 @@ import reactor.core.publisher.Mono;
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = KryoApplication.class)
-@TestMethodOrder(MethodOrderer.MethodName.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 class TestKryo
@@ -162,7 +159,7 @@ class TestKryo
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testHttpClient() throws Exception
@@ -175,7 +172,7 @@ class TestKryo
      * @param path String
      * @param mimeType {@link MimeType}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected void testHttpClient(final String path, final MimeType mimeType) throws Exception
     {
@@ -210,7 +207,7 @@ class TestKryo
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testMockMvc() throws Exception
@@ -223,7 +220,7 @@ class TestKryo
      * @param path String
      * @param mediaType {@link MediaType}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected void testMockMvc(final String path, final MediaType mediaType) throws Exception
     {
@@ -302,7 +299,7 @@ class TestKryo
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testUrlConnection() throws Exception
@@ -315,7 +312,7 @@ class TestKryo
      * @param path String
      * @param mediaType {@link MediaType}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected void testUrlConnection(final String path, final MediaType mediaType) throws Exception
     {
@@ -366,7 +363,7 @@ class TestKryo
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testWebClient() throws Exception

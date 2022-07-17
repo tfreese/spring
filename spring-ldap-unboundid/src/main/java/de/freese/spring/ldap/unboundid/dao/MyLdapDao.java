@@ -50,9 +50,7 @@ public class MyLdapDao
         @Override
         protected String[] doMapFromContext(final DirContextOperations ctx)
         {
-            String[] member = ctx.getStringAttributes("member");
-
-            return member;
+            return ctx.getStringAttributes("member");
         }
     }
 
@@ -113,10 +111,8 @@ public class MyLdapDao
         {
             DirContextAdapter context = (DirContextAdapter) ctx;
 
-            // context.getStringAttribute("entryDN");
-            String cn = context.getStringAttribute("cn");
-
-            return cn;
+            // return context.getStringAttribute("entryDN");
+            return context.getStringAttribute("cn");
         }
     }
 

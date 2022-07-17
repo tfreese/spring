@@ -85,7 +85,7 @@ class TestRestWithRestTemplate extends AbstractRestTestCase
     private RestTemplateBuilder restTemplateBuilder;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeEach
     void beforeTest() throws Exception

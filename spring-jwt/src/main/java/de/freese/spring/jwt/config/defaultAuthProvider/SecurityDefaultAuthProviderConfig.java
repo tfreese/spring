@@ -50,7 +50,7 @@ public class SecurityDefaultAuthProviderConfig
      *
      * @return {@link Filter}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Bean
     Filter jwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint,

@@ -59,7 +59,7 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor
 
     /**
      * @see org.springframework.http.client.ClientHttpRequestInterceptor#intercept(org.springframework.http.HttpRequest, byte[],
-     *      org.springframework.http.client.ClientHttpRequestExecution)
+     * org.springframework.http.client.ClientHttpRequestExecution)
      */
     @Override
     public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException
@@ -87,13 +87,13 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor
 
         if (lastException != null)
         {
-            if (lastException instanceof IOException)
+            if (lastException instanceof IOException ioex)
             {
-                throw (IOException) lastException;
+                throw ioex;
             }
-            else if (lastException instanceof RuntimeException)
+            else if (lastException instanceof RuntimeException rex)
             {
-                throw (RuntimeException) lastException;
+                throw rex;
             }
             else
             {
@@ -112,10 +112,10 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor
      *
      * @return {@link ClientHttpResponse}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution)
-        throws IOException
+            throws IOException
     {
         HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request)
         {

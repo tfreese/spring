@@ -31,8 +31,8 @@ public class QpidConfig
      */
     private static final String QPID_HOME_DIR = System.getProperty("user.dir");
     /**
-    *
-    */
+     *
+     */
     private static final String QPID_WORK_DIR = QPID_HOME_DIR + File.separator + "qpid-work";
 
     // /**
@@ -64,7 +64,7 @@ public class QpidConfig
     /**
      * @return {@link SystemLauncher}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Bean
     public SystemLauncher systemLauncher() throws Exception

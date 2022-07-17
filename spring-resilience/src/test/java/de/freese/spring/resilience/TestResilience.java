@@ -10,10 +10,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.github.resilience4j.bulkhead.Bulkhead;
 import io.github.resilience4j.bulkhead.BulkheadConfig;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
@@ -25,6 +21,9 @@ import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.Retry.Metrics;
 import io.github.resilience4j.retry.RetryConfig;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -37,14 +36,15 @@ class TestResilience
     private static final Logger LOGGER = LoggerFactory.getLogger(TestResilience.class);
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testDecorators() throws Exception
     {
         Object data = new Object();
 
-        Callable<Object> failingCode = () -> {
+        Callable<Object> failingCode = () ->
+        {
             double value = Math.random();
 
             if (value < 0.5D)
@@ -81,7 +81,8 @@ class TestResilience
 
         AtomicReference<Object> valueReference = new AtomicReference<>();
 
-        IntStream.range(0, 10).parallel().forEach(i -> {
+        IntStream.range(0, 10).parallel().forEach(i ->
+        {
             try
             {
                 Object value = decoratedSupplier.call();
@@ -101,7 +102,7 @@ class TestResilience
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testRateLimiter() throws Exception
@@ -134,14 +135,15 @@ class TestResilience
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testRetry() throws Exception
     {
         Object data = new Object();
 
-        Callable<Object> failingCode = () -> {
+        Callable<Object> failingCode = () ->
+        {
             double value = Math.random();
 
             if (value < 0.95D)

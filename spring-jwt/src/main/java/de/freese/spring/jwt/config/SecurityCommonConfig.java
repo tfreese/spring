@@ -93,7 +93,7 @@ public class SecurityCommonConfig
      *
      * @return {@link SecurityFilterChain}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Bean
     SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final Filter jwtRequestFilter, final AuthenticationEntryPoint authenticationEntryPoint)

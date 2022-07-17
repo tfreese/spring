@@ -175,7 +175,7 @@ public class SecurityConfig
      *
      * @return {@link SecurityFilterChain}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Bean
     SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider,
@@ -243,7 +243,7 @@ public class SecurityConfig
      *
      * @return {@link GenericFilterBean}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     // @Bean
     // Mit @Bean funktionieren die REST-Services nicht mehr !
@@ -312,7 +312,7 @@ public class SecurityConfig
      *
      * @return {@link UserDetailsService}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Bean
     UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache) throws Exception

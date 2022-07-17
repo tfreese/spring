@@ -32,7 +32,7 @@ class TestLdapDao
     private MyLdapDao ldapDao;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testContextLoads() throws Exception
@@ -41,7 +41,7 @@ class TestLdapDao
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testCreate() throws Exception
@@ -55,7 +55,7 @@ class TestLdapDao
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testModify() throws Exception
@@ -69,7 +69,7 @@ class TestLdapDao
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSearchPeople() throws Exception
@@ -82,7 +82,7 @@ class TestLdapDao
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSearchGroup() throws Exception

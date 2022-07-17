@@ -3,11 +3,10 @@ package de.freese.spring.kryo.reflection;
 
 import java.time.LocalDateTime;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.util.Pool;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Thomas Freese
@@ -32,8 +31,6 @@ public class RestKryoReflectionController extends AbstractRestReflectionControll
     @Override
     public LocalDateTime testKryo()
     {
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        return localDateTime;
+        return LocalDateTime.now();
     }
 }

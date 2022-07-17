@@ -9,17 +9,15 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.client.RestTemplate;
-
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.util.Pool;
-
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Thomas Freese
@@ -27,8 +25,8 @@ import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 public abstract class AbstractRestReflectionController
 {
     /**
-    *
-    */
+     *
+     */
     private final Pool<Kryo> kryoPool;
 
     /**
@@ -80,7 +78,7 @@ public abstract class AbstractRestReflectionController
      *
      * @return Object
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @PostMapping(path = "{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public Object invoke(@PathVariable("method") final String method, final HttpServletRequest request, final HttpServletResponse response) throws Exception
@@ -150,7 +148,7 @@ public abstract class AbstractRestReflectionController
      *
      * @return Object
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @PostMapping(path = "/rt/{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public Object invokeFromRestTemplate(@PathVariable("method") final String method, @RequestBody final Object body) throws Exception

@@ -29,10 +29,10 @@ import org.springframework.test.web.servlet.MockMvc;
  * @author Thomas Freese
  */
 @ActiveProfiles("test")
-// @ActiveProfiles(
-// {
-// "test", "with-ssl"
-// })
+        // @ActiveProfiles(
+        // {
+        // "test", "with-ssl"
+        // })
 class TestRestWithMockMvc extends AbstractRestTestCase
 {
     /**
@@ -86,7 +86,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(result -> {
-                    List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<List<Person>>()
+                    List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
                     {
                     });
                     reference.set(list);
@@ -137,7 +137,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(result -> {
-                    List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<List<Person>>()
+                    List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
                     {
                     });
                     reference.set(list);
@@ -168,7 +168,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"))
                 .andDo(result -> {
-                    List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<List<Person>>()
+                    List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
                     {
                     });
                     reference.set(list);
@@ -197,7 +197,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(result -> {
-                    List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<List<Person>>()
+                    List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
                     {
                     });
                     reference.set(list);
@@ -227,7 +227,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE+";charset=UTF-8"))
                 .andDo(result -> {
-                    List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<List<Person>>()
+                    List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
                     {
                     });
                     reference.set(list);

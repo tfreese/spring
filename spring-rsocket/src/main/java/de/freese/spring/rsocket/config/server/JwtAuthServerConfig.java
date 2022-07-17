@@ -62,7 +62,7 @@ public class JwtAuthServerConfig extends AbstractServerConfig
         //@formatter:off
         security.authorizePayload(authorize ->
             authorize
-                    // User muss ROLE_SETUP haben um Verbindung zum Server herzustellen.
+                    // User muss ROLE_SETUP haben, um Verbindung zum Server herzustellen.
                     //.setup().hasRole("SETUP")
                     // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
                     //.route("greet/*").hasRole("ADMIN")
@@ -167,7 +167,7 @@ public class JwtAuthServerConfig extends AbstractServerConfig
     /**
      * @return {@link ReactiveJwtDecoder}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Bean
     ReactiveJwtDecoder reactiveJwtDecoder() throws Exception

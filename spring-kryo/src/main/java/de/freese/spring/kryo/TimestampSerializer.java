@@ -8,7 +8,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
 /**
- * java.sql.Timestamp wird nicht von Kryo unterstützt bzw. ist es ein Bug (DefaultSerializers.DateSerializer).<br>
+ * {@link Timestamp} wird nicht von Kryo unterstützt bzw. ist es ein Bug (DefaultSerializers.DateSerializer).<br>
  * Beim Serialisieren mit Kryo werden die Nanos nicht mitgenommen.br>
  * Dieser Serializer serialisiert auch den Nanos-Teil eines java.sql.Timestamp.<br>
  *

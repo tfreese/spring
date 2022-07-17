@@ -52,7 +52,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
     private String rootUri;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeEach
     void beforeTest() throws Exception
@@ -123,7 +123,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
 
         response = httpClient.send(request, BodyHandlers.ofString());
 
-        List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<List<Person>>()
+        List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>()
         {
         });
 
@@ -174,7 +174,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<List<Person>>()
+        List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>()
         {
         });
 
@@ -203,7 +203,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<List<Person>>()
+        List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<>()
         {
         });
 
@@ -232,7 +232,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<List<Person>>()
+        List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>()
         {
         });
 
@@ -262,7 +262,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<List<Person>>()
+        List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<>()
         {
         });
 
@@ -333,7 +333,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
      */
     @Override
     @Test
-// (expected = IOException.class)
+    // (expected = IOException.class)
     void testUserWithoutLogin() throws Exception
     {
         HttpClient httpClient = createClientBuilder().build();
@@ -366,13 +366,11 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
     private HttpClient.Builder createClientBuilder()
     {
         // @formatter:off
-        HttpClient.Builder builder = HttpClient.newBuilder()
+        return HttpClient.newBuilder()
                 .version(Version.HTTP_2)
                 .executor(this.executorService)
                 ;
         // @formatter:on
-
-        return builder;
     }
 
     /**
@@ -398,12 +396,10 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
         Authenticator.setDefault(authenticator);
 
         // @formatter:off
-        HttpClient.Builder builder = createClientBuilder()
+        return createClientBuilder()
                 .authenticator(authenticator)
                 .version(Version.HTTP_1_1) // Mit HTTP2 kommen Fehler wie "/127.0.0.1:39304: GOAWAY received"
                 ;
         // @formatter:on
-
-        return builder;
     }
 }

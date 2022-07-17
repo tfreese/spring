@@ -226,7 +226,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
      *
      * @return String
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected String getContent(final InputStream inputStream) throws IOException
     {

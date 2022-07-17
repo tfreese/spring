@@ -24,9 +24,7 @@ public class RestKryoController
     @GetMapping(path = "json", produces = MediaType.APPLICATION_JSON_VALUE)
     public LocalDateTime testJson()
     {
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        return localDateTime;
+        return LocalDateTime.now();
     }
 
     /**
@@ -37,8 +35,6 @@ public class RestKryoController
     @GetMapping(path = "kryo", produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public LocalDateTime testKryo()
     {
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        return localDateTime;
+        return LocalDateTime.now();
     }
 }

@@ -45,7 +45,7 @@ interface TestJwtToken
     RestTemplateBuilder getRestTemplateBuilder();
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     default void testFailNoLogin() throws Exception
@@ -84,7 +84,7 @@ interface TestJwtToken
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     default void testFailWrongPass() throws Exception
@@ -107,7 +107,7 @@ interface TestJwtToken
 
         System.out.printf("%nWrong Pass: %s%n", responseEntity.getBody());
 
-//        // @formatter:off
+        //        // @formatter:off
 //        getMockMvc().perform(get("/jwt/users/me"))
 //            .andDo(print())
 //            .andExpect(status().isUnauthorized())
@@ -118,7 +118,7 @@ interface TestJwtToken
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     default void testLoginAdmin() throws Exception
@@ -141,7 +141,7 @@ interface TestJwtToken
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     default void testLoginUser() throws Exception
@@ -164,7 +164,7 @@ interface TestJwtToken
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     default void testMeAdmin() throws Exception
@@ -187,7 +187,7 @@ interface TestJwtToken
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     default void testMeUser() throws Exception
@@ -210,7 +210,7 @@ interface TestJwtToken
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     default void testSearchAdmin() throws Exception
@@ -233,7 +233,7 @@ interface TestJwtToken
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     default void testSearchUser() throws Exception

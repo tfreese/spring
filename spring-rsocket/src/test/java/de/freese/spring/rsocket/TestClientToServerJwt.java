@@ -58,7 +58,7 @@ class TestClientToServerJwt implements TestClientToServer
      * @param host String
      * @param port int
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeAll
     public static void beforeAll(@Autowired final RSocketRequester.Builder builder, @Autowired final RSocketStrategies strategies,

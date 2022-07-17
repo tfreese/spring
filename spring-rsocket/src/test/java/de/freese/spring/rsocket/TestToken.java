@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 class TestToken
 {
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void createToken() throws Exception

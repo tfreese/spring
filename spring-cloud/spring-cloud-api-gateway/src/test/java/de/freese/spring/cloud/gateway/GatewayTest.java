@@ -7,9 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import javax.annotation.Resource;
 
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,7 +18,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  */
 // @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
 @Disabled("Funktioniert nur zusammen mit spring-cloud-eureka und spring-cloud-microservice")
 class GatewayTest

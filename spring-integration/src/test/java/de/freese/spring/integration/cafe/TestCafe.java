@@ -3,9 +3,7 @@ package de.freese.spring.integration.cafe;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.Banner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -20,7 +18,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestCafe
 {
 
@@ -39,7 +36,7 @@ class TestCafe
     // }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testCafeConfig() throws Exception
@@ -60,7 +57,7 @@ class TestCafe
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testCafeDemoWithAnnotationSupport() throws Exception
@@ -74,7 +71,7 @@ class TestCafe
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testCafeDemoWithXmlSupport() throws Exception
@@ -88,7 +85,7 @@ class TestCafe
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testCafeDsl() throws Exception
@@ -113,7 +110,7 @@ class TestCafe
     /**
      * @param context {@link ApplicationContext}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private void testCafe(final ApplicationContext context) throws Exception
     {

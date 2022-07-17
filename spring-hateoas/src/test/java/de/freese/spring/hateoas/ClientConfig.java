@@ -36,13 +36,13 @@ class ClientConfig
     }
 
     /**
+     * "@Value("${local.server.port}") final int port"
+     *
      * @param host String
      * @param port int
      * @param contextPath String
      *
      * @return {@link RestTemplateBuilder}
-     *
-     * @Value("${local.server.port}") final int port,
      */
     @Bean
     RestTemplateBuilder restTemplateBuilder(@Value("${server.address:localhost}") final String host, @Value("${server.port}") final int port,

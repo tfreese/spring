@@ -8,17 +8,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.annotation.Resource;
 
-import org.junit.jupiter.api.MethodOrderer;
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.JsonPath;
 
 /**
  * @author Thomas Freese
@@ -26,7 +23,6 @@ import com.jayway.jsonpath.JsonPath;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.MethodName.class)
 class GreetingMockMvcTests
 {
     /**
@@ -102,7 +98,7 @@ class GreetingMockMvcTests
     @Test
     void testPath() throws Exception
     {
-       // @formatter:off
+        // @formatter:off
        this.mockMvc.perform(get("/greeter/path/Test"))
            //.andDo(MockMvcResultHandlers.print())
            .andExpect(status().isOk())

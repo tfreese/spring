@@ -1,14 +1,14 @@
 // Created: 01.03.2017
 package de.freese.spring.hystrix.sysdate;
 
+import com.netflix.config.ConcurrentCompositeConfiguration;
+import com.netflix.config.ConcurrentMapConfiguration;
+import com.netflix.config.ConfigurationManager;
 import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
-import com.netflix.config.ConcurrentCompositeConfiguration;
-import com.netflix.config.ConcurrentMapConfiguration;
-import com.netflix.config.ConfigurationManager;
 
 /**
  * @author Thomas Freese
@@ -17,7 +17,8 @@ public class SysdateApplication
 {
     /**
      * @param args String[]
-     * @throws Exception Falls was schief geht.
+     *
+     * @throws Exception Falls was schiefgeht.
      */
     public static void main(final String[] args) throws Exception
     {
@@ -46,9 +47,9 @@ public class SysdateApplication
 
         RestTemplate restTemplate = new RestTemplateBuilder().build();
         String[] urls = new String[]
-        {
-                "http://localhost:8081/service/sysdate/", "http://localhost:8082/service/sysdate/", "http://localhost:8083/service/sysdate/"
-        };
+                {
+                        "http://localhost:8081/service/sysdate/", "http://localhost:8082/service/sysdate/", "http://localhost:8083/service/sysdate/"
+                };
         // System.out.println(restTemplate.getForObject("http://localhost:8081/service/sysdate/", String.class));
 
         while (true)

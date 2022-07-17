@@ -26,8 +26,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class HttpClientConfigDefault
 {
     /**
-    *
-    */
+     *
+     */
     private static final int MAX_TOTAL_CONNECTIONS = 50;
 
     /**
@@ -35,7 +35,7 @@ public class HttpClientConfigDefault
      *
      * @return {@link HttpClient}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Bean
     public HttpClient httpClient(final PoolingHttpClientConnectionManager poolingConnectionManager) throws Exception
@@ -47,21 +47,19 @@ public class HttpClientConfigDefault
                 .setSocketTimeout(3000).build()
                 ;
 
-        HttpClient httpClient = HttpClients.custom()
+        return HttpClients.custom()
                 .setDefaultRequestConfig(requestConfig)
                 .setConnectionManager(poolingConnectionManager)
                 .setUserAgent("My Java App")
                 .build()
                 ;
         // @formatter:on
-
-        return httpClient;
     }
 
     /**
      * @return {@link PoolingHttpClientConnectionManager}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Bean
     public PoolingHttpClientConnectionManager poolingConnectionManager() throws Exception

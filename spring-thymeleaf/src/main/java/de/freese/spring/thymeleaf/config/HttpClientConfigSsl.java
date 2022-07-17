@@ -61,7 +61,7 @@ public class HttpClientConfigSsl
      *
      * @return {@link HttpClient}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Bean
     public HttpClient httpClient(final PoolingHttpClientConnectionManager poolingConnectionManager) throws Exception
@@ -88,7 +88,7 @@ public class HttpClientConfigSsl
                 .setSocketTimeout(3000).build()
                 ;
 
-        HttpClient httpClient = HttpClients.custom()
+        return HttpClients.custom()
                 .setDefaultRequestConfig(requestConfig)
                 .setConnectionManager(poolingConnectionManager)
                 .setKeepAliveStrategy(connectionKeepAliveStrategy)
@@ -96,8 +96,6 @@ public class HttpClientConfigSsl
                 .build()
                 ;
         // @formatter:on
-
-        return httpClient;
     }
 
     /**
@@ -151,7 +149,7 @@ public class HttpClientConfigSsl
      *
      * @return {@link PoolingHttpClientConnectionManager}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Bean
     public PoolingHttpClientConnectionManager poolingConnectionManager(final SSLContext sslContext) throws Exception
@@ -173,7 +171,7 @@ public class HttpClientConfigSsl
     /**
      * @return {@link SSLContext}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Bean
     public SSLContext sslContext() throws Exception
@@ -191,7 +189,7 @@ public class HttpClientConfigSsl
         char[] trustStorePassword = "password".toCharArray();
 
         // @formatter:off
-        SSLContext sslContext = SSLContextBuilder.create()
+        return SSLContextBuilder.create()
                 .setKeyStoreType("PKCS12")
                 .setProtocol("TLSv1.3")
                 .setSecureRandom(new SecureRandom())
@@ -200,7 +198,5 @@ public class HttpClientConfigSsl
                 .build()
                 ;
         // @formatter:on
-
-        return sslContext;
     }
 }

@@ -43,7 +43,7 @@ class TestRestWithWebClient extends AbstractRestTestCase
     // private WebTestClient webTestClient = null;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeEach
     void beforeTest() throws Exception

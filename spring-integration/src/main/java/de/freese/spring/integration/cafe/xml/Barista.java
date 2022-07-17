@@ -27,11 +27,11 @@ public class Barista
     /**
      *
      */
-    private long coldDrinkDelay = 400;
+    private long coldDrinkDelay = 400L;
     /**
      *
      */
-    private long hotDrinkDelay = 800;
+    private long hotDrinkDelay = 800L;
 
     /**
      * @param orderItem {@link OrderItem}

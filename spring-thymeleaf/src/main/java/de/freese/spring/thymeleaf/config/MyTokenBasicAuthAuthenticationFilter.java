@@ -237,7 +237,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
      * @param response {@link HttpServletResponse}
      * @param authResult {@link AuthenticationException}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void onSuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final Authentication authResult)
             throws IOException
@@ -250,7 +250,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
      * @param response {@link HttpServletResponse}
      * @param failed {@link AuthenticationException}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void onUnsuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException failed)
             throws IOException

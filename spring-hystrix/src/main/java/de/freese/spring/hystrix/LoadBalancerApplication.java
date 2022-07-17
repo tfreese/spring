@@ -8,6 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.netflix.config.ConcurrentCompositeConfiguration;
+import com.netflix.config.ConcurrentMapConfiguration;
+import com.netflix.config.ConfigurationManager;
+import com.netflix.hystrix.HystrixCommand;
+import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandKey;
+import com.netflix.hystrix.HystrixCommandProperties;
+import com.netflix.hystrix.HystrixThreadPoolKey;
 import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
@@ -18,15 +26,6 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.web.client.RestTemplate;
-
-import com.netflix.config.ConcurrentCompositeConfiguration;
-import com.netflix.config.ConcurrentMapConfiguration;
-import com.netflix.config.ConfigurationManager;
-import com.netflix.hystrix.HystrixCommand;
-import com.netflix.hystrix.HystrixCommandGroupKey;
-import com.netflix.hystrix.HystrixCommandKey;
-import com.netflix.hystrix.HystrixCommandProperties;
-import com.netflix.hystrix.HystrixThreadPoolKey;
 
 /**
  * @author Thomas Freese
@@ -152,7 +151,7 @@ public class LoadBalancerApplication
          *
          * @param server String[]
          */
-        public LoadBalancerHystrixInterceptor(final String...server)
+        public LoadBalancerHystrixInterceptor(final String... server)
         {
             super();
 
@@ -168,7 +167,7 @@ public class LoadBalancerApplication
          *
          * @return {@link URI}
          *
-         * @throws IOException Falls was schief geht.
+         * @throws IOException Falls was schiefgeht.
          */
         private URI convertURI(final URI originalUri, final String server) throws IOException
         {
@@ -187,7 +186,7 @@ public class LoadBalancerApplication
 
         /**
          * @see org.springframework.http.client.ClientHttpRequestInterceptor#intercept(org.springframework.http.HttpRequest, byte[],
-         *      org.springframework.http.client.ClientHttpRequestExecution)
+         * org.springframework.http.client.ClientHttpRequestExecution)
          */
         @Override
         public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException
@@ -249,7 +248,7 @@ public class LoadBalancerApplication
          *
          * @param server String[]
          */
-        public LoadBalancerInterceptor(final String...server)
+        public LoadBalancerInterceptor(final String... server)
         {
             super();
 
@@ -265,7 +264,7 @@ public class LoadBalancerApplication
          *
          * @return {@link URI}
          *
-         * @throws IOException Falls was schief geht.
+         * @throws IOException Falls was schiefgeht.
          */
         private URI convertURI(final URI originalUri, final String server) throws IOException
         {
@@ -284,7 +283,7 @@ public class LoadBalancerApplication
 
         /**
          * @see org.springframework.http.client.ClientHttpRequestInterceptor#intercept(org.springframework.http.HttpRequest, byte[],
-         *      org.springframework.http.client.ClientHttpRequestExecution)
+         * org.springframework.http.client.ClientHttpRequestExecution)
          */
         @Override
         public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException
@@ -327,10 +326,10 @@ public class LoadBalancerApplication
          *
          * @return {@link ClientHttpResponse}
          *
-         * @throws IOException Falls was schief geht.
+         * @throws IOException Falls was schiefgeht.
          */
         private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution)
-            throws IOException
+                throws IOException
         {
             HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request)
             {
@@ -369,7 +368,7 @@ public class LoadBalancerApplication
     /**
      * @param args String[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static void main(final String[] args) throws Exception
     {

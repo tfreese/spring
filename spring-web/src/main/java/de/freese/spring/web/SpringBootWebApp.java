@@ -10,6 +10,7 @@ import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+import com.sun.faces.config.ConfigureListener;
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -19,8 +20,6 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-
-import com.sun.faces.config.ConfigureListener;
 
 /**
  * @author Thomas Freese
@@ -58,7 +57,7 @@ public class SpringBootWebApp extends SpringBootServletInitializer implements Se
     /**
      * @param args String[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static void main(final String[] args) throws Exception
     {
@@ -87,9 +86,9 @@ public class SpringBootWebApp extends SpringBootServletInitializer implements Se
         {
             // Firefox: view-source:URI
             Runtime.getRuntime().exec(new String[]
-            {
-                    "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", url.toString()
-            });
+                    {
+                            "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", url.toString()
+                    });
         }
         catch (Exception ex)
         {
@@ -97,9 +96,9 @@ public class SpringBootWebApp extends SpringBootServletInitializer implements Se
             {
                 // Linux
                 Runtime.getRuntime().exec(new String[]
-                {
-                        "firefox", "-new-tab", url.toString()
-                });
+                        {
+                                "firefox", "-new-tab", url.toString()
+                        });
             }
             catch (Exception ex2)
             {

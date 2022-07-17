@@ -68,7 +68,7 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
      *
      * @return {@link ResponseEntity}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<Object> handleAuthenticationException(final AuthenticationException ex, final WebRequest request) throws IOException
@@ -81,7 +81,7 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
      *
      * @return {@link ResponseEntity}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGenericException(final Exception ex) throws IOException

@@ -65,7 +65,7 @@ class TestRestService
     private WebClient.Builder webClientBuilder;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testBenchmark() throws Exception
@@ -90,7 +90,7 @@ class TestRestService
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testMockMvc() throws Exception
@@ -109,7 +109,7 @@ class TestRestService
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testRestTemplate() throws Exception
@@ -126,7 +126,7 @@ class TestRestService
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testWebClient() throws Exception

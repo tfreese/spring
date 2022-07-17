@@ -53,7 +53,7 @@ class TestWebApp
     private MockMvc mockMvc;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testAccessSecuredResourceUnauthenticated() throws Exception
@@ -70,7 +70,7 @@ class TestWebApp
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testAccessUnsecuredResourceUnauthenticated() throws Exception
@@ -87,7 +87,7 @@ class TestWebApp
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testHealthEndpoint() throws Exception
@@ -103,7 +103,7 @@ class TestWebApp
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testLoginWithBasic() throws Exception
@@ -119,7 +119,7 @@ class TestWebApp
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testLoginWithPreAuth() throws Exception
@@ -135,7 +135,7 @@ class TestWebApp
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testLoginWithUnknownUser() throws Exception

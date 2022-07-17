@@ -46,7 +46,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
     private WebClient.Builder webClientBuilder;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeEach
     void beforeTest() throws Exception

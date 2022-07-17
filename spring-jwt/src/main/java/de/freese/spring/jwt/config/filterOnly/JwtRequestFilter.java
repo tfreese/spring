@@ -205,7 +205,7 @@ class JwtRequestFilter extends OncePerRequestFilter
      *
      * @return boolean
      *
-     * @throws AuthenticationException Falls was schief geht.
+     * @throws AuthenticationException Falls was schiefgeht.
      * @see DaoAuthenticationProvider
      */
     private boolean isValid(final UserDetails userDetails, final String password) throws AuthenticationException

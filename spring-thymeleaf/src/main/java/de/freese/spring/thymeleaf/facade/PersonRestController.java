@@ -5,15 +5,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import de.freese.spring.thymeleaf.model.Person;
+import de.freese.spring.thymeleaf.service.PersonService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import de.freese.spring.thymeleaf.model.Person;
-import de.freese.spring.thymeleaf.service.PersonService;
 
 /**
  * @author Thomas Freese
@@ -27,8 +26,8 @@ import de.freese.spring.thymeleaf.service.PersonService;
 public class PersonRestController
 {
     /**
-    *
-    */
+     *
+     */
     @Resource
     private PersonService service;
 
@@ -50,9 +49,7 @@ public class PersonRestController
     @GetMapping("/person/personList")
     public List<Person> personList()
     {
-        List<Person> persons = this.service.getPersons();
-
-        return persons;
+        return this.service.getPersons();
     }
 
     /**

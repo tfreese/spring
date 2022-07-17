@@ -1,7 +1,7 @@
 // Created: 02.09.2018
 package de.freese.spring.thymeleaf.config;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -13,6 +13,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import de.freese.spring.thymeleaf.ThymeleafApplication;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -43,8 +44,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import de.freese.spring.thymeleaf.ThymeleafApplication;
-
 /**
  * @author Thomas Freese
  */
@@ -72,7 +71,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
                 // System.out.println("HandlerInterceptor: " + Thread.currentThread().getName());
 
                 System.out.println();
-                System.out.println("Request: " + new Date());
+                System.out.println("Request: " + LocalDateTime.now());
 
                 Enumeration<String> headerNames = request.getHeaderNames();
 
@@ -137,9 +136,9 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
      */
     @Bean
     @ConditionalOnMissingBean(
-    {
-            Executor.class, ExecutorService.class
-    })
+            {
+                    Executor.class, ExecutorService.class
+            })
     @Primary
     public ThreadPoolExecutorFactoryBean executorService()
     {
@@ -280,13 +279,13 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
      * @return {@link TaskExecutor}
      */
     @Bean(
-    {
-            "taskExecutor", "asyncTaskExecutor"
-    })
+            {
+                    "taskExecutor", "asyncTaskExecutor"
+            })
     @ConditionalOnMissingBean(
-    {
-            AsyncTaskExecutor.class, TaskExecutor.class
-    })
+            {
+                    AsyncTaskExecutor.class, TaskExecutor.class
+            })
     // public AsyncTaskExecutor springTaskExecutor(@Qualifier("executorService") final ExecutorService executorService)
     public AsyncTaskExecutor springTaskExecutor()
     {

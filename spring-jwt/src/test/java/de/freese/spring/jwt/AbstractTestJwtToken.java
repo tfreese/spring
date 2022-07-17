@@ -102,7 +102,7 @@ abstract class AbstractTestJwtToken implements TestJwtToken
     /**
      * @param localServerPort int
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeEach
     void beforeEach(@LocalServerPort final int localServerPort) throws Exception

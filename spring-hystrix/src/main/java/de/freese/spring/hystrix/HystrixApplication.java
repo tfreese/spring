@@ -1,6 +1,12 @@
 // Created: 14.02.2017
 package de.freese.spring.hystrix;
 
+import com.netflix.config.ConcurrentCompositeConfiguration;
+import com.netflix.config.ConcurrentMapConfiguration;
+import com.netflix.config.ConfigurationManager;
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
@@ -14,12 +20,6 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
-import com.netflix.config.ConcurrentCompositeConfiguration;
-import com.netflix.config.ConcurrentMapConfiguration;
-import com.netflix.config.ConfigurationManager;
-import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 /**
  * Startklasse des Hystrix-Clients.<br>
@@ -47,7 +47,8 @@ public class HystrixApplication
 
     /**
      * @param args String[]
-     * @throws Exception Falls was schief geht.
+     *
+     * @throws Exception Falls was schiefgeht.
      */
     public static void main(final String[] args) throws Exception
     {
@@ -78,9 +79,9 @@ public class HystrixApplication
             RestTemplate restTemplate = context.getBean(RestTemplate.class);
 
             String[] urls = new String[]
-            {
-                    "http://localhost:8081/service/sysdate", "http://localhost:8082/service/sysdate", "http://localhost:8083/service/sysdate"
-            };
+                    {
+                            "http://localhost:8081/service/sysdate", "http://localhost:8082/service/sysdate", "http://localhost:8083/service/sysdate"
+                    };
 
             while (true)
             {
@@ -104,6 +105,7 @@ public class HystrixApplication
     /**
      * @param restTemplate {@link RestTemplate}
      * @param urls String[]
+     *
      * @return String
      */
     @HystrixCommand(commandKey = "getSysdate1", threadPoolKey = "sysDate", fallbackMethod = "getSysdate2")
@@ -120,6 +122,7 @@ public class HystrixApplication
     /**
      * @param restTemplate {@link RestTemplate}
      * @param urls String[]
+     *
      * @return String
      */
     @HystrixCommand(threadPoolKey = "sysDate", fallbackMethod = "getSysdate3")
@@ -136,6 +139,7 @@ public class HystrixApplication
     /**
      * @param restTemplate {@link RestTemplate}
      * @param urls String[]
+     *
      * @return String
      */
     @HystrixCommand(threadPoolKey = "sysDate", fallbackMethod = "getSysdateFallback")
@@ -152,13 +156,14 @@ public class HystrixApplication
     /**
      * @param restTemplate {@link RestTemplate}
      * @param urls String[]
+     *
      * @return String
      */
     @HystrixCommand(commandProperties =
-    {
-            // Im aktuellen Thread ausführen.
-            @HystrixProperty(name = "execution.isolation.strategy", value = "SEMAPHORE")
-    })
+            {
+                    // Im aktuellen Thread ausführen.
+                    @HystrixProperty(name = "execution.isolation.strategy", value = "SEMAPHORE")
+            })
     public String getSysdateFallback(final RestTemplate restTemplate, final String[] urls)
     {
         String result = "fallback";
