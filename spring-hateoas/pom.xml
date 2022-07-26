@@ -37,8 +37,10 @@
         </resources>
 
         <plugins>
-            <!-- spring-boot:run, spring-boot:repackage für executable jar -->
-            <!--java -jar -Dloader.main=de.freese.web.OtherMain target/test-0.0.1-SNAPSHOT.jar -->
+            <!-- spring-boot:run -->
+            <!-- spring-boot:repackage für executable jar -->
+            <!-- mvn package enthält hiermit schon spring-boot:repackage-->
+            <!-- java -jar -D"server.port=8899" target/service-0.0.1-SNAPSHOT-jar-with-dependencies.jar -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -50,6 +52,15 @@
                         -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
                         </jvmArguments -->
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -59,18 +70,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-hateoas</artifactId>
-            <!--exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-web</artifactId>
-                </exclusion>
-            </exclusions-->
         </dependency>
-
 
         <!-- runtime scope -->
         <!-- provided scope -->
-
         <!-- test scope -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

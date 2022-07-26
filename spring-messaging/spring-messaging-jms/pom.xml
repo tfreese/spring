@@ -2,65 +2,69 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
-	<parent>
-		<groupId>de.freese.spring</groupId>
-		<artifactId>spring-messaging</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
 
-	<artifactId>spring-messaging-jms</artifactId>
-	<packaging>jar</packaging>
+    <parent>
+        <groupId>de.freese.spring</groupId>
+        <artifactId>spring-messaging</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>JMS with ActiveMQ</description>
+    <artifactId>spring-messaging-jms</artifactId>
+    <packaging>jar</packaging>
 
-	<properties>
-	</properties>
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>JMS with ActiveMQ</description>
 
-	<build>
-		<plugins>
-			<!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
-			<!-- java -jar -D"server.port=8899" target/service-0.0.1-SNAPSHOT-jar-with-dependencies.jar -->
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<mainClass>de.freese.spring.messaging.jms.SpringJmsApplication</mainClass>
-					<!--jvmArguments>
-						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
-						</jvmArguments -->
-					<layout>ZIP</layout>
-					<classifier>jar-with-dependencies</classifier>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <properties>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-activemq</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-json</artifactId>
-		</dependency>		
-		<!--
-		<groupId>org.apache.activemq</groupId>
-		<artifactId>activemq-amqp</artifactId>
-		-->
-		<!--dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-broker</artifactId>
-			</dependency -->
-	</dependencies>
-	
+    <build>
+        <plugins>
+            <!-- spring-boot:run -->
+            <!-- spring-boot:repackage für executable jar -->
+            <!-- mvn package enthält hiermit schon spring-boot:repackage-->
+            <!-- java -jar -D"server.port=8899" target/***.jar -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>de.freese.spring.messaging.jms.SpringJmsApplication</mainClass>
+                    <!--jvmArguments>
+                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+                        </jvmArguments -->
+                    <layout>ZIP</layout>
+                    <classifier>jar-with-dependencies</classifier>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
+        </dependency>
+        <!--
+        <groupId>org.apache.activemq</groupId>
+        <artifactId>activemq-amqp</artifactId>
+        -->
+        <!--dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-broker</artifactId>
+            </dependency -->
+    </dependencies>
+
 </project>

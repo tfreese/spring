@@ -52,17 +52,12 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <id>repackage</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>repackage</goal>
                         </goals>
                     </execution>
-                    <!--execution>
-                        <id>package</id>
-                        <phase>package</phase>
-                        <goals>
-                        <goal>repackage</goal>
-                        </goals>
-                        </execution -->
                 </executions>
             </plugin>
         </plugins>

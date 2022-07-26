@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>de.freese.kubernetes</groupId>
@@ -17,8 +17,10 @@
 
 	<build>
 		<plugins>
-			<!-- spring-boot:run, clean package spring-boot:repackage für executable jar -->
-			<!-- java -jar -D"server.port=8899" target/***.jar -->
+			<!-- spring-boot:run -->
+			<!-- spring-boot:repackage für executable jar -->
+			<!-- mvn package enthält hiermit schon spring-boot:repackage-->
+			<!-- java -jar -D"server.port=8899" target/microservice-0.0.1-SNAPSHOT-jar-with-dependencies.jar -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -32,11 +34,13 @@
 				</configuration>
 				<executions>
 					<execution>
+						<id>repackage</id>
+						<phase>package</phase>
 						<goals>
 							<goal>repackage</goal>
 						</goals>
 					</execution>
-				</executions>				
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
