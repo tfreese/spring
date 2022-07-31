@@ -33,9 +33,9 @@ subprojects {
             dependency("javax:javaee-web-api:$version_javaee")
 
             dependency("org.apache.qpid:qpid-broker:$version_qpid")
-            dependency("org.apache.qpid:qpid-bdbstore:$version_qpid") {
-                exclude "com.sleepycat:je" // Wird in keinem Repository gefunden.
-            }
+//            dependency("org.apache.qpid:qpid-bdbstore:$version_qpid") {
+//                exclude "com.sleepycat:je" // Wird in keinem Repository gefunden.
+//            }
 
             dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {
                 entry "jmh-core"
@@ -236,9 +236,9 @@ project("spring-hateoas") {
         implementation("org.springframework.boot:spring-boot-starter-hateoas")
         implementation("org.springframework.boot:spring-boot-starter-webflux")
 
-        runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+//        runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
-        testImplementation("com.jayway.jsonpath:json-path")
+//        testImplementation("com.jayway.jsonpath:json-path")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
@@ -386,7 +386,6 @@ project("spring-messaging:spring-messaging-amqp-qpid") {
         implementation("org.springframework.boot:spring-boot-starter-json")
 
         implementation("org.apache.qpid:qpid-broker")
-        //implementation("org.apache.qpid:qpid-bdbstore")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
     bootJar {
@@ -624,17 +623,17 @@ project("spring-web") {
     dependencies {
         implementation("com.sun.faces:jsf-api")
         implementation("com.sun.faces:jsf-impl")
+        implementation("org.primefaces:primefaces")
         implementation("org.springframework.boot:spring-boot-actuator")
         implementation("org.springframework.boot:spring-boot-starter-web") {
             //exclude module: "spring-boot-starter-tomcat"
         }
         //implementation("javax:javaee-web-api") // Falls nicht Tomcat verwendet werden soll-
 
-        runtimeOnly("org.primefaces:primefaces")
+        runtimeOnly("org.apache.tomcat.embed:tomcat-embed-jasper")
         runtimeOnly("org.primefaces.extensions:primefaces-extensions")
         runtimeOnly("org.primefaces.themes:all-themes")
         //runtimeOnly("org.springframework.boot:spring-boot-starter-jetty") // -> javax:javaee-web-api
-        //runtimeOnly("org.glassfish.web:el-impl:2.2.1-b05")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
     bootJar {

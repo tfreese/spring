@@ -10,19 +10,18 @@ app:
     message:
         welcome: Hello Tommy
 
-
 # =================================================================================================
 # Spring Properties
 debug: false
 
 logging:
     config: classpath:logback.xml
-    #level:
-        #de.freese.spring.thymeleaf: DEBUG
+      #level:
+    #de.freese.spring.thymeleaf: DEBUG
 
 spring:
     autoconfigure:
-        #exclude: org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration
+    #exclude: org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration
     banner:
         charset: UTF-8
         location: classpath:banner.txt
@@ -51,7 +50,7 @@ spring:
         time-zone: Europe/Berlin
     main:
         banner-mode: CONSOLE
-        web-application-type: SERVLET    
+        web-application-type: SERVLET
     mvc:
         favicon:
             enabled: true
@@ -62,12 +61,12 @@ spring:
             enabled: DETECT
     profiles:
         active: with-ssl
-        #active: default
-    #resources:
-        #cache:
-            #period: 0
-        #chain:
-            #cache: false
+          #active: default
+          #resources:
+          #cache:
+          #period: 0
+          #chain:
+        #cache: false
     thymeleaf:
         cache: false
 
