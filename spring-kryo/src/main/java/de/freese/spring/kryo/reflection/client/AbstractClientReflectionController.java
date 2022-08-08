@@ -357,7 +357,7 @@ public abstract class AbstractClientReflectionController<T>
              *
              * @return Object
              *
-             * @throws Throwable Falls was schief geht.
+             * @throws Throwable Falls was schiefgeht.
              */
             private Object invoke(final Class<T> fassadeType, final Method method, final Object[] args) throws Throwable
             {

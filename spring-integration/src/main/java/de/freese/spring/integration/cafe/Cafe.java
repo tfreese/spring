@@ -5,6 +5,7 @@ package de.freese.spring.integration.cafe;
  *
  * @author Thomas Freese
  */
+@FunctionalInterface
 public interface Cafe
 {
     /**

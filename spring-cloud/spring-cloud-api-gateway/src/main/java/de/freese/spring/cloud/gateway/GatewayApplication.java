@@ -37,7 +37,7 @@ public class GatewayApplication
     /**
      * @param args String[]
      */
-    public static void main(final String[] args) throws InterruptedException
+    public static void main(final String[] args)
     {
         SpringApplication.run(GatewayApplication.class, args);
     }

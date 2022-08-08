@@ -59,14 +59,14 @@ public class OpenBrowserRunner implements CommandLineRunner
      *
      * @param url String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private void openLinuxChrome(final String url) throws Exception
     {
         Runtime.getRuntime().exec(new String[]
-        {
-                "google-chrome-stable", url
-        });
+                {
+                        "google-chrome-stable", url
+                });
     }
 
     /**
@@ -74,27 +74,27 @@ public class OpenBrowserRunner implements CommandLineRunner
      *
      * @param url String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private void openLinuxChromium(final String url) throws Exception
     {
         Runtime.getRuntime().exec(new String[]
-        {
-                "chromium", url
-        });
+                {
+                        "chromium", url
+                });
     }
 
     /**
      * @param url String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private void openLinuxFirefox(final String url) throws Exception
     {
         Runtime.getRuntime().exec(new String[]
-        {
-                "firefox", "-new-tab", url
-        });
+                {
+                        "firefox", "-new-tab", url
+                });
     }
 
     /**
@@ -102,21 +102,21 @@ public class OpenBrowserRunner implements CommandLineRunner
      *
      * @param url String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private void openWindowsFirefox(final String url) throws Exception
     {
         Runtime.getRuntime().exec(new String[]
-        {
-                "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", url
-        });
+                {
+                        "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", url
+                });
     }
 
     /**
      * @see CommandLineRunner#run(String[])
      */
     @Override
-    public void run(final String...args) throws Exception
+    public void run(final String... args) throws Exception
     {
         LOGGER.info("");
 

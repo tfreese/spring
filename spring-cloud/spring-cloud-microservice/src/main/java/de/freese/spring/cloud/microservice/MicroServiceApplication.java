@@ -44,7 +44,7 @@ public class MicroServiceApplication extends SpringBootServletInitializer
     /**
      * @param args String[]
      */
-    public static void main(final String[] args) throws InterruptedException
+    public static void main(final String[] args)
     {
         configureApplication(new SpringApplicationBuilder()).run(args);
 

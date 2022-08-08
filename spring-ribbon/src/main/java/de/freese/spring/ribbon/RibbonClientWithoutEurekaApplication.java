@@ -2,6 +2,7 @@
 package de.freese.spring.ribbon;
 
 import java.net.URI;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +68,7 @@ public class RibbonClientWithoutEurekaApplication
                     break;
                 }
 
-                Thread.sleep(3000);
+                TimeUnit.MILLISECONDS.sleep(3000);
             }
         }
 

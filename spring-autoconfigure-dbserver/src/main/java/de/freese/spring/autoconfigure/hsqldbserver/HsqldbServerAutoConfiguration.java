@@ -56,8 +56,8 @@ import org.springframework.context.annotation.Configuration;
  * @author Thomas Freese
  */
 @Configuration
-@ConditionalOnClass(Server.class) // Wenn HSQLDB auch im Classpath ist.
-@ConditionalOnMissingBean(Server.class) // Wenn Server noch nicht im SpringContext ist.
+@ConditionalOnClass(Server.class) // Nur wenn HSQLDB auch im Classpath ist.
+@ConditionalOnMissingBean(Server.class) // Nur wenn Server noch nicht im SpringContext ist.
 @ConditionalOnProperty(prefix = "hsqldb.server", name = "enabled", matchIfMissing = false) // Nur wenn auch enabled.
 @EnableConfigurationProperties(HsqldbServerProperties.class)
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
@@ -76,7 +76,7 @@ public class HsqldbServerAutoConfiguration
     /**
      * @return {@link Server}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Bean(initMethod = "start", destroyMethod = "shutdown")
     // @Scope(ConfigurableBeanFactory#SCOPE_SINGLETON)

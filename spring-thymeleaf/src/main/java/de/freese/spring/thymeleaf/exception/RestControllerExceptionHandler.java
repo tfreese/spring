@@ -134,9 +134,8 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     protected static HttpStatus getStatus(final WebRequest request)
     {
         HttpServletRequest httpServletRequest = getHttpServletRequest(request);
-        HttpStatus httpStatus = getStatus(httpServletRequest);
 
-        return httpStatus;
+        return getStatus(httpServletRequest);
     }
 
     /**
@@ -190,9 +189,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     @ExceptionHandler(value = AccessDeniedException.class)
     protected ResponseEntity<Object> handleAccessDeniedException(final AccessDeniedException ex, final WebRequest request)
     {
-        ResponseEntity<Object> responseEntity = buildResponseEntity(new ApiError(), request, HttpStatus.FORBIDDEN, ex, "Access Denied");
-
-        return responseEntity;
+        return buildResponseEntity(new ApiError(), request, HttpStatus.FORBIDDEN, ex, "Access Denied");
     }
 
     /**
@@ -214,7 +211,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     /**
      * @see org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler#handleExceptionInternal(java.lang.Exception, java.lang.Object,
-     *      org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
+     * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
      */
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body, final HttpHeaders headers, final HttpStatus status,
@@ -261,7 +258,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     /**
      * @see org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler#handleHttpMediaTypeNotSupported(org.springframework.web.HttpMediaTypeNotSupportedException,
-     *      org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
+     * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
      */
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(final HttpMediaTypeNotSupportedException ex, final HttpHeaders headers,
@@ -301,7 +298,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     /**
      * @see org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler#handleHttpMessageNotReadable(org.springframework.http.converter.HttpMessageNotReadableException,
-     *      org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
+     * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
      */
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatus status,
@@ -312,7 +309,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     /**
      * @see org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler#handleHttpMessageNotWritable(org.springframework.http.converter.HttpMessageNotWritableException,
-     *      org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
+     * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
      */
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotWritable(final HttpMessageNotWritableException ex, final HttpHeaders headers, final HttpStatus status,
@@ -323,7 +320,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     /**
      * @see org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler#handleMethodArgumentNotValid(org.springframework.web.bind.MethodArgumentNotValidException,
-     *      org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
+     * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
      */
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatus status,
@@ -355,7 +352,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     /**
      * @see org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler#handleMissingServletRequestParameter(org.springframework.web.bind.MissingServletRequestParameterException,
-     *      org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
+     * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
      */
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(final MissingServletRequestParameterException ex, final HttpHeaders headers,
@@ -368,7 +365,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     /**
      * @see org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler#handleNoHandlerFoundException(org.springframework.web.servlet.NoHandlerFoundException,
-     *      org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
+     * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatus, org.springframework.web.context.request.WebRequest)
      */
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(final NoHandlerFoundException ex, final HttpHeaders headers, final HttpStatus status,

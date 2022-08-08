@@ -39,7 +39,7 @@ class TestRestController
     // private WebTestClient webClient;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testHello() throws Exception
@@ -58,7 +58,7 @@ class TestRestController
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testPing() throws Exception

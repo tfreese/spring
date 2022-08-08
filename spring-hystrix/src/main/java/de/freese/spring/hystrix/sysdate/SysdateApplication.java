@@ -1,6 +1,8 @@
 // Created: 01.03.2017
 package de.freese.spring.hystrix.sysdate;
 
+import java.util.concurrent.TimeUnit;
+
 import com.netflix.config.ConcurrentCompositeConfiguration;
 import com.netflix.config.ConcurrentMapConfiguration;
 import com.netflix.config.ConfigurationManager;
@@ -67,7 +69,7 @@ public class SysdateApplication
                 break;
             }
 
-            Thread.sleep(1000);
+            TimeUnit.MILLISECONDS.sleep(1000);
         }
 
         System.exit(0);

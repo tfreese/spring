@@ -1,6 +1,8 @@
 // Created: 14.02.2017
 package de.freese.spring.ribbon;
 
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -58,7 +60,7 @@ public class RibbonClientWithEurekaApplication
                     break;
                 }
 
-                Thread.sleep(3000);
+                TimeUnit.MILLISECONDS.sleep(3000);
             }
         }
 

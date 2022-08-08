@@ -22,7 +22,7 @@ abstract class AbstractTestJwtToken implements TestJwtToken
 {
     /**
      * Das Auslesen des Responses ist nur einmal möglich !<br>
-     * Das führt bei den Tests zu Fehlern, da für die Asserts ein 2. x auf den Response zugegriffen werden muss.
+     * Das führt bei den Tests zu Fehlern, da für die Asserts ein 2. x auf dem Response zugegriffen werden muss.
      *
      * @author Thomas Freese
      */
@@ -35,7 +35,7 @@ abstract class AbstractTestJwtToken implements TestJwtToken
         public void handleError(final ClientHttpResponse response) throws IOException
         {
             // Das Auslesen des Responses ist nur einmal möglich !
-            // Das führt bei den Tests zu Fehlern, da für die Asserts ein 2. x auf den Response zugegriffen werden muss.
+            // Das führt bei den Tests zu Fehlern, da für die Asserts ein 2. x auf dem Response zugegriffen werden muss.
 
             // RestClientResponseException exception =
             // new RestClientResponseException("Server Error: [" + response.getRawStatusCode() + "]" + " " + response.getStatusText(),

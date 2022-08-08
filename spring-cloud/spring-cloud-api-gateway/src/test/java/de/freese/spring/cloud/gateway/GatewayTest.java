@@ -46,7 +46,7 @@ class GatewayTest
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testContextLoads() throws Exception

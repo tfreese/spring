@@ -32,7 +32,7 @@ class GreetingMockMvcTests
     private MockMvc mockMvc;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testDefault() throws Exception
@@ -51,7 +51,7 @@ class GreetingMockMvcTests
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testFail() throws Exception
@@ -65,7 +65,7 @@ class GreetingMockMvcTests
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testJsonPath() throws Exception
@@ -93,7 +93,7 @@ class GreetingMockMvcTests
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testPath() throws Exception
@@ -111,7 +111,7 @@ class GreetingMockMvcTests
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testPojo() throws Exception
@@ -129,7 +129,7 @@ class GreetingMockMvcTests
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSimple() throws Exception
