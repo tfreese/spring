@@ -24,7 +24,7 @@ public class SystemExitRunner implements CommandLineRunner
      * @see CommandLineRunner#run(String[])
      */
     @Override
-    public void run(final String...args) throws Exception
+    public void run(final String... args) throws Exception
     {
         LOGGER.info("");
 
@@ -32,10 +32,9 @@ public class SystemExitRunner implements CommandLineRunner
         // In der Runtime als Default VM-Argument setzen oder in der eclipse.ini
         // if (Boolean.parseBoolean(System.getenv("run_in_ide")) || Boolean.parseBoolean(System.getProperty("run_in_ide", "false")))
         {
-            System.out.println();
-            System.out.println("******************************************************************************************************************");
-            System.out.println("You're using an IDE, click in this console and press ENTER to call System.exit() and trigger the shutdown routine.");
-            System.out.println("******************************************************************************************************************");
+            LOGGER.info("******************************************************************************************************************");
+            LOGGER.info("You're using an IDE, click in this console and press ENTER to call System.exit() and trigger the shutdown routine.");
+            LOGGER.info("******************************************************************************************************************");
 
             try
             {

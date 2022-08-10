@@ -1,6 +1,12 @@
 // Created: 09.02.2019
 package de.freese.spring.javafx;
 
+import javafx.application.Application;
+import javafx.application.HostServices;
+import javafx.application.Platform;
+import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ApplicationEvent;
@@ -9,16 +15,16 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.support.GenericApplicationContext;
 
-import javafx.application.Application;
-import javafx.application.HostServices;
-import javafx.application.Platform;
-import javafx.stage.Stage;
-
 /**
  * @author Thomas Freese
  */
 public class JavaFxApplication extends Application
 {
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(JavaFxApplication.class);
+
     /**
      * @author Thomas Freese
      */
@@ -59,12 +65,13 @@ public class JavaFxApplication extends Application
     @Override
     public void init() throws Exception
     {
-        ApplicationContextInitializer<GenericApplicationContext> initializer = ac -> {
+        ApplicationContextInitializer<GenericApplicationContext> initializer = ac ->
+        {
             ac.registerBean(Application.class, () -> JavaFxApplication.this);
             ac.registerBean(Parameters.class, this::getParameters);
             ac.registerBean(HostServices.class, this::getHostServices);
 
-            ac.addApplicationListener((ApplicationListener<ContextClosedEvent>) (event -> System.out.println("Closing ApplicationContext")));
+            ac.addApplicationListener((ApplicationListener<ContextClosedEvent>) (event -> LOGGER.info("Closing ApplicationContext")));
         };
 
         // @formatter:off

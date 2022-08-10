@@ -2,12 +2,15 @@
 package de.freese.spring.integration.cafe.dsl;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import de.freese.spring.integration.cafe.Delivery;
 import de.freese.spring.integration.cafe.Drink;
 import de.freese.spring.integration.cafe.Order;
 import de.freese.spring.integration.cafe.OrderItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.integration.annotation.Gateway;
@@ -25,6 +28,11 @@ import org.springframework.integration.scheduling.PollerMetadata;
 // @EnableIntegration
 public class Application
 {
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+
     /**
      * @author Thomas Freese
      */
@@ -46,7 +54,7 @@ public class Application
     {
         try
         {
-            Thread.sleep(millis);
+            TimeUnit.MILLISECONDS.sleep(millis);
         }
         catch (Exception ex)
         {
@@ -85,7 +93,7 @@ public class Application
                                                                 .<OrderItem, String> transform(p -> Thread.currentThread().getName()
                                                                         + " prepared cold drink #" + this.coldDrinkCounter.incrementAndGet()
                                                                         + " for order #" + p.getOrderNumber() + ": " + p)
-                                                                .handle(m -> System.out.println(m.getPayload())))))
+                                                                .handle(m -> LOGGER.info("{}", m.getPayload())))))
                                 .subFlowMapping(false,
                                         sf -> sf.channel(c -> c.queue(10))
                                                 .publishSubscribeChannel(c -> c.subscribe(s -> s.handle(m -> sleep(800)))
@@ -93,7 +101,7 @@ public class Application
                                                                 .<OrderItem, String> transform(p -> Thread.currentThread().getName()
                                                                         + " prepared hot drink #" + this.hotDrinkCounter.incrementAndGet()
                                                                         + " for order #" + p.getOrderNumber() + ": " + p)
-                                                                .handle(m -> System.out.println(m.getPayload())))))
+                                                                .handle(m -> LOGGER.info("{}", m.getPayload())))))
                                 .defaultOutputToParentFlow())
                 .<OrderItem, Drink> transform(
                         orderItem -> new Drink(orderItem.getOrderNumber(), orderItem.getDrinkType(), orderItem.isIced()))

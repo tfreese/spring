@@ -17,16 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class SecuredRestController
 {
     /**
-     * Erstellt ein neues {@link SecuredRestController} Object.
-     */
-    public SecuredRestController()
-    {
-        super();
-    }
-
-    /**
      * curl http://localhost:10000/spring-security/rest/admin -u admin:admin1
-     * 
+     *
      * @return String
      */
     @GetMapping("/admin")

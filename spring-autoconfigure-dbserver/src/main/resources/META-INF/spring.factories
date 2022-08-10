@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+de.freese.spring.autoconfigure.hsqldbserver.HsqldbServerAutoConfiguration

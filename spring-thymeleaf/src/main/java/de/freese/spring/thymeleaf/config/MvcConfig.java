@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.freese.spring.thymeleaf.ThymeleafApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -51,6 +53,11 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
 {
     /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(MvcConfig.class);
+
+    /**
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry)
      */
     @Override
@@ -70,15 +77,14 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
             {
                 // System.out.println("HandlerInterceptor: " + Thread.currentThread().getName());
 
-                System.out.println();
-                System.out.println("Request: " + LocalDateTime.now());
+                LOGGER.info("Request: {}", LocalDateTime.now());
 
                 Enumeration<String> headerNames = request.getHeaderNames();
 
                 while (headerNames.hasMoreElements())
                 {
                     String headerName = headerNames.nextElement();
-                    System.out.printf("%s = %s%n", headerName, request.getHeader(headerName));
+                    LOGGER.info("{} = {}", headerName, request.getHeader(headerName));
                 }
 
                 return true;

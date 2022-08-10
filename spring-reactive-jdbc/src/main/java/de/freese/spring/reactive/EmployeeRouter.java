@@ -16,10 +16,6 @@ public class EmployeeRouter
 {
     /**
      * Die REST-Methode 'createNewEmployee' wird im {@link EmployeeRestController} behandelt.
-     *
-     * @param handler {@link EmployeeHandler}
-     *
-     * @return {@link RouterFunction}
      */
     @Bean
     public RouterFunction<ServerResponse> route(final EmployeeHandler handler)

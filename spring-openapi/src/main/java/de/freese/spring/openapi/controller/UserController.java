@@ -10,8 +10,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,11 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "UserController", description = "The User API with documentation annotations")
 public class UserController
 {
-    /**
-     *
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-
     private final Map<String, String> userMap = new HashMap<>();
 
     public UserController()

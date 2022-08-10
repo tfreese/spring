@@ -3,7 +3,6 @@ package de.freese.spring.autoconfigure;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.Connection;
@@ -111,15 +110,6 @@ public interface TestAutoConfiguration
                 fail("no data");
             }
         }
-    }
-
-    /**
-     *
-     */
-    @Test
-    default void testContextLoads()
-    {
-        assertTrue(true);
     }
 
     /**

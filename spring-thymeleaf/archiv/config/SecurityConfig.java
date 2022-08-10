@@ -52,7 +52,7 @@ import org.springframework.security.web.authentication.preauth.RequestHeaderAuth
  * public Executor getAsyncExecutor() {
  *  return new DelegatingSecurityContextExecutorService(Executors.newFixedThreadPool(5));
  *  }
- *}
+ * }
  * </pre>
  *
  * https://chclaus.de/2016/02/09/spring-boot-security-authenticate-programmatically/<br>
@@ -78,18 +78,10 @@ public class SecurityConfig
     public static class LoginConfigurationAdapter extends WebSecurityConfigurerAdapter
     {
         /**
-        *
-        */
-        @Resource
-        private UserDetailsService userDetailsService = null;
-
-        /**
-         * Erstellt ein neues {@link LoginConfigurationAdapter} Object.
+         *
          */
-        public LoginConfigurationAdapter()
-        {
-            super();
-        }
+        @Resource
+        private UserDetailsService userDetailsService;
 
         /**
          * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.WebSecurity)
@@ -106,6 +98,7 @@ public class SecurityConfig
 
         /**
          * @param auth {@link AuthenticationManagerBuilder}
+         *
          * @throws Exception Falls was schief geht.
          */
         @Resource
@@ -153,18 +146,11 @@ public class SecurityConfig
          *
          */
         @Resource
-        private UserDetailsService userDetailsService = null;
-
-        /**
-         * Erstellt ein neues {@link PreAuthConfigurationAdapter} Object.
-         */
-        public PreAuthConfigurationAdapter()
-        {
-            super();
-        }
+        private UserDetailsService userDetailsService;
 
         /**
          * @param auth {@link AuthenticationManagerBuilder}
+         *
          * @throws Exception Falls was schief geht.
          */
         @Resource
@@ -199,6 +185,7 @@ public class SecurityConfig
 
         /**
          * @return {@link RequestHeaderAuthenticationFilter}
+         *
          * @throws Exception Falls was schief geht.
          */
         @Bean
@@ -253,7 +240,7 @@ public class SecurityConfig
     // @Resource
     // public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception
     // {
-//        // @formatter:off
+    //        // @formatter:off
 //        auth.inMemoryAuthentication()
 //            .withUser("admin").password("admin1").roles("ADMIN","USER")
 //            .and()

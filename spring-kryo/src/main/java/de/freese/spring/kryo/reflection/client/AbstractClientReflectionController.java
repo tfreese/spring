@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
@@ -383,7 +384,7 @@ public abstract class AbstractClientReflectionController<T>
                         getLogger().warn("Retry: ({}/{}) {}.{}", this.invocationCount, maxTrys, fassadeType.getSimpleName(), method.getName());
 
                         this.invocationCount++;
-                        Thread.sleep(retryDelay);
+                        TimeUnit.MILLISECONDS.sleep(retryDelay);
 
                         return invoke(fassadeType, method, args);
                     }

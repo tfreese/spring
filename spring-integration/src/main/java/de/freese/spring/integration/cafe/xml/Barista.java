@@ -1,5 +1,6 @@
 package de.freese.spring.integration.cafe.xml;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import de.freese.spring.integration.cafe.Drink;
@@ -42,7 +43,7 @@ public class Barista
     {
         try
         {
-            Thread.sleep(this.coldDrinkDelay);
+            TimeUnit.MILLISECONDS.sleep(this.coldDrinkDelay);
 
             this.logger.info("{} prepared cold drink #{} for order #{}: {}", Thread.currentThread().getName(), this.coldDrinkCounter.incrementAndGet(),
                     orderItem.getOrderNumber(), orderItem);
@@ -65,7 +66,7 @@ public class Barista
     {
         try
         {
-            Thread.sleep(this.hotDrinkDelay);
+            TimeUnit.MILLISECONDS.sleep(this.hotDrinkDelay);
 
             this.logger.info("{} prepared hot drink #{} for order #{}: {}", Thread.currentThread().getName(), this.hotDrinkCounter.incrementAndGet(),
                     orderItem.getOrderNumber(), orderItem);

@@ -2,6 +2,7 @@
 package org.spring.messaging.amqp.qpid;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -33,13 +34,13 @@ public class RunnerSendMessages implements CommandLineRunner
      * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
      */
     @Override
-    public void run(final String...args) throws Exception
+    public void run(final String... args) throws Exception
     {
         for (int i = 0; i < 5; i++)
         {
             this.sender.send(new Email("info@example.com", "Hello-" + (i + 1)));
         }
 
-        Thread.sleep(1000);
+        TimeUnit.MILLISECONDS.sleep(1000);
     }
 }

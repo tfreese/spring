@@ -25,7 +25,7 @@ class TestHelloController
     private MockMvc mvc;
 
     @Test
-    void rootWhenAuthenticatedThenSaysHelloUser() throws Exception
+    void testRootWhenAuthenticatedThenSaysHelloUser() throws Exception
     {
         // @formatter:off
         this.mvc.perform(MockMvcRequestBuilders.get("/")
@@ -35,7 +35,7 @@ class TestHelloController
     }
 
     @Test
-    void rootWhenUnauthenticatedThen401() throws Exception
+    void testRootWhenUnauthenticatedThen401() throws Exception
     {
         // @formatter:off
         this.mvc.perform(MockMvcRequestBuilders.get("/"))
@@ -44,7 +44,7 @@ class TestHelloController
     }
 
     @Test
-    void tokenWhenBadCredentialsThen401() throws Exception
+    void testTokenWhenBadCredentialsThen401() throws Exception
     {
         // @formatter:off
         this.mvc.perform(MockMvcRequestBuilders.get("/")

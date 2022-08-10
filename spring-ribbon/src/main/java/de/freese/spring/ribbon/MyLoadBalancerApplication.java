@@ -4,6 +4,7 @@ package de.freese.spring.ribbon;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import de.freese.spring.ribbon.myloadbalancer.LoadBalancer;
 import de.freese.spring.ribbon.myloadbalancer.LoadBalancerInterceptor;
@@ -63,7 +64,7 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
                     break;
                 }
 
-                Thread.sleep(3000);
+                TimeUnit.MILLISECONDS.sleep(3000);
             }
         }
 

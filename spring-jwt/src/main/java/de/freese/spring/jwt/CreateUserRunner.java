@@ -39,10 +39,10 @@ public class CreateUserRunner implements CommandLineRunner
 
         User admin = new User("admin", "pass", Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER")));
         String token = this.userService.register(admin);
-        System.out.printf("%nAdmin Token: %s%n", token);
+        LOGGER.info("Admin Token: {}", token);
 
         User user = new User("user", "pass", Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
         token = this.userService.register(user);
-        System.out.printf("User Token: %s%n%n", token);
+        LOGGER.info("User Token: {}", token);
     }
 }

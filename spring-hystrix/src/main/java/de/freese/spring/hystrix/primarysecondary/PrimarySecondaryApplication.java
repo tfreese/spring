@@ -1,6 +1,8 @@
 // Created: 01.03.2017
 package de.freese.spring.hystrix.primarysecondary;
 
+import java.util.concurrent.TimeUnit;
+
 import com.netflix.config.ConcurrentCompositeConfiguration;
 import com.netflix.config.ConcurrentMapConfiguration;
 import com.netflix.config.ConfigurationManager;
@@ -8,12 +10,19 @@ import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
 public class PrimarySecondaryApplication
 {
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrimarySecondaryApplication.class);
+
     /**
      * @param args String[]
      *
@@ -51,7 +60,7 @@ public class PrimarySecondaryApplication
                     String result = cmd.execute();
 
                     // Ohne Logs der Commands wird das Ergebnis aus dem Cache geholt, siehe PrimarySecondaryCommand#getCacheKey.
-                    System.out.println(result);
+                    LOGGER.info(result);
 
                     // if (cmd.isResponseFromCache())
                     // {
@@ -64,10 +73,8 @@ public class PrimarySecondaryApplication
                         ConfigurationManager.getConfigInstance().setProperty("primarySecondary.usePrimary", false);
                     }
 
-                    Thread.sleep(1000);
+                    TimeUnit.MILLISECONDS.sleep(1000);
                 }
-
-                System.out.println();
             }
 
             context.shutdown();

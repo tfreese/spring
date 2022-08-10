@@ -5,11 +5,13 @@ package de.freese.spring.security.rest;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -46,24 +48,17 @@ public class LoginController
      *
      */
     @Resource
-    private AuthenticationManager authenticationManager = null;
+    private AuthenticationManager authenticationManager;
 
     /**
-    *
-    */
-    @Resource
-    private UserDetailsService userDetailsService = null;
-
-    /**
-     * Erstellt ein neues {@link LoginController} Object.
+     *
      */
-    public LoginController()
-    {
-        super();
-    }
+    @Resource
+    private UserDetailsService userDetailsService;
 
     /**
      * @param authToken String
+     *
      * @return String
      */
     public String findUsernameByToken(final String authToken)
@@ -118,6 +113,7 @@ public class LoginController
      *
      * @param req {@link HttpServletRequest}
      * @param token String
+     *
      * @return String
      */
     @PostMapping("/loginWithToken")
@@ -162,6 +158,7 @@ public class LoginController
     /**
      * @param request {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
+     *
      * @return String
      */
     @GetMapping("/logout")

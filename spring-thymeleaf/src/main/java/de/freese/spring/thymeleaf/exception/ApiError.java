@@ -76,7 +76,7 @@ public class ApiError
     /**
      * @author Thomas Freese
      */
-    class ApiValidationError extends AbstractApiSubError
+    static class ApiValidationError extends AbstractApiSubError
     {
         /**
          *
@@ -171,6 +171,7 @@ public class ApiError
             this.rejectedValue = rejectedValue;
         }
     }
+
     /**
      *
      */

@@ -20,7 +20,7 @@ public class FailingService
     /**
      *
      */
-    private final Logger logger = LoggerFactory.getLogger(FailingService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FailingService.class);
     /**
      *
      */
@@ -38,7 +38,7 @@ public class FailingService
         }
         catch (UnknownHostException ex)
         {
-            this.logger.error(null, ex);
+            LOGGER.error(null, ex);
         }
 
         return "???";
@@ -57,7 +57,7 @@ public class FailingService
         return name
                 .map(s -> {
                     var msg = "Hello " + s + " ! (in " + seconds + " Seconds) on " + getHost();
-                    this.logger.info(msg);
+                    LOGGER.info(msg);
                     return Mono.just(msg);
                 })
                 .orElse(Mono.error(new NullPointerException("name")))

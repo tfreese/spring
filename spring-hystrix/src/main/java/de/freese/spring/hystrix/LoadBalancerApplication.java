@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import com.netflix.config.ConcurrentCompositeConfiguration;
 import com.netflix.config.ConcurrentMapConfiguration;
@@ -19,6 +20,8 @@ import com.netflix.hystrix.HystrixThreadPoolKey;
 import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -32,6 +35,11 @@ import org.springframework.web.client.RestTemplate;
  */
 public class LoadBalancerApplication
 {
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancerApplication.class);
+
     /**
      * @author Thomas Freese
      */
@@ -402,14 +410,14 @@ public class LoadBalancerApplication
         {
             String result = restTemplate.getForObject(url, String.class);
 
-            System.out.println(result);
+            LOGGER.info(result);
 
             if (result == null)
             {
                 break;
             }
 
-            Thread.sleep(1000);
+            TimeUnit.MILLISECONDS.sleep(1000);
         }
 
         System.exit(0);

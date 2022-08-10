@@ -1,6 +1,8 @@
 // Created: 14.02.2017
 package de.freese.spring.hystrix;
 
+import java.util.concurrent.TimeUnit;
+
 import com.netflix.config.ConcurrentCompositeConfiguration;
 import com.netflix.config.ConcurrentMapConfiguration;
 import com.netflix.config.ConfigurationManager;
@@ -95,7 +97,7 @@ public class HystrixApplication
                     break;
                 }
 
-                Thread.sleep(2000);
+                TimeUnit.MILLISECONDS.sleep(2000);
             }
         }
 
