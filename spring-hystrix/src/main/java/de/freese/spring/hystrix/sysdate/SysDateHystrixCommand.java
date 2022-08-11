@@ -1,21 +1,20 @@
 // Created: 01.03.2017
 package de.freese.spring.hystrix.sysdate;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.client.RestTemplate;
-
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandKey;
 import com.netflix.hystrix.HystrixCommandProperties;
 import com.netflix.hystrix.HystrixThreadPoolKey;
+import org.apache.commons.lang.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * {@link HystrixCommand} mit Fallback über drei Server.<br>
  * <br>
- * https://github.com/Netflix/Hystrix/wiki/How-To-Use#Common-Patterns-FallbackCacheViaNetwork<br>
+ * <a href="https://github.com/Netflix/Hystrix/wiki/How-To-Use#Common-Patterns-FallbackCacheViaNetwork">Hystrix</a><br>
  *
  * @author Thomas Freese
  */
@@ -124,7 +123,7 @@ public class SysDateHystrixCommand extends HystrixCommand<String>
     /**
      * @param urls String[]
      */
-    public void setURLs(final String...urls)
+    public void setURLs(final String... urls)
     {
         this.urls = urls;
     }

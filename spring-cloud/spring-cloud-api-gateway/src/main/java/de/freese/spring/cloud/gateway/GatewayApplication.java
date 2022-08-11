@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 /**
- * https://spring.io/guides/gs/gateway/<br>
+ * <a href="https://spring.io/guides/gs/gateway/">gateway</a><br>
  * <br>
  * curl http://localhost:8081/service/sysdate<br>
  * curl http://localhost:8091/get<br>

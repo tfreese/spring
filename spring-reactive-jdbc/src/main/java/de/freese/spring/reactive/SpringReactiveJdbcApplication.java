@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * curl localhost:8080/departments<br>
  * curl localhost:8080/employees<br>
- * {@link "https://github.com/netifi/webflux-rxjava2-jdbc-example"}<br>
- * {@link "https://github.com/hantsy/spring-r2dbc-sample/tree/master/database-client"}<br>
- * {@link "https://spring.io/blog/2019/05/16/reactive-transactions-with-spring"}<br>
+ * <a href="https://github.com/netifi/webflux-rxjava2-jdbc-example">webflux-rxjava2-jdbc-example</a><br>
+ * <a href="https://github.com/hantsy/spring-r2dbc-sample/tree/master/database-client">database-client</a><br>
+ * <a href="https://spring.io/blog/2019/05/16/reactive-transactions-with-spring">reactive-transactions-with-spring</a><br>
  *
  * @author Thomas Freese
  */

@@ -42,7 +42,7 @@ public class SystemExitRunner implements CommandLineRunner
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+                LOGGER.error(ex.getMessage(), ex);
             }
 
             System.exit(0);

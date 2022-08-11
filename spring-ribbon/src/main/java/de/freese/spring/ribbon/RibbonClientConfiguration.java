@@ -10,17 +10,19 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+
 import javax.annotation.Resource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration;
-import org.springframework.context.annotation.Bean;
+
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.AvailabilityFilteringRule;
 import com.netflix.loadbalancer.IPing;
 import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.PingUrl;
 import com.netflix.loadbalancer.Server;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 
 /**
  * an IClientConfig, which stores client configuration for a client or load balancer,<br>
@@ -39,7 +41,7 @@ public class RibbonClientConfiguration
      *
      * @author Thomas Freese
      */
-    private class MyPing extends PingUrl
+    private static class MyPing extends PingUrl
     {
         /**
          *
@@ -48,6 +50,7 @@ public class RibbonClientConfiguration
 
         /**
          * @param connection {@link HttpURLConnection}
+         *
          * @return String
          */
         private String getContent(final HttpURLConnection connection)
@@ -161,6 +164,7 @@ public class RibbonClientConfiguration
 
     /**
      * @param config {@link IClientConfig}
+     *
      * @return {@link IPing}
      */
     @Bean
@@ -176,6 +180,7 @@ public class RibbonClientConfiguration
 
     /**
      * @param config {@link IClientConfig}
+     *
      * @return {@link IRule}
      */
     @Bean

@@ -28,7 +28,7 @@ public class JavaFxApplication extends Application
     /**
      * @author Thomas Freese
      */
-    public class StageReadyEvent extends ApplicationEvent
+    public static class StageReadyEvent extends ApplicationEvent
     {
         /**
          *

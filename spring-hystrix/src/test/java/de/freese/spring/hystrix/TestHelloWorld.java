@@ -13,9 +13,9 @@ import rx.Observable;
 import rx.Observer;
 
 /**
- * https://github.com/Netflix/Hystrix/wiki/How-To-Use<br>
- * https://github.com/Netflix/Hystrix/wiki/Configuration<br>
- * https://github.com/Netflix/RxJava/wiki/How-To-Use<br>
+ * <a href="https://github.com/Netflix/Hystrix/wiki/How-To-Use">Hystrix</a><br>
+ * <a href="https://github.com/Netflix/Hystrix/wiki/Configuration">Configuration</a><br>
+ * <a href="https://github.com/Netflix/RxJava/wiki/How-To-Use">RxJava</a><br>
  *
  * @author Thomas Freese
  */

@@ -5,9 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * https://github.com/spring-guides/gs-authenticating-ldap<br>
- * https://github.com/eugenp/tutorials/tree/master/spring-ldap<br>
- * https://www.baeldung.com/spring-ldap<br>
+ * <a href="https://github.com/spring-guides/gs-authenticating-ldap">gs-authenticating-ldap</a><br>
+ * <a href="https://github.com/eugenp/tutorials/tree/master/spring-ldap">github</a><br>
+ * <a href="https://www.baeldung.com/spring-ldap">spring-ldap</a><br>
  *
  * @author Thomas Freese
  */

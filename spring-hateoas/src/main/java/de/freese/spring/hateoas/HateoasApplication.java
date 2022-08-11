@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 
 /**
- * https://spring.io/guides/gs/rest-hateoas<br>
- * https://github.com/spring-guides/gs-rest-hateoas<br>
+ * <a href="https://spring.io/guides/gs/rest-hateoas">rest-hateoas</a><br>
+ * <a href="https://github.com/spring-guides/gs-rest-hateoas">gs-rest-hateoas</a><br>
  * curl http://localhost:9000/greeter<br>
  *
  * @author Thomas Freese

@@ -25,7 +25,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * Startklasse des Hystrix-Clients.<br>
- * https://github.com/Netflix/Hystrix/tree/master/hystrix-contrib/hystrix-javanica<br>
+ * <a href="https://github.com/Netflix/Hystrix/tree/master/hystrix-contrib/hystrix-javanica">hystrix-javanica</a><br>
  *
  * @author Thomas Freese
  */

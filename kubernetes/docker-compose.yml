@@ -25,20 +25,20 @@ services:
         image: kubernetes-microservice:latest
         #image: localhost:5000/kubernetes-microservice:latest
         #restart: always
-#         environment:
-#             SPRING_APPLICATION_JSON:
-#                 '{
-#          "spring":
-#          {
-#            "boot":
-#            {
-#              "client":
-#              {
-#                "prefer-ip": "true"
-#              }
-#            }
-#          }
-#        }'
+        #         environment:
+        #             SPRING_APPLICATION_JSON:
+        #                 '{
+        #          "spring":
+        #          {
+        #            "boot":
+        #            {
+        #              "client":
+        #              {
+        #                "prefer-ip": "true"
+        #              }
+        #            }
+        #          }
+        #        }'
         # https://docs.docker.com/compose/compose-file/#resources                    
         deploy:
             resources:
@@ -47,7 +47,7 @@ services:
                     memory: 128M
                 reservations:
                     cpus: "0.25"
-                    memory: 64M             
+                    memory: 64M
 
     # export HAPROXY_IMAGE=haproxy:1.9.8-alpine
     loadbalancer:
@@ -56,6 +56,6 @@ services:
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         ports:
-            - 80:80
+            - "80:80"
         links:
             - kubernetes-microservice

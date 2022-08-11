@@ -10,7 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * https://github.com/spring-cloud/spring-cloud-circuitbreaker<br>
+ * <a href="https://github.com/spring-cloud/spring-cloud-circuitbreaker">spring-cloud-circuitbreaker</a><br>
  * for i in {1..10}; do curl localhost:8080/greet?name=$i; echo ""; done;
  *
  * @author Thomas Freese

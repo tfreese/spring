@@ -2,6 +2,14 @@
 package de.freese.spring.integration.cafe.config;
 
 import java.util.List;
+
+import de.freese.spring.integration.cafe.Delivery;
+import de.freese.spring.integration.cafe.DeliveryLogger;
+import de.freese.spring.integration.cafe.Drink;
+import de.freese.spring.integration.cafe.Order;
+import de.freese.spring.integration.cafe.OrderItem;
+import de.freese.spring.integration.cafe.xml.Barista;
+import de.freese.spring.integration.cafe.xml.Waiter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.integration.annotation.Aggregator;
@@ -15,13 +23,6 @@ import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.scheduling.PollerMetadata;
 import org.springframework.messaging.MessageChannel;
-import de.freese.spring.integration.cafe.Delivery;
-import de.freese.spring.integration.cafe.DeliveryLogger;
-import de.freese.spring.integration.cafe.Drink;
-import de.freese.spring.integration.cafe.Order;
-import de.freese.spring.integration.cafe.OrderItem;
-import de.freese.spring.integration.cafe.xml.Barista;
-import de.freese.spring.integration.cafe.xml.Waiter;
 
 /**
  * https://github.com/spring-projects/spring-integration-samples/blob/master/dsl/cafe-dsl/src/main/java/org/springframework/integration/samples/dsl/cafe/lambda/Application.java
@@ -43,11 +44,12 @@ public class Application
          */
         @Override
         @Gateway(requestChannel = "channelOrders")
-        public void placeOrder(Order order);
+        void placeOrder(Order order);
     }
 
     /**
      * @param drinks {@link List}
+     *
      * @return {@link Delivery}
      */
     @Aggregator(inputChannel = "channelPreparedDrinks", outputChannel = "channelDeliveries")
@@ -58,6 +60,7 @@ public class Application
 
     /**
      * @param drink {@link Drink}
+     *
      * @return int
      */
     @CorrelationStrategy
@@ -122,6 +125,7 @@ public class Application
 
     /**
      * @param orderItem {@link OrderItem}
+     *
      * @return String
      */
     @Router(inputChannel = "channelDrinks")
@@ -137,6 +141,7 @@ public class Application
 
     /**
      * @param orderItem {@link OrderItem}
+     *
      * @return {@link Drink}
      */
     @ServiceActivator(inputChannel = "channelColdDrinks", outputChannel = "channelPreparedDrinks")
@@ -147,6 +152,7 @@ public class Application
 
     /**
      * @param orderItem {@link OrderItem}
+     *
      * @return {@link Drink}
      */
     @ServiceActivator(inputChannel = "channelHotDrinks", outputChannel = "channelPreparedDrinks")
@@ -157,6 +163,7 @@ public class Application
 
     /**
      * @param order {@link Order}
+     *
      * @return {@link List}
      */
     @Splitter(inputChannel = "channelOrders", outputChannel = "channelDrinks")

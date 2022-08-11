@@ -35,7 +35,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.util.Assert;
 
 /**
- * https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
+ * <a href="https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter">spring-security-without-the-websecurityconfigureradapter</a>
  *
  * @author Thomas Freese
  */

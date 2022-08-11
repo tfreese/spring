@@ -13,8 +13,8 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * https://github.com/spring-projects/spring-integration-samples<br>
- * https://github.com/spring-projects/spring-integration-samples/tree/master/applications/cafe/cafe-si
+ * <a href="https://github.com/spring-projects/spring-integration-samples">spring-integration-samples</a><br>
+ * <a href="https://github.com/spring-projects/spring-integration-samples/tree/master/applications/cafe/cafe-si">cafe-si</a>
  *
  * @author Thomas Freese
  */
