@@ -28,7 +28,7 @@ class GreetingWebFluxTests
     private WebTestClient webTestClient;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
@@ -51,7 +51,7 @@ class GreetingWebFluxTests
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testFail() throws Exception
@@ -67,7 +67,7 @@ class GreetingWebFluxTests
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
@@ -89,7 +89,7 @@ class GreetingWebFluxTests
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
@@ -115,7 +115,7 @@ class GreetingWebFluxTests
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSimple() throws Exception

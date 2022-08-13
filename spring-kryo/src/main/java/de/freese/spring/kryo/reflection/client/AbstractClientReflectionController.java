@@ -30,7 +30,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 /**
- * @param <T> Konkreter Klassetyp der Fassade.
+ * @param <T> Konkreter Klassentyp der Fassade.
  *
  * @author Thomas Freese
  */
