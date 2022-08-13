@@ -56,7 +56,6 @@ public class JwtTokenProviderJson implements JwtTokenProvider
     /**
      * @see de.freese.spring.jwt.token.JwtTokenProvider#createToken(java.lang.String, java.lang.String, java.util.Set)
      */
-    @SuppressWarnings("javadoc")
     @Override
     public String createToken(final String username, final String password, final Set<String> roles)
     {

@@ -308,9 +308,7 @@ public class LoadBalancerApplication
 
                 try
                 {
-                    ClientHttpResponse response = intercept(newUri, request, body, execution);
-
-                    return response;
+                    return intercept(newUri, request, body, execution);
                 }
                 catch (IOException ex)
                 {

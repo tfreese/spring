@@ -31,12 +31,12 @@ import org.springframework.security.core.AuthenticationException;
 public class JwtTokenProviderNimbus implements JwtTokenProvider
 {
     /**
-    *
-    */
+     *
+     */
     private final String secretKey;
     /**
-    *
-    */
+     *
+     */
     private final long validityInMilliseconds;
 
     /**
@@ -56,7 +56,6 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider
     /**
      * @see de.freese.spring.jwt.token.JwtTokenProvider#createToken(java.lang.String, java.lang.String, java.util.Set)
      */
-    @SuppressWarnings("javadoc")
     @Override
     public String createToken(final String username, final String password, final Set<String> roles)
     {

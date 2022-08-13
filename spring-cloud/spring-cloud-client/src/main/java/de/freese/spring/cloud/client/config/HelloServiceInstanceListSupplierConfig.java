@@ -22,9 +22,7 @@ public class HelloServiceInstanceListSupplierConfig
     ////@Primary
     ServiceInstanceListSupplier serviceInstanceListSupplier(final ConfigurableApplicationContext context)
     {
-        final ServiceInstanceListSupplier instanceListSupplier = new HelloServiceInstanceListSupplier();
-
-        return instanceListSupplier;
+        return new HelloServiceInstanceListSupplier();
 
         //        // @formatter:off
 //        return ServiceInstanceListSupplier.builder()

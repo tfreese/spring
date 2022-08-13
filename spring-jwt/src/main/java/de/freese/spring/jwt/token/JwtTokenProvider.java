@@ -46,7 +46,6 @@ public interface JwtTokenProvider
             rolesSet = roles.stream()
                     .filter(Objects::nonNull)
                     .map(GrantedAuthority::getAuthority)
-                    .distinct()
                     .collect(Collectors.toSet())
                     ;
             // @formatter:on

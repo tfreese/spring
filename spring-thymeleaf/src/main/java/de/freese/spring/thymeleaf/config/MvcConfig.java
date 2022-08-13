@@ -297,10 +297,8 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
     {
         ThymeleafApplication.LOGGER.info("no TaskExecutor exist, create a ConcurrentTaskExecutor");
 
-        AsyncTaskExecutor bean = new ConcurrentTaskExecutor(executorService().getObject());
-        // AsyncTaskExecutor bean = new ConcurrentTaskExecutor(executorService);
-
-        return bean;
+        return new ConcurrentTaskExecutor(executorService().getObject());
+        // return new ConcurrentTaskExecutor(executorService);
     }
 
     /**
@@ -318,8 +316,6 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
     {
         ThymeleafApplication.LOGGER.info("no TaskScheduler exist, create a ConcurrentTaskScheduler");
 
-        TaskScheduler bean = new ConcurrentTaskScheduler(executorService, scheduledExecutorService);
-
-        return bean;
+        return new ConcurrentTaskScheduler(executorService, scheduledExecutorService);
     }
 }

@@ -204,7 +204,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase
         // persons = Arrays.asList(personArray);
 
         ResponseEntity<List<Person>> responseEntity =
-                restTemplate.exchange("/rest/person/personList", HttpMethod.GET, null, new ParameterizedTypeReference<List<Person>>()
+                restTemplate.exchange("/rest/person/personList", HttpMethod.GET, null, new ParameterizedTypeReference<>()
                 {
                 });
         List<Person> persons = responseEntity.getBody();
@@ -238,7 +238,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase
         // persons = Arrays.asList(personArray);
 
         ResponseEntity<List<Person>> responseEntity =
-                restTemplate.exchange("/rest/person/personList", HttpMethod.GET, null, new ParameterizedTypeReference<List<Person>>()
+                restTemplate.exchange("/rest/person/personList", HttpMethod.GET, null, new ParameterizedTypeReference<>()
                 {
                 });
         List<Person> persons = responseEntity.getBody();

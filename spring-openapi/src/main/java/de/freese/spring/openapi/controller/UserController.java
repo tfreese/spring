@@ -3,7 +3,6 @@ package de.freese.spring.openapi.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -61,6 +60,6 @@ public class UserController
     @Operation(summary = "List users", description = "List all Users")
     public String list()
     {
-        return this.userMap.values().stream().collect(Collectors.joining(", "));
+        return String.join(", ", this.userMap.values());
     }
 }

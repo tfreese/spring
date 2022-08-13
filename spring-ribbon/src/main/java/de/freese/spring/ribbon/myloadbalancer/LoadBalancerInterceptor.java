@@ -75,9 +75,7 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor
             {
                 URI newUri = this.loadBalancer.reconstructURI(serviceName, originalUri);
 
-                ClientHttpResponse response = intercept(newUri, request, body, execution);
-
-                return response;
+                return intercept(newUri, request, body, execution);
             }
             catch (Exception ex)
             {

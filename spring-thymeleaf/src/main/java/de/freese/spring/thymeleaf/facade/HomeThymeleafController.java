@@ -149,10 +149,7 @@ public class HomeThymeleafController
     @PostMapping("/loginWithToken")
     protected String loginWithToken(final HttpServletRequest req, @RequestParam final String token)
     {
-        // This whole stuff should be inside of a service method...
-        String usernameByToken = token;
-
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(usernameByToken);
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(token);
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
         SecurityContext sc = SecurityContextHolder.getContext();

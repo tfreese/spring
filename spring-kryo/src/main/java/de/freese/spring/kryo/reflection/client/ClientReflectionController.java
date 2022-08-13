@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.util.Pool;
-
 import de.freese.spring.kryo.KryoApplication;
 import de.freese.spring.kryo.reflection.ReflectionControllerApi;
 
@@ -35,7 +34,6 @@ public class ClientReflectionController extends AbstractClientReflectionControll
      * @param rootUri String
      * @param connectType {@link ConnectType}
      */
-    @SuppressWarnings("javadoc")
     public ClientReflectionController(final Pool<Kryo> kryoPool, final String rootUri, final ConnectType connectType)
     {
         super(kryoPool, rootUri);

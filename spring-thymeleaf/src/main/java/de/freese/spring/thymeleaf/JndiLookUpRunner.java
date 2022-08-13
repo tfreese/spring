@@ -45,8 +45,7 @@ public class JndiLookUpRunner implements CommandLineRunner
             // System.setProperty(javax.naming.Context.URL_PKG_PREFIXES, "org.apache.naming");
             // System.setProperty(javax.naming.Context.INITIAL_CONTEXT_FACTORY, "org.apache.naming.java.javaURLContextFactory");
 
-            InitialContext initialContext = new InitialContext();
-            Context context = initialContext;
+            Context context = new InitialContext();
 
             try
             {

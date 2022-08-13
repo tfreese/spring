@@ -48,9 +48,7 @@ public class FailingRestController
      */
     private ReactiveCircuitBreaker getReactiveCircuitBreaker()
     {
-        ReactiveCircuitBreaker circuitBreaker = this.reactiveCircuitBreakerFactory.create("greet");
-
-        return circuitBreaker;
+        return this.reactiveCircuitBreakerFactory.create("greet");
     }
 
     /**

@@ -7,7 +7,6 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
@@ -216,9 +215,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
      */
     protected boolean checkAliveByContent(final String expectedContent, final String returnedContent)
     {
-        boolean isAlive = returnedContent.equals(expectedContent);
-
-        return isAlive;
+        return returnedContent.equals(expectedContent);
     }
 
     /**
@@ -244,10 +241,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
             channel.read(byteBuffer);
             byteBuffer.rewind();
 
-            Charset charset = StandardCharsets.UTF_8;
-            String content = charset.decode(byteBuffer).toString();
-
-            return content;
+            return StandardCharsets.UTF_8.decode(byteBuffer).toString();
         }
     }
 }

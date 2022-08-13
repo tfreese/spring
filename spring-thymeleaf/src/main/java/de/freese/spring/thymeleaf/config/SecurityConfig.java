@@ -322,7 +322,7 @@ public class SecurityConfig
         userDetailsManager.createUser(User.withUsername("user").passwordEncoder(passwordEncoder::encode).password("pw").roles("USER").build());
         userDetailsManager.createUser(User.withUsername("invalid").passwordEncoder(passwordEncoder::encode).password("pw").roles("OTHER").build());
 
-        UserDetailsService userDetailsService = userDetailsManager;
+        return userDetailsManager;
 
         // CachingUserDetailsService erzeugen, erzeugt Fehler bei den Tests !
         // Constructor<CachingUserDetailsService> constructor = ClassUtils.getConstructorIfAvailable(CachingUserDetailsService.class, UserDetailsService.class);
@@ -337,10 +337,8 @@ public class SecurityConfig
         // CachingUserDetailsService cachingUserDetailsService = BeanUtils.instantiateClass(constructor, userDetailsManager);
         // cachingUserDetailsService.setUserCache(userCache);
         //
-        // userDetailsService = cachingUserDetailsService;
+        // return cachingUserDetailsService;
         // }
-
-        return userDetailsService;
     }
 
     /**

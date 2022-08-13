@@ -160,8 +160,7 @@ public abstract class AbstractRestReflectionController
 
         // Konkrete Methode aufrufen.
         Method apiMethod = getClass().getMethod(method, parameterTypes);
-        Object result = apiMethod.invoke(this, arguments);
 
-        return result;
+        return apiMethod.invoke(this, arguments);
     }
 }

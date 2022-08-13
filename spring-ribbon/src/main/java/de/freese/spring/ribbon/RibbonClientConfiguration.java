@@ -8,7 +8,6 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import javax.annotation.Resource;
@@ -71,10 +70,7 @@ public class RibbonClientConfiguration
                     channel.read(byteBuffer);
                     byteBuffer.rewind();
 
-                    Charset charset = StandardCharsets.UTF_8;
-                    String content = charset.decode(byteBuffer).toString();
-
-                    return content;
+                    return StandardCharsets.UTF_8.decode(byteBuffer).toString();
                 }
             }
             catch (IOException iex)
@@ -130,14 +126,7 @@ public class RibbonClientConfiguration
                     }
                     else
                     {
-                        if (content.equals(getExpectedContent()))
-                        {
-                            isAlive = true;
-                        }
-                        else
-                        {
-                            isAlive = false;
-                        }
+                        isAlive = content.equals(getExpectedContent());
                     }
                 }
             }

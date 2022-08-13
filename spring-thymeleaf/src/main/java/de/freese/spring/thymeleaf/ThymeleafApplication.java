@@ -35,16 +35,16 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 @SpringBootApplication
 @ComponentScan(basePackages =
-{
-        "de.freese.spring.thymeleaf"
-})
+        {
+                "de.freese.spring.thymeleaf"
+        })
 @EnableScheduling
 @EnableAsync
 public class ThymeleafApplication extends SpringBootServletInitializer
 {
     /**
-    *
-    */
+     *
+     */
     public static final Logger LOGGER = LoggerFactory.getLogger(ThymeleafApplication.class);
 
     /**
@@ -91,9 +91,7 @@ public class ThymeleafApplication extends SpringBootServletInitializer
 
         String protocol = sslEnabled.orElse(false) ? "https" : "http";
 
-        String rootUri = protocol + "://localhost:" + port + contextPath.orElse("");
-
-        return rootUri;
+        return protocol + "://localhost:" + port + contextPath.orElse("");
     }
 
     /**

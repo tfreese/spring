@@ -122,7 +122,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
      *
      * @return boolean
      */
-    protected boolean authenticationIsRequired(final String username)
+    protected boolean isAuthenticationIsRequired(final String username)
     {
         // Only reauthenticate if username doesn't match SecurityContextHolder and user
         // isn't authenticated (see SEC-53)
@@ -182,7 +182,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
 
             LOGGER.debug("MyToken Pre-Authentication Authorization header found for user '{}'", username);
 
-            if (authenticationIsRequired(username))
+            if (isAuthenticationIsRequired(username))
             {
                 // AbstractAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
                 AbstractAuthenticationToken authRequest = new PreAuthenticatedAuthenticationToken(username, password);

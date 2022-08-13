@@ -293,9 +293,7 @@ public abstract class AbstractClientReflectionController<T>
                 }
 
                 // TODO Streams berücksichtigen !!!
-                Object response = restTemplate.postForObject(url, paramTypesAndArgs, Object.class);
-
-                return response;
+                return restTemplate.postForObject(url, paramTypesAndArgs, Object.class);
             }
             catch (Exception ex)
             {

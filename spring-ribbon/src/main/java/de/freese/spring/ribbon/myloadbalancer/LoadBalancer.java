@@ -182,14 +182,12 @@ public class LoadBalancer implements LoadBalancerPing
         List<String> pingWithStreams(final List<String> allServers)
         {
             // @formatter:off
-            List<String> workingServers = allServers.stream()
+            return allServers.stream()
                     .parallel()
                     .map(server -> isAlive(server) ? server : null)
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
             // @formatter:on
-
-            return workingServers;
         }
     }
 
@@ -365,9 +363,7 @@ public class LoadBalancer implements LoadBalancerPing
 
         try
         {
-            boolean isAlive = this.ping.isAlive(server);
-
-            return isAlive;
+            return this.ping.isAlive(server);
         }
         catch (Exception ex)
         {

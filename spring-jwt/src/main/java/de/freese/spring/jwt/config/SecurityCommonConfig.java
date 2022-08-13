@@ -231,8 +231,10 @@ public class SecurityCommonConfig
 
             userCache.putUserInCache(userDetails);
 
+            //return User.withUserDetails(userDetails).build();
+
             // @formatter:off
-            UserDetails copy = new User(
+            return new User(
                     userDetails.getUsername()
                     , userDetails.getPassword()
                     , userDetails.isEnabled()
@@ -242,10 +244,6 @@ public class SecurityCommonConfig
                     , userDetails.getAuthorities()
             );
             // @formatter:on
-
-            //UserDetails copy = User.withUserDetails(userDetails).build();
-
-            return copy;
         };
 
         return cachingUserDetailsService;

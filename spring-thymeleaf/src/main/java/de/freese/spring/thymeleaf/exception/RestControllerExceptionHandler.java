@@ -43,9 +43,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      */
     protected static Exception getException(final HttpServletRequest request)
     {
-        Exception ex = (Exception) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
-
-        return ex;
+        return (Exception) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
     }
 
     /**
@@ -56,9 +54,8 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     protected static Exception getException(final WebRequest request)
     {
         HttpServletRequest httpServletRequest = getHttpServletRequest(request);
-        Exception ex = getException(httpServletRequest);
 
-        return ex;
+        return getException(httpServletRequest);
     }
 
     /**
@@ -68,9 +65,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      */
     protected static HttpServletRequest getHttpServletRequest(final WebRequest request)
     {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) ((ServletWebRequest) request).getNativeRequest();
-
-        return httpServletRequest;
+        return (HttpServletRequest) ((ServletWebRequest) request).getNativeRequest();
     }
 
     /**
@@ -82,9 +77,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      */
     protected static String getPath(final HttpServletRequest request)
     {
-        String path = request.getRequestURL().toString();
-
-        return path;
+        return request.getRequestURL().toString();
     }
 
     /**
@@ -97,9 +90,8 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     protected static String getPath(final WebRequest request)
     {
         HttpServletRequest httpServletRequest = getHttpServletRequest(request);
-        String path = getPath(httpServletRequest);
 
-        return path;
+        return getPath(httpServletRequest);
     }
 
     /**
