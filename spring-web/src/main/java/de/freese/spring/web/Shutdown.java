@@ -44,10 +44,6 @@ public final class Shutdown
         // curl -X POST localhost:8088/spring-boot-web/actuator/shutdown
         URI uri = URI.create("http://localhost:" + port + contextPath.orElse("") + "/actuator/shutdown");
 
-        // RestTemplate restTemplate = new RestTemplate();
-        // restTemplate.exchange(repository, HttpMethod.POST, null, Void.class);
-        // restTemplate.postForLocation(repository, null);
-
         HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
         connection.setRequestMethod("POST");
         connection.getResponseCode();

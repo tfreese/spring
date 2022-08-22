@@ -118,18 +118,12 @@ public abstract class AbstractRestReflectionController
                 output.flush();
             }
         }
+        catch (InvocationTargetException ex)
+        {
+            throw (Exception) ex.getCause();
+        }
         catch (Exception ex)
         {
-            if (ex instanceof InvocationTargetException)
-            {
-                ex = (Exception) ex.getCause();
-            }
-
-            // if(ex instanceof ...)
-            // {
-            // ex = ex.getCause();
-            // }
-
             throw ex;
         }
         finally

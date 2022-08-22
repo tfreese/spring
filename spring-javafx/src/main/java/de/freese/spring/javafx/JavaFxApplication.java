@@ -1,6 +1,8 @@
 // Created: 09.02.2019
 package de.freese.spring.javafx;
 
+import java.io.Serial;
+
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.application.Platform;
@@ -33,6 +35,7 @@ public class JavaFxApplication extends Application
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = -4583752880347446992L;
 
         /**

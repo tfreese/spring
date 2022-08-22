@@ -66,7 +66,6 @@ class TestPasswordEncoder
         String password = "gehaim";
 
         String encoded = passwordEncoder.encode(password);
-        System.out.println(encoded);
 
         Assertions.assertTrue(passwordEncoder.matches(password, encoded));
     }

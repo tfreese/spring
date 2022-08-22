@@ -3,6 +3,7 @@ package de.freese.spring.thymeleaf;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 import javax.servlet.ServletException;
@@ -20,6 +21,7 @@ public class DemoServlet extends HttpServlet
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 891637777095320320L;
 
     /**

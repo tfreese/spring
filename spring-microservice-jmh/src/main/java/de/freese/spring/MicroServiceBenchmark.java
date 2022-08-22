@@ -54,11 +54,11 @@ public class MicroServiceBenchmark
         /**
          *
          */
-        RestTemplate restTemplate;
+        final RestTemplate restTemplate;
         /**
          *
          */
-        WebClient webClient;
+        final WebClient webClient;
         /**
          *
          */

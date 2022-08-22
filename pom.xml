@@ -33,7 +33,7 @@
 
     <properties>
         <version_com.esotericsoftware_kryo>5.3.0</version_com.esotericsoftware_kryo>
-        <version_com.nimbusds_nimbus-jose-jwt>9.24.1</version_com.nimbusds_nimbus-jose-jwt>
+        <version_com.nimbusds_nimbus-jose-jwt>9.24.2</version_com.nimbusds_nimbus-jose-jwt>
 
         <version_de.javakaffee_kryo-serializers>0.45</version_de.javakaffee_kryo-serializers>
         <version_de.codecentric_spring-boot-admin>2.7.4</version_de.codecentric_spring-boot-admin>
@@ -42,7 +42,7 @@
         <version_io.springfox_swagger>3.0.0</version_io.springfox_swagger><!-- 2.9.2; 2.10.0 macht Probleme, GUI wird nicht angezeigt. -->
 
         <version_org.apache.qpid>8.0.6</version_org.apache.qpid>
-        <version_org.springdoc>1.6.10</version_org.springdoc>
+        <version_org.springdoc>1.6.11</version_org.springdoc>
 
         <version_spring-cloud-starter-netflix>2.2.10.RELEASE</version_spring-cloud-starter-netflix>
     </properties>

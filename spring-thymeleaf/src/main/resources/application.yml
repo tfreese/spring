@@ -16,7 +16,7 @@ debug: false
 
 logging:
     config: classpath:logback.xml
-      #level:
+    #level:
     #de.freese.spring.thymeleaf: DEBUG
 
 spring:
@@ -65,7 +65,7 @@ spring:
           #resources:
           #cache:
           #period: 0
-          #chain:
+        #chain:
         #cache: false
     thymeleaf:
         cache: false
@@ -112,40 +112,32 @@ info:
 
 management:
     endpoints:
-        enabled-by-default: true
+        enabled-by-default: false
+        metrics:
+            enabled: true
         web:
             base-path: /actuator
             exposure:
-                include: '*'
+                include: "*"
                 #include: info, health, metrics, shutdown
     endpoint:
-        shutdown:
-            enabled: true
-        info:
-            enabled: true
         health:
             enabled: true
-            show-details: ALWAYS
+            show-details: always
+        info:
+            enabled: true
+            defaults:
+                enabled: true
+            env:
+                enabled: true
         metrics:
             enabled: true
-    health:
-        db:
-            enabled: false
-    defaults:
-        enabled: true
-    diskspace:
-        enabled: false
-        path: 'C:'
-    info:
-        defaults:
-            enabled: true
-    env:
-        enabled: true
-    metrics:
-        enable:
-            all: true
-    export:
-        simple:
+            enable:
+                all: true
+            export:
+                simple:
+                    enabled: true
+        shutdown:
             enabled: true
 
 ---

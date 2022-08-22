@@ -1,6 +1,7 @@
 // Created: 30.10.2018
 package de.freese.spring.jwt.config.ownAuthProvider;
 
+import java.io.Serial;
 import java.util.Objects;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -13,6 +14,7 @@ class JwtAuthenticationToken extends AbstractAuthenticationToken
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 3544121276547291346L;
     /**
      *

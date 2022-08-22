@@ -1,6 +1,7 @@
 // Created: 28.10.2018
 package de.freese.spring.jwt.model;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +18,7 @@ public class MutableUser implements UserDetails, CredentialsContainer
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -5966384384144097545L;
     /**
      *
