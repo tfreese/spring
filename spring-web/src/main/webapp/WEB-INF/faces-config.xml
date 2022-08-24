@@ -15,7 +15,7 @@
         <resource-bundle>
             <!--base-name>de.freese.web.resources.MyResourceBundle</base-name -->
             <base-name>messages</base-name>
-            <var>messages</var>
+            <var>msg</var>
         </resource-bundle>
     </application>
 
