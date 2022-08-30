@@ -29,14 +29,14 @@ public class DefaultPersonService implements PersonService
     @Transactional
     public void saveAll(final List<Person> persons)
     {
-        persons.forEach(person -> personRepository.save(person));
+        personRepository.saveAll(persons);
     }
 
     @Override
     @Transactional
     public void saveAllWithException(final List<Person> persons)
     {
-        persons.forEach(person -> personRepository.save(person));
+        personRepository.saveAll(persons);
 
         throw new RuntimeException("saveAllWithException");
     }

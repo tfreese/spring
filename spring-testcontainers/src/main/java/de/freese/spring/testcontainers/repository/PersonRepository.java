@@ -11,5 +11,7 @@ public interface PersonRepository
 {
     void save(Person person);
 
+    void saveAll(List<Person> persons);
+
     List<Person> getAllOrderedById();
 }

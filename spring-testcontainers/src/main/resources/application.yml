@@ -5,7 +5,6 @@
 
 spring:
     datasource:
-        initialization-mode: never
         hikari:
             auto-commit: false
     profiles:

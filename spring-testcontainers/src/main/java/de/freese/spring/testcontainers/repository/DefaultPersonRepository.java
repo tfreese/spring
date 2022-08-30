@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import de.freese.jdbc.dialect.JdbcDialect;
 import de.freese.spring.testcontainers.model.Person;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,20 +16,33 @@ import org.springframework.stereotype.Repository;
 public class DefaultPersonRepository implements PersonRepository
 {
     private final JdbcTemplate jdbcTemplate;
+    private final JdbcDialect jdbcDialect;
 
-    public DefaultPersonRepository(DataSource dataSource)
+    public DefaultPersonRepository(DataSource dataSource, JdbcDialect jdbcDialect)
     {
         super();
 
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.jdbcDialect = jdbcDialect;
     }
 
     @Override
     public void save(final Person person)
     {
-        long id = this.jdbcTemplate.queryForObject("select next value for person_seq", Long.class);
+        long id = this.jdbcTemplate.queryForObject(jdbcDialect.getSelectSequenceNextValString("person_seq"), Long.class);
 
         this.jdbcTemplate.update("insert into person (id, name) values (? , ?)", id, person.getName());
+    }
+
+    @Override
+    public void saveAll(final List<Person> persons)
+    {
+        String sql = "insert into person (id, name) values (%s , ?)".formatted(jdbcDialect.getSequenceNextValString("person_seq"));
+
+        this.jdbcTemplate.batchUpdate(sql, persons, 10, (ps, person) ->
+        {
+            ps.setString(1, person.getName());
+        });
     }
 
     @Override

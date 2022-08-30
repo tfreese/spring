@@ -4,58 +4,72 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.List;
 import java.util.stream.IntStream;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 
+import de.freese.jdbc.dialect.JdbcDialect;
 import de.freese.spring.testcontainers.model.Person;
 import de.freese.spring.testcontainers.service.PersonService;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 
 /**
  * @author Thomas Freese
  */
 @SpringBootTest(classes = Application.class)
 @ActiveProfiles("test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD) // Jede Methode mit eigenem Context.
-@Disabled("H2 Treiber entfernt für TestContainerMariaDb")
-class TestH2Classic
+abstract class AbstractTest
 {
     /**
      *
      */
     @Resource
     private PersonService personService;
-
-    //    @BeforeEach
-    //    public void beforeEach()
-    //    {
-    //        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-    //        populator.addScript(new ClassPathResource("db-schema.sql"));
-    //        populator.execute(dataSource);
-    //    }
-
-    //    @AfterEach
-    //    void afterEach() throws SQLException
-    //    {
-    //        try (Connection connection = dataSource.getConnection();
-    //             Statement statement = connection.createStatement())
-    //        {
-    //            statement.execute("DROP TABLE person");
-    //            statement.execute("DROP SEQUENCE person_seq");
-    //        }
-    //    }
+    /**
+     *
+     */
+    @Resource
+    DataSource dataSource;
 
     /**
      *
      */
-    @Sql(scripts = "classpath:db-schema.sql")
+    @Resource
+    private JdbcDialect jdbcDialect;
+
+    @BeforeEach
+    void beforeEach() throws Exception
+    {
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource("db-schema.sql"));
+        populator.execute(dataSource);
+    }
+
+    @AfterEach
+    void afterEach() throws Exception
+    {
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement())
+        {
+            statement.execute("DROP TABLE person");
+            statement.execute(jdbcDialect.dropSequence("person_seq"));
+        }
+    }
+
+    /**
+     *
+     */
+    //    @Sql(scripts = "classpath:db-schema.sql")
     @Test
     void testSave()
     {
@@ -76,7 +90,7 @@ class TestH2Classic
     /**
      *
      */
-    @Sql(scripts = "classpath:db-schema.sql")
+    //    @Sql(scripts = "classpath:db-schema.sql")
     @Test
     void testGetAll()
     {
@@ -112,7 +126,7 @@ class TestH2Classic
     /**
      *
      */
-    @Sql(scripts = "classpath:db-schema.sql")
+    //    @Sql(scripts = "classpath:db-schema.sql")
     @Test
     void testSaveAllWithException()
     {
