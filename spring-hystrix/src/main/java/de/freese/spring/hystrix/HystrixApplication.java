@@ -33,9 +33,9 @@ import org.springframework.web.client.RestTemplate;
 @EnableHystrix
 @EnableHystrixDashboard
 
-@DefaultProperties(groupKey = "HystrixAppliction") // Restliche Konfiguration siehe hystrix.properties
+@DefaultProperties(groupKey = "HystrixApplication") // Restliche Konfiguration siehe hystrix.properties
 
-// @DefaultProperties(groupKey = "HystrixAppliction", commandProperties =
+// @DefaultProperties(groupKey = "HystrixApplication", commandProperties =
 // {
 // @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"), // HystrixCommands in separaten Threads ausführen
 // @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "300")

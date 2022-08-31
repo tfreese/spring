@@ -406,7 +406,7 @@ public class LoadBalancer implements LoadBalancerPing
      */
     public void setPing(final LoadBalancerPing ping)
     {
-        this.ping = Objects.requireNonNull(ping, "ping requried");
+        this.ping = Objects.requireNonNull(ping, "ping required");
     }
 
     /**
@@ -440,7 +440,7 @@ public class LoadBalancer implements LoadBalancerPing
      */
     public void setStrategy(final LoadBalancerStrategy strategy)
     {
-        this.strategy = Objects.requireNonNull(strategy, "strategy requried");
+        this.strategy = Objects.requireNonNull(strategy, "strategy required");
     }
 
     /**

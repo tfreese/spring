@@ -246,7 +246,7 @@ class TestRestWithRestTemplate extends AbstractRestTestCase
         List<Person> persons = responseEntity.getBody();
 
         // assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getAccept());
-        // AassertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
+        // assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
     }

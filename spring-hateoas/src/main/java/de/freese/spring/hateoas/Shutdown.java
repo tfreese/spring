@@ -26,7 +26,7 @@ public final class Shutdown
     {
         DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
         Resource resource = resourceLoader.getResource("classpath:application.properties");
-        // Resource resource = new FileSystemResource("appliation.properties");
+        // Resource resource = new FileSystemResource("application.properties");
 
         Properties props = new Properties();
 

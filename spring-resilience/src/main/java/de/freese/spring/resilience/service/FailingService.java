@@ -38,7 +38,7 @@ public class FailingService
         }
         catch (UnknownHostException ex)
         {
-            LOGGER.error(null, ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         return "???";

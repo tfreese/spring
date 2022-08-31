@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author Thomas Freese
  */
-public class CipherJsonHttpMessageconverter extends AbstractHttpMessageConverter<Object>
+public class CipherJsonHttpMessageConverter extends AbstractHttpMessageConverter<Object>
 {
     /**
      *
@@ -30,11 +30,11 @@ public class CipherJsonHttpMessageconverter extends AbstractHttpMessageConverter
     private final ObjectMapper objectMapper;
 
     /**
-     * Erstellt ein neues {@link CipherJsonHttpMessageconverter} Object.
+     * Erstellt ein neues {@link CipherJsonHttpMessageConverter} Object.
      *
      * @param objectMapper {@link ObjectMapper}
      */
-    public CipherJsonHttpMessageconverter(final ObjectMapper objectMapper)
+    public CipherJsonHttpMessageConverter(final ObjectMapper objectMapper)
     {
         super(MediaType.APPLICATION_JSON, new MediaType("application", "*+json", DEFAULT_CHARSET));
 

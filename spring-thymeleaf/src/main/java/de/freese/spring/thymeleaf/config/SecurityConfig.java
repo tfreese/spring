@@ -167,15 +167,7 @@ public class SecurityConfig
     }
 
     /**
-     * @param httpSecurity {@link HttpSecurity}
-     * @param myTokenPreauthAuthProvider {@link PreAuthenticatedAuthenticationProvider}
-     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
-     * @param rememberMeServices {@link RememberMeServices}
-     * @param authenticationManager {@link AuthenticationManager}
      *
-     * @return {@link SecurityFilterChain}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     @Bean
     SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider,
@@ -266,9 +258,7 @@ public class SecurityConfig
     }
 
     /**
-     * @param auds {@link AuthenticationUserDetailsService}
      *
-     * @return {@link PreAuthenticatedAuthenticationProvider}
      */
     @Bean
     PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider(final AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> auds)

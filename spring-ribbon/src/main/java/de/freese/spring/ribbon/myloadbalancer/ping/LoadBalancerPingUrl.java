@@ -72,7 +72,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
         {
             synchronized (this)
             {
-                // DpubleCheckcLock
+                // DoubleCheckLock
                 if (this.httpRequestFactory == null)
                 {
                     this.httpRequestFactory = new SimpleClientHttpRequestFactory();

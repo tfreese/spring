@@ -223,7 +223,7 @@ public abstract class AbstractClientReflectionController<T>
             {
                 // getLogger().error("HTTP {} - {}", connection.getResponseCode(), connection.getResponseMessage());
                 getLogger().error(url.toString());
-                // getLogger().error(null, ex);
+                // getLogger().error(ex.getMessage(), ex);
 
                 throw ex;
             }
@@ -298,7 +298,7 @@ public abstract class AbstractClientReflectionController<T>
             catch (Exception ex)
             {
                 getLogger().error(url);
-                // getLogger().error(null, ex);
+                // getLogger().error(ex.getMessage(), ex);
 
                 throw ex;
             }

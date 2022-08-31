@@ -15,7 +15,7 @@ import reactor.core.publisher.Hooks;
 // {
 // "de.freese.spring.rsocket"
 // })
-public class RsocketServerApplication
+public class RSocketServerApplication
 {
     /**
      * @param args String[]
@@ -30,6 +30,6 @@ public class RsocketServerApplication
             // Empty
         });
 
-        SpringApplication.run(RsocketServerApplication.class, args);
+        SpringApplication.run(RSocketServerApplication.class, args);
     }
 }

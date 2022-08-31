@@ -85,13 +85,13 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor
 
         if (lastException != null)
         {
-            if (lastException instanceof IOException ioex)
+            if (lastException instanceof IOException ex)
             {
-                throw ioex;
+                throw ex;
             }
-            else if (lastException instanceof RuntimeException rex)
+            else if (lastException instanceof RuntimeException ex)
             {
-                throw rex;
+                throw ex;
             }
             else
             {

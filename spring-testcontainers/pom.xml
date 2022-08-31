@@ -16,18 +16,6 @@
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Demo für Test-Container</description>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.testcontainers</groupId>
-                <artifactId>testcontainers-bom</artifactId>
-                <version>${version_org.testcontainers}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
         <!-- compile scope -->
         <dependency>
