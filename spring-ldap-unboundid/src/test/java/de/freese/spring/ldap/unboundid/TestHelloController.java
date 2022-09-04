@@ -48,7 +48,7 @@ class TestHelloController
     {
         // @formatter:off
         this.mvc.perform(MockMvcRequestBuilders.get("/")
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("user", "passwerd")))
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("user", "password_")))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
         // @formatter:on
     }

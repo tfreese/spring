@@ -32,11 +32,8 @@ public class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthe
     @Override
     protected Object getPreAuthenticatedCredentials(final HttpServletRequest request)
     {
-        String credentials = (String) super.getPreAuthenticatedCredentials(request);
-
         // Decode Credentials
-
-        return credentials;
+        return super.getPreAuthenticatedCredentials(request);
     }
 
     /**
@@ -45,10 +42,7 @@ public class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthe
     @Override
     protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request)
     {
-        String principal = (String) super.getPreAuthenticatedPrincipal(request);
-
         // Decode Principal
-
-        return principal;
+        return super.getPreAuthenticatedPrincipal(request);
     }
 }

@@ -34,26 +34,17 @@ abstract class AbstractTest
      *
      */
     @Resource
-    private PersonService personService;
-    /**
-     *
-     */
-    @Resource
     DataSource dataSource;
-
     /**
      *
      */
     @Resource
     private JdbcDialect jdbcDialect;
-
-    @BeforeEach
-    void beforeEach() throws Exception
-    {
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("db-schema.sql"));
-        populator.execute(dataSource);
-    }
+    /**
+     *
+     */
+    @Resource
+    private PersonService personService;
 
     @AfterEach
     void afterEach() throws Exception
@@ -66,25 +57,12 @@ abstract class AbstractTest
         }
     }
 
-    /**
-     *
-     */
-    //    @Sql(scripts = "classpath:db-schema.sql")
-    @Test
-    void testSave()
+    @BeforeEach
+    void beforeEach() throws Exception
     {
-        Person person = new Person();
-        person.setName("Name");
-
-        personService.save(person);
-
-        List<Person> persons = personService.getAll();
-
-        assertNotNull(persons);
-        assertEquals(1, persons.size());
-
-        assertEquals(1, persons.get(0).getId());
-        assertEquals("Name", persons.get(0).getName());
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource("db-schema.sql"));
+        populator.execute(dataSource);
     }
 
     /**
@@ -128,6 +106,27 @@ abstract class AbstractTest
      */
     //    @Sql(scripts = "classpath:db-schema.sql")
     @Test
+    void testSave()
+    {
+        Person person = new Person();
+        person.setName("Name");
+
+        personService.save(person);
+
+        List<Person> persons = personService.getAll();
+
+        assertNotNull(persons);
+        assertEquals(1, persons.size());
+
+        assertEquals(1, persons.get(0).getId());
+        assertEquals("Name", persons.get(0).getName());
+    }
+
+    /**
+     *
+     */
+    //    @Sql(scripts = "classpath:db-schema.sql")
+    @Test
     void testSaveAllWithException()
     {
         // @formatter:off
@@ -143,9 +142,8 @@ abstract class AbstractTest
         // @formatter:on
 
         Exception exception = assertThrows(RuntimeException.class, () ->
-        {
-            personService.saveAllWithException(personsToSave);
-        });
+                personService.saveAllWithException(personsToSave)
+        );
 
         assertEquals("saveAllWithException", exception.getMessage());
 

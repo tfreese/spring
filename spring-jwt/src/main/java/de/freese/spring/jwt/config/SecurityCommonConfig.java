@@ -73,7 +73,7 @@ public class SecurityCommonConfig
         // Böse Falle !
         // Der UserCache im AuthenticationProvider behält die UserDetails der User.
         // Bei diesen werden aber die Passwörter aus Sicherheitsgründen im ProviderManager entfernt.
-        // Dadurch ist ein 2. Login dann nicht mehr möglich -> NullPointer wegen UserDetails.getPassword = null
+        // Dadurch ist ein 2. Login dann nicht mehr möglich, es folgt NullPointer wegen UserDetails.getPassword = null
         //authenticationProvider.setUserCache(userCache);
 
         // Dieses Problem könnte behoben werden, indem nur der UserName und nicht das User-Object verwendet wird.
@@ -155,8 +155,8 @@ public class SecurityCommonConfig
         Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put("pbkdf2", pbkdf2passwordEncoder);
         encoders.put("bcrypt", new BCryptPasswordEncoder(10));
-        // encoders.put("scrypt", new SCryptPasswordEncoder()); // Benötigt BounyCastle
-        // encoders.put("argon2", new Argon2PasswordEncoder()); // Benötigt BounyCastle
+        // encoders.put("scrypt", new SCryptPasswordEncoder()); // Benötigt BountyCastle
+        // encoders.put("argon2", new Argon2PasswordEncoder()); // Benötigt BountyCastle
         encoders.put("noop", new PasswordEncoder()
         {
             @Override
@@ -190,7 +190,7 @@ public class SecurityCommonConfig
         userDetailsManager.createUser(User.withUsername("user").passwordEncoder(passwordEncoder::encode).password("pass").roles("USER").build());
 
         // UserDetails kopieren, da bei ProviderManager.setEraseCredentialsAfterAuthentication(true)
-        // das Password auf null gesetzt wird -> kein zweiter Login mehr möglich -> NullPointer
+        // das Password auf null gesetzt wird, kein zweiter Login mehr möglich, es folgt NullPointer
         // Siehe #userDetailsServiceJdbc()
         // Das Kopieren der UserDetails findet hier bereits im InMemoryUserDetailsManager#loadUserByUsername statt.
 
@@ -216,7 +216,7 @@ public class SecurityCommonConfig
         //        cachingUserDetailsService.setUserCache(userCache);
 
         // UserDetails kopieren, da bei ProviderManager.setEraseCredentialsAfterAuthentication(true)
-        // das Password auf null gesetzt wird -> kein zweiter Login mehr möglich -> NullPointer
+        // das Password auf null gesetzt wird, kein zweiter Login mehr möglich, es folgt NullPointer.
         UserDetailsService cachingUserDetailsService = username ->
         {
             UserDetails userDetails = userCache.getUserFromCache(username);

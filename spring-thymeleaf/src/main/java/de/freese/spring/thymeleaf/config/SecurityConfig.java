@@ -125,7 +125,7 @@ public class SecurityConfig
         // Böse Falle !
         // Der UserCache im AuthenticationProvider behält die UserDetails der User.
         // Bei diesen werden aber die Passwörter aus Sicherheitsgründen im ProviderManager entfernt.
-        // Dadurch ist ein 2. Login dann nicht mehr möglich -> NullPointer wegen UserDetails.getPassword = null
+        // Dadurch ist ein 2. Login dann nicht mehr möglich, es folgt NullPointer wegen UserDetails.getPassword = null
         // authenticationProvider.setUserCache(userCache);
 
         // Dieses Problem könnte behoben werden, indem nur der UserName und nicht das User-Object verwendet wird.
