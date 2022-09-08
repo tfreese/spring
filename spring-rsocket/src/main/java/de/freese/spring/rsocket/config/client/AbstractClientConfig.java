@@ -19,15 +19,14 @@ import reactor.util.retry.Retry;
 
 /**
  * @author Thomas Freese
- *
  * @see RSocketRequesterAutoConfiguration
  * @see RSocketStrategiesAutoConfiguration
  */
 abstract class AbstractClientConfig
 {
     /**
-    *
-    */
+     *
+     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     // /**
@@ -44,19 +43,6 @@ abstract class AbstractClientConfig
     //
     // return factory;
     // }
-
-    /**
-     * @return {@link Encoder}
-     */
-    protected abstract Encoder<?> createAuthenticationEncoder();
-
-    /**
-     * @return {@link Logger}
-     */
-    protected Logger getLogger()
-    {
-        return this.logger;
-    }
 
     /**
      * @param strategies {@link org.springframework.messaging.rsocket.RSocketStrategies}
@@ -91,13 +77,26 @@ abstract class AbstractClientConfig
         // @formatter:on
     }
 
+    /**
+     * @return {@link Encoder}
+     */
+    protected abstract Encoder<?> createAuthenticationEncoder();
+
+    /**
+     * @return {@link Logger}
+     */
+    protected Logger getLogger()
+    {
+        return this.logger;
+    }
+
     // /**
     // * @return {@link RSocketStrategiesCustomizer}
     // */
     // @Bean
     // RSocketStrategiesCustomizer rSocketStrategiesCustomizer()
     // {
-//        // @formatter:off
+    //        // @formatter:off
 //        return strategies ->
 //            strategies.encoder(new SimpleAuthenticationEncoder())
 //            //.dataBufferFactory(null)
@@ -111,9 +110,9 @@ abstract class AbstractClientConfig
     // * @return {@link RSocketStrategies}
     // */
     // @Bean
-    // RSocketStrategies rsocketStrategies()
+    // RSocketStrategies rSocketStrategies()
     // {
-//        // @formatter:off
+    //        // @formatter:off
 //        return RSocketStrategies.builder()
 ////                .decoder(new Jackson2JsonDecoder())
 ////                .encoder(new Jackson2JsonEncoder())

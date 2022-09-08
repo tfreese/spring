@@ -53,7 +53,7 @@ public class JavaFxApplication extends Application
          */
         public Stage getStage()
         {
-            return Stage.class.cast(getSource());
+            return (Stage) getSource();
         }
     }
 

@@ -34,14 +34,6 @@ abstract class AbstractServerConfig
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     * @return {@link Logger}
-     */
-    protected Logger getLogger()
-    {
-        return this.logger;
-    }
-
-    /**
      * @param passwordEncoder {@link PasswordEncoder}
      *
      * @return {@link ReactiveUserDetailsService}
@@ -76,18 +68,6 @@ abstract class AbstractServerConfig
         // @formatter:on
     }
 
-    // /**
-    // * @return {@link RSocketServerFactory}
-    // */
-    // @Bean
-    // RSocketServerFactory rSocketServerFactory()
-    // {
-    // // TODO RSocketServer manuell erstellen und konfigurieren.
-    //        // @formatter:off
-//        return socketAcceptor -> null;
-//        // @formatter:on
-    // }
-
     /**
      * @param rSocketStrategies {@link RSocketStrategies}
      *
@@ -104,6 +84,18 @@ abstract class AbstractServerConfig
 
         return handler;
     }
+
+    // /**
+    // * @return {@link RSocketServerFactory}
+    // */
+    // @Bean
+    // RSocketServerFactory rSocketServerFactory()
+    // {
+    // // TODO RSocketServer manuell erstellen und konfigurieren.
+    //        // @formatter:off
+//        return socketAcceptor -> null;
+//        // @formatter:on
+    // }
 
     /**
      * @return {@link PasswordEncoder}
@@ -137,6 +129,14 @@ abstract class AbstractServerConfig
         // passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
 
         return passwordEncoder;
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    protected Logger getLogger()
+    {
+        return this.logger;
     }
 
     // /**
@@ -173,9 +173,9 @@ abstract class AbstractServerConfig
     // * @return {@link RSocketStrategies}
     // */
     // @Bean
-    // RSocketStrategies rsocketStrategies()
+    // RSocketStrategies rSocketStrategies()
     // {
-    // LOGGER.info("rsocketStrategies");
+    // LOGGER.info("rSocketStrategies");
     //
     //        // @formatter:off
 //        return RSocketStrategies.builder()
