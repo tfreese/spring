@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.freese.spring</groupId>
-		<artifactId>spring</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>de.freese.spring</groupId>
+        <artifactId>spring</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>spring-messaging</artifactId>
-	<packaging>pom</packaging>
+    <artifactId>spring-messaging</artifactId>
+    <packaging>pom</packaging>
 
-	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>Messaging Demos</description>
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Messaging Demos</description>
 
-	<properties>
-	</properties>
+    <properties>
+    </properties>
 
-	<modules>
-		<module>spring-messaging-jms</module>
-		<module>spring-messaging-amqp-rabbitmq</module>
-		<module>spring-messaging-amqp-qpid</module>
-	</modules>
+    <modules>
+        <module>spring-messaging-amqp-qpid</module>
+        <module>spring-messaging-jms</module>
+    </modules>
 
     <dependencies>
         <!-- compile scope -->
@@ -30,5 +29,5 @@
         <!-- provided scope -->
         <!-- test scope -->
     </dependencies>
-    
+
 </project>

@@ -393,21 +393,6 @@ project("spring-messaging:spring-messaging-amqp-qpid") {
     }
 }
 
-project("spring-messaging:spring-messaging-amqp-rabbitmq") {
-    description = "Messaging with RabbitMQ"
-    dependencies {
-        implementation("org.springframework.boot:spring-boot-starter-amqp") {
-            exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
-        }
-
-        implementation("org.springframework.boot:spring-boot-starter-json")
-    }
-    // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
-        mainClass = "org.spring.messaging.amqp.rabbitmq.SpringRabbitMqApplication"
-    }
-}
-
 project("spring-messaging:spring-messaging-jms") {
     description = "JMS with ActiveMQ"
     dependencies {

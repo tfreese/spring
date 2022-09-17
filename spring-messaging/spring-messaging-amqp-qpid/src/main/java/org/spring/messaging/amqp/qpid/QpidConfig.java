@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.qpid.server.SystemLauncher;
 import org.apache.qpid.server.model.ConfiguredObject;
 import org.apache.qpid.server.model.SystemConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,10 +22,6 @@ public class QpidConfig
     /**
      *
      */
-    private static final String AMQP_PORT = "5672";
-    /**
-     *
-     */
     private static final String INITIAL_CONFIGURATION = "qpid-config.json";
     /**
      *
@@ -34,6 +31,11 @@ public class QpidConfig
      *
      */
     private static final String QPID_WORK_DIR = QPID_HOME_DIR + File.separator + "qpid-work";
+    /**
+     *
+     */
+    @Value("${spring.rabbitmq.port}")
+    private int port;
 
     // /**
     // * @param connectionFactory {@link ConnectionFactory}
@@ -66,7 +68,7 @@ public class QpidConfig
      *
      * @throws Exception Falls was schiefgeht.
      */
-    @Bean
+    @Bean(destroyMethod = "shutdown")
     public SystemLauncher systemLauncher() throws Exception
     {
         URL initialConfig = ClassLoader.getSystemClassLoader().getResource(INITIAL_CONFIGURATION);
@@ -79,7 +81,7 @@ public class QpidConfig
         attributes.put(SystemConfig.STARTUP_LOGGED_TO_SYSTEM_OUT, true);
         attributes.put(SystemConfig.QPID_WORK_DIR, QPID_WORK_DIR);
         attributes.put("qpid.home_dir", QPID_HOME_DIR);
-        attributes.put("qpid.amqp_port", AMQP_PORT);
+        attributes.put("qpid.amqp_port", port);
         attributes.put("qpid.http_port", "8080");
 
         SystemLauncher systemLauncher = new SystemLauncher();

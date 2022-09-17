@@ -7,6 +7,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -57,10 +58,10 @@ public class SpringQpidApplication
     }
 
     /**
-     * @return {@link Jackson2JsonMessageConverter}
+     *
      */
     @Bean
-    public Jackson2JsonMessageConverter producerJackson2MessageConverter()
+    public MessageConverter jackson2JsonMessageConverter()
     {
         return new Jackson2JsonMessageConverter();
     }
@@ -73,4 +74,43 @@ public class SpringQpidApplication
     {
         return new Queue(QUEUE_NAME, false);
     }
+
+    //    @Bean
+    //    public RabbitAdmin amqpAdmin(CachingConnectionFactory connectionFactory)
+    //    {
+    //        return new RabbitAdmin(connectionFactory);
+    //    }
+    //    @Bean
+    //    public ConnectionFactory connectionFactory()
+    //    {
+    //        AbstractConnectionFactory connectionFactory = new CachingConnectionFactory("localhost", 5672);
+    //        connectionFactory.setUsername("guest");
+    //        connectionFactory.setPassword("guest");
+    //
+    //        return connectionFactory;
+    //    }
+    //    @Bean
+    //    public RabbitTemplate rabbitTemplate(CachingConnectionFactory connectionFactory, Jackson2JsonMessageConverter jackson2MessageConverter)
+    //    {
+    //        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+    //        rabbitTemplate.setMessageConverter(jackson2MessageConverter);
+    //
+    //        return rabbitTemplate;
+    //    }
+    // @Bean
+    // public MessageListenerAdapter myMessageListenerAdapter(final Receiver receiver)
+    // {
+    // return new MessageListenerAdapter(receiver, "receiveMessage");
+    // }
+    // @Bean
+    // public MessageListenerContainer myMessageListenerContainer(final ConnectionFactory connectionFactory, final MessageListenerAdapter
+    // myMessageListenerAdapter)
+    // {
+    // SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+    // container.setConnectionFactory(connectionFactory);
+    // container.setQueueNames(QUEUE_NAME);
+    // container.setMessageListener(myMessageListenerAdapter);
+    //
+    // return container;
+    // }
 }

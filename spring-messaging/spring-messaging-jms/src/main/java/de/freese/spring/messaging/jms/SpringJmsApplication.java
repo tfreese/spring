@@ -2,7 +2,6 @@
 package de.freese.spring.messaging.jms;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.jms.ConnectionFactory;
 
@@ -10,14 +9,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
-import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
 
 /**
  * @author Thomas Freese
@@ -34,36 +31,31 @@ public class SpringJmsApplication
         SpringApplication.run(SpringJmsApplication.class, args);
     }
 
-    /**
-     * @return {@link ThreadPoolExecutorFactoryBean}
-     */
-    @Bean
-    @Primary
-    public ThreadPoolExecutorFactoryBean executorService()
-    {
-        int coreSize = Runtime.getRuntime().availableProcessors() * 2;
-        int maxSize = coreSize * 2;
-        int queueSize = maxSize * 2;
-        int keepAliveSeconds = 60;
-
-        ThreadPoolExecutorFactoryBean bean = new ThreadPoolExecutorFactoryBean();
-        bean.setCorePoolSize(coreSize);
-        bean.setMaxPoolSize(maxSize);
-        bean.setQueueCapacity(queueSize);
-        bean.setKeepAliveSeconds(keepAliveSeconds);
-        bean.setThreadPriority(Thread.NORM_PRIORITY);
-        bean.setThreadNamePrefix("pool-");
-        bean.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
-        bean.setAllowCoreThreadTimeOut(false);
-        bean.setExposeUnconfigurableExecutor(true);
-
-        return bean;
-    }
+    //    @Bean
+    //    @Primary
+    //    public ThreadPoolExecutorFactoryBean executorService()
+    //    {
+    //        int coreSize = Runtime.getRuntime().availableProcessors() * 2;
+    //        int maxSize = coreSize * 2;
+    //        int queueSize = maxSize * 2;
+    //        int keepAliveSeconds = 60;
+    //
+    //        ThreadPoolExecutorFactoryBean bean = new ThreadPoolExecutorFactoryBean();
+    //        bean.setCorePoolSize(coreSize);
+    //        bean.setMaxPoolSize(maxSize);
+    //        bean.setQueueCapacity(queueSize);
+    //        bean.setKeepAliveSeconds(keepAliveSeconds);
+    //        bean.setThreadPriority(Thread.NORM_PRIORITY);
+    //        bean.setThreadNamePrefix("pool-");
+    //        bean.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+    //        bean.setAllowCoreThreadTimeOut(false);
+    //        bean.setExposeUnconfigurableExecutor(true);
+    //
+    //        return bean;
+    //    }
 
     /**
-     * Serialize message content to json using TextMessage
      *
-     * @return {@link MessageConverter}
      */
     @Bean
     public MessageConverter jacksonJmsMessageConverter()
@@ -76,11 +68,7 @@ public class SpringJmsApplication
     }
 
     /**
-     * @param connectionFactory {@link ConnectionFactory}
-     * @param configurer {@link DefaultJmsListenerContainerFactoryConfigurer}
-     * @param taskExecutor {@link Executor}
      *
-     * @return {@link JmsListenerContainerFactory}
      */
     @Bean
     public JmsListenerContainerFactory<?> myFactory(final ConnectionFactory connectionFactory, final DefaultJmsListenerContainerFactoryConfigurer configurer,

@@ -1,4 +1,4 @@
-// Ohne rootProject.name würde der Name des Projekt-Verzeichnises verwendet werden.
+// Ohne rootProject.name würde der Name des Projekt-Verzeichnisses verwendet werden.
 rootProject.name = "spring"
 
 include "kubernetes:kubernetes-microservice"
@@ -16,7 +16,6 @@ include "spring-jwt"
 include "spring-kryo"
 include "spring-ldap-unboundid"
 include "spring-messaging:spring-messaging-amqp-qpid"
-include "spring-messaging:spring-messaging-amqp-rabbitmq"
 include "spring-messaging:spring-messaging-jms"
 include "spring-microservice-jmh"
 include "spring-openapi"

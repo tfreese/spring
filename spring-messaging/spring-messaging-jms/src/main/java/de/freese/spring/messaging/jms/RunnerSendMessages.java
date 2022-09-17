@@ -4,7 +4,11 @@ package de.freese.spring.messaging.jms;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Resource;
+
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,6 +21,11 @@ public class RunnerSendMessages implements CommandLineRunner
      *
      */
     private final JmsSender sender;
+    /**
+     *
+     */
+    @Resource
+    private ApplicationContext context;
 
     /**
      * Erstellt ein neues {@link RunnerSendMessages} Object.
@@ -38,9 +47,14 @@ public class RunnerSendMessages implements CommandLineRunner
     {
         for (int i = 0; i < 5; i++)
         {
+            TimeUnit.MILLISECONDS.sleep(500);
+
             this.sender.send(new Email("info@example.com", "Hello-" + (i + 1)));
         }
+        
+        TimeUnit.MILLISECONDS.sleep(500);
 
-        TimeUnit.MILLISECONDS.sleep(1000);
+        //        System.exit(0);
+        SpringApplication.exit(context, () -> 0);
     }
 }

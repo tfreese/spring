@@ -54,7 +54,7 @@ public final class StartActiveMqBroker
             @Override
             public void setDirectory(final File directory)
             {
-                // // NO-OP
+                // Empty
             }
 
             @Override
@@ -66,15 +66,16 @@ public final class StartActiveMqBroker
             @Override
             public void start() throws Exception
             {
-                // NO-OP
+                // Empty
             }
 
             @Override
             public void stop() throws Exception
             {
-                // NO-OP
+                // Empty
             }
         });
+
         broker.start();
         broker.waitUntilStopped();
     }

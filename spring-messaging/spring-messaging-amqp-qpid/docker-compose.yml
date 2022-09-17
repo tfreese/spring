@@ -18,8 +18,8 @@
 version: '3'
 services:
 
-   rabbitmq:
-     image: localhost:5083/rabbitmq:management
-     ports:
-       - "5672:5672"
-       - "15672:15672"
+    rabbitmq:
+        image: rabbitmq:management
+        ports:
+            - "5672:5672"
+            - "15672:15672"
