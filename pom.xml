@@ -43,7 +43,7 @@
 
         <version_org.apache.qpid>8.0.6</version_org.apache.qpid>
         <version_org.springdoc>1.6.11</version_org.springdoc>
-        <version_org.testcontainers>1.17.3</version_org.testcontainers>
+        <version_org.testcontainers>1.17.4</version_org.testcontainers>
 
         <version_spring-cloud-starter-netflix>2.2.10.RELEASE</version_spring-cloud-starter-netflix>
     </properties>
