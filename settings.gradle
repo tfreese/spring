@@ -23,6 +23,7 @@ include "spring-reactive-jdbc"
 include "spring-resilience"
 include "spring-ribbon"
 include "spring-rsocket"
+include "spring-testcontainers"
 include "spring-thymeleaf"
 include "spring-web"
 

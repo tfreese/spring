@@ -14,6 +14,7 @@ subprojects {
             mavenBom "de.codecentric:spring-boot-admin-dependencies:$version_springBootAdmin"
             mavenBom "org.springframework.boot:spring-boot-dependencies:$version_springBoot"
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:$version_springCloud"
+            mavenBom "org.testcontainers:testcontainers-bom:$version_testcontainers"
         }
 
         dependencies {
@@ -30,7 +31,7 @@ subprojects {
             dependency("io.jsonwebtoken:jjwt:$version_jjwt")
             dependency("io.r2dbc:r2dbc-client:$version_r2dbcClient")
 
-            dependency("javax:javaee-web-api:$version_javaee")
+            //dependency("javax:javaee-web-api:$version_javaee")
 
             dependency("org.apache.qpid:qpid-broker:$version_qpid")
 //            dependency("org.apache.qpid:qpid-bdbstore:$version_qpid") {
@@ -537,6 +538,28 @@ project("spring-rsocket") {
 
         testImplementation("io.projectreactor:reactor-test")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+}
+
+project("spring-testcontainers") {
+    description = "Demo für Test-Container"
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-jdbc")
+
+        testImplementation("com.h2database:h2")
+        testImplementation("com.oracle.database.jdbc:ojdbc11")
+        testImplementation("org.apache.derby:derby")
+        testImplementation("org.hsqldb:hsqldb")
+        testImplementation("org.junit.jupiter:junit-jupiter")
+        testImplementation("org.mariadb.jdbc:mariadb-java-client")
+        testImplementation("org.postgresql:postgresql")
+        testImplementation("org.springframework.boot:spring-boot-starter-test") {
+            exclude module: "junit-vintage-engine"
+        }
+        testImplementation("org.testcontainers:junit-jupiter")
+        testImplementation("org.testcontainers:mariadb")
+        testImplementation("org.testcontainers:oracle-xe")
+        testImplementation("org.testcontainers:postgresql")
     }
 }
 

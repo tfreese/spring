@@ -30,19 +30,12 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 abstract class AbstractTest
 {
-    /**
-     *
-     */
     @Resource
     DataSource dataSource;
-    /**
-     *
-     */
+
     @Resource
     private JdbcDialect jdbcDialect;
-    /**
-     *
-     */
+    
     @Resource
     private PersonService personService;
 
@@ -65,9 +58,6 @@ abstract class AbstractTest
         populator.execute(dataSource);
     }
 
-    /**
-     *
-     */
     //    @Sql(scripts = "classpath:db-schema.sql")
     @Test
     void testGetAll()
@@ -101,9 +91,6 @@ abstract class AbstractTest
         assertEquals("Name-3", persons.get(2).getName());
     }
 
-    /**
-     *
-     */
     //    @Sql(scripts = "classpath:db-schema.sql")
     @Test
     void testSave()
@@ -122,9 +109,6 @@ abstract class AbstractTest
         assertEquals("Name", persons.get(0).getName());
     }
 
-    /**
-     *
-     */
     //    @Sql(scripts = "classpath:db-schema.sql")
     @Test
     void testSaveAllWithException()

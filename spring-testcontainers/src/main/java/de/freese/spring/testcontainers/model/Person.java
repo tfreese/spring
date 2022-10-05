@@ -7,13 +7,8 @@ import java.util.Objects;
  */
 public class Person
 {
-    /**
-     *
-     */
     private long id;
-    /**
-     *
-     */
+    
     private String name;
 
     @Override
@@ -32,39 +27,27 @@ public class Person
         return getId() == data1.getId() && Objects.equals(getName(), data1.getName());
     }
 
+    public long getId()
+    {
+        return this.id;
+    }
+
+    public String getName()
+    {
+        return this.name;
+    }
+
     @Override
     public int hashCode()
     {
         return Objects.hash(getId(), getName());
     }
 
-    /**
-     * @return long
-     */
-    public long getId()
-    {
-        return this.id;
-    }
-
-    /**
-     * @param id long
-     */
     public void setId(final long id)
     {
         this.id = id;
     }
 
-    /**
-     * @return java.lang.String
-     */
-    public String getName()
-    {
-        return this.name;
-    }
-
-    /**
-     * @param name java.lang.String
-     */
     public void setName(final String name)
     {
         this.name = name;

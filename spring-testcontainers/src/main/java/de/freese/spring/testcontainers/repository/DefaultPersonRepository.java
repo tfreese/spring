@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 public class DefaultPersonRepository implements PersonRepository
 {
     private final JdbcDialect jdbcDialect;
+    
     private final JdbcTemplate jdbcTemplate;
 
     public DefaultPersonRepository(DataSource dataSource, JdbcDialect jdbcDialect)
