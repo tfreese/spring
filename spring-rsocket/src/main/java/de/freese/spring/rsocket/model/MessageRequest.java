@@ -6,24 +6,13 @@ package de.freese.spring.rsocket.model;
  */
 public class MessageRequest
 {
-    /**
-     *
-     */
     private String message;
 
-    /**
-     * Erstellt ein neues {@link MessageRequest} Object.
-     */
     public MessageRequest()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link MessageRequest} Object.
-     *
-     * @param message String
-     */
     public MessageRequest(final String message)
     {
         super();
@@ -31,25 +20,16 @@ public class MessageRequest
         this.message = message;
     }
 
-    /**
-     * @return String
-     */
     public String getMessage()
     {
         return this.message;
     }
 
-    /**
-     * @param message String
-     */
     public void setMessage(final String message)
     {
         this.message = message;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString()
     {

@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.rsocket.RSocketStrategiesAutoConfi
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.codec.Encoder;
 import org.springframework.messaging.rsocket.RSocketRequester;
-import org.springframework.messaging.rsocket.RSocketRequester.Builder;
 import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.util.MimeTypeUtils;
 import reactor.util.retry.Retry;
@@ -24,9 +23,6 @@ import reactor.util.retry.Retry;
  */
 abstract class AbstractClientConfig
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     // /**
@@ -44,11 +40,6 @@ abstract class AbstractClientConfig
     // return factory;
     // }
 
-    /**
-     * @param strategies {@link org.springframework.messaging.rsocket.RSocketStrategies}
-     *
-     * @return {@link Builder}
-     */
     @Bean
     RSocketRequester.Builder rSocketRequesterBuilder(final RSocketStrategies strategies)
     {
@@ -77,22 +68,13 @@ abstract class AbstractClientConfig
         // @formatter:on
     }
 
-    /**
-     * @return {@link Encoder}
-     */
     protected abstract Encoder<?> createAuthenticationEncoder();
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    // /**
-    // * @return {@link RSocketStrategiesCustomizer}
-    // */
     // @Bean
     // RSocketStrategiesCustomizer rSocketStrategiesCustomizer()
     // {

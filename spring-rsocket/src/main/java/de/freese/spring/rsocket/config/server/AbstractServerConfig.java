@@ -28,29 +28,17 @@ import org.springframework.security.messaging.handler.invocation.reactive.Authen
  */
 abstract class AbstractServerConfig
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * @param passwordEncoder {@link PasswordEncoder}
-     *
-     * @return {@link ReactiveUserDetailsService}
-     */
     @Bean
     ReactiveUserDetailsService authorization(final PasswordEncoder passwordEncoder)
     {
         UserDetails user = User.builder().passwordEncoder(passwordEncoder::encode).username("user").password("pass").roles("USER").build();
-
         UserDetails admin = User.builder().passwordEncoder(passwordEncoder::encode).username("fail").password("pass").roles("NONE").build();
 
         return new MapReactiveUserDetailsService(user, admin);
     }
 
-    /**
-     * @return {@link RSocketServerCustomizer}
-     */
     @Bean
     RSocketServerCustomizer customizeRSocketServer()
     {
@@ -68,11 +56,6 @@ abstract class AbstractServerConfig
         // @formatter:on
     }
 
-    /**
-     * @param rSocketStrategies {@link RSocketStrategies}
-     *
-     * @return {@link RSocketMessageHandler}
-     */
     @Bean
     RSocketMessageHandler messageHandler(final RSocketStrategies rSocketStrategies)
     {
@@ -85,9 +68,6 @@ abstract class AbstractServerConfig
         return handler;
     }
 
-    // /**
-    // * @return {@link RSocketServerFactory}
-    // */
     // @Bean
     // RSocketServerFactory rSocketServerFactory()
     // {
@@ -97,9 +77,6 @@ abstract class AbstractServerConfig
 //        // @formatter:on
     // }
 
-    /**
-     * @return {@link PasswordEncoder}
-     */
     @Bean
     PasswordEncoder passwordEncoder()
     {
@@ -131,17 +108,11 @@ abstract class AbstractServerConfig
         return passwordEncoder;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    // /**
-    // * @return {@link ReactorResourceFactory}
-    // */
     // @Bean
     // ReactorResourceFactory reactorResourceFactory()
     // {
@@ -154,9 +125,6 @@ abstract class AbstractServerConfig
     // return factory;
     // }
 
-    // /**
-    // * @return {@link RSocketStrategiesCustomizer}
-    // */
     // @Bean
     // RSocketStrategiesCustomizer rSocketStrategiesCustomizer()
     // {

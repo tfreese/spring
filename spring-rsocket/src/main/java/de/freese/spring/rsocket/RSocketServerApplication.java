@@ -17,9 +17,6 @@ import reactor.core.publisher.Hooks;
 // })
 public class RSocketServerApplication
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         // Fehlermeldung, wenn Client die Verbindung schliesst.

@@ -18,24 +18,18 @@ import reactor.test.StepVerifier;
  * @author Thomas Freese
  */
 @SpringBootTest(properties = "spring.rsocket.server.port=0", webEnvironment = WebEnvironment.RANDOM_PORT)
-// Wird für den reinen Client nicht benötigt.
-// , exclude =
-// {
-// ReactiveUserDetailsServiceAutoConfiguration.class,
-// SecurityAutoConfiguration.class,
-// ReactiveSecurityAutoConfiguration.class,
-// RSocketSecurityAutoConfiguration.class
-// }
+        // Wird für den reinen Client nicht benötigt.
+        // , exclude =
+        // {
+        // ReactiveUserDetailsServiceAutoConfiguration.class,
+        // SecurityAutoConfiguration.class,
+        // ReactiveSecurityAutoConfiguration.class,
+        // RSocketSecurityAutoConfiguration.class
+        // }
 interface TestClientToServer
 {
-    /**
-     * @return {@link RSocketRequester}
-     */
     RSocketRequester getRequester();
 
-    /**
-     *
-     */
     @Test
     default void testChannel()
     {
@@ -47,18 +41,17 @@ interface TestClientToServer
         Flux<MessageResponse> result = getRequester().route("channel").data(settings).retrieveFlux(MessageResponse.class);
 
         // Verify that the response messages contain the expected data
-        StepVerifier.create(result).consumeNextWith(response -> {
+        StepVerifier.create(result).consumeNextWith(response ->
+        {
             assertEquals("Hello PT3S", response.getMessage());
             assertEquals(0, response.getIndex());
-        }).consumeNextWith(response -> {
+        }).consumeNextWith(response ->
+        {
             assertEquals("Hello PT3S", response.getMessage());
             assertEquals(1, response.getIndex());
         }).thenCancel().verify();
     }
 
-    /**
-     *
-     */
     @Test
     default void testFireAndForget()
     {
@@ -69,9 +62,6 @@ interface TestClientToServer
         StepVerifier.create(result).verifyComplete();
     }
 
-    /**
-     *
-     */
     @Test
     default void testNoMatchingRoute()
     {
@@ -82,9 +72,6 @@ interface TestClientToServer
         StepVerifier.create(result).expectErrorMessage("No handler for destination 'invalid'").verify(Duration.ofSeconds(5));
     }
 
-    /**
-     *
-     */
     @Test
     default void testRequestResponse()
     {
@@ -94,15 +81,13 @@ interface TestClientToServer
         Mono<MessageResponse> result = getRequester().route("request-response").data(request).retrieveMono(MessageResponse.class);
 
         // Verify that the response message contains the expected data
-        StepVerifier.create(result).consumeNextWith(response -> {
+        StepVerifier.create(result).consumeNextWith(response ->
+        {
             assertEquals("Hello " + request.getMessage(), response.getMessage());
             assertEquals(0, response.getIndex());
         }).verifyComplete();
     }
 
-    /**
-     *
-     */
     @Test
     default void testStream()
     {
@@ -112,10 +97,12 @@ interface TestClientToServer
         Flux<MessageResponse> result = getRequester().route("stream").data(request).retrieveFlux(MessageResponse.class);
 
         // Verify that the response messages contain the expected data
-        StepVerifier.create(result).consumeNextWith(response -> {
+        StepVerifier.create(result).consumeNextWith(response ->
+        {
             assertEquals("Hello " + request.getMessage(), response.getMessage());
             assertEquals(0, response.getIndex());
-        }).expectNextCount(1).consumeNextWith(response -> {
+        }).expectNextCount(1).consumeNextWith(response ->
+        {
             assertEquals("Hello " + request.getMessage(), response.getMessage());
             assertEquals(2, response.getIndex());
         }).thenCancel().verify();

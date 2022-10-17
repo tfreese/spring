@@ -34,7 +34,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.MappedJwtClaimSetConverter;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtReactiveAuthenticationManager;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.rsocket.core.PayloadSocketAcceptorInterceptor;
@@ -50,12 +49,6 @@ import reactor.core.publisher.Mono;
 @Profile("jwt")
 public class JwtAuthServerConfig extends AbstractServerConfig
 {
-    /**
-     * @param security {@link RSocketSecurity}
-     * @param reactiveAuthenticationManager {@link ReactiveAuthenticationManager}
-     *
-     * @return {@link PayloadSocketAcceptorInterceptor}
-     */
     @Bean
     PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security, final ReactiveAuthenticationManager reactiveAuthenticationManager)
     {
@@ -77,12 +70,6 @@ public class JwtAuthServerConfig extends AbstractServerConfig
         return security.build();
     }
 
-    /**
-     * @param reactiveUserDetailsService {@link ReactiveUserDetailsService}
-     * @param passwordEncoder {@link PasswordEncoder}
-     *
-     * @return {@link JwtAuthenticationConverter}
-     */
     @Bean
     Converter<Jwt, AbstractAuthenticationToken> authenticationConverter(final ReactiveUserDetailsService reactiveUserDetailsService,
                                                                         final PasswordEncoder passwordEncoder)
@@ -148,12 +135,6 @@ public class JwtAuthServerConfig extends AbstractServerConfig
         };
     }
 
-    /**
-     * @param reactiveJwtDecoder {@link ReactiveJwtDecoder}
-     * @param authenticationConverter {@link Converter}
-     *
-     * @return {@link JwtReactiveAuthenticationManager}
-     */
     @Bean
     JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager(final ReactiveJwtDecoder reactiveJwtDecoder,
                                                                       final Converter<Jwt, AbstractAuthenticationToken> authenticationConverter)
@@ -164,11 +145,6 @@ public class JwtAuthServerConfig extends AbstractServerConfig
         return jwtReactiveAuthenticationManager;
     }
 
-    /**
-     * @return {@link ReactiveJwtDecoder}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @Bean
     ReactiveJwtDecoder reactiveJwtDecoder() throws Exception
     {

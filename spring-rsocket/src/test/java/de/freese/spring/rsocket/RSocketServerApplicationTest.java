@@ -18,9 +18,6 @@ import org.springframework.test.context.ActiveProfiles;
         })
 class RSocketServerApplicationTest
 {
-    /**
-     *
-     */
     @Test
     void testContextLoads()
     {

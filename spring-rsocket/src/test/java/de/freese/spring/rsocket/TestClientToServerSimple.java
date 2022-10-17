@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.rsocket.server.LocalRSocketServerPort;
 import org.springframework.messaging.rsocket.RSocketRequester;
-import org.springframework.messaging.rsocket.RSocketRequester.Builder;
 import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.security.rsocket.metadata.UsernamePasswordMetadata;
 import org.springframework.test.context.ActiveProfiles;
@@ -28,14 +27,8 @@ import reactor.core.publisher.Hooks;
         })
 class TestClientToServerSimple implements TestClientToServer
 {
-    /**
-     *
-     */
     private static RSocketRequester requester;
 
-    /**
-     *
-     */
     @AfterAll
     public static void afterAll()
     {
@@ -43,12 +36,6 @@ class TestClientToServerSimple implements TestClientToServer
         Optional.ofNullable(requester.rsocket()).ifPresent(RSocket::dispose);
     }
 
-    /**
-     * @param builder {@link Builder}
-     * @param strategies {@link RSocketStrategies}
-     * @param host String
-     * @param port int
-     */
     @BeforeAll
     public static void beforeAll(@Autowired final RSocketRequester.Builder builder, @Autowired final RSocketStrategies strategies,
                                  @Value("${spring.rsocket.server.address}") final String host, @LocalRSocketServerPort final int port)

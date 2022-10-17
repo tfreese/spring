@@ -42,7 +42,7 @@
         <version_io.springfox_swagger>3.0.0</version_io.springfox_swagger><!-- 2.9.2; 2.10.0 macht Probleme, GUI wird nicht angezeigt. -->
 
         <version_org.apache.qpid>8.0.6</version_org.apache.qpid>
-        <version_org.springdoc>1.6.11</version_org.springdoc>
+        <version_org.springdoc>1.6.12</version_org.springdoc>
         <version_org.testcontainers>1.17.5</version_org.testcontainers>
 
         <version_spring-cloud-starter-netflix>2.2.10.RELEASE</version_spring-cloud-starter-netflix>

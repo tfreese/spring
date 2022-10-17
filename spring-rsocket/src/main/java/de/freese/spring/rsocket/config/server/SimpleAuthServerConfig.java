@@ -19,11 +19,6 @@ import org.springframework.security.rsocket.core.PayloadSocketAcceptorIntercepto
 @Profile("simple")
 public class SimpleAuthServerConfig extends AbstractServerConfig
 {
-    /**
-     * @param security {@link RSocketSecurity}
-     *
-     * @return {@link PayloadSocketAcceptorInterceptor}
-     */
     @Bean
     PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security)
     {

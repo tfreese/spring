@@ -18,7 +18,7 @@ class TestContainerMariaDb extends AbstractTest
      * mariadb:latest<br />
      */
     @Container
-    private static final MariaDBContainer DB_CONTAINER = new MariaDBContainer("mariadb:latest");
+    private static final MariaDBContainer<?> DB_CONTAINER = new MariaDBContainer<>("mariadb:latest");
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry registry)

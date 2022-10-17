@@ -26,17 +26,8 @@ import reactor.core.publisher.Mono;
 @Controller
 public class RSocketController
 {
-    /**
-    *
-    */
     private static final Logger LOGGER = LoggerFactory.getLogger(RSocketController.class);
 
-    /**
-     * @param requests {@link Flux}
-     * @param user {@link UserDetails}
-     *
-     * @return {@link Flux}
-     */
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("channel")
     Flux<MessageResponse> channel(final Flux<MessageRequest> requests, @AuthenticationPrincipal final UserDetails user)
@@ -65,20 +56,12 @@ public class RSocketController
         // @formatter:on
     }
 
-    /**
-     * @return {@link MessageResponse}
-     */
     @MessageMapping("error")
     Mono<MessageResponse> error()
     {
         return Mono.error(new IllegalArgumentException("Bad Exception"));
     }
 
-    /**
-     * @param th {@link Throwable}
-     *
-     * @return {@link Mono}
-     */
     @MessageExceptionHandler
     Mono<MessageResponse> errorHandler(final Throwable th)
     {
@@ -88,12 +71,6 @@ public class RSocketController
         return Mono.just(response);
     }
 
-    /**
-     * @param request {@link MessageRequest}
-     * @param user {@link UserDetails}
-     *
-     * @return {@link Mono}
-     */
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("fire-and-forget")
     Mono<Void> fireAndForget(final MessageRequest request, @AuthenticationPrincipal final UserDetails user)
@@ -104,11 +81,6 @@ public class RSocketController
         return Mono.empty();
     }
 
-    /**
-     * @param name String
-     *
-     * @return {@link Mono}
-     */
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("parameter/{name}")
     Mono<MessageResponse> parameter(@DestinationVariable final String name)
@@ -118,12 +90,6 @@ public class RSocketController
         return Mono.just(new MessageResponse(name));
     }
 
-    /**
-     * @param request {@link MessageRequest}
-     * @param user {@link UserDetails}
-     *
-     * @return {@link Mono}
-     */
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("request-response")
     Mono<MessageResponse> requestResponse(final MessageRequest request, @AuthenticationPrincipal final UserDetails user)
@@ -134,21 +100,12 @@ public class RSocketController
         return Mono.just(new MessageResponse(request.getMessage()));
     }
 
-    /**
-     *
-     */
     @PreDestroy
     void shutdown()
     {
         LOGGER.info("Shutting down.");
     }
 
-    /**
-     * @param request {@link MessageRequest}
-     * @param user {@link UserDetails}
-     *
-     * @return {@link Flux}
-     */
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("stream")
     Flux<MessageResponse> stream(final MessageRequest request, @AuthenticationPrincipal final UserDetails user)

@@ -15,7 +15,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 class TestContainerPostgres extends AbstractTest
 {
     @Container
-    private static final PostgreSQLContainer DB_CONTAINER = new PostgreSQLContainer("postgres:latest");
+    private static final PostgreSQLContainer<?> DB_CONTAINER = new PostgreSQLContainer<>("postgres:latest");
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry registry)

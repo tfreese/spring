@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.rsocket.server.LocalRSocketServerPort;
 import org.springframework.messaging.rsocket.RSocketRequester;
-import org.springframework.messaging.rsocket.RSocketRequester.Builder;
 import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.security.rsocket.metadata.UsernamePasswordMetadata;
 import org.springframework.test.context.ActiveProfiles;
@@ -36,14 +35,8 @@ import reactor.test.StepVerifier;
         })
 class RSocketClientToServerDeniedConnectionTest
 {
-    /**
-     *
-     */
     private static RSocketRequester requester;
 
-    /**
-     *
-     */
     @AfterAll
     static void afterAll()
     {
@@ -51,12 +44,6 @@ class RSocketClientToServerDeniedConnectionTest
         Optional.ofNullable(requester.rsocket()).ifPresent(RSocket::dispose);
     }
 
-    /**
-     * @param builder {@link Builder}
-     * @param strategies {@link RSocketStrategies}
-     * @param host String
-     * @param port int
-     */
     @BeforeAll
     static void beforeAll(@Autowired final RSocketRequester.Builder builder, @Autowired final RSocketStrategies strategies,
                           @Value("${spring.rsocket.server.address}") final String host, @LocalRSocketServerPort final int port)
@@ -80,9 +67,6 @@ class RSocketClientToServerDeniedConnectionTest
         // @formatter:on
     }
 
-    /**
-     *
-     */
     @Test
     void testConnectionIsRefused()
     {
