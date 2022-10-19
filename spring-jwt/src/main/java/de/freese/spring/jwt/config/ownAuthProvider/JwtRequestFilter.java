@@ -4,10 +4,10 @@ package de.freese.spring.jwt.config.ownAuthProvider;
 import java.io.IOException;
 import java.util.Objects;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,50 +29,32 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 class JwtRequestFilter extends OncePerRequestFilter
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
-    /**
-     *
-     */
+
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
-    /**
-     *
-     */
+
     private AuthenticationEntryPoint authenticationEntryPoint;
-    /**
-     *
-     */
+
     private AuthenticationManager authenticationManager;
 
-    /**
-     * @param authenticationDetailsSource {@link AuthenticationDetailsSource}
-     */
     public void setAuthenticationDetailsSource(final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource)
     {
         this.authenticationDetailsSource = authenticationDetailsSource;
     }
 
-    /**
-     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
-     */
     public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint)
     {
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
-    /**
-     * @param authenticationManager {@link AuthenticationManager}
-     */
     public void setAuthenticationManager(final AuthenticationManager authenticationManager)
     {
         this.authenticationManager = authenticationManager;
     }
 
     /**
-     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     * javax.servlet.FilterChain)
+     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse,
+     * jakarta.servlet.FilterChain)
      */
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
@@ -134,9 +116,6 @@ class JwtRequestFilter extends OncePerRequestFilter
         Objects.requireNonNull(this.authenticationDetailsSource, "authenticationDetailsSource required");
     }
 
-    /**
-     * @return {@link Logger}
-     */
     private Logger getLogger()
     {
         return LOGGER;

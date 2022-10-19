@@ -3,7 +3,7 @@ package de.freese.spring.thymeleaf.facade;
 
 import java.util.List;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import de.freese.spring.thymeleaf.ThymeleafController;
 import de.freese.spring.thymeleaf.model.Person;
@@ -20,19 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 @ThymeleafController
 public class PersonThymeleafController
 {
-    /**
-     *
-     */
     @Resource
     private PersonService service;
 
-    /**
-     * Berechtigung im Service.
-     *
-     * @param model {@link Model}
-     *
-     * @return String
-     */
     @GetMapping("/web/person/personList")
     public String personList(final Model model)
     {
@@ -42,14 +32,6 @@ public class PersonThymeleafController
         return "/person/personList";
     }
 
-    /**
-     * Berechtigung im Service.
-     *
-     * @param model {@link Model}
-     * @param personForm {@link PersonForm}
-     *
-     * @return String
-     */
     @PostMapping("/web/person/personAdd")
     public String savePerson(final Model model, @ModelAttribute("personForm") final PersonForm personForm)
     {
@@ -72,11 +54,6 @@ public class PersonThymeleafController
         return "redirect:/web/person/personList";
     }
 
-    /**
-     * @param model {@link Model}
-     *
-     * @return String
-     */
     @GetMapping("/web/person/personAdd")
     public String showAddPersonPage(final Model model)
     {

@@ -25,9 +25,6 @@ import org.springframework.transaction.jta.JtaTransactionManager;
 @EnableTransactionManagement
 public class Config
 {
-    /**
-     * @return AtomikosDataSourceBean
-     */
     @Bean(initMethod = "init", destroyMethod = "close")
     public AtomikosDataSourceBean dataSourceAddress()
     {
@@ -47,9 +44,6 @@ public class Config
         return dataSource;
     }
 
-    /**
-     * @return AtomikosDataSourceBean
-     */
     @Bean(initMethod = "init", destroyMethod = "close")
     public AtomikosDataSourceBean dataSourcePerson()
     {
@@ -72,10 +66,6 @@ public class Config
 
     /**
      * @param userTransactionManager {@link com.atomikos.icatch.jta.UserTransactionManager}
-     *
-     * @return JtaTransactionManager
-     *
-     * @throws SystemException Falls was schiefgeht.
      */
     @Bean
     public JtaTransactionManager jtaTransactionManager(UserTransactionManager userTransactionManager) throws SystemException
@@ -87,11 +77,6 @@ public class Config
         return jtaTransactionManager;
     }
 
-    /**
-     * @return UserTransactionManager
-     *
-     * @throws SystemException Falls was schiefgeht.
-     */
     @Bean(initMethod = "init", destroyMethod = "close")
     public UserTransactionManager userTransactionManager() throws SystemException
     {

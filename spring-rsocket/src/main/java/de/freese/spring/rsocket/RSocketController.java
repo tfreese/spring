@@ -4,7 +4,7 @@ package de.freese.spring.rsocket;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PreDestroy;
 
 import de.freese.spring.rsocket.model.MessageRequest;
 import de.freese.spring.rsocket.model.MessageResponse;

@@ -4,7 +4,7 @@ package de.freese.spring.cloud.gateway;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -22,15 +22,9 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @Disabled("Funktioniert nur zusammen mit spring-cloud-eureka und spring-cloud-microservice")
 class GatewayTest
 {
-    /**
-     *
-     */
     @Resource
     private WebTestClient webClient;
 
-    /**
-     *
-     */
     @Test
     void testCircuitbreaker()
     {
@@ -45,18 +39,12 @@ class GatewayTest
         // @formatter:on
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testContextLoads() throws Exception
     {
         assertTrue(true);
     }
 
-    /**
-     *
-     */
     @Test
     void testGet()
     {

@@ -1,15 +1,14 @@
 package de.freese.spring.reactive;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
+import de.freese.spring.reactive.model.Employee;
 import org.reactivestreams.Publisher;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import de.freese.spring.reactive.model.Employee;
 
 /**
  * Die anderen REST-Methoden sind im {@link EmployeeRouter}.
@@ -18,22 +17,14 @@ import de.freese.spring.reactive.model.Employee;
  */
 @RestController
 @RequestMapping(path = "/", produces =
-{
-        MediaType.APPLICATION_JSON_VALUE
-})
+        {
+                MediaType.APPLICATION_JSON_VALUE
+        })
 public class EmployeeRestController
 {
-    /**
-     *
-     */
     @Resource
     private EmployeeService service;
 
-    /**
-     * @param newEmployee {@link Employee}
-     *
-     * @return {@link Publisher}
-     */
     @PutMapping("employee")
     public Publisher<Employee> createNewEmployee(@RequestBody final Employee newEmployee)
     {

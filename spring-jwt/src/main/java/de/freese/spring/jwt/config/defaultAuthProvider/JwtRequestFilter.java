@@ -4,10 +4,10 @@ package de.freese.spring.jwt.config.defaultAuthProvider;
 import java.io.IOException;
 import java.util.Objects;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import de.freese.spring.jwt.token.JwtToken;
 import de.freese.spring.jwt.token.JwtTokenProvider;
@@ -36,30 +36,16 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 class JwtRequestFilter extends OncePerRequestFilter
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
-    /**
-     *
-     */
+
     private final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
-    /**
-     *
-     */
+
     private AuthenticationEntryPoint authenticationEntryPoint;
-    /**
-     *
-     */
+
     private AuthenticationManager authenticationManager;
-    /**
-     *
-     */
+
     private JwtTokenProvider jwtTokenProvider;
 
-    /**
-     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
-     */
     public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint)
     {
         this.authenticationEntryPoint = authenticationEntryPoint;
@@ -73,17 +59,14 @@ class JwtRequestFilter extends OncePerRequestFilter
         this.authenticationManager = authenticationManager;
     }
 
-    /**
-     * @param jwtTokenProvider {@link JwtTokenProvider}
-     */
     public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider)
     {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
     /**
-     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     * javax.servlet.FilterChain)
+     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse,
+     * jakarta.servlet.FilterChain)
      */
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
@@ -145,19 +128,11 @@ class JwtRequestFilter extends OncePerRequestFilter
         Objects.requireNonNull(this.jwtTokenProvider, "jwtTokenProvider required");
     }
 
-    /**
-     * @return {@link Logger}
-     */
     private Logger getLogger()
     {
         return LOGGER;
     }
 
-    /**
-     * @param username String
-     *
-     * @return boolean
-     */
     private boolean isAuthenticationIsRequired(final String username)
     {
         Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();

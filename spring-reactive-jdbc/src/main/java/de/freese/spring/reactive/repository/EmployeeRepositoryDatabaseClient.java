@@ -129,7 +129,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#deleteEmployee(long)
      */
     @Override
-    public Mono<Integer> deleteEmployee(final long id)
+    public Mono<Long> deleteEmployee(final long id)
     {
         return this.databaseClient.sql("DELETE FROM employee WHERE employee_id = :id").bind("id", id).fetch().rowsUpdated();
     }
@@ -195,11 +195,6 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
         // @formatter:on
     }
 
-    /**
-     * @param data {@link List}
-     *
-     * @return {@link Flux}
-     */
     public Flux<Long> saveAll(final List<Department> data)
     {
         return this.databaseClient.inConnectionMany(connection ->

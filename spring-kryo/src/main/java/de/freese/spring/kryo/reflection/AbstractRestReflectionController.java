@@ -6,8 +6,8 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
@@ -24,16 +24,8 @@ import org.springframework.web.client.RestTemplate;
  */
 public abstract class AbstractRestReflectionController
 {
-    /**
-     *
-     */
     private final Pool<Kryo> kryoPool;
 
-    /**
-     * Erstellt ein neues {@link AbstractRestReflectionController} Object.
-     *
-     * @param kryoPool {@link Pool}<Kryo>
-     */
     protected AbstractRestReflectionController(final Pool<Kryo> kryoPool)
     {
         super();
@@ -41,45 +33,6 @@ public abstract class AbstractRestReflectionController
         this.kryoPool = Objects.requireNonNull(kryoPool, "kryoPool required");
     }
 
-    /**
-     * @param arguments Object[]
-     * @param argument Object
-     *
-     * @return Object[]
-     */
-    protected Object[] addArgument(final Object[] arguments, final Object argument)
-    {
-        Object[] newArgs = null;
-
-        if (arguments == null)
-        {
-            newArgs = new Object[0];
-        }
-
-        Arrays.copyOf(newArgs, newArgs.length + 1);
-
-        newArgs[newArgs.length - 1] = argument;
-
-        return newArgs;
-    }
-
-    /**
-     * @return {@link Pool}<Kryo>
-     */
-    protected Pool<Kryo> getKryoPool()
-    {
-        return this.kryoPool;
-    }
-
-    /**
-     * @param method final
-     * @param request {@link HttpServletRequest}
-     * @param response {@link HttpServletResponse}
-     *
-     * @return Object
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @PostMapping(path = "{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public Object invoke(@PathVariable("method") final String method, final HttpServletRequest request, final HttpServletResponse response) throws Exception
     {
@@ -136,13 +89,6 @@ public abstract class AbstractRestReflectionController
 
     /**
      * Funktioniert nur mit {@link RestTemplate}.
-     *
-     * @param method final
-     * @param body Object
-     *
-     * @return Object
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     @PostMapping(path = "/rt/{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public Object invokeFromRestTemplate(@PathVariable("method") final String method, @RequestBody final Object body) throws Exception
@@ -156,5 +102,26 @@ public abstract class AbstractRestReflectionController
         Method apiMethod = getClass().getMethod(method, parameterTypes);
 
         return apiMethod.invoke(this, arguments);
+    }
+
+    protected Object[] addArgument(final Object[] arguments, final Object argument)
+    {
+        Object[] newArgs = null;
+
+        if (arguments == null)
+        {
+            newArgs = new Object[0];
+        }
+
+        Arrays.copyOf(newArgs, newArgs.length + 1);
+
+        newArgs[newArgs.length - 1] = argument;
+
+        return newArgs;
+    }
+
+    protected Pool<Kryo> getKryoPool()
+    {
+        return this.kryoPool;
     }
 }

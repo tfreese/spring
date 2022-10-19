@@ -3,7 +3,7 @@ package de.freese.spring.cloud.client;
 
 import java.time.Duration;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,28 +26,17 @@ import reactor.core.publisher.Mono;
 @Profile("!test")
 public class ClientRunner implements ApplicationRunner
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientRunner.class);
-    /**
-     *
-     */
+
     @Resource
     private LoadBalancedExchangeFilterFunction loadBalancedFunction;
-    /**
-     *
-     */
+
     @Resource
     private ReactiveLoadBalancer.Factory<ServiceInstance> serviceInstanceFactory;
-    /**
-     *
-     */
+
     @Resource
     private WebClient.Builder webClientBuilder;
-    /**
-     *
-     */
+
     @Resource
     //    @LoadBalanced
     private WebClient.Builder webClientBuilderLoadBalanced;
@@ -112,9 +101,6 @@ public class ClientRunner implements ApplicationRunner
         // @formatter:on
     }
 
-    /**
-     *
-     */
     private void runServiceDiscovery(WebClient webClient)
     {
         ReactiveLoadBalancer<ServiceInstance> loadBalancer = this.serviceInstanceFactory.getInstance("CLOUD-HELLO-SERVICE");
@@ -138,9 +124,6 @@ public class ClientRunner implements ApplicationRunner
         LOGGER.info("runServiceDiscovery: {}", response.strip());
     }
 
-    /**
-     *
-     */
     private void runWebClientWithLoadBalancedFunction(WebClient webClient)
     {
         String response = call(webClient, "/");
@@ -148,9 +131,6 @@ public class ClientRunner implements ApplicationRunner
         LOGGER.info("runWebClientWithLoadBalancedFunction: {}", response.strip());
     }
 
-    /**
-     *
-     */
     private void runWebClientWithLoadBalancer(WebClient webClient)
     {
         String response = call(webClient, "/");

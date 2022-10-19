@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,12 +16,6 @@ import org.springframework.security.core.GrantedAuthority;
  */
 public interface JwtTokenProvider
 {
-    /**
-     * @param username String
-     * @param password String
-     *
-     * @return String
-     */
     default String createToken(final String username, final String password)
     {
         Set<String> roles = null;
@@ -29,13 +23,6 @@ public interface JwtTokenProvider
         return createToken(username, password, roles);
     }
 
-    /**
-     * @param username String
-     * @param password String
-     * @param roles {@link Collection}; Optional
-     *
-     * @return String
-     */
     default String createToken(final String username, final String password, final Collection<? extends GrantedAuthority> roles)
     {
         Set<String> rolesSet = null;
@@ -54,29 +41,10 @@ public interface JwtTokenProvider
         return createToken(username, password, rolesSet);
     }
 
-    /**
-     * @param username String
-     * @param password String
-     * @param roles {@link Set}; Optional
-     *
-     * @return String
-     */
     String createToken(final String username, final String password, final Set<String> roles);
 
-    /**
-     * @param token String
-     *
-     * @return {@link JwtToken}
-     *
-     * @throws AuthenticationException Falls was schiefgeht.
-     */
     JwtToken parseToken(final String token) throws AuthenticationException;
 
-    /**
-     * @param req {@link HttpServletRequest}
-     *
-     * @return String
-     */
     default String resolveToken(final HttpServletRequest req)
     {
         String bearerToken = req.getHeader("Authorization");

@@ -4,10 +4,10 @@ package de.freese.spring.thymeleaf.config;
 import java.io.IOException;
 import java.util.Objects;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,36 +35,18 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(MyTokenBasicAuthAuthenticationFilter.class);
-    /**
-     *
-     */
+
     private final AuthenticationManager authenticationManager;
-    /**
-     *
-     */
+
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
-    /**
-     *
-     */
+
     private AuthenticationEntryPoint authenticationEntryPoint;
-    /**
-     *
-     */
+
     private boolean ignoreFailure;
-    /**
-     *
-     */
+
     private RememberMeServices rememberMeServices = new NullRememberMeServices();
 
-    /**
-     * Erstellt ein neues {@link MyTokenBasicAuthAuthenticationFilter} Object.
-     *
-     * @param authenticationManager {@link AuthenticationManager}
-     */
     public MyTokenBasicAuthAuthenticationFilter(final AuthenticationManager authenticationManager)
     {
         super();
@@ -73,12 +55,6 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
         this.ignoreFailure = true;
     }
 
-    /**
-     * Erstellt ein neues {@link MyTokenBasicAuthAuthenticationFilter} Object.
-     *
-     * @param authenticationManager {@link AuthenticationManager}
-     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
-     */
     public MyTokenBasicAuthAuthenticationFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint)
     {
         super();
@@ -93,73 +69,24 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
         // setInvalidateSessionOnPrincipalChange(true);
     }
 
-    /**
-     * @param authenticationDetailsSource {@link AuthenticationDetailsSource}
-     */
     public void setAuthenticationDetailsSource(final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource)
     {
         this.authenticationDetailsSource = Objects.requireNonNull(authenticationDetailsSource, "authenticationDetailsSource required");
     }
 
-    /**
-     * @param ignoreFailure boolean
-     */
     public void setIgnoreFailure(final boolean ignoreFailure)
     {
         this.ignoreFailure = ignoreFailure;
     }
 
-    /**
-     * @param rememberMeServices {@link RememberMeServices}
-     */
     public void setRememberMeServices(final RememberMeServices rememberMeServices)
     {
         this.rememberMeServices = Objects.requireNonNull(rememberMeServices, "rememberMeServices required");
     }
 
     /**
-     * @param username String
-     *
-     * @return boolean
-     */
-    protected boolean isAuthenticationIsRequired(final String username)
-    {
-        // Only reauthenticate if username doesn't match SecurityContextHolder and user
-        // isn't authenticated (see SEC-53)
-        Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
-
-        // Limit username comparison to providers which use usernames (ie
-        // UsernamePasswordAuthenticationToken)
-        // (see SEC-348)
-        if ((existingAuth == null) || !existingAuth.isAuthenticated() || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username)))
-        {
-            return true;
-        }
-
-        if ((existingAuth instanceof PreAuthenticatedAuthenticationToken) && !existingAuth.getName().equals(username))
-        {
-            return true;
-        }
-
-        // Handle unusual condition where an AnonymousAuthenticationToken is already
-        // present
-        // This shouldn't happen very often, as BasicProcessingFilter is meant to be
-        // earlier in the filter
-        // chain than AnonymousAuthenticationFilter. Nevertheless, presence of both an
-        // AnonymousAuthenticationToken
-        // together with a BASIC authentication request header should indicate
-        // reauthentication using the
-        // BASIC protocol is desirable. This behaviour is also consistent with that
-        // provided by form and digest,
-        // both of which force re-authentication if the respective header is detected (and
-        // in doing so replace
-        // any existing AnonymousAuthenticationToken). See SEC-610.
-        return existingAuth instanceof AnonymousAuthenticationToken;
-    }
-
-    /**
-     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     * javax.servlet.FilterChain)
+     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse,
+     * jakarta.servlet.FilterChain)
      */
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
@@ -224,34 +151,52 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
         filterChain.doFilter(request, response);
     }
 
-    /**
-     * @return boolean
-     */
+    protected boolean isAuthenticationIsRequired(final String username)
+    {
+        // Only reauthenticate if username doesn't match SecurityContextHolder and user
+        // isn't authenticated (see SEC-53)
+        Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
+
+        // Limit username comparison to providers which use usernames (ie
+        // UsernamePasswordAuthenticationToken)
+        // (see SEC-348)
+        if ((existingAuth == null) || !existingAuth.isAuthenticated() || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username)))
+        {
+            return true;
+        }
+
+        if ((existingAuth instanceof PreAuthenticatedAuthenticationToken) && !existingAuth.getName().equals(username))
+        {
+            return true;
+        }
+
+        // Handle unusual condition where an AnonymousAuthenticationToken is already
+        // present
+        // This shouldn't happen very often, as BasicProcessingFilter is meant to be
+        // earlier in the filter
+        // chain than AnonymousAuthenticationFilter. Nevertheless, presence of both an
+        // AnonymousAuthenticationToken
+        // together with a BASIC authentication request header should indicate
+        // reauthentication using the
+        // BASIC protocol is desirable. This behaviour is also consistent with that
+        // provided by form and digest,
+        // both of which force re-authentication if the respective header is detected (and
+        // in doing so replace
+        // any existing AnonymousAuthenticationToken). See SEC-610.
+        return existingAuth instanceof AnonymousAuthenticationToken;
+    }
+
     protected boolean isIgnoreFailure()
     {
         return this.ignoreFailure;
     }
 
-    /**
-     * @param request {@link HttpServletRequest}
-     * @param response {@link HttpServletResponse}
-     * @param authResult {@link AuthenticationException}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     protected void onSuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final Authentication authResult)
             throws IOException
     {
         // Empty
     }
 
-    /**
-     * @param request {@link HttpServletRequest}
-     * @param response {@link HttpServletResponse}
-     * @param failed {@link AuthenticationException}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     protected void onUnsuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException failed)
             throws IOException
     {

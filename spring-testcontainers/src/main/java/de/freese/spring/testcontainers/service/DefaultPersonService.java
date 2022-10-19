@@ -2,7 +2,7 @@ package de.freese.spring.testcontainers.service;
 
 import java.util.List;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import de.freese.spring.testcontainers.model.Person;
 import de.freese.spring.testcontainers.repository.PersonRepository;
@@ -17,6 +17,12 @@ public class DefaultPersonService implements PersonService
 {
     @Resource
     private PersonRepository personRepository;
+
+    @Override
+    public List<Person> getAll()
+    {
+        return personRepository.getAllOrderedById();
+    }
 
     @Override
     @Transactional
@@ -39,11 +45,5 @@ public class DefaultPersonService implements PersonService
         personRepository.saveAll(persons);
 
         throw new RuntimeException("saveAllWithException");
-    }
-
-    @Override
-    public List<Person> getAll()
-    {
-        return personRepository.getAllOrderedById();
     }
 }

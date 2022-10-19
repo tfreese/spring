@@ -1,6 +1,6 @@
 package de.freese.spring.ldap.unboundid;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import de.freese.spring.ldap.unboundid.config.LdapConfig;
 import de.freese.spring.ldap.unboundid.controller.HelloController;

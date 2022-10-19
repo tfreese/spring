@@ -3,7 +3,7 @@ package de.freese.spring.jwt.controller;
 
 import java.security.Principal;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import de.freese.spring.jwt.service.UserService;
 import org.slf4j.Logger;
@@ -27,21 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("users")
 public class UserController
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-    /**
-     *
-     */
+
     @Resource
     private UserService userService;
 
-    /**
-     * @param username String
-     *
-     * @return String
-     */
     @DeleteMapping("delete/{username}")
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Secured("ROLE_ADMIN")
@@ -52,12 +42,6 @@ public class UserController
         return username;
     }
 
-    /**
-     * @param username String
-     * @param password String
-     *
-     * @return String
-     */
     @GetMapping("login")
     public String login(@RequestParam final String username,
                         @RequestParam final String password)
@@ -65,12 +49,6 @@ public class UserController
         return this.userService.login(username, password);
     }
 
-    /**
-     * @param userDetails {@link UserDetails}
-     * @param user {@link AuthenticationPrincipal}
-     *
-     * @return String
-     */
     @PostMapping("register")
     @Secured("ROLE_ADMIN")
     public String register(@RequestBody final UserDetails userDetails, @AuthenticationPrincipal final UserDetails user)
@@ -80,12 +58,6 @@ public class UserController
         return this.userService.register(userDetails);
     }
 
-    /**
-     * @param username String
-     * @param user {@link AuthenticationPrincipal}
-     *
-     * @return {@link UserDetails}
-     */
     @GetMapping("search/{username}")
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Secured("ROLE_ADMIN")
@@ -96,12 +68,6 @@ public class UserController
         return this.userService.search(username);
     }
 
-    /**
-     * @param principal {@link Principal}
-     * @param user {@link AuthenticationPrincipal}
-     *
-     * @return {@link Principal}
-     */
     @GetMapping("me")
     // @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @Secured(

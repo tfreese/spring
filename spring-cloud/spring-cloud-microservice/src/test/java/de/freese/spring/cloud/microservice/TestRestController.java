@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,20 +27,12 @@ import org.springframework.test.web.servlet.MockMvc;
         })
 class TestRestController
 {
-    /**
-     *
-     */
     @Resource
     private MockMvc mockMvc;
-    // /**
-    // *
-    // */
+
     // @Resource
     // private WebTestClient webClient;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testHello() throws Exception
     {
@@ -57,9 +49,6 @@ class TestRestController
         // @formatter:on
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testPing() throws Exception
     {

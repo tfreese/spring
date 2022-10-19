@@ -3,7 +3,7 @@ package de.freese.spring.autoconfigure.hsqldbserver;
 
 import java.util.List;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import de.freese.spring.autoconfigure.hsqldbserver.HsqldbServerProperties.DB;
 import org.hsqldb.Database;
@@ -63,21 +63,11 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
 public class HsqldbServerAutoConfiguration
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(HsqldbServerAutoConfiguration.class);
-    /**
-     *
-     */
+
     @Resource
     private HsqldbServerProperties hsqldbServerProperties;
 
-    /**
-     * @return {@link Server}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @Bean(initMethod = "start", destroyMethod = "shutdown")
     // @Scope(ConfigurableBeanFactory#SCOPE_SINGLETON)
     public Server hsqldbServer() throws Exception

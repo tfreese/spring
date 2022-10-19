@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -32,8 +32,7 @@ class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
     }
 
     /**
-     * @see BasicAuthenticationEntryPoint#commence(HttpServletRequest,
-     * HttpServletResponse, AuthenticationException)
+     * @see BasicAuthenticationEntryPoint#commence(HttpServletRequest, HttpServletResponse, AuthenticationException)
      */
     @Override
     public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authEx) throws IOException

@@ -3,7 +3,7 @@ package de.freese.spring.jwt;
 
 import java.util.Arrays;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import de.freese.spring.jwt.service.UserService;
 import org.slf4j.Logger;
@@ -19,13 +19,8 @@ import org.springframework.security.core.userdetails.User;
 //@Order(10)
 public class CreateUserRunner implements CommandLineRunner
 {
-    /**
-     *
-     */
     public static final Logger LOGGER = LoggerFactory.getLogger(CreateUserRunner.class);
-    /**
-     *
-     */
+
     @Resource
     private UserService userService;
 

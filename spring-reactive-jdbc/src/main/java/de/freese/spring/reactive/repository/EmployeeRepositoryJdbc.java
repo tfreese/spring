@@ -115,11 +115,11 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#deleteEmployee(long)
      */
     @Override
-    public Mono<Integer> deleteEmployee(final long id)
+    public Mono<Long> deleteEmployee(final long id)
     {
         String sql = "DELETE FROM employee WHERE employee_id = ?";
 
-        int affectedRows = this.jdbcTemplate.update(sql, id);
+        long affectedRows = this.jdbcTemplate.update(sql, id);
 
         return Mono.just(affectedRows);
     }

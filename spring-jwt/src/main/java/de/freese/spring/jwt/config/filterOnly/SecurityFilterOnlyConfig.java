@@ -1,7 +1,7 @@
 // Created: 25.09.2018
 package de.freese.spring.jwt.config.filterOnly;
 
-import javax.servlet.Filter;
+import jakarta.servlet.Filter;
 
 import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
@@ -28,11 +28,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @Profile("filterOnly")
 public class SecurityFilterOnlyConfig
 {
-    /**
-     * @param authenticationProviderDao {@link AuthenticationProvider}
-     *
-     * @return {@link AuthenticationManager}
-     */
     @Bean
     AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao)
     {
@@ -43,14 +38,6 @@ public class SecurityFilterOnlyConfig
         return providerManager;
     }
 
-    /**
-     * @param userDetailsService {@link UserDetailsService}
-     * @param passwordEncoder {@link PasswordEncoder}
-     * @param jwtTokenProvider {@link JwtTokenProvider}
-     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
-     *
-     * @return {@link Filter}
-     */
     @Bean
     Filter jwtRequestFilter(final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder, final JwtTokenProvider jwtTokenProvider,
                             final AuthenticationEntryPoint authenticationEntryPoint)

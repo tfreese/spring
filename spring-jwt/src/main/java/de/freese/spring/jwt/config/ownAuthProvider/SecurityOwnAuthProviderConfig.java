@@ -1,7 +1,7 @@
 // Created: 25.09.2018
 package de.freese.spring.jwt.config.ownAuthProvider;
 
-import javax.servlet.Filter;
+import jakarta.servlet.Filter;
 
 import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
@@ -25,12 +25,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @Profile("ownAuthProvider")
 public class SecurityOwnAuthProviderConfig
 {
-    /**
-     * @param authenticationProviderJwt {@link AuthenticationProvider}
-     * @param authenticationProviderDao {@link AuthenticationProvider}
-     *
-     * @return {@link AuthenticationManager}
-     */
     @Bean
     AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderJwt,
                                                 final AuthenticationProvider authenticationProviderDao)
@@ -42,13 +36,6 @@ public class SecurityOwnAuthProviderConfig
         return providerManager;
     }
 
-    /**
-     * @param passwordEncoder {@link PasswordEncoder}
-     * @param userDetailsService {@link UserDetailsService}
-     * @param jwtTokenProvider {@link JwtTokenProvider}
-     *
-     * @return {@link AuthenticationProvider}
-     */
     @Bean
     AuthenticationProvider authenticationProviderJwt(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService,
                                                      final JwtTokenProvider jwtTokenProvider)
@@ -68,14 +55,6 @@ public class SecurityOwnAuthProviderConfig
         return jwtAuthenticationProvider;
     }
 
-    /**
-     * @param authenticationManager {@link AuthenticationManager}
-     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
-     *
-     * @return {@link Filter}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @Bean
     Filter jwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint) throws Exception
     {

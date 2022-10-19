@@ -1,8 +1,9 @@
 package de.freese.spring.web;
 
-import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
+
+import jakarta.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
@@ -14,15 +15,9 @@ import org.springframework.stereotype.Component;
 @ViewScoped
 public class HelloBean
 {
-    /**
-     *
-     */
     @Resource
     private DataService dataService;
 
-    /**
-     *
-     */
     public String getDate()
     {
         return dataService.getDate();

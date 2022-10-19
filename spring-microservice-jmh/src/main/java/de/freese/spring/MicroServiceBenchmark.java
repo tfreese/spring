@@ -2,7 +2,7 @@ package de.freese.spring;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -47,37 +47,18 @@ public class MicroServiceBenchmark
     @State(Scope.Group) // Nur einen SpringContext für alle Benchmarks -> @Group("spring").
     public static class BenchmarkState
     {
-        /**
-         *
-         */
-        private final ConfigurableApplicationContext context;
-        /**
-         *
-         */
         final RestTemplate restTemplate;
-        /**
-         *
-         */
         final WebClient webClient;
-        /**
-         *
-         */
+        private final ConfigurableApplicationContext context;
         @Value("${server.port}")
         private int port;
-        /**
-         *
-         */
+
         @Resource
         private RestTemplateBuilder restTemplateBuilder;
-        /**
-         *
-         */
+
         @Resource
         private WebClient.Builder webClientBuilder;
 
-        /**
-         * Erstellt ein neues {@link BenchmarkState} Object.
-         */
         public BenchmarkState()
         {
             super();
@@ -90,20 +71,12 @@ public class MicroServiceBenchmark
             this.webClient = this.webClientBuilder.baseUrl("http://localhost:" + this.port).build();
         }
 
-        /**
-         *
-         */
         @TearDown
         public void close()
         {
             this.context.close();
         }
 
-        /**
-         * Führt die Injizierung der Ressourcen durch.
-         *
-         * @param bean Object
-         */
         private void autowireBean(final Object bean)
         {
             AutowireCapableBeanFactory factory = this.context.getAutowireCapableBeanFactory();
@@ -111,10 +84,6 @@ public class MicroServiceBenchmark
         }
     }
 
-    /**
-     * @param blackhole B{@link Blackhole}
-     * @param state {@link BenchmarkState}
-     */
     @Benchmark
     @Group("spring") // Nur einen SpringContext für alle Benchmarks.
     public void benchmarkRestTemplate(final Blackhole blackhole, final BenchmarkState state)
@@ -126,10 +95,6 @@ public class MicroServiceBenchmark
         blackhole.consume(response);
     }
 
-    /**
-     * @param blackhole B{@link Blackhole}
-     * @param state {@link BenchmarkState}
-     */
     @Benchmark
     @Group("spring") // Nur einen SpringContext für alle Benchmarks.
     public void benchmarkWebClient(final Blackhole blackhole, final BenchmarkState state)

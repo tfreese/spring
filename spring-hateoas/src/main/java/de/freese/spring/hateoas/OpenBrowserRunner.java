@@ -5,7 +5,7 @@ import java.awt.Desktop;
 import java.net.URI;
 import java.util.Optional;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,16 +23,8 @@ import org.springframework.stereotype.Component;
 @Order(1)
 public class OpenBrowserRunner implements CommandLineRunner
 {
-    /**
-     *
-     */
     public static final Logger LOGGER = LoggerFactory.getLogger(OpenBrowserRunner.class);
 
-    /**
-     * @param environment {@link Environment}
-     *
-     * @return String
-     */
     public static String getRootUri(final Environment environment)
     {
         int port =
@@ -48,69 +40,8 @@ public class OpenBrowserRunner implements CommandLineRunner
         return rootUri;
     }
 
-    /**
-     *
-     */
     @Resource
     private Environment environment;
-
-    /**
-     * google-chrome-stable --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media %U
-     *
-     * @param url String
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
-    private void openLinuxChrome(final String url) throws Exception
-    {
-        Runtime.getRuntime().exec(new String[]
-                {
-                        "google-chrome-stable", url
-                });
-    }
-
-    /**
-     * chromium %U --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media
-     *
-     * @param url String
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
-    private void openLinuxChromium(final String url) throws Exception
-    {
-        Runtime.getRuntime().exec(new String[]
-                {
-                        "chromium", url
-                });
-    }
-
-    /**
-     * @param url String
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
-    private void openLinuxFirefox(final String url) throws Exception
-    {
-        Runtime.getRuntime().exec(new String[]
-                {
-                        "firefox", "-new-tab", url
-                });
-    }
-
-    /**
-     * Firefox: view-source:URI
-     *
-     * @param url String
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
-    private void openWindowsFirefox(final String url) throws Exception
-    {
-        Runtime.getRuntime().exec(new String[]
-                {
-                        "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", url
-                });
-    }
 
     /**
      * @see CommandLineRunner#run(String[])
@@ -154,5 +85,46 @@ public class OpenBrowserRunner implements CommandLineRunner
                 }
             }
         }
+    }
+
+    /**
+     * google-chrome-stable --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media %U
+     */
+    private void openLinuxChrome(final String url) throws Exception
+    {
+        Runtime.getRuntime().exec(new String[]
+                {
+                        "google-chrome-stable", url
+                });
+    }
+
+    /**
+     * chromium %U --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media
+     */
+    private void openLinuxChromium(final String url) throws Exception
+    {
+        Runtime.getRuntime().exec(new String[]
+                {
+                        "chromium", url
+                });
+    }
+
+    private void openLinuxFirefox(final String url) throws Exception
+    {
+        Runtime.getRuntime().exec(new String[]
+                {
+                        "firefox", "-new-tab", url
+                });
+    }
+
+    /**
+     * Firefox: view-source:URI
+     */
+    private void openWindowsFirefox(final String url) throws Exception
+    {
+        Runtime.getRuntime().exec(new String[]
+                {
+                        "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", url
+                });
     }
 }

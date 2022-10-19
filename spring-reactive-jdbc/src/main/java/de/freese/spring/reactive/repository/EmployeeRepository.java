@@ -10,35 +10,13 @@ import reactor.core.publisher.Mono;
  */
 public interface EmployeeRepository
 {
-    /**
-     * @param newEmployee {@link Employee}
-     *
-     * @return {@link Mono}
-     */
     Mono<Employee> createNewEmployee(Employee newEmployee);
 
-    /**
-     * @param id long
-     *
-     * @return {@link Mono}
-     */
-    Mono<Integer> deleteEmployee(long id);
+    Mono<Long> deleteEmployee(long id);
 
-    /**
-     * @return {@link Flux}
-     */
     Flux<Department> getAllDepartments();
 
-    /**
-     * @return {@link Flux}
-     */
     Flux<Employee> getAllEmployees();
 
-    /**
-     * @param lastName String
-     * @param firstName String
-     *
-     * @return {@link Mono}
-     */
     Mono<Employee> getEmployee(String lastName, String firstName);
 }

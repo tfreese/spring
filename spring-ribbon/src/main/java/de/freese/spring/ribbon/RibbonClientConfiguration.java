@@ -10,7 +10,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.AvailabilityFilteringRule;
@@ -42,44 +42,7 @@ public class RibbonClientConfiguration
      */
     private static class MyPing extends PingUrl
     {
-        /**
-         *
-         */
         private final Logger logger = LoggerFactory.getLogger(MyPing.class);
-
-        /**
-         * @param connection {@link HttpURLConnection}
-         *
-         * @return String
-         */
-        private String getContent(final HttpURLConnection connection)
-        {
-            try (InputStream inputStream = connection.getInputStream())
-            {
-                if (inputStream == null)
-                {
-                    return null;
-                }
-
-                try (ReadableByteChannel channel = Channels.newChannel(inputStream))
-                {
-                    int capacity = inputStream.available();
-
-                    ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);
-
-                    channel.read(byteBuffer);
-                    byteBuffer.rewind();
-
-                    return StandardCharsets.UTF_8.decode(byteBuffer).toString();
-                }
-            }
-            catch (IOException iex)
-            {
-                // Empty
-            }
-
-            return null;
-        }
 
         /**
          * @see com.netflix.loadbalancer.PingUrl#isAlive(com.netflix.loadbalancer.Server)
@@ -143,19 +106,40 @@ public class RibbonClientConfiguration
 
             return isAlive;
         }
+
+        private String getContent(final HttpURLConnection connection)
+        {
+            try (InputStream inputStream = connection.getInputStream())
+            {
+                if (inputStream == null)
+                {
+                    return null;
+                }
+
+                try (ReadableByteChannel channel = Channels.newChannel(inputStream))
+                {
+                    int capacity = inputStream.available();
+
+                    ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);
+
+                    channel.read(byteBuffer);
+                    byteBuffer.rewind();
+
+                    return StandardCharsets.UTF_8.decode(byteBuffer).toString();
+                }
+            }
+            catch (IOException iex)
+            {
+                // Empty
+            }
+
+            return null;
+        }
     }
 
-    /**
-     *
-     */
     @Resource
     private IClientConfig ribbonClientConfig;
 
-    /**
-     * @param config {@link IClientConfig}
-     *
-     * @return {@link IPing}
-     */
     @Bean
     public IPing ribbonPing(final IClientConfig config)
     {
@@ -167,11 +151,6 @@ public class RibbonClientConfiguration
         return ping;
     }
 
-    /**
-     * @param config {@link IClientConfig}
-     *
-     * @return {@link IRule}
-     */
     @Bean
     public IRule ribbonRule(final IClientConfig config)
     {

@@ -4,7 +4,7 @@ package org.spring.messaging.amqp.qpid;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,21 +17,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class RunnerSendMessages implements CommandLineRunner
 {
-    /**
-     *
-     */
     private final AmqpSender sender;
-    /**
-     *
-     */
+
     @Resource
     private ApplicationContext context;
 
-    /**
-     * Erstellt ein neues {@link RunnerSendMessages} Object.
-     *
-     * @param sender {@link AmqpSender}
-     */
     public RunnerSendMessages(final AmqpSender sender)
     {
         super();

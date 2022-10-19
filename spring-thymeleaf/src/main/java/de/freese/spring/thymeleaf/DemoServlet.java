@@ -6,11 +6,11 @@ import java.io.PrintWriter;
 import java.io.Serial;
 import java.time.LocalDateTime;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author Thomas Freese
@@ -18,14 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(description = "DemoServlet", name = "demoServlet", urlPatterns = "/demo-servlet", loadOnStartup = 1)
 public class DemoServlet extends HttpServlet
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 891637777095320320L;
 
     /**
-     * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see jakarta.servlet.http.HttpServlet#doGet(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException

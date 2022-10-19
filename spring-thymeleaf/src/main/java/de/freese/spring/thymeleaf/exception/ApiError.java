@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JavaType;
@@ -31,24 +31,13 @@ public class ApiError
      */
     abstract static class AbstractApiSubError
     {
-        /**
-         *
-         */
         private String subMessage;
 
-        /**
-         * Erstellt ein neues {@link AbstractApiSubError} Object.
-         */
         AbstractApiSubError()
         {
             super();
         }
 
-        /**
-         * Erstellt ein neues {@link AbstractApiSubError} Object.
-         *
-         * @param subMessage String
-         */
         AbstractApiSubError(final String subMessage)
         {
             super();
@@ -56,17 +45,11 @@ public class ApiError
             this.subMessage = subMessage;
         }
 
-        /**
-         * @return String
-         */
         public String getSubMessage()
         {
             return this.subMessage;
         }
 
-        /**
-         * @param subMessage String
-         */
         public void setSubMessage(final String subMessage)
         {
             this.subMessage = subMessage;
@@ -78,25 +61,12 @@ public class ApiError
      */
     static class ApiValidationError extends AbstractApiSubError
     {
-        /**
-         *
-         */
         private String field;
-        /**
-         *
-         */
+
         private String object;
-        /**
-         *
-         */
+
         private Object rejectedValue;
 
-        /**
-         * Erstellt ein neues {@link ApiValidationError} Object.
-         *
-         * @param object String
-         * @param message String
-         */
         ApiValidationError(final String object, final String message)
         {
             super(message);
@@ -104,16 +74,6 @@ public class ApiError
             this.object = object;
         }
 
-        // (object, field, rejectedValue, message)
-
-        /**
-         * Erstellt ein neues {@link ApiValidationError} Object.
-         *
-         * @param object String
-         * @param field String
-         * @param rejectedValue Object
-         * @param message String
-         */
         ApiValidationError(final String object, final String field, final Object rejectedValue, final String message)
         {
             super(message);
@@ -123,93 +83,55 @@ public class ApiError
             this.rejectedValue = rejectedValue;
         }
 
-        /**
-         * @return String
-         */
         public String getField()
         {
             return this.field;
         }
 
-        /**
-         * @return String
-         */
         public String getObject()
         {
             return this.object;
         }
 
-        /**
-         * @return Object
-         */
         public Object getRejectedValue()
         {
             return this.rejectedValue;
         }
 
-        /**
-         * @param field String
-         */
         public void setField(final String field)
         {
             this.field = field;
         }
 
-        /**
-         * @param object String
-         */
         public void setObject(final String object)
         {
             this.object = object;
         }
 
-        /**
-         * @param rejectedValue Object
-         */
         public void setRejectedValue(final Object rejectedValue)
         {
             this.rejectedValue = rejectedValue;
         }
     }
 
-    /**
-     *
-     */
     // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss.SSS")
     // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private final LocalDateTime timestamp;
-    /**
-     *
-     */
+
     private Map<String, Serializable> details;
-    /**
-     *
-     */
+
     private String exceptionMessage;
-    /**
-     *
-     */
+
     private int httpStatus;
-    /**
-     *
-     */
+
     private String message;
-    /**
-     *
-     */
+
     private String path;
-    /**
-     *
-     */
+
     private String stackTrace;
-    /**
-     *
-     */
+
     private List<AbstractApiSubError> subErrors;
 
-    /**
-     * Erstellt ein neues {@link ApiError} Object.
-     */
     public ApiError()
     {
         super();
@@ -217,10 +139,6 @@ public class ApiError
         this.timestamp = LocalDateTime.now();
     }
 
-    /**
-     * @param key String
-     * @param value {@link Serializable}
-     */
     public void addDetail(final String key, final Serializable value)
     {
         if (this.details == null)
@@ -231,105 +149,66 @@ public class ApiError
         this.details.put(key, value);
     }
 
-    /**
-     * @return {@link Map}<String,Serializable>
-     */
     public Map<String, Serializable> getDetails()
     {
         return this.details;
     }
 
-    /**
-     * @return String
-     */
     public String getExceptionMessage()
     {
         return this.exceptionMessage;
     }
 
-    /**
-     * @return int
-     */
     public int getHttpStatus()
     {
         return this.httpStatus;
     }
 
-    /**
-     * @return String
-     */
     public String getMessage()
     {
         return this.message;
     }
 
-    /**
-     * @return String
-     */
     public String getPath()
     {
         return this.path;
     }
 
-    /**
-     * @return String
-     */
     public String getStackTrace()
     {
         return this.stackTrace;
     }
 
-    /**
-     * @return {@link List}<ApiSubError>
-     */
     public List<AbstractApiSubError> getSubErrors()
     {
         return this.subErrors;
     }
 
-    /**
-     * @return {@link LocalDateTime}
-     */
     public LocalDateTime getTimestamp()
     {
         return this.timestamp;
     }
 
-    /**
-     * @param exceptionMessage String
-     */
     public void setExceptionMessage(final String exceptionMessage)
     {
         this.exceptionMessage = exceptionMessage;
     }
 
-    /**
-     * @param httpStatus int
-     */
     public void setHttpStatus(final int httpStatus)
     {
         this.httpStatus = httpStatus;
     }
 
-    /**
-     * @param message String
-     */
     public void setMessage(final String message)
     {
         this.message = message;
     }
 
-    /**
-     * @param path String
-     */
     public void setPath(final String path)
     {
         this.path = path;
     }
 
-    /**
-     * @param stackTrace String
-     */
     public void setStackTrace(final String stackTrace)
     {
         this.stackTrace = stackTrace;
@@ -356,33 +235,21 @@ public class ApiError
         return builder.toString();
     }
 
-    /**
-     * @param globalErrors {@link List}
-     */
     void addValidationError(final List<ObjectError> globalErrors)
     {
         globalErrors.forEach(this::addValidationError);
     }
 
-    /**
-     * @param fieldErrors {@link List}
-     */
     void addValidationErrors(final List<FieldError> fieldErrors)
     {
         fieldErrors.forEach(this::addValidationError);
     }
 
-    /**
-     * @param constraintViolations {@link Set}
-     */
     void addValidationErrors(final Set<ConstraintViolation<?>> constraintViolations)
     {
         constraintViolations.forEach(this::addValidationError);
     }
 
-    /**
-     * @param subError {@link AbstractApiSubError}
-     */
     private void addSubError(final AbstractApiSubError subError)
     {
         if (this.subErrors == null)
@@ -395,8 +262,6 @@ public class ApiError
 
     /**
      * Utility method for adding error of ConstraintViolation. Usually when a @Validated validation fails.
-     *
-     * @param cv the {@link ConstraintViolation}
      */
     private void addValidationError(final ConstraintViolation<?> cv)
     {
@@ -408,37 +273,21 @@ public class ApiError
         // @formatter:on
     }
 
-    /**
-     * @param fieldError {@link FieldError}
-     */
     private void addValidationError(final FieldError fieldError)
     {
         this.addValidationError(fieldError.getObjectName(), fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage());
     }
 
-    /**
-     * @param objectError {@link ObjectError}
-     */
     private void addValidationError(final ObjectError objectError)
     {
         this.addValidationError(objectError.getObjectName(), objectError.getDefaultMessage());
     }
 
-    /**
-     * @param object String
-     * @param message String
-     */
     private void addValidationError(final String object, final String message)
     {
         addSubError(new ApiValidationError(object, message));
     }
 
-    /**
-     * @param object String
-     * @param field String
-     * @param rejectedValue Object
-     * @param message String
-     */
     private void addValidationError(final String object, final String field, final Object rejectedValue, final String message)
     {
         addSubError(new ApiValidationError(object, field, rejectedValue, message));
@@ -450,20 +299,11 @@ public class ApiError
  */
 class LowerCaseClassNameResolver extends TypeIdResolverBase
 {
-    /**
-     * Erstellt ein neues {@link LowerCaseClassNameResolver} Object.
-     */
     public LowerCaseClassNameResolver()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link LowerCaseClassNameResolver} Object.
-     *
-     * @param baseType {@link JavaType}
-     * @param typeFactory {@link TypeFactory}
-     */
     public LowerCaseClassNameResolver(final JavaType baseType, final TypeFactory typeFactory)
     {
         super(baseType, typeFactory);

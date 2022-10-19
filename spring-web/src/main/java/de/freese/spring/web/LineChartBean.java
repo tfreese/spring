@@ -1,9 +1,10 @@
 package de.freese.spring.web;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -19,19 +20,16 @@ import org.springframework.stereotype.Component;
 @ViewScoped
 public class LineChartBean
 {
-    /**
-     *
-     */
     @Resource
     private DataService dataService;
-    /**
-     *
-     */
+
     private LineChartModel lineModel;
 
-    /**
-     *
-     */
+    public LineChartModel getLineModel()
+    {
+        return lineModel;
+    }
+
     @PostConstruct
     public void init()
     {
@@ -53,13 +51,5 @@ public class LineChartBean
         x.setMax(7);
         x.setTickInterval("1");
         x.setLabel("Number of Years");
-    }
-
-    /**
-     * @return org.primefaces.model.chart.LineChartModel
-     */
-    public LineChartModel getLineModel()
-    {
-        return lineModel;
     }
 }

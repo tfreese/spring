@@ -5,11 +5,11 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.annotation.Resource;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 import de.freese.spring.thymeleaf.ThymeleafController;
@@ -37,26 +37,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 @ThymeleafController
 public class HomeThymeleafController
 {
-    /**
-     *
-     */
     @Resource
     @Qualifier("authenticationManagerWeb")
     private AuthenticationManager authenticationManager;
-    /**
-     *
-     */
+
     @Value("${app.message.welcome}")
-    private String message = "Hello World";
-    /**
-     *
-     */
+    private final String message = "Hello World";
+
     @Resource
     private UserDetailsService userDetailsService;
 
-    /**
-     *
-     */
     @GetMapping("/createError")
     public void createError()
     {
@@ -64,12 +54,6 @@ public class HomeThymeleafController
         throw new IllegalStateException("Test Exception");
     }
 
-    /**
-     * @param model {@link Model}
-     * @param principal {@link Principal}
-     *
-     * @return String
-     */
     @GetMapping(value =
             {
                     "/", "/index"
@@ -83,22 +67,12 @@ public class HomeThymeleafController
         return "/index";
     }
 
-    /**
-     * @return String
-     */
     @GetMapping("/login")
     public String login()
     {
         return "/authentication/login";
     }
 
-    /**
-     * !!! DEMO !!!
-     *
-     * @param req {@link HttpServletRequest}
-     * @param user String
-     * @param pass String
-     */
     protected void loginWithHttpServletRequest(final HttpServletRequest req, @RequestParam final String user, @RequestParam final String pass)
     {
         try
@@ -114,37 +88,7 @@ public class HomeThymeleafController
     }
 
     /**
-     * !!! DEMO !!!
-     *
-     * @param req {@link HttpServletRequest}
-     * @param user {@link User}
-     */
-    @PostMapping("/loginWithoutPassword")
-    protected void loginWithoutPassword(final HttpServletRequest req, @RequestParam final User user)
-    {
-        // List<Privilege> privileges = user.getRoles().stream()
-        // .map(role -> role.getPrivileges())
-        // .flatMap(list -> list.stream())
-        // .distinct().collect(Collectors.toList());
-
-        List<GrantedAuthority> authorities = new ArrayList<>(user.getAuthorities());
-
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, authorities);
-
-        SecurityContext sc = SecurityContextHolder.getContext();
-        sc.setAuthentication(auth);
-
-        HttpSession session = req.getSession(true);
-        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
-    }
-
-    /**
-     * !!! DEMO !!! curl -X POST http://localhost:8080/rest/auth?token=admin
-     *
-     * @param req {@link HttpServletRequest}
-     * @param token String
-     *
-     * @return String
+     * curl -X POST http://localhost:8080/rest/auth?token=admin
      */
     @PostMapping("/loginWithToken")
     protected String loginWithToken(final HttpServletRequest req, @RequestParam final String token)
@@ -164,13 +108,6 @@ public class HomeThymeleafController
         return "redirect:/user";
     }
 
-    /**
-     * !!! DEMO !!!
-     *
-     * @param req {@link HttpServletRequest}
-     * @param user String
-     * @param pass String
-     */
     @PostMapping("/loginWithUserAndPassword")
     protected void loginWithUserAndPassword(final HttpServletRequest req, @RequestParam final String user, @RequestParam final String pass)
     {
@@ -184,16 +121,25 @@ public class HomeThymeleafController
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
     }
 
-    /**
-     * !!! DEMO !!!
-     *
-     * @param request {@link HttpServletRequest}
-     * @param response {@link HttpServletResponse}
-     *
-     * @return String
-     *
-     * @throws ServletException Falls was schiefgeht.
-     */
+    @PostMapping("/loginWithoutPassword")
+    protected void loginWithoutPassword(final HttpServletRequest req, @RequestParam final User user)
+    {
+        // List<Privilege> privileges = user.getRoles().stream()
+        // .map(role -> role.getPrivileges())
+        // .flatMap(list -> list.stream())
+        // .distinct().collect(Collectors.toList());
+
+        List<GrantedAuthority> authorities = new ArrayList<>(user.getAuthorities());
+
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, authorities);
+
+        SecurityContext sc = SecurityContextHolder.getContext();
+        sc.setAuthentication(auth);
+
+        HttpSession session = req.getSession(true);
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+    }
+
     @GetMapping("/logout")
     protected String logout(final HttpServletRequest request, final HttpServletResponse response) throws ServletException
     {

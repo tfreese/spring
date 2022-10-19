@@ -4,8 +4,9 @@ package de.freese.spring.jwt.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.Filter;
 import javax.sql.DataSource;
+
+import jakarta.servlet.Filter;
 
 import de.freese.spring.jwt.token.JwtTokenProvider;
 import de.freese.spring.jwt.token.nimbus.JwtTokenProviderNimbus;
@@ -42,9 +43,6 @@ import org.springframework.util.Assert;
 @Configuration
 public class SecurityCommonConfig
 {
-    /**
-     * @return {@link AuthenticationEntryPoint}
-     */
     @Bean
     AuthenticationEntryPoint authenticationEntryPoint()
     {
@@ -54,12 +52,6 @@ public class SecurityCommonConfig
     /**
      * Für Username/Password Login.<br>
      * UserController.login(String, String)<br>
-     *
-     * @param passwordEncoder {@link PasswordEncoder}
-     * @param userDetailsService {@link UserDetailsService}
-     * @param userCache {@link UserCache}
-     *
-     * @return {@link AuthenticationProvider}
      */
     @Bean
     AuthenticationProvider authenticationProviderDao(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService,
@@ -86,15 +78,6 @@ public class SecurityCommonConfig
         return authenticationProvider;
     }
 
-    /**
-     * @param httpSecurity {@link HttpSecurity}
-     * @param jwtRequestFilter {@link Filter}
-     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
-     *
-     * @return {@link SecurityFilterChain}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @Bean
     SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final Filter jwtRequestFilter, final AuthenticationEntryPoint authenticationEntryPoint)
             throws Exception
@@ -122,12 +105,6 @@ public class SecurityCommonConfig
         return httpSecurity.build();
     }
 
-    /**
-     * @param secretKey String
-     * @param validityInMilliseconds long
-     *
-     * @return {@link JwtTokenProvider}
-     */
     @Bean
     JwtTokenProvider jwtTokenUtils(@Value("${security.jwt.token.secret-key:secret-key}") final String secretKey,
                                    @Value("${security.jwt.token.expire-length:3600000}") final long validityInMilliseconds)
@@ -142,9 +119,6 @@ public class SecurityCommonConfig
         //return new JwtTokenProviderJson(secretKey, validityInMilliseconds);
     }
 
-    /**
-     * @return {@link PasswordEncoder}
-     */
     @Bean
     PasswordEncoder passwordEncoder()
     {
@@ -175,11 +149,6 @@ public class SecurityCommonConfig
         return new DelegatingPasswordEncoder("noop", encoders);
     }
 
-    /**
-     * @param passwordEncoder {@link PasswordEncoder}
-     *
-     * @return {@link UserDetailsService}
-     */
     @Bean
     @ConditionalOnMissingBean(DataSource.class)
     UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder)
@@ -197,12 +166,6 @@ public class SecurityCommonConfig
         return userDetailsManager;
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     * @param userCache {@link UserCache}
-     *
-     * @return {@link UserDetailsService}
-     */
     @Bean
     @ConditionalOnBean(DataSource.class)
     UserDetailsService userDetailsServiceJdbc(final DataSource dataSource, final UserCache userCache)

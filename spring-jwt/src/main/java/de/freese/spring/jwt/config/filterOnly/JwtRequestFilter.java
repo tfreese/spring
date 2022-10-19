@@ -4,10 +4,10 @@ package de.freese.spring.jwt.config.filterOnly;
 import java.io.IOException;
 import java.util.Objects;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import de.freese.spring.jwt.token.JwtToken;
 import de.freese.spring.jwt.token.JwtTokenProvider;
@@ -22,7 +22,6 @@ import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
@@ -44,66 +43,41 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 class JwtRequestFilter extends OncePerRequestFilter
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
-    /**
-     *
-     */
+
     private final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
-    /**
-     *
-     */
+
     private AuthenticationEntryPoint authenticationEntryPoint;
-    /**
-     *
-     */
+
     private JwtTokenProvider jwtTokenProvider;
-    /**
-     *
-     */
+
     private PasswordEncoder passwordEncoder;
-    /**
-     *
-     */
+
     private UserDetailsService userDetailsService;
 
-    /**
-     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
-     */
     public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint)
     {
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
-    /**
-     * @param jwtTokenProvider {@link JwtTokenProvider}
-     */
     public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider)
     {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    /**
-     * @param passwordEncoder {@link PasswordEncoder}
-     */
     public void setPasswordEncoder(final PasswordEncoder passwordEncoder)
     {
         this.passwordEncoder = passwordEncoder;
     }
 
-    /**
-     * @param userDetailsService {@link UserDetailsService}
-     */
     public void setUserDetailsService(final UserDetailsService userDetailsService)
     {
         this.userDetailsService = userDetailsService;
     }
 
     /**
-     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     * javax.servlet.FilterChain)
+     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse,
+     * jakarta.servlet.FilterChain)
      */
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
@@ -173,19 +147,11 @@ class JwtRequestFilter extends OncePerRequestFilter
         Objects.requireNonNull(this.jwtTokenProvider, "jwtTokenProvider required");
     }
 
-    /**
-     * @return {@link Logger}
-     */
     private Logger getLogger()
     {
         return LOGGER;
     }
 
-    /**
-     * @param username String
-     *
-     * @return boolean
-     */
     private boolean isAuthenticationIsRequired(final String username)
     {
         Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
@@ -199,15 +165,6 @@ class JwtRequestFilter extends OncePerRequestFilter
         return (existingAuth instanceof AnonymousAuthenticationToken);
     }
 
-    /**
-     * @param userDetails {@link UserDetails}
-     * @param password String
-     *
-     * @return boolean
-     *
-     * @throws AuthenticationException Falls was schiefgeht.
-     * @see DaoAuthenticationProvider
-     */
     private boolean isValid(final UserDetails userDetails, final String password) throws AuthenticationException
     {
         if (userDetails == null)

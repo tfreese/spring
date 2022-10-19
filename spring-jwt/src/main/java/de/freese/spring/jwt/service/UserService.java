@@ -1,8 +1,8 @@
 // Created: 28.10.2018
 package de.freese.spring.jwt.service;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 
 import de.freese.spring.jwt.model.MutableUser;
 import de.freese.spring.jwt.token.JwtToken;
@@ -22,44 +22,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService
 {
-    /**
-     *
-     */
     @Resource
     private AuthenticationManager authenticationManager;
-    /**
-     *
-     */
+
     @Resource
     private JwtTokenProvider jwtTokenProvider;
-    /**
-     *
-     */
+
     @Resource
     private PasswordEncoder passwordEncoder;
-    /**
-     *
-     */
+
     @Resource
     private UserDetailsService userDetailsService;
 
-    /**
-     * @param username String
-     */
     public void delete(final String username)
     {
         throw new AuthenticationServiceException("Need a UserDetailsManager");
         //this.userDetailsManager.deleteUser(username);
     }
 
-    /**
-     * Login
-     *
-     * @param username String
-     * @param password String
-     *
-     * @return String
-     */
     public String login(final String username, final String password)
     {
         this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
@@ -69,37 +49,25 @@ public class UserService
         return this.jwtTokenProvider.createToken(username, password);
     }
 
-    /**
-     * Registrierung
-     *
-     * @param userDetails {@link UserDetails}
-     *
-     * @return String
-     */
     public String register(final UserDetails userDetails)
     {
         throw new AuthenticationServiceException("Need a UserDetailsManager");
 
-//        boolean exist = this.userDetailsManager.userExists(userDetails.getUsername());
-//
-//        if (!exist)
-//        {
-//            MutableUser mutableUser = new MutableUser(userDetails);
-//            mutableUser.setPassword(this.passwordEncoder.encode(userDetails.getPassword()));
-//
-//            this.userDetailsManager.createUser(mutableUser);
-//
-//            return this.jwtTokenProvider.createToken(mutableUser.getUsername(), userDetails.getPassword(), mutableUser.getAuthorities());
-//        }
-//
-//        throw new AuthenticationServiceException("Username is already in use");
+        //        boolean exist = this.userDetailsManager.userExists(userDetails.getUsername());
+        //
+        //        if (!exist)
+        //        {
+        //            MutableUser mutableUser = new MutableUser(userDetails);
+        //            mutableUser.setPassword(this.passwordEncoder.encode(userDetails.getPassword()));
+        //
+        //            this.userDetailsManager.createUser(mutableUser);
+        //
+        //            return this.jwtTokenProvider.createToken(mutableUser.getUsername(), userDetails.getPassword(), mutableUser.getAuthorities());
+        //        }
+        //
+        //        throw new AuthenticationServiceException("Username is already in use");
     }
 
-    /**
-     * @param username String
-     *
-     * @return {@link UserDetails}
-     */
     public UserDetails search(final String username)
     {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
@@ -112,11 +80,6 @@ public class UserService
         return new MutableUser(userDetails).clearCredentials();
     }
 
-    /**
-     * @param req {@link HttpServletRequest}
-     *
-     * @return {@link UserDetails}
-     */
     public UserDetails whoami(final HttpServletRequest req)
     {
         String token = this.jwtTokenProvider.resolveToken(req);

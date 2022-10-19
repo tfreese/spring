@@ -10,8 +10,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 import org.slf4j.Logger;
@@ -52,9 +52,6 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(MvcConfig.class);
 
     /**
@@ -69,7 +66,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
         registry.addInterceptor(new HandlerInterceptor()
         {
             /**
-             * @see org.springframework.web.servlet.HandlerInterceptor#preHandle(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
+             * @see org.springframework.web.servlet.HandlerInterceptor#preHandle(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse,
              *      java.lang.Object)
              */
             @Override
@@ -137,9 +134,6 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
         // @formatter:on
     }
 
-    /**
-     * @return {@link ThreadPoolExecutorFactoryBean}
-     */
     @Bean
     @ConditionalOnMissingBean(
             {
@@ -167,11 +161,6 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
         return bean;
     }
 
-    /**
-     * Processing Secure Methods Asynchronously.
-     *
-     * @see org.springframework.scheduling.annotation.AsyncConfigurer#getAsyncExecutor()
-     */
     @Override
     public Executor getAsyncExecutor()
     {
@@ -189,8 +178,6 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
 
     /**
      * URL-Parameter ändert Sprache: URL/?lang=en<br>
-     *
-     * @return {@link LocaleChangeInterceptor}
      */
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor()
@@ -203,8 +190,6 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
 
     /**
      * LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
-     *
-     * @return {@link LocaleResolver}
      */
     @Bean
     public LocaleResolver localeResolver()
@@ -220,7 +205,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
         SessionLocaleResolver localeResolver = new SessionLocaleResolver()
         {
             /**
-             * @see org.springframework.web.servlet.i18n.SessionLocaleResolver#determineDefaultLocale(javax.servlet.http.HttpServletRequest)
+             * @see org.springframework.web.servlet.i18n.SessionLocaleResolver#determineDefaultLocale(jakarta.servlet.http.HttpServletRequest)
              */
             @Override
             protected Locale determineDefaultLocale(final HttpServletRequest request)
@@ -245,8 +230,6 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
      * LocaleContextHolder.getLocale()<br>
      * The most awesome website is {0}<br>
      * #{message.mostAwesomeWebsite(${website})}
-     *
-     * @return {@link MessageSource}
      */
     @Bean
     public MessageSource messageSource()
@@ -260,9 +243,6 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
         return messageSource;
     }
 
-    /**
-     * @return {@link ScheduledExecutorFactoryBean}
-     */
     @Bean
     @ConditionalOnMissingBean(ScheduledExecutorService.class)
     public ScheduledExecutorFactoryBean scheduledExecutorService()
@@ -281,8 +261,6 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
 
     /**
      * Wird für {@link EnableAsync} benötigt.
-     *
-     * @return {@link TaskExecutor}
      */
     @Bean(
             {
@@ -303,11 +281,6 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
 
     /**
      * Wird für {@link EnableScheduling} benötigt.
-     *
-     * @param executorService {@link ExecutorService}
-     * @param scheduledExecutorService {@link ScheduledExecutorService}
-     *
-     * @return {@link TaskScheduler}
      */
     @Bean("taskScheduler")
     @ConditionalOnMissingBean(TaskScheduler.class)

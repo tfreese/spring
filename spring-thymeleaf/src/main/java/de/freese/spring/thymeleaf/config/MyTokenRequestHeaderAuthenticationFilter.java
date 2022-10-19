@@ -1,7 +1,7 @@
 // Created: 21.01.2018
 package de.freese.spring.thymeleaf.config;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
 
@@ -12,9 +12,6 @@ import org.springframework.security.web.authentication.preauth.RequestHeaderAuth
  */
 public class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthenticationFilter
 {
-    /**
-     * Erstellt ein neues {@link MyTokenRequestHeaderAuthenticationFilter} Object.
-     */
     public MyTokenRequestHeaderAuthenticationFilter()
     {
         super();
@@ -27,7 +24,7 @@ public class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthe
     }
 
     /**
-     * @see org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter#getPreAuthenticatedCredentials(javax.servlet.http.HttpServletRequest)
+     * @see org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter#getPreAuthenticatedCredentials(jakarta.servlet.http.HttpServletRequest)
      */
     @Override
     protected Object getPreAuthenticatedCredentials(final HttpServletRequest request)
@@ -37,7 +34,7 @@ public class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthe
     }
 
     /**
-     * @see org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter#getPreAuthenticatedPrincipal(javax.servlet.http.HttpServletRequest)
+     * @see org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter#getPreAuthenticatedPrincipal(jakarta.servlet.http.HttpServletRequest)
      */
     @Override
     protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request)

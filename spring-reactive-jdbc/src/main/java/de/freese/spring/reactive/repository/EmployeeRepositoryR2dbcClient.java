@@ -112,7 +112,7 @@ public class EmployeeRepositoryR2dbcClient implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#deleteEmployee(long)
      */
     @Override
-    public Mono<Integer> deleteEmployee(final long id)
+    public Mono<Long> deleteEmployee(final long id)
     {
         // @formatter:off
         return this.r2dbc.inTransaction(handle ->
@@ -120,6 +120,7 @@ public class EmployeeRepositoryR2dbcClient implements EmployeeRepository
                 .execute("DELETE FROM employee WHERE employee_id = ?", id)
         )
         .single()
+        .map(i -> (long) i)
         ;
         // @formatter:on
     }

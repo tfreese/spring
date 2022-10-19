@@ -14,14 +14,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 public class AtomicosApplication
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(AtomicosApplication.class);
 
-    /**
-     * @param args String[]
-     */
     public static void main(String[] args)
     {
         //        SpringApplication.run(AtomicosApplication.class, args);

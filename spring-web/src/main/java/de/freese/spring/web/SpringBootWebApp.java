@@ -8,8 +8,9 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import javax.faces.webapp.FacesServlet;
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
+
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,11 +26,6 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class SpringBootWebApp //implements WebMvcConfigurer
 {
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         ApplicationContext context = SpringApplication.run(SpringBootWebApp.class, args);
@@ -75,11 +71,11 @@ public class SpringBootWebApp //implements WebMvcConfigurer
     @Bean
     ServletRegistrationBean<Servlet> jsfServletRegistration(ServletContext servletContext)
     {
-        servletContext.setInitParameter("javax.faces.CONFIG_FILES", "/WEB-INF/faces-config.xml");
-        servletContext.setInitParameter("javax.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
-        servletContext.setInitParameter("javax.faces.PROJECT_STAGE", "Development");
-        servletContext.setInitParameter("javax.faces.STATE_SAVING_METHOD", "server");
-        servletContext.setInitParameter("javax.faces.VALIDATE_EMPTY_FIELDS", Boolean.TRUE.toString());
+        servletContext.setInitParameter("jakarta.faces.CONFIG_FILES", "/WEB-INF/faces-config.xml");
+        servletContext.setInitParameter("jakarta.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
+        servletContext.setInitParameter("jakarta.faces.PROJECT_STAGE", "Development");
+        servletContext.setInitParameter("jakarta.faces.STATE_SAVING_METHOD", "server");
+        servletContext.setInitParameter("jakarta.faces.VALIDATE_EMPTY_FIELDS", Boolean.TRUE.toString());
 
         servletContext.setInitParameter("com.sun.faces.compressViewState", Boolean.TRUE.toString());
         servletContext.setInitParameter("com.sun.faces.enableMissingResourceLibraryDetection", Boolean.TRUE.toString());
