@@ -15,26 +15,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class UiController // implements javafx.fxml.Initializable
 {
-    /**
-     *
-     */
     private final HostServices hostServices;
-    /**
-     *
-     */
+
     @FXML
     private Button button;
-    /**
-     *
-     */
+
     @FXML
     private Label label;
 
-    /**
-     * Erstellt ein neues {@link UiController} Object.
-     *
-     * @param hostServices {@link HostServices}
-     */
     public UiController(final HostServices hostServices)
     {
         super();
@@ -42,9 +30,6 @@ public class UiController // implements javafx.fxml.Initializable
         this.hostServices = Objects.requireNonNull(hostServices, "hostServices required");
     }
 
-    /**
-     *
-     */
     @FXML
     public void initialize()
     {

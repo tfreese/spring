@@ -11,7 +11,6 @@ import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.net.URI;
 import java.net.http.HttpClient;
-import java.net.http.HttpClient.Builder;
 import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
@@ -21,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,19 +40,11 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 class TestRestWithJreHttpClient extends AbstractRestTestCase
 {
-    /**
-     *
-     */
     @Resource
     private ExecutorService executorService;
-    /**
-     *
-     */
+
     private String rootUri;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeEach
     void beforeTest() throws Exception
     {
@@ -360,9 +351,6 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
         }
     }
 
-    /**
-     * @return {@link Builder}
-     */
     private HttpClient.Builder createClientBuilder()
     {
         // @formatter:off
@@ -373,12 +361,6 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
         // @formatter:on
     }
 
-    /**
-     * @param user String
-     * @param password String
-     *
-     * @return {@link Builder}
-     */
     private HttpClient.Builder createClientBuilder(final String user, final String password)
     {
         Authenticator authenticator = new Authenticator()

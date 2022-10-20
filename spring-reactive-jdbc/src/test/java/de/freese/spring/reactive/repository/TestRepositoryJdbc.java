@@ -1,7 +1,7 @@
 // Created: 23.06.2019
 package de.freese.spring.reactive.repository;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -18,14 +18,9 @@ import org.springframework.test.context.ActiveProfiles;
         })
 class TestRepositoryJdbc implements TestRepository
 {
-    /**
-     *
-     */
     @Resource
     private JdbcTemplate jdbcTemplate;
-    /**
-     *
-     */
+
     @Resource
     private EmployeeRepository repository;
 

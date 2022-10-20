@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -25,15 +25,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 @ActiveProfiles("test")
 class GreetingMockMvcTests
 {
-    /**
-     *
-     */
     @Resource
     private MockMvc mockMvc;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testDefault() throws Exception
     {
@@ -50,9 +44,6 @@ class GreetingMockMvcTests
         // @formatter:end
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testFail() throws Exception
     {
@@ -64,9 +55,6 @@ class GreetingMockMvcTests
         // @formatter:end
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testJsonPath() throws Exception
     {
@@ -92,9 +80,6 @@ class GreetingMockMvcTests
         // assertEquals("Hello, World!", JsonPath.compile("greeting").read(response));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testPath() throws Exception
     {
@@ -110,9 +95,6 @@ class GreetingMockMvcTests
        // @formatter:on
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testPojo() throws Exception
     {
@@ -128,9 +110,6 @@ class GreetingMockMvcTests
         // @formatter:on
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testSimple() throws Exception
     {

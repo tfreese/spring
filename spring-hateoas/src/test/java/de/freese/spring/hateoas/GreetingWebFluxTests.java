@@ -3,7 +3,7 @@ package de.freese.spring.hateoas;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -21,15 +21,9 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @ActiveProfiles("test")
 class GreetingWebFluxTests
 {
-    /**
-     *
-     */
     @Resource
     private WebTestClient webTestClient;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
     void testDefault() throws Exception
@@ -50,9 +44,6 @@ class GreetingWebFluxTests
         // @formatter:on
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testFail() throws Exception
     {
@@ -66,9 +57,6 @@ class GreetingWebFluxTests
         // @formatter:on
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
     void testPath() throws Exception
@@ -88,9 +76,6 @@ class GreetingWebFluxTests
         // @formatter:on
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
     void testPojo() throws Exception
@@ -114,9 +99,6 @@ class GreetingWebFluxTests
         // @formatter:on
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testSimple() throws Exception
     {

@@ -29,16 +29,8 @@ import org.springframework.web.client.RestTemplate;
 @RibbonClient(name = "date-service", configuration = RibbonClientConfiguration.class)
 public class RibbonClientWithoutEurekaApplication
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(RibbonClientWithoutEurekaApplication.class);
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         // Dependency darf nicht vorhanden sein: spring-cloud-starter-netflix-eureka-client
@@ -75,9 +67,6 @@ public class RibbonClientWithoutEurekaApplication
         System.exit(0);
     }
 
-    /**
-     * @return {@link RestTemplate}
-     */
     @LoadBalanced
     @Bean
     public RestTemplate restTemplate()

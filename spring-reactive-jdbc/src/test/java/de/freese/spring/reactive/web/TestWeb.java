@@ -3,6 +3,8 @@ package de.freese.spring.reactive.web;
 
 import java.nio.charset.StandardCharsets;
 
+import de.freese.spring.reactive.model.Department;
+import de.freese.spring.reactive.model.Employee;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,9 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import de.freese.spring.reactive.model.Department;
-import de.freese.spring.reactive.model.Employee;
 import reactor.test.StepVerifier;
 
 /**
@@ -22,47 +21,26 @@ import reactor.test.StepVerifier;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public interface TestWeb
 {
-    /**
-    *
-    */
     @AfterEach
     default void afterEach()
     {
         doAfterEach();
     }
 
-    /**
-    *
-    */
     @BeforeEach
     default void beforeEach()
     {
         doBeforeEach();
     }
 
-    /**
-    *
-    */
     void doAfterEach();
 
-    /**
-    *
-    */
     void doBeforeEach();
 
-    /**
-     * @return {@link WebClient}
-     */
     WebClient getWebClient();
 
-    /**
-     * @return {@link WebTestClient}
-     */
     WebTestClient getWebTestClient();
 
-    /**
-     *
-     */
     @Test
     default void testCreateNewEmployee()
     {
@@ -125,9 +103,6 @@ public interface TestWeb
         // @formatter:on
     }
 
-    /**
-      *
-      */
     @Test
     default void testDeleteEmployee()
     {
@@ -182,9 +157,6 @@ public interface TestWeb
         // @formatter:on
     }
 
-    /**
-    *
-    */
     @Test
     default void testGetAllDepartments()
     {
@@ -215,9 +187,6 @@ public interface TestWeb
         // @formatter:on
     }
 
-    /**
-    *
-    */
     @Test
     default void testGetAllEmployees()
     {
@@ -247,9 +216,6 @@ public interface TestWeb
         // @formatter:on
     }
 
-    /**
-      *
-      */
     @Test
     default void testGetEmployee()
     {

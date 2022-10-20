@@ -14,21 +14,10 @@ import org.springframework.http.client.ClientHttpResponse;
  */
 public class HttpHeaderInterceptor implements ClientHttpRequestInterceptor
 {
-    /**
-     *
-     */
     private final String name;
-    /**
-     *
-     */
+
     private final String value;
 
-    /**
-     * Erstellt ein neues {@link HttpHeaderInterceptor} Object.
-     *
-     * @param name String
-     * @param value String
-     */
     public HttpHeaderInterceptor(final String name, final String value)
     {
         super();
@@ -39,7 +28,7 @@ public class HttpHeaderInterceptor implements ClientHttpRequestInterceptor
 
     /**
      * @see org.springframework.http.client.ClientHttpRequestInterceptor#intercept(org.springframework.http.HttpRequest, byte[],
-     *      org.springframework.http.client.ClientHttpRequestExecution)
+     * org.springframework.http.client.ClientHttpRequestExecution)
      */
     @Override
     public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException

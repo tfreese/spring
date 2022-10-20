@@ -14,17 +14,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class DataService
 {
-    /**
-     *
-     */
     public String getDate()
     {
         return LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
     }
 
-    /**
-     *
-     */
     public Map<Integer, Double> getLineChartData()
     {
         Map<Integer, Double> map = new LinkedHashMap<>();

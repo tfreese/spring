@@ -1,7 +1,7 @@
 // Created: 21.06.2019
 package de.freese.spring.reactive.web;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,23 +21,14 @@ import org.springframework.web.reactive.function.client.WebClient;
         })
 class TestWebJdbc implements TestWeb
 {
-    /**
-     *
-     */
     @Resource
     private JdbcTemplate jdbcTemplate;
-    /**
-     *
-     */
+
     @Value("${local.server.port}")
-    private int port = -1;
-    /**
-     *
-     */
+    private final int port = -1;
+
     private WebClient webClient;
-    /**
-     *
-     */
+
     @Resource
     private WebTestClient webTestClient;
 

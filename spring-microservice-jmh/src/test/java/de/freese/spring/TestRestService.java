@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.MethodOrderer;
@@ -43,30 +43,18 @@ import org.springframework.web.reactive.function.client.WebClient;
         })
 class TestRestService
 {
-    /**
-     *
-     */
     @Resource
     private MockMvc mockMvc;
-    /**
-     *
-     */
+
     @LocalServerPort
     private int port;
-    /**
-     *
-     */
+
     @Resource
     private RestTemplateBuilder restTemplateBuilder;
-    /**
-     *
-     */
+
     @Resource
     private WebClient.Builder webClientBuilder;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testBenchmark() throws Exception
     {
@@ -89,9 +77,6 @@ class TestRestService
         new Runner(options).run();
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testMockMvc() throws Exception
     {
@@ -108,9 +93,6 @@ class TestRestService
         // @formatter:on
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testRestTemplate() throws Exception
     {
@@ -125,9 +107,6 @@ class TestRestService
         assertEquals("Hello, World", response.getBody());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testWebClient() throws Exception
     {

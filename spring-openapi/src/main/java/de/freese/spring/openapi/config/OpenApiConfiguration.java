@@ -52,15 +52,6 @@ public class OpenApiConfiguration
         // @formatter:on
     }
 
-    //    /**
-    //     * @param httpSecurity {@link HttpSecurity}
-    //     * @param jwtRequestFilter {@link Filter}
-    //     * @param authenticationEntryPoint {@link AuthenticationEntryPoint}
-    //     *
-    //     * @return {@link SecurityFilterChain}
-    //     *
-    //     * @throws Exception Falls was schief geht.
-    //     */
     //    @Bean
     //    SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final Filter jwtRequestFilter, final AuthenticationEntryPoint authenticationEntryPoint)
     //            throws Exception

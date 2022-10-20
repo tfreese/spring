@@ -41,39 +41,18 @@ public abstract class AbstractClientReflectionController<T>
      */
     public enum ConnectType
     {
-        /**
-         *
-         */
         HTTP_CONNECTION,
-        /**
-         *
-         */
         REST_TEMPLATE
     }
 
-    /**
-     *
-     */
     private final Class<T> fassadeType;
-    /**
-     *
-     */
+
     private final Pool<Kryo> kryoPool;
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private final String rootUri;
 
-    /**
-     * Erstellt ein neues {@link AbstractClientReflectionController} Object.
-     *
-     * @param kryoPool {@link Pool}<Kryo>
-     * @param rootUri String
-     */
     @SuppressWarnings("unchecked")
     protected AbstractClientReflectionController(final Pool<Kryo> kryoPool, final String rootUri)
     {
@@ -85,44 +64,26 @@ public abstract class AbstractClientReflectionController<T>
         this.fassadeType = (Class<T>) ((ParameterizedType) (getClass().getGenericSuperclass())).getActualTypeArguments()[0];
     }
 
-    /**
-     * @return Class<T>
-     */
     protected Class<T> getFassadeType()
     {
         return this.fassadeType;
     }
 
-    /**
-     * @return {@link Pool}<Kryo>
-     */
     protected Pool<Kryo> getKryoPool()
     {
         return this.kryoPool;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * @return T
-     */
     protected T lookupProxyHttpConnection()
     {
         return lookupProxyHttpConnection(getFassadeType());
     }
 
-    /**
-     * @param fassadeType Class
-     *
-     * @return T
-     */
-    @SuppressWarnings("unchecked")
     protected T lookupProxyHttpConnection(final Class<T> fassadeType)
     {
         return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
@@ -236,12 +197,6 @@ public abstract class AbstractClientReflectionController<T>
         });
     }
 
-    /**
-     * @param fassadeType Class
-     *
-     * @return T
-     */
-    @SuppressWarnings("unchecked")
     protected T lookupProxyRestTemplate(final Class<T> fassadeType)
     {
         return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
@@ -305,22 +260,11 @@ public abstract class AbstractClientReflectionController<T>
         });
     }
 
-    /**
-     * @param fassade T
-     *
-     * @return T
-     */
     protected T lookupProxyRetry(final T fassade)
     {
         return lookupProxyRetry(fassade, getFassadeType());
     }
 
-    /**
-     * @param fassade T
-     * @param fassadeType Class
-     *
-     * @return T
-     */
     @SuppressWarnings("unchecked")
     protected T lookupProxyRetry(final T fassade, final Class<T> fassadeType)
     {
@@ -333,9 +277,6 @@ public abstract class AbstractClientReflectionController<T>
                         fassadeType
                 }, new InvocationHandler()
         {
-            /**
-             *
-             */
             private int invocationCount;
 
             /**
@@ -349,15 +290,6 @@ public abstract class AbstractClientReflectionController<T>
                 return invoke(fassadeType, method, args);
             }
 
-            /**
-             * @param fassadeType Class
-             * @param method Method
-             * @param args Object[]
-             *
-             * @return Object
-             *
-             * @throws Throwable Falls was schiefgeht.
-             */
             private Object invoke(final Class<T> fassadeType, final Method method, final Object[] args) throws Throwable
             {
                 try

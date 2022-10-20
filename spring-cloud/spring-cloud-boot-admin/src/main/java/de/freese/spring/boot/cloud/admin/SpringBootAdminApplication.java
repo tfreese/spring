@@ -12,9 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableAdminServer
 public class SpringBootAdminApplication
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         SpringApplication.run(SpringBootAdminApplication.class, args);

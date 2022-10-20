@@ -17,42 +17,24 @@ import reactor.test.StepVerifier;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public interface TestRepository
 {
-    /**
-     *
-     */
     @AfterEach
     default void afterEach()
     {
         doAfterEach();
     }
 
-    /**
-     *
-     */
     @BeforeEach
     default void beforeEach()
     {
         doBeforeEach();
     }
 
-    /**
-     *
-     */
     void doAfterEach();
 
-    /**
-     *
-     */
     void doBeforeEach();
 
-    /**
-     * @return {@link EmployeeRepository}
-     */
     EmployeeRepository getRepository();
 
-    /**
-     *
-     */
     @Test
     default void testCreateNewEmployee()
     {
@@ -75,9 +57,6 @@ public interface TestRepository
         // @formatter:on
     }
 
-    /**
-     *
-     */
     @Test
     default void testDeleteEmployee()
     {
@@ -98,9 +77,6 @@ public interface TestRepository
         // @formatter:on
     }
 
-    /**
-     *
-     */
     @Test
     default void testGetAllDepartments()
     {
@@ -113,9 +89,6 @@ public interface TestRepository
         // @formatter:on
     }
 
-    /**
-     *
-     */
     @Test
     default void testGetEmployee()
     {

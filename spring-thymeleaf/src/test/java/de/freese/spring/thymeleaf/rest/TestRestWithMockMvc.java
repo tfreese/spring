@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,9 +35,6 @@ import org.springframework.test.web.servlet.MockMvc;
         // })
 class TestRestWithMockMvc extends AbstractRestTestCase
 {
-    /**
-     *
-     */
     @Resource
     private MockMvc mockMvc;
 

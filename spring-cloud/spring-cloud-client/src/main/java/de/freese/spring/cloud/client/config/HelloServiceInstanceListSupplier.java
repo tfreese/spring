@@ -14,18 +14,10 @@ import reactor.core.publisher.Flux;
  */
 class HelloServiceInstanceListSupplier implements ServiceInstanceListSupplier
 {
-    /**
-     *
-     */
     public static final String SERVICE_ID = "CLOUD-HELLO-SERVICE";
-    /**
-     *
-     */
+
     private final List<ServiceInstance> instances;
 
-    /**
-     * Erstellt ein neues {@link HelloServiceInstanceListSupplier} Object.
-     */
     HelloServiceInstanceListSupplier()
     {
         super();

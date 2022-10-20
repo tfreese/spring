@@ -14,9 +14,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class OpenApiApplication
 {
-    /**
-     * @param args String[]
-     */
     public static void main(String[] args)
     {
         SpringApplication.run(OpenApiApplication.class, args);

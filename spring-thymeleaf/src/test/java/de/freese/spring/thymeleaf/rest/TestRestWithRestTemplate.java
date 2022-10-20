@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import com.jayway.jsonpath.JsonPath;
 import de.freese.spring.thymeleaf.HttpHeaderInterceptor;
@@ -73,20 +73,12 @@ class TestRestWithRestTemplate extends AbstractRestTestCase
         }
     }
 
-    /**
-     *
-     */
     @Resource
     private HttpClient httpClient;
-    /**
-     *
-     */
+
     @Resource
     private RestTemplateBuilder restTemplateBuilder;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeEach
     void beforeTest() throws Exception
     {

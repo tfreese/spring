@@ -22,15 +22,9 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 class TestClientReflection
 {
-    /**
-     *
-     */
     @LocalServerPort
-    private int localServerPort = 0;
+    private final int localServerPort = 0;
 
-    /**
-     *
-     */
     @Test
     void testHttpConnection()
     {
@@ -42,9 +36,6 @@ class TestClientReflection
         TestKryo.validateLocalDateTime(localDateTime);
     }
 
-    /**
-     *
-     */
     @Test
     void testRestTemplate()
     {

@@ -17,9 +17,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 @SpringBootApplication // Mit Configuration wird die application.yml nicht eingelesen.
 public class TestHsqldbConfig
 {
-    /**
-     * @return {@link javax.sql.DataSource}
-     */
     @Bean
     @ConfigurationProperties(prefix = "datasource.hsqldb.file")
     public DataSource dataSourceHsqldbFile()
@@ -27,9 +24,6 @@ public class TestHsqldbConfig
         return DataSourceBuilder.create().build();
     }
 
-    /**
-     * @return {@link javax.sql.DataSource}
-     */
     @Bean
     @ConfigurationProperties(prefix = "datasource.hsqldb.memory")
     public DataSource dataSourceHsqldbMemory()
@@ -37,22 +31,12 @@ public class TestHsqldbConfig
         return DataSourceBuilder.create().build();
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     *
-     * @return {@link PlatformTransactionManager}
-     */
     @Bean
     public PlatformTransactionManager transactionManagerHsqldbFile(@Qualifier("dataSourceHsqldbFile") final DataSource dataSource)
     {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     *
-     * @return {@link PlatformTransactionManager}
-     */
     @Bean
     public PlatformTransactionManager transactionManagerHsqldbMemory(@Qualifier("dataSourceHsqldbMemory") final DataSource dataSource)
     {

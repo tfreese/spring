@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 import org.junit.jupiter.api.Test;
@@ -36,25 +36,15 @@ import org.springframework.test.web.servlet.MockMvc;
         // })
 class TestWebApp
 {
-    //    /**
-    //     *
-    //     */
     //    @Value("${app.message.welcome}")
     //    private final String message = "Hello World";
-    /**
-     *
-     */
+
     @LocalServerPort
     private int localServerPort;
-    /**
-     *
-     */
+
     @Resource
     private MockMvc mockMvc;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testAccessSecuredResourceUnauthenticated() throws Exception
     {
@@ -69,9 +59,6 @@ class TestWebApp
         // @formatter:on
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testAccessUnsecuredResourceUnauthenticated() throws Exception
     {
@@ -86,9 +73,6 @@ class TestWebApp
         // @formatter:on
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testHealthEndpoint() throws Exception
     {
@@ -102,9 +86,6 @@ class TestWebApp
        // @formatter:on
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testLoginWithBasic() throws Exception
     {
@@ -118,9 +99,6 @@ class TestWebApp
         this.mockMvc.perform(login).andExpect(status().is3xxRedirection()).andExpect(authenticated().withUsername("invalid"));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testLoginWithPreAuth() throws Exception
     {
@@ -134,9 +112,6 @@ class TestWebApp
                 .andExpect(authenticated().withUsername("invalid"));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testLoginWithUnknownUser() throws Exception
     {

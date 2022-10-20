@@ -9,8 +9,9 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
+
+import jakarta.annotation.Resource;
 
 import de.freese.jdbc.dialect.JdbcDialect;
 import de.freese.spring.testcontainers.model.Person;
@@ -35,7 +36,7 @@ abstract class AbstractTest
 
     @Resource
     private JdbcDialect jdbcDialect;
-    
+
     @Resource
     private PersonService personService;
 

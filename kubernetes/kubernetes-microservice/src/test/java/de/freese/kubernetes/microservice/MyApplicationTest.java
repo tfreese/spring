@@ -15,18 +15,12 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class MyApplicationTest
 {
-    /**
-     *
-     */
     @Test
     void testContextLoads()
     {
         assertTrue(true);
     }
 
-    /**
-     *
-     */
     @Test
     void testRequest()
     {

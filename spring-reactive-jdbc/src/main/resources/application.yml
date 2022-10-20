@@ -4,29 +4,31 @@
 # ===================================================================
 
 spring:
-   datasource:
-      initialization-mode: never
-      hikari:
-         auto-commit: false
-   profiles:
-      active: jdbc
+    datasource:
+        initialization-mode: never
+        hikari:
+            auto-commit: false
+    profiles:
+        active: jdbc
 
 management:
-   endpoints:
-      enabled-by-default: true
-      web:
-         exposure:
-            include: '*'
-   endpoint:
-      health:
-         show-details: ALWAYS
+    endpoints:
+        enabled-by-default: true
+        web:
+            exposure:
+                include: '*'
+    endpoint:
+        health:
+            show-details: ALWAYS
 
 server:
-   http2:
-      enabled: true 
-   port: 8080
-    
+    http2:
+        enabled: true
+    port: 8080
+
 ---
 
 spring:
-   profiles: test     
+    config:
+        activate:
+            on-profile: test

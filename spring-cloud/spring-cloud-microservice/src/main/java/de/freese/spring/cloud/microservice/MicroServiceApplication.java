@@ -16,13 +16,18 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 public class MicroServiceApplication extends SpringBootServletInitializer
 {
-    /**
-     * Konfiguriert die SpringApplication.
-     *
-     * @param builder {@link SpringApplicationBuilder}
-     *
-     * @return {@link SpringApplicationBuilder}
-     */
+    public static void main(final String[] args)
+    {
+        configureApplication(new SpringApplicationBuilder()).run(args);
+
+        //        SpringApplication.run(MicroServiceApplication.class, args);
+    }
+
+    // static
+    // {
+    // System.setProperty("server.port", Integer.toString(65501));
+    // }
+
     private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder)
     {
         //@formatter:off
@@ -34,21 +39,6 @@ public class MicroServiceApplication extends SpringBootServletInitializer
         //@formatter:on
         // .listeners(new ApplicationPidFileWriter("spring-boot-web.pid"))
         // .web(false)
-    }
-
-    // static
-    // {
-    // System.setProperty("server.port", Integer.toString(65501));
-    // }
-
-    /**
-     * @param args String[]
-     */
-    public static void main(final String[] args)
-    {
-        configureApplication(new SpringApplicationBuilder()).run(args);
-
-        //        SpringApplication.run(MicroServiceApplication.class, args);
     }
 
     /**

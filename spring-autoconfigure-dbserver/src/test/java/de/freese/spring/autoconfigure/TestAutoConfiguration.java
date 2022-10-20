@@ -24,11 +24,6 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 public interface TestAutoConfiguration
 {
-    /**
-     * @param dataSource {@link DataSource}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     default void createTable(final DataSource dataSource) throws SQLException
     {
         assertNotNull(dataSource);
@@ -41,21 +36,10 @@ public interface TestAutoConfiguration
         }
     }
 
-    /**
-     * @return {@link DataSource}
-     */
     DataSource getDataSourceFile();
 
-    /**
-     * @return {@link DataSource}
-     */
     DataSource getDataSourceMemory();
 
-    /**
-     * @param dataSource {@link DataSource}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     default void insert(final DataSource dataSource) throws SQLException
     {
         assertNotNull(dataSource);
@@ -81,11 +65,6 @@ public interface TestAutoConfiguration
         }
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     default void select(final DataSource dataSource) throws SQLException
     {
         assertNotNull(dataSource);
@@ -112,9 +91,6 @@ public interface TestAutoConfiguration
         }
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     // @Transactional("nameOfTransactionManager")
     default void testDataSourceFile() throws SQLException
@@ -126,9 +102,6 @@ public interface TestAutoConfiguration
         select(dataSource);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     // @Transactional("nameOfTransactionManager")
     default void testDataSourceMemory() throws SQLException

@@ -13,10 +13,6 @@ public class HelloServiceInstanceListSupplierConfig
 {
     /**
      * Alternative zu spring.cloud.discovery.client.simple.instances
-     *
-     * @param context {@link ConfigurableApplicationContext}
-     *
-     * @return {@link ServiceInstanceListSupplier}
      */
     @Bean
     ////@Primary

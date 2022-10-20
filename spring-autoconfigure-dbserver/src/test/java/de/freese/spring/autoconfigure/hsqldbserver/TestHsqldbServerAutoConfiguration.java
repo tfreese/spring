@@ -1,8 +1,9 @@
 // Created: 19.10.2019
 package de.freese.spring.autoconfigure.hsqldbserver;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
+
+import jakarta.annotation.Resource;
 
 import de.freese.spring.autoconfigure.TestAutoConfiguration;
 import org.junit.jupiter.api.MethodOrderer;
@@ -19,16 +20,10 @@ import org.springframework.test.context.ActiveProfiles;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestHsqldbServerAutoConfiguration implements TestAutoConfiguration
 {
-    /**
-     *
-     */
     @Resource
     @Qualifier("dataSourceHsqldbFile")
     private DataSource dataSourceFile;
 
-    /**
-     *
-     */
     @Resource
     @Qualifier("dataSourceHsqldbMemory")
     private DataSource dataSourceMemory;

@@ -33,11 +33,6 @@ public class UserController
         userMap.put("UserB", "UserB");
     }
 
-    /**
-     * @param username String
-     *
-     * @return String
-     */
     @DeleteMapping("delete/{username}")
     @Operation(summary = "Delete user", description = "Deletes specific user by username.")
     @ApiResponses(value =
@@ -53,9 +48,6 @@ public class UserController
         return username;
     }
 
-    /**
-     * @return String
-     */
     @GetMapping("list")
     @Operation(summary = "List users", description = "List all Users")
     public String list()

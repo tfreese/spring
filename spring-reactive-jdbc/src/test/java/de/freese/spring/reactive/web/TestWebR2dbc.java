@@ -1,7 +1,7 @@
 // Created: 21.06.2019
 package de.freese.spring.reactive.web;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import io.r2dbc.spi.ConnectionFactory;
 import org.junit.jupiter.api.Test;
@@ -25,28 +25,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 class TestWebR2dbc implements TestWeb
 {
-    /**
-     *
-     */
     @Resource
     private ConnectionFactory connectionFactory;
-    /**
-     *
-     */
+
     @Resource
     private DatabaseClient databaseClient;
-    /**
-     *
-     */
+
     @Value("${local.server.port}")
-    private int port = -1;
-    /**
-     *
-     */
+    private final int port = -1;
+
     private WebClient webClient;
-    /**
-     *
-     */
+
     @Resource
     private WebTestClient webTestClient;
 

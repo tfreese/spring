@@ -19,8 +19,8 @@ import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicReference;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
@@ -60,9 +60,6 @@ import reactor.core.publisher.Mono;
 @ActiveProfiles("test")
 class TestKryo
 {
-    /**
-     * @param localDateTime {@link LocalDateTime}
-     */
     static void validateLocalDateTime(final LocalDateTime localDateTime)
     {
         Assertions.assertNotNull(localDateTime);
@@ -77,48 +74,63 @@ class TestKryo
         // Assertions.assertEquals(localDateTime.getSecond(), now.getSecond());
     }
 
-    /**
-     *
-     */
     private HttpClient.Builder httpClientbuilder;
-    /**
-     *
-     */
+
     @LocalServerPort
     private int localServerPort;
-    /**
-     *
-     */
+
     @Resource
     private MockMvc mockMvc;
-    // /**
-    // *
-    // */
+
     // @Resource
     // private RestTemplateBuilder restTemplateBuilder;
-    /**
-     *
-     */
+
     @Resource
     private ObjectMapper objectMapper;
-    /**
-     *
-     */
+
     private RestTemplate restTemplate;
-    /**
-     *
-     */
+
     @Resource
     private WebApplicationContext webApplicationContext;
-    /**
-     *
-     */
+
     @Resource
     private WebClient.Builder webClientBuilder;
 
-    /**
-     *
-     */
+    @Test
+    void testHttpClient() throws Exception
+    {
+        testHttpClient("/kryo", AbstractKryoCodecSupport.APPLICATION_KRYO);
+        testHttpClient("/json", MediaType.APPLICATION_JSON);
+    }
+
+    @Test
+    void testMockMvc() throws Exception
+    {
+        testMockMvc("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
+        testMockMvc("/json", MediaType.APPLICATION_JSON);
+    }
+
+    @Test
+    void testRestTemplate()
+    {
+        testRestTemplate("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
+        testRestTemplate("/json", MediaType.APPLICATION_JSON);
+    }
+
+    @Test
+    void testUrlConnection() throws Exception
+    {
+        testUrlConnection("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
+        testUrlConnection("/json", MediaType.APPLICATION_JSON);
+    }
+
+    @Test
+    void testWebClient() throws Exception
+    {
+        testWebClient("/kryo", AbstractKryoCodecSupport.APPLICATION_KRYO);
+        testWebClient("/json", MediaType.APPLICATION_JSON);
+    }
+
     @PostConstruct
     protected void setup()
     {
@@ -158,22 +170,6 @@ class TestKryo
         // @formatter:on
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
-    @Test
-    void testHttpClient() throws Exception
-    {
-        testHttpClient("/kryo", AbstractKryoCodecSupport.APPLICATION_KRYO);
-        testHttpClient("/json", MediaType.APPLICATION_JSON);
-    }
-
-    /**
-     * @param path String
-     * @param mimeType {@link MimeType}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected void testHttpClient(final String path, final MimeType mimeType) throws Exception
     {
         HttpClient httpClient = this.httpClientbuilder.build();
@@ -206,22 +202,6 @@ class TestKryo
         validateLocalDateTime(localDateTime);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
-    @Test
-    void testMockMvc() throws Exception
-    {
-        testMockMvc("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
-        testMockMvc("/json", MediaType.APPLICATION_JSON);
-    }
-
-    /**
-     * @param path String
-     * @param mediaType {@link MediaType}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected void testMockMvc(final String path, final MediaType mediaType) throws Exception
     {
         // MockMvcBuilders.standaloneSetup(controllers).
@@ -260,20 +240,6 @@ class TestKryo
         validateLocalDateTime(reference.get());
     }
 
-    /**
-     *
-     */
-    @Test
-    void testRestTemplate()
-    {
-        testRestTemplate("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
-        testRestTemplate("/json", MediaType.APPLICATION_JSON);
-    }
-
-    /**
-     * @param path String
-     * @param mediaType {@link MediaType}
-     */
     protected void testRestTemplate(final String path, final MediaType mediaType)
     {
         //        // @formatter:off
@@ -298,22 +264,6 @@ class TestKryo
         validateLocalDateTime(localDateTime);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
-    @Test
-    void testUrlConnection() throws Exception
-    {
-        testUrlConnection("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
-        testUrlConnection("/json", MediaType.APPLICATION_JSON);
-    }
-
-    /**
-     * @param path String
-     * @param mediaType {@link MediaType}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected void testUrlConnection(final String path, final MediaType mediaType) throws Exception
     {
         URL url = new URL("http", "localhost", this.localServerPort, path);
@@ -362,20 +312,6 @@ class TestKryo
         validateLocalDateTime(localDateTime);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
-    @Test
-    void testWebClient() throws Exception
-    {
-        testWebClient("/kryo", AbstractKryoCodecSupport.APPLICATION_KRYO);
-        testWebClient("/json", MediaType.APPLICATION_JSON);
-    }
-
-    /**
-     * @param path String
-     * @param mimeType {@link MimeType}
-     */
     protected void testWebClient(final String path, final MimeType mimeType)
     {
         MediaType mediaType = MediaType.asMediaType(mimeType);

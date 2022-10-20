@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import com.jayway.jsonpath.JsonPath;
 import de.freese.spring.thymeleaf.ThymeleafApplication;
@@ -30,9 +30,6 @@ import reactor.core.publisher.Mono;
 @ActiveProfiles("test")
 class TestRestWithWebClient extends AbstractRestTestCase
 {
-    /**
-     *
-     */
     @Resource
     private WebClient.Builder webClientBuilder;
     // /**
@@ -42,9 +39,6 @@ class TestRestWithWebClient extends AbstractRestTestCase
     // @Resource
     // private WebTestClient webTestClient = null;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeEach
     void beforeTest() throws Exception
     {
@@ -186,8 +180,9 @@ class TestRestWithWebClient extends AbstractRestTestCase
         ResponseEntity<String> responseEntity = response.block();
         // ApiError apiError = responseEntity.getBody();
 
-        // assertEquals(HttpStatus.FORBIDDEN.value(), apiError.getHttpStatus());
-        assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
+        //        assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCode());
+        //        assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
     /**

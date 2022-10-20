@@ -64,7 +64,7 @@ spring:
           #active: default
           #resources:
           #cache:
-          #period: 0
+        #period: 0
         #chain:
         #cache: false
     thymeleaf:
@@ -143,7 +143,9 @@ management:
 ---
 
 spring:
-    profiles: with-ssl
+    config:
+        activate:
+            on-profile: with-ssl
 
 server:
     port: 8443

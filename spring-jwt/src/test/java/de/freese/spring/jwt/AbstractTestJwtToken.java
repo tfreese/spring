@@ -3,7 +3,7 @@ package de.freese.spring.jwt;
 
 import java.io.IOException;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,19 +56,12 @@ abstract class AbstractTestJwtToken implements TestJwtToken
         }
     }
 
-    /**
-     *
-     */
     @Resource
     private JwtTokenProvider jwtTokenProvider;
-    /**
-     *
-     */
+
     @Resource
     private MockMvc mockMvc;
-    /**
-     *
-     */
+
     @Resource
     private RestTemplateBuilder restTemplateBuilder;
 
@@ -99,11 +92,6 @@ abstract class AbstractTestJwtToken implements TestJwtToken
         return this.restTemplateBuilder;
     }
 
-    /**
-     * @param localServerPort int
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeEach
     void beforeEach(@LocalServerPort final int localServerPort) throws Exception
     {

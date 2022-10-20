@@ -20,36 +20,8 @@ import reactor.core.publisher.Mono;
 @RestController
 public class MyRestController
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(MyRestController.class);
 
-    /**
-     * @param name {@link Optional}
-     *
-     * @return {@link Publisher}
-     */
-    @GetMapping("greet")
-    public Publisher<String> greet(@RequestParam final Optional<String> name)
-    {
-        String hostName = getHostName();
-
-        //@formatter:off
-        return name
-                .map(s -> {
-                    var msg = "Hello " + s + " on " + hostName;
-                    return Mono.just(msg);
-                    })
-                //.orElse(Mono.error(new NullPointerException("name")))
-                .orElse(Mono.just("Hello World on " +  hostName))
-                ;
-        //@formatter:on
-    }
-
-    /**
-     * @return String
-     */
     private static String getHostName()
     {
         String hostName = null;
@@ -83,5 +55,22 @@ public class MyRestController
         }
 
         return hostName;
+    }
+
+    @GetMapping("greet")
+    public Publisher<String> greet(@RequestParam final Optional<String> name)
+    {
+        String hostName = getHostName();
+
+        //@formatter:off
+        return name
+                .map(s -> {
+                    var msg = "Hello " + s + " on " + hostName;
+                    return Mono.just(msg);
+                    })
+                //.orElse(Mono.error(new NullPointerException("name")))
+                .orElse(Mono.just("Hello World on " +  hostName))
+                ;
+        //@formatter:on
     }
 }

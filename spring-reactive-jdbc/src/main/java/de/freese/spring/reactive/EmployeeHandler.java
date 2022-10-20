@@ -35,7 +35,7 @@ public class EmployeeHandler
     {
         long id = Long.parseLong(request.pathVariable("id"));
 
-        Mono<Integer> count = this.service.deleteEmployee(id);
+        Mono<Long> count = this.service.deleteEmployee(id);
 
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(count, Integer.class);
     }

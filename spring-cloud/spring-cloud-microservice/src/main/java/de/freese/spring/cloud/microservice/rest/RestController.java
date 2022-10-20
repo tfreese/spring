@@ -20,35 +20,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestController
 {
-    /**
-     *
-     */
     @Value("${server.port}")
-    private int port = -1;
-
-    /**
-     * http://localhost:PORT/ping/
-     *
-     * @return boolean
-     *
-     * @throws UnknownHostException Falls was schiefgeht.
-     */
-    @GetMapping("/ping")
-    public String ping() throws UnknownHostException
-    {
-        return String.format("{ \"message\": \"Ping from %s:%d\" }", InetAddress.getLocalHost(), this.port);
-    }
+    private final int port = -1;
 
     /**
      * http://localhost:PORT
-     *
-     * @return String
-     *
-     * @throws UnknownHostException Falls was schiefgeht.
      */
     @GetMapping("/")
     public String hello() throws UnknownHostException
     {
         return String.format("{ \"message\": \"Hello from %s:%d\" }", InetAddress.getLocalHost(), this.port);
+    }
+
+    /**
+     * http://localhost:PORT/ping/
+     */
+    @GetMapping("/ping")
+    public String ping() throws UnknownHostException
+    {
+        return String.format("{ \"message\": \"Ping from %s:%d\" }", InetAddress.getLocalHost(), this.port);
     }
 }

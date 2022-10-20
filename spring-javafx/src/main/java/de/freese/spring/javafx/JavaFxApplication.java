@@ -22,9 +22,6 @@ import org.springframework.context.support.GenericApplicationContext;
  */
 public class JavaFxApplication extends Application
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaFxApplication.class);
 
     /**
@@ -32,34 +29,20 @@ public class JavaFxApplication extends Application
      */
     public static class StageReadyEvent extends ApplicationEvent
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = -4583752880347446992L;
 
-        /**
-         * Erstellt ein neues {@link StageReadyEvent} Object.
-         *
-         * @param source {@link Stage}
-         */
         public StageReadyEvent(final Stage source)
         {
             super(source);
         }
 
-        /**
-         * @return {@link Stage}
-         */
         public Stage getStage()
         {
             return (Stage) getSource();
         }
     }
 
-    /**
-     *
-     */
     private ConfigurableApplicationContext applicationContext;
 
     /**

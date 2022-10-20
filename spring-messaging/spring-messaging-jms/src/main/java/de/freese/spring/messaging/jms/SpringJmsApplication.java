@@ -3,7 +3,7 @@ package de.freese.spring.messaging.jms;
 
 import java.util.concurrent.Executor;
 
-import javax.jms.ConnectionFactory;
+import jakarta.jms.ConnectionFactory;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,9 +23,6 @@ import org.springframework.jms.support.converter.MessageType;
 @EnableJms
 public class SpringJmsApplication
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         SpringApplication.run(SpringJmsApplication.class, args);
@@ -54,9 +51,6 @@ public class SpringJmsApplication
     //        return bean;
     //    }
 
-    /**
-     *
-     */
     @Bean
     public MessageConverter jacksonJmsMessageConverter()
     {
@@ -67,9 +61,6 @@ public class SpringJmsApplication
         return converter;
     }
 
-    /**
-     *
-     */
     @Bean
     public JmsListenerContainerFactory<?> myFactory(final ConnectionFactory connectionFactory, final DefaultJmsListenerContainerFactoryConfigurer configurer,
                                                     final Executor taskExecutor)
@@ -84,9 +75,6 @@ public class SpringJmsApplication
         return factory;
     }
 
-    // /**
-    // * @return {@link ScheduledExecutorFactoryBean}
-    // */
     // @Bean
     // @ConditionalOnMissingBean(ScheduledExecutorService.class)
     // public ScheduledExecutorFactoryBean scheduledExecutorService()
@@ -105,8 +93,6 @@ public class SpringJmsApplication
     //
     // /**
     // * Wird für {@link EnableAsync} benötigt.
-    // *
-    // * @return {@link TaskExecutor}
     // */
     // @Bean(
     // {
@@ -123,10 +109,6 @@ public class SpringJmsApplication
     //
     // /**
     // * Wird für {@link EnableScheduling} benötigt.
-    // *
-    // * @param executorService {@link ExecutorService}
-    // * @param scheduledExecutorService {@link ScheduledExecutorService}
-    // * @return {@link TaskScheduler}
     // */
     // @Bean("taskScheduler")
     // @ConditionalOnMissingBean(TaskScheduler.class)

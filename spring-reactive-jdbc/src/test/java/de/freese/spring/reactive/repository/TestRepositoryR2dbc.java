@@ -1,7 +1,7 @@
 // Created: 23.06.2019
 package de.freese.spring.reactive.repository;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import io.r2dbc.spi.ConnectionFactory;
 import org.junit.jupiter.api.Test;
@@ -19,19 +19,12 @@ import org.springframework.test.context.ActiveProfiles;
         })
 class TestRepositoryR2dbc implements TestRepository
 {
-    /**
-     *
-     */
     @Resource
     private ConnectionFactory connectionFactory;
-    /**
-     *
-     */
+
     @Resource
     private DatabaseClient databaseClient;
-    /**
-     *
-     */
+
     @Resource
     private EmployeeRepository repository;
 

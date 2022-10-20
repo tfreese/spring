@@ -29,8 +29,6 @@ public class WebClientConfig
     /**
      * Siehe unten "Bugfix: ReactiveRegistrationClient".<br>
      * Ein Default-WebClient wird immer benötigt.
-     *
-     * @return WebClient.Builder
      */
     @Bean
     @Primary
@@ -53,8 +51,6 @@ public class WebClientConfig
     }
 
     /**
-     * @return WebClient.Builder
-     *
      * @see LoadBalancerClientConfiguration
      */
     @Bean

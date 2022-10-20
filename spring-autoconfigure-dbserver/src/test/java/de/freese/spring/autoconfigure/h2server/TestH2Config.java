@@ -21,9 +21,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 @SpringBootApplication // Mit Configuration wird die application.yml nicht eingelesen.
 public class TestH2Config
 {
-    /**
-     * @return {@link javax.sql.DataSource}
-     */
     @Bean
     @ConfigurationProperties(prefix = "datasource.h2.file")
     public DataSource dataSourceH2File()
@@ -31,9 +28,6 @@ public class TestH2Config
         return DataSourceBuilder.create().build();
     }
 
-    /**
-     * @return {@link javax.sql.DataSource}
-     */
     @Bean
     @ConfigurationProperties(prefix = "datasource.h2.memory")
     public DataSource dataSourceH2Memory()
@@ -41,14 +35,6 @@ public class TestH2Config
         return DataSourceBuilder.create().build();
     }
 
-    /**
-     * @param port int
-     * @param path String
-     *
-     * @return {@link Server}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Server serverH2(@Value("${h2.port}") final int port, @Value("${h2.path}") final String path) throws SQLException
     {
@@ -61,22 +47,12 @@ public class TestH2Config
         return Server.createTcpServer("-tcpPort", Integer.toString(port), "-trace", "-tcpDaemon", "-ifNotExists", "-baseDir", path);
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     *
-     * @return {@link PlatformTransactionManager}
-     */
     @Bean
     public PlatformTransactionManager transactionManagerH2File(@Qualifier("dataSourceH2File") final DataSource dataSource)
     {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     *
-     * @return {@link PlatformTransactionManager}
-     */
     @Bean
     public PlatformTransactionManager transactionManagerH2Memory(@Qualifier("dataSourceH2Memory") final DataSource dataSource)
     {

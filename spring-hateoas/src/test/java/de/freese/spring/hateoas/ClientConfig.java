@@ -14,9 +14,6 @@ import org.springframework.web.client.RestTemplate;
 // @TestConfiguration
 class ClientConfig
 {
-    /**
-     * Erstellt ein neues {@link ClientConfig} Object.
-     */
     ClientConfig()
     {
         super();
@@ -24,11 +21,6 @@ class ClientConfig
         // System.setProperty("server.port", Integer.toString(SocketUtils.findAvailableTcpPort()));
     }
 
-    /**
-     * @param restTemplateBuilder {@link RestTemplateBuilder}
-     *
-     * @return {@link RestTemplate}
-     */
     @Bean
     public RestTemplate restTemplate(final RestTemplateBuilder restTemplateBuilder)
     {
@@ -37,12 +29,6 @@ class ClientConfig
 
     /**
      * "@Value("${local.server.port}") final int port"
-     *
-     * @param host String
-     * @param port int
-     * @param contextPath String
-     *
-     * @return {@link RestTemplateBuilder}
      */
     @Bean
     RestTemplateBuilder restTemplateBuilder(@Value("${server.address:localhost}") final String host, @Value("${server.port}") final int port,
@@ -52,22 +38,12 @@ class ClientConfig
         return new RestTemplateBuilder().rootUri("http://" + host + ":" + port + contextPath);
     }
 
-    /**
-     * @param configurer {@link HypermediaRestTemplateConfigurer}
-     *
-     * @return RestTemplateCustomizer
-     */
     @Bean
     RestTemplateCustomizer restTemplateCustomizer(final HypermediaRestTemplateConfigurer configurer)
     {
         return configurer::registerHypermediaTypes;
     }
 
-    // /**
-    // * @param configurer {@link HypermediaWebClientConfigurer}
-    // *
-    // * @return {@link WebClientCustomizer}
-    // */
     // @Bean
     // WebClientCustomizer webClientCustomizer(final HypermediaWebClientConfigurer configurer)
     // {

@@ -8,8 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.net.ssl.TrustManagerFactory;
+
+import jakarta.annotation.Resource;
 
 import com.jayway.jsonpath.JsonPath;
 import de.freese.spring.thymeleaf.ThymeleafApplication;
@@ -39,15 +40,9 @@ import reactor.netty.http.client.HttpClient;
         })
 class TestRestWithWebClientSSL extends AbstractRestTestCase
 {
-    /**
-     *
-     */
     @Resource
     private WebClient.Builder webClientBuilder;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeEach
     void beforeTest() throws Exception
     {
@@ -238,8 +233,9 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
         ResponseEntity<String> responseEntity = response.block();
         // ApiError apiError = responseEntity.getBody();
 
-        // assertEquals(HttpStatus.FORBIDDEN.value(), apiError.getHttpStatus());
-        assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
+        //        assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCode());
+        //        assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
     /**

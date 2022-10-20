@@ -10,9 +10,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @SpringBootApplication
 public class ClientEureka
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         // @formatter:off

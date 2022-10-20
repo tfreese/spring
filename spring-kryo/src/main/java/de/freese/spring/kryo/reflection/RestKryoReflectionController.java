@@ -15,11 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("reflection/ReflectionControllerApi")
 public class RestKryoReflectionController extends AbstractRestReflectionController implements ReflectionControllerApi
 {
-    /**
-     * Erstellt ein neues {@link RestKryoReflectionController} Object.
-     *
-     * @param kryoPool {@link Pool}<Kryo>
-     */
     public RestKryoReflectionController(final Pool<Kryo> kryoPool)
     {
         super(kryoPool);

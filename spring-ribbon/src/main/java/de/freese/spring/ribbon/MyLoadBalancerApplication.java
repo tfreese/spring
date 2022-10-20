@@ -27,16 +27,8 @@ import org.springframework.web.client.RestTemplate;
  */
 public class MyLoadBalancerApplication // implements RestTemplateCustomizer
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(MyLoadBalancerApplication.class);
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         // @formatter:off
@@ -71,12 +63,6 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
         System.exit(0);
     }
 
-    /**
-     * @param env {@link Environment}
-     * @param restTemplate {@link RestTemplate}
-     *
-     * @return {@link LoadBalancer}
-     */
     @Bean(destroyMethod = "shutdown")
     public LoadBalancer loadBalancer(final Environment env, final RestTemplate restTemplate)
     {
@@ -107,9 +93,6 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
         return loadBalancer;
     }
 
-    /**
-     * @return {@link RestTemplate}
-     */
     @Bean
     public RestTemplate restTemplate()
     {

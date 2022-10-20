@@ -9,17 +9,9 @@ import java.time.LocalDateTime;
 @FunctionalInterface
 public interface ReflectionControllerApi
 {
-    /**
-     *
-     */
     String INPUTSTREAM_IN_METHOD = "INPUTSTREAM_IN_METHOD";
-    /**
-     *
-     */
+
     String OUTPUTSTREAM_IN_METHOD = "OUTPUTSTREAM_IN_METHOD";
 
-    /**
-     * @return {@link LocalDateTime}
-     */
     LocalDateTime testKryo();
 }

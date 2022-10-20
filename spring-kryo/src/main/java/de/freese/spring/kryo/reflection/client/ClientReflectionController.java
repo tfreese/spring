@@ -13,27 +13,14 @@ import de.freese.spring.kryo.reflection.ReflectionControllerApi;
  */
 public class ClientReflectionController extends AbstractClientReflectionController<ReflectionControllerApi> implements ReflectionControllerApi
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         ReflectionControllerApi api = new ClientReflectionController(KryoApplication.KRYO_POOL, "http://localhost:65432", ConnectType.HTTP_CONNECTION);
         System.out.println(api.testKryo());
     }
 
-    /**
-     *
-     */
     private final ReflectionControllerApi proxy;
 
-    /**
-     * Erstellt ein neues {@link ClientReflectionController} Object.
-     *
-     * @param kryoPool {@link Pool}<Kryo>
-     * @param rootUri String
-     * @param connectType {@link ConnectType}
-     */
     public ClientReflectionController(final Pool<Kryo> kryoPool, final String rootUri, final ConnectType connectType)
     {
         super(kryoPool, rootUri);

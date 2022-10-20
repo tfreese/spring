@@ -21,26 +21,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class StageListener implements ApplicationListener<StageReadyEvent>
 {
-    /**
-     *
-     */
     private final ApplicationContext applicationContext;
-    /**
-     *
-     */
+
     private final String applicationTitle;
-    /**
-     *
-     */
+
     private final Resource fxml;
 
-    /**
-     * Erstellt ein neues {@link StageListener} Object.
-     *
-     * @param applicationContext {@link ApplicationContext}
-     * @param applicationTitle String
-     * @param fxml {@link Resource}
-     */
     public StageListener(final ApplicationContext applicationContext, @Value("${spring.application.ui.title}") final String applicationTitle,
                          @Value("classpath:/ui.fxml") final Resource fxml)
     {
