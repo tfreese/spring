@@ -1,17 +1,14 @@
 package de.freese.spring.web;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
-
 import jakarta.annotation.Resource;
-
-import org.springframework.stereotype.Component;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 /**
  * @author Thomas Freese
  */
-@Component
-@ManagedBean
+//@Component
+@Named
 @ViewScoped
 public class HelloBean
 {

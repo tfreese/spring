@@ -1,22 +1,20 @@
 package de.freese.spring.web;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
-
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
-import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
  */
-@Component
-@ManagedBean
+//@Component
+@Named
 @ViewScoped
 public class LineChartBean
 {

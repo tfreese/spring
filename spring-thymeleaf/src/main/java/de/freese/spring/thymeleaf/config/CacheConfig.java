@@ -15,9 +15,6 @@ import org.springframework.security.core.userdetails.cache.SpringCacheBasedUserC
 @Configuration
 public class CacheConfig
 {
-    /**
-     * @return {@link CacheManager}
-     */
     @Bean
     CacheManager cacheManager()
     {
@@ -28,11 +25,6 @@ public class CacheConfig
         return cacheManager;
     }
 
-    /**
-     * @param cacheManager {@link CacheManager}
-     *
-     * @return {@link CacheManager}
-     */
     @Bean
     UserCache userCache(final CacheManager cacheManager)
     {

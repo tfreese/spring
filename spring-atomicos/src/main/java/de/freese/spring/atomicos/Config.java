@@ -4,12 +4,13 @@ package de.freese.spring.atomicos;
 import java.util.Properties;
 
 import javax.sql.XADataSource;
-import javax.transaction.SystemException;
+
+import jakarta.transaction.SystemException;
 
 import com.atomikos.icatch.jta.UserTransactionManager;
+import com.atomikos.spring.AtomikosDataSourceBean;
 import org.h2.jdbcx.JdbcDataSource;
 import org.springframework.boot.jdbc.DatabaseDriver;
-import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;

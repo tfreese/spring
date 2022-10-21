@@ -190,11 +190,11 @@ public class SecurityConfig
 //                .antMatcher("/rest/**") // Nur auf den /rest Pfad beschränken.
 //                    .authorizeRequests()
 //                    .anyRequest().authenticated()// Alle HTTP Methoden zulässig.
-                .authorizeRequests()
-                    .antMatchers("/", "/index", "/createError", "/login/**", "/actuator/**").permitAll()
-                    //.antMatchers(HttpMethod.GET,"/admin/**").hasRole("ADMIN")
-                    .antMatchers("/web/**").authenticated()
-                    .antMatchers("/rest/**").authenticated()
+                .authorizeHttpRequests()
+                    .requestMatchers("/", "/index", "/createError", "/login/**", "/actuator/**").permitAll()
+                    //.requestMatchers(HttpMethod.GET,"/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/web/**").authenticated()
+                    .requestMatchers("/rest/**").authenticated()
                     .anyRequest().denyAll()
                 .and()
                     //.httpBasic().disable()
@@ -341,7 +341,7 @@ public class SecurityConfig
         return webSecurity ->
                 // Pfade ohne Sicherheitsprüfung.
                 webSecurity.ignoring()
-                        .antMatchers("/favicon.ico", "/manifest.appcache", "/css/**", "/js/**", "/images/**")
+                        .requestMatchers("/favicon.ico", "/manifest.appcache", "/css/**", "/js/**", "/images/**")
                 ;
         // @formatter:on
     }

@@ -1,17 +1,19 @@
 // Created: 14.09.2018
 package de.freese.spring.thymeleaf.config;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.config.Registry;
-import org.apache.http.config.RegistryBuilder;
-import org.apache.http.conn.socket.ConnectionSocketFactory;
-import org.apache.http.conn.socket.PlainConnectionSocketFactory;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.ssl.SSLContexts;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
+import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.core5.http.config.Registry;
+import org.apache.hc.core5.http.config.RegistryBuilder;
+import org.apache.hc.core5.ssl.SSLContexts;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -25,26 +27,17 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Profile("!with-ssl")
 public class HttpClientConfigDefault
 {
-    /**
-     *
-     */
     private static final int MAX_TOTAL_CONNECTIONS = 50;
 
-    /**
-     * @param poolingConnectionManager {@link PoolingHttpClientConnectionManager}
-     *
-     * @return {@link HttpClient}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @Bean
     public HttpClient httpClient(final PoolingHttpClientConnectionManager poolingConnectionManager) throws Exception
     {
         // @formatter:off
         RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectionRequestTimeout(3000)
-                .setConnectTimeout(3000)
-                .setSocketTimeout(3000).build()
+                .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
+                .setConnectTimeout(3000, TimeUnit.MILLISECONDS)
+                .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
+                .build()
                 ;
 
         return HttpClients.custom()
@@ -56,11 +49,6 @@ public class HttpClientConfigDefault
         // @formatter:on
     }
 
-    /**
-     * @return {@link PoolingHttpClientConnectionManager}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @Bean
     public PoolingHttpClientConnectionManager poolingConnectionManager() throws Exception
     {

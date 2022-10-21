@@ -5,7 +5,6 @@ import java.security.SecureRandom;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -21,24 +20,20 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.Secret
 // @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class TestPasswordEncoder
 {
-    private static final Pbkdf2PasswordEncoder pbkdf2_SHA1 = new Pbkdf2PasswordEncoder("mySecret");
-
-    private static final Pbkdf2PasswordEncoder pbkdf2_SHA512 = new Pbkdf2PasswordEncoder("mySecret");
-
-    @BeforeAll
-    static void beforeClass()
-    {
-        pbkdf2_SHA512.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
-        pbkdf2_SHA512.setEncodeHashAsBase64(false);
-    }
+    //    @BeforeAll
+    //    static void beforeClass()
+    //    {
+    //        pbkdf2_SHA512.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
+    //        pbkdf2_SHA512.setEncodeHashAsBase64(false);
+    //    }
 
     static Stream<Arguments> createPasswordEncoder()
     {
         // @formatter:off
         return Stream.of(
                 Arguments.of("BCrypt", new BCryptPasswordEncoder(10, new SecureRandom())),
-                Arguments.of("Pbkdf2_SHA1", pbkdf2_SHA1),
-                Arguments.of("Pbkdf2_SHA512", pbkdf2_SHA512)
+                Arguments.of("Pbkdf2_SHA1", new Pbkdf2PasswordEncoder("mySecret", 16, 310000, SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA1)),
+                Arguments.of("Pbkdf2_SHA512", new Pbkdf2PasswordEncoder("mySecret", 16, 310000, SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512))
                 );
         // @formatter:on
     }
@@ -49,6 +44,11 @@ class TestPasswordEncoder
     void testPasswordEncoder(final String name, final PasswordEncoder passwordEncoder)
     {
         String password = "gehaim";
+
+        //        if (passwordEncoder instanceof Pbkdf2PasswordEncoder pe)
+        //        {
+        //            pe.setEncodeHashAsBase64(true);
+        //        }
 
         String encoded = passwordEncoder.encode(password);
 

@@ -7,8 +7,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Optional;
 
-import javax.faces.webapp.FacesServlet;
-
+import jakarta.faces.webapp.FacesServlet;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletContext;
 
@@ -80,11 +79,11 @@ public class SpringBootWebApp //implements WebMvcConfigurer
         servletContext.setInitParameter("com.sun.faces.compressViewState", Boolean.TRUE.toString());
         servletContext.setInitParameter("com.sun.faces.enableMissingResourceLibraryDetection", Boolean.TRUE.toString());
 
-        // Damit JSF ohne web.xml funktioniert.
+        // Damit JSF ohne web.xml_ funktioniert.
         servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
 
         // Verhindert Fehlermeldungen wie "JSP-Version des Containers ist älter als ..."
-        servletContext.setInitParameter("com.sun.faces.expressionFactory", "org.apache.el.ExpressionFactoryImpl");
+        //        servletContext.setInitParameter("com.sun.faces.expressionFactory", "org.apache.el.ExpressionFactoryImpl");
 
         servletContext.setInitParameter("org.primefaces.extensions.DELIVER_UNCOMPRESSED_RESOURCES", Boolean.FALSE.toString());
 

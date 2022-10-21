@@ -17,7 +17,7 @@ import de.freese.spring.thymeleaf.HttpHeaderInterceptor;
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 import de.freese.spring.thymeleaf.exception.ApiError;
 import de.freese.spring.thymeleaf.model.Person;
-import org.apache.http.client.HttpClient;
+import org.apache.hc.client5.http.classic.HttpClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.client.RestTemplateBuilder;

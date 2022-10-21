@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -96,13 +96,18 @@
     <dependencies>
         <!-- compile scope -->
         <!-- javax.faces:jsf-impl -->
-        <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-api</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.sun.faces</groupId>-->
+        <!--            <artifactId>jsf-api</artifactId>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>com.sun.faces</groupId>
             <artifactId>jsf-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <version>${version_jakarta.platform}</version>
         </dependency>
         <dependency>
             <groupId>org.primefaces</groupId>
@@ -117,6 +122,7 @@
         <dependency>
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>primefaces-extensions</artifactId>
+            <!--            <classifier>jakarta</classifier>-->
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -131,11 +137,11 @@
         </dependency>
 
         <!-- provided scope -->
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
-            <scope>provided</scope>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.tomcat.embed</groupId>-->
+        <!--            <artifactId>tomcat-embed-jasper</artifactId>-->
+        <!--            <scope>provided</scope>-->
+        <!--        </dependency>-->
 
         <!-- test scope -->
     </dependencies>
