@@ -4,8 +4,9 @@ package de.freese.spring.atomicos;
 import java.sql.Connection;
 import java.sql.Statement;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
+
+import jakarta.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,18 +22,11 @@ import org.springframework.stereotype.Component;
 @Order(1)
 public class CreateDatabase implements ApplicationRunner
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateDatabase.class);
-    /**
-     *
-     */
+
     @Resource
     private DataSource dataSourceAddress;
-    /**
-     *
-     */
+
     @Resource
     private DataSource dataSourcePerson;
 

@@ -6,9 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
-import javax.transaction.Transactional;
+
+import jakarta.annotation.Resource;
+import jakarta.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,27 +21,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class TxService
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(TxService.class);
-    /**
-     *
-     */
+
     @Resource
     private DataSource dataSourceAddress;
-    /**
-     *
-     */
+
     @Resource
     private DataSource dataSourcePerson;
 
-    /**
-     * @param personName String
-     * @param city String
-     *
-     * @throws Exception Falls was schiefgeht
-     */
     @Transactional(rollbackOn = Exception.class)
     public void insertData(String personName, String city) throws Exception
     {
@@ -78,9 +66,6 @@ public class TxService
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht
-     */
     public void selectAll() throws Exception
     {
         try (Connection connectionPerson = this.dataSourcePerson.getConnection();

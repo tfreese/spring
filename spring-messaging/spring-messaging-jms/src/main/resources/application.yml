@@ -5,25 +5,13 @@
 
 debug: false
 
-#vm://localhost?broker.persistent=false
-#vm://embedded?broker.persistent=false,useShutdownHook=false
+artemis:
+    broker-url: vm://0
+    #broker-url: tcp://localhost:61616
 
-# Für externen Broker-Service
-#broker-url: tcp://localhost:61616
-
-spring:
-   activemq:
-      broker-url: vm://embedded?broker.persistent=false,useShutdownHook=true      
-      #user:
-      #password: 
-      in-memory: true
-      pool:
-         enabled: false    
-#    jms:
-#       cache:
-#          enabled: true
-   jmx:
-      enabled: false
-   main:  
-      web-application-type: NONE
-
+logging:
+    level:
+        root: INFO
+        org.apache.activemq: ERROR
+        org.apache.activemq.artemis.core.server: INFO
+        org.springframework: INFO
