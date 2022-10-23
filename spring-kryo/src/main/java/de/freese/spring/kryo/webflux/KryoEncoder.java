@@ -4,6 +4,9 @@ package de.freese.spring.kryo.webflux;
 import java.util.List;
 import java.util.Map;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.util.Pool;
 import org.reactivestreams.Publisher;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -12,11 +15,6 @@ import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.HttpMessageEncoder;
 import org.springframework.util.MimeType;
-
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Output;
-import com.esotericsoftware.kryo.util.Pool;
-
 import reactor.core.publisher.Flux;
 
 /**
@@ -24,11 +22,6 @@ import reactor.core.publisher.Flux;
  */
 public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessageEncoder<Object>
 {
-    /**
-     * Erstellt ein neues {@link KryoEncoder} Object.
-     *
-     * @param kryoPool {@link Pool}<Kryo>
-     */
     public KryoEncoder(final Pool<Kryo> kryoPool)
     {
         super(kryoPool);
@@ -46,7 +39,7 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
 
     /**
      * @see org.springframework.core.codec.Encoder#encode(org.reactivestreams.Publisher, org.springframework.core.io.buffer.DataBufferFactory,
-     *      org.springframework.core.ResolvableType, org.springframework.util.MimeType, java.util.Map)
+     * org.springframework.core.ResolvableType, org.springframework.util.MimeType, java.util.Map)
      */
     @Override
     public Flux<DataBuffer> encode(final Publisher<? extends Object> inputStream, final DataBufferFactory bufferFactory, final ResolvableType elementType,
@@ -57,7 +50,7 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
 
     /**
      * @see org.springframework.core.codec.Encoder#encodeValue(java.lang.Object, org.springframework.core.io.buffer.DataBufferFactory,
-     *      org.springframework.core.ResolvableType, org.springframework.util.MimeType, java.util.Map)
+     * org.springframework.core.ResolvableType, org.springframework.util.MimeType, java.util.Map)
      */
     @Override
     public DataBuffer encodeValue(final Object value, final DataBufferFactory bufferFactory, final ResolvableType valueType, final MimeType mimeType,

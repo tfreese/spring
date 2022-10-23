@@ -14,15 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class AmqpReceiver
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(AmqpReceiver.class);
 
-    /**
-     * @param email {@link Email}
-     * @param queue String
-     */
     @RabbitListener(queues = SpringQpidApplication.QUEUE_NAME)
     // @SendTo("returnQueue")
     // public void receiveMessage(final Email email)

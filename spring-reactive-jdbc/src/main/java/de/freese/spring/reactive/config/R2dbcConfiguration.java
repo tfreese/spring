@@ -20,9 +20,6 @@ import org.springframework.context.annotation.Profile;
         })
 public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
 {
-    /**
-     * @return {@link ConnectionFactory}
-     */
     @Bean
     ConnectionFactory connectionFactory()
     {
@@ -50,10 +47,6 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
 
     // /**
     // * Erspart einem das DatabaseClient.sql(...).fetch().then().as(TransactionalOperator::transactional)
-    // *
-    // * @param connectionFactory {@link ConnectionFactory}
-    // *
-    // * @return {@link TransactionAwareConnectionFactoryProxy}
     // */
     // @Bean
     // TransactionAwareConnectionFactoryProxy transactionAwareConnectionFactoryProxy(final ConnectionFactory connectionFactory)
@@ -63,10 +56,6 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
 
     // /**
     // * Wird automatisch erzeugt.
-    // *
-    // * @param transactionManager {@link ReactiveTransactionManager}
-    // *
-    // * @return {@link TransactionalOperator}
     // */
     // @Bean
     // TransactionalOperator transactionalOperator(final ReactiveTransactionManager transactionManager)
@@ -76,10 +65,6 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
 
     // /**
     // * Wird automatisch erzeugt.
-    // *
-    // * @param connectionFactory {@link ConnectionFactory}
-    // *
-    // * @return {@link ReactiveTransactionManager}
     // */
     // @Bean
     // ReactiveTransactionManager transactionManager(final ConnectionFactory connectionFactory)
@@ -87,11 +72,6 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
     // return new R2dbcTransactionManager(connectionFactory);
     // }
 
-    // /**
-    // * @param connectionFactory {@link ConnectionFactory}
-    // *
-    // * @return {@link ConnectionFactoryInitializer}
-    // */
     // @Bean
     // public ConnectionFactoryInitializer initializer(final ConnectionFactory connectionFactory)
     // {

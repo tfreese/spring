@@ -25,7 +25,7 @@ class TestWebJdbc implements TestWeb
     private JdbcTemplate jdbcTemplate;
 
     @Value("${local.server.port}")
-    private final int port = -1;
+    private int port;
 
     private WebClient webClient;
 

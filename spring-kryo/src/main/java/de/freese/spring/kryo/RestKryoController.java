@@ -18,8 +18,6 @@ public class RestKryoController
 {
     /**
      * curl -X GET "http://localhost:8081/json"
-     *
-     * @return {@link LocalDateTime}
      */
     @GetMapping(path = "json", produces = MediaType.APPLICATION_JSON_VALUE)
     public LocalDateTime testJson()
@@ -29,8 +27,6 @@ public class RestKryoController
 
     /**
      * curl -X GET "http://localhost:8081/kryo" --output -
-     *
-     * @return {@link LocalDateTime}
      */
     @GetMapping(path = "kryo", produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public LocalDateTime testKryo()

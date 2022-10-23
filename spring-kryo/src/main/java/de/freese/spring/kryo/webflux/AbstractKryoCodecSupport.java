@@ -20,25 +20,14 @@ public abstract class AbstractKryoCodecSupport
      * application/x-java-object; application/x-kryo
      */
     public static final MimeType APPLICATION_KRYO = MimeType.valueOf(KryoHttpMessageConverter.APPLICATION_KRYO_VALUE);
-    /**
-     *
-     */
+
     protected static final List<MediaType> MEDIA_TYPES =
             Stream.of(APPLICATION_KRYO).map(mimeType -> new MediaType(mimeType.getType(), mimeType.getSubtype())).toList();
-    /**
-     *
-     */
+
     protected static final List<MimeType> MIME_TYPES = List.of(APPLICATION_KRYO);
-    /**
-     *
-     */
+
     private final Pool<Kryo> kryoPool;
 
-    /**
-     * Erstellt ein neues {@link AbstractKryoCodecSupport} Object.
-     *
-     * @param kryoPool {@link Pool}<Kryo>
-     */
     protected AbstractKryoCodecSupport(final Pool<Kryo> kryoPool)
     {
         super();
@@ -46,19 +35,11 @@ public abstract class AbstractKryoCodecSupport
         this.kryoPool = Objects.requireNonNull(kryoPool, "kryoPool required");
     }
 
-    /**
-     * @return {@link Pool}<Kryo>
-     */
     protected Pool<Kryo> getKryoPool()
     {
         return this.kryoPool;
     }
 
-    /**
-     * @param mimeType {@link MimeType}
-     *
-     * @return boolean
-     */
     protected boolean supportsMimeType(final MimeType mimeType)
     {
         return ((mimeType == null) || MIME_TYPES.stream().anyMatch(m -> m.isCompatibleWith(mimeType)));

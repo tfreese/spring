@@ -14,20 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class AmqpSender
 {
-    /**
-    *
-    */
     private static final Logger LOGGER = LoggerFactory.getLogger(AmqpSender.class);
-    /**
-     *
-     */
+
     private final AmqpTemplate amqpTemplate;
 
-    /**
-     * Erstellt ein neues {@link AmqpSender} Object.
-     *
-     * @param amqpTemplate {@link AmqpTemplate}
-     */
     public AmqpSender(final AmqpTemplate amqpTemplate)
     {
         super();
@@ -35,9 +25,6 @@ public class AmqpSender
         this.amqpTemplate = Objects.requireNonNull(amqpTemplate, "amqpTemplate required");
     }
 
-    /**
-     * @param email {@link Email}
-     */
     public void send(final Email email)
     {
         LOGGER.info("Sending message: {}", email);

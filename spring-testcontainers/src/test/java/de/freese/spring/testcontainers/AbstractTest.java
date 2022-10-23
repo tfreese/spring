@@ -32,7 +32,7 @@ import org.springframework.test.context.ActiveProfiles;
 abstract class AbstractTest
 {
     @Resource
-    DataSource dataSource;
+    private DataSource dataSource;
 
     @Resource
     private JdbcDialect jdbcDialect;
@@ -43,7 +43,7 @@ abstract class AbstractTest
     @AfterEach
     void afterEach() throws Exception
     {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = getDataSource().getConnection();
              Statement statement = connection.createStatement())
         {
             statement.execute("DROP TABLE person");
@@ -56,7 +56,7 @@ abstract class AbstractTest
     {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("db-schema.sql"));
-        populator.execute(dataSource);
+        populator.execute(getDataSource());
     }
 
     //    @Sql(scripts = "classpath:db-schema.sql")
@@ -136,5 +136,10 @@ abstract class AbstractTest
 
         assertNotNull(persons);
         assertEquals(0, persons.size());
+    }
+
+    protected DataSource getDataSource()
+    {
+        return this.dataSource;
     }
 }

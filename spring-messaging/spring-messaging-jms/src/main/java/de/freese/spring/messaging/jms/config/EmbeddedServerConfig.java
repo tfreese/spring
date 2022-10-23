@@ -22,6 +22,15 @@ public class EmbeddedServerConfig
         //        config.addAcceptorConfiguration("tcp", "tcp://127.0.0.1:61616");
         config.setSecurityEnabled(false);
 
+        // Kein Zwischen-Speichern von Daten.
+        config.setPersistenceEnabled(false);
+
+        //        Path storePath = Paths.get(".activeMQ").toAbsolutePath();
+        //        config.setBindingsDirectory(storePath.resolve("bindings").toString());
+        //        config.setJournalDirectory(storePath.resolve("journal").toString());
+        //        config.setLargeMessagesDirectory(storePath.resolve("largeMessages").toString());
+        //        config.setPagingDirectory(storePath.resolve("paging").toString());
+
         EmbeddedActiveMQ server = new EmbeddedActiveMQ();
         server.setConfiguration(config);
         //        ActiveMQServer server = new ActiveMQServerImpl(config);

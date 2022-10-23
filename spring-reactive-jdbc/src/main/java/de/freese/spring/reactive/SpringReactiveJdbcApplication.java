@@ -17,9 +17,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class SpringReactiveJdbcApplication
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         SpringApplication.run(SpringReactiveJdbcApplication.class, args);

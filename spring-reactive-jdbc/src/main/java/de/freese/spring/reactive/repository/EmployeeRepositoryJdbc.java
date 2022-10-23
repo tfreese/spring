@@ -67,16 +67,8 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
         }
     }
 
-    /**
-     *
-     */
     private final JdbcTemplate jdbcTemplate;
 
-    /**
-     * Erstellt ein neues {@link EmployeeRepositoryJdbc} Object.
-     *
-     * @param dataSource {@link DataSource}
-     */
     public EmployeeRepositoryJdbc(final DataSource dataSource)
     {
         super();

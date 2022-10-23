@@ -25,9 +25,6 @@ abstract class AbstractClientConfig
 {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    // /**
-    // * @return {@link ReactorResourceFactory}
-    // */
     // @Bean
     // ReactorResourceFactory reactorResourceFactory()
     // {
@@ -88,8 +85,6 @@ abstract class AbstractClientConfig
 
     // /**
     // * Optional
-    // *
-    // * @return {@link RSocketStrategies}
     // */
     // @Bean
     // RSocketStrategies rSocketStrategies()

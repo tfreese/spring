@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.util.Pool;
-import de.freese.spring.kryo.KryoApplication;
 import de.freese.spring.kryo.reflection.ReflectionControllerApi;
 
 /**
@@ -13,12 +12,6 @@ import de.freese.spring.kryo.reflection.ReflectionControllerApi;
  */
 public class ClientReflectionController extends AbstractClientReflectionController<ReflectionControllerApi> implements ReflectionControllerApi
 {
-    public static void main(final String[] args)
-    {
-        ReflectionControllerApi api = new ClientReflectionController(KryoApplication.KRYO_POOL, "http://localhost:65432", ConnectType.HTTP_CONNECTION);
-        System.out.println(api.testKryo());
-    }
-
     private final ReflectionControllerApi proxy;
 
     public ClientReflectionController(final Pool<Kryo> kryoPool, final String rootUri, final ConnectType connectType)

@@ -7,38 +7,19 @@ import java.util.Objects;
  */
 public class Employee
 {
-    /**
-     *
-     */
     private String department;
-    /**
-     *
-     */
+
     private String firstName;
-    /**
-     *
-     */
+
     private long id;
-    /**
-     *
-     */
+
     private String lastName;
 
-    /**
-     * Erstellt ein neues {@link Employee} Object.
-     */
     public Employee()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link Employee} Object.
-     *
-     * @param lastName String
-     * @param firstName String
-     * @param department String
-     */
     public Employee(final String lastName, final String firstName, final String department)
     {
         super();
@@ -48,14 +29,6 @@ public class Employee
         this.department = department;
     }
 
-    /**
-     * Erstellt ein neues {@link Employee} Object.
-     *
-     * @param lastName String
-     * @param firstName String
-     * @param department String
-     * @param id long
-     */
     public Employee(final String lastName, final String firstName, final String department, final long id)
     {
         this(lastName, firstName, department);
@@ -81,42 +54,25 @@ public class Employee
 
         Employee other = (Employee) obj;
 
-        if ((this.id != other.id) || !Objects.equals(this.firstName, other.firstName) || !Objects.equals(this.lastName, other.lastName)
-                || !Objects.equals(this.department, other.department))
-        {
-            return false;
-        }
-
-        return true;
+        return (this.id == other.id) && Objects.equals(this.firstName, other.firstName) && Objects.equals(this.lastName, other.lastName)
+                && Objects.equals(this.department, other.department);
     }
 
-    /**
-     * @return tString
-     */
     public String getDepartment()
     {
         return this.department;
     }
 
-    /**
-     * @return String
-     */
     public String getFirstName()
     {
         return this.firstName;
     }
 
-    /**
-     * @return long
-     */
     public long getId()
     {
         return this.id;
     }
 
-    /**
-     * @return String
-     */
     public String getLastName()
     {
         return this.lastName;
@@ -131,33 +87,21 @@ public class Employee
         return Objects.hash(this.id, this.firstName, this.lastName, this.department);
     }
 
-    /**
-     * @param department String
-     */
     public void setDepartment(final String department)
     {
         this.department = department;
     }
 
-    /**
-     * @param firstName String
-     */
     public void setFirstName(final String firstName)
     {
         this.firstName = firstName;
     }
 
-    /**
-     * @param id long
-     */
     public void setId(final long id)
     {
         this.id = id;
     }
 
-    /**
-     * @param lastName String
-     */
     public void setLastName(final String lastName)
     {
         this.lastName = lastName;

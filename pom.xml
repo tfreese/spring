@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -50,9 +50,9 @@
     </properties>
 
     <modules>
-        <module>spring-atomicos</module>
+        <!--        <module>spring-atomicos</module>-->
         <module>spring-autoconfigure-dbserver</module>
-        <module>spring-cloud</module>
+        <!--        <module>spring-cloud</module>-->
         <module>spring-hateoas</module>
         <module>spring-hystrix</module>
         <module>spring-integration</module>
@@ -65,7 +65,7 @@
         <module>spring-openapi</module>
         <module>spring-reactive-jdbc</module>
         <module>spring-resilience</module>
-        <module>spring-ribbon</module>
+        <!--        <module>spring-ribbon</module>-->
         <module>spring-rsocket</module>
         <module>spring-testcontainers</module>
         <module>spring-thymeleaf</module>

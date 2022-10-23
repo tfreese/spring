@@ -35,6 +35,6 @@ class TestContainerOracle extends AbstractTest
     {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("db-schema-oracle.sql"));
-        populator.execute(dataSource);
+        populator.execute(getDataSource());
     }
 }

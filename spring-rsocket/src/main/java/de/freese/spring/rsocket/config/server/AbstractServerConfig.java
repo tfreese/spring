@@ -72,9 +72,7 @@ abstract class AbstractServerConfig
     // RSocketServerFactory rSocketServerFactory()
     // {
     // // TODO RSocketServer manuell erstellen und konfigurieren.
-    //        // @formatter:off
-//        return socketAcceptor -> null;
-//        // @formatter:on
+    //        return socketAcceptor -> null;
     // }
 
     @Bean
@@ -136,8 +134,6 @@ abstract class AbstractServerConfig
 
     // /**
     // * Optional
-    // *
-    // * @return {@link RSocketStrategies}
     // */
     // @Bean
     // RSocketStrategies rSocketStrategies()

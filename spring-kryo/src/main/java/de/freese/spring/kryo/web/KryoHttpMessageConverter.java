@@ -5,19 +5,17 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import java.util.function.Supplier;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.util.Pool;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
-
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
-import com.esotericsoftware.kryo.util.Pool;
 
 /**
  * @author Thomas Freese
@@ -32,20 +30,11 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
      * application/x-java-object; application/x-kryo
      */
     public static final String APPLICATION_KRYO_VALUE = "application/x-kryo";
-    /**
-     *
-     */
+
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
-    /**
-     *
-     */
+
     private final Pool<Kryo> kryoPool;
 
-    /**
-     * Erstellt ein neues {@link KryoHttpMessageConverter} Object.
-     *
-     * @param kryoPool {@link Supplier}
-     */
     public KryoHttpMessageConverter(final Pool<Kryo> kryoPool)
     {
         super(DEFAULT_CHARSET, APPLICATION_KRYO); // DefaultContentType

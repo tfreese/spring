@@ -26,9 +26,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 public class KryoApplication implements WebMvcConfigurer
 {
-    /**
-     *
-     */
     public static final Pool<Kryo> KRYO_POOL = new Pool<>(true, true)
     {
         /**
@@ -61,9 +58,6 @@ public class KryoApplication implements WebMvcConfigurer
         }
     };
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         new SpringApplicationBuilder(KryoApplication.class).run(args);
@@ -78,9 +72,6 @@ public class KryoApplication implements WebMvcConfigurer
         converters.add(new KryoHttpMessageConverter(KRYO_POOL));
     }
 
-    /**
-     * @return {@link Pool}<Kryo>
-     */
     @Bean
     public Pool<Kryo> kryoPool()
     {

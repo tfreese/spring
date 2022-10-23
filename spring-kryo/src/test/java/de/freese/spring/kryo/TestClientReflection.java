@@ -23,13 +23,13 @@ import org.springframework.test.context.ActiveProfiles;
 class TestClientReflection
 {
     @LocalServerPort
-    private final int localServerPort = 0;
+    private int localServerPort;
 
     @Test
     void testHttpConnection()
     {
-        ReflectionControllerApi fassade =
-                new ClientReflectionController(KryoApplication.KRYO_POOL, "http://localhost:" + this.localServerPort, ConnectType.HTTP_CONNECTION);
+        String rootUri = "http://localhost:" + this.localServerPort;
+        ReflectionControllerApi fassade = new ClientReflectionController(KryoApplication.KRYO_POOL, rootUri, ConnectType.HTTP_CONNECTION);
 
         LocalDateTime localDateTime = fassade.testKryo();
 
@@ -39,8 +39,8 @@ class TestClientReflection
     @Test
     void testRestTemplate()
     {
-        ReflectionControllerApi fassade =
-                new ClientReflectionController(KryoApplication.KRYO_POOL, "http://localhost:" + this.localServerPort, ConnectType.REST_TEMPLATE);
+        String rootUri = "http://localhost:" + this.localServerPort;
+        ReflectionControllerApi fassade = new ClientReflectionController(KryoApplication.KRYO_POOL, rootUri, ConnectType.REST_TEMPLATE);
 
         LocalDateTime localDateTime = fassade.testKryo();
 

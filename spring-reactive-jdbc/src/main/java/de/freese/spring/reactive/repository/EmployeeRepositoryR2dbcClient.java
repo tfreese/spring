@@ -39,20 +39,10 @@ public class EmployeeRepositoryR2dbcClient implements EmployeeRepository
         return employee;
     };
 
-    /**
-     *
-     */
     private final R2dbc r2dbc;
-    // /**
-    // *
-    // */
+
     // private final R2dbcEntityTemplate r2dbcTemplate;
 
-    /**
-     * Erstellt ein neues {@link EmployeeRepositoryR2dbcClient} Object.
-     *
-     * @param connectionFactory {@link ConnectionFactory}
-     */
     public EmployeeRepositoryR2dbcClient(final ConnectionFactory connectionFactory)
     {
         super();

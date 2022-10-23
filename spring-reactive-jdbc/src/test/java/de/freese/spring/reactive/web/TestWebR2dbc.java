@@ -32,7 +32,7 @@ class TestWebR2dbc implements TestWeb
     private DatabaseClient databaseClient;
 
     @Value("${local.server.port}")
-    private final int port = -1;
+    private int port;
 
     private WebClient webClient;
 

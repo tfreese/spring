@@ -22,9 +22,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
         })
 public class JdbcConfiguration
 {
-    /**
-     * @return {@link DataSource}
-     */
     @Bean
     DataSource dataSource()
     {
@@ -43,10 +40,6 @@ public class JdbcConfiguration
 
     // /**
     // * Wird automatisch erzeugt.
-    // *
-    // * @param dataSource {@link DataSource}
-    // *
-    // * @return {@link TransactionManager}
     // */
     // @Bean
     // TransactionManager transactionManager(final DataSource dataSource)
@@ -54,11 +47,6 @@ public class JdbcConfiguration
     // return new DataSourceTransactionManager(dataSource);
     // }
 
-    // /**
-    // * @param dataSource {@link DataSource}
-    // *
-    // * @return {@link DataSourceInitializer}
-    // */
     // @Bean
     // DataSourceInitializer initializer(final DataSource dataSource)
     // {

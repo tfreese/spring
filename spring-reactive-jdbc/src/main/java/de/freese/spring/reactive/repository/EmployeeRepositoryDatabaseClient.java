@@ -42,16 +42,8 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
         return employee;
     };
 
-    /**
-     *
-     */
     private final DatabaseClient databaseClient;
 
-    /**
-     * Erstellt ein neues {@link EmployeeRepositoryDatabaseClient} Object.
-     *
-     * @param connectionFactory {@link ConnectionFactory}
-     */
     public EmployeeRepositoryDatabaseClient(final ConnectionFactory connectionFactory)
     {
         super();

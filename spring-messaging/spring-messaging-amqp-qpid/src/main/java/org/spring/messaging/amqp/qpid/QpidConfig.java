@@ -19,29 +19,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class QpidConfig
 {
-    /**
-     *
-     */
     private static final String INITIAL_CONFIGURATION = "qpid-config.json";
-    /**
-     *
-     */
+
     private static final String QPID_HOME_DIR = System.getProperty("user.dir");
-    /**
-     *
-     */
+
     private static final String QPID_WORK_DIR = QPID_HOME_DIR + File.separator + "qpid-work";
-    /**
-     *
-     */
+
     @Value("${spring.rabbitmq.port}")
     private int port;
 
-    // /**
-    // * @param connectionFactory {@link ConnectionFactory}
-    // * @param listenerAdapter {@link MessageListenerAdapter}
-    // * @return {@link MessageListenerContainer}, final MessageListenerAdapter listenerAdapter
-    // */
     // @Bean
     // public MessageListenerContainer container(final ConnectionFactory connectionFactory)
     // {
@@ -53,21 +39,12 @@ public class QpidConfig
     // return container;
     // }
 
-    // /**
-    // * @param receiver {@link Receiver}
-    // * @return {@link MessageListenerAdapter}
-    // */
     // @Bean
     // public MessageListenerAdapter listenerAdapter(final Receiver receiver)
     // {
     // return new MessageListenerAdapter(receiver, "receiveMessage");
     // }
 
-    /**
-     * @return {@link SystemLauncher}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @Bean(destroyMethod = "shutdown")
     public SystemLauncher systemLauncher() throws Exception
     {
