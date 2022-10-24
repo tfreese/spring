@@ -1,8 +1,6 @@
 package de.freese.spring.web;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,11 +12,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class DataService
 {
-    public String getDate()
-    {
-        return LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
-    }
-
     public Map<Integer, Double> getLineChartData()
     {
         Map<Integer, Double> map = new LinkedHashMap<>();
@@ -30,5 +23,10 @@ public class DataService
         map.put(6, 630.0);
 
         return map;
+    }
+
+    public LocalDateTime getLocalDateTime()
+    {
+        return LocalDateTime.now();
     }
 }

@@ -18,6 +18,10 @@
 
 <h:body style="margin-left:50px">
     <h2>#{msg.ueberschrift}</h2>
+    <h:outputText id="hello-output" value="#{msg.hello} #{dataBean.localDateTime}"/>
+    <br/>
+    <p:outputText id="hello-output" value="#{msg.hello} #{dataBean.localDateTimeFormatted}"/>
+    <br/>
     <p:chart type="line" model="#{lineChartBean.lineModel}" style="height:400px;width:600px"/>
 </h:body>
 

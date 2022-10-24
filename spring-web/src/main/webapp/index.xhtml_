@@ -10,7 +10,7 @@
 </h:head>
 
 <h:body>
-    <h:outputText id="hello-output" value="#{msg.hello} #{helloBean.date}"/>
+    <h:outputText id="hello-output" value="#{msg.hello} #{dataBean.date}"/>
     <br/>
 </h:body>
 

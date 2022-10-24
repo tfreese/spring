@@ -32,7 +32,7 @@ public class SpringBootWebApp //implements WebMvcConfigurer
         int port = context.getEnvironment().getProperty("local.server.port", Integer.class);
         Optional<String> contextPath = Optional.ofNullable(context.getEnvironment().getProperty("server.servlet.context-path", String.class));
 
-        URL url = new URL("http://localhost:" + port + contextPath.orElse("") + "/index.xhtml");
+        URL url = new URL("http://localhost:" + port + contextPath.orElse("") + "/index.xhtml_");
         URI uri = url.toURI();
 
         try
