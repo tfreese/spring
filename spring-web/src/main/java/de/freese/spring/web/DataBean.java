@@ -6,13 +6,13 @@ import java.time.format.DateTimeFormatter;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
+
+import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
  */
-//@Component
-@Named
+@Component  // siehe faces-config.xml: el-resolver
 @ViewScoped
 public class DataBean
 {

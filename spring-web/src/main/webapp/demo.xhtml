@@ -6,7 +6,7 @@
         xmlns="http://www.w3.org/1999/xhtml"
 >
 
-<h:head>
+<head>
     <title>JSF Demo</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -14,15 +14,15 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, max-age=0, must-revalidate"/>
     <meta http-equiv="Pragma" content="no-cache"/>
     <meta http-equiv="Expires" content="0"/>
-</h:head>
+</head>
 
-<h:body style="margin-left:50px">
-    <h2>#{msg.ueberschrift}</h2>
-    <h:outputText id="hello-output" value="#{msg.hello} #{dataBean.localDateTime}"/>
-    <br/>
-    <p:outputText id="hello-output" value="#{msg.hello} #{dataBean.localDateTimeFormatted}"/>
-    <br/>
-    <p:chart type="line" model="#{lineChartBean.lineModel}" style="height:400px;width:600px"/>
-</h:body>
+<body style="margin-left:50px">
+<h2>#{msg.ueberschrift}</h2>
+<h:outputText id="hello-output" value="#{msg.hello} #{dataBean.localDateTime}"/>
+<br/>
+<p:outputText id="hello-output" value="#{msg.hello} #{dataBean.localDateTimeFormatted}"/>
+<br/>
+<p:chart type="line" model="#{lineChartBean.lineModel}" style="height:400px;width:600px"/>
+</body>
 
 </html>
