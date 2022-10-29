@@ -50,7 +50,8 @@
         <version_com.nimbusds_nimbus-jose-jwt>9.25.6</version_com.nimbusds_nimbus-jose-jwt>
 
         <version_de.javakaffee_kryo-serializers>0.45</version_de.javakaffee_kryo-serializers>
-        <version_de.codecentric_spring-boot-admin>2.7.6</version_de.codecentric_spring-boot-admin>
+        <!--        <version_de.codecentric_spring-boot-admin>2.7.6</version_de.codecentric_spring-boot-admin>-->
+        <version_de.codecentric_spring-boot-admin>3.0.0-M5</version_de.codecentric_spring-boot-admin>
 
         <version_io.jsonwebtoken_jjwt>0.9.1</version_io.jsonwebtoken_jjwt>
         <version_io.springfox_swagger>3.0.0</version_io.springfox_swagger><!-- 2.9.2; 2.10.0 macht Probleme, GUI wird nicht angezeigt. -->
@@ -65,7 +66,7 @@
     <modules>
         <!--        <module>spring-atomicos</module>-->
         <module>spring-autoconfigure-dbserver</module>
-        <!--        <module>spring-cloud</module>-->
+        <module>spring-cloud</module>
         <module>spring-hateoas</module>
         <module>spring-hystrix</module>
         <module>spring-integration</module>
@@ -78,7 +79,7 @@
         <module>spring-openapi</module>
         <module>spring-reactive-jdbc</module>
         <module>spring-resilience</module>
-        <!--        <module>spring-ribbon</module>-->
+        <module>spring-ribbon</module>
         <module>spring-rsocket</module>
         <module>spring-testcontainers</module>
         <module>spring-thymeleaf</module>
