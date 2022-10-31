@@ -10,13 +10,14 @@ buildscript {
     dependencies {
         classpath "de.freese.gradle:gradle-plugins:0.0.1-SNAPSHOT"
         classpath "io.spring.gradle:dependency-management-plugin:$version_springDependencyManagement"
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$version_springBoot"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$version_springBootGradlePlugin"
         classpath "org.openjfx:javafx-plugin:$version_javafxPlugin"
     }
 }
 
 subprojects {
     apply plugin: "java"
+    apply plugin: "maven-publish"
     apply plugin: "org.springframework.boot"
     apply plugin: "io.spring.dependency-management"
     apply plugin: "de.freese.gradle.plugin.conventions"
@@ -589,7 +590,7 @@ project("spring-thymeleaf") {
     dependencies {
         implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
 
-        implementation("org.apache.httpcomponents:httpclient")
+        implementation("org.apache.httpcomponents.client5:httpclient5")
         implementation("org.springframework.boot:spring-boot-starter-json")
         implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -599,7 +600,7 @@ project("spring-thymeleaf") {
         // hot swapping, disable cache for template, enable live reload
         //implementation("org.springframework.boot:spring-boot-devtools")
 
-        implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
+        implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
 
         runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
@@ -650,19 +651,17 @@ project("spring-thymeleaf") {
 project("spring-web") {
     description = "Demo für spring-boot-web mit JSF"
     dependencies {
-        implementation("com.sun.faces:jsf-api")
-        implementation("com.sun.faces:jsf-impl")
-        implementation("org.primefaces:primefaces")
-        implementation("org.springframework.boot:spring-boot-actuator")
+        implementation("jakarta.platform:jakarta.jakartaee-api:10.0.0")
+        implementation("org.glassfish:jakarta.faces:4.0.0")
+
+        implementation("org.primefaces:primefaces:${version_primefaces}:jakarta")
         implementation("org.springframework.boot:spring-boot-starter-web") {
             //exclude module: "spring-boot-starter-tomcat"
         }
-        //implementation("javax:javaee-web-api") // Falls nicht Tomcat verwendet werden soll-
 
-        runtimeOnly("org.apache.tomcat.embed:tomcat-embed-jasper")
-        runtimeOnly("org.primefaces.extensions:primefaces-extensions")
         runtimeOnly("org.primefaces.themes:all-themes")
-        //runtimeOnly("org.springframework.boot:spring-boot-starter-jetty") // -> javax:javaee-web-api
+        runtimeOnly("org.primefaces.extensions:primefaces-extensions")
+        runtimeOnly("org.springframework.boot:spring-boot-actuator")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
     bootJar {

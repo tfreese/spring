@@ -2,15 +2,14 @@
 package de.freese.spring.jwt.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 
 /**
  * @author Thomas Freese
  */
 @Configuration
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = false)
-public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = false)
+public class MethodSecurityConfig //extends GlobalMethodSecurityConfiguration
 {
     // /**
     // * @see org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration#createExpressionHandler()

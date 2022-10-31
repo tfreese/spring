@@ -38,7 +38,7 @@ public class WebSecurityConfig
             throws Exception
     {
         // @formatter:off
-        httpSecurity.authorizeRequests()
+        httpSecurity.authorizeHttpRequests()
                 .anyRequest()
                 .fullyAuthenticated()
                 .and()

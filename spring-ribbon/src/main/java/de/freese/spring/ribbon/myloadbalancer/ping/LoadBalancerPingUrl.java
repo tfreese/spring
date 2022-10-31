@@ -27,45 +27,26 @@ import org.springframework.http.converter.StringHttpMessageConverter;
  */
 public class LoadBalancerPingUrl implements LoadBalancerPing
 {
-
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancerPingUrl.class);
-    /**
-     *
-     */
+
     private final HttpMessageConverter<String> messageConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
-    /**
-     *
-     */
+
     private String expectedContent;
-    /**
-     *
-     */
+
     private volatile ClientHttpRequestFactory httpRequestFactory;
-    /**
-     *
-     */
+
     private boolean isSecure;
-    /**
-     *
-     */
+
     private String pingAppendString = "";
 
     /**
      * Welcher Content muss der Ping liefern ?
-     *
-     * @return String
      */
     public String getExpectedContent()
     {
         return this.expectedContent;
     }
 
-    /**
-     * @return {@link ClientHttpRequestFactory}
-     */
     public ClientHttpRequestFactory getHttpRequestFactory()
     {
         if (this.httpRequestFactory == null)
@@ -86,8 +67,6 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
     /**
      * Erweiterung der URL für den Ping.<br>
      * Beispiel: /service/ping
-     *
-     * @return String
      */
     public String getPingAppendString()
     {
@@ -124,7 +103,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
 
             try (ClientHttpResponse response = request.execute())
             {
-                isAlive = response.getRawStatusCode() == 200; // 200; HttpStatus.OK.value()
+                isAlive = response.getStatusCode().value() == 200; // 200; HttpStatus.OK.value()
 
                 content = this.messageConverter.read(String.class, response);
             }
@@ -158,8 +137,6 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
 
     /**
      * true = https; false = http
-     *
-     * @return boolean
      */
     public boolean isSecure()
     {
@@ -176,9 +153,6 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
         this.expectedContent = expectedContent;
     }
 
-    /**
-     * @param httpRequestFactory {@link ClientHttpRequestFactory}
-     */
     public void setHttpRequestFactory(final ClientHttpRequestFactory httpRequestFactory)
     {
         this.httpRequestFactory = Objects.requireNonNull(httpRequestFactory, "httpRequestFactory required");
@@ -187,8 +161,6 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
     /**
      * Erweiterung der URL für den Ping.<br>
      * Beispiel: /service/ping
-     *
-     * @param pingAppendString String
      */
     public void setPingAppendString(final String pingAppendString)
     {
@@ -197,8 +169,6 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
 
     /**
      * true = https; false = http
-     *
-     * @param isSecure boolean
      */
     public void setSecure(final boolean isSecure)
     {
@@ -208,9 +178,6 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
     /**
      * Prüft den erwarteten Inhalt des isAlive-Requests.
      *
-     * @param expectedContent String
-     * @param returnedContent String
-     *
      * @return boolean; true, wenn der Content den erwarteten Wert hat
      */
     protected boolean checkAliveByContent(final String expectedContent, final String returnedContent)
@@ -218,13 +185,6 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
         return returnedContent.equals(expectedContent);
     }
 
-    /**
-     * @param inputStream {@link InputStream}
-     *
-     * @return String
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     protected String getContent(final InputStream inputStream) throws IOException
     {
         if (inputStream == null)

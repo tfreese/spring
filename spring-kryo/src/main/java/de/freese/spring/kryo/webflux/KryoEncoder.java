@@ -56,7 +56,7 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
     public DataBuffer encodeValue(final Object value, final DataBufferFactory bufferFactory, final ResolvableType valueType, final MimeType mimeType,
                                   final Map<String, Object> hints)
     {
-        DataBuffer buffer = bufferFactory.allocateBuffer();
+        DataBuffer buffer = bufferFactory.allocateBuffer(256);
         Kryo kryo = getKryoPool().obtain();
         boolean release = true;
 
