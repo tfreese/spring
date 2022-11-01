@@ -40,7 +40,7 @@ public class OpenBrowserRunner implements CommandLineRunner
         int port = environment.getProperty("local.server.port", Integer.class);
         Optional<String> contextPath = Optional.ofNullable(environment.getProperty("server.servlet.context-path", String.class));
 
-        URL url = new URL("http://localhost:" + port + contextPath.orElse("") + "/index.xhtml");
+        URL url = new URL("http://localhost:" + port + contextPath.orElse("") + "/demo.xhtml");
         URI uri = url.toURI();
 
         try

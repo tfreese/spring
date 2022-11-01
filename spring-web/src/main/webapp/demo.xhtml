@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui"
-        xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      lang="de"
+      xmlns="http://www.w3.org/1999/xhtml"
 >
 
 <head>
@@ -20,7 +20,7 @@
 <h2>#{msg.ueberschrift}</h2>
 <h:outputText id="hello-output" value="#{msg.hello} #{dataBean.localDateTime}"/>
 <br/>
-<p:outputText id="hello-output" value="#{msg.hello} #{dataBean.localDateTimeFormatted}"/>
+<!--<p:outputText id="hello-output" value="#{msg.hello} #{dataBean.localDateTimeFormatted}"/>-->
 <br/>
 <p:chart type="line" model="#{lineChartBean.lineModel}" style="height:400px;width:600px"/>
 </body>

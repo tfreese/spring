@@ -6,8 +6,6 @@ import java.util.Set;
 import jakarta.faces.webapp.FacesServlet;
 import jakarta.servlet.ServletContext;
 
-import com.sun.faces.config.ConfigureListener;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,10 +32,11 @@ public class WebAppConfig
 
         // Damit JSF ohne web.xml funktioniert.
         servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
-        servletContext.setInitParameter("com.sun.faces.expressionFactory", "org.apache.el.ExpressionFactoryImpl");
+        //        servletContext.setInitParameter("com.sun.faces.expressionFactory", "org.apache.el.ExpressionFactoryImpl");
         //        servletContext.setInitParameter("jakarta.faces.context.FacesContextFactory", "org.primefaces.context.PrimeFacesContextFactory");
+        //        servletContext.setInitParameter("com.sun.faces.cdi.BeanManager", "org.primefaces.context.PrimeFacesContextFactory");
 
-        servletContext.setInitParameter("primefaces.THEME", "arya");
+        //        servletContext.setInitParameter("primefaces.THEME", "arya");
 
         ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>();
         servletRegistrationBean.setServlet(new FacesServlet());
@@ -48,12 +47,12 @@ public class WebAppConfig
         return servletRegistrationBean;
     }
 
-    /**
-     * Keine Factory als Backup für jakarta.faces.context.FacesContextFactory gefunden.
-     */
-    @Bean
-    public ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener()
-    {
-        return new ServletListenerRegistrationBean<>(new ConfigureListener());
-    }
+    //    /**
+    //     * Keine Factory als Backup für jakarta.faces.context.FacesContextFactory gefunden.
+    //     */
+    //    @Bean
+    //    public ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener()
+    //    {
+    //        return new ServletListenerRegistrationBean<>(new ConfigureListener());
+    //    }
 }
