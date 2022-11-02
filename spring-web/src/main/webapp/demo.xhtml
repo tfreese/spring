@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       lang="de"
@@ -18,9 +19,19 @@
 
 <body style="margin-left:50px">
 <h2>#{msg.ueberschrift}</h2>
-<h:outputText id="hello-output" value="#{msg.hello} #{dataBean.localDateTime}"/>
+<h:outputText value="#{msg.hello} #{dataBean.localDateTimeFormatted}"/>
 <br/>
-<!--<p:outputText id="hello-output" value="#{msg.hello} #{dataBean.localDateTimeFormatted}"/>-->
+<h:outputText value="#{msg.hello} #{dataBean.localDateTime}"/>
+<br/>
+<p:dataTable var="point" value="#{dataBean.points}">
+    <p:column headerText="X" style="border: 1px solid black">
+        <h:outputText value="#{point.x}"/>
+    </p:column>
+
+    <p:column headerText="Y" style="border: 1px solid black">
+        <h:outputText value="#{point.y}"/>
+    </p:column>
+</p:dataTable>
 <br/>
 <p:chart type="line" model="#{lineChartBean.lineModel}" style="height:400px;width:600px"/>
 </body>

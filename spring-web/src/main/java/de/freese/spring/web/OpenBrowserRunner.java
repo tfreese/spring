@@ -3,7 +3,6 @@ package de.freese.spring.web;
 
 import java.awt.Desktop;
 import java.net.URI;
-import java.net.URL;
 import java.util.Optional;
 
 import jakarta.annotation.Resource;
@@ -37,11 +36,14 @@ public class OpenBrowserRunner implements CommandLineRunner
     {
         LOGGER.info("");
 
-        int port = environment.getProperty("local.server.port", Integer.class);
-        Optional<String> contextPath = Optional.ofNullable(environment.getProperty("server.servlet.context-path", String.class));
+        boolean sslEnabled = Optional.ofNullable(environment.getProperty("server.ssl.enabled", boolean.class)).orElse(false);
+        String host = Optional.ofNullable(environment.getProperty("server.address")).orElse("localhost");
+        int port = Optional.ofNullable(environment.getProperty("local.server.port", int.class)).orElse(environment.getProperty("server.port", int.class, 0));
+        String contextPath = Optional.ofNullable(environment.getProperty("server.servlet.context-path")).orElse("");
 
-        URL url = new URL("http://localhost:" + port + contextPath.orElse("") + "/demo.xhtml");
-        URI uri = url.toURI();
+        String url = "%s://%s:%d%s/demo.xhtml".formatted(sslEnabled ? "https" : "http", host, port, contextPath);
+
+        URI uri = URI.create(url);
 
         try
         {

@@ -59,8 +59,8 @@ subprojects {
                 entry "jmh-generator-annprocess"
             }
 
-            dependency("org.primefaces:primefaces:$version_primefaces")
-            dependency("org.primefaces.extensions:primefaces-extensions:$version_primefacesExtensions")
+//            dependency("org.primefaces:primefaces:$version_primefaces")
+//            dependency("org.primefaces.extensions:primefaces-extensions:$version_primefacesExtensions")
             dependency("org.primefaces.themes:all-themes:$version_primefacesThemes")
             dependency("org.springdoc:springdoc-openapi-ui:$version_springdoc")
 
@@ -644,49 +644,6 @@ project("spring-thymeleaf") {
 
             // Bei Problemen müssen die Platzhalter escaped werden: \${...}
             expand(project.properties)
-        }
-    }
-}
-
-project("spring-web") {
-    description = "Demo für spring-boot-web mit JSF"
-    dependencies {
-        implementation("jakarta.platform:jakarta.jakartaee-api:10.0.0")
-        implementation("org.glassfish:jakarta.faces:4.0.0")
-
-        implementation("org.primefaces:primefaces:${version_primefaces}:jakarta")
-        implementation("org.springframework.boot:spring-boot-starter-web") {
-            //exclude module: "spring-boot-starter-tomcat"
-        }
-
-        runtimeOnly("org.primefaces.themes:all-themes")
-        runtimeOnly("org.primefaces.extensions:primefaces-extensions")
-        runtimeOnly("org.springframework.boot:spring-boot-actuator")
-    }
-    // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
-        mainClass = "de.freese.spring.web.SpringBootWebApp"
-    }
-
-    //Für Platzhalter in application.properties
-    ext.artifactId = project.name
-
-    processResources {
-        // filesMatching("**/*.properties")        
-        filesMatching("application.properties") {
-            filteringCharset = "UTF-8"
-
-            // Bei Problemen müssen die Platzhalter escaped werden: \${...}
-            expand(project.properties)
-
-            //expand ("@project.description@": project.description,
-            //		"@project.artifactId@": project.name,
-            //		"@project.version@": project.version
-            //)   
-
-            //filter{ it.replaceAll("@project.description@", project.description)}
-            //filter{ it.replaceAll("@project.artifactId@", project.name)}
-            //filter{ it.replaceAll("@project.version@", project.version)}
         }
     }
 }

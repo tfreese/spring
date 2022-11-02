@@ -1,7 +1,9 @@
 package de.freese.spring.web;
 
+import java.awt.Point;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
@@ -29,6 +31,11 @@ public class DataBean
     public String getLocalDateTimeFormatted()
     {
         return this.localDateTimeFormatted;
+    }
+
+    public List<Point.Double> getPoints()
+    {
+        return dataService.getPoints();
     }
 
     @PostConstruct

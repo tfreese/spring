@@ -28,15 +28,12 @@ public class WebAppConfig
     {
         //        servletContext.setInitParameter("jakarta.faces.CONFIG_FILES", "/WEB-INF/faces-config.xml");
         servletContext.setInitParameter("jakarta.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
-        //        servletContext.setInitParameter("jakarta.faces.PROJECT_STAGE", "Development");
+        servletContext.setInitParameter("jakarta.faces.PROJECT_STAGE", "Development");
 
         // Damit JSF ohne web.xml funktioniert.
         servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
-        //        servletContext.setInitParameter("com.sun.faces.expressionFactory", "org.apache.el.ExpressionFactoryImpl");
-        //        servletContext.setInitParameter("jakarta.faces.context.FacesContextFactory", "org.primefaces.context.PrimeFacesContextFactory");
-        //        servletContext.setInitParameter("com.sun.faces.cdi.BeanManager", "org.primefaces.context.PrimeFacesContextFactory");
 
-        //        servletContext.setInitParameter("primefaces.THEME", "arya");
+        servletContext.setInitParameter("primefaces.THEME", "arya");
 
         ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>();
         servletRegistrationBean.setServlet(new FacesServlet());
