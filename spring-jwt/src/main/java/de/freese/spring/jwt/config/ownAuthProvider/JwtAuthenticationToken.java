@@ -11,21 +11,11 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
  */
 class JwtAuthenticationToken extends AbstractAuthenticationToken
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 3544121276547291346L;
-    /**
-     *
-     */
+
     private final String token;
 
-    /**
-     * Erstellt ein neues {@link JwtAuthenticationToken} Object.
-     *
-     * @param token String
-     */
     JwtAuthenticationToken(final String token)
     {
         super(null);
@@ -70,9 +60,6 @@ class JwtAuthenticationToken extends AbstractAuthenticationToken
         return null;
     }
 
-    /**
-     * @return String
-     */
     public String getToken()
     {
         return this.token;

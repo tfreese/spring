@@ -28,9 +28,6 @@ import org.springframework.integration.scheduling.PollerMetadata;
 // @EnableIntegration
 public class Application
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     /**
@@ -47,9 +44,6 @@ public class Application
         void placeOrder(Order order);
     }
 
-    /**
-     * @param millis long
-     */
     private static void sleep(final long millis)
     {
         try
@@ -58,22 +52,14 @@ public class Application
         }
         catch (Exception ex)
         {
-            // Ignore
+            // Empty
         }
     }
 
-    /**
-     *
-     */
     private final AtomicInteger coldDrinkCounter = new AtomicInteger();
-    /**
-     *
-     */
+
     private final AtomicInteger hotDrinkCounter = new AtomicInteger();
 
-    /**
-     * @return {@link IntegrationFlow}
-     */
     @Bean
     public IntegrationFlow orders()
     {
@@ -117,9 +103,6 @@ public class Application
         //@formatter:on
     }
 
-    /**
-     * @return {@link PollerMetadata}
-     */
     @Bean(name = PollerMetadata.DEFAULT_POLLER)
     public PollerMetadata poller()
     {

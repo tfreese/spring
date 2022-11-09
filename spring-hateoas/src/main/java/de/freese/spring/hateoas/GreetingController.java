@@ -4,6 +4,9 @@ package de.freese.spring.hateoas;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import de.freese.spring.hateoas.exception.GreetingException;
+import de.freese.spring.hateoas.model.GreetingPOJO;
+import de.freese.spring.hateoas.model.GreetingRepresentationModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpEntity;
@@ -15,30 +18,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.freese.spring.hateoas.exception.GreetingException;
-import de.freese.spring.hateoas.model.GreetingPOJO;
-import de.freese.spring.hateoas.model.GreetingRepresentationModel;
-
 /**
  * @author Thomas Freese
  */
 @RestController
 @RequestMapping(path = "/greeter", produces =
-{
-        MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE
-})
+        {
+                MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE
+        })
 public class GreetingController
 {
-    /**
-     *
-     */
     private static final String TEMPLATE = "Hello, %s!";
 
-    /**
-     * @param name String
-     *
-     * @return {@link ResponseEntity}
-     */
     @GetMapping
     public HttpEntity<GreetingRepresentationModel> greeting(@RequestParam(value = "name", required = false, defaultValue = "World") final String name)
     {
@@ -55,20 +46,12 @@ public class GreetingController
         return ResponseEntity.ok(greetingRepresentationModel);
     }
 
-    /**
-     * @return {@link ResponseEntity}
-     */
     @GetMapping("/fail")
     public HttpEntity<EntityModel<GreetingPOJO>> greetingFail()
     {
         throw new GreetingException("failed greet");
     }
 
-    /**
-     * @param name String
-     *
-     * @return {@link ResponseEntity}
-     */
     @GetMapping("/path/{name}")
     public HttpEntity<EntityModel<GreetingPOJO>> greetingPath(@PathVariable(value = "name") final String name)
     {
@@ -84,11 +67,6 @@ public class GreetingController
         return ResponseEntity.ok(resource);
     }
 
-    /**
-     * @param name String
-     *
-     * @return {@link ResponseEntity}
-     */
     @GetMapping("/pojo")
     public HttpEntity<EntityModel<GreetingPOJO>> greetingPojo(@RequestParam(value = "name", required = false, defaultValue = "World") final String name)
     {
@@ -105,11 +83,6 @@ public class GreetingController
         return ResponseEntity.ok(resource);
     }
 
-    /**
-     * @param name String
-     *
-     * @return {@link ResponseEntity}
-     */
     @GetMapping("/simple")
     public GreetingPOJO greetingSimple(@RequestParam(value = "name", required = false, defaultValue = "World") final String name)
     {

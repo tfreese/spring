@@ -21,23 +21,14 @@ import rx.Observer;
  */
 class TestHelloWorld
 {
-    /**
-     *
-     */
     private static HystrixRequestContext context;
 
-    /**
-     *
-     */
     @AfterAll
     static void afterAll()
     {
         // Empty
     }
 
-    /**
-     *
-     */
     @BeforeAll
     static void beforeAll()
     {
@@ -75,17 +66,11 @@ class TestHelloWorld
         context = HystrixRequestContext.initializeContext();
     }
 
-    /**
-     * @return {@link HystrixRequestContext}
-     */
     protected static HystrixRequestContext getContext()
     {
         return context;
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testAsynchronous() throws Exception
     {
@@ -96,11 +81,8 @@ class TestHelloWorld
         assertEquals("Hello Bob!", fBob.get());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
-    // (expected = RuntimeException.class)
+        // (expected = RuntimeException.class)
     void testFailAsynchronous() throws Exception
     {
         Future<String> fWorld = new CommandHelloFailure("World").queue();
@@ -110,20 +92,14 @@ class TestHelloWorld
         assertEquals("Hello Failure Bob!", fBob.get());
     }
 
-    /**
-     *
-     */
     @Test
-    // (expected = RuntimeException.class)
+        // (expected = RuntimeException.class)
     void testFailSynchronous()
     {
         assertEquals("Hello Failure World!", new CommandHelloFailure("World").execute());
         assertEquals("Hello Failure Bob!", new CommandHelloFailure("Bob").execute());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testObservable() throws Exception
     {
@@ -170,9 +146,6 @@ class TestHelloWorld
         oBob.subscribe(v -> System.out.println("onNext: " + v));
     }
 
-    /**
-     *
-     */
     @Test
     void testSynchronous()
     {

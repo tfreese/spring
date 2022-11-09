@@ -1,8 +1,8 @@
 package de.freese.spring.integration.cafe.annotation;
 
+import de.freese.spring.integration.cafe.OrderItem;
 import org.springframework.integration.annotation.MessageEndpoint;
 import org.springframework.integration.annotation.Router;
-import de.freese.spring.integration.cafe.OrderItem;
 
 /**
  * @author Thomas Freese
@@ -10,10 +10,6 @@ import de.freese.spring.integration.cafe.OrderItem;
 @MessageEndpoint
 public class DrinkRouter
 {
-    /**
-     * @param orderItem {@link OrderItem}
-     * @return String
-     */
     @Router(inputChannel = "drinks")
     public String resolveOrderItemChannel(final OrderItem orderItem)
     {

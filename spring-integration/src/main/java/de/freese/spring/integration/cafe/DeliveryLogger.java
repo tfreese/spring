@@ -9,14 +9,8 @@ import org.slf4j.LoggerFactory;
  */
 public class DeliveryLogger
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(DeliveryLogger.class);
 
-    /**
-     * @param delivery {@link Delivery}
-     */
     public void log(final Delivery delivery)
     {
         LOGGER.info("-----------------------");

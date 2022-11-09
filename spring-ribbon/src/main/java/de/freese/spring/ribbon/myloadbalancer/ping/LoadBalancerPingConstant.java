@@ -9,9 +9,6 @@ package de.freese.spring.ribbon.myloadbalancer.ping;
  */
 public class LoadBalancerPingConstant implements LoadBalancerPing
 {
-    /**
-     *
-     */
     private boolean constant = true;
 
     /**
@@ -23,17 +20,11 @@ public class LoadBalancerPingConstant implements LoadBalancerPing
         return this.constant;
     }
 
-    /**
-     * @return boolean
-     */
     public boolean isConstant()
     {
         return this.constant;
     }
 
-    /**
-     * @param constant boolean
-     */
     public void setConstant(final boolean constant)
     {
         this.constant = constant;

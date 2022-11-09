@@ -20,11 +20,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 class TestCafe
 {
-
-    // /**
-    // * @param args String[]
-    // * @throws Exception Falls was schief geht.
-    // */
     // static void main(final String[] args) throws Exception
     // {
     // TestCafe testCafe = new TestCafe();
@@ -35,9 +30,6 @@ class TestCafe
     // testCafe.test040CafeDsl();
     // }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testCafeConfig() throws Exception
     {
@@ -56,9 +48,6 @@ class TestCafe
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testCafeDemoWithAnnotationSupport() throws Exception
     {
@@ -70,9 +59,6 @@ class TestCafe
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testCafeDemoWithXmlSupport() throws Exception
     {
@@ -84,9 +70,6 @@ class TestCafe
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testCafeDsl() throws Exception
     {
@@ -107,11 +90,6 @@ class TestCafe
         }
     }
 
-    /**
-     * @param context {@link ApplicationContext}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     private void testCafe(final ApplicationContext context) throws Exception
     {
         Cafe cafe = context.getBean(Cafe.class);

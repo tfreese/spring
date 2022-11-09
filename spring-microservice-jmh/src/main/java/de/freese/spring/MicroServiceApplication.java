@@ -16,28 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MicroServiceApplication
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         SpringApplication.run(MicroServiceApplication.class, args);
     }
 
-    /**
-     * @return String
-     */
     @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public String greeting()
     {
         return "Hello, World";
     }
 
-    // /**
-    // * @param builder {@link RestTemplateBuilder}
-    // * @param serverPort int
-    // * @return {@link RestTemplate}
-    // */
     // @Bean
     // RestTemplate restTemplate(final RestTemplateBuilder builder, @Value("${local.server.port}") final int serverPort)
     // {

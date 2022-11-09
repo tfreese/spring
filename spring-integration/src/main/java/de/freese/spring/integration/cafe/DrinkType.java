@@ -5,20 +5,8 @@ package de.freese.spring.integration.cafe;
  */
 public enum DrinkType
 {
-    /**
-     * 
-     */
     CAPPUCCINO,
-    /**
-     * 
-     */
     ESPRESSO,
-    /**
-     * 
-     */
     LATTE,
-    /**
-     * 
-     */
     MOCHA
 }

@@ -4,10 +4,9 @@ package de.freese.spring.thymeleaf.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.freese.spring.thymeleaf.model.Person;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
-
-import de.freese.spring.thymeleaf.model.Person;
 
 /**
  * @author Thomas Freese
@@ -15,14 +14,8 @@ import de.freese.spring.thymeleaf.model.Person;
 @Service
 public class PersonService
 {
-    /**
-    *
-    */
     private final List<Person> persons = new ArrayList<>();
 
-    /**
-     * Erstellt ein neues {@link PersonService} Object.
-     */
     public PersonService()
     {
         super();
@@ -31,9 +24,6 @@ public class PersonService
         this.persons.add(new Person("Steve", "Jobs"));
     }
 
-    /**
-     * @param newPerson {@link Person}
-     */
     @Secured("ROLE_ADMIN")
     public void addPerson(final Person newPerson)
     {
@@ -50,13 +40,10 @@ public class PersonService
         }
     }
 
-    /**
-     * @return {@link List}<Person>
-     */
     @Secured(
-    {
-            "ROLE_ADMIN", "ROLE_USER"
-    })
+            {
+                    "ROLE_ADMIN", "ROLE_USER"
+            })
     public List<Person> getPersons()
     {
         return new ArrayList<>(this.persons);

@@ -18,14 +18,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ResilienceApplication implements CommandLineRunner
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ResilienceApplication.class);
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         SpringApplication.run(ResilienceApplication.class, args);

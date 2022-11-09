@@ -17,38 +17,11 @@ import reactor.core.publisher.Mono;
 @Service
 public class FailingService
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(FailingService.class);
-    /**
-     *
-     */
+
     @Value("${server.port}")
-    private int port = -1;
+    private final int port = -1;
 
-    /**
-     * @return String
-     */
-    private String getHost()
-    {
-        try
-        {
-            return InetAddress.getLocalHost() + "@" + this.port;
-        }
-        catch (UnknownHostException ex)
-        {
-            LOGGER.error(ex.getMessage(), ex);
-        }
-
-        return "???";
-    }
-
-    /**
-     * @param name {@link Optional}
-     *
-     * @return {@link Mono}
-     */
     public Mono<String> greet(final Optional<String> name)
     {
         var seconds = (long) (Math.random() * 5);
@@ -64,5 +37,19 @@ public class FailingService
                 .delayElement(Duration.ofSeconds(seconds)
                 );
         //@formatter:on
+    }
+
+    private String getHost()
+    {
+        try
+        {
+            return InetAddress.getLocalHost() + "@" + this.port;
+        }
+        catch (UnknownHostException ex)
+        {
+            LOGGER.error(ex.getMessage(), ex);
+        }
+
+        return "???";
     }
 }

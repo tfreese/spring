@@ -47,87 +47,54 @@ public class Application
         void placeOrder(Order order);
     }
 
-    /**
-     * @param drinks {@link List}
-     *
-     * @return {@link Delivery}
-     */
     @Aggregator(inputChannel = "channelPreparedDrinks", outputChannel = "channelDeliveries")
     public Delivery aggregator(final List<Drink> drinks)
     {
         return waiter().prepareDelivery(drinks);
     }
 
-    /**
-     * @param drink {@link Drink}
-     *
-     * @return int
-     */
     @CorrelationStrategy
     public int aggregatorCorrelationStrategy(final Drink drink)
     {
         return drink.getOrderNumber();
     }
 
-    /**
-     * @return {@link Barista}
-     */
     @Bean
     public Barista barista()
     {
         return new Barista();
     }
 
-    /**
-     * @return {@link MessageChannel}
-     */
     @Bean
     public MessageChannel channelColdDrinks()
     {
         return new QueueChannel(2);
     }
 
-    /**
-     * @return {@link MessageChannel}
-     */
     @Bean
     public MessageChannel channelHotDrinks()
     {
         return new QueueChannel(2);
     }
 
-    /**
-     * @param delivery {@link Delivery}
-     */
     @ServiceActivator(inputChannel = "channelDeliveries")
     public void delivery(final Delivery delivery)
     {
         deliveryLogger().log(delivery);
     }
 
-    /**
-     * @return {@link DeliveryLogger}
-     */
     @Bean
     public DeliveryLogger deliveryLogger()
     {
         return new DeliveryLogger();
     }
 
-    /**
-     * @return {@link PollerMetadata}
-     */
     @Bean(name = PollerMetadata.DEFAULT_POLLER)
     public PollerMetadata poller()
     {
         return Pollers.fixedDelay(500).maxMessagesPerPoll(1).get();
     }
 
-    /**
-     * @param orderItem {@link OrderItem}
-     *
-     * @return String
-     */
     @Router(inputChannel = "channelDrinks")
     public String router(final OrderItem orderItem)
     {
@@ -139,42 +106,24 @@ public class Application
         // return router;
     }
 
-    /**
-     * @param orderItem {@link OrderItem}
-     *
-     * @return {@link Drink}
-     */
     @ServiceActivator(inputChannel = "channelColdDrinks", outputChannel = "channelPreparedDrinks")
     public Drink serviceActivatorColdDrinks(final OrderItem orderItem)
     {
         return barista().prepareColdDrink(orderItem);
     }
 
-    /**
-     * @param orderItem {@link OrderItem}
-     *
-     * @return {@link Drink}
-     */
     @ServiceActivator(inputChannel = "channelHotDrinks", outputChannel = "channelPreparedDrinks")
     public Drink serviceActivatorHotDrinks(final OrderItem orderItem)
     {
         return barista().prepareHotDrink(orderItem);
     }
 
-    /**
-     * @param order {@link Order}
-     *
-     * @return {@link List}
-     */
     @Splitter(inputChannel = "channelOrders", outputChannel = "channelDrinks")
     public List<OrderItem> splitterOrders(final Order order)
     {
         return order.getItems();
     }
 
-    /**
-     * @return {@link Waiter}
-     */
     @Bean
     public Waiter waiter()
     {

@@ -8,18 +8,10 @@ import com.netflix.loadbalancer.IPing;
  * Geklaut von com.netflix.loadbalancer.IPing (spring-cloud-starter-netflix-ribbon).
  *
  * @author Thomas Freese
- *
  * @see IPing
  */
 @FunctionalInterface
 public interface LoadBalancerPing
 {
-    /**
-     * Prüfung. ob der Server noch ansprechbar ist.
-     *
-     * @param server String
-     *
-     * @return boolean
-     */
     boolean isAlive(String server);
 }

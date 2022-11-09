@@ -6,29 +6,15 @@ package de.freese.spring.thymeleaf.model;
  */
 public class Person
 {
-    /**
-     *
-     */
     private String firstName;
-    /**
-     *
-     */
+
     private String lastName;
 
-    /**
-     * Erstellt ein neues {@link Person} Object.
-     */
     public Person()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link Person} Object.
-     *
-     * @param firstName String
-     * @param lastName String
-     */
     public Person(final String firstName, final String lastName)
     {
         super();
@@ -37,33 +23,21 @@ public class Person
         this.lastName = lastName;
     }
 
-    /**
-     * @return String
-     */
     public String getFirstName()
     {
         return this.firstName;
     }
 
-    /**
-     * @return String
-     */
     public String getLastName()
     {
         return this.lastName;
     }
 
-    /**
-     * @param firstName String
-     */
     public void setFirstName(final String firstName)
     {
         this.firstName = firstName;
     }
 
-    /**
-     * @param lastName String
-     */
     public void setLastName(final String lastName)
     {
         this.lastName = lastName;

@@ -17,11 +17,6 @@ import org.springframework.core.io.Resource;
  */
 public final class Shutdown
 {
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
@@ -53,9 +48,6 @@ public final class Shutdown
         connection.disconnect();
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link Shutdown}
-     */
     private Shutdown()
     {
         super();

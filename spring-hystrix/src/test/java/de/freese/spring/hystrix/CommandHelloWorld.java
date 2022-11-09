@@ -11,16 +11,8 @@ import com.netflix.hystrix.HystrixCommandGroupKey;
  */
 public class CommandHelloWorld extends HystrixCommand<String>
 {
-    /**
-     *
-     */
     private final String name;
 
-    /**
-     * Erstellt ein neues {@link CommandHelloWorld} Object.
-     *
-     * @param name String
-     */
     public CommandHelloWorld(final String name)
     {
         // CommandGroupKey = ThreadPool-Name

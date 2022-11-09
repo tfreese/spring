@@ -49,9 +49,6 @@ public class WebSecurityConfig
         return httpSecurity.build();
     }
 
-    /**
-     * @return {@link PasswordEncoder}
-     */
     @Bean
     PasswordEncoder passwordEncoder()
     {

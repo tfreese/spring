@@ -32,9 +32,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class MyLdapDao
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(MyLdapDao.class);
 
     /**
@@ -61,16 +58,8 @@ public class MyLdapDao
      */
     private static class PersonAttributeMapper implements AttributesMapper<String>
     {
-        /**
-         *
-         */
         private final String attributeId;
 
-        /**
-         * Erstellt ein neues {@link PersonAttributeMapper} Object.
-         *
-         * @param attributeId String
-         */
         public PersonAttributeMapper(final String attributeId)
         {
             super();
@@ -116,25 +105,13 @@ public class MyLdapDao
         }
     }
 
-    /**
-     * @return {@link Logger}
-     */
     private static Logger getLogger()
     {
         return LOGGER;
     }
 
-    /**
-     *
-     */
     private final LdapTemplate ldapTemplate;
 
-    /**
-     * Erstellt ein neues {@link MyLdapDao} Object.
-     *
-     * @param contextSource {@link ContextSource}
-     * @param baseDn String
-     */
     public MyLdapDao(final ContextSource contextSource, @Value("${spring.ldap.base-dn}") String baseDn)
     {
         super();
@@ -144,11 +121,6 @@ public class MyLdapDao
 
     /**
      * uid=bob,ou=people,dc=springframework,dc=org
-     *
-     * @param userId String
-     * @param password String
-     * @param firstName String
-     * @param lastName String
      */
     public void create(final String userId, final String password, final String firstName, final String lastName)
     {
@@ -166,12 +138,6 @@ public class MyLdapDao
         getLdapTemplate().bind(context);
     }
 
-    /**
-     * @param userId String
-     * @param password String
-     * @param firstName String
-     * @param lastName String
-     */
     public void modify(final String userId, final String password, final String firstName, final String lastName)
     {
         Name name = LdapNameBuilder.newInstance().add("ou", "people").add("uid", userId).build();
@@ -189,50 +155,7 @@ public class MyLdapDao
     }
 
     /**
-     * @param userId String
-     *
-     * @return {@link List}
-     */
-    public List<String> searchPeopleByUid(final String userId)
-    {
-        return searchPeopleByUid(userId, "cn");
-    }
-
-    /**
-     * uid = b*
-     *
-     * @param userId String
-     * @param attributeId String
-     *
-     * @return {@link List}
-     */
-    public List<String> searchPeopleByUid(final String userId, final String attributeId)
-    {
-        Name base = LdapNameBuilder.newInstance().add("ou", "people").build();
-
-        // @formatter:off
-        LdapQuery query = LdapQueryBuilder.query()
-                .base(base)
-                .searchScope(SearchScope.SUBTREE)
-                .timeLimit(3 * 1000)
-                .countLimit(10)
-                .attributes(attributeId)
-                .where("objectclass").is("person")
-                .and("uid").isPresent()
-                .and("uid").like(userId)
-                //.and("sn").not().is(lastName)
-                ;
-        // @formatter:on
-
-        return getLdapTemplate().search(query, new PersonAttributeMapper(attributeId));
-    }
-
-    /**
      * cn = developers
-     *
-     * @param groupName String
-     *
-     * @return {@link List}
      */
     public List<String> searchGroup(final String groupName)
     {
@@ -257,8 +180,34 @@ public class MyLdapDao
     }
 
     /**
-     * @return {@link LdapTemplate}
+     * uid = b*
      */
+    public List<String> searchPeopleByUid(final String userId, final String attributeId)
+    {
+        Name base = LdapNameBuilder.newInstance().add("ou", "people").build();
+
+        // @formatter:off
+        LdapQuery query = LdapQueryBuilder.query()
+                .base(base)
+                .searchScope(SearchScope.SUBTREE)
+                .timeLimit(3 * 1000)
+                .countLimit(10)
+                .attributes(attributeId)
+                .where("objectclass").is("person")
+                .and("uid").isPresent()
+                .and("uid").like(userId)
+                //.and("sn").not().is(lastName)
+                ;
+        // @formatter:on
+
+        return getLdapTemplate().search(query, new PersonAttributeMapper(attributeId));
+    }
+
+    public List<String> searchPeopleByUid(final String userId)
+    {
+        return searchPeopleByUid(userId, "cn");
+    }
+
     private LdapTemplate getLdapTemplate()
     {
         return this.ldapTemplate;

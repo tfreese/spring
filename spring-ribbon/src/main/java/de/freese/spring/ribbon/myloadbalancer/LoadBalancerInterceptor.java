@@ -18,29 +18,16 @@ import org.springframework.http.client.support.HttpRequestWrapper;
  */
 public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor
 {
-    /**
-     *
-     */
     private final LoadBalancer loadBalancer;
-    /**
-     *
-     */
+
     private final int retries;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link LoadBalancerInterceptor}.
-     *
-     * @param loadBalancer {@link LoadBalancer}
-     */
     public LoadBalancerInterceptor(final LoadBalancer loadBalancer)
     {
         this(loadBalancer, 3);
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link LoadBalancerInterceptor}.
-     *
-     * @param loadBalancer {@link LoadBalancer}
      * @param retries int; Anzahl der Versuche bei fehlerhaften Requests.
      */
     public LoadBalancerInterceptor(final LoadBalancer loadBalancer, final int retries)
@@ -102,16 +89,6 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor
         return null;
     }
 
-    /**
-     * @param newUri {@link URI}
-     * @param request {@link HttpRequest}
-     * @param body byte[]
-     * @param execution {@link ClientHttpRequestExecution}
-     *
-     * @return {@link ClientHttpResponse}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution)
             throws IOException
     {

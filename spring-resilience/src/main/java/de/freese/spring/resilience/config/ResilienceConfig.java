@@ -16,9 +16,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ResilienceConfig
 {
-    /**
-     * @return {@link Customizer}
-     */
     @Bean
     Customizer<ReactiveResilience4JCircuitBreakerFactory> customizerDefault()
     {
@@ -31,9 +28,6 @@ public class ResilienceConfig
         //@formatter:on
     }
 
-    /**
-     * @return {@link Customizer}
-     */
     @Bean
     Customizer<ReactiveResilience4JCircuitBreakerFactory> customizerSlowGreet()
     {
@@ -47,9 +41,6 @@ public class ResilienceConfig
         //@formatter:on
     }
 
-    // /**
-    // * @return {@link ReactiveCircuitBreakerFactory}
-    // */
     // @Bean
     // ReactiveCircuitBreakerFactory<Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> circuitBreakerFactory()
     // {

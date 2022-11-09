@@ -13,32 +13,16 @@ import org.slf4j.LoggerFactory;
  */
 public class Barista
 {
-    /**
-     *
-     */
     private final AtomicInteger coldDrinkCounter = new AtomicInteger();
-    /**
-     *
-     */
+
     private final AtomicInteger hotDrinkCounter = new AtomicInteger();
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private long coldDrinkDelay = 400L;
-    /**
-     *
-     */
+
     private long hotDrinkDelay = 800L;
 
-    /**
-     * @param orderItem {@link OrderItem}
-     *
-     * @return {@link Drink}
-     */
     public Drink prepareColdDrink(final OrderItem orderItem)
     {
         try
@@ -57,11 +41,6 @@ public class Barista
         }
     }
 
-    /**
-     * @param orderItem {@link OrderItem}
-     *
-     * @return {@link Drink}
-     */
     public Drink prepareHotDrink(final OrderItem orderItem)
     {
         try
@@ -80,17 +59,11 @@ public class Barista
         }
     }
 
-    /**
-     * @param coldDrinkDelay long
-     */
     public void setColdDrinkDelay(final long coldDrinkDelay)
     {
         this.coldDrinkDelay = coldDrinkDelay;
     }
 
-    /**
-     * @param hotDrinkDelay long
-     */
     public void setHotDrinkDelay(final long hotDrinkDelay)
     {
         this.hotDrinkDelay = hotDrinkDelay;

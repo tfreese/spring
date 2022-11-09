@@ -1,9 +1,6 @@
 // Created: 01.03.2017
 package de.freese.spring.hystrix.primarysecondary;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.netflix.config.DynamicBooleanProperty;
 import com.netflix.config.DynamicPropertyFactory;
 import com.netflix.hystrix.HystrixCommand;
@@ -12,31 +9,26 @@ import com.netflix.hystrix.HystrixCommandKey;
 import com.netflix.hystrix.HystrixCommandProperties;
 import com.netflix.hystrix.HystrixCommandProperties.ExecutionIsolationStrategy;
 import com.netflix.hystrix.HystrixThreadPoolKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
 public class PrimarySecondaryCommand extends HystrixCommand<String>
 {
+    private static final Logger C_LOGGER = LoggerFactory.getLogger(PrimarySecondaryCommand.class);
+    private static final DynamicBooleanProperty USE_PRIMARY = DynamicPropertyFactory.getInstance().getBooleanProperty("primarySecondary.usePrimary", true);
+
     /**
      * @author Thomas Freese
      */
     private static final class PrimaryCommand extends HystrixCommand<String>
     {
-        /**
-        *
-        */
         private static final Logger P_LOGGER = LoggerFactory.getLogger(PrimaryCommand.class);
-        /**
-         *
-         */
+
         private final int id;
 
-        /**
-         * Erzeugt eine neue Instanz von {@link PrimaryCommand}
-         *
-         * @param id int
-         */
         private PrimaryCommand(final int id)
         {
             // @formatter:off
@@ -70,20 +62,10 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
      */
     private static final class SecondaryCommand extends HystrixCommand<String>
     {
-        /**
-        *
-        */
         private static final Logger S_LOGGER = LoggerFactory.getLogger(SecondaryCommand.class);
-        /**
-         *
-         */
+
         private final int id;
 
-        /**
-         * Erzeugt eine neue Instanz von {@link SecondaryCommand}
-         *
-         * @param id int
-         */
         private SecondaryCommand(final int id)
         {
             // @formatter:off
@@ -110,25 +92,8 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
             return "responseFromSecondary-" + this.id;
         }
     }
-
-    /**
-    *
-    */
-    private static final Logger C_LOGGER = LoggerFactory.getLogger(PrimarySecondaryCommand.class);
-    /**
-     *
-     */
-    private static final DynamicBooleanProperty USE_PRIMARY = DynamicPropertyFactory.getInstance().getBooleanProperty("primarySecondary.usePrimary", true);
-    /**
-     *
-     */
     private final int id;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link PrimarySecondaryCommand}
-     *
-     * @param id int
-     */
     public PrimarySecondaryCommand(final int id)
     {
         // @formatter:off
@@ -143,9 +108,6 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
         this.id = id;
     }
 
-    /**
-     *
-     */
     @Override
     protected String getCacheKey()
     {

@@ -30,21 +30,10 @@ import org.springframework.security.core.AuthenticationException;
  */
 public class JwtTokenProviderNimbus implements JwtTokenProvider
 {
-    /**
-     *
-     */
     private final String secretKey;
-    /**
-     *
-     */
+
     private final long validityInMilliseconds;
 
-    /**
-     * Erstellt ein neues {@link JwtTokenProviderNimbus} Object.
-     *
-     * @param secretKey String
-     * @param validityInMilliseconds long
-     */
     public JwtTokenProviderNimbus(final String secretKey, final long validityInMilliseconds)
     {
         super();

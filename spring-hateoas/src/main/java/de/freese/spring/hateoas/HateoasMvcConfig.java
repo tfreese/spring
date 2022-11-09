@@ -7,15 +7,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.hateoas.mediatype.hal.forms.HalFormsConfiguration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 /**
  * @author Thomas Freese
@@ -48,9 +47,6 @@ public class HateoasMvcConfig implements WebMvcConfigurer
         }
     }
 
-    /**
-     * @return {@link HalFormsConfiguration}
-     */
     @Bean
     HalFormsConfiguration halFormsConfiguration()
     {
@@ -81,9 +77,6 @@ public class HateoasMvcConfig implements WebMvcConfigurer
     // converters.add(jackson2HttpMessageConverter);
     // }
 
-    // /**
-    // * @return {@link ObjectMapper}
-    // */
     // @Bean
     // public ObjectMapper objectMapper()
     // {

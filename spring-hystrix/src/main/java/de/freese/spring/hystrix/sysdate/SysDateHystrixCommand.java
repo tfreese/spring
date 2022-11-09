@@ -20,34 +20,20 @@ import org.springframework.web.client.RestTemplate;
  */
 public class SysDateHystrixCommand extends HystrixCommand<String>
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(SysDateHystrixCommand.class);
-    /**
-     *
-     */
+
     private final int level;
-    /**
-     *
-     */
+
     private RestTemplate restTemplate;
-    /**
-     *
-     */
+
     private String[] urls;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link SysDateHystrixCommand}
-     */
     public SysDateHystrixCommand()
     {
         this(1);
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link SysDateHystrixCommand}
-     *
      * @param level int 1, 2, 3 ...
      */
     private SysDateHystrixCommand(final int level)
@@ -64,6 +50,27 @@ public class SysDateHystrixCommand extends HystrixCommand<String>
 
         this.level = level;
     }
+
+    public void setRestTemplate(final RestTemplate restTemplate)
+    {
+        this.restTemplate = restTemplate;
+    }
+
+    public void setURLs(final String... urls)
+    {
+        this.urls = urls;
+    }
+
+    // /**
+    // * Wird für Request Caching benötigt.
+    // *
+    // * @see com.netflix.hystrix.AbstractCommand#getCacheKey()
+    // */
+    // @Override
+    // protected String getCacheKey()
+    // {
+    // return String.valueOf(myRequestValue);
+    // }
 
     /**
      * @see com.netflix.hystrix.HystrixCommand#getFallback()
@@ -99,32 +106,5 @@ public class SysDateHystrixCommand extends HystrixCommand<String>
         LOGGER.info("level={}: {}", this.level, result);
 
         return result;
-    }
-
-    // /**
-    // * Wird für Request Caching benötigt.
-    // *
-    // * @see com.netflix.hystrix.AbstractCommand#getCacheKey()
-    // */
-    // @Override
-    // protected String getCacheKey()
-    // {
-    // return String.valueOf(myRequestValue);
-    // }
-
-    /**
-     * @param restTemplate {@link RestTemplate}
-     */
-    public void setRestTemplate(final RestTemplate restTemplate)
-    {
-        this.restTemplate = restTemplate;
-    }
-
-    /**
-     * @param urls String[]
-     */
-    public void setURLs(final String... urls)
-    {
-        this.urls = urls;
     }
 }

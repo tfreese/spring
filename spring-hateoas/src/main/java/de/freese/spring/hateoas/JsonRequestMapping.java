@@ -5,6 +5,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
@@ -19,64 +20,40 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Thomas Freese
  */
 @Target(
-{
-        ElementType.METHOD, ElementType.TYPE
-})
+        {
+                ElementType.METHOD, ElementType.TYPE
+        })
 @Retention(RetentionPolicy.RUNTIME)
 @RequestMapping(consumes =
-{
-        MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE
-}, produces =
-{
-        MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE
-})
+        {
+                MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE
+        }, produces =
+        {
+                MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE
+        })
 public @interface JsonRequestMapping
 {
-    /**
-     * @return String[]
-     */
     @AliasFor(annotation = RequestMapping.class, attribute = "consumes")
     String[] consumes() default {};
 
-    /**
-     * @return String[]
-     */
     @AliasFor(annotation = RequestMapping.class, attribute = "headers")
     String[] headers() default {};
 
-    /**
-     * @return {@link RequestMethod}[]
-     */
     @AliasFor(annotation = RequestMapping.class, attribute = "method")
     RequestMethod[] method() default {};
 
-    /**
-     * @return String
-     */
     @AliasFor(annotation = RequestMapping.class, attribute = "name")
     String name() default "";
 
-    /**
-     * @return String[]
-     */
     @AliasFor(annotation = RequestMapping.class, attribute = "params")
     String[] params() default {};
 
-    /**
-     * @return String[]
-     */
     @AliasFor(annotation = RequestMapping.class, attribute = "path")
     String[] path() default {};
 
-    /**
-     * @return String[]
-     */
     @AliasFor(annotation = RequestMapping.class, attribute = "produces")
     String[] produces() default {};
 
-    /**
-     * @return String[]
-     */
     @AliasFor(annotation = RequestMapping.class, attribute = "value")
     String[] value() default {};
 }

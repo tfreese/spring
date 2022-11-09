@@ -16,17 +16,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 // @Relation(value = "greeting", collectionRelation = "greetings")
 public class GreetingPOJO
 {
-    /**
-     *
-     */
     @JsonProperty("greeting")
     private String message;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link GreetingPOJO}
-     *
-     * @param message String
-     */
     @JsonCreator
     public GreetingPOJO(final @JsonProperty("greeting") String message)
     {
@@ -35,17 +27,11 @@ public class GreetingPOJO
         setMessage(message);
     }
 
-    /**
-     * @return String
-     */
     public String getMessage()
     {
         return this.message;
     }
 
-    /**
-     * @param message String
-     */
     public void setMessage(final String message)
     {
         this.message = Objects.requireNonNull(message, "message required");

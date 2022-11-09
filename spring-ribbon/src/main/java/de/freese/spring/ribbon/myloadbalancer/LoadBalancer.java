@@ -32,9 +32,6 @@ import org.slf4j.LoggerFactory;
  */
 public class LoadBalancer implements LoadBalancerPing
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancer.class);
 
     /**
@@ -67,10 +64,6 @@ public class LoadBalancer implements LoadBalancerPing
 
         /**
          * Sequentielle Pings.
-         *
-         * @param allServers {@link List}
-         *
-         * @return {@link List}
          */
         List<String> pingSequentiell(final List<String> allServers)
         {
@@ -91,17 +84,12 @@ public class LoadBalancer implements LoadBalancerPing
 
         /**
          * Parallele Pings mit dem {@link CompletableFuture}.
-         *
-         * @param allServers {@link List}
-         *
-         * @return {@link List}
          */
         List<String> pingWithCompletableFuture(final List<String> allServers)
         {
             List<String> workingServers = new ArrayList<>();
 
             // @formatter:off
-            @SuppressWarnings("unchecked")
             CompletableFuture<String> [] futures = allServers.stream()
                 .map(server -> CompletableFuture.supplyAsync(() -> isAlive(server) ? server : null))
                 .toArray(CompletableFuture[]::new);
@@ -140,10 +128,6 @@ public class LoadBalancer implements LoadBalancerPing
 
         /**
          * Parallele Pings mir dem {@link ExecutorCompletionService}.
-         *
-         * @param allServers {@link List}
-         *
-         * @return {@link List}
          */
         List<String> pingWithCompletionService(final List<String> allServers)
         {
@@ -174,10 +158,6 @@ public class LoadBalancer implements LoadBalancerPing
 
         /**
          * Parallele Pings durch Streams.
-         *
-         * @param allServers {@link List}
-         *
-         * @return {@link List}
          */
         List<String> pingWithStreams(final List<String> allServers)
         {
@@ -191,42 +171,25 @@ public class LoadBalancer implements LoadBalancerPing
         }
     }
 
-    /**
-     *
-     */
     private final List<String> aliveServer = new LinkedList<>();
-    /**
-     *
-     */
+
     private final List<String> allServer = new LinkedList<>();
-    /**
-     *
-     */
+
     private final ReentrantLock lock = new ReentrantLock(true);
-    /**
-     *
-     */
+
     private LoadBalancerPing ping = new LoadBalancerPingNoOp();
     /**
      * Default 15 Sekunden.
      */
     private long pingDelay = TimeUnit.SECONDS.toMillis(15);
-    /**
-     *
-     */
+
     private LoadBalancerStrategy strategy = new LoadBalancerStrategyRoundRobin();
-    // /**
-    // *
-    // */
+
     // private final ScheduledExecutorService scheduledExecutorService;
-    /**
-     *
-     */
+
     private Timer timer;
 
     /**
-     * Erzeugt eine neue Instanz von {@link LoadBalancer}.
-     *
      * @param server String[]; z.B. localhost:8080, localhost:8081
      */
     public LoadBalancer(final String... server)
@@ -236,8 +199,6 @@ public class LoadBalancer implements LoadBalancerPing
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link LoadBalancer}.
-     *
      * @param scheduledExecutorService {@link ScheduledExecutorService}; Ohne diesen Service wird für das Pinkgen ein {@link javax.swing.Timer} verwendet.
      * @param server String[]; z.B. localhost:8080, localhost:8081
      */
@@ -265,8 +226,6 @@ public class LoadBalancer implements LoadBalancerPing
      * Fügt einen weiteren Server hinzu.<br>
      * Dieser steht nach dem nächsten Ping-Intervall zur Verfügung, falls ansprechbar.<br>
      * Beispiel: "localhost:8082"
-     *
-     * @param server String
      */
     public void addServer(final String server)
     {
@@ -278,8 +237,6 @@ public class LoadBalancer implements LoadBalancerPing
 
     /**
      * Liefert den nächsten Server.<br>
-     *
-     * @return String
      */
     public String chooseServer()
     {
@@ -290,8 +247,6 @@ public class LoadBalancer implements LoadBalancerPing
      * Liefert den nächsten Server.<br>
      *
      * @param key String, wird noch nicht berücksichtigt
-     *
-     * @return String
      */
     public String chooseServer(final String key)
     {
@@ -314,9 +269,6 @@ public class LoadBalancer implements LoadBalancerPing
         }
     }
 
-    /**
-     * @return {@link List}
-     */
     public List<String> getAliveServer()
     {
         this.lock.lock();
@@ -331,9 +283,6 @@ public class LoadBalancer implements LoadBalancerPing
         }
     }
 
-    /**
-     * @return {@link List}
-     */
     public List<String> getAllServer()
     {
         return Collections.unmodifiableList(this.allServer);
@@ -342,8 +291,6 @@ public class LoadBalancer implements LoadBalancerPing
     /**
      * Liefert die Zeit zwischen den Pings in Millisekunden.<br>
      * Default: 15 Sekunden = 15000 Millisekunden
-     *
-     * @return long
      */
     public long getPingDelay()
     {
@@ -376,11 +323,6 @@ public class LoadBalancer implements LoadBalancerPing
     /**
      * Ersetzt den ServiceNamen durch einen aktiven Server.<br>
      * Beispiel: http://date-service/something -> http://localhost:8080/something
-     *
-     * @param serviceName String
-     * @param original {@link URI}
-     *
-     * @return {@link URI}
      */
     public URI reconstructURI(final String serviceName, final URI original)
     {
@@ -401,8 +343,6 @@ public class LoadBalancer implements LoadBalancerPing
 
     /**
      * Setzt die Implementierung für den Ping.
-     *
-     * @param ping {@link LoadBalancerPing}
      */
     public void setPing(final LoadBalancerPing ping)
     {
@@ -412,8 +352,6 @@ public class LoadBalancer implements LoadBalancerPing
     /**
      * Setzt die Zeit zwischen den Pings in Millisekunden.<br>
      * Default: 15 Sekunden = 15000 Millisekunden
-     *
-     * @param pingDelay long
      */
     public void setPingDelay(final long pingDelay)
     {
@@ -435,8 +373,6 @@ public class LoadBalancer implements LoadBalancerPing
     /**
      * Setzt eine neue {@link LoadBalancerStrategy}.<br>
      * Default: {@link LoadBalancerStrategyRoundRobin}
-     *
-     * @param strategy {@link LoadBalancerStrategy}
      */
     public void setStrategy(final LoadBalancerStrategy strategy)
     {
@@ -461,8 +397,6 @@ public class LoadBalancer implements LoadBalancerPing
 
     /**
      * Aktualisiert die Liste der ansprechbaren Server.
-     *
-     * @param workingServers {@link List}
      */
     protected void refreshAliveServer(final List<String> workingServers)
     {

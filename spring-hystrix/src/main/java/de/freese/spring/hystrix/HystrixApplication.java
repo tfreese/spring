@@ -42,16 +42,8 @@ import org.springframework.web.client.RestTemplate;
 // })
 public class HystrixApplication
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(HystrixApplication.class);
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         // configuration from environment properties
@@ -104,12 +96,6 @@ public class HystrixApplication
         System.exit(0);
     }
 
-    /**
-     * @param restTemplate {@link RestTemplate}
-     * @param urls String[]
-     *
-     * @return String
-     */
     @HystrixCommand(commandKey = "getSysdate1", threadPoolKey = "sysDate", fallbackMethod = "getSysdate2")
     public String getSysdate1(final RestTemplate restTemplate, final String[] urls)
     {
@@ -121,12 +107,6 @@ public class HystrixApplication
         return result;
     }
 
-    /**
-     * @param restTemplate {@link RestTemplate}
-     * @param urls String[]
-     *
-     * @return String
-     */
     @HystrixCommand(threadPoolKey = "sysDate", fallbackMethod = "getSysdate3")
     public String getSysdate2(final RestTemplate restTemplate, final String[] urls)
     {
@@ -138,12 +118,6 @@ public class HystrixApplication
         return result;
     }
 
-    /**
-     * @param restTemplate {@link RestTemplate}
-     * @param urls String[]
-     *
-     * @return String
-     */
     @HystrixCommand(threadPoolKey = "sysDate", fallbackMethod = "getSysdateFallback")
     public String getSysdate3(final RestTemplate restTemplate, final String[] urls)
     {
@@ -155,12 +129,6 @@ public class HystrixApplication
         return result;
     }
 
-    /**
-     * @param restTemplate {@link RestTemplate}
-     * @param urls String[]
-     *
-     * @return String
-     */
     @HystrixCommand(commandProperties =
             {
                     // Im aktuellen Thread ausführen.
@@ -174,9 +142,6 @@ public class HystrixApplication
         return result;
     }
 
-    /**
-     * @return {@link RestTemplate}
-     */
     @Bean
     public RestTemplate restTemplate()
     {

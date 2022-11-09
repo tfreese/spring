@@ -30,21 +30,10 @@ import org.springframework.security.core.AuthenticationException;
  */
 public class JwtTokenProviderJson implements JwtTokenProvider
 {
-    /**
-     *
-     */
     private final String base64EncodedSecretKey;
-    /**
-     *
-     */
+
     private final long validityInMilliseconds;
 
-    /**
-     * Erstellt ein neues {@link JwtTokenProviderJson} Object.
-     *
-     * @param secretKey String
-     * @param validityInMilliseconds long
-     */
     public JwtTokenProviderJson(final String secretKey, final long validityInMilliseconds)
     {
         super();

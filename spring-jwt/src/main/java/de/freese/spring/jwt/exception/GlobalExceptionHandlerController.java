@@ -24,9 +24,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandlerController extends ResponseEntityExceptionHandler
 {
-    /**
-     * @return {@link ErrorAttributes}
-     */
     @Bean
     public ErrorAttributes errorAttributes()
     {
@@ -49,12 +46,6 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
         };
     }
 
-    /**
-     * @param ex {@link AccessDeniedException}
-     * @param request {@link WebRequest}
-     *
-     * @return {@link ResponseEntity}
-     */
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> handleAccessDeniedException(final AccessDeniedException ex, final WebRequest request)
     {
@@ -62,41 +53,18 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
         // return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
     }
 
-    /**
-     * @param ex {@link AuthenticationException}
-     * @param request {@link WebRequest}
-     *
-     * @return {@link ResponseEntity}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<Object> handleAuthenticationException(final AuthenticationException ex, final WebRequest request) throws IOException
     {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
-    /**
-     * @param ex {@link Exception}
-     *
-     * @return {@link ResponseEntity}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGenericException(final Exception ex) throws IOException
     {
         return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
     }
 
-    /**
-     * @param ex {@link Exception}
-     * @param body Object
-     * @param status {@link HttpStatus}
-     * @param request {@link WebRequest}
-     *
-     * @return {@link ResponseEntity}
-     */
     protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body, final HttpStatus status, final WebRequest request)
     {
         return super.handleExceptionInternal(ex, body, new HttpHeaders(), status, request);

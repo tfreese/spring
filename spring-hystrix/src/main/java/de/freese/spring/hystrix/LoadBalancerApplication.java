@@ -35,9 +35,6 @@ import org.springframework.web.client.RestTemplate;
  */
 public class LoadBalancerApplication
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancerApplication.class);
 
     /**
@@ -45,31 +42,14 @@ public class LoadBalancerApplication
      */
     public static class HttpResponseHystrixCommand extends HystrixCommand<ClientHttpResponse>
     {
-        /**
-         *
-         */
         private final byte[] body;
-        /**
-         *
-         */
+
         private final ClientHttpRequestExecution execution;
-        /**
-         *
-         */
+
         private final HttpRequest request;
-        /**
-         *
-         */
+
         private final List<URI> uris;
 
-        /**
-         * Erzeugt eine neue Instanz von {@link HttpResponseHystrixCommand}.
-         *
-         * @param uris {@link List}
-         * @param request {@link HttpRequest}
-         * @param body byte[]
-         * @param execution {@link ClientHttpRequestExecution}
-         */
         public HttpResponseHystrixCommand(final List<URI> uris, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution)
         {
             // CommandGroupKey = ThreadPool-Name
@@ -145,51 +125,15 @@ public class LoadBalancerApplication
      */
     public static class LoadBalancerHystrixInterceptor implements ClientHttpRequestInterceptor
     {
-        /**
-         *
-         */
         private final String[] server;
-        /**
-         *
-         */
+
         private int serverIndex;
 
-        /**
-         * Erzeugt eine neue Instanz von {@link LoadBalancerHystrixInterceptor}.
-         *
-         * @param server String[]
-         */
         public LoadBalancerHystrixInterceptor(final String... server)
         {
             super();
 
             this.server = Objects.requireNonNull(server, "server required");
-        }
-
-        /**
-         * Wandelt die Template-URI in die reale URI um.<br>
-         * Beispiel: http://date-service/hystrix/test/sysdate -> http://localhost:65501/hystrix/test/sysdate
-         *
-         * @param originalUri {@link URI}
-         * @param server String
-         *
-         * @return {@link URI}
-         *
-         * @throws IOException Falls was schiefgeht.
-         */
-        private URI convertURI(final URI originalUri, final String server) throws IOException
-        {
-            String url = originalUri.toString();
-            url = url.replace("date-service", server);
-
-            try
-            {
-                return new URI(url);
-            }
-            catch (URISyntaxException ex)
-            {
-                throw new IOException(ex);
-            }
         }
 
         /**
@@ -217,10 +161,24 @@ public class LoadBalancerApplication
         }
 
         /**
-         * Liefert den nächsten Server.
-         *
-         * @return String
+         * Wandelt die Template-URI in die reale URI um.<br>
+         * Beispiel: http://date-service/hystrix/test/sysdate -> http://localhost:65501/hystrix/test/sysdate
          */
+        private URI convertURI(final URI originalUri, final String server) throws IOException
+        {
+            String url = originalUri.toString();
+            url = url.replace("date-service", server);
+
+            try
+            {
+                return new URI(url);
+            }
+            catch (URISyntaxException ex)
+            {
+                throw new IOException(ex);
+            }
+        }
+
         private String nextServer()
         {
             String host = this.server[this.serverIndex];
@@ -242,51 +200,14 @@ public class LoadBalancerApplication
      */
     public static class LoadBalancerInterceptor implements ClientHttpRequestInterceptor
     {
-        /**
-         *
-         */
-        private int index;
-        /**
-         *
-         */
         private final String[] server;
+        private int index;
 
-        /**
-         * Erzeugt eine neue Instanz von {@link LoadBalancerInterceptor}.
-         *
-         * @param server String[]
-         */
         public LoadBalancerInterceptor(final String... server)
         {
             super();
 
             this.server = Objects.requireNonNull(server, "server required");
-        }
-
-        /**
-         * Wandelt die Template-URI in die reale URI um.<br>
-         * Beispiel: http://date-service/hystrix/test/sysdate -> http://localhost:65501/hystrix/test/sysdate
-         *
-         * @param originalUri {@link URI}
-         * @param server String
-         *
-         * @return {@link URI}
-         *
-         * @throws IOException Falls was schiefgeht.
-         */
-        private URI convertURI(final URI originalUri, final String server) throws IOException
-        {
-            String url = originalUri.toString();
-            url = url.replace("date-service", server);
-
-            try
-            {
-                return new URI(url);
-            }
-            catch (URISyntaxException ex)
-            {
-                throw new IOException(ex);
-            }
         }
 
         /**
@@ -325,15 +246,24 @@ public class LoadBalancerApplication
         }
 
         /**
-         * @param newUri {@link URI}
-         * @param request {@link HttpRequest}
-         * @param body byte[]
-         * @param execution {@link ClientHttpRequestExecution}
-         *
-         * @return {@link ClientHttpResponse}
-         *
-         * @throws IOException Falls was schiefgeht.
+         * Wandelt die Template-URI in die reale URI um.<br>
+         * Beispiel: http://date-service/hystrix/test/sysdate -> http://localhost:65501/hystrix/test/sysdate
          */
+        private URI convertURI(final URI originalUri, final String server) throws IOException
+        {
+            String url = originalUri.toString();
+            url = url.replace("date-service", server);
+
+            try
+            {
+                return new URI(url);
+            }
+            catch (URISyntaxException ex)
+            {
+                throw new IOException(ex);
+            }
+        }
+
         private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution)
                 throws IOException
         {
@@ -352,11 +282,6 @@ public class LoadBalancerApplication
             return execution.execute(requestWrapper, body);
         }
 
-        /**
-         * Liefert den nächsten Server.
-         *
-         * @return String
-         */
         private String nextServer()
         {
             String host = this.server[this.index];
@@ -371,11 +296,6 @@ public class LoadBalancerApplication
         }
     }
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         // configuration from environment properties

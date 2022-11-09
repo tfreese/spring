@@ -17,11 +17,6 @@ import org.springframework.web.client.RestTemplate;
  */
 public class SysdateApplication
 {
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         // configuration from environment properties

@@ -11,11 +11,6 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  */
 public class Benchmarks
 {
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         // org.openjdk.jmh.Main.main(args);

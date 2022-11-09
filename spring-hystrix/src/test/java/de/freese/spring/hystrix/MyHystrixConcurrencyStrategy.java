@@ -18,16 +18,8 @@ import com.netflix.hystrix.strategy.properties.HystrixProperty;
  */
 public class MyHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy
 {
-    /**
-     *
-     */
     private final ThreadPoolExecutor executor;
 
-    /**
-     * Erstellt ein neues {@link MyHystrixConcurrencyStrategy} Object.
-     *
-     * @param executor {@link ThreadPoolExecutor}
-     */
     public MyHystrixConcurrencyStrategy(final ThreadPoolExecutor executor)
     {
         super();
@@ -37,8 +29,8 @@ public class MyHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy
 
     /**
      * @see com.netflix.hystrix.strategy.concurrency.HystrixConcurrencyStrategy#getThreadPool(com.netflix.hystrix.HystrixThreadPoolKey,
-     *      com.netflix.hystrix.strategy.properties.HystrixProperty, com.netflix.hystrix.strategy.properties.HystrixProperty,
-     *      com.netflix.hystrix.strategy.properties.HystrixProperty, java.util.concurrent.TimeUnit, java.util.concurrent.BlockingQueue)
+     * com.netflix.hystrix.strategy.properties.HystrixProperty, com.netflix.hystrix.strategy.properties.HystrixProperty,
+     * com.netflix.hystrix.strategy.properties.HystrixProperty, java.util.concurrent.TimeUnit, java.util.concurrent.BlockingQueue)
      */
     @Override
     public ThreadPoolExecutor getThreadPool(final HystrixThreadPoolKey threadPoolKey, final HystrixProperty<Integer> corePoolSize,
@@ -51,7 +43,7 @@ public class MyHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy
 
     /**
      * @see com.netflix.hystrix.strategy.concurrency.HystrixConcurrencyStrategy#getThreadPool(com.netflix.hystrix.HystrixThreadPoolKey,
-     *      com.netflix.hystrix.HystrixThreadPoolProperties)
+     * com.netflix.hystrix.HystrixThreadPoolProperties)
      */
     @Override
     public ThreadPoolExecutor getThreadPool(final HystrixThreadPoolKey threadPoolKey, final HystrixThreadPoolProperties threadPoolProperties)

@@ -20,6 +20,6 @@ class TestDerby extends AbstractTest
         registry.add("spring.datasource.username", () -> "sa");
         registry.add("spring.datasource.password", () -> "");
 
-        registry.add("spring.datasource.hikari.pool-name", () -> "Hikari-HsqlDb");
+        registry.add("spring.datasource.hikari.pool-name", () -> "Hikari-Derby");
     }
 }

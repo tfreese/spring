@@ -38,9 +38,6 @@ import org.springframework.web.filter.GenericFilterBean;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig
 {
-    /**
-     * @return {@link AuthenticationEntryPoint}
-     */
     @Bean
     AuthenticationEntryPoint authenticationEntryPoint()
     {
@@ -64,10 +61,8 @@ public class SecurityConfig
      *          .map(s -> ACCESS_DENIED)
      *          .orElseGet(() -> ACCESS_ABSTAIN);
      * }
-     *</code>
+     * </code>
      * </pre>
-     *
-     * @return {@link AccessDecisionManager}
      *
      * @see {@link https://www.baeldung.com/spring-security-custom-voter}
      */
@@ -85,13 +80,6 @@ public class SecurityConfig
 //        // @formatter:on
     // return new UnanimousBased(decisionVoters);
     // }
-
-    /**
-     * @param authenticationProviderPreAuthenticated {@link AuthenticationProvider}
-     * @param authenticationProviderDao {@link AuthenticationProvider}
-     *
-     * @return {@link AuthenticationManager}
-     */
     @Bean
     AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderPreAuthenticated,
                                                 final AuthenticationProvider authenticationProviderDao)
@@ -106,12 +94,6 @@ public class SecurityConfig
     /**
      * Für Username/Password Login.<br>
      * UserController.login(String, String)<br>
-     *
-     * @param passwordEncoder {@link PasswordEncoder}
-     * @param userDetailsService {@link UserDetailsService}
-     * @param userCache {@link UserCache}
-     *
-     * @return {@link AuthenticationProvider}
      */
     @Bean
     AuthenticationProvider authenticationProviderDao(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService,
@@ -138,11 +120,6 @@ public class SecurityConfig
         return authenticationProvider;
     }
 
-    /**
-     * @param authenticationUserDetailsService {@link AuthenticationUserDetailsService}
-     *
-     * @return {@link AuthenticationProvider}
-     */
     @Bean
     AuthenticationProvider authenticationProviderPreAuthenticated(final AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> authenticationUserDetailsService)
     {
@@ -152,11 +129,6 @@ public class SecurityConfig
         return preAuthenticatedAuthenticationProvider;
     }
 
-    /**
-     * @param userDetailsService {@link UserDetailsService}
-     *
-     * @return {@link AuthenticationUserDetailsService}
-     */
     @Bean
     AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> authenticationUserDetailsService(final UserDetailsService userDetailsService)
     {
@@ -166,9 +138,6 @@ public class SecurityConfig
         return wrapper;
     }
 
-    /**
-     *
-     */
     @Bean
     SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider,
                                     final AuthenticationEntryPoint authenticationEntryPoint, final RememberMeServices rememberMeServices,
@@ -230,13 +199,6 @@ public class SecurityConfig
         return httpSecurity.build();
     }
 
-    /**
-     * @param authenticationManager {@link AuthenticationManager}
-     *
-     * @return {@link GenericFilterBean}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     // @Bean
     // Mit @Bean funktionieren die REST-Services nicht mehr !
     GenericFilterBean myTokenFilter(final AuthenticationManager authenticationManager) throws Exception
@@ -257,9 +219,6 @@ public class SecurityConfig
         return filter;
     }
 
-    /**
-     *
-     */
     @Bean
     PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider(final AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> auds)
     {
@@ -269,20 +228,12 @@ public class SecurityConfig
         return preauthAuthProvider;
     }
 
-    /**
-     * @return {@link PasswordEncoder}
-     */
     @Bean
     PasswordEncoder passwordEncoder()
     {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * @param userDetailsService {@link UserDetailsService}
-     *
-     * @return {@link RememberMeServices}
-     */
     @Bean
     RememberMeServices rememberMeService(final UserDetailsService userDetailsService)
     {
@@ -296,13 +247,6 @@ public class SecurityConfig
      * .withUser("admin").password("{noop}admin1").roles("ADMIN","USER")<br>
      * .and()<br>
      * .withUser("user").password("{noop}user1").roles("USER");<br>
-     *
-     * @param passwordEncoder {@link PasswordEncoder}
-     * @param userCache {@link UserCache}
-     *
-     * @return {@link UserDetailsService}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     @Bean
     UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache) throws Exception
@@ -331,9 +275,6 @@ public class SecurityConfig
         // }
     }
 
-    /**
-     * @return {@link WebSecurityCustomizer}
-     */
     @Bean
     WebSecurityCustomizer webSecurityCustomizer()
     {

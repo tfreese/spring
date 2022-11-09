@@ -7,20 +7,10 @@ import java.util.List;
  */
 public class Delivery
 {
-    /**
-     *
-     */
     private final List<Drink> deliveredDrinks;
-    /**
-     *
-     */
+
     private final int orderNumber;
 
-    /**
-     * Erstellt ein neues {@link Delivery} Object.
-     *
-     * @param deliveredDrinks {@link List}
-     */
     public Delivery(final List<Drink> deliveredDrinks)
     {
         super();
@@ -34,17 +24,11 @@ public class Delivery
         this.orderNumber = deliveredDrinks.get(0).getOrderNumber();
     }
 
-    /**
-     * @return {@link List}
-     */
     public List<Drink> getDeliveredDrinks()
     {
         return this.deliveredDrinks;
     }
 
-    /**
-     * @return int
-     */
     public int getOrderNumber()
     {
         return this.orderNumber;

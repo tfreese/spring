@@ -30,14 +30,8 @@ import org.slf4j.LoggerFactory;
  */
 class TestResilience
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(TestResilience.class);
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testDecorators() throws Exception
     {
@@ -101,9 +95,6 @@ class TestResilience
         assertEquals(data, valueReference.get());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testRateLimiter() throws Exception
     {
@@ -134,9 +125,6 @@ class TestResilience
         assertTrue(true);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testRetry() throws Exception
     {

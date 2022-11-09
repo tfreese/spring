@@ -22,9 +22,6 @@ import org.springframework.stereotype.Component;
 @Order(10)
 public class JndiLookUpRunner implements CommandLineRunner
 {
-    /**
-     *
-     */
     public static final Logger LOGGER = LoggerFactory.getLogger(JndiLookUpRunner.class);
 
     /**

@@ -22,9 +22,6 @@ import org.springframework.context.annotation.Profile;
 @Profile("with-ssl")
 public class SslConfig
 {
-    /**
-    *
-    */
     // @Value("${server.port ?: #{systemProperties['server_port']}}")
     // @Value("${server.port : #{systemProperties['server_port']}}")
     // @Value("${server.port : #{systemProperties.server_port}}")
@@ -56,8 +53,6 @@ public class SslConfig
 
     /**
      * Umleiten von Port 8080 auf 8443.
-     *
-     * @return {@link ServletWebServerFactory}
      */
     @Bean
     public ServletWebServerFactory servletContainer()
@@ -136,8 +131,6 @@ public class SslConfig
 
     /**
      * Umleiten von Port 8080 auf 8443.
-     *
-     * @return {@link Connector}
      */
     private Connector servletRedirectConnector()
     {

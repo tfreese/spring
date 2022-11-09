@@ -11,29 +11,14 @@ import org.springframework.security.core.GrantedAuthority;
  */
 public interface JwtToken
 {
-    /**
-     * @return {@link Date}
-     */
     Date getExpirationDate();
 
-    /**
-     * @return String
-     */
     String getPassword();
 
-    /**
-     * @return {@link Set}
-     */
     Set<GrantedAuthority> getRoles();
 
-    /**
-     * @return String
-     */
     String getUsername();
 
-    /**
-     * @return boolean
-     */
     default boolean isExpired()
     {
         final Date expiration = getExpirationDate();

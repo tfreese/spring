@@ -29,24 +29,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 interface TestJwtToken
 {
-    /**
-     * @return {@link JwtTokenProvider}
-     */
     JwtTokenProvider getJwtTokenProvider();
 
-    /**
-     * @return {@link MockMvc}
-     */
     MockMvc getMockMvc();
 
-    /**
-     * @return {@link RestTemplateBuilder}
-     */
     RestTemplateBuilder getRestTemplateBuilder();
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     default void testFailNoLogin() throws Exception
     {
@@ -83,9 +71,6 @@ interface TestJwtToken
         System.out.printf("%nFail: %s%n", response);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     default void testFailWrongPass() throws Exception
     {
@@ -117,9 +102,6 @@ interface TestJwtToken
 //        // @formatter:end
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     default void testLoginAdmin() throws Exception
     {
@@ -140,9 +122,6 @@ interface TestJwtToken
         System.out.printf("%nLogin Admin: %s%n", responseEntity.getBody());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     default void testLoginUser() throws Exception
     {
@@ -163,9 +142,6 @@ interface TestJwtToken
         System.out.printf("%nLogin User: %s%n", responseEntity.getBody());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     default void testMeAdmin() throws Exception
     {
@@ -186,9 +162,6 @@ interface TestJwtToken
         System.out.printf("%nMe Admin: %s%n", JsonFormatter.prettyPrint(responseEntity.getBody()));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     default void testMeUser() throws Exception
     {
@@ -209,9 +182,6 @@ interface TestJwtToken
         System.out.printf("%nMe User: %s%n", JsonFormatter.prettyPrint(responseEntity.getBody()));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     default void testSearchAdmin() throws Exception
     {
@@ -232,9 +202,6 @@ interface TestJwtToken
         System.out.printf("%nSearch Admin: %s%n", JsonFormatter.prettyPrint(responseEntity.getBody()));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     default void testSearchUser() throws Exception
     {

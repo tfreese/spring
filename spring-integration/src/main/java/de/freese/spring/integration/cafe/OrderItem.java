@@ -5,26 +5,12 @@ package de.freese.spring.integration.cafe;
  */
 public class OrderItem
 {
-    /**
-     *
-     */
     private final boolean iced;
-    /**
-     *
-     */
+
     private final Order order;
-    /**
-     *
-     */
+
     private final DrinkType type;
 
-    /**
-     * Erstellt ein neues {@link OrderItem} Object.
-     *
-     * @param order {@link Order}
-     * @param type {@link DrinkType}
-     * @param iced boolean
-     */
     public OrderItem(final Order order, final DrinkType type, final boolean iced)
     {
         super();
@@ -34,25 +20,16 @@ public class OrderItem
         this.iced = iced;
     }
 
-    /**
-     * @return {@link DrinkType}
-     */
     public DrinkType getDrinkType()
     {
         return this.type;
     }
 
-    /**
-     * @return {@link Order}
-     */
     public int getOrderNumber()
     {
         return this.order.getNumber();
     }
 
-    /**
-     * @return boolean
-     */
     public boolean isIced()
     {
         return this.iced;

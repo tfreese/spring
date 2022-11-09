@@ -1,11 +1,12 @@
 package de.freese.spring.integration.cafe.annotation;
 
 import java.util.List;
+
+import de.freese.spring.integration.cafe.Delivery;
+import de.freese.spring.integration.cafe.Drink;
 import org.springframework.integration.annotation.Aggregator;
 import org.springframework.integration.annotation.CorrelationStrategy;
 import org.springframework.integration.annotation.MessageEndpoint;
-import de.freese.spring.integration.cafe.Delivery;
-import de.freese.spring.integration.cafe.Drink;
 
 /**
  * @author Thomas Freese
@@ -13,10 +14,6 @@ import de.freese.spring.integration.cafe.Drink;
 @MessageEndpoint
 public class Waiter extends de.freese.spring.integration.cafe.xml.Waiter
 {
-    /**
-     * @param drink {@link Drink}
-     * @return int
-     */
     @CorrelationStrategy
     public int correlateByOrderNumber(final Drink drink)
     {

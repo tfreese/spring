@@ -12,28 +12,18 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class JwtAuthorisationApplication extends SpringBootServletInitializer
 {
-    /**
-     * Konfiguriert die SpringApplication.
-     *
-     * @param builder {@link SpringApplicationBuilder}
-     *
-     * @return {@link SpringApplicationBuilder}
-     */
+    public static void main(final String[] args)
+    {
+        // ApplicationContext context = SpringApplication.run(SpringBootThymeleafApplication.class, args);
+        configureApplication(new SpringApplicationBuilder()).run(args);
+    }
+
     private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder)
     {
         // headless(false) für Desktop
         // .bannerMode(Banner.Mode.OFF);
         // .profiles(profiles)
         return builder.sources(JwtAuthorisationApplication.class).headless(true);// .profiles("with-ssl");
-    }
-
-    /**
-     * @param args String[]
-     */
-    public static void main(final String[] args)
-    {
-        // ApplicationContext context = SpringApplication.run(SpringBootThymeleafApplication.class, args);
-        configureApplication(new SpringApplicationBuilder()).run(args);
     }
 
     /**

@@ -15,53 +15,28 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class MutableUser implements UserDetails, CredentialsContainer
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -5966384384144097545L;
-    /**
-     *
-     */
+
     private boolean accountNonExpired = true;
-    /**
-     *
-     */
+
     private boolean accountNonLocked = true;
-    /**
-     *
-     */
+
     private Set<? extends GrantedAuthority> authorities;
-    /**
-     *
-     */
+
     private boolean credentialsNonExpired;
-    /**
-     *
-     */
+
     private boolean enabled;
-    /**
-     *
-     */
+
     private String password;
-    /**
-     *
-     */
+
     private String username;
 
-    /**
-     * Erstellt ein neues {@link MutableUser} Object.
-     */
     public MutableUser()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link MutableUser} Object.
-     *
-     * @param userDetails {@link UserDetails}
-     */
     public MutableUser(final UserDetails userDetails)
     {
         super();
@@ -75,9 +50,6 @@ public class MutableUser implements UserDetails, CredentialsContainer
         this.username = userDetails.getUsername();
     }
 
-    /**
-     * @return {@link MutableUser}
-     */
     public MutableUser clearCredentials()
     {
         eraseCredentials();
@@ -157,49 +129,31 @@ public class MutableUser implements UserDetails, CredentialsContainer
         return this.enabled;
     }
 
-    /**
-     * @param accountNonExpired boolean
-     */
     public void setAccountNonExpired(final boolean accountNonExpired)
     {
         this.accountNonExpired = accountNonExpired;
     }
 
-    /**
-     * @param accountNonLocked boolean
-     */
     public void setAccountNonLocked(final boolean accountNonLocked)
     {
         this.accountNonLocked = accountNonLocked;
     }
 
-    /**
-     * @param authorities {@link Set}<GrantedAuthority>
-     */
     public void setAuthorities(final Set<? extends GrantedAuthority> authorities)
     {
         this.authorities = authorities;
     }
 
-    /**
-     * @param credentialsNonExpired boolean
-     */
     public void setCredentialsNonExpired(final boolean credentialsNonExpired)
     {
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
-    /**
-     * @param password String
-     */
     public void setPassword(final String password)
     {
         this.password = password;
     }
 
-    /**
-     * @param username String
-     */
     public void setUsername(final String username)
     {
         this.username = username;

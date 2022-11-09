@@ -15,9 +15,6 @@ import org.springframework.security.core.Authentication;
  */
 class JwtTokenAuthenticationProvider extends DaoAuthenticationProvider
 {
-    /**
-     *
-     */
     private JwtTokenProvider jwtTokenProvider;
 
     /**
@@ -44,9 +41,6 @@ class JwtTokenAuthenticationProvider extends DaoAuthenticationProvider
         return super.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 
-    /**
-     * @param jwtTokenProvider {@link JwtTokenProvider}
-     */
     public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider)
     {
         this.jwtTokenProvider = jwtTokenProvider;
@@ -61,17 +55,11 @@ class JwtTokenAuthenticationProvider extends DaoAuthenticationProvider
         return JwtAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
-    /**
-     * @return {@link JwtTokenProvider}
-     */
     protected JwtTokenProvider getJwtTokenProvider()
     {
         return this.jwtTokenProvider;
     }
 
-    /**
-     * @return {@link MessageSourceAccessor}
-     */
     protected MessageSourceAccessor getMessages()
     {
         return super.messages;

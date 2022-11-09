@@ -51,9 +51,6 @@ class JwtRequestFilter extends OncePerRequestFilter
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
-    /**
-     * @param authenticationManager {@link AuthenticationManager}
-     */
     public void setAuthenticationManager(final AuthenticationManager authenticationManager)
     {
         this.authenticationManager = authenticationManager;

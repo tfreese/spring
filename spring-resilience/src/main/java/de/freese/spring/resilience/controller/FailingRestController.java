@@ -19,21 +19,10 @@ import reactor.core.publisher.Mono;
 @RestController
 public class FailingRestController
 {
-    /**
-     *
-     */
     private final ReactiveCircuitBreakerFactory<Resilience4JConfigBuilder.Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> reactiveCircuitBreakerFactory;
-    /**
-     *
-     */
+
     private final FailingService service;
 
-    /**
-     * Erstellt ein neues {@link FailingRestController} Object.
-     *
-     * @param service {@link FailingService}
-     * @param reactiveCircuitBreakerFactory {@link ReactiveCircuitBreakerFactory}
-     */
     FailingRestController(final FailingService service,
                           final ReactiveCircuitBreakerFactory<Resilience4JConfigBuilder.Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> reactiveCircuitBreakerFactory)
     {
@@ -44,19 +33,7 @@ public class FailingRestController
     }
 
     /**
-     * @return {@link ReactiveCircuitBreaker}
-     */
-    private ReactiveCircuitBreaker getReactiveCircuitBreaker()
-    {
-        return this.reactiveCircuitBreakerFactory.create("greet");
-    }
-
-    /**
      * http://localhost:8080/greet?name=tommy
-     *
-     * @param name {@link Optional}
-     *
-     * @return {@link Publisher}
      */
     @GetMapping("greet")
     Publisher<String> greet(@RequestParam final Optional<String> name)
@@ -64,5 +41,10 @@ public class FailingRestController
         Mono<String> results = this.service.greet(name);
 
         return getReactiveCircuitBreaker().run(results, throwable -> Mono.just("fallback (no name): hello world !")).map(r -> r + "\n");
+    }
+
+    private ReactiveCircuitBreaker getReactiveCircuitBreaker()
+    {
+        return this.reactiveCircuitBreakerFactory.create("greet");
     }
 }

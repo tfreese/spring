@@ -24,11 +24,6 @@ public interface LoadBalancerStrategy extends BiFunction<List<String>, String, S
 
     /**
      * Liefert den nächsten Server.
-     *
-     * @param server {@link List}
-     * @param key String
-     *
-     * @return String
      */
     String chooseServer(List<String> server, String key);
 }
