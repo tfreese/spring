@@ -15,10 +15,7 @@ spring:
     main:
         allow-bean-definition-overriding: true
         banner-mode: "OFF"
-        web-environment: false
         web-application-type: NONE
-
-
 
 servers: localhost:8081,localhost:8082,localhost:8083
 

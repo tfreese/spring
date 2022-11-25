@@ -25,10 +25,6 @@ spring:
     banner:
         charset: UTF-8
         location: classpath:banner.txt
-    http:
-        encoding:
-            enabled: true
-            charset: UTF-8
     jackson:
         date-format: “yyyy-MM-dd HH:mm:ss.SSS”
         default-property-inclusion: NON_NULL
@@ -52,24 +48,26 @@ spring:
         banner-mode: CONSOLE
         web-application-type: SERVLET
     mvc:
-        favicon:
-            enabled: true
-        locale: de_DE
         throw-exception-if-no-handler-found: true
     output:
         ansi:
             enabled: DETECT
     profiles:
         active: with-ssl
-          #active: default
-          #resources:
-          #cache:
+        #active: default
+        #resources:
+        #cache:
         #period: 0
         #chain:
         #cache: false
     thymeleaf:
         cache: false
-
+    servlet:
+        encoding:
+            enabled: true
+            charset: UTF-8
+    web:
+        locale: de_DE
 
 # =================================================================================================
 # Server Properties

@@ -15,7 +15,7 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 bootJar {
-    mainClass = "de.freese.spring.web.SpringBootWebApp"
+    mainClass = "de.freese.spring.web.SpringBootWebApplication"
 }
 
 //Für Platzhalter in application.properties

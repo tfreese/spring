@@ -56,7 +56,7 @@
         <version_io.jsonwebtoken_jjwt>0.9.1</version_io.jsonwebtoken_jjwt>
         <version_io.springfox_swagger>3.0.0</version_io.springfox_swagger><!-- 2.9.2; 2.10.0 macht Probleme, GUI wird nicht angezeigt. -->
 
-        <version_org.apache.qpid>8.0.6</version_org.apache.qpid>
+        <version_org.apache.qpid>9.0.0</version_org.apache.qpid>
         <version_org.joinfaces>5.0.0-m5</version_org.joinfaces>
         <version_org.springdoc>1.6.13</version_org.springdoc>
         <version_org.testcontainers>1.17.6</version_org.testcontainers>
@@ -232,6 +232,12 @@
     <dependencies>
         <!-- compile scope -->
         <!-- runtime scope -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-properties-migrator</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
         <!-- provided scope -->
         <!-- test scope -->
     </dependencies>

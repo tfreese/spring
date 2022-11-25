@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
-class MainSpringFxApplication
+class JavaFxApplicationLauncher
 {
     public static void main(final String[] args)
     {

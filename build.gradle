@@ -5,6 +5,7 @@ buildscript {
         mavenLocal()
         mavenCentral()
         gradlePluginPortal() // maven { url "https://plugins.gradle.org/m2"; name "plugins-gradle" }
+        maven { url "https://teraphim.jfrog.io/artifactory/default-maven-virtual"; name "jfrog" }
     }
 
     dependencies {

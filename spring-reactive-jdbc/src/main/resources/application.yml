@@ -5,11 +5,13 @@
 
 spring:
     datasource:
-        initialization-mode: never
         hikari:
             auto-commit: false
     profiles:
         active: jdbc
+    sql:
+        init:
+            mode: never
 
 management:
     endpoints:

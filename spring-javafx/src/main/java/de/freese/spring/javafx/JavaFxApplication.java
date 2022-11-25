@@ -62,7 +62,7 @@ public class JavaFxApplication extends Application
 
         // @formatter:off
         this.applicationContext = new SpringApplicationBuilder()
-                .sources(MainSpringFxApplication.class)
+                .sources(JavaFxApplicationLauncher.class)
                 .initializers(initializer)
                 //.registerShutdownHook(true)
                 .run(getParameters().getRaw().toArray(new String[0]));

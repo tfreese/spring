@@ -10,10 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class SpringBootWebApp
+public class SpringBootWebApplication
 {
     public static void main(final String[] args)
     {
-        SpringApplication.run(SpringBootWebApp.class, args);
+        SpringApplication.run(SpringBootWebApplication.class, args);
     }
 }
