@@ -5,7 +5,6 @@ buildscript {
         mavenLocal()
         mavenCentral()
         gradlePluginPortal() // maven { url "https://plugins.gradle.org/m2"; name "plugins-gradle" }
-        maven { url "https://teraphim.jfrog.io/artifactory/default-maven-virtual"; name "jfrog" }
     }
 
     dependencies {
@@ -85,7 +84,7 @@ project("kubernetes") {
     // The archive name. If the name has not been explicitly set, the pattern for the name is:
     // [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
     // archiveFileName = "my-boot.jar"
-    bootJar {
+    springBoot {
         mainClass = "disabled"
     }
 }
@@ -101,7 +100,7 @@ project("kubernetes:kubernetes-microservice") {
     // The archive name. If the name has not been explicitly set, the pattern for the name is:
     // [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
     // archiveFileName = "my-boot.jar"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.kubernetes.microservice.MyApplication"
     }
 }
@@ -117,14 +116,14 @@ project("spring-autoconfigure-dbserver") {
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
     // Deaktiviert, da wir 2 main-Klassen haben.
-    bootJar {
+    springBoot {
         mainClass = "disabled"
     }
 }
 
 project("spring-cloud") {
     description = "Folder project"
-    bootJar {
+    springBoot {
         mainClass = "disabled"
     }
 }
@@ -143,7 +142,7 @@ project("spring-cloud:spring-cloud-api-gateway") {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.cloud.gateway.GatewayApplication"
     }
 
@@ -166,7 +165,7 @@ project("spring-cloud:spring-cloud-boot-admin") {
         implementation("de.codecentric:spring-boot-admin-starter-server")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.boot.cloud.admin.SpringBootAdminApplication"
     }
 }
@@ -186,7 +185,7 @@ project("spring-cloud:spring-cloud-client") {
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
     // Deaktiviert, da wir 2 main-Klassen haben.
-    bootJar {
+    springBoot {
         mainClass = "disabled"
     }
 }
@@ -199,7 +198,7 @@ project("spring-cloud:spring-cloud-eureka") {
         runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.cloud.eureka.EurekaServerApplication"
     }
 
@@ -231,7 +230,7 @@ project("spring-cloud:spring-cloud-microservice") {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.cloud.microservice.MicroServiceApplication"
     }
 
@@ -260,7 +259,7 @@ project("spring-hateoas") {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.hateoas.HateoasApplication"
     }
 
@@ -290,7 +289,7 @@ project("spring-hystrix") {
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
     // Deaktiviert, da wir 2 main-Klassen haben.
-    bootJar {
+    springBoot {
         mainClass = "disabled"
     }
 }
@@ -307,7 +306,7 @@ project("spring-integration") {
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
     // Deaktiviert, da wir keine main-Klasse haben.
-    bootJar {
+    springBoot {
         mainClass = "disabled"
     }
 }
@@ -324,7 +323,7 @@ project("spring-javafx") {
         }
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.javafx.MainSpringFxApplication"
     }
 }
@@ -348,7 +347,7 @@ project("spring-jwt") {
         testImplementation("org.springframework.security:spring-security-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.jwt.JwtAuthorisationApplication"
     }
 }
@@ -365,7 +364,7 @@ project("spring-kryo") {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.kryo.KryoApplication"
     }
 }
@@ -382,14 +381,14 @@ project("spring-ldap-unboundid") {
         testImplementation("org.springframework.security:spring-security-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.ldap.unboundid.LdapApplication"
     }
 }
 
 project("spring-messaging") {
     description = "Folder project"
-    bootJar {
+    springBoot {
         mainClass = "disabled"
     }
 }
@@ -406,7 +405,7 @@ project("spring-messaging:spring-messaging-amqp-qpid") {
         implementation("org.apache.qpid:qpid-broker")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "org.spring.messaging.amqp.qpid.SpringQpidApplication"
     }
 }
@@ -418,7 +417,7 @@ project("spring-messaging:spring-messaging-jms") {
         implementation("org.springframework.boot:spring-boot-starter-json")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.messaging.jms.SpringJmsApplication"
     }
 }
@@ -438,7 +437,7 @@ project("spring-microservice-jmh") {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.Benchmarks"
     }
 
@@ -469,7 +468,7 @@ project("spring-openapi") {
         implementation("org.springframework.boot:spring-boot-starter-web")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.openapi.OpenApiApplication"
     }
 }
@@ -487,7 +486,7 @@ project("spring-reactive-jdbc") {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.reactive.SpringReactiveJdbcApplication"
     }
 
@@ -509,7 +508,7 @@ project("spring-resilience") {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.resilience.SpringResilienceApplication"
     }
 
@@ -539,7 +538,7 @@ project("spring-ribbon") {
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
     // Deaktiviert, da wir 2 main-Klassen haben.
-    bootJar {
+    springBoot {
         mainClass = "disabled"
     }
 }
@@ -632,7 +631,7 @@ project("spring-thymeleaf") {
         }
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
-    bootJar {
+    springBoot {
         mainClass = "de.freese.spring.thymeleaf.ThymeleafApplication"
     }
 

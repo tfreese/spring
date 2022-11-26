@@ -7,10 +7,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserCache;
@@ -35,7 +34,7 @@ import org.springframework.web.filter.GenericFilterBean;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig
 {
     @Bean
@@ -160,7 +159,7 @@ public class SecurityConfig
 //                    .authorizeRequests()
 //                    .anyRequest().authenticated()// Alle HTTP Methoden zulässig.
                 .authorizeHttpRequests()
-                    .requestMatchers("/", "/index", "/createError", "/login/**", "/actuator/**").permitAll()
+                    .requestMatchers("/", "/index", "/createError", "/login/**", "/actuator/**", "/favicon.ico", "/manifest.appcache", "/css/**", "/js/**", "/images/**").permitAll()
                     //.requestMatchers(HttpMethod.GET,"/admin/**").hasRole("ADMIN")
                     .requestMatchers("/web/**").authenticated()
                     .requestMatchers("/rest/**").authenticated()
@@ -275,15 +274,15 @@ public class SecurityConfig
         // }
     }
 
-    @Bean
-    WebSecurityCustomizer webSecurityCustomizer()
-    {
-        // @formatter:off
-        return webSecurity ->
-                // Pfade ohne Sicherheitsprüfung.
-                webSecurity.ignoring()
-                        .requestMatchers("/favicon.ico", "/manifest.appcache", "/css/**", "/js/**", "/images/**")
-                ;
-        // @formatter:on
-    }
+    //    @Bean
+    //    WebSecurityCustomizer webSecurityCustomizer()
+    //    {
+    //        // @formatter:off
+//        return webSecurity ->
+//                // Pfade ohne Sicherheitsprüfung.
+//                webSecurity.ignoring()
+//                        .requestMatchers(, , )
+//                ;
+//        // @formatter:on
+    //    }
 }

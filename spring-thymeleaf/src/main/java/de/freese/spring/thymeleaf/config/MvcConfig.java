@@ -202,26 +202,20 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
         // acceptHeaderLocaleResolver.setDefaultLocale(Locale.GERMAN);
 
         // Ohne #setDefaultLocale wird im "Accept-Language" Header nachgeschaut.
-        SessionLocaleResolver localeResolver = new SessionLocaleResolver()
-        {
-            /**
-             * @see org.springframework.web.servlet.i18n.SessionLocaleResolver#determineDefaultLocale(jakarta.servlet.http.HttpServletRequest)
-             */
-            @Override
-            protected Locale determineDefaultLocale(final HttpServletRequest request)
-            {
-                Locale defaultLocale = request.getLocale();
-
-                if (defaultLocale == null)
-                {
-                    defaultLocale = getDefaultLocale();
-                }
-
-                return defaultLocale;
-            }
-        };
-        localeResolver.setDefaultLocale(Locale.ENGLISH);
+        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+        //        localeResolver.setDefaultLocale(null);
         localeResolver.setDefaultTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
+        localeResolver.setDefaultLocaleFunction(request ->
+        {
+            Locale defaultLocale = request.getLocale();
+
+            if (defaultLocale == null)
+            {
+                defaultLocale = Locale.ENGLISH;
+            }
+
+            return defaultLocale;
+        });
 
         return localeResolver;
     }
