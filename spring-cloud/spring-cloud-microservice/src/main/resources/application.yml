@@ -92,8 +92,9 @@ spring:
     main:
         banner-mode: "OFF"
     mvc:
-        locale: de_DE
         throw-exception-if-no-handler-found: true
     output:
         ansi:
-            enabled: DETECT   
+            enabled: DETECT
+    web:
+        locale: de_DE

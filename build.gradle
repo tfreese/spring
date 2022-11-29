@@ -42,7 +42,6 @@ subprojects {
             dependency("de.javakaffee:kryo-serializers:$version_kryoSerializers")
 
             dependency("io.jsonwebtoken:jjwt:$version_jjwt")
-            dependency("io.r2dbc:r2dbc-client:$version_r2dbcClient")
 
             //dependency("javax:javaee-web-api:$version_javaee")
 
@@ -413,8 +412,11 @@ project("spring-messaging:spring-messaging-amqp-qpid") {
 project("spring-messaging:spring-messaging-jms") {
     description = "JMS with ActiveMQ"
     dependencies {
-        implementation("org.springframework.boot:spring-boot-starter-activemq")
+        implementation("org.apache.activemq:artemis-server")
         implementation("org.springframework.boot:spring-boot-starter-json")
+        implementation("org.springframework.boot:spring-boot-starter-artemis")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
     springBoot {
@@ -476,7 +478,6 @@ project("spring-openapi") {
 project("spring-reactive-jdbc") {
     description = "Reactive JDBC with Spring"
     dependencies {
-        implementation("io.r2dbc:r2dbc-client")
         implementation("io.r2dbc:r2dbc-h2")
         implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
         implementation("org.springframework.boot:spring-boot-starter-jdbc")
