@@ -191,6 +191,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
     {
         return this.databaseClient.inConnectionMany(connection ->
         {
+            //            connection.createBatch()
             var statement = connection.createStatement("INSERT INTO department (department_name) VALUES (:name)").returnGeneratedValues("department_id");
 
             for (var d : data)
