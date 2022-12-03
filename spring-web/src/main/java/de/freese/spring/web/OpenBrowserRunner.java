@@ -34,7 +34,7 @@ public class OpenBrowserRunner implements CommandLineRunner
     @Override
     public void run(final String... args) throws Exception
     {
-        LOGGER.info("");
+        LOGGER.info("open browser");
 
         boolean sslEnabled = Optional.ofNullable(environment.getProperty("server.ssl.enabled", boolean.class)).orElse(false);
         String host = Optional.ofNullable(environment.getProperty("server.address")).orElse("localhost");

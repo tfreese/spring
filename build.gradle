@@ -34,11 +34,6 @@ subprojects {
             dependency("com.esotericsoftware:kryo:$version_kryo")
             dependency("com.nimbusds:nimbus-jose-jwt:$version_nimbus")
 
-            dependencySet(group: "com.sun.faces", version: "$version_jsf") {
-                entry "jsf-api"
-                entry "jsf-impl"
-            }
-
             dependency("de.javakaffee:kryo-serializers:$version_kryoSerializers")
 
             dependency("io.jsonwebtoken:jjwt:$version_jjwt")
@@ -53,13 +48,13 @@ subprojects {
                 }
             }
 
+            dependency("org.joinfaces:primefaces-spring-boot-starter:${version_joinfaces}")
+
             dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {
                 entry "jmh-core"
                 entry "jmh-generator-annprocess"
             }
 
-//            dependency("org.primefaces:primefaces:$version_primefaces")
-//            dependency("org.primefaces.extensions:primefaces-extensions:$version_primefacesExtensions")
             dependency("org.primefaces.themes:all-themes:$version_primefacesThemes")
             dependency("org.springdoc:springdoc-openapi-ui:$version_springdoc")
 

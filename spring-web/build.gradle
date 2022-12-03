@@ -1,15 +1,9 @@
 description = "Demo für spring-boot-web mit JSF"
 
 dependencies {
-    implementation("org.joinfaces:primefaces-spring-boot-starter:5.0.0-m5")
-
-//    implementation("org.primefaces:primefaces:${version_primefaces}:jakarta")
-//    implementation("org.springframework.boot:spring-boot-starter-web") {
-//        //exclude module: "spring-boot-starter-tomcat"
-//    }
+    implementation("org.joinfaces:primefaces-spring-boot-starter")
 
     runtimeOnly("org.primefaces.themes:all-themes")
-//    runtimeOnly("org.primefaces.extensions:primefaces-extensions")
     runtimeOnly("org.springframework.boot:spring-boot-actuator")
 }
 
@@ -20,6 +14,15 @@ springBoot {
 
 //Für Platzhalter in application.properties
 ext.artifactId = project.name
+
+sourceSets {
+    main {
+        resources {
+            srcDirs += ["${projectDir}/src/main/webapp"]
+            //srcDir "src/main/webapp"
+        }
+    }
+}
 
 processResources {
     // filesMatching("**/*.properties")

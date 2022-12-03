@@ -16,13 +16,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebAppConfig
 {
-    //    @Bean
-    //    public WebMvcConfigurer configureResourceHandlers(final ResourceHandlerRegistry registry)
-    //    {
-    //        return
-    //                registry.addResourceHandler("/");
-    //    }
-
     @Bean
     public ServletRegistrationBean<FacesServlet> facesServletRegistration(ServletContext servletContext)
     {
@@ -30,26 +23,14 @@ public class WebAppConfig
         servletContext.setInitParameter("jakarta.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
         servletContext.setInitParameter("jakarta.faces.PROJECT_STAGE", "Development");
 
-        // Damit JSF ohne web.xml funktioniert.
-        servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
-
         servletContext.setInitParameter("primefaces.THEME", "arya");
 
         ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>();
         servletRegistrationBean.setServlet(new FacesServlet());
-        servletRegistrationBean.setUrlMappings(Set.of("*.xhtml", "*.jsf"));
+        servletRegistrationBean.setUrlMappings(Set.of("*.html", "*.xhtml", "*.jsf"));
         servletRegistrationBean.setLoadOnStartup(1);
         servletRegistrationBean.setName("Faces Servlet");
 
         return servletRegistrationBean;
     }
-
-    //    /**
-    //     * Keine Factory als Backup für jakarta.faces.context.FacesContextFactory gefunden.
-    //     */
-    //    @Bean
-    //    public ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener()
-    //    {
-    //        return new ServletListenerRegistrationBean<>(new ConfigureListener());
-    //    }
 }

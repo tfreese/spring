@@ -1,6 +1,8 @@
 package de.freese.spring.web;
 
 import java.awt.Point;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -16,10 +18,13 @@ import org.springframework.stereotype.Component;
  */
 @Component  // siehe faces-config.xml: el-resolver
 @ViewScoped
-public class DataBean
+public class DataBean implements Serializable
 {
+    @Serial
+    private static final long serialVersionUID = 3966368804680062710L;
+
     @Resource
-    private DataService dataService;
+    private transient DataService dataService;
 
     private String localDateTimeFormatted;
 

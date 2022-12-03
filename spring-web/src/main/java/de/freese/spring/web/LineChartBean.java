@@ -1,5 +1,8 @@
 package de.freese.spring.web;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.faces.view.ViewScoped;
@@ -15,10 +18,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ViewScoped
-public class LineChartBean
+public class LineChartBean implements Serializable
 {
+    @Serial
+    private static final long serialVersionUID = 7763047176024276034L;
+
     @Resource
-    private DataService dataService;
+    private transient DataService dataService;
 
     private LineChartModel lineModel;
 
