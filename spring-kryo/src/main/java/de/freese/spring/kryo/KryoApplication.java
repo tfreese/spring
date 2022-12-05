@@ -1,18 +1,14 @@
 package de.freese.spring.kryo;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.serializers.MapSerializer;
-import com.esotericsoftware.kryo.serializers.TimeSerializers.LocalDateTimeSerializer;
 import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy;
 import com.esotericsoftware.kryo.util.Pool;
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
-import de.javakaffee.kryoserializers.DateSerializer;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -41,18 +37,13 @@ public class KryoApplication implements WebMvcConfigurer
             kryo.setReferences(true); // Verhindert Rekursion.
             kryo.setRegistrationRequired(false);
 
-            kryo.register(Date.class, new DateSerializer(Date.class));
             kryo.register(Timestamp.class, new TimestampSerializer());
-
-            // Unable to make field private java.util.TimeZone java.util.Calendar.zone accessible
-            // kryo.register(GregorianCalendar.class, new GregorianCalendarSerializer());
-
             kryo.register(LinkedHashMap.class, new MapSerializer<>());
-            kryo.register(LocalDateTime.class, new LocalDateTimeSerializer());
 
-            // NoClassDefFoundError
-            // UnmodifiableCollectionsSerializer.registerSerializers(kryo);
-            // SynchronizedCollectionsSerializer.registerSerializers(kryo);
+            // Serializer von de.javakaffee haben ne Macke.
+            // Unable to make field private java.util.TimeZone java.util.Calendar.zone accessible
+            //            kryo.register(Date.class, new de.javakaffee.kryoserializers.DateSerializer(Date.class));
+            //            kryo.register(GregorianCalendar.class, new de.javakaffee.kryoserializers.GregorianCalendarSerializer());
 
             return kryo;
         }
