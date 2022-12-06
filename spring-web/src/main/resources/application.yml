@@ -1,0 +1,67 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+debug: false
+
+logging:
+    level:
+        root: INFO
+        org.springframework.core.LocalVariableTableParameterNameDiscoverer: OFF
+
+# Ist spring-boot-starter-parent die Parent-POM, wird als Resource-Delimiter @ verwendet.
+info:
+    app:
+        name: ${project.artifactId}
+        description: ${project.description}
+        version: ${project.version}
+
+server:
+    port: 8088
+    servlet:
+        context-path: /${project.artifactId}
+
+#<form action="http://localhost:9123/web/actuator/shutdown" method="post" id="form_shutdown">
+#<form action="shutdown" method="post" id="form_shutdown">
+#   <button type="submit">System shutdown</button>
+#</form>
+# curl -X POST HOST:PORT/shutdown
+# shutdown explizit aktivieren
+# view-source:http://localhost:9123/web/actuator/info
+# view-source:http://localhost:9123/web/actuator/health
+# view-source:http://localhost:9123/web/actuator/metrics
+management:
+    endpoints:
+        web:
+            base-path: /actuator
+            exposure:
+                #include: "*"
+                include: info, health, metrics, shutdown
+    endpoint:
+        shutdown:
+            enabled: true
+        health:
+            show-details: always
+    info:
+        defaults:
+            enabled: true
+        env:
+            enabled: true
+    health:
+        defaults:
+            enabled: true
+    metrics:
+        enable:
+            all: true
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: shutdown
+
+logging:
+    level:
+        root: INFO
+        org.springframework.beans.factory.config.YamlPropertiesFactoryBean: INFO

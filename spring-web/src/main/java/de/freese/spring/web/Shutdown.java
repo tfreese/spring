@@ -2,8 +2,10 @@
 package de.freese.spring.web;
 
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -23,6 +25,37 @@ final class Shutdown
 
     public static void main(final String[] args) throws Exception
     {
+        URI uri = shutdownUriByProperties();
+
+        if (uri == null)
+        {
+            return;
+        }
+
+        LOGGER.info("execute {}", uri);
+
+        // curl -X POST localhost:8088/spring-boot-web/actuator/shutdown
+        HttpClient httpClient = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_2)
+                .followRedirects(HttpClient.Redirect.NEVER)
+                .build();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(uri)
+                .POST(HttpRequest.BodyPublishers.ofString(""))
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        LOGGER.info(response.body());
+
+        //        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
+        //        connection.setRequestMethod("POST");
+        //        connection.getResponseCode();
+        //        connection.disconnect();
+    }
+
+    private static URI shutdownUriByProperties() throws Exception
+    {
         DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
         Resource resource = resourceLoader.getResource("classpath:application.properties");
         // Resource resource = new FileSystemResource("application.properties");
@@ -36,6 +69,11 @@ final class Shutdown
                 props.load(inputStream);
             }
         }
+        else
+        {
+            LOGGER.error("can not read: {}", resource.getFilename());
+            return null;
+        }
 
         boolean sslEnabled = Optional.ofNullable(props.getProperty("server.ssl.enabled")).map(Boolean::parseBoolean).orElse(false);
         String host = Optional.ofNullable(props.getProperty("server.address")).orElse("localhost");
@@ -44,15 +82,8 @@ final class Shutdown
         String endPointPath = Optional.ofNullable(props.getProperty("management.endpoints.web.base-path")).orElse("");
 
         String url = "%s://%s:%d%s%s/shutdown".formatted(sslEnabled ? "https" : "http", host, port, contextPath, endPointPath);
-        LOGGER.info("execute {}", url);
-        
-        // curl -X POST localhost:8088/spring-boot-web/actuator/shutdown
-        URI uri = URI.create(url);
 
-        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
-        connection.setRequestMethod("POST");
-        connection.getResponseCode();
-        connection.disconnect();
+        return URI.create(url);
     }
 
     private Shutdown()

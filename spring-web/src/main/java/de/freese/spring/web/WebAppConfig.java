@@ -27,7 +27,7 @@ public class WebAppConfig
 
         ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>();
         servletRegistrationBean.setServlet(new FacesServlet());
-        servletRegistrationBean.setUrlMappings(Set.of("*.html", "*.xhtml", "*.jsf"));
+        servletRegistrationBean.setUrlMappings(Set.of("*.xhtml", "*.jsf"));
         servletRegistrationBean.setLoadOnStartup(1);
         servletRegistrationBean.setName("Faces Servlet");
 

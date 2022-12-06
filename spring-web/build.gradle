@@ -12,7 +12,7 @@ springBoot {
     mainClass = "de.freese.spring.web.SpringBootWebApplication"
 }
 
-//Für Platzhalter in application.properties
+//Für Platzhalter in application.properties/application.yml
 ext.artifactId = project.name
 
 sourceSets {
@@ -40,5 +40,11 @@ processResources {
         //filter{ it.replaceAll("@project.description@", project.description)}
         //filter{ it.replaceAll("@project.artifactId@", project.name)}
         //filter{ it.replaceAll("@project.version@", project.version)}
+    }
+
+    filesMatching("application.yml") {
+        filteringCharset = "UTF-8"
+        // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+        expand(project.properties)
     }
 }

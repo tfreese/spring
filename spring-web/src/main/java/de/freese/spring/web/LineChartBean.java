@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author Thomas Freese
  */
-@Component
+@Component  // siehe faces-config.xml: el-resolver
 @ViewScoped
 public class LineChartBean implements Serializable
 {

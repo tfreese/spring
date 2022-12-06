@@ -179,8 +179,8 @@ class TestKryo
                 .uri(URI.create("http://localhost:" + this.localServerPort+path))
                 .header("Accept", mimeType.toString())
                 .GET()
-                .build();
-
+                .build()
+                ;
         // @formatter:on
 
         HttpResponse<InputStream> response = httpClient.send(request, BodyHandlers.ofInputStream());
