@@ -63,5 +63,4 @@ spring:
 
 logging:
     level:
-        root: INFO
         org.springframework.beans.factory.config.YamlPropertiesFactoryBean: INFO
