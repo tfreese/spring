@@ -1,29 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>de.freese.spring</groupId>
-        <artifactId>spring</artifactId>
+        <artifactId>spring-messaging</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>spring-messaging</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>spring-messaging-kafka</artifactId>
+    <packaging>jar</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
-    <description>Messaging Demos</description>
-
-    <properties>
-    </properties>
-
-    <modules>
-        <module>spring-messaging-amqp-qpid</module>
-        <module>spring-messaging-jms</module>
-        <module>spring-messaging-kafka</module>
-        <module>spring-messaging-pulsar</module>
-    </modules>
+    <description>Messaging with Apache Kafka</description>
 
     <dependencies>
         <!-- compile scope -->
@@ -31,5 +22,4 @@
         <!-- provided scope -->
         <!-- test scope -->
     </dependencies>
-
 </project>

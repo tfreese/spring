@@ -1,5 +1,5 @@
 // Created: 31.07.2019
-package org.spring.messaging.amqp.qpid;
+package de.freese.spring.messaging.amqp.qpid;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;

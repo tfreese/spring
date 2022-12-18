@@ -1,5 +1,5 @@
 // Created: 31.01.2019
-package org.spring.messaging.amqp.qpid;
+package de.freese.spring.messaging.amqp.qpid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,5 +1,5 @@
 // Created: 03.02.2019
-package org.spring.messaging.amqp.qpid;
+package de.freese.spring.messaging.amqp.qpid;
 
 import java.io.File;
 import java.net.URL;

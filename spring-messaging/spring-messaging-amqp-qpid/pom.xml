@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
-    <description>AMQP with Apache QPID</description>
+    <description>Messaging with AMQP by Apache QPID</description>
 
     <properties>
     </properties>
@@ -28,7 +28,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>org.spring.messaging.amqp.qpid.SpringQpidApplication</mainClass>
+                    <mainClass>de.freese.spring.messaging.amqp.qpid.SpringQpidApplication</mainClass>
                     <!--jvmArguments>
                         -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
                         </jvmArguments -->
