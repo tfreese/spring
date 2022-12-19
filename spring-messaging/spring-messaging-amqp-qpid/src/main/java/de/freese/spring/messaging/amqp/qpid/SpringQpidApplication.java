@@ -57,6 +57,7 @@ public class SpringQpidApplication
     //    {
     //        return new RabbitAdmin(connectionFactory);
     //    }
+    //
     //    @Bean
     //    public ConnectionFactory connectionFactory()
     //    {
@@ -66,6 +67,7 @@ public class SpringQpidApplication
     //
     //        return connectionFactory;
     //    }
+    //
     //    @Bean
     //    public RabbitTemplate rabbitTemplate(CachingConnectionFactory connectionFactory, Jackson2JsonMessageConverter jackson2MessageConverter)
     //    {
@@ -74,11 +76,13 @@ public class SpringQpidApplication
     //
     //        return rabbitTemplate;
     //    }
+    //
     // @Bean
     // public MessageListenerAdapter myMessageListenerAdapter(final Receiver receiver)
     // {
     // return new MessageListenerAdapter(receiver, "receiveMessage");
     // }
+    //
     // @Bean
     // public MessageListenerContainer myMessageListenerContainer(final ConnectionFactory connectionFactory, final MessageListenerAdapter
     // myMessageListenerAdapter)

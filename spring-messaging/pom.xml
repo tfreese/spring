@@ -22,7 +22,6 @@
         <module>spring-messaging-amqp-qpid</module>
         <module>spring-messaging-jms</module>
         <module>spring-messaging-kafka</module>
-        <module>spring-messaging-pulsar</module>
     </modules>
 
     <dependencies>

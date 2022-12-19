@@ -17,13 +17,17 @@ public class AmqpReceiver
     private static final Logger LOGGER = LoggerFactory.getLogger(AmqpReceiver.class);
 
     @RabbitListener(queues = SpringQpidApplication.QUEUE_NAME)
-    // @SendTo("returnQueue")
-    // public void receiveMessage(final Email email)
-    // {
-    // System.out.println(Thread.currentThread().getName() + ": Received <" + email + ">");
-    // }
     public void receiveMessage(final Email email, @Header(AmqpHeaders.CONSUMER_QUEUE) final String queue)
     {
         LOGGER.info("{}: Received from Queue '{}' <{}>", Thread.currentThread().getName(), queue, email);
     }
+
+    //    @RabbitListener(queues = SpringQpidApplication.QUEUE_NAME)
+    //    @SendTo("returnQueue")
+    //    public Email receiveMessage(final Email email)
+    //    {
+    //        System.out.println(Thread.currentThread().getName() + ": Received <" + email + ">");
+    //
+    //        return email;
+    //    }
 }

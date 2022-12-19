@@ -7,22 +7,17 @@ debug: false
 
 
 spring:
-   jmx:
-      enabled: false
-   rabbitmq:
-      dynamic: true
-      host: localhost
-      port: 5672
-      username: guest
-      password: guest
-      listener:
-         simple:
-            concurrency: 4
-            max-concurrency: 8
-   main:  
-      web-application-type: NONE            
-      
-
-# qpid-config.json
-# "virtualHostInitialConfiguration": "{ \"type\" : \"Memory\" }"    
-
+    jmx:
+        enabled: false
+    rabbitmq:
+        dynamic: true
+        host: localhost
+        port: 5672
+        username: guest
+        password: guest
+        listener:
+            simple:
+                concurrency: 4
+                max-concurrency: 8
+    main:
+        web-application-type: NONE

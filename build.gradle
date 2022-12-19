@@ -273,7 +273,6 @@ project("spring-hateoas") {
 project("spring-hystrix") {
     description = "Hystrix-Demo von spring-boot"
     dependencies {
-        implementation("org.springframework.cloud:spring-cloud-starter-netflix-hystrix")
         implementation("org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard")
 
         runtimeOnly("org.springframework.boot:spring-boot-starter-json")
@@ -388,14 +387,10 @@ project("spring-messaging") {
 }
 
 project("spring-messaging:spring-messaging-amqp-qpid") {
-    description = "Messaging with qpid"
+    description = "Messaging with AMQP by Apache QPID"
     dependencies {
-        implementation("org.springframework.boot:spring-boot-starter-amqp") {
-            exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
-        }
-
+        implementation("org.springframework.boot:spring-boot-starter-amqp")
         implementation("org.springframework.boot:spring-boot-starter-json")
-
         implementation("org.apache.qpid:qpid-broker")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
@@ -405,7 +400,7 @@ project("spring-messaging:spring-messaging-amqp-qpid") {
 }
 
 project("spring-messaging:spring-messaging-jms") {
-    description = "JMS with ActiveMQ"
+    description = "Messaging with JMS by ActiveMQ"
     dependencies {
         implementation("org.apache.activemq:artemis-server")
         implementation("org.springframework.boot:spring-boot-starter-json")
@@ -416,6 +411,17 @@ project("spring-messaging:spring-messaging-jms") {
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
     springBoot {
         mainClass = "de.freese.spring.messaging.jms.SpringJmsApplication"
+    }
+}
+
+project("spring-messaging:spring-messaging-kafka") {
+    description = "Messaging with Apache Kafka"
+    dependencies {
+        implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka")
+//        implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testImplementation("org.springframework.kafka:spring-kafka-test")
     }
 }
 

@@ -9,6 +9,7 @@ import jakarta.annotation.Resource;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -44,7 +45,17 @@ public class RunnerSendMessages implements CommandLineRunner
 
         TimeUnit.MILLISECONDS.sleep(500);
 
-        //        System.exit(0);
-        SpringApplication.exit(context, () -> 0);
+        if (context instanceof ConfigurableApplicationContext cac)
+        {
+            cac.close();
+        }
+        else
+        {
+            SpringApplication.exit(context, () -> 1);
+        }
+
+        TimeUnit.MILLISECONDS.sleep(1000);
+
+        System.exit(0);
     }
 }

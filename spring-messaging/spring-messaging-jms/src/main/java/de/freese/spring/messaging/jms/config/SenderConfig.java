@@ -16,9 +16,6 @@ import org.springframework.jms.support.converter.MessageConverter;
 @Configuration
 public class SenderConfig
 {
-    @Value("${artemis.broker-url}")
-    private String brokerUrl;
-
     @Bean
     public CachingConnectionFactory cachingConnectionFactory(ActiveMQConnectionFactory senderActiveMQConnectionFactory)
     {
@@ -45,7 +42,7 @@ public class SenderConfig
     }
 
     @Bean
-    public ActiveMQConnectionFactory senderActiveMQConnectionFactory()
+    public ActiveMQConnectionFactory senderActiveMQConnectionFactory(@Value("${artemis.broker-url}") String brokerUrl)
     {
         return new ActiveMQConnectionFactory(brokerUrl);
     }

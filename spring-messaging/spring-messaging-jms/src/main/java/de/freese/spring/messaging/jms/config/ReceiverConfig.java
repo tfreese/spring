@@ -17,9 +17,6 @@ import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 @Configuration
 public class ReceiverConfig
 {
-    @Value("${artemis.broker-url}")
-    private String brokerUrl;
-
     @Bean
     public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(ActiveMQConnectionFactory receiverActiveMQConnectionFactory
             , DefaultJmsListenerContainerFactoryConfigurer configurer, Executor taskExecutor)
@@ -30,7 +27,7 @@ public class ReceiverConfig
         factory.setTaskExecutor(taskExecutor);
         factory.setConcurrency("2-10");
 
-        // Hier drin erfolgt die Konfiguration des MessageConverters.
+        // Here is the Configuration of the MessageConverters.
         configurer.configure(factory, receiverActiveMQConnectionFactory);
 
         return factory;
@@ -43,7 +40,7 @@ public class ReceiverConfig
     }
 
     @Bean
-    public ActiveMQConnectionFactory receiverActiveMQConnectionFactory()
+    public ActiveMQConnectionFactory receiverActiveMQConnectionFactory(@Value("${artemis.broker-url}") String brokerUrl)
     {
         return new ActiveMQConnectionFactory(brokerUrl);
     }
