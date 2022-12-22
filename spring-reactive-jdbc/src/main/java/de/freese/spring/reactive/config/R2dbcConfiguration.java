@@ -1,6 +1,8 @@
 // Created: 12.10.2021
 package de.freese.spring.reactive.config;
 
+import java.util.UUID;
+
 import io.r2dbc.h2.H2ConnectionFactory;
 import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -23,11 +25,13 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
     @Bean
     ConnectionFactory connectionFactory()
     {
+        String id = UUID.randomUUID().toString();
+
         // :create=true;shutdown=true
         // return ConnectionFactories.get("r2dbc:h2:mem:testR2dbc");
 
-        return H2ConnectionFactory.inMemory("testR2dbc");
-        // return new H2ConnectionFactory(H2ConnectionConfiguration.builder().inMemory("testR2dbc").property(H2ConnectionOption.DB_CLOSE_DELAY, "-1").build());
+        return H2ConnectionFactory.inMemory(id);
+        // return new H2ConnectionFactory(H2ConnectionConfiguration.builder().inMemory(id).property(H2ConnectionOption.DB_CLOSE_DELAY, "-1").build());
 
         //        // @formatter:off
 //        ConnectionFactoryOptions options = ConnectionFactoryOptions.builder()
@@ -37,7 +41,7 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
 //                //.option(ConnectionFactoryOptions.port, 8123)
 //                .option(ConnectionFactoryOptions.USER, "SA")
 //                .option(ConnectionFactoryOptions.PASSWORD, "")
-//                .option(ConnectionFactoryOptions.DATABASE, "testR2dbc")
+//                .option(ConnectionFactoryOptions.DATABASE, id)
 //                .build()
 //                ;
 //        // @formatter:on

@@ -1,6 +1,8 @@
 // Created: 12.10.2021
 package de.freese.spring.reactive.config;
 
+import java.util.UUID;
+
 import javax.sql.DataSource;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -25,12 +27,14 @@ public class JdbcConfiguration
     @Bean
     DataSource dataSource()
     {
-        return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName("testJdbc").build();
+        String id = UUID.randomUUID().toString();
+
+        return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName(id).build();
 
         // @formatter:off
 //        return DataSourceBuilder.create()
 //                .driverClassName("org.h2.Driver")
-//                .url("jdbc:h2:mem:testJdbc") // :create=true;shutdown=true
+//                .url("jdbc:h2:mem:" + id) // :create=true;shutdown=true
 //                .username("SA")
 //                .password("")
 //                .build()
