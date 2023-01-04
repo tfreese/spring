@@ -60,7 +60,7 @@ public class MyLdapDao
     {
         private final String attributeId;
 
-        public PersonAttributeMapper(final String attributeId)
+        PersonAttributeMapper(final String attributeId)
         {
             super();
 

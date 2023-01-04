@@ -299,14 +299,14 @@ public class ApiError
  */
 class LowerCaseClassNameResolver extends TypeIdResolverBase
 {
-    public LowerCaseClassNameResolver()
-    {
-        super();
-    }
-
-    public LowerCaseClassNameResolver(final JavaType baseType, final TypeFactory typeFactory)
+    LowerCaseClassNameResolver(final JavaType baseType, final TypeFactory typeFactory)
     {
         super(baseType, typeFactory);
+    }
+
+    LowerCaseClassNameResolver()
+    {
+        super();
     }
 
     /**

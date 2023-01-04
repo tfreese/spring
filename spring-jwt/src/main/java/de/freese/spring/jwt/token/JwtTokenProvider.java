@@ -41,9 +41,9 @@ public interface JwtTokenProvider
         return createToken(username, password, rolesSet);
     }
 
-    String createToken(final String username, final String password, final Set<String> roles);
+    String createToken(String username, String password, Set<String> roles);
 
-    JwtToken parseToken(final String token) throws AuthenticationException;
+    JwtToken parseToken(String token) throws AuthenticationException;
 
     default String resolveToken(final HttpServletRequest req)
     {

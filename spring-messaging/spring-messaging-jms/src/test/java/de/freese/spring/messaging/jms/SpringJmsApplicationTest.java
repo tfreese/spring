@@ -19,11 +19,11 @@ class SpringJmsApplicationTest
 {
     //    private static EmbeddedActiveMQ embeddedActiveMQ;
 
-    static
-    {
-        //        -Djava.util.logging.manager=org.jboss.logmanager.LogManager
-        //        System.setProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager");
-    }
+    //    static
+    //    {
+    //        -Djava.util.logging.manager=org.jboss.logmanager.LogManager
+    //        System.setProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager");
+    //    }
 
     //    @AfterAll
     //    static void afterAll() throws Exception
