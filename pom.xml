@@ -45,12 +45,9 @@
     </developers>
 
     <properties>
-        <checkstyle.skip>false</checkstyle.skip>
-        <checkstyle.xml>../parents/ci/config/checkstyle.xml</checkstyle.xml>
-
         <version_com.atomikos>5.0.9</version_com.atomikos>
         <version_com.esotericsoftware_kryo>5.4.0</version_com.esotericsoftware_kryo>
-        <version_com.nimbusds_nimbus-jose-jwt>9.27</version_com.nimbusds_nimbus-jose-jwt>
+        <version_com.nimbusds_nimbus-jose-jwt>9.28</version_com.nimbusds_nimbus-jose-jwt>
 
         <version_de.javakaffee_kryo-serializers>0.45</version_de.javakaffee_kryo-serializers>
         <version_de.codecentric_spring-boot-admin>3.0.0-M8</version_de.codecentric_spring-boot-admin>
