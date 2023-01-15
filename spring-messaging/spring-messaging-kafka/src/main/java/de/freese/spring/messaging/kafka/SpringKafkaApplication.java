@@ -8,13 +8,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class SpringKafkaApplication
+public final class SpringKafkaApplication
 {
     public static void main(String[] args)
     {
         // EmbeddedKafkaContextCustomizer
-        
+
         SpringApplication.run(SpringKafkaApplication.class, args);
+    }
+
+    private SpringKafkaApplication()
+    {
+        super();
     }
 
     //    @Bean

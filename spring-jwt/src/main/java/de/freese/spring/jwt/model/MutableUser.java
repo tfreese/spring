@@ -22,7 +22,7 @@ public class MutableUser implements UserDetails, CredentialsContainer
 
     private boolean accountNonLocked = true;
 
-    private Set<? extends GrantedAuthority> authorities;
+    private transient Set<? extends GrantedAuthority> authorities;
 
     private boolean credentialsNonExpired;
 

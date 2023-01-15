@@ -8,7 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class ClientEureka
+public final class ClientEureka
 {
     public static void main(final String[] args)
     {
@@ -17,5 +17,10 @@ public class ClientEureka
                 .run("--spring.profiles.active=eureka")
         ;
         // @formatter:on
+    }
+
+    private ClientEureka()
+    {
+        super();
     }
 }

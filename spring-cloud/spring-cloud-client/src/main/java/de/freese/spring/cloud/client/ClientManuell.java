@@ -8,7 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class ClientManuell
+public final class ClientManuell
 {
     public static void main(final String[] args)
     {
@@ -17,5 +17,10 @@ public class ClientManuell
                 .run("--spring.profiles.active=manuell")
         ;
         // @formatter:on
+    }
+
+    private ClientManuell()
+    {
+        super();
     }
 }

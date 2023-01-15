@@ -14,7 +14,7 @@ public class LoadBalancerStrategyRoundRobin implements LoadBalancerStrategy
     private static final AtomicIntegerFieldUpdater<LoadBalancerStrategyRoundRobin> NEXT_INDEX =
             AtomicIntegerFieldUpdater.newUpdater(LoadBalancerStrategyRoundRobin.class, "nextIndex");
 
-    volatile int nextIndex;
+    private volatile int nextIndex;
 
     /**
      * @see de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategy#chooseServer(java.util.List, java.lang.String)

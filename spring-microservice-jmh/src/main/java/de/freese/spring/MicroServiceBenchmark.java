@@ -47,9 +47,9 @@ public class MicroServiceBenchmark
     @State(Scope.Group) // Nur einen SpringContext für alle Benchmarks -> @Group("spring").
     public static class BenchmarkState
     {
-        final RestTemplate restTemplate;
-        final WebClient webClient;
         private final ConfigurableApplicationContext context;
+        private final RestTemplate restTemplate;
+        private final WebClient webClient;
         @Value("${server.port}")
         private int port;
 

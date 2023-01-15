@@ -8,7 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  *
  * @author Thomas Freese
  */
-public class MicroService2
+public final class MicroService2
 {
     public static void main(final String[] args)
     {
@@ -18,5 +18,10 @@ public class MicroService2
                 //.run(args);
                 .run("--server.port=8082");
         // @formatter:on
+    }
+
+    private MicroService2()
+    {
+        super();
     }
 }

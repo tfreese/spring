@@ -14,7 +14,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-public class MicroServiceApplication extends SpringBootServletInitializer
+public final class MicroServiceApplication extends SpringBootServletInitializer
 {
     public static void main(final String[] args)
     {
@@ -22,11 +22,6 @@ public class MicroServiceApplication extends SpringBootServletInitializer
 
         //        SpringApplication.run(MicroServiceApplication.class, args);
     }
-
-    // static
-    // {
-    // System.setProperty("server.port", Integer.toString(65501));
-    // }
 
     private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder)
     {
@@ -39,6 +34,16 @@ public class MicroServiceApplication extends SpringBootServletInitializer
         //@formatter:on
         // .listeners(new ApplicationPidFileWriter("spring-boot-web.pid"))
         // .web(false)
+    }
+
+    // static
+    // {
+    // System.setProperty("server.port", Integer.toString(65501));
+    // }
+
+    private MicroServiceApplication()
+    {
+        super();
     }
 
     /**

@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class PrimarySecondaryApplication
+public final class PrimarySecondaryApplication
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(PrimarySecondaryApplication.class);
 
@@ -75,5 +75,10 @@ public class PrimarySecondaryApplication
         ConfigurationManager.getConfigInstance().clear();
 
         System.exit(0);
+    }
+
+    private PrimarySecondaryApplication()
+    {
+        super();
     }
 }

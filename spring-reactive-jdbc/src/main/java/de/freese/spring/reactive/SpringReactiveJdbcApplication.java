@@ -15,10 +15,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication// (exclude = R2dbcAutoConfiguration.class)
 @EnableTransactionManagement
-public class SpringReactiveJdbcApplication
+public final class SpringReactiveJdbcApplication
 {
     public static void main(final String[] args)
     {
         SpringApplication.run(SpringReactiveJdbcApplication.class, args);
+    }
+
+    private SpringReactiveJdbcApplication()
+    {
+        super();
     }
 }

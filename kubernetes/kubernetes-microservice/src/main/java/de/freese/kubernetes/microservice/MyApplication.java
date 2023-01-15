@@ -7,10 +7,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class MyApplication
+public final class MyApplication
 {
     public static void main(final String[] args)
     {
         SpringApplication.run(MyApplication.class, args);
+    }
+
+    private MyApplication()
+    {
+        super();
     }
 }

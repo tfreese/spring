@@ -12,10 +12,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class OpenApiApplication
+public final class OpenApiApplication
 {
     public static void main(String[] args)
     {
         SpringApplication.run(OpenApiApplication.class, args);
+    }
+
+    private OpenApiApplication()
+    {
+        super();
     }
 }

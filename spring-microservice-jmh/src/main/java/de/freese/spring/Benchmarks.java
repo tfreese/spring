@@ -9,7 +9,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 /**
  * @author Thomas Freese
  */
-public class Benchmarks
+public final class Benchmarks
 {
     public static void main(final String[] args) throws Exception
     {
@@ -29,5 +29,10 @@ public class Benchmarks
         // @formatter:on
 
         new Runner(options).run();
+    }
+
+    private Benchmarks()
+    {
+        super();
     }
 }

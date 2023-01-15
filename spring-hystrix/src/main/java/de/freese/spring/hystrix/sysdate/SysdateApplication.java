@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * @author Thomas Freese
  */
-public class SysdateApplication
+public final class SysdateApplication
 {
     public static void main(final String[] args) throws Exception
     {
@@ -68,5 +68,10 @@ public class SysdateApplication
         }
 
         System.exit(0);
+    }
+
+    private SysdateApplication()
+    {
+        super();
     }
 }

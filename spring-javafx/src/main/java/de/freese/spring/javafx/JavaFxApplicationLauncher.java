@@ -8,10 +8,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
-class JavaFxApplicationLauncher
+public final class JavaFxApplicationLauncher
 {
     public static void main(final String[] args)
     {
         Application.launch(JavaFxApplication.class, args);
+    }
+
+    private JavaFxApplicationLauncher()
+    {
+        super();
     }
 }

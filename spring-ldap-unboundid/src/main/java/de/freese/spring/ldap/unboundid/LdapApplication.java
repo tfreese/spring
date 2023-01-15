@@ -12,10 +12,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class LdapApplication
+public final class LdapApplication
 {
     public static void main(final String[] args)
     {
         SpringApplication.run(LdapApplication.class, args);
+    }
+
+    private LdapApplication()
+    {
+        super();
     }
 }

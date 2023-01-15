@@ -33,7 +33,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * @author Thomas Freese
  */
-public class LoadBalancerApplication
+public final class LoadBalancerApplication
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancerApplication.class);
 
@@ -339,5 +339,10 @@ public class LoadBalancerApplication
         }
 
         System.exit(0);
+    }
+
+    private LoadBalancerApplication()
+    {
+        super();
     }
 }

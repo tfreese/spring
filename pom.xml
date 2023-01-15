@@ -108,15 +108,6 @@
                     <useDefaultDelimiters>false</useDefaultDelimiters>
                 </configuration>
             </plugin-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <parallel>classes</parallel>
-                    <forkCount>8</forkCount>
-                    <reuseForks>true</reuseForks>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 

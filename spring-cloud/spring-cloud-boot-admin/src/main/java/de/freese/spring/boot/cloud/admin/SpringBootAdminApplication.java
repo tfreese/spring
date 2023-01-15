@@ -10,10 +10,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @EnableAdminServer
-public class SpringBootAdminApplication
+public final class SpringBootAdminApplication
 {
     public static void main(final String[] args)
     {
         SpringApplication.run(SpringBootAdminApplication.class, args);
+    }
+
+    private SpringBootAdminApplication()
+    {
+        super();
     }
 }

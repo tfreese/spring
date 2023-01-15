@@ -14,10 +14,15 @@ import org.springframework.hateoas.config.EnableHypermediaSupport;
  */
 @SpringBootApplication
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
-public class HateoasApplication
+public final class HateoasApplication
 {
     public static void main(final String[] args)
     {
         SpringApplication.run(HateoasApplication.class, args);
+    }
+
+    private HateoasApplication()
+    {
+        super();
     }
 }
