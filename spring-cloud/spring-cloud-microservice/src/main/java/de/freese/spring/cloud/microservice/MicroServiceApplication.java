@@ -14,7 +14,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-public final class MicroServiceApplication extends SpringBootServletInitializer
+public class MicroServiceApplication extends SpringBootServletInitializer
 {
     public static void main(final String[] args)
     {
@@ -40,11 +40,6 @@ public final class MicroServiceApplication extends SpringBootServletInitializer
     // {
     // System.setProperty("server.port", Integer.toString(65501));
     // }
-
-    private MicroServiceApplication()
-    {
-        super();
-    }
 
     /**
      * POM:<br>
