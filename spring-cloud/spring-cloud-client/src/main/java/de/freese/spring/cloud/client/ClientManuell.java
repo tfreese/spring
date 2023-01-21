@@ -8,6 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  * @author Thomas Freese
  */
 @SpringBootApplication
+@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class ClientManuell
 {
     public static void main(final String[] args)

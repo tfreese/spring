@@ -8,6 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  * @author Thomas Freese
  */
 @SpringBootApplication
+@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class ClientEureka
 {
     public static void main(final String[] args)

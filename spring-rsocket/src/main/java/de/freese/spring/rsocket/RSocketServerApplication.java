@@ -15,6 +15,7 @@ import reactor.core.publisher.Hooks;
 // {
 // "de.freese.spring.rsocket"
 // })
+@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class RSocketServerApplication
 {
     public static void main(final String[] args)

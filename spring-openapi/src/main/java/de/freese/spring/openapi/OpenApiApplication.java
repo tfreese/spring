@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
+@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class OpenApiApplication
 {
     public static void main(String[] args)
