@@ -51,8 +51,6 @@ spring:
         admin:
             client:
                 enabled: true
-                instance:
-                    prefer-ip: true
                 url: ${ADMIN_SERVER:http://localhost:9000}
     cloud:
         loadbalancer:

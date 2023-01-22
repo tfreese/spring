@@ -28,8 +28,6 @@ spring:
                 enabled: false
             slack:
             enabled: false
-        client:
-            prefer-ip: true
     application:
         name: cloud-admin-server
     jmx:
