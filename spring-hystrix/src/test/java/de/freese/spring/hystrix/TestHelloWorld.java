@@ -19,19 +19,16 @@ import rx.Observer;
  *
  * @author Thomas Freese
  */
-class TestHelloWorld
-{
+class TestHelloWorld {
     private static HystrixRequestContext context;
 
     @AfterAll
-    static void afterAll()
-    {
+    static void afterAll() {
         // Empty
     }
 
     @BeforeAll
-    static void beforeAll()
-    {
+    static void beforeAll() {
         // // configuration from a dynamic source
         // PolledConfigurationSource source = createMyOwnSource();
         // AbstractPollingScheduler scheduler = createMyOwnScheduler();
@@ -66,14 +63,12 @@ class TestHelloWorld
         context = HystrixRequestContext.initializeContext();
     }
 
-    protected static HystrixRequestContext getContext()
-    {
+    protected static HystrixRequestContext getContext() {
         return context;
     }
 
     @Test
-    void testAsynchronous() throws Exception
-    {
+    void testAsynchronous() throws Exception {
         Future<String> fWorld = new CommandHelloWorld("World").queue();
         Future<String> fBob = new CommandHelloWorld("Bob").queue();
 
@@ -83,8 +78,7 @@ class TestHelloWorld
 
     @Test
         // (expected = RuntimeException.class)
-    void testFailAsynchronous() throws Exception
-    {
+    void testFailAsynchronous() throws Exception {
         Future<String> fWorld = new CommandHelloFailure("World").queue();
         Future<String> fBob = new CommandHelloFailure("Bob").queue();
 
@@ -94,15 +88,13 @@ class TestHelloWorld
 
     @Test
         // (expected = RuntimeException.class)
-    void testFailSynchronous()
-    {
+    void testFailSynchronous() {
         assertEquals("Hello Failure World!", new CommandHelloFailure("World").execute());
         assertEquals("Hello Failure Bob!", new CommandHelloFailure("Bob").execute());
     }
 
     @Test
-    void testObservable() throws Exception
-    {
+    void testObservable() throws Exception {
         Observable<String> oWorld = new CommandHelloWorld("World").observe();
         Observable<String> oBob = new CommandHelloWorld("Bob").observe();
 
@@ -112,14 +104,12 @@ class TestHelloWorld
 
         // non-blocking
         // - this is a verbose anonymous inner-class approach and doesn't do assertions
-        oWorld.subscribe(new Observer<>()
-        {
+        oWorld.subscribe(new Observer<>() {
             /**
              * @see rx.Observer#onCompleted()
              */
             @Override
-            public void onCompleted()
-            {
+            public void onCompleted() {
                 // nothing needed here
             }
 
@@ -127,8 +117,7 @@ class TestHelloWorld
              * @see rx.Observer#onError(java.lang.Throwable)
              */
             @Override
-            public void onError(final Throwable e)
-            {
+            public void onError(final Throwable e) {
                 System.out.println("onError: " + e.getLocalizedMessage());
             }
 
@@ -136,8 +125,7 @@ class TestHelloWorld
              * @see rx.Observer#onNext(java.lang.Object)
              */
             @Override
-            public void onNext(final String v)
-            {
+            public void onNext(final String v) {
                 System.out.println("onNext: " + v);
             }
         });
@@ -147,8 +135,7 @@ class TestHelloWorld
     }
 
     @Test
-    void testSynchronous()
-    {
+    void testSynchronous() {
         // execute() = queue().get()
         assertEquals("Hello World!", new CommandHelloWorld("World").execute());
         assertEquals("Hello Bob!", new CommandHelloWorld("Bob").execute());

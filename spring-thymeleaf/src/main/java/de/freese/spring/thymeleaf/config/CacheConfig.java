@@ -13,11 +13,9 @@ import org.springframework.security.core.userdetails.cache.SpringCacheBasedUserC
  * @author Thomas Freese
  */
 @Configuration
-public class CacheConfig
-{
+public class CacheConfig {
     @Bean
-    CacheManager cacheManager()
-    {
+    CacheManager cacheManager() {
         ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
         cacheManager.setAllowNullValues(false);
         // cacheManager.setCacheNames(List.of("userCache")); // Fest verdrahtete Cache-Namen, damit wäre er nicht mehr dynamisch.
@@ -26,8 +24,7 @@ public class CacheConfig
     }
 
     @Bean
-    UserCache userCache(final CacheManager cacheManager)
-    {
+    UserCache userCache(final CacheManager cacheManager) {
         Cache cache = cacheManager.getCache("userCache");
 
         return new SpringCacheBasedUserCache(cache);

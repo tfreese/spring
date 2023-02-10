@@ -13,7 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import jakarta.annotation.Resource;
 
-import de.freese.spring.thymeleaf.ThymeleafApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +21,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.FormLoginRequestBuilder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
+import de.freese.spring.thymeleaf.ThymeleafApplication;
 
 /**
  * @author Thomas Freese
@@ -33,8 +34,7 @@ import org.springframework.test.web.servlet.MockMvc;
         // {
         // "test", "with-ssl"
         // })
-class TestWebApp
-{
+class TestWebApp {
     //    @LocalServerPort
     //    private int localServerPort;
 
@@ -42,8 +42,7 @@ class TestWebApp
     private MockMvc mockMvc;
 
     @Test
-    void testAccessSecuredResourceUnauthenticated() throws Exception
-    {
+    void testAccessSecuredResourceUnauthenticated() throws Exception {
         // @formatter:off
         this.mockMvc.perform(get("/web/person/personList"))
                 .andDo(print())
@@ -56,8 +55,7 @@ class TestWebApp
     }
 
     @Test
-    void testAccessUnsecuredResourceUnauthenticated() throws Exception
-    {
+    void testAccessUnsecuredResourceUnauthenticated() throws Exception {
         this.mockMvc.perform(get("/")).andExpect(status().isOk());
 
         // @formatter:off
@@ -70,8 +68,7 @@ class TestWebApp
     }
 
     @Test
-    void testHealthEndpoint() throws Exception
-    {
+    void testHealthEndpoint() throws Exception {
         // @formatter:off
         this.mockMvc.perform(get("/actuator/health"))
             .andDo(print())
@@ -83,8 +80,7 @@ class TestWebApp
     }
 
     @Test
-    void testLoginWithBasic() throws Exception
-    {
+    void testLoginWithBasic() throws Exception {
         FormLoginRequestBuilder login = formLogin().loginProcessingUrl("/authenticate").user("admin").password("pw");
         this.mockMvc.perform(login).andExpect(status().is3xxRedirection()).andExpect(authenticated().withUsername("admin"));
 
@@ -96,21 +92,16 @@ class TestWebApp
     }
 
     @Test
-    void testLoginWithPreAuth() throws Exception
-    {
-        this.mockMvc.perform(get("/web/person/personList").header("my-token", "admin")).andExpect(status().isOk())
-                .andExpect(authenticated().withUsername("admin"));
+    void testLoginWithPreAuth() throws Exception {
+        this.mockMvc.perform(get("/web/person/personList").header("my-token", "admin")).andExpect(status().isOk()).andExpect(authenticated().withUsername("admin"));
 
-        this.mockMvc.perform(get("/web/person/personList").header("my-token", "user")).andExpect(status().isOk())
-                .andExpect(authenticated().withUsername("user"));
+        this.mockMvc.perform(get("/web/person/personList").header("my-token", "user")).andExpect(status().isOk()).andExpect(authenticated().withUsername("user"));
 
-        this.mockMvc.perform(get("/web/person/personList").header("my-token", "invalid")).andExpect(status().isOk())
-                .andExpect(authenticated().withUsername("invalid"));
+        this.mockMvc.perform(get("/web/person/personList").header("my-token", "invalid")).andExpect(status().isOk()).andExpect(authenticated().withUsername("invalid"));
     }
 
     @Test
-    void testLoginWithUnknownUser() throws Exception
-    {
+    void testLoginWithUnknownUser() throws Exception {
         FormLoginRequestBuilder login = formLogin().loginProcessingUrl("/authenticate").user("unknown").password("pw");
 
         // @formatter:off

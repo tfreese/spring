@@ -7,13 +7,12 @@ import de.freese.spring.testcontainers.model.Person;
 /**
  * @author Thomas Freese
  */
-public interface PersonService
-{
+public interface PersonService {
+    List<Person> getAll();
+
     void save(Person person);
 
     void saveAll(List<Person> persons);
 
     void saveAllWithException(List<Person> persons);
-
-    List<Person> getAll();
 }

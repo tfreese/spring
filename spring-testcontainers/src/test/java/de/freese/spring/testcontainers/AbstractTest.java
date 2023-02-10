@@ -13,9 +13,6 @@ import javax.sql.DataSource;
 
 import jakarta.annotation.Resource;
 
-import de.freese.jdbc.dialect.JdbcDialect;
-import de.freese.spring.testcontainers.model.Person;
-import de.freese.spring.testcontainers.service.PersonService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,13 +21,16 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ActiveProfiles;
 
+import de.freese.jdbc.dialect.JdbcDialect;
+import de.freese.spring.testcontainers.model.Person;
+import de.freese.spring.testcontainers.service.PersonService;
+
 /**
  * @author Thomas Freese
  */
 @SpringBootTest(classes = Application.class)
 @ActiveProfiles("test")
-abstract class AbstractTest
-{
+abstract class AbstractTest {
     @Resource
     private DataSource dataSource;
 
@@ -41,19 +41,15 @@ abstract class AbstractTest
     private PersonService personService;
 
     @AfterEach
-    void afterEach() throws Exception
-    {
-        try (Connection connection = getDataSource().getConnection();
-             Statement statement = connection.createStatement())
-        {
+    void afterEach() throws Exception {
+        try (Connection connection = getDataSource().getConnection(); Statement statement = connection.createStatement()) {
             statement.execute("DROP TABLE person");
             statement.execute(jdbcDialect.dropSequence("person_seq"));
         }
     }
 
     @BeforeEach
-    void beforeEach() throws Exception
-    {
+    void beforeEach() throws Exception {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("db-schema.sql"));
         populator.execute(getDataSource());
@@ -61,8 +57,7 @@ abstract class AbstractTest
 
     //    @Sql(scripts = "classpath:db-schema.sql")
     @Test
-    void testGetAll()
-    {
+    void testGetAll() {
         // @formatter:off
         final List<Person> personsToSave = IntStream.rangeClosed(1, 3)
                 .mapToObj(i -> {
@@ -94,8 +89,7 @@ abstract class AbstractTest
 
     //    @Sql(scripts = "classpath:db-schema.sql")
     @Test
-    void testSave()
-    {
+    void testSave() {
         Person person = new Person();
         person.setName("Name");
 
@@ -112,8 +106,7 @@ abstract class AbstractTest
 
     //    @Sql(scripts = "classpath:db-schema.sql")
     @Test
-    void testSaveAllWithException()
-    {
+    void testSaveAllWithException() {
         // @formatter:off
         final List<Person> personsToSave = IntStream.rangeClosed(1, 3)
                 .mapToObj(i -> {
@@ -126,9 +119,7 @@ abstract class AbstractTest
                 ;
         // @formatter:on
 
-        Exception exception = assertThrows(RuntimeException.class, () ->
-                personService.saveAllWithException(personsToSave)
-        );
+        Exception exception = assertThrows(RuntimeException.class, () -> personService.saveAllWithException(personsToSave));
 
         assertEquals("saveAllWithException", exception.getMessage());
 
@@ -138,8 +129,7 @@ abstract class AbstractTest
         assertEquals(0, persons.size());
     }
 
-    protected DataSource getDataSource()
-    {
+    protected DataSource getDataSource() {
         return this.dataSource;
     }
 }

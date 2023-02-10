@@ -3,7 +3,6 @@ package de.freese.spring.messaging.jms.config;
 
 import java.util.concurrent.Executor;
 
-import de.freese.spring.messaging.jms.JmsReceiver;
 import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -11,16 +10,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 
+import de.freese.spring.messaging.jms.JmsReceiver;
+
 /**
  * @author Thomas Freese
  */
 @Configuration
-public class ReceiverConfig
-{
+public class ReceiverConfig {
     @Bean
-    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(ActiveMQConnectionFactory receiverActiveMQConnectionFactory
-            , DefaultJmsListenerContainerFactoryConfigurer configurer, Executor taskExecutor)
-    {
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(ActiveMQConnectionFactory receiverActiveMQConnectionFactory, DefaultJmsListenerContainerFactoryConfigurer configurer, Executor taskExecutor) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(receiverActiveMQConnectionFactory);
         //        factory.setMessageConverter(jacksonJmsMessageConverter);
@@ -34,14 +32,12 @@ public class ReceiverConfig
     }
 
     @Bean
-    public JmsReceiver receiver()
-    {
+    public JmsReceiver receiver() {
         return new JmsReceiver();
     }
 
     @Bean
-    public ActiveMQConnectionFactory receiverActiveMQConnectionFactory(@Value("${artemis.broker-url}") String brokerUrl)
-    {
+    public ActiveMQConnectionFactory receiverActiveMQConnectionFactory(@Value("${artemis.broker-url}") String brokerUrl) {
         return new ActiveMQConnectionFactory(brokerUrl);
     }
 }

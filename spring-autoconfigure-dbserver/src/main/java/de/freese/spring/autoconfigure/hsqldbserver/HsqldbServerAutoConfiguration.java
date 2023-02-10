@@ -5,7 +5,6 @@ import java.util.List;
 
 import jakarta.annotation.Resource;
 
-import de.freese.spring.autoconfigure.hsqldbserver.HsqldbServerProperties.DB;
 import org.hsqldb.Database;
 import org.hsqldb.server.Server;
 import org.slf4j.Logger;
@@ -18,6 +17,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import de.freese.spring.autoconfigure.hsqldbserver.HsqldbServerProperties.DB;
 
 /**
  * AutoConfiguration für ein HSQLDB-{@link Server}.<br>
@@ -61,8 +62,7 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(prefix = "hsqldb.server", name = "enabled", matchIfMissing = false) // Nur wenn auch enabled.
 @EnableConfigurationProperties(HsqldbServerProperties.class)
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
-public class HsqldbServerAutoConfiguration
-{
+public class HsqldbServerAutoConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(HsqldbServerAutoConfiguration.class);
 
     @Resource
@@ -70,16 +70,14 @@ public class HsqldbServerAutoConfiguration
 
     @Bean(initMethod = "start", destroyMethod = "shutdown")
     // @Scope(ConfigurableBeanFactory#SCOPE_SINGLETON)
-    public Server hsqldbServer() throws Exception
-    {
+    public Server hsqldbServer() throws Exception {
         int port = this.hsqldbServerProperties.getPort();
         boolean noSystemExit = this.hsqldbServerProperties.isNoSystemExit();
         boolean silent = this.hsqldbServerProperties.isSilent();
         boolean trace = this.hsqldbServerProperties.isTrace();
         List<DB> dbs = this.hsqldbServerProperties.getDb();
 
-        if (LOGGER.isInfoEnabled())
-        {
+        if (LOGGER.isInfoEnabled()) {
             StringBuilder sb = new StringBuilder();
             sb.append("Create HsqldbServer with:");
             sb.append(" port={}");
@@ -91,14 +89,12 @@ public class HsqldbServerAutoConfiguration
             LOGGER.info(sb.toString(), port, noSystemExit, silent, trace, dbs);
         }
 
-        Server server = new Server()
-        {
+        Server server = new Server() {
             /**
              * @see org.hsqldb.server.Server#shutdown()
              */
             @Override
-            public void shutdown()
-            {
+            public void shutdown() {
                 // "SHUTDOWN COMPACT"
                 super.shutdownWithCatalogs(Database.CLOSEMODE_COMPACT);
             }
@@ -115,8 +111,7 @@ public class HsqldbServerAutoConfiguration
         // server.setAddress("0.0.0.0");
         server.setPort(port);
 
-        for (int i = 0; i < dbs.size(); i++)
-        {
+        for (int i = 0; i < dbs.size(); i++) {
             DB db = dbs.get(i);
 
             server.setDatabaseName(i, db.getName());

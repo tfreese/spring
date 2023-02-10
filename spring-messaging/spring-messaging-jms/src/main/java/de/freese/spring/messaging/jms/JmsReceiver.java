@@ -10,13 +10,11 @@ import org.springframework.messaging.handler.annotation.Header;
 /**
  * @author Thomas Freese
  */
-public class JmsReceiver
-{
+public class JmsReceiver {
     private static final Logger LOGGER = LoggerFactory.getLogger(JmsReceiver.class);
 
     @JmsListener(destination = "mailbox", containerFactory = "jmsListenerContainerFactory")
-    public void receiveMessage(final Email email, @Header(JmsHeaders.DESTINATION) final String queue)
-    {
+    public void receiveMessage(final Email email, @Header(JmsHeaders.DESTINATION) final String queue) {
         LOGGER.info("{}: Received from Queue '{}' <{}>", Thread.currentThread().getName(), queue, email);
     }
 }

@@ -19,8 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @DirtiesContext
 @EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
-class SpringKafkaApplicationTest
-{
+class SpringKafkaApplicationTest {
     //    @ClassRule
     //    public static EmbeddedKafkaRule embeddedKafka = new EmbeddedKafkaRule(1, true, TOPIC_NAME);
 
@@ -34,10 +33,8 @@ class SpringKafkaApplicationTest
     private String topic;
 
     @Test
-    void testSend() throws Exception
-    {
-        for (int i = 0; i < 5; i++)
-        {
+    void testSend() throws Exception {
+        for (int i = 0; i < 5; i++) {
             TimeUnit.MILLISECONDS.sleep(500);
 
             sender.send(topic, "Hello-" + (i + 1));

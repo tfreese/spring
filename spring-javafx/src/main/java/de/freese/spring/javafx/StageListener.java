@@ -4,7 +4,6 @@ package de.freese.spring.javafx;
 import java.io.IOException;
 import java.net.URL;
 
-import de.freese.spring.javafx.JavaFxApplication.StageReadyEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,21 +14,20 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import de.freese.spring.javafx.JavaFxApplication.StageReadyEvent;
+
 /**
  * @author Thomas Freese
  */
 @Component
-public class StageListener implements ApplicationListener<StageReadyEvent>
-{
+public class StageListener implements ApplicationListener<StageReadyEvent> {
     private final ApplicationContext applicationContext;
 
     private final String applicationTitle;
 
     private final Resource fxml;
 
-    public StageListener(final ApplicationContext applicationContext, @Value("${spring.application.ui.title}") final String applicationTitle,
-                         @Value("classpath:/ui.fxml") final Resource fxml)
-    {
+    public StageListener(final ApplicationContext applicationContext, @Value("${spring.application.ui.title}") final String applicationTitle, @Value("classpath:/ui.fxml") final Resource fxml) {
         super();
 
         this.applicationContext = applicationContext;
@@ -41,10 +39,8 @@ public class StageListener implements ApplicationListener<StageReadyEvent>
      * @see org.springframework.context.ApplicationListener#onApplicationEvent(org.springframework.context.ApplicationEvent)
      */
     @Override
-    public void onApplicationEvent(final StageReadyEvent event)
-    {
-        try
-        {
+    public void onApplicationEvent(final StageReadyEvent event) {
+        try {
             Stage stage = event.getStage();
             URL url = this.fxml.getURL();
 
@@ -57,8 +53,7 @@ public class StageListener implements ApplicationListener<StageReadyEvent>
             stage.setTitle(this.applicationTitle);
             stage.show();
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }

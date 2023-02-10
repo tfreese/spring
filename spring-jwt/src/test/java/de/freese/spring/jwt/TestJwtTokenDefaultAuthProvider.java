@@ -6,10 +6,6 @@ import org.springframework.test.context.ActiveProfiles;
 /**
  * @author Thomas Freese
  */
-@ActiveProfiles(
-{
-        "test", "defaultAuthProvider"
-})
-public class TestJwtTokenDefaultAuthProvider extends AbstractTestJwtToken
-{
+@ActiveProfiles({"test", "defaultAuthProvider"})
+public class TestJwtTokenDefaultAuthProvider extends AbstractTestJwtToken {
 }

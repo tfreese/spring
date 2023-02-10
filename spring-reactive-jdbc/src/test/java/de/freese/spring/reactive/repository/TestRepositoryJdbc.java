@@ -12,12 +12,8 @@ import org.springframework.test.context.ActiveProfiles;
 /**
  * @author Thomas Freese
  */
-@ActiveProfiles(
-        {
-                "test", "jdbc"
-        })
-class TestRepositoryJdbc implements TestRepository
-{
+@ActiveProfiles({"test", "jdbc"})
+class TestRepositoryJdbc implements TestRepository {
     @Resource
     private JdbcTemplate jdbcTemplate;
 
@@ -28,8 +24,7 @@ class TestRepositoryJdbc implements TestRepository
      * @see de.freese.spring.reactive.repository.TestRepository#doAfterEach()
      */
     @Override
-    public void doAfterEach()
-    {
+    public void doAfterEach() {
         this.jdbcTemplate.execute("DROP TABLE IF EXISTS employee");
         this.jdbcTemplate.execute("DROP TABLE IF EXISTS department");
     }
@@ -38,8 +33,7 @@ class TestRepositoryJdbc implements TestRepository
      * @see de.freese.spring.reactive.repository.TestRepository#doBeforeEach()
      */
     @Override
-    public void doBeforeEach()
-    {
+    public void doBeforeEach() {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("sql/schema.sql"));
         populator.addScript(new ClassPathResource("sql/data.sql"));
@@ -59,8 +53,7 @@ class TestRepositoryJdbc implements TestRepository
      * @see de.freese.spring.reactive.repository.TestRepository#getRepository()
      */
     @Override
-    public EmployeeRepository getRepository()
-    {
+    public EmployeeRepository getRepository() {
         return this.repository;
     }
 
@@ -69,8 +62,7 @@ class TestRepositoryJdbc implements TestRepository
      */
     @Override
     @Test
-    public void testGetEmployee()
-    {
+    public void testGetEmployee() {
         // nur zum Debuggen
         TestRepository.super.testGetEmployee();
     }

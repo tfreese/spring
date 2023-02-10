@@ -4,6 +4,5 @@ package de.freese.spring.messaging.amqp.qpid;
 /**
  * @author Thomas Freese
  */
-public record Email(String to, String body)
-{
+public record Email(String to, String body) {
 }

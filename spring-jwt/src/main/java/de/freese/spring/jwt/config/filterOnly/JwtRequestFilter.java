@@ -9,8 +9,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import de.freese.spring.jwt.token.JwtToken;
-import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -34,6 +32,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import de.freese.spring.jwt.token.JwtToken;
+import de.freese.spring.jwt.token.JwtTokenProvider;
+
 /**
  * Der {@link JwtRequestFilter} verwendet keinen {@link AuthenticationProvider},<br>
  * sondern validiert das Token mit Passwort-Vergleich, Gültigkeit etc. selber und setzt es in den {@link SecurityContext}..
@@ -41,8 +42,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * @author Thomas Freese
  * @see BasicAuthenticationFilter
  */
-class JwtRequestFilter extends OncePerRequestFilter
-{
+class JwtRequestFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
 
     private final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
@@ -55,23 +55,19 @@ class JwtRequestFilter extends OncePerRequestFilter
 
     private UserDetailsService userDetailsService;
 
-    public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint)
-    {
+    public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
-    public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider)
-    {
+    public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public void setPasswordEncoder(final PasswordEncoder passwordEncoder)
-    {
+    public void setPasswordEncoder(final PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void setUserDetailsService(final UserDetailsService userDetailsService)
-    {
+    public void setUserDetailsService(final UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -80,30 +76,24 @@ class JwtRequestFilter extends OncePerRequestFilter
      * jakarta.servlet.FilterChain)
      */
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
-            throws ServletException, IOException
-    {
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
         String token = this.jwtTokenProvider.resolveToken(request);
 
-        try
-        {
+        try {
             String username = null;
             String password = null;
 
-            if (token != null)
-            {
+            if (token != null) {
                 JwtToken jwtToken = this.jwtTokenProvider.parseToken(token);
 
                 username = jwtToken.getUsername();
                 password = jwtToken.getPassword();
             }
 
-            if ((username != null) && isAuthenticationIsRequired(username))
-            {
+            if ((username != null) && isAuthenticationIsRequired(username)) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-                if (isValid(userDetails, password))
-                {
+                if (isValid(userDetails, password)) {
                     UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authResult.setDetails(this.authenticationDetailsSource.buildDetails(request));
 
@@ -112,14 +102,12 @@ class JwtRequestFilter extends OncePerRequestFilter
                     // context.setAuthentication(authResult);
                     // SecurityContextHolder.setContext(context);
                 }
-                else
-                {
+                else {
                     SecurityContextHolder.clearContext();
                 }
             }
         }
-        catch (AuthenticationException ex)
-        {
+        catch (AuthenticationException ex) {
             SecurityContextHolder.clearContext();
 
             getLogger().error("Authentication request failed: {}", ex.getMessage());
@@ -137,8 +125,7 @@ class JwtRequestFilter extends OncePerRequestFilter
      * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
      */
     @Override
-    protected void initFilterBean() throws ServletException
-    {
+    protected void initFilterBean() throws ServletException {
         super.initFilterBean();
 
         Objects.requireNonNull(this.authenticationEntryPoint, "authenticationEntryPoint required");
@@ -147,63 +134,51 @@ class JwtRequestFilter extends OncePerRequestFilter
         Objects.requireNonNull(this.jwtTokenProvider, "jwtTokenProvider required");
     }
 
-    private Logger getLogger()
-    {
+    private Logger getLogger() {
         return LOGGER;
     }
 
-    private boolean isAuthenticationIsRequired(final String username)
-    {
+    private boolean isAuthenticationIsRequired(final String username) {
         Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
 
-        if ((existingAuth == null) || !existingAuth.isAuthenticated()
-                || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username)))
-        {
+        if ((existingAuth == null) || !existingAuth.isAuthenticated() || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username))) {
             return true;
         }
 
         return (existingAuth instanceof AnonymousAuthenticationToken);
     }
 
-    private boolean isValid(final UserDetails userDetails, final String password) throws AuthenticationException
-    {
-        if (userDetails == null)
-        {
+    private boolean isValid(final UserDetails userDetails, final String password) throws AuthenticationException {
+        if (userDetails == null) {
             return false;
         }
 
-        if (!userDetails.isAccountNonLocked())
-        {
+        if (!userDetails.isAccountNonLocked()) {
             getLogger().error("Failed to authenticate since user account is locked");
             throw new LockedException("User account is locked");
         }
 
-        if (!userDetails.isEnabled())
-        {
+        if (!userDetails.isEnabled()) {
             getLogger().error("Failed to authenticate since user account is disabled");
             throw new DisabledException("User is disabled");
         }
 
-        if (!userDetails.isAccountNonExpired())
-        {
+        if (!userDetails.isAccountNonExpired()) {
             getLogger().error("Failed to authenticate since user account has expired");
             throw new AccountExpiredException("User account has expired");
         }
 
-        if (!userDetails.isCredentialsNonExpired())
-        {
+        if (!userDetails.isCredentialsNonExpired()) {
             getLogger().error("Failed to authenticate since user account credentials have expired");
             throw new CredentialsExpiredException("User credentials have expired");
         }
 
-        if (userDetails.getPassword() == null)
-        {
+        if (userDetails.getPassword() == null) {
             getLogger().error("Failed to authenticate since no credentials provided");
             throw new BadCredentialsException("Bad credentials");
         }
 
-        if (!this.passwordEncoder.matches(password, userDetails.getPassword()))
-        {
+        if (!this.passwordEncoder.matches(password, userDetails.getPassword())) {
             getLogger().error("Failed to authenticate since password does not match stored value");
             throw new BadCredentialsException("Bad credentials");
         }

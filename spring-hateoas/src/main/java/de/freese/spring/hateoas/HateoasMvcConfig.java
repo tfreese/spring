@@ -20,14 +20,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author Thomas Freese
  */
 @Configuration
-public class HateoasMvcConfig implements WebMvcConfigurer
-{
+public class HateoasMvcConfig implements WebMvcConfigurer {
     /**
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#extendMessageConverters(java.util.List)
      */
     @Override
-    public void extendMessageConverters(final List<HttpMessageConverter<?>> converters)
-    {
+    public void extendMessageConverters(final List<HttpMessageConverter<?>> converters) {
         // @formatter:off
         Optional<MappingJackson2HttpMessageConverter> converterOptional = converters.stream()
                 //.peek(c -> System.out.println(c.getClass().getSimpleName()))
@@ -37,8 +35,7 @@ public class HateoasMvcConfig implements WebMvcConfigurer
                 ;
         // @formatter:on
 
-        if (converterOptional.isPresent())
-        {
+        if (converterOptional.isPresent()) {
             MappingJackson2HttpMessageConverter converter = converterOptional.get();
 
             // converter.setObjectMapper(objectMapper());
@@ -48,8 +45,7 @@ public class HateoasMvcConfig implements WebMvcConfigurer
     }
 
     @Bean
-    HalFormsConfiguration halFormsConfiguration()
-    {
+    HalFormsConfiguration halFormsConfiguration() {
         // @formatter:off
         return new HalFormsConfiguration()
                 .withPattern(LocalDate.class, "yyyy-MM-dd")

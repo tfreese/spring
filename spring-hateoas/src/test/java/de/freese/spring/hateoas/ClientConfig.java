@@ -12,18 +12,15 @@ import org.springframework.web.client.RestTemplate;
  * @author Thomas Freese
  */
 // @TestConfiguration
-class ClientConfig
-{
-    ClientConfig()
-    {
+class ClientConfig {
+    ClientConfig() {
         super();
 
         // System.setProperty("server.port", Integer.toString(SocketUtils.findAvailableTcpPort()));
     }
 
     @Bean
-    public RestTemplate restTemplate(final RestTemplateBuilder restTemplateBuilder)
-    {
+    public RestTemplate restTemplate(final RestTemplateBuilder restTemplateBuilder) {
         return restTemplateBuilder.build();
     }
 
@@ -31,16 +28,13 @@ class ClientConfig
      * "@Value("${local.server.port}") final int port"
      */
     @Bean
-    RestTemplateBuilder restTemplateBuilder(@Value("${server.address:localhost}") final String host, @Value("${server.port}") final int port,
-                                            @Value("${server.servlet.context-path:}") final String contextPath)
-    {
+    RestTemplateBuilder restTemplateBuilder(@Value("${server.address:localhost}") final String host, @Value("${server.port}") final int port, @Value("${server.servlet.context-path:}") final String contextPath) {
         // "http://localhost:" + this.port + this.contextPath + "/greeter/"
         return new RestTemplateBuilder().rootUri("http://" + host + ":" + port + contextPath);
     }
 
     @Bean
-    RestTemplateCustomizer restTemplateCustomizer(final HypermediaRestTemplateConfigurer configurer)
-    {
+    RestTemplateCustomizer restTemplateCustomizer(final HypermediaRestTemplateConfigurer configurer) {
         return configurer::registerHypermediaTypes;
     }
 

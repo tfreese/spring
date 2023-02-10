@@ -20,25 +20,21 @@ import org.springframework.context.support.GenericApplicationContext;
 /**
  * @author Thomas Freese
  */
-public class JavaFxApplication extends Application
-{
+public class JavaFxApplication extends Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaFxApplication.class);
 
     /**
      * @author Thomas Freese
      */
-    public static class StageReadyEvent extends ApplicationEvent
-    {
+    public static class StageReadyEvent extends ApplicationEvent {
         @Serial
         private static final long serialVersionUID = -4583752880347446992L;
 
-        public StageReadyEvent(final Stage source)
-        {
+        public StageReadyEvent(final Stage source) {
             super(source);
         }
 
-        public Stage getStage()
-        {
+        public Stage getStage() {
             return (Stage) getSource();
         }
     }
@@ -49,10 +45,8 @@ public class JavaFxApplication extends Application
      * @see javafx.application.Application#init()
      */
     @Override
-    public void init() throws Exception
-    {
-        ApplicationContextInitializer<GenericApplicationContext> initializer = ac ->
-        {
+    public void init() throws Exception {
+        ApplicationContextInitializer<GenericApplicationContext> initializer = ac -> {
             ac.registerBean(Application.class, () -> JavaFxApplication.this);
             ac.registerBean(Parameters.class, this::getParameters);
             ac.registerBean(HostServices.class, this::getHostServices);
@@ -73,8 +67,7 @@ public class JavaFxApplication extends Application
      * @see javafx.application.Application#start(javafx.stage.Stage)
      */
     @Override
-    public void start(final Stage primaryStage) throws Exception
-    {
+    public void start(final Stage primaryStage) throws Exception {
         this.applicationContext.publishEvent(new StageReadyEvent(primaryStage));
     }
 
@@ -82,8 +75,7 @@ public class JavaFxApplication extends Application
      * @see javafx.application.Application#stop()
      */
     @Override
-    public void stop() throws Exception
-    {
+    public void stop() throws Exception {
         this.applicationContext.close();
         Platform.exit();
     }

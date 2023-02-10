@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.jayway.jsonpath.internal.JsonFormatter;
-import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -22,13 +21,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import de.freese.spring.jwt.token.JwtTokenProvider;
+
 /**
  * @author Thomas Freese
  */
 @SpringBootTest(properties = "server.port=0", webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-interface TestJwtToken
-{
+interface TestJwtToken {
     JwtTokenProvider getJwtTokenProvider();
 
     MockMvc getMockMvc();
@@ -36,8 +36,7 @@ interface TestJwtToken
     RestTemplateBuilder getRestTemplateBuilder();
 
     @Test
-    default void testFailNoLogin() throws Exception
-    {
+    default void testFailNoLogin() throws Exception {
         // @formatter:off
         RestTemplate restTemplate = getRestTemplateBuilder()
 //                .interceptors(
@@ -52,8 +51,7 @@ interface TestJwtToken
 
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
 
-        if (responseEntity.hasBody())
-        {
+        if (responseEntity.hasBody()) {
             System.out.printf("%nFail: %s%n", responseEntity.getBody());
         }
 
@@ -123,8 +121,7 @@ interface TestJwtToken
     }
 
     @Test
-    default void testLoginUser() throws Exception
-    {
+    default void testLoginUser() throws Exception {
         // @formatter:off
         RestTemplate restTemplate = getRestTemplateBuilder()
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
@@ -143,8 +140,7 @@ interface TestJwtToken
     }
 
     @Test
-    default void testMeAdmin() throws Exception
-    {
+    default void testMeAdmin() throws Exception {
         // @formatter:off
         RestTemplate restTemplate = getRestTemplateBuilder()
                 .defaultHeader("Authorization", "Bearer " + getJwtTokenProvider().createToken("admin", "pass"))
@@ -163,8 +159,7 @@ interface TestJwtToken
     }
 
     @Test
-    default void testMeUser() throws Exception
-    {
+    default void testMeUser() throws Exception {
         // @formatter:off
         RestTemplate restTemplate = getRestTemplateBuilder()
                 .defaultHeader("Authorization", "Bearer " + getJwtTokenProvider().createToken("user", "pass"))
@@ -183,8 +178,7 @@ interface TestJwtToken
     }
 
     @Test
-    default void testSearchAdmin() throws Exception
-    {
+    default void testSearchAdmin() throws Exception {
         // @formatter:off
         RestTemplate restTemplate = getRestTemplateBuilder()
                 .defaultHeader("Authorization", "Bearer " + getJwtTokenProvider().createToken("admin", "pass"))
@@ -203,8 +197,7 @@ interface TestJwtToken
     }
 
     @Test
-    default void testSearchUser() throws Exception
-    {
+    default void testSearchUser() throws Exception {
         // @formatter:off
         RestTemplate restTemplate = getRestTemplateBuilder()
                 .defaultHeader("Authorization", "Bearer " + getJwtTokenProvider().createToken("user", "pass"))

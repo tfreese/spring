@@ -16,15 +16,12 @@ import reactor.core.publisher.Hooks;
 // "de.freese.spring.rsocket"
 // })
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class RSocketServerApplication
-{
-    public static void main(final String[] args)
-    {
+public class RSocketServerApplication {
+    public static void main(final String[] args) {
         // Fehlermeldung, wenn Client die Verbindung schliesst.
         // Nur einmalig definieren, sonst gib es mehrere Logs-Meldungen !!!
         // Hooks.onErrorDropped(th -> LOGGER.warn(th.getMessage()));
-        Hooks.onErrorDropped(th ->
-        {
+        Hooks.onErrorDropped(th -> {
             // Empty
         });
 

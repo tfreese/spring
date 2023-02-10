@@ -18,39 +18,31 @@ import reactor.core.publisher.Mono;
  * @author Thomas Freese
  */
 @RestController
-public class MyRestController
-{
+public class MyRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyRestController.class);
 
-    private static String getHostName()
-    {
+    private static String getHostName() {
         String hostName = null;
 
-        try
-        {
+        try {
             hostName = InetAddress.getLocalHost().getHostName();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
             LOGGER.error(ex.getMessage(), ex);
         }
 
-        if (hostName == null)
-        {
+        if (hostName == null) {
             // Cross Platform (Windows, Linux, Unix, Mac)
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream(), StandardCharsets.UTF_8)))
-            {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream(), StandardCharsets.UTF_8))) {
                 hostName = br.readLine();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 // Ignore
             }
         }
 
-        if (hostName == null)
-        {
+        if (hostName == null) {
             hostName = "unknown";
         }
 
@@ -58,8 +50,7 @@ public class MyRestController
     }
 
     @GetMapping("greet")
-    public Publisher<String> greet(@RequestParam final Optional<String> name)
-    {
+    public Publisher<String> greet(@RequestParam final Optional<String> name) {
         String hostName = getHostName();
 
         //@formatter:off

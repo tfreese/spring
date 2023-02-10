@@ -15,12 +15,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 /**
  * @author Thomas Freese
  */
-@ActiveProfiles(
-        {
-                "test", "jdbc"
-        })
-class TestWebJdbc implements TestWeb
-{
+@ActiveProfiles({"test", "jdbc"})
+class TestWebJdbc implements TestWeb {
     @Resource
     private JdbcTemplate jdbcTemplate;
 
@@ -36,8 +32,7 @@ class TestWebJdbc implements TestWeb
      * @see de.freese.spring.reactive.web.TestWeb#doAfterEach()
      */
     @Override
-    public void doAfterEach()
-    {
+    public void doAfterEach() {
         this.jdbcTemplate.execute("DROP TABLE IF EXISTS employee");
         this.jdbcTemplate.execute("DROP TABLE IF EXISTS department");
     }
@@ -46,8 +41,7 @@ class TestWebJdbc implements TestWeb
      * @see de.freese.spring.reactive.web.TestWeb#doBeforeEach()
      */
     @Override
-    public void doBeforeEach()
-    {
+    public void doBeforeEach() {
         this.webClient = WebClient.create("http://localhost:" + this.port);
 
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
@@ -60,8 +54,7 @@ class TestWebJdbc implements TestWeb
      * @see de.freese.spring.reactive.web.TestWeb#getWebClient()
      */
     @Override
-    public WebClient getWebClient()
-    {
+    public WebClient getWebClient() {
         return this.webClient;
     }
 
@@ -69,8 +62,7 @@ class TestWebJdbc implements TestWeb
      * @see de.freese.spring.reactive.web.TestWeb#getWebTestClient()
      */
     @Override
-    public WebTestClient getWebTestClient()
-    {
+    public WebTestClient getWebTestClient() {
         return this.webTestClient;
     }
 
@@ -79,8 +71,7 @@ class TestWebJdbc implements TestWeb
      */
     @Override
     @Test
-    public void testGetEmployee()
-    {
+    public void testGetEmployee() {
         // nur zum Debuggen
         TestWeb.super.testGetEmployee();
     }

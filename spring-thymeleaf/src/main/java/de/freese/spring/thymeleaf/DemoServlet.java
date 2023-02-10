@@ -16,8 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Thomas Freese
  */
 @WebServlet(description = "DemoServlet", name = "demoServlet", urlPatterns = "/demo-servlet", loadOnStartup = 1)
-public class DemoServlet extends HttpServlet
-{
+public class DemoServlet extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 891637777095320320L;
 
@@ -25,12 +24,10 @@ public class DemoServlet extends HttpServlet
      * @see jakarta.servlet.http.HttpServlet#doGet(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     @Override
-    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException
-    {
+    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
 
-        try (PrintWriter writer = resp.getWriter())
-        {
+        try (PrintWriter writer = resp.getWriter()) {
             writer.append("<b>").append(LocalDateTime.now().toString()).append("</b>");
         }
     }

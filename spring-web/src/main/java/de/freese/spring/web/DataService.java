@@ -15,10 +15,8 @@ import org.springframework.stereotype.Service;
  * @author Thomas Freese
  */
 @Service
-public class DataService
-{
-    public Map<Number, Double> getLineChartData()
-    {
+public class DataService {
+    public Map<Number, Double> getLineChartData() {
         //        Map<Double, Double> map = new LinkedHashMap<>();
         //        map.put(1, 5.20D);
         //        map.put(2, 19.63D);
@@ -32,13 +30,11 @@ public class DataService
         return getPoints().stream().collect(Collectors.toMap(Point2D.Double::getX, Point2D.Double::getY, (a, b) -> b, LinkedHashMap::new));
     }
 
-    public LocalDateTime getLocalDateTime()
-    {
+    public LocalDateTime getLocalDateTime() {
         return LocalDateTime.now();
     }
 
-    public List<Point.Double> getPoints()
-    {
+    public List<Point.Double> getPoints() {
         List<Point.Double> map = new ArrayList<>();
         map.add(new Point2D.Double(1, 5.20D));
         map.add(new Point2D.Double(2, 19.63D));

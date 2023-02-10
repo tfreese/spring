@@ -16,15 +16,13 @@ import org.springframework.stereotype.Component;
  * @author Thomas Freese
  */
 @Component
-public class RunnerSendMessages implements CommandLineRunner
-{
+public class RunnerSendMessages implements CommandLineRunner {
     private final AmqpSender sender;
 
     @Resource
     private ApplicationContext context;
 
-    public RunnerSendMessages(final AmqpSender sender)
-    {
+    public RunnerSendMessages(final AmqpSender sender) {
         super();
 
         this.sender = Objects.requireNonNull(sender, "sender required");
@@ -34,10 +32,8 @@ public class RunnerSendMessages implements CommandLineRunner
      * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
      */
     @Override
-    public void run(final String... args) throws Exception
-    {
-        for (int i = 0; i < 5; i++)
-        {
+    public void run(final String... args) throws Exception {
+        for (int i = 0; i < 5; i++) {
             TimeUnit.MILLISECONDS.sleep(500);
 
             this.sender.send(new Email("info@example.com", "Hello-" + (i + 1)));
@@ -45,12 +41,10 @@ public class RunnerSendMessages implements CommandLineRunner
 
         TimeUnit.MILLISECONDS.sleep(500);
 
-        if (context instanceof ConfigurableApplicationContext cac)
-        {
+        if (context instanceof ConfigurableApplicationContext cac) {
             cac.close();
         }
-        else
-        {
+        else {
             SpringApplication.exit(context, () -> 1);
         }
 

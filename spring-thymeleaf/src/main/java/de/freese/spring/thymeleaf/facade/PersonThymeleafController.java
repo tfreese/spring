@@ -5,27 +5,26 @@ import java.util.List;
 
 import jakarta.annotation.Resource;
 
-import de.freese.spring.thymeleaf.ThymeleafController;
-import de.freese.spring.thymeleaf.model.Person;
-import de.freese.spring.thymeleaf.model.PersonForm;
-import de.freese.spring.thymeleaf.service.PersonService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import de.freese.spring.thymeleaf.ThymeleafController;
+import de.freese.spring.thymeleaf.model.Person;
+import de.freese.spring.thymeleaf.model.PersonForm;
+import de.freese.spring.thymeleaf.service.PersonService;
+
 /**
  * @author Thomas Freese
  */
 @ThymeleafController
-public class PersonThymeleafController
-{
+public class PersonThymeleafController {
     @Resource
     private PersonService service;
 
     @GetMapping("/web/person/personList")
-    public String personList(final Model model)
-    {
+    public String personList(final Model model) {
         List<Person> persons = this.service.getPersons();
         model.addAttribute("persons", persons);
 
@@ -33,19 +32,16 @@ public class PersonThymeleafController
     }
 
     @PostMapping("/web/person/personAdd")
-    public String savePerson(final Model model, @ModelAttribute("personForm") final PersonForm personForm)
-    {
+    public String savePerson(final Model model, @ModelAttribute("personForm") final PersonForm personForm) {
         String firstName = personForm.getFirstName();
         String lastName = personForm.getLastName();
 
-        try
-        {
+        try {
             Person newPerson = new Person(firstName, lastName);
             this.service.addPerson(newPerson);
 
         }
-        catch (IllegalArgumentException ex)
-        {
+        catch (IllegalArgumentException ex) {
             model.addAttribute("errorMessage", "Invalid First- and Lastname !");
 
             return "/person/personAdd";
@@ -55,8 +51,7 @@ public class PersonThymeleafController
     }
 
     @GetMapping("/web/person/personAdd")
-    public String showAddPersonPage(final Model model)
-    {
+    public String showAddPersonPage(final Model model) {
         PersonForm personForm = new PersonForm();
         model.addAttribute("personForm", personForm);
 

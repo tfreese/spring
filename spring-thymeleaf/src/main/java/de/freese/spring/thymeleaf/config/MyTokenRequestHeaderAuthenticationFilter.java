@@ -10,10 +10,8 @@ import org.springframework.security.web.authentication.preauth.RequestHeaderAuth
  *
  * @author Thomas Freese
  */
-public class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthenticationFilter
-{
-    public MyTokenRequestHeaderAuthenticationFilter()
-    {
+public class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthenticationFilter {
+    public MyTokenRequestHeaderAuthenticationFilter() {
         super();
 
         setPrincipalRequestHeader("my-token");
@@ -27,8 +25,7 @@ public class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthe
      * @see org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter#getPreAuthenticatedCredentials(jakarta.servlet.http.HttpServletRequest)
      */
     @Override
-    protected Object getPreAuthenticatedCredentials(final HttpServletRequest request)
-    {
+    protected Object getPreAuthenticatedCredentials(final HttpServletRequest request) {
         // Decode Credentials
         return super.getPreAuthenticatedCredentials(request);
     }
@@ -37,8 +34,7 @@ public class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthe
      * @see org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter#getPreAuthenticatedPrincipal(jakarta.servlet.http.HttpServletRequest)
      */
     @Override
-    protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request)
-    {
+    protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
         // Decode Principal
         return super.getPreAuthenticatedPrincipal(request);
     }

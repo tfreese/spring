@@ -18,14 +18,12 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
  *
  * @author Thomas Freese
  */
-class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
-{
+class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
     /**
      * @see BasicAuthenticationEntryPoint#afterPropertiesSet()
      */
     @Override
-    public void afterPropertiesSet()
-    {
+    public void afterPropertiesSet() {
         setRealmName("Tommy");
 
         super.afterPropertiesSet();
@@ -35,8 +33,7 @@ class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
      * @see BasicAuthenticationEntryPoint#commence(HttpServletRequest, HttpServletResponse, AuthenticationException)
      */
     @Override
-    public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authEx) throws IOException
-    {
+    public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authEx) throws IOException {
         response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

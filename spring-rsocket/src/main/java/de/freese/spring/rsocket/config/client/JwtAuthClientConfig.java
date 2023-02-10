@@ -11,14 +11,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Profile("jwt")
-public class JwtAuthClientConfig extends AbstractClientConfig
-{
+public class JwtAuthClientConfig extends AbstractClientConfig {
     /**
      * @see de.freese.spring.rsocket.config.client.AbstractClientConfig#createAuthenticationEncoder()
      */
     @Override
-    protected Encoder<?> createAuthenticationEncoder()
-    {
+    protected Encoder<?> createAuthenticationEncoder() {
         return new BearerTokenAuthenticationEncoder();
     }
 }

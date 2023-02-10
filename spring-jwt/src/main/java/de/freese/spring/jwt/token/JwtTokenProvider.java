@@ -14,21 +14,17 @@ import org.springframework.security.core.GrantedAuthority;
 /**
  * @author Thomas Freese
  */
-public interface JwtTokenProvider
-{
-    default String createToken(final String username, final String password)
-    {
+public interface JwtTokenProvider {
+    default String createToken(final String username, final String password) {
         Set<String> roles = null;
 
         return createToken(username, password, roles);
     }
 
-    default String createToken(final String username, final String password, final Collection<? extends GrantedAuthority> roles)
-    {
+    default String createToken(final String username, final String password, final Collection<? extends GrantedAuthority> roles) {
         Set<String> rolesSet = null;
 
-        if ((roles != null) && !roles.isEmpty())
-        {
+        if ((roles != null) && !roles.isEmpty()) {
             // @formatter:off
             rolesSet = roles.stream()
                     .filter(Objects::nonNull)
@@ -45,12 +41,10 @@ public interface JwtTokenProvider
 
     JwtToken parseToken(String token) throws AuthenticationException;
 
-    default String resolveToken(final HttpServletRequest req)
-    {
+    default String resolveToken(final HttpServletRequest req) {
         String bearerToken = req.getHeader("Authorization");
 
-        if ((bearerToken != null) && bearerToken.startsWith("Bearer "))
-        {
+        if ((bearerToken != null) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
 

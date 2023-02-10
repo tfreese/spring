@@ -5,12 +5,13 @@ import javax.sql.DataSource;
 
 import jakarta.annotation.Resource;
 
-import de.freese.spring.autoconfigure.TestAutoConfiguration;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import de.freese.spring.autoconfigure.TestAutoConfiguration;
 
 /**
  * @author Thomas Freese
@@ -18,8 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest(classes = TestH2Config.class)
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestH2ServerAutoConfiguration implements TestAutoConfiguration
-{
+class TestH2ServerAutoConfiguration implements TestAutoConfiguration {
     @Resource
     @Qualifier("dataSourceH2File")
     private DataSource dataSourceFile;
@@ -32,8 +32,7 @@ class TestH2ServerAutoConfiguration implements TestAutoConfiguration
      * @see de.freese.spring.autoconfigure.TestAutoConfiguration#getDataSourceFile()
      */
     @Override
-    public DataSource getDataSourceFile()
-    {
+    public DataSource getDataSourceFile() {
         return this.dataSourceFile;
     }
 
@@ -41,8 +40,7 @@ class TestH2ServerAutoConfiguration implements TestAutoConfiguration
      * @see de.freese.spring.autoconfigure.TestAutoConfiguration#getDataSourceMemory()
      */
     @Override
-    public DataSource getDataSourceMemory()
-    {
+    public DataSource getDataSourceMemory() {
         return this.dataSourceMemory;
     }
 }

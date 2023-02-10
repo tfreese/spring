@@ -15,15 +15,13 @@ import reactor.core.publisher.Mono;
  * @author Thomas Freese
  */
 @Service
-public class FailingService
-{
+public class FailingService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FailingService.class);
 
     @Value("${server.port}")
     private final int port = -1;
 
-    public Mono<String> greet(final Optional<String> name)
-    {
+    public Mono<String> greet(final Optional<String> name) {
         var seconds = (long) (Math.random() * 5);
 
         //@formatter:off
@@ -39,14 +37,11 @@ public class FailingService
         //@formatter:on
     }
 
-    private String getHost()
-    {
-        try
-        {
+    private String getHost() {
+        try {
             return InetAddress.getLocalHost() + "@" + this.port;
         }
-        catch (UnknownHostException ex)
-        {
+        catch (UnknownHostException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 

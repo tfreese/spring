@@ -18,8 +18,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author Thomas Freese
  */
-class TestCafe
-{
+class TestCafe {
     // static void main(final String[] args) throws Exception
     // {
     // TestCafe testCafe = new TestCafe();
@@ -31,8 +30,7 @@ class TestCafe
     // }
 
     @Test
-    void testCafeConfig() throws Exception
-    {
+    void testCafeConfig() throws Exception {
         //@formatter:off
         try(ConfigurableApplicationContext context= new SpringApplicationBuilder()
             .headless(true)
@@ -49,10 +47,8 @@ class TestCafe
     }
 
     @Test
-    void testCafeDemoWithAnnotationSupport() throws Exception
-    {
-        try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-annotation.xml"))
-        {
+    void testCafeDemoWithAnnotationSupport() throws Exception {
+        try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-annotation.xml")) {
             context.registerShutdownHook();
 
             testCafe(context);
@@ -60,10 +56,8 @@ class TestCafe
     }
 
     @Test
-    void testCafeDemoWithXmlSupport() throws Exception
-    {
-        try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-xml.xml"))
-        {
+    void testCafeDemoWithXmlSupport() throws Exception {
+        try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-xml.xml")) {
             context.registerShutdownHook();
 
             testCafe(context);
@@ -71,8 +65,7 @@ class TestCafe
     }
 
     @Test
-    void testCafeDsl() throws Exception
-    {
+    void testCafeDsl() throws Exception {
         // ConfigurableApplicationContext context = SpringApplication.run(Application.class);
 
         //@formatter:off
@@ -90,12 +83,10 @@ class TestCafe
         }
     }
 
-    private void testCafe(final ApplicationContext context) throws Exception
-    {
+    private void testCafe(final ApplicationContext context) throws Exception {
         Cafe cafe = context.getBean(Cafe.class);
 
-        for (int i = 1; i < 4; i++)
-        {
+        for (int i = 1; i < 4; i++) {
             Order order = new Order(i);
             order.addItem(DrinkType.LATTE, false);
             order.addItem(DrinkType.MOCHA, true);

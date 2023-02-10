@@ -19,8 +19,7 @@ import org.springframework.stereotype.Service;
  * @author Thomas Freese
  */
 @Service
-public class TxService
-{
+public class TxService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TxService.class);
 
     @Resource
@@ -30,8 +29,7 @@ public class TxService
     private DataSource dataSourcePerson;
 
     @Transactional(rollbackOn = Exception.class)
-    public void insertData(String personName, String city) throws Exception
-    {
+    public void insertData(String personName, String city) throws Exception {
         long id = System.nanoTime();
 
         String sqlPerson = """
@@ -40,9 +38,7 @@ public class TxService
                     values
                     (?, ?)
                 """;
-        try (Connection connection = this.dataSourcePerson.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sqlPerson))
-        {
+        try (Connection connection = this.dataSourcePerson.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sqlPerson)) {
             preparedStatement.setLong(1, id);
             preparedStatement.setString(2, personName);
 
@@ -56,9 +52,7 @@ public class TxService
                     (?, ?)
                 """;
 
-        try (Connection connection = this.dataSourceAddress.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sqlAddress))
-        {
+        try (Connection connection = this.dataSourceAddress.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sqlAddress)) {
             preparedStatement.setLong(1, id);
             preparedStatement.setString(2, city);
 
@@ -66,24 +60,15 @@ public class TxService
         }
     }
 
-    public void selectAll() throws Exception
-    {
-        try (Connection connectionPerson = this.dataSourcePerson.getConnection();
-             Statement statementPerson = connectionPerson.createStatement();
-             ResultSet resultSetPerson = statementPerson.executeQuery("select * from PERSON"))
-        {
-            while (resultSetPerson.next())
-            {
+    public void selectAll() throws Exception {
+        try (Connection connectionPerson = this.dataSourcePerson.getConnection(); Statement statementPerson = connectionPerson.createStatement(); ResultSet resultSetPerson = statementPerson.executeQuery("select * from PERSON")) {
+            while (resultSetPerson.next()) {
                 LOGGER.info("{} - {}", resultSetPerson.getLong("ID"), resultSetPerson.getString("NAME"));
             }
         }
 
-        try (Connection connectionAddress = this.dataSourceAddress.getConnection();
-             PreparedStatement preparedStatementAddress = connectionAddress.prepareStatement("select * from ADDRESS");
-             ResultSet resultSetAddress = preparedStatementAddress.executeQuery())
-        {
-            while (resultSetAddress.next())
-            {
+        try (Connection connectionAddress = this.dataSourceAddress.getConnection(); PreparedStatement preparedStatementAddress = connectionAddress.prepareStatement("select * from ADDRESS"); ResultSet resultSetAddress = preparedStatementAddress.executeQuery()) {
+            while (resultSetAddress.next()) {
                 LOGGER.info("\t{} - {}", resultSetAddress.getLong("PERSON_ID"), resultSetAddress.getString("CITY"));
             }
         }

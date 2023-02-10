@@ -22,15 +22,11 @@ import org.springframework.test.context.ActiveProfiles;
  */
 @SpringBootTest
 @ActiveProfiles("test")
-public interface TestAutoConfiguration
-{
-    default void createTable(final DataSource dataSource) throws SQLException
-    {
+public interface TestAutoConfiguration {
+    default void createTable(final DataSource dataSource) throws SQLException {
         assertNotNull(dataSource);
 
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement())
-        {
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement()) {
             statement.execute("DROP TABLE IF EXISTS PERSON CASCADE");
             statement.execute("CREATE TABLE PERSON(ID BIGINT NOT NULL PRIMARY KEY, NAME VARCHAR(25) NOT NULL, VORNAME VARCHAR(25))");
         }
@@ -40,16 +36,13 @@ public interface TestAutoConfiguration
 
     DataSource getDataSourceMemory();
 
-    default void insert(final DataSource dataSource) throws SQLException
-    {
+    default void insert(final DataSource dataSource) throws SQLException {
         assertNotNull(dataSource);
 
-        try (Connection con = dataSource.getConnection())
-        {
+        try (Connection con = dataSource.getConnection()) {
             con.setAutoCommit(false);
 
-            try (PreparedStatement stmt = con.prepareStatement("insert into PERSON (ID, NAME) values (?, ?)"))
-            {
+            try (PreparedStatement stmt = con.prepareStatement("insert into PERSON (ID, NAME) values (?, ?)")) {
                 stmt.setLong(1, 7);
                 stmt.setString(2, "Test");
 
@@ -58,34 +51,26 @@ public interface TestAutoConfiguration
 
                 con.commit();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 con.rollback();
             }
         }
     }
 
-    default void select(final DataSource dataSource) throws SQLException
-    {
+    default void select(final DataSource dataSource) throws SQLException {
         assertNotNull(dataSource);
 
-        try (Connection con = dataSource.getConnection();
-             Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery("select * from PERSON"))
-        {
+        try (Connection con = dataSource.getConnection(); Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery("select * from PERSON")) {
             final boolean hasNext = rs.next();
 
-            if (hasNext)
-            {
-                do
-                {
+            if (hasNext) {
+                do {
                     assertEquals(7L, rs.getLong("ID"));
                     assertEquals("Test", rs.getString("NAME"));
                 }
                 while (rs.next());
             }
-            else
-            {
+            else {
                 fail("no data");
             }
         }
@@ -93,8 +78,7 @@ public interface TestAutoConfiguration
 
     @Test
     // @Transactional("nameOfTransactionManager")
-    default void testDataSourceFile() throws SQLException
-    {
+    default void testDataSourceFile() throws SQLException {
         DataSource dataSource = getDataSourceFile();
 
         createTable(dataSource);
@@ -104,8 +88,7 @@ public interface TestAutoConfiguration
 
     @Test
     // @Transactional("nameOfTransactionManager")
-    default void testDataSourceMemory() throws SQLException
-    {
+    default void testDataSourceMemory() throws SQLException {
         DataSource dataSource = getDataSourceMemory();
 
         createTable(dataSource);

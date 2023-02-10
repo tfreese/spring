@@ -21,12 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("users")
 @Tag(name = "UserController", description = "The User API with documentation annotations")
-public class UserController
-{
+public class UserController {
     private final Map<String, String> userMap = new HashMap<>();
 
-    public UserController()
-    {
+    public UserController() {
         super();
 
         userMap.put("UserA", "UserA");
@@ -35,14 +33,8 @@ public class UserController
 
     @DeleteMapping("delete/{username}")
     @Operation(summary = "Delete user", description = "Deletes specific user by username.")
-    @ApiResponses(value =
-            {
-                    @ApiResponse(responseCode = "400", description = "Something went wrong"),
-                    @ApiResponse(responseCode = "403", description = "Access denied"),
-                    @ApiResponse(responseCode = "404", description = "The user doesn't exist", content = @Content),
-            })
-    public String delete(@PathVariable final String username)
-    {
+    @ApiResponses(value = {@ApiResponse(responseCode = "400", description = "Something went wrong"), @ApiResponse(responseCode = "403", description = "Access denied"), @ApiResponse(responseCode = "404", description = "The user doesn't exist", content = @Content),})
+    public String delete(@PathVariable final String username) {
         this.userMap.remove(username);
 
         return username;
@@ -50,8 +42,7 @@ public class UserController
 
     @GetMapping("list")
     @Operation(summary = "List users", description = "List all Users")
-    public String list()
-    {
+    public String list() {
         return String.join(", ", this.userMap.values());
     }
 }

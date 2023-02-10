@@ -4,35 +4,29 @@ package de.freese.spring.rsocket.model;
 /**
  * @author Thomas Freese
  */
-public class MessageRequest
-{
+public class MessageRequest {
     private String message;
 
-    public MessageRequest()
-    {
+    public MessageRequest() {
         super();
     }
 
-    public MessageRequest(final String message)
-    {
+    public MessageRequest(final String message) {
         super();
 
         this.message = message;
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return this.message;
     }
 
-    public void setMessage(final String message)
-    {
+    public void setMessage(final String message) {
         this.message = message;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append(getClass().getSimpleName());
         builder.append("[");

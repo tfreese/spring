@@ -29,15 +29,12 @@ import org.springframework.context.annotation.Configuration;
 //                description = "Production"
 //        )
 //)
-public class OpenApiConfiguration
-{
+public class OpenApiConfiguration {
     @Bean
-    public OpenAPI customOpenAPI()
-    {
-        String description =
-                """
-                        This is a sample OpenApi service.
-                        """;
+    public OpenAPI customOpenAPI() {
+        String description = """
+                This is a sample OpenApi service.
+                """;
 
         // @formatter:off
         return new OpenAPI()

@@ -22,20 +22,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * @author Thomas Freese
  */
 @RestControllerAdvice
-public class GlobalExceptionHandlerController extends ResponseEntityExceptionHandler
-{
+public class GlobalExceptionHandlerController extends ResponseEntityExceptionHandler {
     @Bean
-    public ErrorAttributes errorAttributes()
-    {
-        return new DefaultErrorAttributes()
-        {
+    public ErrorAttributes errorAttributes() {
+        return new DefaultErrorAttributes() {
             /**
              * @see org.springframework.boot.web.servlet.error.DefaultErrorAttributes#getErrorAttributes(org.springframework.web.context.request.WebRequest,
              *      org.springframework.boot.web.error.ErrorAttributeOptions)
              */
             @Override
-            public Map<String, Object> getErrorAttributes(final WebRequest webRequest, final ErrorAttributeOptions options)
-            {
+            public Map<String, Object> getErrorAttributes(final WebRequest webRequest, final ErrorAttributeOptions options) {
                 Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, options);
 
                 // StackTrace entfernen.
@@ -47,26 +43,22 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Object> handleAccessDeniedException(final AccessDeniedException ex, final WebRequest request)
-    {
+    public ResponseEntity<Object> handleAccessDeniedException(final AccessDeniedException ex, final WebRequest request) {
         return handleExceptionInternal(ex, "Access denied", HttpStatus.FORBIDDEN, request);
         // return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<Object> handleAuthenticationException(final AuthenticationException ex, final WebRequest request) throws IOException
-    {
+    public ResponseEntity<Object> handleAuthenticationException(final AuthenticationException ex, final WebRequest request) throws IOException {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGenericException(final Exception ex) throws IOException
-    {
+    public ResponseEntity<Object> handleGenericException(final Exception ex) throws IOException {
         return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
     }
 
-    protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body, final HttpStatus status, final WebRequest request)
-    {
+    protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body, final HttpStatus status, final WebRequest request) {
         return super.handleExceptionInternal(ex, body, new HttpHeaders(), status, request);
     }
 }

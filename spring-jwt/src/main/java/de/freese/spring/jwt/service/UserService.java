@@ -4,9 +4,6 @@ package de.freese.spring.jwt.service;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 
-import de.freese.spring.jwt.model.MutableUser;
-import de.freese.spring.jwt.token.JwtToken;
-import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,12 +13,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import de.freese.spring.jwt.model.MutableUser;
+import de.freese.spring.jwt.token.JwtToken;
+import de.freese.spring.jwt.token.JwtTokenProvider;
+
 /**
  * @author Thomas Freese
  */
 @Service
-public class UserService
-{
+public class UserService {
     @Resource
     private AuthenticationManager authenticationManager;
 
@@ -34,14 +34,12 @@ public class UserService
     @Resource
     private UserDetailsService userDetailsService;
 
-    public void delete(final String username)
-    {
+    public void delete(final String username) {
         throw new AuthenticationServiceException("Need a UserDetailsManager");
         //this.userDetailsManager.deleteUser(username);
     }
 
-    public String login(final String username, final String password)
-    {
+    public String login(final String username, final String password) {
         this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
         // UserDetails userDetails = this.userDetailsManager.loadUserByUsername(username);
@@ -49,8 +47,7 @@ public class UserService
         return this.jwtTokenProvider.createToken(username, password);
     }
 
-    public String register(final UserDetails userDetails)
-    {
+    public String register(final UserDetails userDetails) {
         throw new AuthenticationServiceException("Need a UserDetailsManager");
 
         //        boolean exist = this.userDetailsManager.userExists(userDetails.getUsername());
@@ -68,20 +65,17 @@ public class UserService
         //        throw new AuthenticationServiceException("Username is already in use");
     }
 
-    public UserDetails search(final String username)
-    {
+    public UserDetails search(final String username) {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-        if (userDetails == null)
-        {
+        if (userDetails == null) {
             throw new UsernameNotFoundException("The user doesn't exist");
         }
 
         return new MutableUser(userDetails).clearCredentials();
     }
 
-    public UserDetails whoami(final HttpServletRequest req)
-    {
+    public UserDetails whoami(final HttpServletRequest req) {
         String token = this.jwtTokenProvider.resolveToken(req);
         JwtToken jwtToken = this.jwtTokenProvider.parseToken(token);
         String username = jwtToken.getUsername();

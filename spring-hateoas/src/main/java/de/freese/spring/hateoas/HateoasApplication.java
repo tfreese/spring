@@ -15,10 +15,8 @@ import org.springframework.hateoas.config.EnableHypermediaSupport;
 @SpringBootApplication
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class HateoasApplication
-{
-    public static void main(final String[] args)
-    {
+public class HateoasApplication {
+    public static void main(final String[] args) {
         SpringApplication.run(HateoasApplication.class, args);
     }
 }

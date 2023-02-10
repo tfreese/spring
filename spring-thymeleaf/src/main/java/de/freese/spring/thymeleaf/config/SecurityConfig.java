@@ -35,11 +35,9 @@ import org.springframework.web.filter.GenericFilterBean;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
-public class SecurityConfig
-{
+public class SecurityConfig {
     @Bean
-    AuthenticationEntryPoint authenticationEntryPoint()
-    {
+    AuthenticationEntryPoint authenticationEntryPoint() {
         return new RestAuthenticationEntryPoint();
     }
 
@@ -80,9 +78,7 @@ public class SecurityConfig
     // return new UnanimousBased(decisionVoters);
     // }
     @Bean
-    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderPreAuthenticated,
-                                                final AuthenticationProvider authenticationProviderDao)
-    {
+    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderPreAuthenticated, final AuthenticationProvider authenticationProviderDao) {
         ProviderManager providerManager = new ProviderManager(authenticationProviderPreAuthenticated, authenticationProviderDao);
         // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
         providerManager.setEraseCredentialsAfterAuthentication(true);
@@ -95,9 +91,7 @@ public class SecurityConfig
      * UserController.login(String, String)<br>
      */
     @Bean
-    AuthenticationProvider authenticationProviderDao(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService,
-                                                     final UserCache userCache)
-    {
+    AuthenticationProvider authenticationProviderDao(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService, final UserCache userCache) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         // authenticationProvider.setMessageSource(applicationContext); // Wird automatisch gemacht.
         authenticationProvider.setPasswordEncoder(passwordEncoder);
@@ -120,8 +114,7 @@ public class SecurityConfig
     }
 
     @Bean
-    AuthenticationProvider authenticationProviderPreAuthenticated(final AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> authenticationUserDetailsService)
-    {
+    AuthenticationProvider authenticationProviderPreAuthenticated(final AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> authenticationUserDetailsService) {
         PreAuthenticatedAuthenticationProvider preAuthenticatedAuthenticationProvider = new PreAuthenticatedAuthenticationProvider();
         preAuthenticatedAuthenticationProvider.setPreAuthenticatedUserDetailsService(authenticationUserDetailsService);
 
@@ -129,8 +122,7 @@ public class SecurityConfig
     }
 
     @Bean
-    AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> authenticationUserDetailsService(final UserDetailsService userDetailsService)
-    {
+    AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> authenticationUserDetailsService(final UserDetailsService userDetailsService) {
         UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> wrapper = new UserDetailsByNameServiceWrapper<>();
         wrapper.setUserDetailsService(userDetailsService);
 
@@ -138,11 +130,7 @@ public class SecurityConfig
     }
 
     @Bean
-    SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider,
-                                    final AuthenticationEntryPoint authenticationEntryPoint, final RememberMeServices rememberMeServices,
-                                    final AuthenticationManager authenticationManager)
-            throws Exception
-    {
+    SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider, final AuthenticationEntryPoint authenticationEntryPoint, final RememberMeServices rememberMeServices, final AuthenticationManager authenticationManager) throws Exception {
         // Beispiel: https://developer.okta.com/blog/2018/07/30/10-ways-to-secure-spring-boot
         // http.requiresChannel().anyRequest().requiresSecure();
         //
@@ -200,8 +188,7 @@ public class SecurityConfig
 
     // @Bean
     // Mit @Bean funktionieren die REST-Services nicht mehr !
-    GenericFilterBean myTokenFilter(final AuthenticationManager authenticationManager) throws Exception
-    {
+    GenericFilterBean myTokenFilter(final AuthenticationManager authenticationManager) throws Exception {
         // RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
         // filter.setPrincipalRequestHeader("my-token");
         // filter.setExceptionIfHeaderMissing(false); // Damit keine konkrete Fehlermeldung ausgegeben wird.
@@ -219,8 +206,7 @@ public class SecurityConfig
     }
 
     @Bean
-    PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider(final AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> auds)
-    {
+    PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider(final AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> auds) {
         PreAuthenticatedAuthenticationProvider preauthAuthProvider = new PreAuthenticatedAuthenticationProvider();
         preauthAuthProvider.setPreAuthenticatedUserDetailsService(auds);
 
@@ -228,14 +214,12 @@ public class SecurityConfig
     }
 
     @Bean
-    PasswordEncoder passwordEncoder()
-    {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    RememberMeServices rememberMeService(final UserDetailsService userDetailsService)
-    {
+    RememberMeServices rememberMeService(final UserDetailsService userDetailsService) {
         return new TokenBasedRememberMeServices("remember-me", userDetailsService);
     }
 
@@ -248,8 +232,7 @@ public class SecurityConfig
      * .withUser("user").password("{noop}user1").roles("USER");<br>
      */
     @Bean
-    UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache) throws Exception
-    {
+    UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache) throws Exception {
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
         userDetailsManager.createUser(User.withUsername("admin").passwordEncoder(passwordEncoder::encode).password("pw").roles("ADMIN", "USER").build());
         userDetailsManager.createUser(User.withUsername("user").passwordEncoder(passwordEncoder::encode).password("pw").roles("USER").build());

@@ -20,8 +20,7 @@ import org.springframework.context.annotation.Profile;
  */
 @Configuration
 @Profile("with-ssl")
-public class SslConfig
-{
+public class SslConfig {
     // @Value("${server.port ?: #{systemProperties['server_port']}}")
     // @Value("${server.port : #{systemProperties['server_port']}}")
     // @Value("${server.port : #{systemProperties.server_port}}")
@@ -55,16 +54,13 @@ public class SslConfig
      * Umleiten von Port 8080 auf 8443.
      */
     @Bean
-    public ServletWebServerFactory servletContainer()
-    {
-        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory()
-        {
+    public ServletWebServerFactory servletContainer() {
+        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
             /**
              * @see org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory#getTomcatWebServer(org.apache.catalina.startup.Tomcat)
              */
             @Override
-            protected TomcatWebServer getTomcatWebServer(final Tomcat tomcat)
-            {
+            protected TomcatWebServer getTomcatWebServer(final Tomcat tomcat) {
                 // JNDI aktivieren.
                 tomcat.enableNaming();
 
@@ -75,8 +71,7 @@ public class SslConfig
              * @see org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory#postProcessContext(org.apache.catalina.Context)
              */
             @Override
-            protected void postProcessContext(final Context context)
-            {
+            protected void postProcessContext(final Context context) {
                 // SSL Context definieren.
                 SecurityConstraint securityConstraint = new SecurityConstraint();
                 securityConstraint.setUserConstraint("CONFIDENTIAL");
@@ -132,8 +127,7 @@ public class SslConfig
     /**
      * Umleiten von Port 8080 auf 8443.
      */
-    private Connector servletRedirectConnector()
-    {
+    private Connector servletRedirectConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");
         connector.setPort(8080);

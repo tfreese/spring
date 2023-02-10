@@ -12,14 +12,12 @@ import org.springframework.web.reactive.function.server.ServerResponse;
  * @author Thomas Freese
  */
 @Configuration
-public class EmployeeRouter
-{
+public class EmployeeRouter {
     /**
      * Die REST-Methode 'createNewEmployee' wird im {@link EmployeeRestController} behandelt.
      */
     @Bean
-    public RouterFunction<ServerResponse> route(final EmployeeHandler handler)
-    {
+    public RouterFunction<ServerResponse> route(final EmployeeHandler handler) {
         // @formatter:off
         return RouterFunctions
                 .route(RequestPredicates.GET("/employee/ln/{ln}/fn/{fn}")

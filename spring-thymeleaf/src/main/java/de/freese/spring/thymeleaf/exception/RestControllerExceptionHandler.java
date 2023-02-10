@@ -35,71 +35,57 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 // @ControllerAdvice
 // @RestControllerAdvice
 // @Controller
-public class RestControllerExceptionHandler extends ResponseEntityExceptionHandler
-{
-    protected static Exception getException(final HttpServletRequest request)
-    {
+public class RestControllerExceptionHandler extends ResponseEntityExceptionHandler {
+    protected static Exception getException(final HttpServletRequest request) {
         return (Exception) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
     }
 
-    protected static Exception getException(final WebRequest request)
-    {
+    protected static Exception getException(final WebRequest request) {
         HttpServletRequest httpServletRequest = getHttpServletRequest(request);
 
         return getException(httpServletRequest);
     }
 
-    protected static HttpServletRequest getHttpServletRequest(final WebRequest request)
-    {
+    protected static HttpServletRequest getHttpServletRequest(final WebRequest request) {
         return (HttpServletRequest) ((ServletWebRequest) request).getNativeRequest();
     }
 
-    protected static String getPath(final HttpServletRequest request)
-    {
+    protected static String getPath(final HttpServletRequest request) {
         return request.getRequestURL().toString();
     }
 
-    protected static String getPath(final WebRequest request)
-    {
+    protected static String getPath(final WebRequest request) {
         HttpServletRequest httpServletRequest = getHttpServletRequest(request);
 
         return getPath(httpServletRequest);
     }
 
-    protected static HttpStatus getStatus(final HttpServletRequest request)
-    {
+    protected static HttpStatus getStatus(final HttpServletRequest request) {
         Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
-        if (statusCode == null)
-        {
+        if (statusCode == null) {
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
-        try
-        {
+        try {
             return HttpStatus.valueOf(statusCode);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
     }
 
-    protected static HttpStatus getStatus(final WebRequest request)
-    {
+    protected static HttpStatus getStatus(final WebRequest request) {
         HttpServletRequest httpServletRequest = getHttpServletRequest(request);
 
         return getStatus(httpServletRequest);
     }
 
-    public RestControllerExceptionHandler()
-    {
+    public RestControllerExceptionHandler() {
         super();
     }
 
-    protected ResponseEntity<Object> buildResponseEntity(final ApiError apiError, final WebRequest request, final HttpStatusCode statusCode, final Throwable ex,
-                                                         final String message)
-    {
+    protected ResponseEntity<Object> buildResponseEntity(final ApiError apiError, final WebRequest request, final HttpStatusCode statusCode, final Throwable ex, final String message) {
         this.logger.error(ex.getLocalizedMessage());
 
         // apiError.addDetail("detail_a", "value_a");
@@ -112,8 +98,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
         StringWriter sw = new StringWriter();
 
-        try (PrintWriter pw = new PrintWriter(sw))
-        {
+        try (PrintWriter pw = new PrintWriter(sw)) {
             ex.printStackTrace(pw);
         }
 
@@ -123,8 +108,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     }
 
     @ExceptionHandler(value = AccessDeniedException.class)
-    protected ResponseEntity<Object> handleAccessDeniedException(final AccessDeniedException ex, final WebRequest request)
-    {
+    protected ResponseEntity<Object> handleAccessDeniedException(final AccessDeniedException ex, final WebRequest request) {
         return buildResponseEntity(new ApiError(), request, HttpStatus.FORBIDDEN, ex, "Access Denied");
     }
 
@@ -132,8 +116,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      * Handles jakarta.validation.ConstraintViolationException. Thrown when @Validated fails.
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    protected ResponseEntity<Object> handleConstraintViolation(final ConstraintViolationException ex, final WebRequest request)
-    {
+    protected ResponseEntity<Object> handleConstraintViolation(final ConstraintViolationException ex, final WebRequest request) {
         ApiError apiError = new ApiError();
         apiError.addValidationErrors(ex.getConstraintViolations());
 
@@ -145,35 +128,27 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatusCode, org.springframework.web.context.request.WebRequest)
      */
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body, final HttpHeaders headers, final HttpStatusCode statusCode,
-                                                             final WebRequest request)
-    {
+    protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
         // return super.handleExceptionInternal(ex, body, headers, status, request);
 
         return buildResponseEntity(new ApiError(), request, statusCode, ex, null);
     }
 
     @ExceptionHandler(Throwable.class)
-    protected ResponseEntity<Object> handleGenericException(final Throwable ex, final WebRequest request)
-    {
+    protected ResponseEntity<Object> handleGenericException(final Throwable ex, final WebRequest request) {
         ResponseEntity<Object> responseEntity = null;
 
-        try
-        {
-            if (ex instanceof Exception e)
-            {
+        try {
+            if (ex instanceof Exception e) {
                 responseEntity = handleException(e, request);
             }
         }
-        catch (Exception ex2)
-        {
+        catch (Exception ex2) {
             // Empty
         }
 
-        if (responseEntity == null)
-        {
-            responseEntity =
-                    buildResponseEntity(new ApiError(), request, HttpStatus.INTERNAL_SERVER_ERROR, ex, "Unhandled Exception: " + ex.getClass().getSimpleName());
+        if (responseEntity == null) {
+            responseEntity = buildResponseEntity(new ApiError(), request, HttpStatus.INTERNAL_SERVER_ERROR, ex, "Unhandled Exception: " + ex.getClass().getSimpleName());
         }
 
         return responseEntity;
@@ -184,9 +159,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatusCode, org.springframework.web.context.request.WebRequest)
      */
     @Override
-    protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(final HttpMediaTypeNotSupportedException ex, final HttpHeaders headers,
-                                                                     final HttpStatusCode statusCode, final WebRequest request)
-    {
+    protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(final HttpMediaTypeNotSupportedException ex, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
         StringBuilder builder = new StringBuilder();
         builder.append(ex.getContentType());
         builder.append(" media type is not supported. Supported media types are ");
@@ -215,9 +188,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatusCode, org.springframework.web.context.request.WebRequest)
      */
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatusCode statusCode,
-                                                                  final WebRequest request)
-    {
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
         return buildResponseEntity(new ApiError(), request, HttpStatus.BAD_REQUEST, ex, "Malformed JSON request");
     }
 
@@ -226,9 +197,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatusCode, org.springframework.web.context.request.WebRequest)
      */
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotWritable(final HttpMessageNotWritableException ex, final HttpHeaders headers, final HttpStatusCode statusCode,
-                                                                  final WebRequest request)
-    {
+    protected ResponseEntity<Object> handleHttpMessageNotWritable(final HttpMessageNotWritableException ex, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
         return buildResponseEntity(new ApiError(), request, HttpStatus.INTERNAL_SERVER_ERROR, ex, "Error writing JSON output");
     }
 
@@ -237,9 +206,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatusCode, org.springframework.web.context.request.WebRequest)
      */
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatusCode statusCode,
-                                                                  final WebRequest request)
-    {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
         ApiError apiError = new ApiError();
         apiError.addValidationErrors(ex.getBindingResult().getFieldErrors());
         apiError.addValidationError(ex.getBindingResult().getGlobalErrors());
@@ -248,10 +215,8 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException ex, final WebRequest request)
-    {
-        String message = String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(),
-                ex.getRequiredType().getSimpleName());
+    protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException ex, final WebRequest request) {
+        String message = String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 
         return buildResponseEntity(new ApiError(), request, HttpStatus.BAD_REQUEST, ex, message);
     }
@@ -261,9 +226,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatusCode, org.springframework.web.context.request.WebRequest)
      */
     @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(final MissingServletRequestParameterException ex, final HttpHeaders headers,
-                                                                          final HttpStatusCode statusCode, final WebRequest request)
-    {
+    protected ResponseEntity<Object> handleMissingServletRequestParameter(final MissingServletRequestParameterException ex, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
         String error = ex.getParameterName() + " parameter is missing";
 
         return buildResponseEntity(new ApiError(), request, HttpStatus.BAD_REQUEST, ex, error);
@@ -274,9 +237,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      * org.springframework.http.HttpHeaders, org.springframework.http.HttpStatusCode, org.springframework.web.context.request.WebRequest)
      */
     @Override
-    protected ResponseEntity<Object> handleNoHandlerFoundException(final NoHandlerFoundException ex, final HttpHeaders headers, final HttpStatusCode statusCode,
-                                                                   final WebRequest request)
-    {
+    protected ResponseEntity<Object> handleNoHandlerFoundException(final NoHandlerFoundException ex, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
         String error = String.format("Could not find the %s method for URL %s", ex.getHttpMethod(), ex.getRequestURL());
 
         return buildResponseEntity(new ApiError(), request, HttpStatus.BAD_REQUEST, ex, error);

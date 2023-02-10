@@ -33,8 +33,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  *
  * @author Thomas Freese
  */
-public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
-{
+public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyTokenBasicAuthAuthenticationFilter.class);
 
     private final AuthenticationManager authenticationManager;
@@ -47,16 +46,14 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
 
     private RememberMeServices rememberMeServices = new NullRememberMeServices();
 
-    public MyTokenBasicAuthAuthenticationFilter(final AuthenticationManager authenticationManager)
-    {
+    public MyTokenBasicAuthAuthenticationFilter(final AuthenticationManager authenticationManager) {
         super();
 
         this.authenticationManager = Objects.requireNonNull(authenticationManager, "authenticationManager required");
         this.ignoreFailure = true;
     }
 
-    public MyTokenBasicAuthAuthenticationFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint)
-    {
+    public MyTokenBasicAuthAuthenticationFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint) {
         super();
 
         this.authenticationManager = Objects.requireNonNull(authenticationManager, "authenticationManager required");
@@ -69,18 +66,15 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
         // setInvalidateSessionOnPrincipalChange(true);
     }
 
-    public void setAuthenticationDetailsSource(final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource)
-    {
+    public void setAuthenticationDetailsSource(final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource) {
         this.authenticationDetailsSource = Objects.requireNonNull(authenticationDetailsSource, "authenticationDetailsSource required");
     }
 
-    public void setIgnoreFailure(final boolean ignoreFailure)
-    {
+    public void setIgnoreFailure(final boolean ignoreFailure) {
         this.ignoreFailure = ignoreFailure;
     }
 
-    public void setRememberMeServices(final RememberMeServices rememberMeServices)
-    {
+    public void setRememberMeServices(final RememberMeServices rememberMeServices) {
         this.rememberMeServices = Objects.requireNonNull(rememberMeServices, "rememberMeServices required");
     }
 
@@ -89,28 +83,23 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
      * jakarta.servlet.FilterChain)
      */
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
-            throws ServletException, IOException
-    {
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader("my-token");
 
-        if ((header == null) || header.isEmpty())
-        {
+        if ((header == null) || header.isEmpty()) {
             filterChain.doFilter(request, response);
 
             return;
         }
 
-        try
-        {
+        try {
             // Decode Credentials.
             String username = header;
             String password = "pw";
 
             LOGGER.debug("MyToken Pre-Authentication Authorization header found for user '{}'", username);
 
-            if (isAuthenticationIsRequired(username))
-            {
+            if (isAuthenticationIsRequired(username)) {
                 // AbstractAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
                 AbstractAuthenticationToken authRequest = new PreAuthenticatedAuthenticationToken(username, password);
                 authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
@@ -126,8 +115,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
                 onSuccessfulAuthentication(request, response, authResult);
             }
         }
-        catch (AuthenticationException failed)
-        {
+        catch (AuthenticationException failed) {
             SecurityContextHolder.clearContext();
 
             LOGGER.debug("Authentication request for failed: {}", failed.getMessage());
@@ -136,12 +124,10 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
 
             onUnsuccessfulAuthentication(request, response, failed);
 
-            if (isIgnoreFailure())
-            {
+            if (isIgnoreFailure()) {
                 filterChain.doFilter(request, response);
             }
-            else
-            {
+            else {
                 this.authenticationEntryPoint.commence(request, response, failed);
             }
 
@@ -151,8 +137,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
         filterChain.doFilter(request, response);
     }
 
-    protected boolean isAuthenticationIsRequired(final String username)
-    {
+    protected boolean isAuthenticationIsRequired(final String username) {
         // Only reauthenticate if username doesn't match SecurityContextHolder and user
         // isn't authenticated (see SEC-53)
         Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
@@ -160,13 +145,11 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
         // Limit username comparison to providers which use usernames (ie
         // UsernamePasswordAuthenticationToken)
         // (see SEC-348)
-        if ((existingAuth == null) || !existingAuth.isAuthenticated() || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username)))
-        {
+        if ((existingAuth == null) || !existingAuth.isAuthenticated() || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username))) {
             return true;
         }
 
-        if ((existingAuth instanceof PreAuthenticatedAuthenticationToken) && !existingAuth.getName().equals(username))
-        {
+        if ((existingAuth instanceof PreAuthenticatedAuthenticationToken) && !existingAuth.getName().equals(username)) {
             return true;
         }
 
@@ -186,20 +169,15 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter
         return existingAuth instanceof AnonymousAuthenticationToken;
     }
 
-    protected boolean isIgnoreFailure()
-    {
+    protected boolean isIgnoreFailure() {
         return this.ignoreFailure;
     }
 
-    protected void onSuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final Authentication authResult)
-            throws IOException
-    {
+    protected void onSuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final Authentication authResult) throws IOException {
         // Empty
     }
 
-    protected void onUnsuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException failed)
-            throws IOException
-    {
+    protected void onUnsuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException failed) throws IOException {
         // Empty
     }
 }

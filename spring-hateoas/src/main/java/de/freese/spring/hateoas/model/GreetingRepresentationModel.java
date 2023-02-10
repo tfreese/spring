@@ -12,8 +12,7 @@ import org.springframework.hateoas.RepresentationModel;
  * @author Thomas Freese
  */
 @JsonIgnoreProperties(ignoreUnknown = false)
-public class GreetingRepresentationModel extends RepresentationModel<GreetingRepresentationModel>
-{
+public class GreetingRepresentationModel extends RepresentationModel<GreetingRepresentationModel> {
     // @JsonUnwrapped
     // private final GreetingPOJO pojo;
 
@@ -21,22 +20,19 @@ public class GreetingRepresentationModel extends RepresentationModel<GreetingRep
     private String message;
 
     @JsonCreator
-    public GreetingRepresentationModel(final @JsonProperty("greeting") String message)
-    {
+    public GreetingRepresentationModel(final @JsonProperty("greeting") String message) {
         super();
 
         setMessage(message);
     }
 
     // @JsonGetter("greeting")
-    public String getMessage()
-    {
+    public String getMessage() {
         return this.message;
     }
 
     // @JsonSetter("greeting")
-    protected void setMessage(final String message)
-    {
+    protected void setMessage(final String message) {
         this.message = Objects.requireNonNull(message, "message required");
     }
 }

@@ -25,13 +25,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableScheduling
 @Profile("!with-ssl")
-public class HttpClientConfigDefault
-{
+public class HttpClientConfigDefault {
     private static final int MAX_TOTAL_CONNECTIONS = 50;
 
     @Bean
-    public HttpClient httpClient(final PoolingHttpClientConnectionManager poolingConnectionManager) throws Exception
-    {
+    public HttpClient httpClient(final PoolingHttpClientConnectionManager poolingConnectionManager) throws Exception {
         // @formatter:off
         RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
@@ -50,8 +48,7 @@ public class HttpClientConfigDefault
     }
 
     @Bean
-    public PoolingHttpClientConnectionManager poolingConnectionManager() throws Exception
-    {
+    public PoolingHttpClientConnectionManager poolingConnectionManager() throws Exception {
         // @formatter:off
         Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", new PlainConnectionSocketFactory())

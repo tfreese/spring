@@ -21,12 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = MicroServiceApplication.class, properties = {})
 @AutoConfigureMockMvc
-@ActiveProfiles(
-        {
-                "test"
-        })
-class TestRestController
-{
+@ActiveProfiles({"test"})
+class TestRestController {
     @Resource
     private MockMvc mockMvc;
 
@@ -34,8 +30,7 @@ class TestRestController
     // private WebTestClient webClient;
 
     @Test
-    void testHello() throws Exception
-    {
+    void testHello() throws Exception {
         // @formatter:off
         this.mockMvc.perform(
                             get("/") // Test-URLs ohne Context-Root angeben
@@ -50,8 +45,7 @@ class TestRestController
     }
 
     @Test
-    void testPing() throws Exception
-    {
+    void testPing() throws Exception {
         // .andDo(print()).andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
 
         // @formatter:off

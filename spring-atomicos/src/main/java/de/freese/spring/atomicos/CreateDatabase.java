@@ -20,8 +20,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Order(1)
-public class CreateDatabase implements ApplicationRunner
-{
+public class CreateDatabase implements ApplicationRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateDatabase.class);
 
     @Resource
@@ -31,13 +30,10 @@ public class CreateDatabase implements ApplicationRunner
     private DataSource dataSourcePerson;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception
-    {
+    public void run(ApplicationArguments args) throws Exception {
         LOGGER.info("create person database");
 
-        try (Connection connection = this.dataSourcePerson.getConnection();
-             Statement statement = connection.createStatement())
-        {
+        try (Connection connection = this.dataSourcePerson.getConnection(); Statement statement = connection.createStatement()) {
             String sql = """
                     create table PERSON (
                         ID bigint  not null primary key,
@@ -50,9 +46,7 @@ public class CreateDatabase implements ApplicationRunner
 
         LOGGER.info("create address database");
 
-        try (Connection connection = this.dataSourceAddress.getConnection();
-             Statement statement = connection.createStatement())
-        {
+        try (Connection connection = this.dataSourceAddress.getConnection(); Statement statement = connection.createStatement()) {
             String sql = """
                     create table ADDRESS (
                         PERSON_ID bigint  not null primary key,

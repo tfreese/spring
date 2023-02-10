@@ -18,8 +18,7 @@ import org.springframework.stereotype.Component;
  */
 @Component  // siehe faces-config.xml: el-resolver
 @ViewScoped
-public class LineChartBean implements Serializable
-{
+public class LineChartBean implements Serializable {
     @Serial
     private static final long serialVersionUID = 7763047176024276034L;
 
@@ -28,14 +27,12 @@ public class LineChartBean implements Serializable
 
     private LineChartModel lineModel;
 
-    public LineChartModel getLineModel()
-    {
+    public LineChartModel getLineModel() {
         return lineModel;
     }
 
     @PostConstruct
-    public void init()
-    {
+    public void init() {
         lineModel = new LineChartModel();
         LineChartSeries s = new LineChartSeries();
         s.setLabel("Population");

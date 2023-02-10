@@ -25,8 +25,6 @@ import jakarta.annotation.Resource;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
-import de.freese.spring.thymeleaf.ThymeleafApplication;
-import de.freese.spring.thymeleaf.model.Person;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,20 +32,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 
+import de.freese.spring.thymeleaf.ThymeleafApplication;
+import de.freese.spring.thymeleaf.model.Person;
+
 /**
  * @author Thomas Freese
  */
 @ActiveProfiles("test")
-class TestRestWithJreHttpClient extends AbstractRestTestCase
-{
+class TestRestWithJreHttpClient extends AbstractRestTestCase {
     @Resource
     private ExecutorService executorService;
 
     private String rootUri;
 
     @BeforeEach
-    void beforeTest() throws Exception
-    {
+    void beforeTest() throws Exception {
         this.rootUri = ThymeleafApplication.getRootUri(getEnvironment());
     }
 
@@ -56,8 +55,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testHealthEndpoint() throws Exception
-    {
+    void testHealthEndpoint() throws Exception {
         HttpClient httpClient = createClientBuilder().build();
 
         // @formatter:off
@@ -83,8 +81,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testPost() throws Exception
-    {
+    void testPost() throws Exception {
         // POST
         HttpClient httpClient = createClientBuilder("admin", "pw").build();
 
@@ -114,8 +111,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
 
         response = httpClient.send(request, BodyHandlers.ofString());
 
-        List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>()
-        {
+        List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>() {
         });
 
         assertNotNull(persons);
@@ -127,8 +123,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testPostWithWrongRole() throws Exception
-    {
+    void testPostWithWrongRole() throws Exception {
         HttpClient httpClient = createClientBuilder("user", "pw").build();
 
         // @formatter:off
@@ -150,8 +145,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithLoginJSON() throws Exception
-    {
+    void testUserWithLoginJSON() throws Exception {
         HttpClient httpClient = createClientBuilder("user", "pw").build();
 
         // @formatter:off
@@ -165,8 +159,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>()
-        {
+        List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>() {
         });
 
         assertNotNull(persons);
@@ -178,8 +171,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithLoginXML() throws Exception
-    {
+    void testUserWithLoginXML() throws Exception {
         ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
         HttpClient httpClient = createClientBuilder("user", "pw").build();
 
@@ -194,8 +186,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<>()
-        {
+        List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<>() {
         });
 
         assertNotNull(persons);
@@ -207,8 +198,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithPreAuthJSON() throws Exception
-    {
+    void testUserWithPreAuthJSON() throws Exception {
         HttpClient httpClient = createClientBuilder().build();
 
         // @formatter:off
@@ -223,8 +213,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>()
-        {
+        List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>() {
         });
 
         assertNotNull(persons);
@@ -236,8 +225,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithPreAuthXML() throws Exception
-    {
+    void testUserWithPreAuthXML() throws Exception {
         ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
         HttpClient httpClient = createClientBuilder().build();
 
@@ -253,8 +241,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<>()
-        {
+        List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<>() {
         });
 
         assertNotNull(persons);
@@ -266,10 +253,8 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithWrongPass() throws Exception
-    {
-        Assertions.assertThrows(IOException.class, () ->
-        {
+    void testUserWithWrongPass() throws Exception {
+        Assertions.assertThrows(IOException.class, () -> {
             HttpClient httpClient = createClientBuilder("user", "pass").build();
 
             // @formatter:off
@@ -281,15 +266,13 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
                 ;
             // @formatter:on
 
-            try
-            {
+            try {
                 // HttpResponse<String> response =
                 httpClient.send(request, BodyHandlers.ofString());
                 // Assertions.assertEquals(HttpStatus.UNAUTHORIZED, response.statusCode());
                 fail("sollte nicht erfolgreich sein");
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 assertEquals("too many authentication attempts. Limit: 3", ex.getMessage());
                 throw ex;
             }
@@ -301,8 +284,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithWrongRole() throws Exception
-    {
+    void testUserWithWrongRole() throws Exception {
         HttpClient httpClient = createClientBuilder("invalid", "pw").build();
 
         // @formatter:off
@@ -325,8 +307,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
     @Override
     @Test
     // (expected = IOException.class)
-    void testUserWithoutLogin() throws Exception
-    {
+    void testUserWithoutLogin() throws Exception {
         HttpClient httpClient = createClientBuilder().build();
 
         // @formatter:off
@@ -338,21 +319,18 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
                 ;
         // @formatter:on
 
-        try
-        {
+        try {
             HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
             assertEquals(HttpStatus.UNAUTHORIZED.value(), response.statusCode());
             // Assertions.fail("sollte nicht erfolgreich sein");
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             assertEquals("No authenticator set", ex.getMessage());
             throw ex;
         }
     }
 
-    private HttpClient.Builder createClientBuilder()
-    {
+    private HttpClient.Builder createClientBuilder() {
         // @formatter:off
         return HttpClient.newBuilder()
                 .version(Version.HTTP_2)
@@ -361,16 +339,13 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase
         // @formatter:on
     }
 
-    private HttpClient.Builder createClientBuilder(final String user, final String password)
-    {
-        Authenticator authenticator = new Authenticator()
-        {
+    private HttpClient.Builder createClientBuilder(final String user, final String password) {
+        Authenticator authenticator = new Authenticator() {
             /**
              * @see java.net.Authenticator#getPasswordAuthentication()
              */
             @Override
-            protected PasswordAuthentication getPasswordAuthentication()
-            {
+            protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(user, password.toCharArray());
             }
         };

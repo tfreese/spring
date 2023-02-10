@@ -3,7 +3,6 @@ package de.freese.spring.jwt.config.defaultAuthProvider;
 
 import jakarta.servlet.Filter;
 
-import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -14,6 +13,8 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+import de.freese.spring.jwt.token.JwtTokenProvider;
+
 /**
  * Der {@link JwtRequestFilter} verwendet den Default-{@link AuthenticationProvider}.<br>
  * Siehe {@link DaoAuthenticationProvider}.<br>
@@ -22,15 +23,10 @@ import org.springframework.security.web.AuthenticationEntryPoint;
  */
 @Configuration
 @EnableWebSecurity
-@Profile(
-        {
-                "defaultAuthProvider", "default"
-        })
-public class SecurityDefaultAuthProviderConfig
-{
+@Profile({"defaultAuthProvider", "default"})
+public class SecurityDefaultAuthProviderConfig {
     @Bean
-    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao)
-    {
+    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao) {
         ProviderManager providerManager = new ProviderManager(authenticationProviderDao);
         // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
         providerManager.setEraseCredentialsAfterAuthentication(true);
@@ -39,10 +35,7 @@ public class SecurityDefaultAuthProviderConfig
     }
 
     @Bean
-    Filter jwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint,
-                            final JwtTokenProvider jwtTokenProvider)
-            throws Exception
-    {
+    Filter jwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint, final JwtTokenProvider jwtTokenProvider) throws Exception {
         JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();
         jwtRequestFilter.setAuthenticationManager(authenticationManager);
         jwtRequestFilter.setAuthenticationEntryPoint(authenticationEntryPoint);

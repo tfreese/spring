@@ -14,11 +14,9 @@ import org.springframework.context.annotation.Configuration;
  * @author Thomas Freese
  */
 @Configuration
-public class ResilienceConfig
-{
+public class ResilienceConfig {
     @Bean
-    Customizer<ReactiveResilience4JCircuitBreakerFactory> customizerDefault()
-    {
+    Customizer<ReactiveResilience4JCircuitBreakerFactory> customizerDefault() {
         //@formatter:off
         return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
                 .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(10)).build())
@@ -29,8 +27,7 @@ public class ResilienceConfig
     }
 
     @Bean
-    Customizer<ReactiveResilience4JCircuitBreakerFactory> customizerSlowGreet()
-    {
+    Customizer<ReactiveResilience4JCircuitBreakerFactory> customizerSlowGreet() {
         //@formatter:off
         return factory -> factory.configure(builder ->
                         builder

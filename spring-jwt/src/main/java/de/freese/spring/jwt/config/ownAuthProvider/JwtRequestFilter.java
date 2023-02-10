@@ -27,8 +27,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * @author Thomas Freese
  * @see BasicAuthenticationFilter
  */
-class JwtRequestFilter extends OncePerRequestFilter
-{
+class JwtRequestFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
 
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
@@ -37,18 +36,15 @@ class JwtRequestFilter extends OncePerRequestFilter
 
     private AuthenticationManager authenticationManager;
 
-    public void setAuthenticationDetailsSource(final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource)
-    {
+    public void setAuthenticationDetailsSource(final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource) {
         this.authenticationDetailsSource = authenticationDetailsSource;
     }
 
-    public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint)
-    {
+    public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
-    public void setAuthenticationManager(final AuthenticationManager authenticationManager)
-    {
+    public void setAuthenticationManager(final AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
@@ -57,22 +53,17 @@ class JwtRequestFilter extends OncePerRequestFilter
      * jakarta.servlet.FilterChain)
      */
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
-            throws ServletException, IOException
-    {
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
         String bearerToken = request.getHeader("Authorization");
 
         String token = null;
 
-        if ((bearerToken != null) && bearerToken.startsWith("Bearer "))
-        {
+        if ((bearerToken != null) && bearerToken.startsWith("Bearer ")) {
             token = bearerToken.substring(7);
         }
 
-        try
-        {
-            if ((token != null) && !token.isBlank())
-            {
+        try {
+            if ((token != null) && !token.isBlank()) {
                 getLogger().debug("JwtToken Pre-Authentication Authorization header found");
 
                 JwtAuthenticationToken authRequest = new JwtAuthenticationToken(token);
@@ -88,8 +79,7 @@ class JwtRequestFilter extends OncePerRequestFilter
                 // SecurityContextHolder.setContext(context);
             }
         }
-        catch (AuthenticationException ex)
-        {
+        catch (AuthenticationException ex) {
             SecurityContextHolder.clearContext();
 
             getLogger().debug("Authentication request failed: {}", ex.getMessage());
@@ -107,8 +97,7 @@ class JwtRequestFilter extends OncePerRequestFilter
      * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
      */
     @Override
-    protected void initFilterBean() throws ServletException
-    {
+    protected void initFilterBean() throws ServletException {
         super.initFilterBean();
 
         Objects.requireNonNull(this.authenticationManager, "authenticationManager required");
@@ -116,8 +105,7 @@ class JwtRequestFilter extends OncePerRequestFilter
         Objects.requireNonNull(this.authenticationDetailsSource, "authenticationDetailsSource required");
     }
 
-    private Logger getLogger()
-    {
+    private Logger getLogger() {
         return LOGGER;
     }
 }

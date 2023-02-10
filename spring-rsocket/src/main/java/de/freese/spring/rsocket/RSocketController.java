@@ -6,8 +6,6 @@ import java.time.LocalDateTime;
 
 import jakarta.annotation.PreDestroy;
 
-import de.freese.spring.rsocket.model.MessageRequest;
-import de.freese.spring.rsocket.model.MessageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -20,18 +18,19 @@ import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import de.freese.spring.rsocket.model.MessageRequest;
+import de.freese.spring.rsocket.model.MessageResponse;
+
 /**
  * @author Thomas Freese
  */
 @Controller
-public class RSocketController
-{
+public class RSocketController {
     private static final Logger LOGGER = LoggerFactory.getLogger(RSocketController.class);
 
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("channel")
-    Flux<MessageResponse> channel(final Flux<MessageRequest> requests, @AuthenticationPrincipal final UserDetails user)
-    {
+    Flux<MessageResponse> channel(final Flux<MessageRequest> requests, @AuthenticationPrincipal final UserDetails user) {
         // ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication).subscribe(authentication -> {
         // LOGGER.info("{}", authentication);
         // LOGGER.info("Channel initiated by '{}' in the role '{}'", authentication.getPrincipal(), authentication.getAuthorities());
@@ -57,14 +56,12 @@ public class RSocketController
     }
 
     @MessageMapping("error")
-    Mono<MessageResponse> error()
-    {
+    Mono<MessageResponse> error() {
         return Mono.error(new IllegalArgumentException("Bad Exception"));
     }
 
     @MessageExceptionHandler
-    Mono<MessageResponse> errorHandler(final Throwable th)
-    {
+    Mono<MessageResponse> errorHandler(final Throwable th) {
         MessageResponse response = new MessageResponse();
         response.setMessage(th.getClass().getSimpleName() + ": " + th.getMessage());
 
@@ -73,8 +70,7 @@ public class RSocketController
 
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("fire-and-forget")
-    Mono<Void> fireAndForget(final MessageRequest request, @AuthenticationPrincipal final UserDetails user)
-    {
+    Mono<Void> fireAndForget(final MessageRequest request, @AuthenticationPrincipal final UserDetails user) {
         LOGGER.info("Received fire-and-forget request: {}", request);
         LOGGER.info("Fire-And-Forget initiated by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 
@@ -83,8 +79,7 @@ public class RSocketController
 
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("parameter/{name}")
-    Mono<MessageResponse> parameter(@DestinationVariable final String name)
-    {
+    Mono<MessageResponse> parameter(@DestinationVariable final String name) {
         LOGGER.info("Received parameter request: {}", name);
 
         return Mono.just(new MessageResponse(name));
@@ -92,8 +87,7 @@ public class RSocketController
 
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("request-response")
-    Mono<MessageResponse> requestResponse(final MessageRequest request, @AuthenticationPrincipal final UserDetails user)
-    {
+    Mono<MessageResponse> requestResponse(final MessageRequest request, @AuthenticationPrincipal final UserDetails user) {
         LOGGER.info("Received request-response request: {}", request);
         LOGGER.info("Request-response initiated by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 
@@ -101,15 +95,13 @@ public class RSocketController
     }
 
     @PreDestroy
-    void shutdown()
-    {
+    void shutdown() {
         LOGGER.info("Shutting down.");
     }
 
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("stream")
-    Flux<MessageResponse> stream(final MessageRequest request, @AuthenticationPrincipal final UserDetails user)
-    {
+    Flux<MessageResponse> stream(final MessageRequest request, @AuthenticationPrincipal final UserDetails user) {
         LOGGER.info("Received stream request: {}", request);
         LOGGER.info("Stream initiated by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 

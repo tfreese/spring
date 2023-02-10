@@ -11,13 +11,11 @@ import org.springframework.stereotype.Component;
  * @author Thomas Freese
  */
 @Component
-public class KafkaReceiver
-{
+public class KafkaReceiver {
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaReceiver.class);
 
     @KafkaListener(topics = "${test.topic}")
-    public void receive(ConsumerRecord<?, ?> consumerRecord)
-    {
+    public void receive(ConsumerRecord<?, ?> consumerRecord) {
         LOGGER.info("received payload='{}'", consumerRecord.toString());
     }
 }

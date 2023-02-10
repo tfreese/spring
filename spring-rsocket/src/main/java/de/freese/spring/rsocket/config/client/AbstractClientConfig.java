@@ -21,8 +21,7 @@ import reactor.util.retry.Retry;
  * @see RSocketRequesterAutoConfiguration
  * @see RSocketStrategiesAutoConfiguration
  */
-abstract class AbstractClientConfig
-{
+abstract class AbstractClientConfig {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     // @Bean
@@ -38,8 +37,7 @@ abstract class AbstractClientConfig
     // }
 
     @Bean
-    RSocketRequester.Builder rSocketRequesterBuilder(final RSocketStrategies strategies)
-    {
+    RSocketRequester.Builder rSocketRequesterBuilder(final RSocketStrategies strategies) {
         getLogger().info("rSocketRequesterBuilder");
 
         // RSocketRequester.wrap(rSocket, dataMimeType, metaDataMimeType, strategies);
@@ -67,8 +65,7 @@ abstract class AbstractClientConfig
 
     protected abstract Encoder<?> createAuthenticationEncoder();
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 

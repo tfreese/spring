@@ -27,12 +27,10 @@ import org.springframework.web.client.RestTemplate;
 // })
 // @EnableDiscoveryClient(autoRegister = false)
 @RibbonClient(name = "date-service", configuration = RibbonClientConfiguration.class)
-public class RibbonClientWithoutEurekaApplication
-{
+public class RibbonClientWithoutEurekaApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(RibbonClientWithoutEurekaApplication.class);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         // Dependency darf nicht vorhanden sein: spring-cloud-starter-netflix-eureka-client
 
         // @formatter:off
@@ -48,15 +46,13 @@ public class RibbonClientWithoutEurekaApplication
             URI serviceUri = URI.create(String.format("http://%s:%s", instance.getHost(), instance.getPort()));
             LOGGER.info("manual look,up: {}", serviceUri);
 
-            while (true)
-            {
+            while (true) {
                 String result = restTemplate.getForObject("http://date-service/service/sysdate", String.class);
 
                 LOGGER.info(result);
                 // System.out.println(result);
 
-                if (result == null)
-                {
+                if (result == null) {
                     break;
                 }
 
@@ -69,8 +65,7 @@ public class RibbonClientWithoutEurekaApplication
 
     @LoadBalanced
     @Bean
-    public RestTemplate restTemplate()
-    {
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 }

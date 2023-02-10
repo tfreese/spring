@@ -10,8 +10,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
  * @author Thomas Freese
  */
 @Testcontainers
-class TestContainerMariaDb extends AbstractTest
-{
+class TestContainerMariaDb extends AbstractTest {
     /**
      * will be shared between test methods<br />
      * DockerImageName.parse(MariaDBContainer.NAME)
@@ -21,8 +20,7 @@ class TestContainerMariaDb extends AbstractTest
     private static final MariaDBContainer<?> DB_CONTAINER = new MariaDBContainer<>("mariadb:latest");
 
     @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry)
-    {
+    static void properties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.driver-class-name", DB_CONTAINER::getDriverClassName);
         registry.add("spring.datasource.url", DB_CONTAINER::getJdbcUrl);
         registry.add("spring.datasource.username", DB_CONTAINER::getUsername);

@@ -11,11 +11,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 //@Profile("!test")
-public class EmbeddedServerConfig
-{
+public class EmbeddedServerConfig {
     @Bean(initMethod = "start", destroyMethod = "stop")
-    public EmbeddedActiveMQ embeddedActiveMQ() throws Exception
-    {
+    public EmbeddedActiveMQ embeddedActiveMQ() throws Exception {
         org.apache.activemq.artemis.core.config.Configuration config = new ConfigurationImpl();
 
         config.addAcceptorConfiguration("in-vm", "vm://0");

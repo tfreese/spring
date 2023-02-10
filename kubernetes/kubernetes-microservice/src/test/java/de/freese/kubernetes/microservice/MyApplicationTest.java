@@ -13,17 +13,14 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class MyApplicationTest
-{
+class MyApplicationTest {
     @Test
-    void testContextLoads()
-    {
+    void testContextLoads() {
         assertTrue(true);
     }
 
     @Test
-    void testRequest()
-    {
+    void testRequest() {
         WebTestClient webClient = WebTestClient.bindToController(new MyRestController()).build();
 
         //@formatter:off

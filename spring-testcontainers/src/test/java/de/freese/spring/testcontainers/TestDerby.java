@@ -12,11 +12,9 @@ import org.springframework.test.context.DynamicPropertySource;
  */
 //@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD) // Jede Methode mit eigenem Context.
 @Disabled("Derby löscht die Sequence nicht")
-class TestDerby extends AbstractTest
-{
+class TestDerby extends AbstractTest {
     @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry)
-    {
+    static void properties(DynamicPropertyRegistry registry) {
         String id = UUID.randomUUID().toString();
 
         registry.add("spring.datasource.driver-class-name", DatabaseDriver.DERBY::getDriverClassName);

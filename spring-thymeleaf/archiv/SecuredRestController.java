@@ -14,16 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(path = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class SecuredRestController
-{
+public class SecuredRestController {
     /**
      * curl http://localhost:10000/spring-security/rest/admin -u admin:admin1
      *
      * @return String
      */
     @GetMapping("/admin")
-    public String getAdmin()
-    {
+    public String getAdmin() {
         return "Secret Admin Message";
     }
 
@@ -33,8 +31,7 @@ public class SecuredRestController
      * @return String
      */
     @GetMapping("/")
-    public String getPublic()
-    {
+    public String getPublic() {
         return "Public Message";
     }
 
@@ -44,8 +41,7 @@ public class SecuredRestController
      * @return String
      */
     @GetMapping("/user")
-    public String getUser()
-    {
+    public String getUser() {
         return "Secret User Message";
     }
 }

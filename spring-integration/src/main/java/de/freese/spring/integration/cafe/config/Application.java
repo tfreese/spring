@@ -3,13 +3,6 @@ package de.freese.spring.integration.cafe.config;
 
 import java.util.List;
 
-import de.freese.spring.integration.cafe.Delivery;
-import de.freese.spring.integration.cafe.DeliveryLogger;
-import de.freese.spring.integration.cafe.Drink;
-import de.freese.spring.integration.cafe.Order;
-import de.freese.spring.integration.cafe.OrderItem;
-import de.freese.spring.integration.cafe.xml.Barista;
-import de.freese.spring.integration.cafe.xml.Waiter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.integration.annotation.Aggregator;
@@ -24,6 +17,14 @@ import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.scheduling.PollerMetadata;
 import org.springframework.messaging.MessageChannel;
 
+import de.freese.spring.integration.cafe.Delivery;
+import de.freese.spring.integration.cafe.DeliveryLogger;
+import de.freese.spring.integration.cafe.Drink;
+import de.freese.spring.integration.cafe.Order;
+import de.freese.spring.integration.cafe.OrderItem;
+import de.freese.spring.integration.cafe.xml.Barista;
+import de.freese.spring.integration.cafe.xml.Waiter;
+
 /**
  * https://github.com/spring-projects/spring-integration-samples/blob/master/dsl/cafe-dsl/src/main/java/org/springframework/integration/samples/dsl/cafe/lambda/Application.java
  *
@@ -31,14 +32,12 @@ import org.springframework.messaging.MessageChannel;
  */
 @SpringBootApplication
 // @EnableIntegration
-public class Application
-{
+public class Application {
     /**
      * @author Thomas Freese
      */
     @MessagingGateway
-    public interface Cafe extends de.freese.spring.integration.cafe.Cafe
-    {
+    public interface Cafe extends de.freese.spring.integration.cafe.Cafe {
         /**
          * @see de.freese.spring.integration.cafe.Cafe#placeOrder(de.freese.spring.integration.cafe.Order)
          */
@@ -48,56 +47,47 @@ public class Application
     }
 
     @Aggregator(inputChannel = "channelPreparedDrinks", outputChannel = "channelDeliveries")
-    public Delivery aggregator(final List<Drink> drinks)
-    {
+    public Delivery aggregator(final List<Drink> drinks) {
         return waiter().prepareDelivery(drinks);
     }
 
     @CorrelationStrategy
-    public int aggregatorCorrelationStrategy(final Drink drink)
-    {
+    public int aggregatorCorrelationStrategy(final Drink drink) {
         return drink.getOrderNumber();
     }
 
     @Bean
-    public Barista barista()
-    {
+    public Barista barista() {
         return new Barista();
     }
 
     @Bean
-    public MessageChannel channelColdDrinks()
-    {
+    public MessageChannel channelColdDrinks() {
         return new QueueChannel(2);
     }
 
     @Bean
-    public MessageChannel channelHotDrinks()
-    {
+    public MessageChannel channelHotDrinks() {
         return new QueueChannel(2);
     }
 
     @ServiceActivator(inputChannel = "channelDeliveries")
-    public void delivery(final Delivery delivery)
-    {
+    public void delivery(final Delivery delivery) {
         deliveryLogger().log(delivery);
     }
 
     @Bean
-    public DeliveryLogger deliveryLogger()
-    {
+    public DeliveryLogger deliveryLogger() {
         return new DeliveryLogger();
     }
 
     @Bean(name = PollerMetadata.DEFAULT_POLLER)
-    public PollerMetadata poller()
-    {
+    public PollerMetadata poller() {
         return Pollers.fixedDelay(500).maxMessagesPerPoll(1).get();
     }
 
     @Router(inputChannel = "channelDrinks")
-    public String router(final OrderItem orderItem)
-    {
+    public String router(final OrderItem orderItem) {
         return orderItem.isIced() ? "channelColdDrinks" : "channelHotDrinks";
         // RecipientListRouter router = new RecipientListRouter();
         // router.addRecipient("channelColdDrinks", "payload.iced");
@@ -107,26 +97,22 @@ public class Application
     }
 
     @ServiceActivator(inputChannel = "channelColdDrinks", outputChannel = "channelPreparedDrinks")
-    public Drink serviceActivatorColdDrinks(final OrderItem orderItem)
-    {
+    public Drink serviceActivatorColdDrinks(final OrderItem orderItem) {
         return barista().prepareColdDrink(orderItem);
     }
 
     @ServiceActivator(inputChannel = "channelHotDrinks", outputChannel = "channelPreparedDrinks")
-    public Drink serviceActivatorHotDrinks(final OrderItem orderItem)
-    {
+    public Drink serviceActivatorHotDrinks(final OrderItem orderItem) {
         return barista().prepareHotDrink(orderItem);
     }
 
     @Splitter(inputChannel = "channelOrders", outputChannel = "channelDrinks")
-    public List<OrderItem> splitterOrders(final Order order)
-    {
+    public List<OrderItem> splitterOrders(final Order order) {
         return order.getItems();
     }
 
     @Bean
-    public Waiter waiter()
-    {
+    public Waiter waiter() {
         return new Waiter();
     }
 }

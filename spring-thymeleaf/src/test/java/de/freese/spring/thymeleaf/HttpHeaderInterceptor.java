@@ -12,14 +12,12 @@ import org.springframework.http.client.ClientHttpResponse;
 /**
  * @author Thomas Freese
  */
-public class HttpHeaderInterceptor implements ClientHttpRequestInterceptor
-{
+public class HttpHeaderInterceptor implements ClientHttpRequestInterceptor {
     private final String name;
 
     private final String value;
 
-    public HttpHeaderInterceptor(final String name, final String value)
-    {
+    public HttpHeaderInterceptor(final String name, final String value) {
         super();
 
         this.name = Objects.requireNonNull(name, "name required");
@@ -31,8 +29,7 @@ public class HttpHeaderInterceptor implements ClientHttpRequestInterceptor
      * org.springframework.http.client.ClientHttpRequestExecution)
      */
     @Override
-    public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException
-    {
+    public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
         request.getHeaders().add(this.name, this.value);
 
         return execution.execute(request, body);

@@ -19,11 +19,12 @@ import jakarta.annotation.Resource;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.freese.spring.thymeleaf.model.Person;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
+import de.freese.spring.thymeleaf.model.Person;
 
 /**
  * @author Thomas Freese
@@ -33,8 +34,7 @@ import org.springframework.test.web.servlet.MockMvc;
         // {
         // "test", "with-ssl"
         // })
-class TestRestWithMockMvc extends AbstractRestTestCase
-{
+class TestRestWithMockMvc extends AbstractRestTestCase {
     @Resource
     private MockMvc mockMvc;
 
@@ -43,8 +43,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testHealthEndpoint() throws Exception
-    {
+    void testHealthEndpoint() throws Exception {
         // @formatter:off
         this.mockMvc.perform(get("/actuator/health")
                 .accept(MediaType.APPLICATION_JSON_VALUE))
@@ -62,8 +61,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
     @Override
     @Test
     // @WithMockUser(username = "admin", password = "pw", roles = "ADMIN")
-    void testPost() throws Exception
-    {
+    void testPost() throws Exception {
         // @formatter:off
         this.mockMvc.perform(post("/rest/person/personAdd")
                 .with(httpBasic("admin", "pw"))
@@ -105,8 +103,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
     @Override
     @Test
     // @WithMockUser(username = "user", password = "pw")
-    void testPostWithWrongRole() throws Exception
-    {
+    void testPostWithWrongRole() throws Exception {
         // @formatter:off
         this.mockMvc.perform(post("/rest/person/personAdd")
                 .with(httpBasic("user", "pw"))
@@ -123,8 +120,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
     @Override
     @Test
     // @WithMockUser(username = "user", password = "pw")
-    void testUserWithLoginJSON() throws Exception
-    {
+    void testUserWithLoginJSON() throws Exception {
         AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
         // @formatter:off
@@ -153,8 +149,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
     @Override
     @Test
     // @WithMockUser(username = "user", password = "pw")
-    void testUserWithLoginXML() throws Exception
-    {
+    void testUserWithLoginXML() throws Exception {
         ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
         AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
@@ -183,8 +178,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithPreAuthJSON() throws Exception
-    {
+    void testUserWithPreAuthJSON() throws Exception {
         AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
         // @formatter:off
@@ -212,8 +206,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithPreAuthXML() throws Exception
-    {
+    void testUserWithPreAuthXML() throws Exception {
         ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
         AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
@@ -242,8 +235,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithWrongPass() throws Exception
-    {
+    void testUserWithWrongPass() throws Exception {
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
                 .with(httpBasic("user", "pass")))
@@ -258,8 +250,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
     @Override
     @Test
     // @WithMockUser(username = "invalid", password = "pw", roles = "OTHER")
-    void testUserWithWrongRole() throws Exception
-    {
+    void testUserWithWrongRole() throws Exception {
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
                 .with(httpBasic("invalid", "pw")))
@@ -272,8 +263,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithoutLogin() throws Exception
-    {
+    void testUserWithoutLogin() throws Exception {
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList"))
             .andExpect(status().isUnauthorized());

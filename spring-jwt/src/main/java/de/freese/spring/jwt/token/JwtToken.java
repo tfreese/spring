@@ -9,8 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 /**
  * @author Thomas Freese
  */
-public interface JwtToken
-{
+public interface JwtToken {
     Date getExpirationDate();
 
     String getPassword();
@@ -19,8 +18,7 @@ public interface JwtToken
 
     String getUsername();
 
-    default boolean isExpired()
-    {
+    default boolean isExpired() {
         final Date expiration = getExpirationDate();
 
         return expiration.before(new Date());

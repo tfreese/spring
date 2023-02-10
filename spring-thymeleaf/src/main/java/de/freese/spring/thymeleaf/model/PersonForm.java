@@ -4,29 +4,24 @@ package de.freese.spring.thymeleaf.model;
 /**
  * @author Thomas Freese
  */
-public class PersonForm
-{
+public class PersonForm {
     private String firstName;
 
     private String lastName;
 
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return this.firstName;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         return this.lastName;
     }
 
-    public void setFirstName(final String firstName)
-    {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
-    public void setLastName(final String lastName)
-    {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 }

@@ -16,12 +16,10 @@ import com.netflix.hystrix.strategy.properties.HystrixProperty;
  *
  * @author Thomas Freese
  */
-public class MyHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy
-{
+public class MyHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {
     private final ThreadPoolExecutor executor;
 
-    public MyHystrixConcurrencyStrategy(final ThreadPoolExecutor executor)
-    {
+    public MyHystrixConcurrencyStrategy(final ThreadPoolExecutor executor) {
         super();
 
         this.executor = Objects.requireNonNull(executor, "executor required");
@@ -33,10 +31,7 @@ public class MyHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy
      * com.netflix.hystrix.strategy.properties.HystrixProperty, java.util.concurrent.TimeUnit, java.util.concurrent.BlockingQueue)
      */
     @Override
-    public ThreadPoolExecutor getThreadPool(final HystrixThreadPoolKey threadPoolKey, final HystrixProperty<Integer> corePoolSize,
-                                            final HystrixProperty<Integer> maximumPoolSize, final HystrixProperty<Integer> keepAliveTime, final TimeUnit unit,
-                                            final BlockingQueue<Runnable> workQueue)
-    {
+    public ThreadPoolExecutor getThreadPool(final HystrixThreadPoolKey threadPoolKey, final HystrixProperty<Integer> corePoolSize, final HystrixProperty<Integer> maximumPoolSize, final HystrixProperty<Integer> keepAliveTime, final TimeUnit unit, final BlockingQueue<Runnable> workQueue) {
         // return super.getThreadPool(threadPoolKey, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
         return this.executor;
     }
@@ -46,8 +41,7 @@ public class MyHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy
      * com.netflix.hystrix.HystrixThreadPoolProperties)
      */
     @Override
-    public ThreadPoolExecutor getThreadPool(final HystrixThreadPoolKey threadPoolKey, final HystrixThreadPoolProperties threadPoolProperties)
-    {
+    public ThreadPoolExecutor getThreadPool(final HystrixThreadPoolKey threadPoolKey, final HystrixThreadPoolProperties threadPoolProperties) {
         // return super.getThreadPool(threadPoolKey, threadPoolProperties);
         return this.executor;
     }

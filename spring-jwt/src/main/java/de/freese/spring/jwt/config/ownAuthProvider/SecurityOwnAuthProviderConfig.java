@@ -3,7 +3,6 @@ package de.freese.spring.jwt.config.ownAuthProvider;
 
 import jakarta.servlet.Filter;
 
-import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -15,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+import de.freese.spring.jwt.token.JwtTokenProvider;
+
 /**
  * Der {@link JwtRequestFilter} verwendet den {@link JwtTokenAuthenticationProvider}.<br>
  *
@@ -23,12 +24,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @Configuration
 @EnableWebSecurity
 @Profile("ownAuthProvider")
-public class SecurityOwnAuthProviderConfig
-{
+public class SecurityOwnAuthProviderConfig {
     @Bean
-    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderJwt,
-                                                final AuthenticationProvider authenticationProviderDao)
-    {
+    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderJwt, final AuthenticationProvider authenticationProviderDao) {
         ProviderManager providerManager = new ProviderManager(authenticationProviderJwt, authenticationProviderDao);
         // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
         providerManager.setEraseCredentialsAfterAuthentication(true);
@@ -37,9 +35,7 @@ public class SecurityOwnAuthProviderConfig
     }
 
     @Bean
-    AuthenticationProvider authenticationProviderJwt(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService,
-                                                     final JwtTokenProvider jwtTokenProvider)
-    {
+    AuthenticationProvider authenticationProviderJwt(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService, final JwtTokenProvider jwtTokenProvider) {
         JwtTokenAuthenticationProvider jwtAuthenticationProvider = new JwtTokenAuthenticationProvider();
         // jwtAuthenticationProvider.setMessageSource(applicationContext); // Wird automatisch gemacht.
         jwtAuthenticationProvider.setPasswordEncoder(passwordEncoder);
@@ -56,8 +52,7 @@ public class SecurityOwnAuthProviderConfig
     }
 
     @Bean
-    Filter jwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint) throws Exception
-    {
+    Filter jwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint) throws Exception {
         JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();
         jwtRequestFilter.setAuthenticationManager(authenticationManager);
         jwtRequestFilter.setAuthenticationEntryPoint(authenticationEntryPoint);

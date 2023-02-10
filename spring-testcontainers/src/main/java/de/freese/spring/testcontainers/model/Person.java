@@ -5,51 +5,42 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class Person
-{
+public class Person {
     private long id;
-    
+
     private String name;
 
     @Override
-    public boolean equals(final Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
 
-        if (!(o instanceof final Person data1))
-        {
+        if (!(o instanceof final Person data1)) {
             return false;
         }
 
         return getId() == data1.getId() && Objects.equals(getName(), data1.getName());
     }
 
-    public long getId()
-    {
+    public long getId() {
         return this.id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(getId(), getName());
     }
 
-    public void setId(final long id)
-    {
+    public void setId(final long id) {
         this.id = id;
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 }

@@ -6,7 +6,6 @@ package de.freese.spring.integration.cafe;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface Cafe
-{
+public interface Cafe {
     void placeOrder(Order order);
 }

@@ -30,8 +30,7 @@ import org.springframework.stereotype.Repository;
  * @author Thomas Freese
  */
 @Repository
-public class MyLdapDao
-{
+public class MyLdapDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyLdapDao.class);
 
     /**
@@ -39,14 +38,12 @@ public class MyLdapDao
      *
      * @author Thomas Freese
      */
-    private static class GroupMemberDirContextMapper extends AbstractContextMapper<String[]>
-    {
+    private static class GroupMemberDirContextMapper extends AbstractContextMapper<String[]> {
         /**
          * @see org.springframework.ldap.core.support.AbstractContextMapper#doMapFromContext(org.springframework.ldap.core.DirContextOperations)
          */
         @Override
-        protected String[] doMapFromContext(final DirContextOperations ctx)
-        {
+        protected String[] doMapFromContext(final DirContextOperations ctx) {
             return ctx.getStringAttributes("member");
         }
     }
@@ -56,12 +53,10 @@ public class MyLdapDao
      *
      * @author Thomas Freese
      */
-    private static class PersonAttributeMapper implements AttributesMapper<String>
-    {
+    private static class PersonAttributeMapper implements AttributesMapper<String> {
         private final String attributeId;
 
-        PersonAttributeMapper(final String attributeId)
-        {
+        PersonAttributeMapper(final String attributeId) {
             super();
 
             this.attributeId = Objects.requireNonNull(attributeId, "attributeId required");
@@ -71,13 +66,11 @@ public class MyLdapDao
          * @see org.springframework.ldap.core.AttributesMapper#mapFromAttributes(javax.naming.directory.Attributes)
          */
         @Override
-        public String mapFromAttributes(final Attributes attributes) throws NamingException
-        {
+        public String mapFromAttributes(final Attributes attributes) throws NamingException {
             Attribute attribute = attributes.get(this.attributeId);
             String value = null;
 
-            if (attribute != null)
-            {
+            if (attribute != null) {
                 value = (String) attribute.get();
             }
 
@@ -90,14 +83,12 @@ public class MyLdapDao
      *
      * @author Thomas Freese
      */
-    private static class PersonCommonNameContextMapper implements ContextMapper<String>
-    {
+    private static class PersonCommonNameContextMapper implements ContextMapper<String> {
         /**
          * @see org.springframework.ldap.core.ContextMapper#mapFromContext(java.lang.Object)
          */
         @Override
-        public String mapFromContext(final Object ctx) throws NamingException
-        {
+        public String mapFromContext(final Object ctx) throws NamingException {
             DirContextAdapter context = (DirContextAdapter) ctx;
 
             // return context.getStringAttribute("entryDN");
@@ -105,15 +96,13 @@ public class MyLdapDao
         }
     }
 
-    private static Logger getLogger()
-    {
+    private static Logger getLogger() {
         return LOGGER;
     }
 
     private final LdapTemplate ldapTemplate;
 
-    public MyLdapDao(final ContextSource contextSource, @Value("${spring.ldap.base-dn}") String baseDn)
-    {
+    public MyLdapDao(final ContextSource contextSource, @Value("${spring.ldap.base-dn}") String baseDn) {
         super();
 
         this.ldapTemplate = new LdapTemplate(Objects.requireNonNull(contextSource, "contextSource required"));
@@ -122,15 +111,11 @@ public class MyLdapDao
     /**
      * uid=bob,ou=people,dc=springframework,dc=org
      */
-    public void create(final String userId, final String password, final String firstName, final String lastName)
-    {
+    public void create(final String userId, final String password, final String firstName, final String lastName) {
         Name name = LdapNameBuilder.newInstance().add("ou", "people").add("uid", userId).build();
         DirContextAdapter context = new DirContextAdapter(name);
 
-        context.setAttributeValues("objectclass", new String[]
-                {
-                        "top", "person", "organizationalPerson", "inetOrgPerson"
-                });
+        context.setAttributeValues("objectclass", new String[]{"top", "person", "organizationalPerson", "inetOrgPerson"});
         context.setAttributeValue("cn", firstName + " " + lastName);
         context.setAttributeValue("sn", lastName);
         context.setAttributeValue("userPassword", password);
@@ -138,15 +123,11 @@ public class MyLdapDao
         getLdapTemplate().bind(context);
     }
 
-    public void modify(final String userId, final String password, final String firstName, final String lastName)
-    {
+    public void modify(final String userId, final String password, final String firstName, final String lastName) {
         Name name = LdapNameBuilder.newInstance().add("ou", "people").add("uid", userId).build();
         DirContextOperations context = getLdapTemplate().lookupContext(name);
 
-        context.setAttributeValues("objectclass", new String[]
-                {
-                        "top", "person", "organizationalPerson", "inetOrgPerson"
-                });
+        context.setAttributeValues("objectclass", new String[]{"top", "person", "organizationalPerson", "inetOrgPerson"});
         context.setAttributeValue("cn", firstName + " " + lastName);
         context.setAttributeValue("sn", lastName);
         context.setAttributeValue("userPassword", password);
@@ -157,8 +138,7 @@ public class MyLdapDao
     /**
      * cn = developers
      */
-    public List<String> searchGroup(final String groupName)
-    {
+    public List<String> searchGroup(final String groupName) {
         Name base = LdapNameBuilder.newInstance().add("ou", "groups").build();
 
         // @formatter:off
@@ -182,8 +162,7 @@ public class MyLdapDao
     /**
      * uid = b*
      */
-    public List<String> searchPeopleByUid(final String userId, final String attributeId)
-    {
+    public List<String> searchPeopleByUid(final String userId, final String attributeId) {
         Name base = LdapNameBuilder.newInstance().add("ou", "people").build();
 
         // @formatter:off
@@ -203,13 +182,11 @@ public class MyLdapDao
         return getLdapTemplate().search(query, new PersonAttributeMapper(attributeId));
     }
 
-    public List<String> searchPeopleByUid(final String userId)
-    {
+    public List<String> searchPeopleByUid(final String userId) {
         return searchPeopleByUid(userId, "cn");
     }
 
-    private LdapTemplate getLdapTemplate()
-    {
+    private LdapTemplate getLdapTemplate() {
         return this.ldapTemplate;
     }
 }

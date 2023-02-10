@@ -9,8 +9,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import de.freese.spring.jwt.token.JwtToken;
-import de.freese.spring.jwt.token.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -25,17 +23,18 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 
+import de.freese.spring.jwt.token.JwtToken;
+import de.freese.spring.jwt.token.JwtTokenProvider;
+
 /**
  * @author Thomas Freese
  */
-public class JwtTokenProviderJson implements JwtTokenProvider
-{
+public class JwtTokenProviderJson implements JwtTokenProvider {
     private final String base64EncodedSecretKey;
 
     private final long validityInMilliseconds;
 
-    public JwtTokenProviderJson(final String secretKey, final long validityInMilliseconds)
-    {
+    public JwtTokenProviderJson(final String secretKey, final long validityInMilliseconds) {
         super();
 
         this.base64EncodedSecretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
@@ -46,17 +45,14 @@ public class JwtTokenProviderJson implements JwtTokenProvider
      * @see de.freese.spring.jwt.token.JwtTokenProvider#createToken(java.lang.String, java.lang.String, java.util.Set)
      */
     @Override
-    public String createToken(final String username, final String password, final Set<String> roles)
-    {
+    public String createToken(final String username, final String password, final Set<String> roles) {
         Claims claims = Jwts.claims().setSubject(username);
 
-        if ((password != null) && !password.isBlank())
-        {
+        if ((password != null) && !password.isBlank()) {
             claims.put("password", password);
         }
 
-        if ((roles != null) && !roles.isEmpty())
-        {
+        if ((roles != null) && !roles.isEmpty()) {
             // @formatter:off
             String rolesString = roles.stream()
                     .filter(Objects::nonNull)
@@ -90,10 +86,8 @@ public class JwtTokenProviderJson implements JwtTokenProvider
      * @see de.freese.spring.jwt.token.JwtTokenProvider#parseToken(java.lang.String)
      */
     @Override
-    public JwtToken parseToken(final String token) throws AuthenticationException
-    {
-        try
-        {
+    public JwtToken parseToken(final String token) throws AuthenticationException {
+        try {
             // @formatter:off
             Jws<Claims> claims = Jwts.parser()
                     .setSigningKey(this.base64EncodedSecretKey)
@@ -105,20 +99,16 @@ public class JwtTokenProviderJson implements JwtTokenProvider
 
             return new JwtTokenJson(jwt);
         }
-        catch (IllegalArgumentException ex)
-        {
+        catch (IllegalArgumentException ex) {
             throw new AuthenticationServiceException("Unable to get JWT Token");
         }
-        catch (ExpiredJwtException ex)
-        {
+        catch (ExpiredJwtException ex) {
             throw new AuthenticationServiceException("JwtToken is expired");
         }
-        catch (SignatureException ex)
-        {
+        catch (SignatureException ex) {
             throw new BadCredentialsException("Authentication Failed. Username or Password not valid");
         }
-        catch (JwtException ex)
-        {
+        catch (JwtException ex) {
             throw new AuthenticationServiceException("JwtToken is invalid");
         }
     }

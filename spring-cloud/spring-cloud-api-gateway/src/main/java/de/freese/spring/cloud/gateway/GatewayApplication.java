@@ -32,16 +32,13 @@ import reactor.core.publisher.Mono;
 @SpringBootApplication
 @EnableConfigurationProperties(UriConfiguration.class)
 @RestController
-public class GatewayApplication
-{
-    public static void main(final String[] args)
-    {
+public class GatewayApplication {
+    public static void main(final String[] args) {
         SpringApplication.run(GatewayApplication.class, args);
     }
 
     @RequestMapping("/fallback")
-    public Mono<String> fallback()
-    {
+    public Mono<String> fallback() {
         return Mono.just("fallback").map(r -> r + "\n");
     }
 
@@ -49,8 +46,7 @@ public class GatewayApplication
      * Routes werden in der application.yml konfiguriert
      */
     @Bean
-    RouteLocator myRoutes(final RouteLocatorBuilder builder, final UriConfiguration uriConfiguration)
-    {
+    RouteLocator myRoutes(final RouteLocatorBuilder builder, final UriConfiguration uriConfiguration) {
         String httpUri = uriConfiguration.getHttpbin();
 
         // @formatter:off

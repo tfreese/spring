@@ -16,12 +16,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class ResilienceApplication implements CommandLineRunner
-{
+public class ResilienceApplication implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResilienceApplication.class);
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         SpringApplication.run(ResilienceApplication.class, args);
     }
 
@@ -29,8 +27,7 @@ public class ResilienceApplication implements CommandLineRunner
      * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
      */
     @Override
-    public void run(final String... args) throws Exception
-    {
+    public void run(final String... args) throws Exception {
         final Runtime runtime = Runtime.getRuntime();
 
         final NumberFormat format = NumberFormat.getInstance();

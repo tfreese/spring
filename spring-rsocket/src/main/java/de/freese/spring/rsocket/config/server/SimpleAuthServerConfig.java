@@ -17,11 +17,9 @@ import org.springframework.security.rsocket.core.PayloadSocketAcceptorIntercepto
 @EnableRSocketSecurity
 @EnableReactiveMethodSecurity
 @Profile("simple")
-public class SimpleAuthServerConfig extends AbstractServerConfig
-{
+public class SimpleAuthServerConfig extends AbstractServerConfig {
     @Bean
-    PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security)
-    {
+    PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security) {
         //@formatter:off
         security.authorizePayload(authorize ->
             authorize

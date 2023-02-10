@@ -22,10 +22,8 @@ import reactor.core.publisher.Mono;
 /**
  * @author Thomas Freese
  */
-public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessageDecoder<Object>
-{
-    public KryoDecoder(final Pool<Kryo> kryoPool)
-    {
+public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessageDecoder<Object> {
+    public KryoDecoder(final Pool<Kryo> kryoPool) {
         super(kryoPool);
     }
 
@@ -33,8 +31,7 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
      * @see org.springframework.core.codec.Decoder#canDecode(org.springframework.core.ResolvableType, org.springframework.util.MimeType)
      */
     @Override
-    public boolean canDecode(final ResolvableType elementType, final MimeType mimeType)
-    {
+    public boolean canDecode(final ResolvableType elementType, final MimeType mimeType) {
         return Object.class.isAssignableFrom(elementType.toClass()) && supportsMimeType(mimeType);
         // return elementType.isInstance(Object.class) && supportsMimeType(mimeType);
     }
@@ -44,19 +41,15 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
      * org.springframework.util.MimeType, java.util.Map)
      */
     @Override
-    public Object decode(final DataBuffer buffer, final ResolvableType targetType, final MimeType mimeType, final Map<String, Object> hints)
-            throws DecodingException
-    {
+    public Object decode(final DataBuffer buffer, final ResolvableType targetType, final MimeType mimeType, final Map<String, Object> hints) throws DecodingException {
         Kryo kryo = getKryoPool().obtain();
         Object value = null;
 
         // try (Input input = new ByteBufferInput(buffer.asInputStream(),, 1024 * 1024))
-        try (Input input = new Input(buffer.asInputStream(), 1024 * 1024))
-        {
+        try (Input input = new Input(buffer.asInputStream(), 1024 * 1024)) {
             value = kryo.readClassAndObject(input);
         }
-        finally
-        {
+        finally {
             getKryoPool().free(kryo);
         }
 
@@ -68,9 +61,7 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
      * org.springframework.util.MimeType, java.util.Map)
      */
     @Override
-    public Flux<Object> decode(final Publisher<DataBuffer> inputStream, final ResolvableType elementType, final MimeType mimeType,
-                               final Map<String, Object> hints)
-    {
+    public Flux<Object> decode(final Publisher<DataBuffer> inputStream, final ResolvableType elementType, final MimeType mimeType, final Map<String, Object> hints) {
         // return Flux.from(decodeToMono(inputStream, elementType, mimeType, hints));
         return Flux.from(inputStream).map(buffer -> decode(buffer, elementType, mimeType, hints));
     }
@@ -80,9 +71,7 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
      * org.springframework.util.MimeType, java.util.Map)
      */
     @Override
-    public Mono<Object> decodeToMono(final Publisher<DataBuffer> inputStream, final ResolvableType elementType, final MimeType mimeType,
-                                     final Map<String, Object> hints)
-    {
+    public Mono<Object> decodeToMono(final Publisher<DataBuffer> inputStream, final ResolvableType elementType, final MimeType mimeType, final Map<String, Object> hints) {
         // return DataBufferUtils.join(inputStream).map(dataBuffer -> decode(dataBuffer, elementType, mimeType, hints));
         return Mono.from(inputStream).map(buffer -> decode(buffer, elementType, mimeType, hints));
     }
@@ -91,8 +80,7 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
      * @see org.springframework.core.codec.Decoder#getDecodableMimeTypes()
      */
     @Override
-    public List<MimeType> getDecodableMimeTypes()
-    {
+    public List<MimeType> getDecodableMimeTypes() {
         return MIME_TYPES;
     }
 
@@ -101,9 +89,7 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
      * org.springframework.http.server.reactive.ServerHttpRequest, org.springframework.http.server.reactive.ServerHttpResponse)
      */
     @Override
-    public Map<String, Object> getDecodeHints(final ResolvableType actualType, final ResolvableType elementType, final ServerHttpRequest request,
-                                              final ServerHttpResponse response)
-    {
+    public Map<String, Object> getDecodeHints(final ResolvableType actualType, final ResolvableType elementType, final ServerHttpRequest request, final ServerHttpResponse response) {
         return Hints.none();
     }
 }

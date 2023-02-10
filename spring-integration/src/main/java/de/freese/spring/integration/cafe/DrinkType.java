@@ -3,8 +3,7 @@ package de.freese.spring.integration.cafe;
 /**
  * @author Thomas Freese
  */
-public enum DrinkType
-{
+public enum DrinkType {
     CAPPUCCINO,
     ESPRESSO,
     LATTE,

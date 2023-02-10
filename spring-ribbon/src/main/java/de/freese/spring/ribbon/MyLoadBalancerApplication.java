@@ -6,11 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import de.freese.spring.ribbon.myloadbalancer.LoadBalancer;
-import de.freese.spring.ribbon.myloadbalancer.LoadBalancerInterceptor;
-import de.freese.spring.ribbon.myloadbalancer.ping.LoadBalancerPingUrl;
-import de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategy;
-import de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategyRoundRobin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -19,6 +14,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
+
+import de.freese.spring.ribbon.myloadbalancer.LoadBalancer;
+import de.freese.spring.ribbon.myloadbalancer.LoadBalancerInterceptor;
+import de.freese.spring.ribbon.myloadbalancer.ping.LoadBalancerPingUrl;
+import de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategy;
+import de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategyRoundRobin;
 
 /**
  * Demo mit eigenem LoadBalancer.
@@ -29,8 +30,7 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyLoadBalancerApplication.class);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         // @formatter:off
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder(MyLoadBalancerApplication.class)
             .profiles("my-loadbalancer")
@@ -44,15 +44,13 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
             URI serviceUri = URI.create(String.format("http://%s", server));
             LOGGER.info("manual look,up: {}", serviceUri);
 
-            while (true)
-            {
+            while (true) {
                 String result = restTemplate.getForObject("http://date-service/service/sysdate", String.class);
 
                 LOGGER.info(result);
                 // System.out.println(result);
 
-                if (result == null)
-                {
+                if (result == null) {
                     break;
                 }
 
@@ -64,8 +62,7 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
     }
 
     @Bean(destroyMethod = "shutdown")
-    public LoadBalancer loadBalancer(final Environment env, final RestTemplate restTemplate)
-    {
+    public LoadBalancer loadBalancer(final Environment env, final RestTemplate restTemplate) {
         String serverList = env.getProperty("loadbalancer.servers");
         String[] servers = serverList.split(",");
 
@@ -94,8 +91,7 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
     }
 
     @Bean
-    public RestTemplate restTemplate()
-    {
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 }

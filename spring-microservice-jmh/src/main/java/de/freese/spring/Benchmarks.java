@@ -9,10 +9,8 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 /**
  * @author Thomas Freese
  */
-public final class Benchmarks
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class Benchmarks {
+    public static void main(final String[] args) throws Exception {
         // org.openjdk.jmh.Main.main(args);
 
         // Der Builder überschreibt die Klassen-Annotationen.
@@ -31,8 +29,7 @@ public final class Benchmarks
         new Runner(options).run();
     }
 
-    private Benchmarks()
-    {
+    private Benchmarks() {
         super();
     }
 }

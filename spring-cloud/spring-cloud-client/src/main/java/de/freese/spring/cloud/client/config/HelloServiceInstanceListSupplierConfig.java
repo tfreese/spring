@@ -9,15 +9,13 @@ import org.springframework.context.annotation.Bean;
  * @author Thomas Freese
  */
 //@Configuration
-public class HelloServiceInstanceListSupplierConfig
-{
+public class HelloServiceInstanceListSupplierConfig {
     /**
      * Alternative zu spring.cloud.discovery.client.simple.instances
      */
     @Bean
     ////@Primary
-    ServiceInstanceListSupplier serviceInstanceListSupplier(final ConfigurableApplicationContext context)
-    {
+    ServiceInstanceListSupplier serviceInstanceListSupplier(final ConfigurableApplicationContext context) {
         return new HelloServiceInstanceListSupplier();
 
         //        // @formatter:off

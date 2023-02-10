@@ -34,18 +34,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * @author Thomas Freese
  */
 @SpringBootApplication
-@ComponentScan(basePackages =
-        {
-                "de.freese.spring.thymeleaf"
-        })
+@ComponentScan(basePackages = {"de.freese.spring.thymeleaf"})
 @EnableScheduling
 @EnableAsync
-public class ThymeleafApplication extends SpringBootServletInitializer
-{
+public class ThymeleafApplication extends SpringBootServletInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(ThymeleafApplication.class);
 
-    public static HttpServletRequest getCurrentRequest()
-    {
+    public static HttpServletRequest getCurrentRequest() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         Assert.state(requestAttributes != null, "Could not find current request via RequestContextHolder");
         Assert.isInstanceOf(ServletRequestAttributes.class, requestAttributes);
@@ -56,10 +51,8 @@ public class ThymeleafApplication extends SpringBootServletInitializer
         return servletRequest;
     }
 
-    public static String getRootUri(final Environment environment)
-    {
-        int port =
-                Optional.ofNullable(environment.getProperty("local.server.port", Integer.class)).orElse(environment.getProperty("server.port", Integer.class));
+    public static String getRootUri(final Environment environment) {
+        int port = Optional.ofNullable(environment.getProperty("local.server.port", Integer.class)).orElse(environment.getProperty("server.port", Integer.class));
         Optional<String> contextPath = Optional.ofNullable(environment.getProperty("server.servlet.context-path", String.class));
         Optional<Boolean> sslEnabled = Optional.ofNullable(environment.getProperty("server.ssl.enabled", Boolean.class));
 
@@ -68,14 +61,12 @@ public class ThymeleafApplication extends SpringBootServletInitializer
         return protocol + "://localhost:" + port + contextPath.orElse("");
     }
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         // ApplicationContext context = SpringApplication.run(SpringBootThymeleafApplication.class, args);
         configureApplication(new SpringApplicationBuilder()).run(args);
     }
 
-    private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder)
-    {
+    private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder) {
         // headless(false) für Desktop
         // .bannerMode(Banner.Mode.OFF);
         // .profiles(profiles)
@@ -91,8 +82,7 @@ public class ThymeleafApplication extends SpringBootServletInitializer
      * @see org.springframework.boot.web.servlet.support.SpringBootServletInitializer#configure(org.springframework.boot.builder.SpringApplicationBuilder)
      */
     @Override
-    protected SpringApplicationBuilder configure(final SpringApplicationBuilder application)
-    {
+    protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
         return configureApplication(application);
     }
 }

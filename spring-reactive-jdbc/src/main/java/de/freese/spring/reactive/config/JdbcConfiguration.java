@@ -18,15 +18,10 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
  */
 @Configuration
 @Profile("jdbc")
-@EnableAutoConfiguration(exclude =
-        {
-                R2dbcAutoConfiguration.class
-        })
-public class JdbcConfiguration
-{
+@EnableAutoConfiguration(exclude = {R2dbcAutoConfiguration.class})
+public class JdbcConfiguration {
     @Bean
-    DataSource dataSource()
-    {
+    DataSource dataSource() {
         String id = UUID.randomUUID().toString();
 
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName(id).build();

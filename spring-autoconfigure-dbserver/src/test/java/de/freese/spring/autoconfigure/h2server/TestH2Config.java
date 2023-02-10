@@ -19,25 +19,21 @@ import org.springframework.transaction.PlatformTransactionManager;
  * @author Thomas Freese
  */
 @SpringBootApplication // Mit Configuration wird die application.yml nicht eingelesen.
-public class TestH2Config
-{
+public class TestH2Config {
     @Bean
     @ConfigurationProperties(prefix = "datasource.h2.file")
-    public DataSource dataSourceH2File()
-    {
+    public DataSource dataSourceH2File() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
     @ConfigurationProperties(prefix = "datasource.h2.memory")
-    public DataSource dataSourceH2Memory()
-    {
+    public DataSource dataSourceH2Memory() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean(initMethod = "start", destroyMethod = "stop")
-    public Server serverH2(@Value("${h2.port}") final int port, @Value("${h2.path}") final String path) throws SQLException
-    {
+    public Server serverH2(@Value("${h2.port}") final int port, @Value("${h2.path}") final String path) throws SQLException {
         // while (!server.isRunning(true))
         // {
         // TimeUnit.MILLISECONDS.sleep(100);
@@ -48,14 +44,12 @@ public class TestH2Config
     }
 
     @Bean
-    public PlatformTransactionManager transactionManagerH2File(@Qualifier("dataSourceH2File") final DataSource dataSource)
-    {
+    public PlatformTransactionManager transactionManagerH2File(@Qualifier("dataSourceH2File") final DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean
-    public PlatformTransactionManager transactionManagerH2Memory(@Qualifier("dataSourceH2Memory") final DataSource dataSource)
-    {
+    public PlatformTransactionManager transactionManagerH2Memory(@Qualifier("dataSourceH2Memory") final DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 }

@@ -18,8 +18,7 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author Thomas Freese
  */
-public class SysDateHystrixCommand extends HystrixCommand<String>
-{
+public class SysDateHystrixCommand extends HystrixCommand<String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(SysDateHystrixCommand.class);
 
     private final int level;
@@ -28,16 +27,14 @@ public class SysDateHystrixCommand extends HystrixCommand<String>
 
     private String[] urls;
 
-    public SysDateHystrixCommand()
-    {
+    public SysDateHystrixCommand() {
         this(1);
     }
 
     /**
      * @param level int 1, 2, 3 ...
      */
-    private SysDateHystrixCommand(final int level)
-    {
+    private SysDateHystrixCommand(final int level) {
         // CommandGroupKey = ThreadPool-Name
         // super(HystrixCommandGroupKey.Factory.asKey("sysDate" + level));
 
@@ -51,13 +48,11 @@ public class SysDateHystrixCommand extends HystrixCommand<String>
         this.level = level;
     }
 
-    public void setRestTemplate(final RestTemplate restTemplate)
-    {
+    public void setRestTemplate(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public void setURLs(final String... urls)
-    {
+    public void setURLs(final String... urls) {
         this.urls = urls;
     }
 
@@ -76,10 +71,8 @@ public class SysDateHystrixCommand extends HystrixCommand<String>
      * @see com.netflix.hystrix.HystrixCommand#getFallback()
      */
     @Override
-    protected String getFallback()
-    {
-        if (this.urls.length == 1)
-        {
+    protected String getFallback() {
+        if (this.urls.length == 1) {
             // Keine weiteren URLs mehr vorhanden.
             return null;
         }
@@ -99,8 +92,7 @@ public class SysDateHystrixCommand extends HystrixCommand<String>
      * @see com.netflix.hystrix.HystrixCommand#run()
      */
     @Override
-    protected String run() throws Exception
-    {
+    protected String run() throws Exception {
         String result = this.restTemplate.getForObject(this.urls[0], String.class);
 
         LOGGER.info("level={}: {}", this.level, result);

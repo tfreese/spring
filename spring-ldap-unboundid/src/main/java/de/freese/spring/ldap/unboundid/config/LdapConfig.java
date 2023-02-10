@@ -16,28 +16,17 @@ import org.springframework.security.ldap.userdetails.PersonContextMapper;
  * @author Thomas Freese
  */
 @Configuration
-public class LdapConfig
-{
+public class LdapConfig {
     @Bean
-    UnboundIdContainer ldapContainer(@Value("${spring.ldap.base-dn}") String baseDn)
-    {
-        UnboundIdContainer container = new UnboundIdContainer(baseDn, "classpath:users.ldif");
-        container.setPort(0);
+    LdapAuthenticationProvider authenticationProvider(LdapAuthenticator authenticator) {
+        LdapAuthenticationProvider provider = new LdapAuthenticationProvider(authenticator);
+        provider.setUserDetailsContextMapper(new PersonContextMapper());
 
-        return container;
+        return provider;
     }
 
     @Bean
-    ContextSource contextSource(UnboundIdContainer container, @Value("${spring.ldap.base-dn}") String baseDn)
-    {
-        int port = container.getPort();
-
-        return new DefaultSpringSecurityContextSource("ldap://localhost:" + port + "/" + baseDn);
-    }
-
-    @Bean
-    BindAuthenticator authenticator(BaseLdapPathContextSource contextSource)
-    {
+    BindAuthenticator authenticator(BaseLdapPathContextSource contextSource) {
         BindAuthenticator authenticator = new BindAuthenticator(contextSource);
         authenticator.setUserDnPatterns(new String[]{"uid={0}, ou=people"});
 
@@ -45,11 +34,17 @@ public class LdapConfig
     }
 
     @Bean
-    LdapAuthenticationProvider authenticationProvider(LdapAuthenticator authenticator)
-    {
-        LdapAuthenticationProvider provider = new LdapAuthenticationProvider(authenticator);
-        provider.setUserDetailsContextMapper(new PersonContextMapper());
+    ContextSource contextSource(UnboundIdContainer container, @Value("${spring.ldap.base-dn}") String baseDn) {
+        int port = container.getPort();
 
-        return provider;
+        return new DefaultSpringSecurityContextSource("ldap://localhost:" + port + "/" + baseDn);
+    }
+
+    @Bean
+    UnboundIdContainer ldapContainer(@Value("${spring.ldap.base-dn}") String baseDn) {
+        UnboundIdContainer container = new UnboundIdContainer(baseDn, "classpath:users.ldif");
+        container.setPort(0);
+
+        return container;
     }
 }

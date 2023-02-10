@@ -64,8 +64,7 @@ import org.springframework.security.web.authentication.preauth.RequestHeaderAuth
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig
-{
+public class SecurityConfig {
     /**
      * Username + Password<br>
      * curl http://localhost:10000/spring-security/rest/admin -u admin:admin1
@@ -75,8 +74,7 @@ public class SecurityConfig
     @Configuration
     // @Order(1)
     @Profile("login")
-    public static class LoginConfigurationAdapter extends WebSecurityConfigurerAdapter
-    {
+    public static class LoginConfigurationAdapter extends WebSecurityConfigurerAdapter {
         /**
          *
          */
@@ -87,8 +85,7 @@ public class SecurityConfig
          * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.WebSecurity)
          */
         @Override
-        public void configure(final WebSecurity web) throws Exception
-        {
+        public void configure(final WebSecurity web) throws Exception {
             // @formatter:off
             web
                 .ignoring()
@@ -102,8 +99,7 @@ public class SecurityConfig
          * @throws Exception Falls was schief geht.
          */
         @Resource
-        public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception
-        {
+        public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
             DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
             daoAuthenticationProvider.setUserDetailsService(this.userDetailsService);
 
@@ -114,8 +110,7 @@ public class SecurityConfig
          * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
          */
         @Override
-        protected void configure(final HttpSecurity http) throws Exception
-        {
+        protected void configure(final HttpSecurity http) throws Exception {
             // @formatter:off
             http
                 .authorizeRequests()
@@ -140,8 +135,7 @@ public class SecurityConfig
     @Configuration
     // @Order(2)
     @Profile("pre-auth")
-    public static class PreAuthConfigurationAdapter extends WebSecurityConfigurerAdapter
-    {
+    public static class PreAuthConfigurationAdapter extends WebSecurityConfigurerAdapter {
         /**
          *
          */
@@ -154,8 +148,7 @@ public class SecurityConfig
          * @throws Exception Falls was schief geht.
          */
         @Resource
-        public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception
-        {
+        public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
             auth.authenticationProvider(preauthAuthProvider());
         }
 
@@ -163,8 +156,7 @@ public class SecurityConfig
          * @return {@link PreAuthenticatedAuthenticationProvider}
          */
         @Bean
-        public PreAuthenticatedAuthenticationProvider preauthAuthProvider()
-        {
+        public PreAuthenticatedAuthenticationProvider preauthAuthProvider() {
             PreAuthenticatedAuthenticationProvider preauthAuthProvider = new PreAuthenticatedAuthenticationProvider();
             preauthAuthProvider.setPreAuthenticatedUserDetailsService(userDetailsServiceWrapper());
 
@@ -175,8 +167,7 @@ public class SecurityConfig
          * @return {@link UserDetailsByNameServiceWrapper}
          */
         @Bean
-        public UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> userDetailsServiceWrapper()
-        {
+        public UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> userDetailsServiceWrapper() {
             UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> wrapper = new UserDetailsByNameServiceWrapper<>();
             wrapper.setUserDetailsService(this.userDetailsService);
 
@@ -189,8 +180,7 @@ public class SecurityConfig
          * @throws Exception Falls was schief geht.
          */
         @Bean
-        public RequestHeaderAuthenticationFilter webSealFilter() throws Exception
-        {
+        public RequestHeaderAuthenticationFilter webSealFilter() throws Exception {
             // WebSealRequestHeaderAuthenticationFilter filter = new WebSealRequestHeaderAuthenticationFilter();
             RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
             filter.setPrincipalRequestHeader("iv-user");
@@ -207,8 +197,7 @@ public class SecurityConfig
          * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
          */
         @Override
-        protected void configure(final HttpSecurity http) throws Exception
-        {
+        protected void configure(final HttpSecurity http) throws Exception {
             // @formatter:off
             http
                 .addFilterBefore(webSealFilter(), RequestHeaderAuthenticationFilter.class)
@@ -228,8 +217,7 @@ public class SecurityConfig
     /**
      * Erzeugt eine neue Instanz von {@link SecurityConfig}.
      */
-    public SecurityConfig()
-    {
+    public SecurityConfig() {
         super();
     }
 
@@ -262,8 +250,7 @@ public class SecurityConfig
      * @return {@link PasswordEncoder}
      */
     @Bean
-    public PasswordEncoder passwordEncoder()
-    {
+    public PasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         return bCryptPasswordEncoder;
@@ -273,8 +260,7 @@ public class SecurityConfig
      * @return {@link UserDetailsService}
      */
     @Bean
-    public UserDetailsService userDetailsService()
-    {
+    public UserDetailsService userDetailsService() {
         // "{noop}PSW"= verhindert Meldungen wie "There is no PasswordEncoder mapped for the id "null""
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(User.withUsername("admin").password("{noop}admin1").roles("ADMIN", "USER").build());

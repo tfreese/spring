@@ -21,19 +21,15 @@ import reactor.netty.http.client.HttpClient;
  * @author Thomas Freese
  */
 @Configuration
-@LoadBalancerClients(
-        @LoadBalancerClient(name = "CLOUD-HELLO-SERVICE"/*, configuration = HelloServiceInstanceListSupplierConfig.class)*/)
-)
-public class WebClientConfig
-{
+@LoadBalancerClients(@LoadBalancerClient(name = "CLOUD-HELLO-SERVICE"/*, configuration = HelloServiceInstanceListSupplierConfig.class)*/))
+public class WebClientConfig {
     /**
      * Siehe unten "Bugfix: ReactiveRegistrationClient".<br>
      * Ein Default-WebClient wird immer benötigt.
      */
     @Bean
     @Primary
-    WebClient.Builder webClientBuilder()
-    {
+    WebClient.Builder webClientBuilder() {
         // @formatter:off
         HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000)
@@ -55,8 +51,7 @@ public class WebClientConfig
      */
     @Bean
     @LoadBalanced
-    WebClient.Builder webClientBuilderLoadBalanced()
-    {
+    WebClient.Builder webClientBuilderLoadBalanced() {
         // @formatter:off
         HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000)

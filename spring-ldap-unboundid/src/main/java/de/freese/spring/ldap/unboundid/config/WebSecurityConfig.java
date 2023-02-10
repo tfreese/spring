@@ -21,11 +21,9 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig
-{
+public class WebSecurityConfig {
     @Bean
-    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao)
-    {
+    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao) {
         ProviderManager providerManager = new ProviderManager(authenticationProviderDao);
         // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
         providerManager.setEraseCredentialsAfterAuthentication(true);
@@ -34,9 +32,7 @@ public class WebSecurityConfig
     }
 
     @Bean
-    SecurityFilterChain filterChain(final HttpSecurity httpSecurity)
-            throws Exception
-    {
+    SecurityFilterChain filterChain(final HttpSecurity httpSecurity) throws Exception {
         // @formatter:off
         httpSecurity.authorizeHttpRequests()
                 .anyRequest()
@@ -50,25 +46,21 @@ public class WebSecurityConfig
     }
 
     @Bean
-    PasswordEncoder passwordEncoder()
-    {
+    PasswordEncoder passwordEncoder() {
         Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret", 16, 310000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
         Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put("pbkdf2", pbkdf2passwordEncoder);
         encoders.put("bcrypt", new BCryptPasswordEncoder(10));
-        encoders.put("", new PasswordEncoder()
-        {
+        encoders.put("", new PasswordEncoder() {
             @Override
-            public String encode(final CharSequence rawPassword)
-            {
+            public String encode(final CharSequence rawPassword) {
                 return rawPassword.toString();
             }
 
             @Override
-            public boolean matches(final CharSequence rawPassword, final String encodedPassword)
-            {
+            public boolean matches(final CharSequence rawPassword, final String encodedPassword) {
                 return rawPassword.toString().equals(encodedPassword);
             }
         });

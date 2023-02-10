@@ -1,7 +1,6 @@
 // Created: 24.06.2019
 package de.freese.spring.reactive.repository;
 
-import de.freese.spring.reactive.model.Employee;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -10,22 +9,21 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import reactor.test.StepVerifier;
 
+import de.freese.spring.reactive.model.Employee;
+
 /**
  * @author Thomas Freese
  */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public interface TestRepository
-{
+public interface TestRepository {
     @AfterEach
-    default void afterEach()
-    {
+    default void afterEach() {
         doAfterEach();
     }
 
     @BeforeEach
-    default void beforeEach()
-    {
+    default void beforeEach() {
         doBeforeEach();
     }
 
@@ -36,8 +34,7 @@ public interface TestRepository
     EmployeeRepository getRepository();
 
     @Test
-    default void testCreateNewEmployee()
-    {
+    default void testCreateNewEmployee() {
         Employee newEmployee = new Employee("Foo", "Bar", "Dep1");
 
         // @formatter:off
@@ -58,8 +55,7 @@ public interface TestRepository
     }
 
     @Test
-    default void testDeleteEmployee()
-    {
+    default void testDeleteEmployee() {
         // @formatter:off
         getRepository().deleteEmployee(1)
             .as(StepVerifier::create)
@@ -78,8 +74,7 @@ public interface TestRepository
     }
 
     @Test
-    default void testGetAllDepartments()
-    {
+    default void testGetAllDepartments() {
         // @formatter:off
         getRepository().getAllDepartments()
             .as(StepVerifier::create)
@@ -90,8 +85,7 @@ public interface TestRepository
     }
 
     @Test
-    default void testGetEmployee()
-    {
+    default void testGetEmployee() {
         // @formatter:off
         getRepository().getEmployee("LastName1", "FirstName1")
             .as(StepVerifier::create)

@@ -9,7 +9,6 @@ import java.util.List;
 
 import jakarta.annotation.Resource;
 
-import de.freese.spring.ldap.unboundid.dao.MyLdapDao;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -17,26 +16,25 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 
+import de.freese.spring.ldap.unboundid.dao.MyLdapDao;
+
 /**
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = LdapApplication.class)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
-class TestLdapDao
-{
+class TestLdapDao {
     @Resource
     private MyLdapDao ldapDao;
 
     @Test
-    void testContextLoads() throws Exception
-    {
+    void testContextLoads() throws Exception {
         assertTrue(true);
     }
 
     @Test
-    void testCreate() throws Exception
-    {
+    void testCreate() throws Exception {
         this.ldapDao.create("myid", "pass", "A", "B");
         List<String> result = this.ldapDao.searchPeopleByUid("myid");
 
@@ -46,8 +44,7 @@ class TestLdapDao
     }
 
     @Test
-    void testModify() throws Exception
-    {
+    void testModify() throws Exception {
         this.ldapDao.modify("myid", "pass", "X", "Y");
         List<String> result = this.ldapDao.searchPeopleByUid("myid");
 
@@ -57,8 +54,7 @@ class TestLdapDao
     }
 
     @Test
-    void testSearchGroup() throws Exception
-    {
+    void testSearchGroup() throws Exception {
         List<String> result = this.ldapDao.searchGroup("user");
 
         assertNotNull(result);
@@ -68,8 +64,7 @@ class TestLdapDao
     }
 
     @Test
-    void testSearchPeople() throws Exception
-    {
+    void testSearchPeople() throws Exception {
         List<String> result = this.ldapDao.searchPeopleByUid("u*");
 
         assertNotNull(result);

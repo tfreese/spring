@@ -38,18 +38,14 @@ import org.springframework.util.ResourceUtils;
  */
 @Configuration
 @Profile("with-ssl")
-public class HttpClientConfigSsl
-{
+public class HttpClientConfigSsl {
     public static final Logger LOGGER = LoggerFactory.getLogger(HttpClientConfigSsl.class);
 
     @Bean
-    public HttpClient httpClient(final PoolingHttpClientConnectionManager poolingConnectionManager) throws Exception
-    {
-        ConnectionKeepAliveStrategy connectionKeepAliveStrategy = new DefaultConnectionKeepAliveStrategy()
-        {
+    public HttpClient httpClient(final PoolingHttpClientConnectionManager poolingConnectionManager) throws Exception {
+        ConnectionKeepAliveStrategy connectionKeepAliveStrategy = new DefaultConnectionKeepAliveStrategy() {
             @Override
-            public TimeValue getKeepAliveDuration(final HttpResponse response, final HttpContext context)
-            {
+            public TimeValue getKeepAliveDuration(final HttpResponse response, final HttpContext context) {
                 TimeValue duration = super.getKeepAliveDuration(response, context);
 
                 return duration.getDuration() == -1L ? TimeValue.ofMilliseconds(20) : duration;
@@ -78,10 +74,8 @@ public class HttpClientConfigSsl
      * Scheduled Methoden dürfen keine Parameter haben !
      */
     @Bean
-    public Runnable idleConnectionMonitor(final PoolingHttpClientConnectionManager poolingConnectionManager)
-    {
-        return new Runnable()
-        {
+    public Runnable idleConnectionMonitor(final PoolingHttpClientConnectionManager poolingConnectionManager) {
+        return new Runnable() {
             @Override
             @Scheduled(initialDelay = 10 * 1000, fixedDelay = 10 * 1000) // Alle 10 Sekunden
             // initialDelayString = #{ T(java.lang.Math).random() * 10 }
@@ -89,23 +83,18 @@ public class HttpClientConfigSsl
             // @Scheduled(cron = "4,9,14,19,24,29,34,39,44,49,55,59 * * * *") // Alle 5 Minuten
             // @Scheduled(cron = "0 */15 * * * MON-FRI") // Alle 15 Minuten
             // @Async("executorService")
-            public void run()
-            {
-                try
-                {
-                    if (poolingConnectionManager != null)
-                    {
+            public void run() {
+                try {
+                    if (poolingConnectionManager != null) {
                         LOGGER.debug("idleConnectionMonitor - Closing expired and idle connections...");
                         poolingConnectionManager.closeExpired();
                         poolingConnectionManager.closeIdle(TimeValue.ofSeconds(30));
                     }
-                    else
-                    {
+                    else {
                         LOGGER.debug("idleConnectionMonitor - Http Client Connection manager is not initialised");
                     }
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     String message = String.format("idleConnectionMonitor - Exception occurred. msg = %s", ex.getMessage());
                     LOGGER.error(message, ex);
                 }
@@ -114,8 +103,7 @@ public class HttpClientConfigSsl
     }
 
     @Bean
-    public PoolingHttpClientConnectionManager poolingConnectionManager(final SSLContext sslContext) throws Exception
-    {
+    public PoolingHttpClientConnectionManager poolingConnectionManager(final SSLContext sslContext) throws Exception {
         // @formatter:off
         Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", new PlainConnectionSocketFactory())
@@ -131,10 +119,8 @@ public class HttpClientConfigSsl
     }
 
     @Bean
-    public SSLContext sslContext() throws Exception
-    {
-        PrivateKeyStrategy privateKeyStrategy = (aliases, socket) ->
-        {
+    public SSLContext sslContext() throws Exception {
+        PrivateKeyStrategy privateKeyStrategy = (aliases, socket) -> {
             LOGGER.debug("{}", aliases);
             return "server";
         };

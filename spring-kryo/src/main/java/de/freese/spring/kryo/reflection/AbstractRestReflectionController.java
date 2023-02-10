@@ -13,49 +13,44 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.util.Pool;
-import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
+import de.freese.spring.kryo.web.KryoHttpMessageConverter;
+
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractRestReflectionController
-{
+public abstract class AbstractRestReflectionController {
     private final Pool<Kryo> kryoPool;
 
-    protected AbstractRestReflectionController(final Pool<Kryo> kryoPool)
-    {
+    protected AbstractRestReflectionController(final Pool<Kryo> kryoPool) {
         super();
 
         this.kryoPool = Objects.requireNonNull(kryoPool, "kryoPool required");
     }
 
     @PostMapping(path = "{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
-    public Object invoke(@PathVariable("method") final String method, final HttpServletRequest request, final HttpServletResponse response) throws Exception
-    {
+    public Object invoke(@PathVariable("method") final String method, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         Kryo kryo = getKryoPool().obtain();
 
-        try (Input inputStream = new Input(request.getInputStream(), 1024 * 1024))
-        {
+        try (Input inputStream = new Input(request.getInputStream(), 1024 * 1024)) {
             // Parameter-Typen und -Argumente auslesen.
             Object[] paramTypesAndArgs = (Object[]) kryo.readClassAndObject(inputStream);
             Class<?>[] parameterTypes = (Class<?>[]) paramTypesAndArgs[0];
             Object[] arguments = (Object[]) paramTypesAndArgs[1];
 
             // Streams berücksichtigen.
-            if (Boolean.parseBoolean(request.getHeader(ReflectionControllerApi.INPUTSTREAM_IN_METHOD)))
-            {
+            if (Boolean.parseBoolean(request.getHeader(ReflectionControllerApi.INPUTSTREAM_IN_METHOD))) {
                 // Marker zwischen ParameterTypes/Argumenten und InputStream lesen.
                 kryo.readClassAndObject(inputStream);
 
                 // InputStream als letzten Parameter den Argumenten hinzufügen.
                 arguments = addArgument(arguments, inputStream);
             }
-            else if (Boolean.parseBoolean(request.getHeader(ReflectionControllerApi.OUTPUTSTREAM_IN_METHOD)))
-            {
+            else if (Boolean.parseBoolean(request.getHeader(ReflectionControllerApi.OUTPUTSTREAM_IN_METHOD))) {
                 // OutputStream als letzten Parameter den Argumenten hinzufügen.
                 arguments = addArgument(arguments, response.getOutputStream());
             }
@@ -65,22 +60,18 @@ public abstract class AbstractRestReflectionController
             Object result = apiMethod.invoke(this, arguments);
 
             // Ergebnis mit Kryo codieren.
-            try (Output output = new Output(response.getOutputStream()))
-            {
+            try (Output output = new Output(response.getOutputStream())) {
                 kryo.writeClassAndObject(output, result);
                 output.flush();
             }
         }
-        catch (InvocationTargetException ex)
-        {
+        catch (InvocationTargetException ex) {
             throw (Exception) ex.getCause();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             throw ex;
         }
-        finally
-        {
+        finally {
             getKryoPool().free(kryo);
         }
 
@@ -91,8 +82,7 @@ public abstract class AbstractRestReflectionController
      * Funktioniert nur mit {@link RestTemplate}.
      */
     @PostMapping(path = "/rt/{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
-    public Object invokeFromRestTemplate(@PathVariable("method") final String method, @RequestBody final Object body) throws Exception
-    {
+    public Object invokeFromRestTemplate(@PathVariable("method") final String method, @RequestBody final Object body) throws Exception {
         // Parameter-Typen und -Argumente auslesen.
         Object[] paramTypesAndArgs = (Object[]) body;
         Class<?>[] parameterTypes = (Class<?>[]) paramTypesAndArgs[0];
@@ -104,12 +94,10 @@ public abstract class AbstractRestReflectionController
         return apiMethod.invoke(this, arguments);
     }
 
-    protected Object[] addArgument(final Object[] arguments, final Object argument)
-    {
+    protected Object[] addArgument(final Object[] arguments, final Object argument) {
         Object[] newArgs = null;
 
-        if (arguments == null)
-        {
+        if (arguments == null) {
             newArgs = new Object[0];
         }
 
@@ -120,8 +108,7 @@ public abstract class AbstractRestReflectionController
         return newArgs;
     }
 
-    protected Pool<Kryo> getKryoPool()
-    {
+    protected Pool<Kryo> getKryoPool() {
         return this.kryoPool;
     }
 }

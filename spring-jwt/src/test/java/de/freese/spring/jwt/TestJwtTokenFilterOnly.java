@@ -7,10 +7,6 @@ import org.springframework.test.context.ActiveProfiles;
  * @author Thomas Freese
  */
 
-@ActiveProfiles(
-{
-        "test", "filterOnly"
-})
-class TestJwtTokenFilterOnly extends AbstractTestJwtToken
-{
+@ActiveProfiles({"test", "filterOnly"})
+class TestJwtTokenFilterOnly extends AbstractTestJwtToken {
 }

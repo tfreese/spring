@@ -12,14 +12,12 @@ import org.testcontainers.junit.jupiter.Testcontainers;
  */
 @Testcontainers
 @Disabled("Postgres löscht die Sequence nicht")
-class TestContainerPostgres extends AbstractTest
-{
+class TestContainerPostgres extends AbstractTest {
     @Container
     private static final PostgreSQLContainer<?> DB_CONTAINER = new PostgreSQLContainer<>("postgres:latest");
 
     @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry)
-    {
+    static void properties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.driver-class-name", DB_CONTAINER::getDriverClassName);
         registry.add("spring.datasource.url", DB_CONTAINER::getJdbcUrl);
         registry.add("spring.datasource.username", DB_CONTAINER::getUsername);

@@ -17,38 +17,32 @@ import org.springframework.context.annotation.Bean;
  */
 @SpringBootApplication
 @EnableRabbit
-public class SpringQpidApplication
-{
+public class SpringQpidApplication {
     public static final String QUEUE_NAME = "spring-boot";
 
     public static final String TOPIC_EXCHANGE_NAME = "spring-boot-exchange";
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         SpringApplication.run(SpringQpidApplication.class, args);
     }
 
     @Bean
-    public Binding binding(final Queue queue, final TopicExchange exchange)
-    {
+    public Binding binding(final Queue queue, final TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
     }
 
     @Bean
-    public TopicExchange exchange()
-    {
+    public TopicExchange exchange() {
         return new TopicExchange(TOPIC_EXCHANGE_NAME);
     }
 
     @Bean
-    public MessageConverter jackson2JsonMessageConverter()
-    {
+    public MessageConverter jackson2JsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
     @Bean
-    public Queue queue()
-    {
+    public Queue queue() {
         return new Queue(QUEUE_NAME, false);
     }
 

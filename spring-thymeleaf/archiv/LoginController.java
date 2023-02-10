@@ -37,8 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(path = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class LoginController
-{
+public class LoginController {
     /**
      *
      */
@@ -61,8 +60,7 @@ public class LoginController
      *
      * @return String
      */
-    public String findUsernameByToken(final String authToken)
-    {
+    public String findUsernameByToken(final String authToken) {
         return authToken;
     }
 
@@ -71,41 +69,15 @@ public class LoginController
      * @param user String
      * @param pass String
      */
-    public void loginWithHttpServletRequest(final HttpServletRequest req, @RequestParam final String user, @RequestParam final String pass)
-    {
-        try
-        {
+    public void loginWithHttpServletRequest(final HttpServletRequest req, @RequestParam final String user, @RequestParam final String pass) {
+        try {
             req.login(user, pass);
         }
-        catch (ServletException sex)
-        {
+        catch (ServletException sex) {
             LOGGER.error("Error while login ", sex);
 
             throw new RuntimeException(sex);
         }
-    }
-
-    /**
-     * @param req {@link HttpServletRequest}
-     * @param user {@link User}
-     */
-    @PostMapping("/loginWithoutPassword")
-    public void loginWithoutPassword(final HttpServletRequest req, @RequestParam final User user)
-    {
-        // List<Privilege> privileges = user.getRoles().stream()
-        // .map(role -> role.getPrivileges())
-        // .flatMap(list -> list.stream())
-        // .distinct().collect(Collectors.toList());
-
-        List<GrantedAuthority> authorities = new ArrayList<>(user.getAuthorities());
-
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, authorities);
-
-        SecurityContext sc = SecurityContextHolder.getContext();
-        sc.setAuthentication(auth);
-
-        HttpSession session = req.getSession(true);
-        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
     }
 
     /**
@@ -117,8 +89,7 @@ public class LoginController
      * @return String
      */
     @PostMapping("/loginWithToken")
-    public String loginWithToken(final HttpServletRequest req, @RequestParam final String token)
-    {
+    public String loginWithToken(final HttpServletRequest req, @RequestParam final String token) {
         // This whole stuff should be inside of a service method...
         String usernameByToken = findUsernameByToken(token);
 
@@ -143,10 +114,31 @@ public class LoginController
      * @param pass String
      */
     @PostMapping("/loginWithUserAndPassword")
-    public void loginWithUserAndPassword(final HttpServletRequest req, @RequestParam final String user, @RequestParam final String pass)
-    {
+    public void loginWithUserAndPassword(final HttpServletRequest req, @RequestParam final String user, @RequestParam final String pass) {
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(user, pass);
         Authentication auth = this.authenticationManager.authenticate(authReq);
+
+        SecurityContext sc = SecurityContextHolder.getContext();
+        sc.setAuthentication(auth);
+
+        HttpSession session = req.getSession(true);
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+    }
+
+    /**
+     * @param req {@link HttpServletRequest}
+     * @param user {@link User}
+     */
+    @PostMapping("/loginWithoutPassword")
+    public void loginWithoutPassword(final HttpServletRequest req, @RequestParam final User user) {
+        // List<Privilege> privileges = user.getRoles().stream()
+        // .map(role -> role.getPrivileges())
+        // .flatMap(list -> list.stream())
+        // .distinct().collect(Collectors.toList());
+
+        List<GrantedAuthority> authorities = new ArrayList<>(user.getAuthorities());
+
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, authorities);
 
         SecurityContext sc = SecurityContextHolder.getContext();
         sc.setAuthentication(auth);
@@ -162,12 +154,10 @@ public class LoginController
      * @return String
      */
     @GetMapping("/logout")
-    public String logout(final HttpServletRequest request, final HttpServletResponse response)
-    {
+    public String logout(final HttpServletRequest request, final HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth != null)
-        {
+        if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
 

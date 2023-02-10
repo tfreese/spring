@@ -8,10 +8,8 @@ import de.freese.spring.integration.cafe.Drink;
 /**
  * @author Thomas Freese
  */
-public class Waiter
-{
-    public Delivery prepareDelivery(final List<Drink> drinks)
-    {
+public class Waiter {
+    public Delivery prepareDelivery(final List<Drink> drinks) {
         return new Delivery(drinks);
     }
 }

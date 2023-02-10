@@ -14,11 +14,9 @@ import com.netflix.loadbalancer.IRule;
  * @see IRule
  */
 @FunctionalInterface
-public interface LoadBalancerStrategy extends BiFunction<List<String>, String, String>
-{
+public interface LoadBalancerStrategy extends BiFunction<List<String>, String, String> {
     @Override
-    default String apply(List<String> server, String key)
-    {
+    default String apply(List<String> server, String key) {
         return chooseServer(server, key);
     }
 

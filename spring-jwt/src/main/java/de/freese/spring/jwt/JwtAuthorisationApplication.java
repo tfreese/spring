@@ -10,16 +10,13 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class JwtAuthorisationApplication extends SpringBootServletInitializer
-{
-    public static void main(final String[] args)
-    {
+public class JwtAuthorisationApplication extends SpringBootServletInitializer {
+    public static void main(final String[] args) {
         // ApplicationContext context = SpringApplication.run(SpringBootThymeleafApplication.class, args);
         configureApplication(new SpringApplicationBuilder()).run(args);
     }
 
-    private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder)
-    {
+    private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder) {
         // headless(false) für Desktop
         // .bannerMode(Banner.Mode.OFF);
         // .profiles(profiles)
@@ -30,8 +27,7 @@ public class JwtAuthorisationApplication extends SpringBootServletInitializer
      * @see org.springframework.boot.web.servlet.support.SpringBootServletInitializer#configure(org.springframework.boot.builder.SpringApplicationBuilder)
      */
     @Override
-    protected SpringApplicationBuilder configure(final SpringApplicationBuilder application)
-    {
+    protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
         return configureApplication(application);
     }
 }

@@ -14,8 +14,7 @@ import com.esotericsoftware.kryo.io.Output;
  *
  * @author Thomas Freese
  */
-public class TimestampSerializer extends Serializer<Timestamp>
-{
+public class TimestampSerializer extends Serializer<Timestamp> {
     //    public TimestampSerializer()
     //    {
     //        super(true);
@@ -36,12 +35,10 @@ public class TimestampSerializer extends Serializer<Timestamp>
     //    }
 
     @Override
-    public Timestamp read(Kryo kryo, Input input, Class<? extends Timestamp> type)
-    {
+    public Timestamp read(Kryo kryo, Input input, Class<? extends Timestamp> type) {
         long time = input.readLong(false);
 
-        if (time == -1L)
-        {
+        if (time == -1L) {
             return null;
         }
 
@@ -54,14 +51,11 @@ public class TimestampSerializer extends Serializer<Timestamp>
     }
 
     @Override
-    public void write(Kryo kryo, Output output, Timestamp obj)
-    {
-        if (obj == null)
-        {
+    public void write(Kryo kryo, Output output, Timestamp obj) {
+        if (obj == null) {
             output.writeLong(-1L, false);
         }
-        else
-        {
+        else {
             output.writeLong(obj.getTime(), false);
             output.writeInt(obj.getNanos(), false);
         }

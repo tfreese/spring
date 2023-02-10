@@ -13,12 +13,8 @@ import org.springframework.test.context.ActiveProfiles;
 /**
  * @author Thomas Freese
  */
-@ActiveProfiles(
-        {
-                "test", "r2dbc"
-        })
-class TestRepositoryR2dbc implements TestRepository
-{
+@ActiveProfiles({"test", "r2dbc"})
+class TestRepositoryR2dbc implements TestRepository {
     @Resource
     private ConnectionFactory connectionFactory;
 
@@ -32,8 +28,7 @@ class TestRepositoryR2dbc implements TestRepository
      * @see de.freese.spring.reactive.repository.TestRepository#doAfterEach()
      */
     @Override
-    public void doAfterEach()
-    {
+    public void doAfterEach() {
         this.databaseClient.sql("DROP TABLE IF EXISTS employee").fetch().rowsUpdated().block();
         this.databaseClient.sql("DROP TABLE IF EXISTS department").fetch().rowsUpdated().block();
     }
@@ -42,8 +37,7 @@ class TestRepositoryR2dbc implements TestRepository
      * @see de.freese.spring.reactive.repository.TestRepository#doBeforeEach()
      */
     @Override
-    public void doBeforeEach()
-    {
+    public void doBeforeEach() {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("sql/schema.sql"));
         populator.addScript(new ClassPathResource("sql/data.sql"));
@@ -59,8 +53,7 @@ class TestRepositoryR2dbc implements TestRepository
      * @see de.freese.spring.reactive.repository.TestRepository#getRepository()
      */
     @Override
-    public EmployeeRepository getRepository()
-    {
+    public EmployeeRepository getRepository() {
         return this.repository;
     }
 
@@ -69,8 +62,7 @@ class TestRepositoryR2dbc implements TestRepository
      */
     @Override
     @Test
-    public void testCreateNewEmployee()
-    {
+    public void testCreateNewEmployee() {
         // nur zum Debuggen
         TestRepository.super.testCreateNewEmployee();
     }
@@ -80,8 +72,7 @@ class TestRepositoryR2dbc implements TestRepository
      */
     @Override
     @Test
-    public void testGetEmployee()
-    {
+    public void testGetEmployee() {
         // nur zum Debuggen
         TestRepository.super.testGetEmployee();
     }

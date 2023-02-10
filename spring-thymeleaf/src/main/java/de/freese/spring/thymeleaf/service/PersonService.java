@@ -4,20 +4,19 @@ package de.freese.spring.thymeleaf.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.freese.spring.thymeleaf.model.Person;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+
+import de.freese.spring.thymeleaf.model.Person;
 
 /**
  * @author Thomas Freese
  */
 @Service
-public class PersonService
-{
+public class PersonService {
     private final List<Person> persons = new ArrayList<>();
 
-    public PersonService()
-    {
+    public PersonService() {
         super();
 
         this.persons.add(new Person("Bill", "Gates"));
@@ -25,27 +24,20 @@ public class PersonService
     }
 
     @Secured("ROLE_ADMIN")
-    public void addPerson(final Person newPerson)
-    {
+    public void addPerson(final Person newPerson) {
         String firstName = newPerson.getFirstName();
         String lastName = newPerson.getLastName();
 
-        if ((firstName != null) && !firstName.isEmpty() && (lastName != null) && !lastName.isEmpty())
-        {
+        if ((firstName != null) && !firstName.isEmpty() && (lastName != null) && !lastName.isEmpty()) {
             this.persons.add(newPerson);
         }
-        else
-        {
+        else {
             throw new IllegalArgumentException("Invalid Person Attributes");
         }
     }
 
-    @Secured(
-            {
-                    "ROLE_ADMIN", "ROLE_USER"
-            })
-    public List<Person> getPersons()
-    {
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    public List<Person> getPersons() {
         return new ArrayList<>(this.persons);
     }
 }

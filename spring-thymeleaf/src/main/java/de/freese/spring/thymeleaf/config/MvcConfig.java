@@ -13,7 +13,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import de.freese.spring.thymeleaf.ThymeleafApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
@@ -46,40 +45,37 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import de.freese.spring.thymeleaf.ThymeleafApplication;
+
 /**
  * @author Thomas Freese
  */
 @Configuration
-public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
-{
+public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
     private static final Logger LOGGER = LoggerFactory.getLogger(MvcConfig.class);
 
     /**
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry)
      */
     @Override
-    public void addInterceptors(final InterceptorRegistry registry)
-    {
+    public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
 
         // Parsen von HTTPS-Headern vor der Verarbeitung des Requests.
-        registry.addInterceptor(new HandlerInterceptor()
-        {
+        registry.addInterceptor(new HandlerInterceptor() {
             /**
              * @see org.springframework.web.servlet.HandlerInterceptor#preHandle(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse,
              *      java.lang.Object)
              */
             @Override
-            public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception
-            {
+            public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
                 // System.out.println("HandlerInterceptor: " + Thread.currentThread().getName());
 
                 LOGGER.info("Request: {}", LocalDateTime.now());
 
                 Enumeration<String> headerNames = request.getHeaderNames();
 
-                while (headerNames.hasMoreElements())
-                {
+                while (headerNames.hasMoreElements()) {
                     String headerName = headerNames.nextElement();
                     LOGGER.info("{} = {}", headerName, request.getHeader(headerName));
                 }
@@ -93,8 +89,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addViewControllers(org.springframework.web.servlet.config.annotation.ViewControllerRegistry)
      */
     @Override
-    public void addViewControllers(final ViewControllerRegistry registry)
-    {
+    public void addViewControllers(final ViewControllerRegistry registry) {
         // Wird schon im HomeThymeleafController gemacht.
         // registry.addViewController("/").setViewName("index");
         // registry.addViewController("/index").setViewName("index");
@@ -108,8 +103,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureAsyncSupport(org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer)
      */
     @Override
-    public void configureAsyncSupport(final AsyncSupportConfigurer configurer)
-    {
+    public void configureAsyncSupport(final AsyncSupportConfigurer configurer) {
         configurer.setTaskExecutor(springTaskExecutor());
     }
 
@@ -119,8 +113,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureContentNegotiation(org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer)
      */
     @Override
-    public void configureContentNegotiation(final ContentNegotiationConfigurer configurer)
-    {
+    public void configureContentNegotiation(final ContentNegotiationConfigurer configurer) {
         // @formatter:off
         configurer
             //.favorPathExtension(false) // URL.xml -> Liefert XML; Ersetzen durch strategies(strategies)
@@ -135,13 +128,9 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
     }
 
     @Bean
-    @ConditionalOnMissingBean(
-            {
-                    Executor.class, ExecutorService.class
-            })
+    @ConditionalOnMissingBean({Executor.class, ExecutorService.class})
     @Primary
-    public ThreadPoolExecutorFactoryBean executorService()
-    {
+    public ThreadPoolExecutorFactoryBean executorService() {
         int coreSize = Math.max(2, Runtime.getRuntime().availableProcessors());
         int maxSize = coreSize * 2;
         int queueSize = maxSize * 2;
@@ -162,8 +151,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
     }
 
     @Override
-    public Executor getAsyncExecutor()
-    {
+    public Executor getAsyncExecutor() {
         return new DelegatingSecurityContextExecutorService(executorService().getObject());
     }
 
@@ -171,8 +159,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
      * @see org.springframework.scheduling.annotation.AsyncConfigurer#getAsyncUncaughtExceptionHandler()
      */
     @Override
-    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler()
-    {
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return (ex, method, params) -> ThymeleafApplication.LOGGER.error(ex.getMessage());
     }
 
@@ -180,8 +167,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
      * URL-Parameter ändert Sprache: URL/?lang=en<br>
      */
     @Bean
-    public LocaleChangeInterceptor localeChangeInterceptor()
-    {
+    public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
 
@@ -192,8 +178,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
      * LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
      */
     @Bean
-    public LocaleResolver localeResolver()
-    {
+    public LocaleResolver localeResolver() {
         // CookieLocaleResolver localeResolver = new CookieLocaleResolver();
         // localeResolver.setCookieName("mycookie");
         // localeResolver.setCookieMaxAge(60 * 60); // 60 Minuten
@@ -205,12 +190,10 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
         //        localeResolver.setDefaultLocale(null);
         localeResolver.setDefaultTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
-        localeResolver.setDefaultLocaleFunction(request ->
-        {
+        localeResolver.setDefaultLocaleFunction(request -> {
             Locale defaultLocale = request.getLocale();
 
-            if (defaultLocale == null)
-            {
+            if (defaultLocale == null) {
                 defaultLocale = Locale.ENGLISH;
             }
 
@@ -226,8 +209,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
      * #{message.mostAwesomeWebsite(${website})}
      */
     @Bean
-    public MessageSource messageSource()
-    {
+    public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         // ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("static/i18n/messages");
@@ -239,8 +221,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
 
     @Bean
     @ConditionalOnMissingBean(ScheduledExecutorService.class)
-    public ScheduledExecutorFactoryBean scheduledExecutorService()
-    {
+    public ScheduledExecutorFactoryBean scheduledExecutorService() {
         int poolSize = Math.max(2, Runtime.getRuntime().availableProcessors() / 2);
 
         ScheduledExecutorFactoryBean bean = new ScheduledExecutorFactoryBean();
@@ -256,17 +237,10 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
     /**
      * Wird für {@link EnableAsync} benötigt.
      */
-    @Bean(
-            {
-                    "taskExecutor", "asyncTaskExecutor"
-            })
-    @ConditionalOnMissingBean(
-            {
-                    AsyncTaskExecutor.class, TaskExecutor.class
-            })
+    @Bean({"taskExecutor", "asyncTaskExecutor"})
+    @ConditionalOnMissingBean({AsyncTaskExecutor.class, TaskExecutor.class})
     // public AsyncTaskExecutor springTaskExecutor(@Qualifier("executorService") final ExecutorService executorService)
-    public AsyncTaskExecutor springTaskExecutor()
-    {
+    public AsyncTaskExecutor springTaskExecutor() {
         ThymeleafApplication.LOGGER.info("no TaskExecutor exist, create a ConcurrentTaskExecutor");
 
         return new ConcurrentTaskExecutor(executorService().getObject());
@@ -278,9 +252,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer
      */
     @Bean("taskScheduler")
     @ConditionalOnMissingBean(TaskScheduler.class)
-    public TaskScheduler springTaskScheduler(@Qualifier("executorService") final ExecutorService executorService,
-                                             final ScheduledExecutorService scheduledExecutorService)
-    {
+    public TaskScheduler springTaskScheduler(@Qualifier("executorService") final ExecutorService executorService, final ScheduledExecutorService scheduledExecutorService) {
         ThymeleafApplication.LOGGER.info("no TaskScheduler exist, create a ConcurrentTaskScheduler");
 
         return new ConcurrentTaskScheduler(executorService, scheduledExecutorService);

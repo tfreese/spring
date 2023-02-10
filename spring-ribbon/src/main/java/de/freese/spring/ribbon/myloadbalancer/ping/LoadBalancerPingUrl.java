@@ -25,8 +25,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
  *
  * @author Thomas Freese
  */
-public class LoadBalancerPingUrl implements LoadBalancerPing
-{
+public class LoadBalancerPingUrl implements LoadBalancerPing {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancerPingUrl.class);
 
     private final HttpMessageConverter<String> messageConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
@@ -42,20 +41,15 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
     /**
      * Welcher Content muss der Ping liefern ?
      */
-    public String getExpectedContent()
-    {
+    public String getExpectedContent() {
         return this.expectedContent;
     }
 
-    public ClientHttpRequestFactory getHttpRequestFactory()
-    {
-        if (this.httpRequestFactory == null)
-        {
-            synchronized (this)
-            {
+    public ClientHttpRequestFactory getHttpRequestFactory() {
+        if (this.httpRequestFactory == null) {
+            synchronized (this) {
                 // DoubleCheckLock
-                if (this.httpRequestFactory == null)
-                {
+                if (this.httpRequestFactory == null) {
                     this.httpRequestFactory = new SimpleClientHttpRequestFactory();
                 }
             }
@@ -68,8 +62,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
      * Erweiterung der URL für den Ping.<br>
      * Beispiel: /service/ping
      */
-    public String getPingAppendString()
-    {
+    public String getPingAppendString() {
         return this.pingAppendString;
     }
 
@@ -77,32 +70,27 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
      * @see de.freese.spring.ribbon.myloadbalancer.ping.LoadBalancerPing#isAlive(java.lang.String)
      */
     @Override
-    public boolean isAlive(final String server)
-    {
+    public boolean isAlive(final String server) {
         boolean isAlive = false;
 
         String urlStr = "";
 
-        if (this.isSecure)
-        {
+        if (this.isSecure) {
             urlStr = "https://";
         }
-        else
-        {
+        else {
             urlStr = "http://";
         }
 
         urlStr += server;
         urlStr += getPingAppendString();
 
-        try
-        {
+        try {
             ClientHttpRequest request = getHttpRequestFactory().createRequest(new URL(urlStr).toURI(), HttpMethod.GET);
 
             String content = null;
 
-            try (ClientHttpResponse response = request.execute())
-            {
+            try (ClientHttpResponse response = request.execute()) {
                 isAlive = response.getStatusCode().value() == 200; // 200; HttpStatus.OK.value()
 
                 content = this.messageConverter.read(String.class, response);
@@ -113,22 +101,18 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
             // String content = getContent(connection);
             // isAlive = connection.getResponseCode() == 200; // 200; HttpStatus.OK.value()
             // connection.disconnect();
-            if (getExpectedContent() != null)
-            {
-                if (content == null)
-                {
+            if (getExpectedContent() != null) {
+                if (content == null) {
                     isAlive = false;
                 }
-                else
-                {
+                else {
                     isAlive = checkAliveByContent(getExpectedContent(), content);
                 }
             }
 
             return isAlive;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.warn("{}: {}", urlStr, ex.getMessage());
         }
 
@@ -138,8 +122,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
     /**
      * true = https; false = http
      */
-    public boolean isSecure()
-    {
+    public boolean isSecure() {
         return this.isSecure;
     }
 
@@ -148,13 +131,11 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
      *
      * @param expectedContent String; optional
      */
-    public void setExpectedContent(final String expectedContent)
-    {
+    public void setExpectedContent(final String expectedContent) {
         this.expectedContent = expectedContent;
     }
 
-    public void setHttpRequestFactory(final ClientHttpRequestFactory httpRequestFactory)
-    {
+    public void setHttpRequestFactory(final ClientHttpRequestFactory httpRequestFactory) {
         this.httpRequestFactory = Objects.requireNonNull(httpRequestFactory, "httpRequestFactory required");
     }
 
@@ -162,16 +143,14 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
      * Erweiterung der URL für den Ping.<br>
      * Beispiel: /service/ping
      */
-    public void setPingAppendString(final String pingAppendString)
-    {
+    public void setPingAppendString(final String pingAppendString) {
         this.pingAppendString = pingAppendString;
     }
 
     /**
      * true = https; false = http
      */
-    public void setSecure(final boolean isSecure)
-    {
+    public void setSecure(final boolean isSecure) {
         this.isSecure = isSecure;
     }
 
@@ -180,20 +159,16 @@ public class LoadBalancerPingUrl implements LoadBalancerPing
      *
      * @return boolean; true, wenn der Content den erwarteten Wert hat
      */
-    protected boolean checkAliveByContent(final String expectedContent, final String returnedContent)
-    {
+    protected boolean checkAliveByContent(final String expectedContent, final String returnedContent) {
         return returnedContent.equals(expectedContent);
     }
 
-    protected String getContent(final InputStream inputStream) throws IOException
-    {
-        if (inputStream == null)
-        {
+    protected String getContent(final InputStream inputStream) throws IOException {
+        if (inputStream == null) {
             return null;
         }
 
-        try (ReadableByteChannel channel = Channels.newChannel(inputStream))
-        {
+        try (ReadableByteChannel channel = Channels.newChannel(inputStream)) {
             int capacity = inputStream.available();
 
             ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);

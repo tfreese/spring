@@ -5,10 +5,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import de.freese.spring.integration.cafe.Delivery;
-import de.freese.spring.integration.cafe.Drink;
-import de.freese.spring.integration.cafe.Order;
-import de.freese.spring.integration.cafe.OrderItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +15,11 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.scheduling.PollerMetadata;
 
+import de.freese.spring.integration.cafe.Delivery;
+import de.freese.spring.integration.cafe.Drink;
+import de.freese.spring.integration.cafe.Order;
+import de.freese.spring.integration.cafe.OrderItem;
+
 /**
  * https://github.com/spring-projects/spring-integration-samples/blob/master/dsl/cafe-dsl/src/main/java/org/springframework/integration/samples/dsl/cafe/lambda/Application.java
  *
@@ -26,16 +27,14 @@ import org.springframework.integration.scheduling.PollerMetadata;
  */
 @SpringBootApplication
 // @EnableIntegration
-public class Application
-{
+public class Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     /**
      * @author Thomas Freese
      */
     @MessagingGateway
-    public interface Cafe extends de.freese.spring.integration.cafe.Cafe
-    {
+    public interface Cafe extends de.freese.spring.integration.cafe.Cafe {
         /**
          * @see de.freese.spring.integration.cafe.Cafe#placeOrder(de.freese.spring.integration.cafe.Order)
          */
@@ -44,14 +43,11 @@ public class Application
         void placeOrder(Order order);
     }
 
-    private static void sleep(final long millis)
-    {
-        try
-        {
+    private static void sleep(final long millis) {
+        try {
             TimeUnit.MILLISECONDS.sleep(millis);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Empty
         }
     }
@@ -61,8 +57,7 @@ public class Application
     private final AtomicInteger hotDrinkCounter = new AtomicInteger();
 
     @Bean
-    public IntegrationFlow orders()
-    {
+    public IntegrationFlow orders() {
         //@formatter:off
         return f -> f
                 .split(Order.class,
@@ -104,8 +99,7 @@ public class Application
     }
 
     @Bean(name = PollerMetadata.DEFAULT_POLLER)
-    public PollerMetadata poller()
-    {
+    public PollerMetadata poller() {
         return Pollers.fixedDelay(500).maxMessagesPerPoll(1).get();
     }
 }

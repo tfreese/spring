@@ -11,10 +11,8 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 @SpringBootApplication
 @EnableEurekaServer
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class EurekaServerApplication
-{
-    public static void main(final String[] args)
-    {
+public class EurekaServerApplication {
+    public static void main(final String[] args) {
         SpringApplication.run(EurekaServerApplication.class, args);
     }
 }

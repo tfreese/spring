@@ -15,8 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 //@RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-class SpringJmsApplicationTest
-{
+class SpringJmsApplicationTest {
     //    private static EmbeddedActiveMQ embeddedActiveMQ;
 
     //    static
@@ -45,10 +44,8 @@ class SpringJmsApplicationTest
     private JmsSender sender;
 
     @Test
-    void testReceive() throws Exception
-    {
-        for (int i = 0; i < 5; i++)
-        {
+    void testReceive() throws Exception {
+        for (int i = 0; i < 5; i++) {
             TimeUnit.MILLISECONDS.sleep(500);
 
             sender.send(new Email("info@example.com", "Hello-" + (i + 1)));

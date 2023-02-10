@@ -14,50 +14,38 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 /**
  * @author Thomas Freese
  */
-public final class StreamResponse
-{
-    public static StreamingResponseBody ok(final byte[] data)
-    {
+public final class StreamResponse {
+    public static StreamingResponseBody ok(final byte[] data) {
         return outputStream -> outputStream.write(data);
     }
 
-    public static StreamingResponseBody ok(final Consumer<Writer> consumer)
-    {
-        return outputStream ->
-        {
-            try (Writer writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8))
-            {
+    public static StreamingResponseBody ok(final Consumer<Writer> consumer) {
+        return outputStream -> {
+            try (Writer writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
                 consumer.accept(writer);
             }
         };
     }
 
-    public static StreamingResponseBody ok(final InputStream inputStream)
-    {
-        return outputStream ->
-        {
+    public static StreamingResponseBody ok(final InputStream inputStream) {
+        return outputStream -> {
             byte[] buffer = new byte[4096];
 
-            for (int n = 0; n >= 0; n = inputStream.read(buffer))
-            {
+            for (int n = 0; n >= 0; n = inputStream.read(buffer)) {
                 outputStream.write(buffer, 0, n);
             }
         };
     }
 
-    public static StreamingResponseBody ok(final Object object, final Kryo kryo)
-    {
-        return outputStream ->
-        {
-            try (Output output = new Output(outputStream))
-            {
+    public static StreamingResponseBody ok(final Object object, final Kryo kryo) {
+        return outputStream -> {
+            try (Output output = new Output(outputStream)) {
                 kryo.writeClassAndObject(output, object);
             }
         };
     }
 
-    private StreamResponse()
-    {
+    private StreamResponse() {
         super();
     }
 }

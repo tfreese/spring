@@ -5,8 +5,7 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class Employee
-{
+public class Employee {
     private String department;
 
     private String firstName;
@@ -15,13 +14,11 @@ public class Employee
 
     private String lastName;
 
-    public Employee()
-    {
+    public Employee() {
         super();
     }
 
-    public Employee(final String lastName, final String firstName, final String department)
-    {
+    public Employee(final String lastName, final String firstName, final String department) {
         super();
 
         this.firstName = firstName;
@@ -29,8 +26,7 @@ public class Employee
         this.department = department;
     }
 
-    public Employee(final String lastName, final String firstName, final String department, final long id)
-    {
+    public Employee(final String lastName, final String firstName, final String department, final long id) {
         this(lastName, firstName, department);
 
         this.id = id;
@@ -40,41 +36,33 @@ public class Employee
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(final Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
 
-        if ((obj == null) || (getClass() != obj.getClass()))
-        {
+        if ((obj == null) || (getClass() != obj.getClass())) {
             return false;
         }
 
         Employee other = (Employee) obj;
 
-        return (this.id == other.id) && Objects.equals(this.firstName, other.firstName) && Objects.equals(this.lastName, other.lastName)
-                && Objects.equals(this.department, other.department);
+        return (this.id == other.id) && Objects.equals(this.firstName, other.firstName) && Objects.equals(this.lastName, other.lastName) && Objects.equals(this.department, other.department);
     }
 
-    public String getDepartment()
-    {
+    public String getDepartment() {
         return this.department;
     }
 
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return this.firstName;
     }
 
-    public long getId()
-    {
+    public long getId() {
         return this.id;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         return this.lastName;
     }
 
@@ -82,28 +70,23 @@ public class Employee
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(this.id, this.firstName, this.lastName, this.department);
     }
 
-    public void setDepartment(final String department)
-    {
+    public void setDepartment(final String department) {
         this.department = department;
     }
 
-    public void setFirstName(final String firstName)
-    {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
-    public void setId(final long id)
-    {
+    public void setId(final long id) {
         this.id = id;
     }
 
-    public void setLastName(final String lastName)
-    {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -111,8 +94,7 @@ public class Employee
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Employee [");
         builder.append("id=").append(this.id);

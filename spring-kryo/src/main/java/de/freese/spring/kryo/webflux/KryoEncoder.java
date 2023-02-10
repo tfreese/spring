@@ -20,10 +20,8 @@ import reactor.core.publisher.Flux;
 /**
  * @author Thomas Freese
  */
-public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessageEncoder<Object>
-{
-    public KryoEncoder(final Pool<Kryo> kryoPool)
-    {
+public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessageEncoder<Object> {
+    public KryoEncoder(final Pool<Kryo> kryoPool) {
         super(kryoPool);
     }
 
@@ -31,8 +29,7 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
      * @see org.springframework.core.codec.Encoder#canEncode(org.springframework.core.ResolvableType, org.springframework.util.MimeType)
      */
     @Override
-    public boolean canEncode(final ResolvableType elementType, final MimeType mimeType)
-    {
+    public boolean canEncode(final ResolvableType elementType, final MimeType mimeType) {
         return Object.class.isAssignableFrom(elementType.toClass()) && supportsMimeType(mimeType);
         // return elementType.isInstance(Object.class) && supportsMimeType(mimeType);
     }
@@ -42,9 +39,7 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
      * org.springframework.core.ResolvableType, org.springframework.util.MimeType, java.util.Map)
      */
     @Override
-    public Flux<DataBuffer> encode(final Publisher<? extends Object> inputStream, final DataBufferFactory bufferFactory, final ResolvableType elementType,
-                                   final MimeType mimeType, final Map<String, Object> hints)
-    {
+    public Flux<DataBuffer> encode(final Publisher<? extends Object> inputStream, final DataBufferFactory bufferFactory, final ResolvableType elementType, final MimeType mimeType, final Map<String, Object> hints) {
         return Flux.from(inputStream).map(message -> encodeValue(message, bufferFactory, elementType, mimeType, hints));
     }
 
@@ -53,25 +48,20 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
      * org.springframework.core.ResolvableType, org.springframework.util.MimeType, java.util.Map)
      */
     @Override
-    public DataBuffer encodeValue(final Object value, final DataBufferFactory bufferFactory, final ResolvableType valueType, final MimeType mimeType,
-                                  final Map<String, Object> hints)
-    {
+    public DataBuffer encodeValue(final Object value, final DataBufferFactory bufferFactory, final ResolvableType valueType, final MimeType mimeType, final Map<String, Object> hints) {
         DataBuffer buffer = bufferFactory.allocateBuffer(256);
         Kryo kryo = getKryoPool().obtain();
         boolean release = true;
 
         // try (Output output = new ByteBufferOutput(buffer.asOutputStream(), 1024 * 1024))
-        try (Output output = new Output(buffer.asOutputStream(), 1024 * 1024))
-        {
+        try (Output output = new Output(buffer.asOutputStream(), 1024 * 1024)) {
             kryo.writeClassAndObject(output, value);
             output.flush();
         }
-        finally
-        {
+        finally {
             getKryoPool().free(kryo);
 
-            if (release)
-            {
+            if (release) {
                 DataBufferUtils.release(buffer);
             }
         }
@@ -83,8 +73,7 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
      * @see org.springframework.core.codec.Encoder#getEncodableMimeTypes()
      */
     @Override
-    public List<MimeType> getEncodableMimeTypes()
-    {
+    public List<MimeType> getEncodableMimeTypes() {
         return MIME_TYPES;
     }
 
@@ -92,8 +81,7 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
      * @see org.springframework.http.codec.HttpMessageEncoder#getStreamingMediaTypes()
      */
     @Override
-    public List<MediaType> getStreamingMediaTypes()
-    {
+    public List<MediaType> getStreamingMediaTypes() {
         return MEDIA_TYPES;
     }
 }

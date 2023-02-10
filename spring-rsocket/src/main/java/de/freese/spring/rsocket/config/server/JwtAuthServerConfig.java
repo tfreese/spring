@@ -47,11 +47,9 @@ import reactor.core.publisher.Mono;
 @EnableRSocketSecurity
 @EnableReactiveMethodSecurity
 @Profile("jwt")
-public class JwtAuthServerConfig extends AbstractServerConfig
-{
+public class JwtAuthServerConfig extends AbstractServerConfig {
     @Bean
-    PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security, final ReactiveAuthenticationManager reactiveAuthenticationManager)
-    {
+    PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security, final ReactiveAuthenticationManager reactiveAuthenticationManager) {
         //@formatter:off
         security.authorizePayload(authorize ->
             authorize
@@ -71,9 +69,7 @@ public class JwtAuthServerConfig extends AbstractServerConfig
     }
 
     @Bean
-    Converter<Jwt, AbstractAuthenticationToken> authenticationConverter(final ReactiveUserDetailsService reactiveUserDetailsService,
-                                                                        final PasswordEncoder passwordEncoder)
-    {
+    Converter<Jwt, AbstractAuthenticationToken> authenticationConverter(final ReactiveUserDetailsService reactiveUserDetailsService, final PasswordEncoder passwordEncoder) {
         // JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         // jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
         //
@@ -83,47 +79,39 @@ public class JwtAuthServerConfig extends AbstractServerConfig
         //
         // return authenticationConverter;
 
-        return jwt ->
-        {
+        return jwt -> {
             String user = jwt.getSubject();
             String password = jwt.getClaimAsString("password");
             Instant expiresAt = jwt.getExpiresAt();
 
             UserDetails userDetails = reactiveUserDetailsService.findByUsername(user).block();
 
-            if (userDetails == null)
-            {
+            if (userDetails == null) {
                 ReactiveSecurityContextHolder.clearContext();
                 throw new BadCredentialsException("Bad credentials");
             }
 
-            if (!userDetails.isAccountNonLocked())
-            {
+            if (!userDetails.isAccountNonLocked()) {
                 throw new LockedException("User account is locked");
             }
 
-            if (!userDetails.isEnabled())
-            {
+            if (!userDetails.isEnabled()) {
                 throw new DisabledException("User is disabled");
             }
 
-            if (!userDetails.isAccountNonExpired())
-            {
+            if (!userDetails.isAccountNonExpired()) {
                 throw new AccountExpiredException("User account has expired");
             }
 
-            if (!userDetails.isCredentialsNonExpired())
-            {
+            if (!userDetails.isCredentialsNonExpired()) {
                 throw new CredentialsExpiredException("User credentials have expired");
             }
 
-            if ((userDetails.getPassword() == null) || !passwordEncoder.matches(password, userDetails.getPassword()))
-            {
+            if ((userDetails.getPassword() == null) || !passwordEncoder.matches(password, userDetails.getPassword())) {
                 throw new BadCredentialsException("Bad credentials");
             }
 
-            if (Instant.now().isAfter(expiresAt))
-            {
+            if (Instant.now().isAfter(expiresAt)) {
                 throw new NonceExpiredException("Token has expired");
             }
 
@@ -136,9 +124,7 @@ public class JwtAuthServerConfig extends AbstractServerConfig
     }
 
     @Bean
-    JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager(final ReactiveJwtDecoder reactiveJwtDecoder,
-                                                                      final Converter<Jwt, AbstractAuthenticationToken> authenticationConverter)
-    {
+    JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager(final ReactiveJwtDecoder reactiveJwtDecoder, final Converter<Jwt, AbstractAuthenticationToken> authenticationConverter) {
         JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager = new JwtReactiveAuthenticationManager(reactiveJwtDecoder);
         jwtReactiveAuthenticationManager.setJwtAuthenticationConverter(new ReactiveJwtAuthenticationConverterAdapter(authenticationConverter));
 
@@ -146,8 +132,7 @@ public class JwtAuthServerConfig extends AbstractServerConfig
     }
 
     @Bean
-    ReactiveJwtDecoder reactiveJwtDecoder() throws Exception
-    {
+    ReactiveJwtDecoder reactiveJwtDecoder() throws Exception {
         // Mac mac = Mac.getInstance("HmacSHA256");
         // SecretKeySpec secretKey = new SecretKeySpec("my-secret".getBytes(), mac.getAlgorithm());
         //
@@ -157,13 +142,10 @@ public class JwtAuthServerConfig extends AbstractServerConfig
 //                .build()
 //                ;
 //        // @formatter:on
-        Converter<Map<String, Object>, Map<String, Object>> claimSetConverter = MappedJwtClaimSetConverter
-                .withDefaults(Collections.emptyMap());
+        Converter<Map<String, Object>, Map<String, Object>> claimSetConverter = MappedJwtClaimSetConverter.withDefaults(Collections.emptyMap());
 
-        return token ->
-        {
-            try
-            {
+        return token -> {
+            try {
                 EncryptedJWT jwt = EncryptedJWT.parse(token);
                 JWEDecrypter decrypter = new PasswordBasedDecrypter("my-password");
                 jwt.decrypt(decrypter);
@@ -189,8 +171,7 @@ public class JwtAuthServerConfig extends AbstractServerConfig
 
                 return Mono.just(jwtSpring);
             }
-            catch (ParseException | JOSEException ex)
-            {
+            catch (ParseException | JOSEException ex) {
                 throw new RuntimeException(ex);
             }
         };

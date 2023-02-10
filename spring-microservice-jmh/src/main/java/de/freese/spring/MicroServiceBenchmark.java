@@ -32,21 +32,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 @OutputTimeUnit(TimeUnit.MILLISECONDS) // Nur für Mode.AverageTime
 @Warmup(iterations = 3, time = 1, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 3, time = 2, timeUnit = TimeUnit.SECONDS)
-@Fork(value = 1, jvmArgsAppend =
-        {
-                // Fork multipliziert die Anzahl der Iterationen
-                "-disablesystemassertions"
-        })
+@Fork(value = 1, jvmArgsAppend = {
+        // Fork multipliziert die Anzahl der Iterationen
+        "-disablesystemassertions"})
 @Threads(1)
-public class MicroServiceBenchmark
-{
+public class MicroServiceBenchmark {
     /**
      * @author Thomas Freese
      */
     // @State(Scope.Benchmark) // Einen neuen SpringContext für jeden Benchmark.
     @State(Scope.Group) // Nur einen SpringContext für alle Benchmarks -> @Group("spring").
-    public static class BenchmarkState
-    {
+    public static class BenchmarkState {
         private final ConfigurableApplicationContext context;
         private final RestTemplate restTemplate;
         private final WebClient webClient;
@@ -59,8 +55,7 @@ public class MicroServiceBenchmark
         @Resource
         private WebClient.Builder webClientBuilder;
 
-        public BenchmarkState()
-        {
+        public BenchmarkState() {
             super();
 
             this.context = SpringApplication.run(MicroServiceApplication.class);
@@ -72,13 +67,11 @@ public class MicroServiceBenchmark
         }
 
         @TearDown
-        public void close()
-        {
+        public void close() {
             this.context.close();
         }
 
-        private void autowireBean(final Object bean)
-        {
+        private void autowireBean(final Object bean) {
             AutowireCapableBeanFactory factory = this.context.getAutowireCapableBeanFactory();
             factory.autowireBean(bean);
         }
@@ -86,8 +79,7 @@ public class MicroServiceBenchmark
 
     @Benchmark
     @Group("spring") // Nur einen SpringContext für alle Benchmarks.
-    public void benchmarkRestTemplate(final Blackhole blackhole, final BenchmarkState state)
-    {
+    public void benchmarkRestTemplate(final Blackhole blackhole, final BenchmarkState state) {
         RestTemplate restTemplate = state.restTemplate;
 
         String response = restTemplate.getForObject("/", String.class);
@@ -97,8 +89,7 @@ public class MicroServiceBenchmark
 
     @Benchmark
     @Group("spring") // Nur einen SpringContext für alle Benchmarks.
-    public void benchmarkWebClient(final Blackhole blackhole, final BenchmarkState state)
-    {
+    public void benchmarkWebClient(final Blackhole blackhole, final BenchmarkState state) {
         WebClient webClient = state.webClient;
 
         // Erzeugt Fehler, da Connection im Benchmark bereits geschlossen ist.

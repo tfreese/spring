@@ -12,20 +12,19 @@ import java.util.stream.Collectors;
 
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
-import de.freese.spring.jwt.token.JwtToken;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import de.freese.spring.jwt.token.JwtToken;
+
 /**
  * @author Thomas Freese
  */
-public class JwtTokenNimbus implements JwtToken
-{
+public class JwtTokenNimbus implements JwtToken {
     private final JWT jwt;
 
-    public JwtTokenNimbus(final JWT jwt)
-    {
+    public JwtTokenNimbus(final JWT jwt) {
         super();
 
         this.jwt = Objects.requireNonNull(jwt, "jwt required");
@@ -35,8 +34,7 @@ public class JwtTokenNimbus implements JwtToken
      * @see de.freese.spring.jwt.token.JwtToken#getExpirationDate()
      */
     @Override
-    public Date getExpirationDate()
-    {
+    public Date getExpirationDate() {
         return getClaimsValue(JWTClaimsSet::getExpirationTime);
     }
 
@@ -44,8 +42,7 @@ public class JwtTokenNimbus implements JwtToken
      * @see de.freese.spring.jwt.token.JwtToken#getPassword()
      */
     @Override
-    public String getPassword()
-    {
+    public String getPassword() {
         return getClaimsValue(jwtClaims -> (String) jwtClaims.getClaim("password"));
     }
 
@@ -53,12 +50,10 @@ public class JwtTokenNimbus implements JwtToken
      * @see de.freese.spring.jwt.token.JwtToken#getRoles()
      */
     @Override
-    public Set<GrantedAuthority> getRoles()
-    {
+    public Set<GrantedAuthority> getRoles() {
         String rolesString = getClaimsValue(jwtClaims -> (String) jwtClaims.getClaim("roles"));
 
-        if ((rolesString == null) || rolesString.isBlank())
-        {
+        if ((rolesString == null) || rolesString.isBlank()) {
             return Collections.emptySet();
         }
 
@@ -71,19 +66,15 @@ public class JwtTokenNimbus implements JwtToken
      * @see de.freese.spring.jwt.token.JwtToken#getUsername()
      */
     @Override
-    public String getUsername()
-    {
+    public String getUsername() {
         return getClaimsValue(JWTClaimsSet::getSubject);
     }
 
-    private <T> T getClaimsValue(final Function<JWTClaimsSet, T> function)
-    {
-        try
-        {
+    private <T> T getClaimsValue(final Function<JWTClaimsSet, T> function) {
+        try {
             return function.apply(this.jwt.getJWTClaimsSet());
         }
-        catch (ParseException ex)
-        {
+        catch (ParseException ex) {
             throw new AuthenticationServiceException(ex.getMessage());
         }
     }

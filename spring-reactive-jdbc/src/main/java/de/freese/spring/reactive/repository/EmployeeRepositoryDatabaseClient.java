@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
-import de.freese.spring.reactive.model.Department;
-import de.freese.spring.reactive.model.Employee;
 import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.Row;
 import io.r2dbc.spi.RowMetadata;
@@ -15,15 +13,16 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import de.freese.spring.reactive.model.Department;
+import de.freese.spring.reactive.model.Employee;
+
 /**
  * @author Thomas Freese
  */
 @Repository
 @Profile("r2dbc")
-public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
-{
-    private static final BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) ->
-    {
+public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
+    private static final BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) -> {
         Department department = new Department();
         department.setId(row.get("department_id", Long.class));
         department.setName(row.get("department_name", String.class));
@@ -31,8 +30,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
         return department;
     };
 
-    private static final BiFunction<Row, RowMetadata, Employee> EMPLOYEE_ROWMAPPER = (row, rowMetadata) ->
-    {
+    private static final BiFunction<Row, RowMetadata, Employee> EMPLOYEE_ROWMAPPER = (row, rowMetadata) -> {
         Employee employee = new Employee();
         employee.setId(row.get("employee_id", Long.class));
         employee.setLastName(row.get("employee_lastname", String.class));
@@ -44,8 +42,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
 
     private final DatabaseClient databaseClient;
 
-    public EmployeeRepositoryDatabaseClient(final ConnectionFactory connectionFactory)
-    {
+    public EmployeeRepositoryDatabaseClient(final ConnectionFactory connectionFactory) {
         super();
 
         // @formatter:off
@@ -61,8 +58,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#createNewEmployee(de.freese.spring.reactive.model.Employee)
      */
     @Override
-    public Mono<Employee> createNewEmployee(final Employee newEmployee)
-    {
+    public Mono<Employee> createNewEmployee(final Employee newEmployee) {
         // Das block() ist hier ein Problem, wenn das DAO in einem Reactive-Server läuft.
         // Meldung: java.lang.IllegalStateException: block()/blockFirst()/blockLast() are blocking, which is not supported
 
@@ -121,8 +117,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#deleteEmployee(long)
      */
     @Override
-    public Mono<Long> deleteEmployee(final long id)
-    {
+    public Mono<Long> deleteEmployee(final long id) {
         return this.databaseClient.sql("DELETE FROM employee WHERE employee_id = :id").bind("id", id).fetch().rowsUpdated();
     }
 
@@ -130,8 +125,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#getAllDepartments()
      */
     @Override
-    public Flux<Department> getAllDepartments()
-    {
+    public Flux<Department> getAllDepartments() {
         // @formatter:off
         return this.databaseClient.sql("select * from department")
                 //.filter((statement, executeFunction) -> statement.fetchSize(10).execute())
@@ -145,8 +139,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#getAllEmployees()
      */
     @Override
-    public Flux<Employee> getAllEmployees()
-    {
+    public Flux<Employee> getAllEmployees() {
         String sql = """
                 select e.*, d.department_name
                 from employee e
@@ -166,8 +159,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#getEmployee(java.lang.String, java.lang.String)
      */
     @Override
-    public Mono<Employee> getEmployee(final String lastName, final String firstName)
-    {
+    public Mono<Employee> getEmployee(final String lastName, final String firstName) {
         String sql = """
                 select e.*, d.department_name
                 from employee e
@@ -187,15 +179,12 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository
         // @formatter:on
     }
 
-    public Flux<Long> saveAll(final List<Department> data)
-    {
-        return this.databaseClient.inConnectionMany(connection ->
-        {
+    public Flux<Long> saveAll(final List<Department> data) {
+        return this.databaseClient.inConnectionMany(connection -> {
             //            connection.createBatch()
             var statement = connection.createStatement("INSERT INTO department (department_name) VALUES (:name)").returnGeneratedValues("department_id");
 
-            for (var d : data)
-            {
+            for (var d : data) {
                 statement.bind(0, d.getName()).add();
             }
 

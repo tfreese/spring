@@ -11,8 +11,6 @@ import java.util.List;
 import jakarta.annotation.Resource;
 
 import com.jayway.jsonpath.JsonPath;
-import de.freese.spring.thymeleaf.ThymeleafApplication;
-import de.freese.spring.thymeleaf.model.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -24,12 +22,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import de.freese.spring.thymeleaf.ThymeleafApplication;
+import de.freese.spring.thymeleaf.model.Person;
+
 /**
  * @author Thomas Freese
  */
 @ActiveProfiles("test")
-class TestRestWithWebClient extends AbstractRestTestCase
-{
+class TestRestWithWebClient extends AbstractRestTestCase {
     @Resource
     private WebClient.Builder webClientBuilder;
     // /**
@@ -40,8 +40,7 @@ class TestRestWithWebClient extends AbstractRestTestCase
     // private WebTestClient webTestClient = null;
 
     @BeforeEach
-    void beforeTest() throws Exception
-    {
+    void beforeTest() throws Exception {
         String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
 
         // @formatter:off
@@ -63,8 +62,7 @@ class TestRestWithWebClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testHealthEndpoint() throws Exception
-    {
+    void testHealthEndpoint() throws Exception {
         // @formatter:off
         WebClient webClient = this.webClientBuilder.build();
 
@@ -108,8 +106,7 @@ class TestRestWithWebClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testPost() throws Exception
-    {
+    void testPost() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
         Person newPerson = new Person("Thomas", "Freese");
 
@@ -157,8 +154,7 @@ class TestRestWithWebClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testPostWithWrongRole() throws Exception
-    {
+    void testPostWithWrongRole() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
         Person newPerson = new Person("Thomas", "Freese");
 
@@ -190,8 +186,7 @@ class TestRestWithWebClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithLoginJSON() throws Exception
-    {
+    void testUserWithLoginJSON() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -217,8 +212,7 @@ class TestRestWithWebClient extends AbstractRestTestCase
      */
     @Override
     // @Test
-    void testUserWithLoginXML() throws Exception
-    {
+    void testUserWithLoginXML() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -246,8 +240,7 @@ class TestRestWithWebClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithPreAuthJSON() throws Exception
-    {
+    void testUserWithPreAuthJSON() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -273,8 +266,7 @@ class TestRestWithWebClient extends AbstractRestTestCase
      */
     @Override
     // @Test
-    void testUserWithPreAuthXML() throws Exception
-    {
+    void testUserWithPreAuthXML() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -300,8 +292,7 @@ class TestRestWithWebClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithWrongPass() throws Exception
-    {
+    void testUserWithWrongPass() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -335,8 +326,7 @@ class TestRestWithWebClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithWrongRole() throws Exception
-    {
+    void testUserWithWrongRole() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -360,8 +350,7 @@ class TestRestWithWebClient extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithoutLogin() throws Exception
-    {
+    void testUserWithoutLogin() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off

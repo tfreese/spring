@@ -23,16 +23,14 @@ public class UiController // implements javafx.fxml.Initializable
     @FXML
     private Label label;
 
-    public UiController(final HostServices hostServices)
-    {
+    public UiController(final HostServices hostServices) {
         super();
 
         this.hostServices = Objects.requireNonNull(hostServices, "hostServices required");
     }
 
     @FXML
-    public void initialize()
-    {
+    public void initialize() {
         this.button.setOnAction(event -> this.label.setText(this.hostServices.getDocumentBase()));
     }
 }

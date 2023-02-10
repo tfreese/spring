@@ -18,8 +18,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.Secret
  * @author Thomas Freese
  */
 // @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class TestPasswordEncoder
-{
+class TestPasswordEncoder {
     //    @BeforeAll
     //    static void beforeClass()
     //    {
@@ -27,8 +26,7 @@ class TestPasswordEncoder
     //        pbkdf2_SHA512.setEncodeHashAsBase64(false);
     //    }
 
-    static Stream<Arguments> createPasswordEncoder()
-    {
+    static Stream<Arguments> createPasswordEncoder() {
         // @formatter:off
         return Stream.of(
                 Arguments.of("BCrypt", new BCryptPasswordEncoder(10, new SecureRandom())),
@@ -41,8 +39,7 @@ class TestPasswordEncoder
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createPasswordEncoder")
     @DisplayName("Test PasswordEncoder")
-    void testPasswordEncoder(final String name, final PasswordEncoder passwordEncoder)
-    {
+    void testPasswordEncoder(final String name, final PasswordEncoder passwordEncoder) {
         String password = "gehaim";
 
         //        if (passwordEncoder instanceof Pbkdf2PasswordEncoder pe)

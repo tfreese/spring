@@ -4,53 +4,44 @@ package de.freese.spring.rsocket.model;
 /**
  * @author Thomas Freese
  */
-public class MessageResponse
-{
+public class MessageResponse {
     private long index;
 
     private String message;
 
-    public MessageResponse()
-    {
+    public MessageResponse() {
         super();
     }
 
-    public MessageResponse(final String message)
-    {
+    public MessageResponse(final String message) {
         this(message, 0L);
     }
 
-    public MessageResponse(final String message, final long index)
-    {
+    public MessageResponse(final String message, final long index) {
         super();
 
         this.message = String.format("Hello %s", message);
         this.index = index;
     }
 
-    public long getIndex()
-    {
+    public long getIndex() {
         return this.index;
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return this.message;
     }
 
-    public void setIndex(final long index)
-    {
+    public void setIndex(final long index) {
         this.index = index;
     }
 
-    public void setMessage(final String message)
-    {
+    public void setMessage(final String message) {
         this.message = message;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append(getClass().getSimpleName());
         builder.append("[");

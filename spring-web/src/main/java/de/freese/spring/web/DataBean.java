@@ -18,8 +18,7 @@ import org.springframework.stereotype.Component;
  */
 @Component  // siehe faces-config.xml: el-resolver
 @ViewScoped
-public class DataBean implements Serializable
-{
+public class DataBean implements Serializable {
     @Serial
     private static final long serialVersionUID = 3966368804680062710L;
 
@@ -28,24 +27,20 @@ public class DataBean implements Serializable
 
     private String localDateTimeFormatted;
 
-    public LocalDateTime getLocalDateTime()
-    {
+    public LocalDateTime getLocalDateTime() {
         return dataService.getLocalDateTime();
     }
 
-    public String getLocalDateTimeFormatted()
-    {
+    public String getLocalDateTimeFormatted() {
         return this.localDateTimeFormatted;
     }
 
-    public List<Point.Double> getPoints()
-    {
+    public List<Point.Double> getPoints() {
         return dataService.getPoints();
     }
 
     @PostConstruct
-    public void init()
-    {
+    public void init() {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss");
         this.localDateTimeFormatted = dateTimeFormatter.format(getLocalDateTime());
     }

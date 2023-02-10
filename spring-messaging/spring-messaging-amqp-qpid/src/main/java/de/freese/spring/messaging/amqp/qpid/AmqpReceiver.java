@@ -12,13 +12,11 @@ import org.springframework.stereotype.Component;
  * @author Thomas Freese
  */
 @Component
-public class AmqpReceiver
-{
+public class AmqpReceiver {
     private static final Logger LOGGER = LoggerFactory.getLogger(AmqpReceiver.class);
 
     @RabbitListener(queues = SpringQpidApplication.QUEUE_NAME)
-    public void receiveMessage(final Email email, @Header(AmqpHeaders.CONSUMER_QUEUE) final String queue)
-    {
+    public void receiveMessage(final Email email, @Header(AmqpHeaders.CONSUMER_QUEUE) final String queue) {
         LOGGER.info("{}: Received from Queue '{}' <{}>", Thread.currentThread().getName(), queue, email);
     }
 

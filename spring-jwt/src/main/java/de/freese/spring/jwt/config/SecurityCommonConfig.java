@@ -8,8 +8,6 @@ import javax.sql.DataSource;
 
 import jakarta.servlet.Filter;
 
-import de.freese.spring.jwt.token.JwtTokenProvider;
-import de.freese.spring.jwt.token.nimbus.JwtTokenProviderNimbus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -34,17 +32,18 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.Assert;
 
+import de.freese.spring.jwt.token.JwtTokenProvider;
+import de.freese.spring.jwt.token.nimbus.JwtTokenProviderNimbus;
+
 /**
  * <a href="https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter">spring-security-without-the-websecurityconfigureradapter</a>
  *
  * @author Thomas Freese
  */
 @Configuration
-public class SecurityCommonConfig
-{
+public class SecurityCommonConfig {
     @Bean
-    AuthenticationEntryPoint authenticationEntryPoint()
-    {
+    AuthenticationEntryPoint authenticationEntryPoint() {
         return new RestAuthenticationEntryPoint();
     }
 
@@ -53,9 +52,7 @@ public class SecurityCommonConfig
      * UserController.login(String, String)<br>
      */
     @Bean
-    AuthenticationProvider authenticationProviderDao(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService,
-                                                     final UserCache userCache)
-    {
+    AuthenticationProvider authenticationProviderDao(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService, final UserCache userCache) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         // authenticationProvider.setMessageSource(applicationContext); // Wird automatisch gemacht.
         authenticationProvider.setPasswordEncoder(passwordEncoder);
@@ -78,9 +75,7 @@ public class SecurityCommonConfig
     }
 
     @Bean
-    SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final Filter jwtRequestFilter, final AuthenticationEntryPoint authenticationEntryPoint)
-            throws Exception
-    {
+    SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final Filter jwtRequestFilter, final AuthenticationEntryPoint authenticationEntryPoint) throws Exception {
         // @formatter:off
         httpSecurity//.authorizeRequests().anyRequest().permitAll()
             //.anonymous().disable() // Jeder User muss angemeldet sein, beisst sich mit antMatchers("/users/login").permitAll()
@@ -105,9 +100,7 @@ public class SecurityCommonConfig
     }
 
     @Bean
-    JwtTokenProvider jwtTokenUtils(@Value("${security.jwt.token.secret-key:secret-key}") final String secretKey,
-                                   @Value("${security.jwt.token.expire-length:3600000}") final long validityInMilliseconds)
-    {
+    JwtTokenProvider jwtTokenUtils(@Value("${security.jwt.token.secret-key:secret-key}") final String secretKey, @Value("${security.jwt.token.expire-length:3600000}") final long validityInMilliseconds) {
         // byte[] salt = KeyGenerators.secureRandom(16).generateKey();
         //
         // PBEKeySpec keySpec = new PBEKeySpec(this.secretKey.toCharArray(), salt, 1024, 256);
@@ -119,8 +112,7 @@ public class SecurityCommonConfig
     }
 
     @Bean
-    PasswordEncoder passwordEncoder()
-    {
+    PasswordEncoder passwordEncoder() {
         Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret", 16, 310000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
@@ -129,17 +121,14 @@ public class SecurityCommonConfig
         encoders.put("bcrypt", new BCryptPasswordEncoder(10));
         // encoders.put("scrypt", new SCryptPasswordEncoder()); // Benötigt BountyCastle
         // encoders.put("argon2", new Argon2PasswordEncoder()); // Benötigt BountyCastle
-        encoders.put("noop", new PasswordEncoder()
-        {
+        encoders.put("noop", new PasswordEncoder() {
             @Override
-            public String encode(final CharSequence rawPassword)
-            {
+            public String encode(final CharSequence rawPassword) {
                 return rawPassword.toString();
             }
 
             @Override
-            public boolean matches(final CharSequence rawPassword, final String encodedPassword)
-            {
+            public boolean matches(final CharSequence rawPassword, final String encodedPassword) {
                 return rawPassword.toString().equals(encodedPassword);
             }
         });
@@ -149,8 +138,7 @@ public class SecurityCommonConfig
 
     @Bean
     @ConditionalOnMissingBean(DataSource.class)
-    UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder)
-    {
+    UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder) {
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
 
         userDetailsManager.createUser(User.withUsername("admin").passwordEncoder(passwordEncoder::encode).password("pass").roles("ADMIN", "USER").build());
@@ -166,8 +154,7 @@ public class SecurityCommonConfig
 
     @Bean
     @ConditionalOnBean(DataSource.class)
-    UserDetailsService userDetailsServiceJdbc(final DataSource dataSource, final UserCache userCache)
-    {
+    UserDetailsService userDetailsServiceJdbc(final DataSource dataSource, final UserCache userCache) {
         JdbcDaoImpl jdbcDao = new JdbcDaoImpl();
         jdbcDao.setDataSource(dataSource);
         jdbcDao.setUsersByUsernameQuery(JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY);
@@ -178,17 +165,14 @@ public class SecurityCommonConfig
 
         // UserDetails kopieren, da bei ProviderManager.setEraseCredentialsAfterAuthentication(true)
         // das Password auf null gesetzt wird, kein zweiter Login mehr möglich, es folgt NullPointer.
-        UserDetailsService cachingUserDetailsService = username ->
-        {
+        UserDetailsService cachingUserDetailsService = username -> {
             UserDetails userDetails = userCache.getUserFromCache(username);
 
-            if (userDetails == null)
-            {
+            if (userDetails == null) {
                 userDetails = jdbcDao.loadUserByUsername(username);
             }
 
-            Assert.notNull(userDetails, () -> "UserDetailsService " + jdbcDao + " returned null for username " + username
-                    + ". This is an interface contract violation");
+            Assert.notNull(userDetails, () -> "UserDetailsService " + jdbcDao + " returned null for username " + username + ". This is an interface contract violation");
 
             userCache.putUserInCache(userDetails);
 

@@ -24,12 +24,10 @@ import org.springframework.web.client.RestTemplate;
 // @EnableEurekaClient
 @EnableDiscoveryClient
 @RibbonClient(name = "date-service", configuration = RibbonClientConfiguration.class)
-public class RibbonClientWithEurekaApplication
-{
+public class RibbonClientWithEurekaApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(RibbonClientWithEurekaApplication.class);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         // Benötigt Dependency: spring-cloud-starter-netflix-eureka-client
 
         // @formatter:off
@@ -40,15 +38,13 @@ public class RibbonClientWithEurekaApplication
         {
             RestTemplate restTemplate = context.getBean("restTemplate", RestTemplate.class);
 
-            while (true)
-            {
+            while (true) {
                 String result = restTemplate.getForObject("http://DATE-SERVICE/service/sysdate", String.class);
 
                 LOGGER.info(result);
                 // System.out.println(result);
 
-                if (result == null)
-                {
+                if (result == null) {
                     break;
                 }
 
@@ -61,8 +57,7 @@ public class RibbonClientWithEurekaApplication
 
     @LoadBalanced
     @Bean
-    public RestTemplate restTemplate()
-    {
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 }

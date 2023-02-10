@@ -20,20 +20,17 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("!test")
 @Order(10)
-public class JndiLookUpRunner implements CommandLineRunner
-{
+public class JndiLookUpRunner implements CommandLineRunner {
     public static final Logger LOGGER = LoggerFactory.getLogger(JndiLookUpRunner.class);
 
     /**
      * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
      */
     @Override
-    public void run(final String... args) throws Exception
-    {
+    public void run(final String... args) throws Exception {
         LOGGER.info("");
 
-        try
-        {
+        try {
             LOGGER.info("JNDI Content");
 
             // TomcatServletWebServerFactory#getTomcatWebServer
@@ -44,33 +41,28 @@ public class JndiLookUpRunner implements CommandLineRunner
 
             Context context = new InitialContext();
 
-            try
-            {
+            try {
                 // Context context = (javax.naming.Context) initialContext.lookup("java:comp/env");
 
                 // NamingEnumeration<NameClassPair> enumeration = context.list("");
                 NamingEnumeration<NameClassPair> enumeration = context.list("java:comp");
 
-                while (enumeration.hasMoreElements())
-                {
+                while (enumeration.hasMoreElements()) {
                     NameClassPair nameClassPair = enumeration.nextElement();
                     LOGGER.info("{}", nameClassPair);
                 }
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 LOGGER.error(ex.getLocalizedMessage());
             }
 
             Object object = null;
 
-            try
-            {
+            try {
                 object = context.lookup("test");
                 LOGGER.info("{}", object);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 LOGGER.error(ex.getLocalizedMessage());
             }
 
@@ -84,8 +76,7 @@ public class JndiLookUpRunner implements CommandLineRunner
             // context.close();
             // initialContext.close();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error(ex.getLocalizedMessage());
         }
     }

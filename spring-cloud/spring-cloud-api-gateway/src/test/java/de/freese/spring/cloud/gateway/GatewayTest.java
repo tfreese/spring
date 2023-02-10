@@ -20,14 +20,12 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Disabled("Funktioniert nur zusammen mit spring-cloud-eureka und spring-cloud-microservice")
-class GatewayTest
-{
+class GatewayTest {
     @Resource
     private WebTestClient webClient;
 
     @Test
-    void testCircuitbreaker()
-    {
+    void testCircuitbreaker() {
         // @formatter:off
         this.webClient
             .get().uri("/delay/1")
@@ -40,14 +38,12 @@ class GatewayTest
     }
 
     @Test
-    void testContextLoads() throws Exception
-    {
+    void testContextLoads() throws Exception {
         assertTrue(true);
     }
 
     @Test
-    void testGet()
-    {
+    void testGet() {
         // @formatter:off
         this.webClient
             .get().uri("/get")
@@ -62,8 +58,7 @@ class GatewayTest
      * Funktioniert nur zusammen mit spring-eureka und spring-microservice.
      */
     @Test
-    void testHello()
-    {
+    void testHello() {
         // @formatter:off
        this.webClient
            .get().uri("/hello")
@@ -78,8 +73,7 @@ class GatewayTest
      * Funktioniert nur zusammen mit spring-eureka und spring-microservice.
      */
     @Test
-    void testHelloLb()
-    {
+    void testHelloLb() {
         // @formatter:off
        this.webClient
            .get().uri("/lb")
@@ -95,8 +89,7 @@ class GatewayTest
      */
     @Test
     @Disabled
-    void testHelloLbManuell()
-    {
+    void testHelloLbManuell() {
         // @formatter:off
        this.webClient
            .get().uri("/lbman")

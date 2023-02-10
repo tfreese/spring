@@ -33,15 +33,13 @@ import org.springframework.web.client.RestTemplate;
 /**
  * @author Thomas Freese
  */
-public final class LoadBalancerApplication
-{
+public final class LoadBalancerApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancerApplication.class);
 
     /**
      * @author Thomas Freese
      */
-    public static class HttpResponseHystrixCommand extends HystrixCommand<ClientHttpResponse>
-    {
+    public static class HttpResponseHystrixCommand extends HystrixCommand<ClientHttpResponse> {
         private final byte[] body;
 
         private final ClientHttpRequestExecution execution;
@@ -50,8 +48,7 @@ public final class LoadBalancerApplication
 
         private final List<URI> uris;
 
-        public HttpResponseHystrixCommand(final List<URI> uris, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution)
-        {
+        public HttpResponseHystrixCommand(final List<URI> uris, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) {
             // CommandGroupKey = ThreadPool-Name
             // super(HystrixCommandGroupKey.Factory.asKey("sysDate" + level));
 
@@ -76,10 +73,8 @@ public final class LoadBalancerApplication
          * @see com.netflix.hystrix.HystrixCommand#getFallback()
          */
         @Override
-        protected ClientHttpResponse getFallback()
-        {
-            if (this.uris.isEmpty())
-            {
+        protected ClientHttpResponse getFallback() {
+            if (this.uris.isEmpty()) {
                 // Keine weiteren URLs mehr vorhanden.
                 return null;
             }
@@ -93,8 +88,7 @@ public final class LoadBalancerApplication
          * @see com.netflix.hystrix.HystrixCommand#run()
          */
         @Override
-        protected ClientHttpResponse run() throws Exception
-        {
+        protected ClientHttpResponse run() throws Exception {
             // HystrixBadRequestException
             final URI uri = this.uris.remove(0);
 
@@ -102,14 +96,12 @@ public final class LoadBalancerApplication
             // System.out.println(repository.getPath());
             // System.out.println(repository.getFragment());
 
-            HttpRequestWrapper requestWrapper = new HttpRequestWrapper(this.request)
-            {
+            HttpRequestWrapper requestWrapper = new HttpRequestWrapper(this.request) {
                 /**
                  * @see org.springframework.http.client.support.HttpRequestWrapper#getURI()
                  */
                 @Override
-                public URI getURI()
-                {
+                public URI getURI() {
                     return uri;
                 }
             };
@@ -123,14 +115,12 @@ public final class LoadBalancerApplication
      *
      * @author Thomas Freese
      */
-    public static class LoadBalancerHystrixInterceptor implements ClientHttpRequestInterceptor
-    {
+    public static class LoadBalancerHystrixInterceptor implements ClientHttpRequestInterceptor {
         private final String[] server;
 
         private int serverIndex;
 
-        public LoadBalancerHystrixInterceptor(final String... server)
-        {
+        public LoadBalancerHystrixInterceptor(final String... server) {
             super();
 
             this.server = Objects.requireNonNull(server, "server required");
@@ -141,15 +131,13 @@ public final class LoadBalancerApplication
          * org.springframework.http.client.ClientHttpRequestExecution)
          */
         @Override
-        public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException
-        {
+        public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
             final URI originalUri = request.getURI();
 
             List<URI> uris = new ArrayList<>();
             int count = this.server.length;
 
-            for (int i = 0; i < count; i++)
-            {
+            for (int i = 0; i < count; i++) {
                 uris.add(convertURI(originalUri, nextServer()));
             }
 
@@ -164,28 +152,23 @@ public final class LoadBalancerApplication
          * Wandelt die Template-URI in die reale URI um.<br>
          * Beispiel: http://date-service/hystrix/test/sysdate -> http://localhost:65501/hystrix/test/sysdate
          */
-        private URI convertURI(final URI originalUri, final String server) throws IOException
-        {
+        private URI convertURI(final URI originalUri, final String server) throws IOException {
             String url = originalUri.toString();
             url = url.replace("date-service", server);
 
-            try
-            {
+            try {
                 return new URI(url);
             }
-            catch (URISyntaxException ex)
-            {
+            catch (URISyntaxException ex) {
                 throw new IOException(ex);
             }
         }
 
-        private String nextServer()
-        {
+        private String nextServer() {
             String host = this.server[this.serverIndex];
             this.serverIndex++;
 
-            if (this.serverIndex == this.server.length)
-            {
+            if (this.serverIndex == this.server.length) {
                 this.serverIndex = 0;
             }
 
@@ -198,13 +181,11 @@ public final class LoadBalancerApplication
      *
      * @author Thomas Freese
      */
-    public static class LoadBalancerInterceptor implements ClientHttpRequestInterceptor
-    {
+    public static class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
         private final String[] server;
         private int index;
 
-        public LoadBalancerInterceptor(final String... server)
-        {
+        public LoadBalancerInterceptor(final String... server) {
             super();
 
             this.server = Objects.requireNonNull(server, "server required");
@@ -215,30 +196,25 @@ public final class LoadBalancerApplication
          * org.springframework.http.client.ClientHttpRequestExecution)
          */
         @Override
-        public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException
-        {
+        public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
             final URI originalUri = request.getURI();
             int trys = this.server.length;
 
             IOException lastException = null;
 
-            for (int i = 0; i < trys; i++)
-            {
+            for (int i = 0; i < trys; i++) {
                 final String srv = nextServer();
                 final URI newUri = convertURI(originalUri, srv);
 
-                try
-                {
+                try {
                     return intercept(newUri, request, body, execution);
                 }
-                catch (IOException ex)
-                {
+                catch (IOException ex) {
                     lastException = ex;
                 }
             }
 
-            if (lastException != null)
-            {
+            if (lastException != null) {
                 throw lastException;
             }
 
@@ -249,32 +225,25 @@ public final class LoadBalancerApplication
          * Wandelt die Template-URI in die reale URI um.<br>
          * Beispiel: http://date-service/hystrix/test/sysdate -> http://localhost:65501/hystrix/test/sysdate
          */
-        private URI convertURI(final URI originalUri, final String server) throws IOException
-        {
+        private URI convertURI(final URI originalUri, final String server) throws IOException {
             String url = originalUri.toString();
             url = url.replace("date-service", server);
 
-            try
-            {
+            try {
                 return new URI(url);
             }
-            catch (URISyntaxException ex)
-            {
+            catch (URISyntaxException ex) {
                 throw new IOException(ex);
             }
         }
 
-        private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution)
-                throws IOException
-        {
-            HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request)
-            {
+        private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
+            HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request) {
                 /**
                  * @see org.springframework.http.client.support.HttpRequestWrapper#getURI()
                  */
                 @Override
-                public URI getURI()
-                {
+                public URI getURI() {
                     return newUri;
                 }
             };
@@ -282,13 +251,11 @@ public final class LoadBalancerApplication
             return execution.execute(requestWrapper, body);
         }
 
-        private String nextServer()
-        {
+        private String nextServer() {
             String host = this.server[this.index];
             this.index++;
 
-            if (this.index == this.server.length)
-            {
+            if (this.index == this.server.length) {
                 this.index = 0;
             }
 
@@ -296,8 +263,7 @@ public final class LoadBalancerApplication
         }
     }
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         // configuration from environment properties
         ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
 
@@ -319,19 +285,16 @@ public final class LoadBalancerApplication
 
         // RestTemplate restTemplate = new RestTemplateBuilder()
         // .additionalInterceptors(new LoadBalancerInterceptor("localhost:65501", "localhost:65502", "localhost:65503")).build();
-        RestTemplate restTemplate = new RestTemplateBuilder()
-                .additionalInterceptors(new LoadBalancerHystrixInterceptor("localhost:8081", "localhost:8082", "localhost:8083")).build();
+        RestTemplate restTemplate = new RestTemplateBuilder().additionalInterceptors(new LoadBalancerHystrixInterceptor("localhost:8081", "localhost:8082", "localhost:8083")).build();
 
         String url = "http://date-service/service/sysdate";
 
-        while (true)
-        {
+        while (true) {
             String result = restTemplate.getForObject(url, String.class);
 
             LOGGER.info(result);
 
-            if (result == null)
-            {
+            if (result == null) {
                 break;
             }
 
@@ -341,8 +304,7 @@ public final class LoadBalancerApplication
         System.exit(0);
     }
 
-    private LoadBalancerApplication()
-    {
+    private LoadBalancerApplication() {
         super();
     }
 }

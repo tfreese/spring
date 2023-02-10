@@ -16,15 +16,11 @@ import org.springframework.context.annotation.Profile;
  */
 @Configuration
 @Profile("r2dbc")
-@EnableAutoConfiguration(exclude =
-        {
-                DataSourceAutoConfiguration.class
-        })
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
 {
     @Bean
-    ConnectionFactory connectionFactory()
-    {
+    ConnectionFactory connectionFactory() {
         String id = UUID.randomUUID().toString();
 
         // :create=true;shutdown=true

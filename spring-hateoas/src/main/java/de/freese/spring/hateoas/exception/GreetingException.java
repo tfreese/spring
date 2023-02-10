@@ -6,13 +6,11 @@ import java.io.Serial;
 /**
  * @author Thomas Freese
  */
-public class GreetingException extends RuntimeException
-{
+public class GreetingException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 4807599092371462820L;
 
-    public GreetingException(final String message)
-    {
+    public GreetingException(final String message) {
         super(message);
     }
 }

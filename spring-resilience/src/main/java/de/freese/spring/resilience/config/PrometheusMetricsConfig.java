@@ -6,8 +6,7 @@ package de.freese.spring.resilience.config;
  * @author Thomas Freese
  */
 //@Configuration
-public class PrometheusMetricsConfig
-{
+public class PrometheusMetricsConfig {
     //    private static class MyPrometheusNamingConvention extends PrometheusNamingConvention
     //    {
     //        private final String appName;

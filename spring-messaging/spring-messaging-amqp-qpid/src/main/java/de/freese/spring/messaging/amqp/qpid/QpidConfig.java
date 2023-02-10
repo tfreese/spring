@@ -17,8 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * @author Thomas Freese
  */
 @Configuration
-public class QpidConfig
-{
+public class QpidConfig {
     private static final String INITIAL_CONFIGURATION = "qpid-config.json";
 
     private static final String QPID_HOME_DIR = System.getProperty("user.dir");
@@ -43,8 +42,7 @@ public class QpidConfig
     // }
 
     @Bean(destroyMethod = "shutdown")
-    public SystemLauncher systemLauncher(@Value("${spring.rabbitmq.port}") int port) throws Exception
-    {
+    public SystemLauncher systemLauncher(@Value("${spring.rabbitmq.port}") int port) throws Exception {
         URL initialConfig = ClassLoader.getSystemClassLoader().getResource(INITIAL_CONFIGURATION);
         System.setProperty("QPID_HOME", QPID_HOME_DIR);
         // System.setProperty("QPID_WORK", QPID_WORK_DIR);

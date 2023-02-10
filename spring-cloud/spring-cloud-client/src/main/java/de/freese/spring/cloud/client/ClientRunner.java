@@ -24,8 +24,7 @@ import reactor.core.publisher.Mono;
 @Component
 //@Order(1)
 @Profile("!test")
-public class ClientRunner implements ApplicationRunner
-{
+public class ClientRunner implements ApplicationRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientRunner.class);
 
     @Resource
@@ -45,31 +44,26 @@ public class ClientRunner implements ApplicationRunner
      * @see ApplicationRunner#run(ApplicationArguments)
      */
     @Override
-    public void run(final ApplicationArguments args) throws Exception
-    {
+    public void run(final ApplicationArguments args) throws Exception {
         // Die Erzeugung im Konstruktor funktioniert nicht, da dort die WebClient.Builder noch nicht fertig konfiguriert sind.
         WebClient webClient = webClientBuilder.build();
         WebClient webClientLoadBalanced = webClientBuilderLoadBalanced.clone().baseUrl("http://CLOUD-HELLO-SERVICE").build();
         WebClient webClientWithLoadBalancedFunction = webClientBuilder.clone().baseUrl("http://CLOUD-HELLO-SERVICE").filter(this.loadBalancedFunction).build();
 
-        for (int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++) {
             runServiceDiscovery(webClient);
         }
 
-        for (int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++) {
             runWebClientWithLoadBalancer(webClientLoadBalanced);
         }
 
-        for (int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++) {
             runWebClientWithLoadBalancedFunction(webClientWithLoadBalancedFunction);
         }
     }
 
-    private String call(WebClient webClient, String uri)
-    {
+    private String call(WebClient webClient, String uri) {
         // @formatter:off
 //        return webClient
 //                .get()
@@ -101,8 +95,7 @@ public class ClientRunner implements ApplicationRunner
         // @formatter:on
     }
 
-    private void runServiceDiscovery(WebClient webClient)
-    {
+    private void runServiceDiscovery(WebClient webClient) {
         ReactiveLoadBalancer<ServiceInstance> loadBalancer = this.serviceInstanceFactory.getInstance("CLOUD-HELLO-SERVICE");
 
         // @formatter:off
@@ -124,15 +117,13 @@ public class ClientRunner implements ApplicationRunner
         LOGGER.info("runServiceDiscovery: {}", response.strip());
     }
 
-    private void runWebClientWithLoadBalancedFunction(WebClient webClient)
-    {
+    private void runWebClientWithLoadBalancedFunction(WebClient webClient) {
         String response = call(webClient, "/");
 
         LOGGER.info("runWebClientWithLoadBalancedFunction: {}", response.strip());
     }
 
-    private void runWebClientWithLoadBalancer(WebClient webClient)
-    {
+    private void runWebClientWithLoadBalancer(WebClient webClient) {
         String response = call(webClient, "/");
 
         LOGGER.info("runWebClientWithLoadBalancer: {}", response.strip());

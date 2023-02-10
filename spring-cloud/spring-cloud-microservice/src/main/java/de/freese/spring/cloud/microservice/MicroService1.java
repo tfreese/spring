@@ -8,10 +8,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  *
  * @author Thomas Freese
  */
-public final class MicroService1
-{
-    public static void main(final String[] args)
-    {
+public final class MicroService1 {
+    public static void main(final String[] args) {
         // @formatter:off
         new SpringApplicationBuilder(MicroServiceApplication.class)
                 //.properties("server.port=8081") // Funktioniert nicht, wenn server.port in application.yml enthalten ist.
@@ -20,8 +18,7 @@ public final class MicroService1
         // @formatter:on
     }
 
-    private MicroService1()
-    {
+    private MicroService1() {
         super();
     }
 }

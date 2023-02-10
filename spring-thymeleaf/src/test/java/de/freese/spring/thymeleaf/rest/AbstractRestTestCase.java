@@ -4,20 +4,20 @@ package de.freese.spring.thymeleaf.rest;
 import jakarta.annotation.Resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.freese.spring.thymeleaf.ThymeleafApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.env.Environment;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
+import de.freese.spring.thymeleaf.ThymeleafApplication;
+
 /**
  * @author Thomas Freese
  */
 @SpringBootTest(properties = "server.port=0", webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
 @AutoConfigureMockMvc
-abstract class AbstractRestTestCase
-{
+abstract class AbstractRestTestCase {
     @Resource
     private Environment environment;
 
@@ -59,23 +59,19 @@ abstract class AbstractRestTestCase
 
     abstract void testUserWithoutLogin() throws Exception;
 
-    protected Environment getEnvironment()
-    {
+    protected Environment getEnvironment() {
         return this.environment;
     }
 
-    protected int getLocalServerPort()
-    {
+    protected int getLocalServerPort() {
         return this.localServerPort;
     }
 
-    protected ObjectMapper getObjectMapper()
-    {
+    protected ObjectMapper getObjectMapper() {
         return this.objectMapper;
     }
 
-    protected Jackson2ObjectMapperBuilder getObjectMapperBuilder()
-    {
+    protected Jackson2ObjectMapperBuilder getObjectMapperBuilder() {
         return this.objectMapperBuilder;
     }
 }

@@ -3,7 +3,6 @@ package de.freese.spring.jwt.config.filterOnly;
 
 import jakarta.servlet.Filter;
 
-import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -16,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+import de.freese.spring.jwt.token.JwtTokenProvider;
+
 /**
  * Der {@link JwtRequestFilter} verwendet keinen {@link AuthenticationProvider},<br>
  * sondern validiert das Token mit Passwort-Vergleich, Gültigkeit etc. selber und setzt es in den {@link SecurityContext}. <br>
@@ -26,11 +27,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @Configuration
 @EnableWebSecurity
 @Profile("filterOnly")
-public class SecurityFilterOnlyConfig
-{
+public class SecurityFilterOnlyConfig {
     @Bean
-    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao)
-    {
+    AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao) {
         ProviderManager providerManager = new ProviderManager(authenticationProviderDao);
         // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
         providerManager.setEraseCredentialsAfterAuthentication(true);
@@ -39,9 +38,7 @@ public class SecurityFilterOnlyConfig
     }
 
     @Bean
-    Filter jwtRequestFilter(final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder, final JwtTokenProvider jwtTokenProvider,
-                            final AuthenticationEntryPoint authenticationEntryPoint)
-    {
+    Filter jwtRequestFilter(final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder, final JwtTokenProvider jwtTokenProvider, final AuthenticationEntryPoint authenticationEntryPoint) {
         JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();
         jwtRequestFilter.setUserDetailsService(userDetailsService);
         jwtRequestFilter.setPasswordEncoder(passwordEncoder);

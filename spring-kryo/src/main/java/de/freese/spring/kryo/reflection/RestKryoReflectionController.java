@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("reflection/ReflectionControllerApi")
-public class RestKryoReflectionController extends AbstractRestReflectionController implements ReflectionControllerApi
-{
-    public RestKryoReflectionController(final Pool<Kryo> kryoPool)
-    {
+public class RestKryoReflectionController extends AbstractRestReflectionController implements ReflectionControllerApi {
+    public RestKryoReflectionController(final Pool<Kryo> kryoPool) {
         super(kryoPool);
     }
 
@@ -24,8 +22,7 @@ public class RestKryoReflectionController extends AbstractRestReflectionControll
      * @see de.freese.spring.kryo.reflection.ReflectionControllerApi#testKryo()
      */
     @Override
-    public LocalDateTime testKryo()
-    {
+    public LocalDateTime testKryo() {
         return LocalDateTime.now();
     }
 }

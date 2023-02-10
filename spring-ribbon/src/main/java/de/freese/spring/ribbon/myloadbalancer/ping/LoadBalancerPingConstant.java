@@ -7,26 +7,22 @@ package de.freese.spring.ribbon.myloadbalancer.ping;
  *
  * @author Thomas Freese
  */
-public class LoadBalancerPingConstant implements LoadBalancerPing
-{
+public class LoadBalancerPingConstant implements LoadBalancerPing {
     private boolean constant = true;
 
     /**
      * @see de.freese.spring.ribbon.myloadbalancer.ping.LoadBalancerPing#isAlive(java.lang.String)
      */
     @Override
-    public boolean isAlive(final String server)
-    {
+    public boolean isAlive(final String server) {
         return this.constant;
     }
 
-    public boolean isConstant()
-    {
+    public boolean isConstant() {
         return this.constant;
     }
 
-    public void setConstant(final boolean constant)
-    {
+    public void setConstant(final boolean constant) {
         this.constant = constant;
     }
 }

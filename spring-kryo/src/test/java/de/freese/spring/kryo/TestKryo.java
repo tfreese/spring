@@ -23,10 +23,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.freese.spring.kryo.web.KryoHttpMessageConverter;
-import de.freese.spring.kryo.webflux.AbstractKryoCodecSupport;
-import de.freese.spring.kryo.webflux.KryoDecoder;
-import de.freese.spring.kryo.webflux.KryoEncoder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -52,16 +48,19 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import de.freese.spring.kryo.web.KryoHttpMessageConverter;
+import de.freese.spring.kryo.webflux.AbstractKryoCodecSupport;
+import de.freese.spring.kryo.webflux.KryoDecoder;
+import de.freese.spring.kryo.webflux.KryoEncoder;
+
 /**
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = KryoApplication.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-class TestKryo
-{
-    static void validateLocalDateTime(final LocalDateTime localDateTime)
-    {
+class TestKryo {
+    static void validateLocalDateTime(final LocalDateTime localDateTime) {
         Assertions.assertNotNull(localDateTime);
 
         LocalDateTime now = LocalDateTime.now();
@@ -97,47 +96,40 @@ class TestKryo
     private WebClient.Builder webClientBuilder;
 
     @Test
-    void testHttpClient() throws Exception
-    {
+    void testHttpClient() throws Exception {
         testHttpClient("/kryo", AbstractKryoCodecSupport.APPLICATION_KRYO);
         testHttpClient("/json", MediaType.APPLICATION_JSON);
     }
 
     @Test
-    void testMockMvc() throws Exception
-    {
+    void testMockMvc() throws Exception {
         testMockMvc("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
         testMockMvc("/json", MediaType.APPLICATION_JSON);
     }
 
     @Test
-    void testRestTemplate()
-    {
+    void testRestTemplate() {
         testRestTemplate("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
         testRestTemplate("/json", MediaType.APPLICATION_JSON);
     }
 
     @Test
-    void testUrlConnection() throws Exception
-    {
+    void testUrlConnection() throws Exception {
         testUrlConnection("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
         testUrlConnection("/json", MediaType.APPLICATION_JSON);
     }
 
     @Test
-    void testWebClient() throws Exception
-    {
+    void testWebClient() throws Exception {
         testWebClient("/kryo", AbstractKryoCodecSupport.APPLICATION_KRYO);
         testWebClient("/json", MediaType.APPLICATION_JSON);
     }
 
     @PostConstruct
-    protected void setup()
-    {
+    protected void setup() {
         KryoHttpMessageConverter kryoHttpMessageConverter = new KryoHttpMessageConverter(KryoApplication.KRYO_POOL);
 
-        this.restTemplate = new RestTemplateBuilder().rootUri("http://localhost:" + this.localServerPort)
-                .additionalMessageConverters(kryoHttpMessageConverter, new MappingJackson2HttpMessageConverter()).build();
+        this.restTemplate = new RestTemplateBuilder().rootUri("http://localhost:" + this.localServerPort).additionalMessageConverters(kryoHttpMessageConverter, new MappingJackson2HttpMessageConverter()).build();
 
         // this.restTemplate = this.restTemplateBuilder.rootUri("http://localhost:" + this.localServerPort)
         // .additionalMessageConverters(this.kryoHttpMessageConverter).build();
@@ -170,8 +162,7 @@ class TestKryo
         // @formatter:on
     }
 
-    protected void testHttpClient(final String path, final MimeType mimeType) throws Exception
-    {
+    protected void testHttpClient(final String path, final MimeType mimeType) throws Exception {
         HttpClient httpClient = this.httpClientbuilder.build();
 
         // @formatter:off
@@ -186,14 +177,12 @@ class TestKryo
         HttpResponse<InputStream> response = httpClient.send(request, BodyHandlers.ofInputStream());
         Assertions.assertTrue(response.headers().firstValue("Content-Type").get().startsWith(mimeType.toString()));
 
-        HttpMessageConverterExtractor<LocalDateTime> converterExtractor =
-                new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
+        HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
         MediaType mediaType = MediaType.asMediaType(mimeType);
 
         LocalDateTime localDateTime = null;
 
-        try (ClientHttpResponse clientHttpResponse = new MockClientHttpResponse(response.body(), HttpStatus.OK))
-        {
+        try (ClientHttpResponse clientHttpResponse = new MockClientHttpResponse(response.body(), HttpStatus.OK)) {
             clientHttpResponse.getHeaders().setContentType(mediaType);
 
             localDateTime = converterExtractor.extractData(clientHttpResponse);
@@ -202,8 +191,7 @@ class TestKryo
         validateLocalDateTime(localDateTime);
     }
 
-    protected void testMockMvc(final String path, final MediaType mediaType) throws Exception
-    {
+    protected void testMockMvc(final String path, final MediaType mediaType) throws Exception {
         // MockMvcBuilders.standaloneSetup(controllers).
         MockMvc mmvc = this.mockMvc;
         // MockMvc mmvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
@@ -240,8 +228,7 @@ class TestKryo
         validateLocalDateTime(reference.get());
     }
 
-    protected void testRestTemplate(final String path, final MediaType mediaType)
-    {
+    protected void testRestTemplate(final String path, final MediaType mediaType) {
         //        // @formatter:off
 //        RestTemplateBuilder builder = new RestTemplateBuilder()
 //                .rootUri("http://localhost:" + this.localServerPort)
@@ -264,8 +251,7 @@ class TestKryo
         validateLocalDateTime(localDateTime);
     }
 
-    protected void testUrlConnection(final String path, final MediaType mediaType) throws Exception
-    {
+    protected void testUrlConnection(final String path, final MediaType mediaType) throws Exception {
         URL url = new URL("http", "localhost", this.localServerPort, path);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -276,8 +262,7 @@ class TestKryo
         connection.setDoOutput(false);
         connection.setDoInput(true);
 
-        if (connection.getDoOutput())
-        {
+        if (connection.getDoOutput()) {
             connection.setChunkedStreamingMode(4096);
         }
 
@@ -285,13 +270,11 @@ class TestKryo
 
         Assertions.assertTrue(connection.getHeaderField("Content-Type").startsWith(mediaType.toString()));
 
-        HttpMessageConverterExtractor<LocalDateTime> converterExtractor =
-                new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
+        HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
 
         LocalDateTime localDateTime = null;
 
-        try (ClientHttpResponse response = new MockClientHttpResponse(connection.getInputStream(), HttpStatus.OK))
-        {
+        try (ClientHttpResponse response = new MockClientHttpResponse(connection.getInputStream(), HttpStatus.OK)) {
             response.getHeaders().setContentType(mediaType);
 
             localDateTime = converterExtractor.extractData(response);
@@ -312,8 +295,7 @@ class TestKryo
         validateLocalDateTime(localDateTime);
     }
 
-    protected void testWebClient(final String path, final MimeType mimeType)
-    {
+    protected void testWebClient(final String path, final MimeType mimeType) {
         MediaType mediaType = MediaType.asMediaType(mimeType);
 
         // @formatter:off

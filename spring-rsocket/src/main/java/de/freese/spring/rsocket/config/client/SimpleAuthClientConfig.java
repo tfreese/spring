@@ -11,14 +11,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Profile("simple")
-public class SimpleAuthClientConfig extends AbstractClientConfig
-{
+public class SimpleAuthClientConfig extends AbstractClientConfig {
     /**
      * @see de.freese.spring.rsocket.config.client.AbstractClientConfig#createAuthenticationEncoder()
      */
     @Override
-    protected Encoder<?> createAuthenticationEncoder()
-    {
+    protected Encoder<?> createAuthenticationEncoder() {
         return new SimpleAuthenticationEncoder();
     }
 }

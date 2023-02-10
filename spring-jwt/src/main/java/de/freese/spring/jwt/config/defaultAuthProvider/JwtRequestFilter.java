@@ -9,8 +9,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import de.freese.spring.jwt.token.JwtToken;
-import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -27,6 +25,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import de.freese.spring.jwt.token.JwtToken;
+import de.freese.spring.jwt.token.JwtTokenProvider;
+
 /**
  * Der {@link JwtRequestFilter} verwendet den Default-{@link AuthenticationProvider}.<br>
  * Siehe {@link DaoAuthenticationProvider}.
@@ -34,8 +35,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * @author Thomas Freese
  * @see BasicAuthenticationFilter
  */
-class JwtRequestFilter extends OncePerRequestFilter
-{
+class JwtRequestFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
 
     private final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
@@ -46,18 +46,15 @@ class JwtRequestFilter extends OncePerRequestFilter
 
     private JwtTokenProvider jwtTokenProvider;
 
-    public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint)
-    {
+    public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
-    public void setAuthenticationManager(final AuthenticationManager authenticationManager)
-    {
+    public void setAuthenticationManager(final AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
-    public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider)
-    {
+    public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
@@ -66,26 +63,21 @@ class JwtRequestFilter extends OncePerRequestFilter
      * jakarta.servlet.FilterChain)
      */
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
-            throws ServletException, IOException
-    {
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
         String token = this.jwtTokenProvider.resolveToken(request);
 
-        try
-        {
+        try {
             String username = null;
             String password = null;
 
-            if (token != null)
-            {
+            if (token != null) {
                 JwtToken jwtToken = this.jwtTokenProvider.parseToken(token);
 
                 username = jwtToken.getUsername();
                 password = jwtToken.getPassword();
             }
 
-            if ((username != null) && isAuthenticationIsRequired(username))
-            {
+            if ((username != null) && isAuthenticationIsRequired(username)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
                 usernamePasswordAuthenticationToken.setDetails(this.authenticationDetailsSource.buildDetails(request));
 
@@ -97,8 +89,7 @@ class JwtRequestFilter extends OncePerRequestFilter
                 // SecurityContextHolder.setContext(context);
             }
         }
-        catch (AuthenticationException ex)
-        {
+        catch (AuthenticationException ex) {
             SecurityContextHolder.clearContext();
 
             getLogger().error("Authentication request failed: {}", ex.getMessage());
@@ -116,8 +107,7 @@ class JwtRequestFilter extends OncePerRequestFilter
      * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
      */
     @Override
-    protected void initFilterBean() throws ServletException
-    {
+    protected void initFilterBean() throws ServletException {
         super.initFilterBean();
 
         Objects.requireNonNull(this.authenticationManager, "authenticationManager required");
@@ -125,18 +115,14 @@ class JwtRequestFilter extends OncePerRequestFilter
         Objects.requireNonNull(this.jwtTokenProvider, "jwtTokenProvider required");
     }
 
-    private Logger getLogger()
-    {
+    private Logger getLogger() {
         return LOGGER;
     }
 
-    private boolean isAuthenticationIsRequired(final String username)
-    {
+    private boolean isAuthenticationIsRequired(final String username) {
         Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
 
-        if ((existingAuth == null) || !existingAuth.isAuthenticated()
-                || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username)))
-        {
+        if ((existingAuth == null) || !existingAuth.isAuthenticated() || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username))) {
             return true;
         }
 

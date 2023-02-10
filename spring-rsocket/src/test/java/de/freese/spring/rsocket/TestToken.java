@@ -20,11 +20,9 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Thomas Freese
  */
-class TestToken
-{
+class TestToken {
     @Test
-    void createToken() throws Exception
-    {
+    void createToken() throws Exception {
         // Mac mac = Mac.getInstance("HmacSHA256");
         // SecretKeySpec secretKey = new SecretKeySpec("my-secret".getBytes(), mac.getAlgorithm());
 

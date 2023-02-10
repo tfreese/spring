@@ -14,26 +14,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 // @JsonRootName("greeting")
 // @XmlRootElement
 // @Relation(value = "greeting", collectionRelation = "greetings")
-public class GreetingPOJO
-{
+public class GreetingPOJO {
     @JsonProperty("greeting")
     private String message;
 
     @JsonCreator
-    public GreetingPOJO(final @JsonProperty("greeting") String message)
-    {
+    public GreetingPOJO(final @JsonProperty("greeting") String message) {
         super();
 
         setMessage(message);
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return this.message;
     }
 
-    public void setMessage(final String message)
-    {
+    public void setMessage(final String message) {
         this.message = Objects.requireNonNull(message, "message required");
     }
 }

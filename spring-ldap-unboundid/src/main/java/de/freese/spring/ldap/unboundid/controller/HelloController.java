@@ -14,17 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-public class HelloController
-{
+public class HelloController {
     @GetMapping("/")
-    public String hello(Authentication authentication)
-    {
+    public String hello(Authentication authentication) {
         return "Hello, " + authentication.getName() + " !";
     }
 
     @GetMapping("/friendly")
-    public String hello(@AuthenticationPrincipal Person person)
-    {
+    public String hello(@AuthenticationPrincipal Person person) {
         return "Hello, " + person.getGivenName() + " !";
     }
 }

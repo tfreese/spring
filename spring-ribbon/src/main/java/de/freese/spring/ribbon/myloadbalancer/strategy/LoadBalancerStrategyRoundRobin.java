@@ -9,10 +9,8 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
  *
  * @author Thomas Freese
  */
-public class LoadBalancerStrategyRoundRobin implements LoadBalancerStrategy
-{
-    private static final AtomicIntegerFieldUpdater<LoadBalancerStrategyRoundRobin> NEXT_INDEX =
-            AtomicIntegerFieldUpdater.newUpdater(LoadBalancerStrategyRoundRobin.class, "nextIndex");
+public class LoadBalancerStrategyRoundRobin implements LoadBalancerStrategy {
+    private static final AtomicIntegerFieldUpdater<LoadBalancerStrategyRoundRobin> NEXT_INDEX = AtomicIntegerFieldUpdater.newUpdater(LoadBalancerStrategyRoundRobin.class, "nextIndex");
 
     private volatile int nextIndex;
 
@@ -20,8 +18,7 @@ public class LoadBalancerStrategyRoundRobin implements LoadBalancerStrategy
      * @see de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategy#chooseServer(java.util.List, java.lang.String)
      */
     @Override
-    public String chooseServer(final List<String> server, final String key)
-    {
+    public String chooseServer(final List<String> server, final String key) {
         int length = server.size();
 
         int indexToUse = Math.abs(NEXT_INDEX.getAndIncrement(this) % length);

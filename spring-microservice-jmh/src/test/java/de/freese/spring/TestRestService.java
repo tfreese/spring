@@ -37,12 +37,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = MicroServiceApplication.class, properties = {})
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @AutoConfigureMockMvc
-@ActiveProfiles(
-        {
-                "test"
-        })
-class TestRestService
-{
+@ActiveProfiles({"test"})
+class TestRestService {
     @Resource
     private MockMvc mockMvc;
 
@@ -56,8 +52,7 @@ class TestRestService
     private WebClient.Builder webClientBuilder;
 
     @Test
-    void testBenchmark() throws Exception
-    {
+    void testBenchmark() throws Exception {
         // @formatter:off
         Options options = new OptionsBuilder()
                 .include(MicroServiceBenchmark.class.getSimpleName())
@@ -78,8 +73,7 @@ class TestRestService
     }
 
     @Test
-    void testMockMvc() throws Exception
-    {
+    void testMockMvc() throws Exception {
         // .andDo(print()).andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
 
         // @formatter:off
@@ -94,8 +88,7 @@ class TestRestService
     }
 
     @Test
-    void testRestTemplate() throws Exception
-    {
+    void testRestTemplate() throws Exception {
         // TestRestTemplate restTemplate = new TestRestTemplate(this.restTemplateBuilder.rootUri("http://localhost:" + this.port));
         RestTemplate restTemplate = this.restTemplateBuilder.rootUri("http://localhost:" + this.port).build();
 
@@ -108,8 +101,7 @@ class TestRestService
     }
 
     @Test
-    void testWebClient() throws Exception
-    {
+    void testWebClient() throws Exception {
         WebClient webClient = this.webClientBuilder.baseUrl("http://localhost:" + this.port).build();
 
         // String response = webClient.get().uri("/").retrieve().bodyToMono(String.class).block();

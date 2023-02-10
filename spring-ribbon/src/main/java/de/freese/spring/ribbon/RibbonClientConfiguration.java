@@ -33,33 +33,28 @@ import org.springframework.context.annotation.Bean;
  * @author Thomas Freese
  * @see LoadBalancerAutoConfiguration
  */
-public class RibbonClientConfiguration
-{
+public class RibbonClientConfiguration {
     /**
      * Führt den gleichen Code wie {@link PingUrl} aus, aber führt nicht den printStackTrace aus bei einem Fehler.
      *
      * @author Thomas Freese
      */
-    private static class MyPing extends PingUrl
-    {
+    private static class MyPing extends PingUrl {
         private final Logger logger = LoggerFactory.getLogger(MyPing.class);
 
         /**
          * @see com.netflix.loadbalancer.PingUrl#isAlive(com.netflix.loadbalancer.Server)
          */
         @Override
-        public boolean isAlive(final Server server)
-        {
+        public boolean isAlive(final Server server) {
             this.logger.debug("pinging: {}", server);
 
             String urlStr = "";
 
-            if (isSecure())
-            {
+            if (isSecure()) {
                 urlStr = "https://";
             }
-            else
-            {
+            else {
                 urlStr = "http://";
             }
 
@@ -70,8 +65,7 @@ public class RibbonClientConfiguration
 
             // HttpClient httpClient = new DefaultHttpClient();
             // HttpUriRequest getRequest = new HttpGet(urlStr);
-            try
-            {
+            try {
                 // HttpResponse response = httpClient.execute(getRequest);
                 // String content = EntityUtils.toString(response.getEntity());
                 // isAlive = response.getStatusLine().getStatusCode() == 200;
@@ -81,20 +75,16 @@ public class RibbonClientConfiguration
                 isAlive = connection.getResponseCode() == 200;
                 connection.disconnect();
 
-                if (getExpectedContent() != null)
-                {
-                    if (content == null)
-                    {
+                if (getExpectedContent() != null) {
+                    if (content == null) {
                         isAlive = false;
                     }
-                    else
-                    {
+                    else {
                         isAlive = content.equals(getExpectedContent());
                     }
                 }
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex) {
                 // ex.printStackTrace();
                 this.logger.warn("{}: {}", server, ex.getMessage());
             }
@@ -107,17 +97,13 @@ public class RibbonClientConfiguration
             return isAlive;
         }
 
-        private String getContent(final HttpURLConnection connection)
-        {
-            try (InputStream inputStream = connection.getInputStream())
-            {
-                if (inputStream == null)
-                {
+        private String getContent(final HttpURLConnection connection) {
+            try (InputStream inputStream = connection.getInputStream()) {
+                if (inputStream == null) {
                     return null;
                 }
 
-                try (ReadableByteChannel channel = Channels.newChannel(inputStream))
-                {
+                try (ReadableByteChannel channel = Channels.newChannel(inputStream)) {
                     int capacity = inputStream.available();
 
                     ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);
@@ -128,8 +114,7 @@ public class RibbonClientConfiguration
                     return StandardCharsets.UTF_8.decode(byteBuffer).toString();
                 }
             }
-            catch (IOException iex)
-            {
+            catch (IOException iex) {
                 // Empty
             }
 
@@ -141,8 +126,7 @@ public class RibbonClientConfiguration
     private IClientConfig ribbonClientConfig;
 
     @Bean
-    public IPing ribbonPing(final IClientConfig config)
-    {
+    public IPing ribbonPing(final IClientConfig config) {
         PingUrl ping = new MyPing();
         ping.setPingAppendString("/service/ping"); // /netflix/service/actuator/health
         ping.setExpectedContent("true"); // UP
@@ -152,8 +136,7 @@ public class RibbonClientConfiguration
     }
 
     @Bean
-    public IRule ribbonRule(final IClientConfig config)
-    {
+    public IRule ribbonRule(final IClientConfig config) {
         return new AvailabilityFilteringRule();
     }
 }

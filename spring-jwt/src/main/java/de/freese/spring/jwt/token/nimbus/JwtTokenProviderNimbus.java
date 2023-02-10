@@ -20,22 +20,21 @@ import com.nimbusds.jwt.EncryptedJWT;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTClaimsSet.Builder;
-import de.freese.spring.jwt.token.JwtToken;
-import de.freese.spring.jwt.token.JwtTokenProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
+
+import de.freese.spring.jwt.token.JwtToken;
+import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * @author Thomas Freese
  */
-public class JwtTokenProviderNimbus implements JwtTokenProvider
-{
+public class JwtTokenProviderNimbus implements JwtTokenProvider {
     private final String secretKey;
 
     private final long validityInMilliseconds;
 
-    public JwtTokenProviderNimbus(final String secretKey, final long validityInMilliseconds)
-    {
+    public JwtTokenProviderNimbus(final String secretKey, final long validityInMilliseconds) {
         super();
 
         this.secretKey = secretKey;
@@ -46,17 +45,14 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider
      * @see de.freese.spring.jwt.token.JwtTokenProvider#createToken(java.lang.String, java.lang.String, java.util.Set)
      */
     @Override
-    public String createToken(final String username, final String password, final Set<String> roles)
-    {
+    public String createToken(final String username, final String password, final Set<String> roles) {
         Builder builder = new JWTClaimsSet.Builder();
 
-        if ((password != null) && !password.isBlank())
-        {
+        if ((password != null) && !password.isBlank()) {
             builder = builder.claim("password", password);
         }
 
-        if ((roles != null) && !roles.isEmpty())
-        {
+        if ((roles != null) && !roles.isEmpty()) {
             // @formatter:off
             String rolesString = roles.stream()
                     .filter(Objects::nonNull)
@@ -92,16 +88,13 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider
         JWEHeader header = new JWEHeader(JWEAlgorithm.PBES2_HS512_A256KW, EncryptionMethod.A256CBC_HS512);
         JWT encryptedJWT = new EncryptedJWT(header, jwtClaims);
 
-        try
-        {
+        try {
             ((EncryptedJWT) encryptedJWT).encrypt(encrypter);
         }
-        catch (IllegalStateException ex)
-        {
+        catch (IllegalStateException ex) {
             throw new AuthenticationServiceException("Token is not in an unencrypted state");
         }
-        catch (JOSEException ex)
-        {
+        catch (JOSEException ex) {
             throw new AuthenticationServiceException("Token couldn't be encrypted");
         }
 
@@ -112,10 +105,8 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider
      * @see de.freese.spring.jwt.token.JwtTokenProvider#parseToken(java.lang.String)
      */
     @Override
-    public JwtToken parseToken(final String token) throws AuthenticationException
-    {
-        try
-        {
+    public JwtToken parseToken(final String token) throws AuthenticationException {
+        try {
             EncryptedJWT encryptedJWT = EncryptedJWT.parse(token);
 
             JWEDecrypter decrypter = new PasswordBasedDecrypter(this.secretKey);
@@ -126,12 +117,10 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider
 
             return new JwtTokenNimbus(encryptedJWT);
         }
-        catch (ParseException ex)
-        {
+        catch (ParseException ex) {
             throw new AuthenticationServiceException("JwtToken couldn't be parsed to a valid encrypted JWT");
         }
-        catch (JOSEException ex)
-        {
+        catch (JOSEException ex) {
             throw new AuthenticationServiceException("Token couldn't be decrypted");
         }
     }

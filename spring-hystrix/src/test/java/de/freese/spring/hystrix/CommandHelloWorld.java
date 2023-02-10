@@ -9,12 +9,10 @@ import com.netflix.hystrix.HystrixCommandGroupKey;
  *
  * @author Thomas Freese
  */
-public class CommandHelloWorld extends HystrixCommand<String>
-{
+public class CommandHelloWorld extends HystrixCommand<String> {
     private final String name;
 
-    public CommandHelloWorld(final String name)
-    {
+    public CommandHelloWorld(final String name) {
         // CommandGroupKey = ThreadPool-Name
         super(HystrixCommandGroupKey.Factory.asKey("TestGroup"));
 
@@ -25,8 +23,7 @@ public class CommandHelloWorld extends HystrixCommand<String>
      * @see com.netflix.hystrix.HystrixCommand#run()
      */
     @Override
-    protected String run() throws Exception
-    {
+    protected String run() throws Exception {
         return "Hello " + this.name + "!";
     }
 }

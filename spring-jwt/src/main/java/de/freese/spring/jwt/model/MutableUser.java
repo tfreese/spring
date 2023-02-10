@@ -13,8 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * @author Thomas Freese
  */
-public class MutableUser implements UserDetails, CredentialsContainer
-{
+public class MutableUser implements UserDetails, CredentialsContainer {
     @Serial
     private static final long serialVersionUID = -5966384384144097545L;
 
@@ -32,13 +31,11 @@ public class MutableUser implements UserDetails, CredentialsContainer
 
     private String username;
 
-    public MutableUser()
-    {
+    public MutableUser() {
         super();
     }
 
-    public MutableUser(final UserDetails userDetails)
-    {
+    public MutableUser(final UserDetails userDetails) {
         super();
 
         this.accountNonExpired = userDetails.isAccountNonExpired();
@@ -50,8 +47,7 @@ public class MutableUser implements UserDetails, CredentialsContainer
         this.username = userDetails.getUsername();
     }
 
-    public MutableUser clearCredentials()
-    {
+    public MutableUser clearCredentials() {
         eraseCredentials();
 
         return this;
@@ -61,8 +57,7 @@ public class MutableUser implements UserDetails, CredentialsContainer
      * @see org.springframework.security.core.CredentialsContainer#eraseCredentials()
      */
     @Override
-    public void eraseCredentials()
-    {
+    public void eraseCredentials() {
         setPassword(null);
     }
 
@@ -70,8 +65,7 @@ public class MutableUser implements UserDetails, CredentialsContainer
      * @see org.springframework.security.core.userdetails.UserDetails#getAuthorities()
      */
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities()
-    {
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
 
@@ -79,8 +73,7 @@ public class MutableUser implements UserDetails, CredentialsContainer
      * @see org.springframework.security.core.userdetails.UserDetails#getPassword()
      */
     @Override
-    public String getPassword()
-    {
+    public String getPassword() {
         return this.password;
     }
 
@@ -88,8 +81,7 @@ public class MutableUser implements UserDetails, CredentialsContainer
      * @see org.springframework.security.core.userdetails.UserDetails#getUsername()
      */
     @Override
-    public String getUsername()
-    {
+    public String getUsername() {
         return this.username;
     }
 
@@ -97,8 +89,7 @@ public class MutableUser implements UserDetails, CredentialsContainer
      * @see org.springframework.security.core.userdetails.UserDetails#isAccountNonExpired()
      */
     @Override
-    public boolean isAccountNonExpired()
-    {
+    public boolean isAccountNonExpired() {
         return this.accountNonExpired;
     }
 
@@ -106,8 +97,7 @@ public class MutableUser implements UserDetails, CredentialsContainer
      * @see org.springframework.security.core.userdetails.UserDetails#isAccountNonLocked()
      */
     @Override
-    public boolean isAccountNonLocked()
-    {
+    public boolean isAccountNonLocked() {
         return this.accountNonLocked;
     }
 
@@ -115,8 +105,7 @@ public class MutableUser implements UserDetails, CredentialsContainer
      * @see org.springframework.security.core.userdetails.UserDetails#isCredentialsNonExpired()
      */
     @Override
-    public boolean isCredentialsNonExpired()
-    {
+    public boolean isCredentialsNonExpired() {
         return this.credentialsNonExpired;
     }
 
@@ -124,38 +113,31 @@ public class MutableUser implements UserDetails, CredentialsContainer
      * @see org.springframework.security.core.userdetails.UserDetails#isEnabled()
      */
     @Override
-    public boolean isEnabled()
-    {
+    public boolean isEnabled() {
         return this.enabled;
     }
 
-    public void setAccountNonExpired(final boolean accountNonExpired)
-    {
+    public void setAccountNonExpired(final boolean accountNonExpired) {
         this.accountNonExpired = accountNonExpired;
     }
 
-    public void setAccountNonLocked(final boolean accountNonLocked)
-    {
+    public void setAccountNonLocked(final boolean accountNonLocked) {
         this.accountNonLocked = accountNonLocked;
     }
 
-    public void setAuthorities(final Set<? extends GrantedAuthority> authorities)
-    {
+    public void setAuthorities(final Set<? extends GrantedAuthority> authorities) {
         this.authorities = authorities;
     }
 
-    public void setCredentialsNonExpired(final boolean credentialsNonExpired)
-    {
+    public void setCredentialsNonExpired(final boolean credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
-    public void setPassword(final String password)
-    {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
-    public void setUsername(final String username)
-    {
+    public void setUsername(final String username) {
         this.username = username;
     }
 }

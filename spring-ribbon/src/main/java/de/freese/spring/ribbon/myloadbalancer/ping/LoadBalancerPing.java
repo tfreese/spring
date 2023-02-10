@@ -11,7 +11,6 @@ import com.netflix.loadbalancer.IPing;
  * @see IPing
  */
 @FunctionalInterface
-public interface LoadBalancerPing
-{
+public interface LoadBalancerPing {
     boolean isAlive(String server);
 }

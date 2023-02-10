@@ -3,9 +3,6 @@ package de.freese.spring.kryo;
 
 import java.time.LocalDateTime;
 
-import de.freese.spring.kryo.reflection.ReflectionControllerApi;
-import de.freese.spring.kryo.reflection.client.AbstractClientReflectionController.ConnectType;
-import de.freese.spring.kryo.reflection.client.ClientReflectionController;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -14,20 +11,22 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
+import de.freese.spring.kryo.reflection.ReflectionControllerApi;
+import de.freese.spring.kryo.reflection.client.AbstractClientReflectionController.ConnectType;
+import de.freese.spring.kryo.reflection.client.ClientReflectionController;
+
 /**
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = KryoApplication.class)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
-class TestClientReflection
-{
+class TestClientReflection {
     @LocalServerPort
     private int localServerPort;
 
     @Test
-    void testHttpConnection()
-    {
+    void testHttpConnection() {
         String rootUri = "http://localhost:" + this.localServerPort;
         ReflectionControllerApi fassade = new ClientReflectionController(KryoApplication.KRYO_POOL, rootUri, ConnectType.HTTP_CONNECTION);
 
@@ -37,8 +36,7 @@ class TestClientReflection
     }
 
     @Test
-    void testRestTemplate()
-    {
+    void testRestTemplate() {
         String rootUri = "http://localhost:" + this.localServerPort;
         ReflectionControllerApi fassade = new ClientReflectionController(KryoApplication.KRYO_POOL, rootUri, ConnectType.REST_TEMPLATE);
 

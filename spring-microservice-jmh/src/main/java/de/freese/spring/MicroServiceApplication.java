@@ -14,16 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @SpringBootApplication
 @RestController
-public class MicroServiceApplication
-{
-    public static void main(final String[] args)
-    {
+public class MicroServiceApplication {
+    public static void main(final String[] args) {
         SpringApplication.run(MicroServiceApplication.class, args);
     }
 
     @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String greeting()
-    {
+    public String greeting() {
         return "Hello, World";
     }
 

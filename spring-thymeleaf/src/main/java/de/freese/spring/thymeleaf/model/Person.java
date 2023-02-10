@@ -4,42 +4,35 @@ package de.freese.spring.thymeleaf.model;
 /**
  * @author Thomas Freese
  */
-public class Person
-{
+public class Person {
     private String firstName;
 
     private String lastName;
 
-    public Person()
-    {
+    public Person() {
         super();
     }
 
-    public Person(final String firstName, final String lastName)
-    {
+    public Person(final String firstName, final String lastName) {
         super();
 
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return this.firstName;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         return this.lastName;
     }
 
-    public void setFirstName(final String firstName)
-    {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
-    public void setLastName(final String lastName)
-    {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -47,8 +40,7 @@ public class Person
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Person [firstName=");
         builder.append(this.firstName);

@@ -16,12 +16,10 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public final class PrimarySecondaryApplication
-{
+public final class PrimarySecondaryApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(PrimarySecondaryApplication.class);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         // configuration from environment properties
         ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
 
@@ -41,12 +39,9 @@ public final class PrimarySecondaryApplication
         // install with ConfigurationManager so that finalConfig becomes the source of dynamic properties
         ConfigurationManager.install(finalConfig);
 
-        try (HystrixRequestContext context = HystrixRequestContext.initializeContext())
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                for (int j = 1; j <= 10; j++)
-                {
+        try (HystrixRequestContext context = HystrixRequestContext.initializeContext()) {
+            for (int i = 0; i < 2; i++) {
+                for (int j = 1; j <= 10; j++) {
                     PrimarySecondaryCommand cmd = new PrimarySecondaryCommand(j);
 
                     String result = cmd.execute();
@@ -59,8 +54,7 @@ public final class PrimarySecondaryApplication
                     // break;
                     // }
 
-                    if ((j % 5) == 0)
-                    {
+                    if ((j % 5) == 0) {
                         // Auf Secondary umschalten.
                         ConfigurationManager.getConfigInstance().setProperty("primarySecondary.usePrimary", false);
                     }
@@ -77,8 +71,7 @@ public final class PrimarySecondaryApplication
         System.exit(0);
     }
 
-    private PrimarySecondaryApplication()
-    {
+    private PrimarySecondaryApplication() {
         super();
     }
 }

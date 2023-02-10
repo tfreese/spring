@@ -16,16 +16,13 @@ import ch.qos.logback.core.spi.ContextAwareBase;
  *
  * @author Thomas Freese
  */
-public class NoopConfigurator extends ContextAwareBase implements Configurator
-{
-    public NoopConfigurator()
-    {
+public class NoopConfigurator extends ContextAwareBase implements Configurator {
+    public NoopConfigurator() {
         super();
     }
 
     @Override
-    public ExecutionStatus configure(final LoggerContext loggerContext)
-    {
+    public ExecutionStatus configure(final LoggerContext loggerContext) {
         return null;
     }
 }

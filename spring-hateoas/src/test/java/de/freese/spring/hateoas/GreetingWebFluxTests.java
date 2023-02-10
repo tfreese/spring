@@ -19,15 +19,13 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  */
 @WebFluxTest(GreetingController.class) // braucht spring-boot-starter-webflux
 @ActiveProfiles("test")
-class GreetingWebFluxTests
-{
+class GreetingWebFluxTests {
     @Resource
     private WebTestClient webTestClient;
 
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
-    void testDefault() throws Exception
-    {
+    void testDefault() throws Exception {
         // @formatter:off
         this.webTestClient.get()
             .uri("/greeter")
@@ -45,8 +43,7 @@ class GreetingWebFluxTests
     }
 
     @Test
-    void testFail() throws Exception
-    {
+    void testFail() throws Exception {
         // @formatter:off
         this.webTestClient.get()
             .uri("/greeter/fail")
@@ -59,8 +56,7 @@ class GreetingWebFluxTests
 
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
-    void testPath() throws Exception
-    {
+    void testPath() throws Exception {
         // @formatter:off
         this.webTestClient.get()
             .uri("/greeter/path/Test")
@@ -78,8 +74,7 @@ class GreetingWebFluxTests
 
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
-    void testPojo() throws Exception
-    {
+    void testPojo() throws Exception {
         // @formatter:off
         this.webTestClient.get()
             .uri(uriBuilder -> uriBuilder
@@ -100,8 +95,7 @@ class GreetingWebFluxTests
     }
 
     @Test
-    void testSimple() throws Exception
-    {
+    void testSimple() throws Exception {
         // @formatter:off
         String response = this.webTestClient.get()
             .uri("/greeter/simple")

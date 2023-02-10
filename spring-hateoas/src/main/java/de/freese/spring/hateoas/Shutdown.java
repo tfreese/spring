@@ -15,20 +15,16 @@ import org.springframework.core.io.Resource;
  *
  * @author Thomas Freese
  */
-public final class Shutdown
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class Shutdown {
+    public static void main(final String[] args) throws Exception {
         DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
         Resource resource = resourceLoader.getResource("classpath:application.properties");
         // Resource resource = new FileSystemResource("application.properties");
 
         Properties props = new Properties();
 
-        if (resource.isReadable())
-        {
-            try (InputStream inputStream = resource.getInputStream())
-            {
+        if (resource.isReadable()) {
+            try (InputStream inputStream = resource.getInputStream()) {
                 props.load(inputStream);
             }
         }
@@ -48,8 +44,7 @@ public final class Shutdown
         connection.disconnect();
     }
 
-    private Shutdown()
-    {
+    private Shutdown() {
         super();
     }
 }

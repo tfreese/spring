@@ -15,10 +15,8 @@ import org.springframework.web.client.RestTemplate;
 /**
  * @author Thomas Freese
  */
-public final class SysdateApplication
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class SysdateApplication {
+    public static void main(final String[] args) throws Exception {
         // configuration from environment properties
         ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
 
@@ -43,14 +41,10 @@ public final class SysdateApplication
         // Server3.main(new String[0]);
 
         RestTemplate restTemplate = new RestTemplateBuilder().build();
-        String[] urls = new String[]
-                {
-                        "http://localhost:8081/service/sysdate/", "http://localhost:8082/service/sysdate/", "http://localhost:8083/service/sysdate/"
-                };
+        String[] urls = new String[]{"http://localhost:8081/service/sysdate/", "http://localhost:8082/service/sysdate/", "http://localhost:8083/service/sysdate/"};
         // System.out.println(restTemplate.getForObject("http://localhost:8081/service/sysdate/", String.class));
 
-        while (true)
-        {
+        while (true) {
             SysDateHystrixCommand cmd = new SysDateHystrixCommand();
             cmd.setRestTemplate(restTemplate);
             cmd.setURLs(urls);
@@ -59,8 +53,7 @@ public final class SysdateApplication
 
             // System.out.println(result);
 
-            if (result == null)
-            {
+            if (result == null) {
                 break;
             }
 
@@ -70,8 +63,7 @@ public final class SysdateApplication
         System.exit(0);
     }
 
-    private SysdateApplication()
-    {
+    private SysdateApplication() {
         super();
     }
 }

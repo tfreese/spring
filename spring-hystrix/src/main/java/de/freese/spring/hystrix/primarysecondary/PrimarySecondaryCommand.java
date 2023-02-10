@@ -15,22 +15,19 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class PrimarySecondaryCommand extends HystrixCommand<String>
-{
+public class PrimarySecondaryCommand extends HystrixCommand<String> {
     private static final Logger C_LOGGER = LoggerFactory.getLogger(PrimarySecondaryCommand.class);
     private static final DynamicBooleanProperty USE_PRIMARY = DynamicPropertyFactory.getInstance().getBooleanProperty("primarySecondary.usePrimary", true);
 
     /**
      * @author Thomas Freese
      */
-    private static final class PrimaryCommand extends HystrixCommand<String>
-    {
+    private static final class PrimaryCommand extends HystrixCommand<String> {
         private static final Logger P_LOGGER = LoggerFactory.getLogger(PrimaryCommand.class);
 
         private final int id;
 
-        private PrimaryCommand(final int id)
-        {
+        private PrimaryCommand(final int id) {
             // @formatter:off
             super(Setter
                     .withGroupKey(HystrixCommandGroupKey.Factory.asKey("test"))
@@ -48,8 +45,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
          * @see com.netflix.hystrix.HystrixCommand#run()
          */
         @Override
-        protected String run()
-        {
+        protected String run() {
             P_LOGGER.info("run");
 
             // perform expensive 'primary' service call
@@ -60,14 +56,12 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
     /**
      * @author Thomas Freese
      */
-    private static final class SecondaryCommand extends HystrixCommand<String>
-    {
+    private static final class SecondaryCommand extends HystrixCommand<String> {
         private static final Logger S_LOGGER = LoggerFactory.getLogger(SecondaryCommand.class);
 
         private final int id;
 
-        private SecondaryCommand(final int id)
-        {
+        private SecondaryCommand(final int id) {
             // @formatter:off
             super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("test"))
                     .andCommandKey(HystrixCommandKey.Factory.asKey("SecondaryCommand"))
@@ -84,18 +78,17 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
          * @see com.netflix.hystrix.HystrixCommand#run()
          */
         @Override
-        protected String run()
-        {
+        protected String run() {
             S_LOGGER.info("run");
 
             // perform fast 'secondary' service call
             return "responseFromSecondary-" + this.id;
         }
     }
+
     private final int id;
 
-    public PrimarySecondaryCommand(final int id)
-    {
+    public PrimarySecondaryCommand(final int id) {
         // @formatter:off
         super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("test"))
                 .andCommandKey(HystrixCommandKey.Factory.asKey("PrimarySecondaryCommand"))
@@ -109,8 +102,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
     }
 
     @Override
-    protected String getCacheKey()
-    {
+    protected String getCacheKey() {
         return String.valueOf(this.id);
     }
 
@@ -118,12 +110,10 @@ public class PrimarySecondaryCommand extends HystrixCommand<String>
      * @see com.netflix.hystrix.HystrixCommand#run()
      */
     @Override
-    protected String run() throws Exception
-    {
+    protected String run() throws Exception {
         C_LOGGER.info("run");
 
-        if (USE_PRIMARY.get())
-        {
+        if (USE_PRIMARY.get()) {
             return new PrimaryCommand(this.id).execute();
         }
 

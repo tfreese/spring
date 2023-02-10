@@ -18,13 +18,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 /**
  * @author Thomas Freese
  */
-@ActiveProfiles(
-        {
-                "test", "r2dbc"
-        })
+@ActiveProfiles({"test", "r2dbc"})
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
-class TestWebR2dbc implements TestWeb
-{
+class TestWebR2dbc implements TestWeb {
     @Resource
     private ConnectionFactory connectionFactory;
 
@@ -43,8 +39,7 @@ class TestWebR2dbc implements TestWeb
      * @see de.freese.spring.reactive.web.TestWeb#doAfterEach()
      */
     @Override
-    public void doAfterEach()
-    {
+    public void doAfterEach() {
         this.databaseClient.sql("DROP TABLE IF EXISTS employee").fetch().rowsUpdated().block();
         this.databaseClient.sql("DROP TABLE IF EXISTS department").fetch().rowsUpdated().block();
     }
@@ -53,8 +48,7 @@ class TestWebR2dbc implements TestWeb
      * @see de.freese.spring.reactive.web.TestWeb#doBeforeEach()
      */
     @Override
-    public void doBeforeEach()
-    {
+    public void doBeforeEach() {
         this.webClient = WebClient.create("http://localhost:" + this.port);
 
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
@@ -67,8 +61,7 @@ class TestWebR2dbc implements TestWeb
      * @see de.freese.spring.reactive.web.TestWeb#getWebClient()
      */
     @Override
-    public WebClient getWebClient()
-    {
+    public WebClient getWebClient() {
         return this.webClient;
     }
 
@@ -76,8 +69,7 @@ class TestWebR2dbc implements TestWeb
      * @see de.freese.spring.reactive.web.TestWeb#getWebTestClient()
      */
     @Override
-    public WebTestClient getWebTestClient()
-    {
+    public WebTestClient getWebTestClient() {
         return this.webTestClient;
     }
 
@@ -86,8 +78,7 @@ class TestWebR2dbc implements TestWeb
      */
     @Override
     @Test
-    public void testDeleteEmployee()
-    {
+    public void testDeleteEmployee() {
         // nur zum Debuggen
         TestWeb.super.testDeleteEmployee();
     }

@@ -7,8 +7,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import de.freese.spring.thymeleaf.exception.ThymeleafControllerExceptionHandler;
 import org.springframework.stereotype.Controller;
+
+import de.freese.spring.thymeleaf.exception.ThymeleafControllerExceptionHandler;
 
 /**
  * Extra-Annotation für ThymeleafController zum Vereinfachen des ExceptionHandlings.
@@ -20,7 +21,6 @@ import org.springframework.stereotype.Controller;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Controller
-public @interface ThymeleafController
-{
+public @interface ThymeleafController {
 
 }

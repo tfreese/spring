@@ -7,11 +7,10 @@ import de.freese.spring.testcontainers.model.Person;
 /**
  * @author Thomas Freese
  */
-public interface PersonRepository
-{
+public interface PersonRepository {
+    List<Person> getAllOrderedById();
+
     void save(Person person);
 
     void saveAll(List<Person> persons);
-
-    List<Person> getAllOrderedById();
 }

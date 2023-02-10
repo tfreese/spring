@@ -3,16 +3,14 @@ package de.freese.spring.integration.cafe;
 /**
  * @author Thomas Freese
  */
-public class OrderItem
-{
+public class OrderItem {
     private final boolean iced;
 
     private final Order order;
 
     private final DrinkType type;
 
-    public OrderItem(final Order order, final DrinkType type, final boolean iced)
-    {
+    public OrderItem(final Order order, final DrinkType type, final boolean iced) {
         super();
 
         this.order = order;
@@ -20,18 +18,15 @@ public class OrderItem
         this.iced = iced;
     }
 
-    public DrinkType getDrinkType()
-    {
+    public DrinkType getDrinkType() {
         return this.type;
     }
 
-    public int getOrderNumber()
-    {
+    public int getOrderNumber() {
         return this.order.getNumber();
     }
 
-    public boolean isIced()
-    {
+    public boolean isIced() {
         return this.iced;
     }
 
@@ -39,8 +34,7 @@ public class OrderItem
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ((this.iced) ? "iced " : "hot ") + this.type;
     }
 }

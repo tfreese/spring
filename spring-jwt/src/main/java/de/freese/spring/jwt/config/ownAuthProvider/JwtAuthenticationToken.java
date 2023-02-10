@@ -9,15 +9,13 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 /**
  * @author Thomas Freese
  */
-class JwtAuthenticationToken extends AbstractAuthenticationToken
-{
+class JwtAuthenticationToken extends AbstractAuthenticationToken {
     @Serial
     private static final long serialVersionUID = 3544121276547291346L;
 
     private final String token;
 
-    JwtAuthenticationToken(final String token)
-    {
+    JwtAuthenticationToken(final String token) {
         super(null);
 
         this.token = token;
@@ -27,15 +25,12 @@ class JwtAuthenticationToken extends AbstractAuthenticationToken
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(final Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
 
-        if (!super.equals(obj) || !(obj instanceof JwtAuthenticationToken other))
-        {
+        if (!super.equals(obj) || !(obj instanceof JwtAuthenticationToken other)) {
             return false;
         }
 
@@ -46,8 +41,7 @@ class JwtAuthenticationToken extends AbstractAuthenticationToken
      * @see org.springframework.security.core.Authentication#getCredentials()
      */
     @Override
-    public Object getCredentials()
-    {
+    public Object getCredentials() {
         return null;
     }
 
@@ -55,13 +49,11 @@ class JwtAuthenticationToken extends AbstractAuthenticationToken
      * @see org.springframework.security.core.Authentication#getPrincipal()
      */
     @Override
-    public Object getPrincipal()
-    {
+    public Object getPrincipal() {
         return null;
     }
 
-    public String getToken()
-    {
+    public String getToken() {
         return this.token;
     }
 
@@ -69,8 +61,7 @@ class JwtAuthenticationToken extends AbstractAuthenticationToken
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
 

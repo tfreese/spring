@@ -10,11 +10,9 @@ import org.springframework.test.context.DynamicPropertySource;
  * @author Thomas Freese
  */
 //@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD) // Jede Methode mit eigenem Context.
-class TestHsqlDb extends AbstractTest
-{
+class TestHsqlDb extends AbstractTest {
     @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry)
-    {
+    static void properties(DynamicPropertyRegistry registry) {
         String id = UUID.randomUUID().toString();
 
         registry.add("spring.datasource.driver-class-name", DatabaseDriver.HSQLDB::getDriverClassName);

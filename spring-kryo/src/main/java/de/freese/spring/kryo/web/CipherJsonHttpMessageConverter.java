@@ -17,14 +17,12 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 /**
  * @author Thomas Freese
  */
-public class CipherJsonHttpMessageConverter extends AbstractHttpMessageConverter<Object>
-{
+public class CipherJsonHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
     private final ObjectMapper objectMapper;
 
-    public CipherJsonHttpMessageConverter(final ObjectMapper objectMapper)
-    {
+    public CipherJsonHttpMessageConverter(final ObjectMapper objectMapper) {
         super(MediaType.APPLICATION_JSON, new MediaType("application", "*+json", DEFAULT_CHARSET));
 
         this.objectMapper = objectMapper;
@@ -35,8 +33,7 @@ public class CipherJsonHttpMessageConverter extends AbstractHttpMessageConverter
      * @see org.springframework.http.converter.AbstractHttpMessageConverter#readInternal(java.lang.Class, org.springframework.http.HttpInputMessage)
      */
     @Override
-    protected Object readInternal(final Class<? extends Object> clazz, final HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException
-    {
+    protected Object readInternal(final Class<? extends Object> clazz, final HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
         return this.objectMapper.readValue(decrypt(inputMessage.getBody()), clazz);
     }
 
@@ -44,8 +41,7 @@ public class CipherJsonHttpMessageConverter extends AbstractHttpMessageConverter
      * @see org.springframework.http.converter.AbstractHttpMessageConverter#supports(java.lang.Class)
      */
     @Override
-    protected boolean supports(final Class<?> clazz)
-    {
+    protected boolean supports(final Class<?> clazz) {
         return true;
     }
 
@@ -53,19 +49,16 @@ public class CipherJsonHttpMessageConverter extends AbstractHttpMessageConverter
      * @see org.springframework.http.converter.AbstractHttpMessageConverter#writeInternal(java.lang.Object, org.springframework.http.HttpOutputMessage)
      */
     @Override
-    protected void writeInternal(final Object t, final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException
-    {
+    protected void writeInternal(final Object t, final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
         outputMessage.getBody().write(encrypt(this.objectMapper.writeValueAsBytes(t)));
     }
 
-    private InputStream decrypt(final InputStream inputStream)
-    {
+    private InputStream decrypt(final InputStream inputStream) {
         // do your decryption here
         return inputStream;
     }
 
-    private byte[] encrypt(final byte[] bytesToEncrypt)
-    {
+    private byte[] encrypt(final byte[] bytesToEncrypt) {
         // do your encryption here
         return bytesToEncrypt;
     }

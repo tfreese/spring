@@ -8,10 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class MyApplication
-{
-    public static void main(final String[] args)
-    {
+public class MyApplication {
+    public static void main(final String[] args) {
         SpringApplication.run(MyApplication.class, args);
     }
 }

@@ -28,21 +28,17 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-class TestResilience
-{
+class TestResilience {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestResilience.class);
 
     @Test
-    void testDecorators() throws Exception
-    {
+    void testDecorators() throws Exception {
         Object data = new Object();
 
-        Callable<Object> failingCode = () ->
-        {
+        Callable<Object> failingCode = () -> {
             double value = Math.random();
 
-            if (value < 0.5D)
-            {
+            if (value < 0.5D) {
                 LOGGER.info("throw Exception: {}", value);
                 throw new Exception("test exception");
             }
@@ -75,19 +71,15 @@ class TestResilience
 
         AtomicReference<Object> valueReference = new AtomicReference<>();
 
-        IntStream.range(0, 10).parallel().forEach(i ->
-        {
-            try
-            {
+        IntStream.range(0, 10).parallel().forEach(i -> {
+            try {
                 Object value = decoratedSupplier.call();
 
-                if (value != null)
-                {
+                if (value != null) {
                     valueReference.set(value);
                 }
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 // Ignore
             }
         });
@@ -96,8 +88,7 @@ class TestResilience
     }
 
     @Test
-    void testRateLimiter() throws Exception
-    {
+    void testRateLimiter() throws Exception {
         // 10 Requests/Second
         RateLimiterConfig config = RateLimiterConfig.custom().limitForPeriod(10).limitRefreshPeriod(Duration.ofSeconds(1)).build();
         // .timeoutDuration(Duration.ofSeconds(1))
@@ -108,12 +99,10 @@ class TestResilience
 
         int index = 0;
 
-        while (index < 100)
-        {
+        while (index < 100) {
             int[] buffer = new int[10];
 
-            for (int i = 0; i < 10; i++)
-            {
+            for (int i = 0; i < 10; i++) {
                 rateLimiter.acquirePermission(1);
                 buffer[i] = index;
                 index++;
@@ -126,16 +115,13 @@ class TestResilience
     }
 
     @Test
-    void testRetry() throws Exception
-    {
+    void testRetry() throws Exception {
         Object data = new Object();
 
-        Callable<Object> failingCode = () ->
-        {
+        Callable<Object> failingCode = () -> {
             double value = Math.random();
 
-            if (value < 0.95D)
-            {
+            if (value < 0.95D) {
                 LOGGER.info("throw Exception: {}", value);
                 throw new Exception("test exception");
             }
@@ -153,18 +139,15 @@ class TestResilience
         // Callable<Object> retryableCallable = Retry.decorateCallable(retry, failingCode);
         // Object value = Try.ofCallable(retryableCallable).get();
 
-        try
-        {
+        try {
             Object value = retry.executeCallable(failingCode);
             assertEquals(data, value);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             assertEquals("test exception", ex.getMessage());
         }
 
         Metrics metrics = retry.getMetrics();
-        LOGGER.info("{}, {}, {}, {}", metrics.getNumberOfFailedCallsWithoutRetryAttempt(), metrics.getNumberOfFailedCallsWithRetryAttempt(),
-                metrics.getNumberOfSuccessfulCallsWithoutRetryAttempt(), metrics.getNumberOfSuccessfulCallsWithRetryAttempt());
+        LOGGER.info("{}, {}, {}, {}", metrics.getNumberOfFailedCallsWithoutRetryAttempt(), metrics.getNumberOfFailedCallsWithRetryAttempt(), metrics.getNumberOfSuccessfulCallsWithoutRetryAttempt(), metrics.getNumberOfSuccessfulCallsWithRetryAttempt());
     }
 }

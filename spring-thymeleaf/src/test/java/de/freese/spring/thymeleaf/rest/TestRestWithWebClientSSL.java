@@ -13,8 +13,6 @@ import javax.net.ssl.TrustManagerFactory;
 import jakarta.annotation.Resource;
 
 import com.jayway.jsonpath.JsonPath;
-import de.freese.spring.thymeleaf.ThymeleafApplication;
-import de.freese.spring.thymeleaf.model.Person;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
@@ -31,21 +29,19 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
+import de.freese.spring.thymeleaf.ThymeleafApplication;
+import de.freese.spring.thymeleaf.model.Person;
+
 /**
  * @author Thomas Freese
  */
-@ActiveProfiles(
-        {
-                "test", "with-ssl"
-        })
-class TestRestWithWebClientSSL extends AbstractRestTestCase
-{
+@ActiveProfiles({"test", "with-ssl"})
+class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Resource
     private WebClient.Builder webClientBuilder;
 
     @BeforeEach
-    void beforeTest() throws Exception
-    {
+    void beforeTest() throws Exception {
         String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
 
         // final SslContext sslContext;
@@ -118,8 +114,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testHealthEndpoint() throws Exception
-    {
+    void testHealthEndpoint() throws Exception {
         // @formatter:off
         WebClient webClient = this.webClientBuilder.build();
 
@@ -163,8 +158,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testPost() throws Exception
-    {
+    void testPost() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
         Person newPerson = new Person("Thomas", "Freese");
 
@@ -211,8 +205,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testPostWithWrongRole() throws Exception
-    {
+    void testPostWithWrongRole() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
         Person newPerson = new Person("Thomas", "Freese");
 
@@ -243,8 +236,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithLoginJSON() throws Exception
-    {
+    void testUserWithLoginJSON() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -270,8 +262,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
      */
     @Override
     // @Test
-    void testUserWithLoginXML() throws Exception
-    {
+    void testUserWithLoginXML() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -299,8 +290,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithPreAuthJSON() throws Exception
-    {
+    void testUserWithPreAuthJSON() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -326,8 +316,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
      */
     @Override
     // @Test
-    void testUserWithPreAuthXML() throws Exception
-    {
+    void testUserWithPreAuthXML() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -353,8 +342,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithWrongPass() throws Exception
-    {
+    void testUserWithWrongPass() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -388,8 +376,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithWrongRole() throws Exception
-    {
+    void testUserWithWrongRole() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -413,8 +400,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase
      */
     @Override
     @Test
-    void testUserWithoutLogin() throws Exception
-    {
+    void testUserWithoutLogin() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off

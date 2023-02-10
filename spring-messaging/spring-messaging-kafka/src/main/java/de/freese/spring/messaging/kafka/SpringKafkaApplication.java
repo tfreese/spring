@@ -9,10 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class SpringKafkaApplication
-{
-    public static void main(String[] args)
-    {
+public class SpringKafkaApplication {
+    public static void main(String[] args) {
         // EmbeddedKafkaContextCustomizer
 
         SpringApplication.run(SpringKafkaApplication.class, args);

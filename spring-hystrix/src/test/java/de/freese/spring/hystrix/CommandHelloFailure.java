@@ -9,12 +9,10 @@ import com.netflix.hystrix.HystrixCommandGroupKey;
  *
  * @author Thomas Freese
  */
-public class CommandHelloFailure extends HystrixCommand<String>
-{
+public class CommandHelloFailure extends HystrixCommand<String> {
     private final String name;
 
-    public CommandHelloFailure(final String name)
-    {
+    public CommandHelloFailure(final String name) {
         // CommandGroupKey = ThreadPool-Name
         super(HystrixCommandGroupKey.Factory.asKey("TestGroup"));
 
@@ -25,8 +23,7 @@ public class CommandHelloFailure extends HystrixCommand<String>
      * @see com.netflix.hystrix.HystrixCommand#getFallback()
      */
     @Override
-    protected String getFallback()
-    {
+    protected String getFallback() {
         return "Hello Failure " + this.name + "!";
     }
 
@@ -34,8 +31,7 @@ public class CommandHelloFailure extends HystrixCommand<String>
      * @see com.netflix.hystrix.HystrixCommand#run()
      */
     @Override
-    protected String run() throws Exception
-    {
+    protected String run() throws Exception {
         throw new RuntimeException("this command always fails");
     }
 }

@@ -3,8 +3,6 @@ package de.freese.spring.reactive.web;
 
 import java.nio.charset.StandardCharsets;
 
-import de.freese.spring.reactive.model.Department;
-import de.freese.spring.reactive.model.Employee;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,21 +13,21 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.test.StepVerifier;
 
+import de.freese.spring.reactive.model.Department;
+import de.freese.spring.reactive.model.Employee;
+
 /**
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public interface TestWeb
-{
+public interface TestWeb {
     @AfterEach
-    default void afterEach()
-    {
+    default void afterEach() {
         doAfterEach();
     }
 
     @BeforeEach
-    default void beforeEach()
-    {
+    default void beforeEach() {
         doBeforeEach();
     }
 
@@ -42,8 +40,7 @@ public interface TestWeb
     WebTestClient getWebTestClient();
 
     @Test
-    default void testCreateNewEmployee()
-    {
+    default void testCreateNewEmployee() {
         // @formatter:off
         getWebTestClient()
             .put()
@@ -104,8 +101,7 @@ public interface TestWeb
     }
 
     @Test
-    default void testDeleteEmployee()
-    {
+    default void testDeleteEmployee() {
         // @formatter:off
         getWebTestClient()
             .delete()
@@ -158,8 +154,7 @@ public interface TestWeb
     }
 
     @Test
-    default void testGetAllDepartments()
-    {
+    default void testGetAllDepartments() {
         // @formatter:off
         getWebTestClient()
             .get()
@@ -188,8 +183,7 @@ public interface TestWeb
     }
 
     @Test
-    default void testGetAllEmployees()
-    {
+    default void testGetAllEmployees() {
         // @formatter:off
         getWebTestClient()
             .get()
@@ -217,8 +211,7 @@ public interface TestWeb
     }
 
     @Test
-    default void testGetEmployee()
-    {
+    default void testGetEmployee() {
         // @formatter:off
         getWebTestClient()
             .get()

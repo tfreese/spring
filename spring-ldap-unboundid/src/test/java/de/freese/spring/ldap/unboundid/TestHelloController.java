@@ -2,8 +2,6 @@ package de.freese.spring.ldap.unboundid;
 
 import jakarta.annotation.Resource;
 
-import de.freese.spring.ldap.unboundid.config.LdapConfig;
-import de.freese.spring.ldap.unboundid.controller.HelloController;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
@@ -13,20 +11,21 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import de.freese.spring.ldap.unboundid.config.LdapConfig;
+import de.freese.spring.ldap.unboundid.controller.HelloController;
+
 /**
  * @author Thomas Freese
  */
 @WebMvcTest(HelloController.class)
 @Import(LdapConfig.class)
 @ActiveProfiles("test")
-class TestHelloController
-{
+class TestHelloController {
     @Resource
     private MockMvc mvc;
 
     @Test
-    void testRootWhenAuthenticatedThenSaysHelloUser() throws Exception
-    {
+    void testRootWhenAuthenticatedThenSaysHelloUser() throws Exception {
         // @formatter:off
         this.mvc.perform(MockMvcRequestBuilders.get("/")
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("user", "password")))
@@ -35,8 +34,7 @@ class TestHelloController
     }
 
     @Test
-    void testRootWhenUnauthenticatedThen401() throws Exception
-    {
+    void testRootWhenUnauthenticatedThen401() throws Exception {
         // @formatter:off
         this.mvc.perform(MockMvcRequestBuilders.get("/"))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
@@ -44,8 +42,7 @@ class TestHelloController
     }
 
     @Test
-    void testTokenWhenBadCredentialsThen401() throws Exception
-    {
+    void testTokenWhenBadCredentialsThen401() throws Exception {
         // @formatter:off
         this.mvc.perform(MockMvcRequestBuilders.get("/")
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("user", "password_")))

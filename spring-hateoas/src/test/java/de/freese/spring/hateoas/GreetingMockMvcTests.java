@@ -23,14 +23,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-class GreetingMockMvcTests
-{
+class GreetingMockMvcTests {
     @Resource
     private MockMvc mockMvc;
 
     @Test
-    void testDefault() throws Exception
-    {
+    void testDefault() throws Exception {
         // @formatter:off
         this.mockMvc.perform(get("/greeter"))
             .andDo(MockMvcResultHandlers.print())
@@ -81,8 +79,7 @@ class GreetingMockMvcTests
     }
 
     @Test
-    void testPath() throws Exception
-    {
+    void testPath() throws Exception {
         // @formatter:off
        this.mockMvc.perform(get("/greeter/path/Test"))
            //.andDo(MockMvcResultHandlers.print())
@@ -96,8 +93,7 @@ class GreetingMockMvcTests
     }
 
     @Test
-    void testPojo() throws Exception
-    {
+    void testPojo() throws Exception {
         // @formatter:off
         this.mockMvc.perform(get("/greeter/pojo").param("name", "Test"))
             //.andDo(MockMvcResultHandlers.print())
@@ -111,8 +107,7 @@ class GreetingMockMvcTests
     }
 
     @Test
-    void testSimple() throws Exception
-    {
+    void testSimple() throws Exception {
         // @formatter:off
         this.mockMvc.perform(get("/greeter/simple"))
             //.andDo(MockMvcResultHandlers.print())

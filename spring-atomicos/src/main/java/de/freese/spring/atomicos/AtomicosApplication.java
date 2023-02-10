@@ -12,12 +12,10 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class AtomicosApplication
-{
+public class AtomicosApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(AtomicosApplication.class);
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         //        SpringApplication.run(AtomicosApplication.class, args);
         SpringApplication application = new SpringApplication(AtomicosApplication.class);
         application.setWebApplicationType(WebApplicationType.NONE);
@@ -25,32 +23,26 @@ public class AtomicosApplication
 
         TxService service = applicationContext.getBean(TxService.class);
 
-        try
-        {
+        try {
             service.insertData("User1", "City1");
             service.insertData("User2", "City2");
             service.selectAll();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
-        try
-        {
+        try {
             service.insertData("User3", "EinVielZuLangerStadtName");
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
 
-        try
-        {
+        try {
             service.selectAll();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }

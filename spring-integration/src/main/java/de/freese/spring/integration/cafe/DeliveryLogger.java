@@ -7,17 +7,14 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class DeliveryLogger
-{
+public class DeliveryLogger {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeliveryLogger.class);
 
-    public void log(final Delivery delivery)
-    {
+    public void log(final Delivery delivery) {
         LOGGER.info("-----------------------");
         LOGGER.info("Order #{}", delivery.getOrderNumber());
 
-        for (Drink drink : delivery.getDeliveredDrinks())
-        {
+        for (Drink drink : delivery.getDeliveredDrinks()) {
             LOGGER.info("{}", drink);
         }
 

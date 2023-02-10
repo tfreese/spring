@@ -14,17 +14,14 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-public class MicroServiceApplication extends SpringBootServletInitializer
-{
-    public static void main(final String[] args)
-    {
+public class MicroServiceApplication extends SpringBootServletInitializer {
+    public static void main(final String[] args) {
         configureApplication(new SpringApplicationBuilder()).run(args);
 
         //        SpringApplication.run(MicroServiceApplication.class, args);
     }
 
-    private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder)
-    {
+    private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder) {
         //@formatter:off
         return builder
             .sources(MicroServiceApplication.class)
@@ -50,8 +47,7 @@ public class MicroServiceApplication extends SpringBootServletInitializer
      * @see org.springframework.boot.web.servlet.support.SpringBootServletInitializer#configure(org.springframework.boot.builder.SpringApplicationBuilder)
      */
     @Override
-    protected SpringApplicationBuilder configure(final SpringApplicationBuilder application)
-    {
+    protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
         return configureApplication(application);
     }
 }

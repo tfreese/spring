@@ -24,11 +24,9 @@ import org.springframework.transaction.jta.JtaTransactionManager;
  */
 @Configuration
 @EnableTransactionManagement
-public class Config
-{
+public class Config {
     @Bean(initMethod = "init", destroyMethod = "close")
-    public AtomikosDataSourceBean dataSourceAddress()
-    {
+    public AtomikosDataSourceBean dataSourceAddress() {
         Properties xaProperties = new Properties();
         xaProperties.put("url", "jdbc:h2:mem:address;DB_CLOSE_DELAY=-1");
         xaProperties.put("user", "sa");
@@ -46,8 +44,7 @@ public class Config
     }
 
     @Bean(initMethod = "init", destroyMethod = "close")
-    public AtomikosDataSourceBean dataSourcePerson()
-    {
+    public AtomikosDataSourceBean dataSourcePerson() {
         JdbcDataSource h2DataSource = new JdbcDataSource();
         h2DataSource.setUrl("jdbc:h2:mem:person;DB_CLOSE_DELAY=-1");
         h2DataSource.setUser("sa");
@@ -69,8 +66,7 @@ public class Config
      * @param userTransactionManager {@link com.atomikos.icatch.jta.UserTransactionManager}
      */
     @Bean
-    public JtaTransactionManager jtaTransactionManager(UserTransactionManager userTransactionManager) throws SystemException
-    {
+    public JtaTransactionManager jtaTransactionManager(UserTransactionManager userTransactionManager) throws SystemException {
         JtaTransactionManager jtaTransactionManager = new JtaTransactionManager();
         jtaTransactionManager.setTransactionManager(userTransactionManager);
         jtaTransactionManager.setUserTransaction(userTransactionManager);
@@ -79,8 +75,7 @@ public class Config
     }
 
     @Bean(initMethod = "init", destroyMethod = "close")
-    public UserTransactionManager userTransactionManager() throws SystemException
-    {
+    public UserTransactionManager userTransactionManager() throws SystemException {
         UserTransactionManager userTransactionManager = new UserTransactionManager();
         userTransactionManager.setTransactionTimeout(300);
         userTransactionManager.setForceShutdown(true);

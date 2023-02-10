@@ -9,8 +9,6 @@ import java.util.Objects;
 
 import javax.sql.DataSource;
 
-import de.freese.spring.reactive.model.Department;
-import de.freese.spring.reactive.model.Employee;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -20,24 +18,24 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import de.freese.spring.reactive.model.Department;
+import de.freese.spring.reactive.model.Employee;
+
 /**
  * @author Thomas Freese
  */
 @Repository
 @Profile("jdbc")
-public class EmployeeRepositoryJdbc implements EmployeeRepository
-{
+public class EmployeeRepositoryJdbc implements EmployeeRepository {
     /**
      * @author Thomas Freese
      */
-    private static class DepartmentRowMapper implements RowMapper<Department>
-    {
+    private static class DepartmentRowMapper implements RowMapper<Department> {
         /**
          * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
          */
         @Override
-        public Department mapRow(final ResultSet rs, final int rowNum) throws SQLException
-        {
+        public Department mapRow(final ResultSet rs, final int rowNum) throws SQLException {
             Department department = new Department();
             department.setId(rs.getLong("department_id"));
             department.setName(rs.getString("department_name"));
@@ -49,14 +47,12 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
     /**
      * @author Thomas Freese
      */
-    private static class EmployeeRowMapper implements RowMapper<Employee>
-    {
+    private static class EmployeeRowMapper implements RowMapper<Employee> {
         /**
          * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
          */
         @Override
-        public Employee mapRow(final ResultSet rs, final int rowNum) throws SQLException
-        {
+        public Employee mapRow(final ResultSet rs, final int rowNum) throws SQLException {
             Employee employee = new Employee();
             employee.setId(rs.getLong("employee_id"));
             employee.setLastName(rs.getString("employee_lastname"));
@@ -69,8 +65,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
 
     private final JdbcTemplate jdbcTemplate;
 
-    public EmployeeRepositoryJdbc(final DataSource dataSource)
-    {
+    public EmployeeRepositoryJdbc(final DataSource dataSource) {
         super();
 
         this.jdbcTemplate = new JdbcTemplate(Objects.requireNonNull(dataSource, "dataSource required"));
@@ -80,16 +75,14 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#createNewEmployee(de.freese.spring.reactive.model.Employee)
      */
     @Override
-    public Mono<Employee> createNewEmployee(final Employee newEmployee)
-    {
+    public Mono<Employee> createNewEmployee(final Employee newEmployee) {
         String sqlSelect = "SELECT department_id from department where department_name = ?";
         long departmentId = this.jdbcTemplate.queryForObject(sqlSelect, Long.class, newEmployee.getDepartment());
 
         String sqlInsert = "INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        this.jdbcTemplate.update(connection ->
-        {
+        this.jdbcTemplate.update(connection -> {
             PreparedStatement prepStmt = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, newEmployee.getLastName());
             prepStmt.setString(2, newEmployee.getFirstName());
@@ -107,8 +100,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#deleteEmployee(long)
      */
     @Override
-    public Mono<Long> deleteEmployee(final long id)
-    {
+    public Mono<Long> deleteEmployee(final long id) {
         String sql = "DELETE FROM employee WHERE employee_id = ?";
 
         long affectedRows = this.jdbcTemplate.update(sql, id);
@@ -120,8 +112,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#getAllDepartments()
      */
     @Override
-    public Flux<Department> getAllDepartments()
-    {
+    public Flux<Department> getAllDepartments() {
         String sql = "select * from department";
 
         List<Department> result = this.jdbcTemplate.query(sql, new DepartmentRowMapper());
@@ -133,8 +124,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#getAllEmployees()
      */
     @Override
-    public Flux<Employee> getAllEmployees()
-    {
+    public Flux<Employee> getAllEmployees() {
         String sql = """
                 select e.*, d.department_name
                 from employee e
@@ -150,8 +140,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository
      * @see de.freese.spring.reactive.repository.EmployeeRepository#getEmployee(java.lang.String, java.lang.String)
      */
     @Override
-    public Mono<Employee> getEmployee(final String lastName, final String firstName)
-    {
+    public Mono<Employee> getEmployee(final String lastName, final String firstName) {
         String sql = """
                 select e.*, d.department_name
                 from employee e
