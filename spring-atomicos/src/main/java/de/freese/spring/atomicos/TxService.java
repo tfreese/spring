@@ -9,11 +9,11 @@ import java.sql.Statement;
 import javax.sql.DataSource;
 
 import jakarta.annotation.Resource;
-import jakarta.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Thomas Freese
@@ -28,7 +28,7 @@ public class TxService {
     @Resource
     private DataSource dataSourcePerson;
 
-    @Transactional(rollbackOn = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void insertData(String personName, String city) throws Exception {
         long id = System.nanoTime();
 

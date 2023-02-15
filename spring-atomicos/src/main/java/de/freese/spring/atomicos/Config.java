@@ -5,8 +5,6 @@ import java.util.Properties;
 
 import javax.sql.XADataSource;
 
-import jakarta.transaction.SystemException;
-
 import com.atomikos.icatch.jta.UserTransactionManager;
 import com.atomikos.spring.AtomikosDataSourceBean;
 import org.h2.jdbcx.JdbcDataSource;
@@ -66,7 +64,7 @@ public class Config {
      * @param userTransactionManager {@link com.atomikos.icatch.jta.UserTransactionManager}
      */
     @Bean
-    public JtaTransactionManager jtaTransactionManager(UserTransactionManager userTransactionManager) throws SystemException {
+    public JtaTransactionManager jtaTransactionManager(UserTransactionManager userTransactionManager) {
         JtaTransactionManager jtaTransactionManager = new JtaTransactionManager();
         jtaTransactionManager.setTransactionManager(userTransactionManager);
         jtaTransactionManager.setUserTransaction(userTransactionManager);
@@ -75,7 +73,7 @@ public class Config {
     }
 
     @Bean(initMethod = "init", destroyMethod = "close")
-    public UserTransactionManager userTransactionManager() throws SystemException {
+    public UserTransactionManager userTransactionManager() {
         UserTransactionManager userTransactionManager = new UserTransactionManager();
         userTransactionManager.setTransactionTimeout(300);
         userTransactionManager.setForceShutdown(true);
