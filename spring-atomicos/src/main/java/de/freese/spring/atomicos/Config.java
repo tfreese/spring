@@ -5,14 +5,12 @@ import java.util.Properties;
 
 import javax.sql.XADataSource;
 
-import com.atomikos.icatch.jta.UserTransactionManager;
 import com.atomikos.spring.AtomikosDataSourceBean;
 import org.h2.jdbcx.JdbcDataSource;
 import org.springframework.boot.jdbc.DatabaseDriver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.jta.JtaTransactionManager;
 
 /**
  * <a href="https://www.baeldung.com/java-atomikos">https://www.baeldung.com/java-atomikos</a><br>
@@ -23,7 +21,12 @@ import org.springframework.transaction.jta.JtaTransactionManager;
 @Configuration
 @EnableTransactionManagement
 public class Config {
-    @Bean(initMethod = "init", destroyMethod = "close")
+
+    /**
+     * com.atomikos.spring.AtomikosDataSourceBean supports init() and close().<br>
+     * com.atomikos.jdbc.AtomikosDataSourceBean does not.<br>
+     */
+    @Bean//(initMethod = "init", destroyMethod = "close")
     public AtomikosDataSourceBean dataSourceAddress() {
         Properties xaProperties = new Properties();
         xaProperties.put("url", "jdbc:h2:mem:address;DB_CLOSE_DELAY=-1");
@@ -41,7 +44,11 @@ public class Config {
         return dataSource;
     }
 
-    @Bean(initMethod = "init", destroyMethod = "close")
+    /**
+     * com.atomikos.spring.AtomikosDataSourceBean supports init() and close().<br>
+     * com.atomikos.jdbc.AtomikosDataSourceBean does not.<br>
+     */
+    @Bean//(initMethod = "init", destroyMethod = "close")
     public AtomikosDataSourceBean dataSourcePerson() {
         JdbcDataSource h2DataSource = new JdbcDataSource();
         h2DataSource.setUrl("jdbc:h2:mem:person;DB_CLOSE_DELAY=-1");
@@ -60,26 +67,26 @@ public class Config {
         return dataSource;
     }
 
-    /**
-     * @param userTransactionManager {@link com.atomikos.icatch.jta.UserTransactionManager}
-     */
-    @Bean
-    public JtaTransactionManager jtaTransactionManager(UserTransactionManager userTransactionManager) {
-        JtaTransactionManager jtaTransactionManager = new JtaTransactionManager();
-        jtaTransactionManager.setTransactionManager(userTransactionManager);
-        jtaTransactionManager.setUserTransaction(userTransactionManager);
-
-        return jtaTransactionManager;
-    }
-
-    @Bean(initMethod = "init", destroyMethod = "close")
-    public UserTransactionManager userTransactionManager() {
-        UserTransactionManager userTransactionManager = new UserTransactionManager();
-        userTransactionManager.setTransactionTimeout(300);
-        userTransactionManager.setForceShutdown(true);
-
-        return userTransactionManager;
-    }
+    //    /**
+    //     * @param userTransactionManager {@link com.atomikos.icatch.jta.UserTransactionManager}
+    //     */
+    //    @Bean
+    //    public JtaTransactionManager jtaTransactionManager(UserTransactionManager userTransactionManager) {
+    //        JtaTransactionManager jtaTransactionManager = new JtaTransactionManager();
+    //        jtaTransactionManager.setTransactionManager(userTransactionManager);
+    //        jtaTransactionManager.setUserTransaction(userTransactionManager);
+    //
+    //        return jtaTransactionManager;
+    //    }
+    //
+    //    @Bean(initMethod = "init", destroyMethod = "close")
+    //    public UserTransactionManager userTransactionManager() {
+    //        UserTransactionManager userTransactionManager = new UserTransactionManager();
+    //        userTransactionManager.setTransactionTimeout(300);
+    //        userTransactionManager.setForceShutdown(true);
+    //
+    //        return userTransactionManager;
+    //    }
 }
 
 // Für Hibernate, momentan nur für Version 4.x verfügbar.

@@ -26,8 +26,8 @@
 
     <scm>
         <url>${project.url}</url>
-        <connection>scm:git:git://github.com/tfreese/spring.git</connection>
-        <developerConnection>scm:git:https://github.com/tfreese/spring.git</developerConnection>
+        <connection>scm:git:git@github.com/tfreese/spring.git</connection>
+        <developerConnection>scm:git:git@github.com/tfreese/spring.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
