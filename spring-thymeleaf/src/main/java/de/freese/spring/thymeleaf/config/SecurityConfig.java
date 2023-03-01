@@ -41,42 +41,6 @@ public class SecurityConfig {
         return new RestAuthenticationEntryPoint();
     }
 
-    /**
-     * {@link AccessDecisionVoter} prüfen die Authentifizierung nach bestimmten Vorgaben, z.B. Expression, Roles usw.<br>
-     * HttpSecurity#accessDecisionManager(accessDecisionManager());<br>
-     * <br>
-     * Beispiel: Die Rolle 'USER' darf sich nur an geraden Minuten anmelden (MinuteBasedVoter):<br>
-     *
-     * <pre>
-     * <code>
-     * public int vote(Authentication authentication, Object object, Collection collection)
-     * {
-     *      return authentication.getAuthorities().stream()
-     *          .map(GrantedAuthority::getAuthority)
-     *          .filter(r -> "ROLE_USER".equals(r) && LocalDateTime.now().getMinute() % 2 != 0)
-     *          .findAny()
-     *          .map(s -> ACCESS_DENIED)
-     *          .orElseGet(() -> ACCESS_ABSTAIN);
-     * }
-     * </code>
-     * </pre>
-     *
-     * @see {@link https://www.baeldung.com/spring-security-custom-voter}
-     */
-    // @Bean
-    // public AccessDecisionManager accessDecisionManager()
-    // {
-    //        // @formatter:off
-//        List<AccessDecisionVoter<? extends Object>> decisionVoters =
-//                Arrays.asList(
-//                        new WebExpressionVoter(),
-//                        new RoleVoter(),
-//                        new AuthenticatedVoter(),
-//                        new MinuteBasedVoter());
-//
-//        // @formatter:on
-    // return new UnanimousBased(decisionVoters);
-    // }
     @Bean
     AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderPreAuthenticated, final AuthenticationProvider authenticationProviderDao) {
         ProviderManager providerManager = new ProviderManager(authenticationProviderPreAuthenticated, authenticationProviderDao);

@@ -17,7 +17,6 @@ import com.nimbusds.jose.JWEHeader;
 import com.nimbusds.jose.crypto.PasswordBasedDecrypter;
 import com.nimbusds.jose.crypto.PasswordBasedEncrypter;
 import com.nimbusds.jwt.EncryptedJWT;
-import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTClaimsSet.Builder;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -86,10 +85,10 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider {
         JWEEncrypter encrypter = new PasswordBasedEncrypter(this.secretKey, 8, 1000);
 
         JWEHeader header = new JWEHeader(JWEAlgorithm.PBES2_HS512_A256KW, EncryptionMethod.A256CBC_HS512);
-        JWT encryptedJWT = new EncryptedJWT(header, jwtClaims);
+        EncryptedJWT encryptedJWT = new EncryptedJWT(header, jwtClaims);
 
         try {
-            ((EncryptedJWT) encryptedJWT).encrypt(encrypter);
+            encryptedJWT.encrypt(encrypter);
         }
         catch (IllegalStateException ex) {
             throw new AuthenticationServiceException("Token is not in an unencrypted state");

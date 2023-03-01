@@ -114,7 +114,7 @@ public class LoadBalancer implements LoadBalancerPing {
         }
 
         /**
-         * Parallele Pings mir dem {@link ExecutorCompletionService}.
+         * Parallele Pings mit dem {@link ExecutorCompletionService}.
          */
         List<String> pingWithCompletionService(final List<String> allServers) {
             List<String> workingServers = new ArrayList<>();

@@ -146,7 +146,7 @@ public class SecurityCommonConfig {
 
         // UserDetails kopieren, da bei ProviderManager.setEraseCredentialsAfterAuthentication(true)
         // das Password auf null gesetzt wird, kein zweiter Login mehr möglich, es folgt NullPointer
-        // Siehe #userDetailsServiceJdbc()
+        // Siehe #userDetailsServiceJdbc().
         // Das Kopieren der UserDetails findet hier bereits im InMemoryUserDetailsManager#loadUserByUsername statt.
 
         return userDetailsManager;

@@ -79,7 +79,7 @@ public abstract class AbstractClientReflectionController<T> {
     }
 
     protected T lookupProxyHttpConnection(final Class<T> fassadeType) {
-        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
+        Object proxyObject = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
 
             URL url = new URL(this.rootUri + "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -161,6 +161,8 @@ public abstract class AbstractClientReflectionController<T> {
 
             return result;
         });
+
+        return fassadeType.cast(proxyObject);
     }
 
     protected T lookupProxyRestTemplate(final Class<T> fassadeType) {
