@@ -20,16 +20,16 @@
         <!-- compile scope -->
         <dependency>
             <groupId>com.atomikos</groupId>
-            <artifactId>transactions-spring-boot-starter</artifactId>
+            <artifactId>transactions-spring-boot3-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework</groupId>-->
+        <!--            <artifactId>spring-tx</artifactId>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>

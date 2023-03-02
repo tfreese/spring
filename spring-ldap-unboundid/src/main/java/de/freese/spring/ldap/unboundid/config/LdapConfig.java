@@ -3,7 +3,6 @@ package de.freese.spring.ldap.unboundid.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.support.BaseLdapPathContextSource;
 import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
 import org.springframework.security.ldap.authentication.BindAuthenticator;
@@ -34,7 +33,7 @@ public class LdapConfig {
     }
 
     @Bean
-    ContextSource contextSource(UnboundIdContainer container, @Value("${spring.ldap.base-dn}") String baseDn) {
+    BaseLdapPathContextSource contextSource(UnboundIdContainer container, @Value("${spring.ldap.base-dn}") String baseDn) {
         int port = container.getPort();
 
         return new DefaultSpringSecurityContextSource("ldap://localhost:" + port + "/" + baseDn);

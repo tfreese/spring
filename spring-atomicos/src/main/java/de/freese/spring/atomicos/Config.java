@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import javax.sql.XADataSource;
 
+import com.atomikos.icatch.jta.UserTransactionManager;
 import com.atomikos.spring.AtomikosDataSourceBean;
 import org.h2.jdbcx.JdbcDataSource;
 import org.springframework.boot.jdbc.DatabaseDriver;
@@ -78,15 +79,15 @@ public class Config {
     //
     //        return jtaTransactionManager;
     //    }
-    //
-    //    @Bean(initMethod = "init", destroyMethod = "close")
-    //    public UserTransactionManager userTransactionManager() {
-    //        UserTransactionManager userTransactionManager = new UserTransactionManager();
-    //        userTransactionManager.setTransactionTimeout(300);
-    //        userTransactionManager.setForceShutdown(true);
-    //
-    //        return userTransactionManager;
-    //    }
+
+    @Bean(initMethod = "init", destroyMethod = "close")
+    public UserTransactionManager userTransactionManager() {
+        UserTransactionManager userTransactionManager = new UserTransactionManager();
+        userTransactionManager.setTransactionTimeout(300);
+        userTransactionManager.setForceShutdown(true);
+
+        return userTransactionManager;
+    }
 }
 
 // Für Hibernate, momentan nur für Version 4.x verfügbar.

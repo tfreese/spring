@@ -64,7 +64,7 @@
     </properties>
 
     <modules>
-        <!--        <module>spring-atomicos</module>-->
+        <module>spring-atomicos</module>
         <module>spring-autoconfigure-dbserver</module>
         <module>spring-cloud</module>
         <module>spring-hateoas</module>
@@ -130,7 +130,7 @@
 
             <dependency>
                 <groupId>com.atomikos</groupId>
-                <artifactId>transactions-spring-boot-starter</artifactId>
+                <artifactId>transactions-spring-boot3-starter</artifactId>
                 <version>${version_com.atomikos}</version>
             </dependency>
             <dependency>
