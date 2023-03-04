@@ -12,7 +12,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class AtomicosApplication {
+public final class AtomicosApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(AtomicosApplication.class);
 
     public static void main(String[] args) {
@@ -45,5 +45,9 @@ public class AtomicosApplication {
         catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
+    }
+
+    private AtomicosApplication() {
+        super();
     }
 }
