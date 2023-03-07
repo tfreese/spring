@@ -166,7 +166,7 @@ public abstract class AbstractClientReflectionController<T> {
     }
 
     protected T lookupProxyRestTemplate(final Class<T> fassadeType) {
-        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
+        Object proxyObject = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
 
             // @formatter:off
             RestTemplate restTemplate = new RestTemplateBuilder()
@@ -216,6 +216,8 @@ public abstract class AbstractClientReflectionController<T> {
                 throw ex;
             }
         });
+
+        return fassadeType.cast(proxyObject);
     }
 
     protected T lookupProxyRetry(final T fassade) {
