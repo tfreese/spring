@@ -4,12 +4,10 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 /**
  * @author Thomas Freese
  */
-@Testcontainers
 class TestContainerMariaDb extends AbstractTest {
     /**
      * will be shared between test methods<br />

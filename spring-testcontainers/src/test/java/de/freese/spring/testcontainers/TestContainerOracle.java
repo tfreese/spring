@@ -7,12 +7,10 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.OracleContainer;
 import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 /**
  * @author Thomas Freese
  */
-@Testcontainers
 class TestContainerOracle extends AbstractTest {
     @Container
     private static final OracleContainer DB_CONTAINER = new OracleContainer("gvenzl/oracle-xe:latest");

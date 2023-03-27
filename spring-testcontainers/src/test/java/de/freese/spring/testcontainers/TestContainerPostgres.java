@@ -5,12 +5,10 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 /**
  * @author Thomas Freese
  */
-@Testcontainers
 @Disabled("Postgres löscht die Sequence nicht")
 class TestContainerPostgres extends AbstractTest {
     @Container

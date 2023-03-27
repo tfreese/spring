@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ActiveProfiles;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import de.freese.jdbc.dialect.JdbcDialect;
 import de.freese.spring.testcontainers.model.Person;
@@ -30,6 +31,7 @@ import de.freese.spring.testcontainers.service.PersonService;
  */
 @SpringBootTest(classes = Application.class)
 @ActiveProfiles("test")
+@Testcontainers(disabledWithoutDocker = true)
 abstract class AbstractTest {
     @Resource
     private DataSource dataSource;
