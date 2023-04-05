@@ -57,8 +57,8 @@
 
         <version_org.apache.qpid>9.0.0</version_org.apache.qpid>
         <version_org.joinfaces>5.0.5</version_org.joinfaces>
-        <version_org.springdoc>1.6.15</version_org.springdoc>
-        <version_org.testcontainers>1.17.6</version_org.testcontainers>
+        <version_org.springdoc>1.7.0</version_org.springdoc>
+        <version_org.testcontainers>1.18.0</version_org.testcontainers>
 
         <version_spring-cloud-starter-netflix>2.2.10.RELEASE</version_spring-cloud-starter-netflix>
     </properties>
