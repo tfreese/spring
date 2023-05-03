@@ -12,7 +12,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author Thomas Freese
  */
 @SpringBootApplication
-public final class AtomicosApplication {
+public class AtomicosApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(AtomicosApplication.class);
 
     public static void main(String[] args) {
@@ -24,8 +24,8 @@ public final class AtomicosApplication {
         TxService service = applicationContext.getBean(TxService.class);
 
         try {
-            service.insertData("User1", "City1");
-            service.insertData("User2", "City2");
+            service.insertData("Person1", "City1");
+            service.insertData("Person2", "City2");
             service.selectAll();
         }
         catch (Exception ex) {
@@ -33,7 +33,7 @@ public final class AtomicosApplication {
         }
 
         try {
-            service.insertData("User3", "EinVielZuLangerStadtName");
+            service.insertData("Person3", "EinVielZuLangerStadtName");
         }
         catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -45,9 +45,5 @@ public final class AtomicosApplication {
         catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
-    }
-
-    private AtomicosApplication() {
-        super();
     }
 }

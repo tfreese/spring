@@ -5,12 +5,16 @@ import java.util.Properties;
 
 import javax.sql.XADataSource;
 
+import jakarta.transaction.SystemException;
+
+import com.atomikos.icatch.jta.UserTransactionManager;
 import com.atomikos.spring.AtomikosDataSourceBean;
 import org.h2.jdbcx.JdbcDataSource;
 import org.springframework.boot.jdbc.DatabaseDriver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.jta.JtaTransactionManager;
 
 /**
  * <a href="https://www.baeldung.com/java-atomikos">https://www.baeldung.com/java-atomikos</a><br>
@@ -67,26 +71,29 @@ public class Config {
         return dataSource;
     }
 
-    //    /**
-    //     * @param userTransactionManager {@link com.atomikos.icatch.jta.UserTransactionManager}
-    //     */
-    //    @Bean
-    //    public JtaTransactionManager jtaTransactionManager(UserTransactionManager userTransactionManager) {
-    //        JtaTransactionManager jtaTransactionManager = new JtaTransactionManager();
-    //        jtaTransactionManager.setTransactionManager(userTransactionManager);
-    //        jtaTransactionManager.setUserTransaction(userTransactionManager);
-    //
-    //        return jtaTransactionManager;
-    //    }
+    /**
+     * @param userTransactionManager {@link com.atomikos.icatch.jta.UserTransactionManager}
+     */
+    @Bean
+    public JtaTransactionManager jtaTransactionManager(UserTransactionManager userTransactionManager) {
+        JtaTransactionManager jtaTransactionManager = new JtaTransactionManager();
+        jtaTransactionManager.setTransactionManager(userTransactionManager);
+        jtaTransactionManager.setUserTransaction(userTransactionManager);
 
-    //    @Bean(initMethod = "init", destroyMethod = "close")
-    //    public UserTransactionManager userTransactionManager() {
-    //        UserTransactionManager userTransactionManager = new UserTransactionManager();
-    //        userTransactionManager.setTransactionTimeout(300);
-    //        userTransactionManager.setForceShutdown(true);
-    //
-    //        return userTransactionManager;
-    //    }
+        return jtaTransactionManager;
+    }
+
+    /**
+     * @return {@link com.atomikos.icatch.jta.UserTransactionManager}
+     */
+    @Bean(initMethod = "init", destroyMethod = "close")
+    public UserTransactionManager userTransactionManager() throws SystemException {
+        UserTransactionManager userTransactionManager = new UserTransactionManager();
+        userTransactionManager.setTransactionTimeout(300);
+        userTransactionManager.setForceShutdown(true);
+
+        return userTransactionManager;
+    }
 }
 
 // Für Hibernate, momentan nur für Version 4.x verfügbar.

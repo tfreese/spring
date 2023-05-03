@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -38,7 +40,8 @@ public class TxService {
                     values
                     (?, ?)
                 """;
-        try (Connection connection = this.dataSourcePerson.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sqlPerson)) {
+        try (Connection connection = this.dataSourcePerson.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sqlPerson)) {
             preparedStatement.setLong(1, id);
             preparedStatement.setString(2, personName);
 
@@ -52,7 +55,8 @@ public class TxService {
                     (?, ?)
                 """;
 
-        try (Connection connection = this.dataSourceAddress.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sqlAddress)) {
+        try (Connection connection = this.dataSourceAddress.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sqlAddress)) {
             preparedStatement.setLong(1, id);
             preparedStatement.setString(2, city);
 
@@ -61,15 +65,25 @@ public class TxService {
     }
 
     public void selectAll() throws Exception {
-        try (Connection connectionPerson = this.dataSourcePerson.getConnection(); Statement statementPerson = connectionPerson.createStatement(); ResultSet resultSetPerson = statementPerson.executeQuery("select * from PERSON")) {
-            while (resultSetPerson.next()) {
-                LOGGER.info("{} - {}", resultSetPerson.getLong("ID"), resultSetPerson.getString("NAME"));
+        Map<Long, String> personIdToCity = new HashMap<>();
+
+        try (Connection connectionAddress = this.dataSourceAddress.getConnection();
+             PreparedStatement preparedStatementAddress = connectionAddress.prepareStatement("select * from ADDRESS");
+             ResultSet resultSetAddress = preparedStatementAddress.executeQuery()) {
+            while (resultSetAddress.next()) {
+                personIdToCity.put(resultSetAddress.getLong("PERSON_ID"), resultSetAddress.getString("CITY"));
             }
         }
 
-        try (Connection connectionAddress = this.dataSourceAddress.getConnection(); PreparedStatement preparedStatementAddress = connectionAddress.prepareStatement("select * from ADDRESS"); ResultSet resultSetAddress = preparedStatementAddress.executeQuery()) {
-            while (resultSetAddress.next()) {
-                LOGGER.info("\t{} - {}", resultSetAddress.getLong("PERSON_ID"), resultSetAddress.getString("CITY"));
+        try (Connection connectionPerson = this.dataSourcePerson.getConnection();
+             Statement statementPerson = connectionPerson.createStatement();
+             ResultSet resultSetPerson = statementPerson.executeQuery("select * from PERSON")) {
+            while (resultSetPerson.next()) {
+                long personId = resultSetPerson.getLong("ID");
+                String personName = resultSetPerson.getString("NAME");
+                String city = personIdToCity.getOrDefault(personId, null);
+
+                LOGGER.info("{} - {} - {}", personId, personName, city);
             }
         }
     }
