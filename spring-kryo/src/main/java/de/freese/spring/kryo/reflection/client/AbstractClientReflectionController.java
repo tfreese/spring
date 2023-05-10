@@ -10,7 +10,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -81,8 +81,8 @@ public abstract class AbstractClientReflectionController<T> {
     protected T lookupProxyHttpConnection(final Class<T> fassadeType) {
         Object proxyObject = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
 
-            URL url = new URL(this.rootUri + "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName());
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            URI uri = URI.create(this.rootUri + "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName());
+            HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
 
             Kryo kryo = getKryoPool().obtain();
             int chunkSize = 1024 * 1024;
@@ -104,7 +104,8 @@ public abstract class AbstractClientReflectionController<T> {
 
                 connection.connect();
 
-                try (OutputStream outputStream = connection.getOutputStream(); Output output = new Output(outputStream, chunkSize)) {
+                try (OutputStream outputStream = connection.getOutputStream();
+                     Output output = new Output(outputStream, chunkSize)) {
                     if (hasInputStreamArg) {
                         // Parameter-Typen und -Argumente zuerst.
                         kryo.writeClassAndObject(output, new Object[]{method.getParameterTypes(), Arrays.copyOfRange(args, 0, args.length - 1)});
@@ -150,7 +151,7 @@ public abstract class AbstractClientReflectionController<T> {
             }
             catch (Exception ex) {
                 // getLogger().error("HTTP {} - {}", connection.getResponseCode(), connection.getResponseMessage());
-                getLogger().error(url.toString());
+                getLogger().error(uri.toString());
                 // getLogger().error(ex.getMessage(), ex);
 
                 throw ex;

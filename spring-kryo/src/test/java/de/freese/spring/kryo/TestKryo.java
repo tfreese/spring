@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest;
@@ -252,9 +251,9 @@ class TestKryo {
     }
 
     protected void testUrlConnection(final String path, final MediaType mediaType) throws Exception {
-        URL url = new URL("http", "localhost", this.localServerPort, path);
+        URI uri = URI.create("http://localhost:" + this.localServerPort + path);
 
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
 
         connection.setRequestMethod(HttpMethod.GET.toString());
         // connection.setRequestProperty("Content-Type", KryoHttpMessageConverter.APPLICATION_KRYO_VALUE);

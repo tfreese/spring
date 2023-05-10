@@ -78,11 +78,15 @@
             <!-- spring-boot:run -->
             <!-- spring-boot:repackage für executable jar -->
             <!-- mvn package enthält hiermit schon spring-boot:repackage-->
-            <!-- java -jar -D"server.port=8899" target/service-0.0.1-SNAPSHOT-jar-with-dependencies.jar -->
+            <!-- java -jar -D"server.port=8899" target/service-0.0.1-SNAPSHOT-spring.jar -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <!--                    <jvmArguments>-->
+                    <!--                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
+                    <!--                    </jvmArguments>-->
+                    <layout>ZIP</layout>
                     <classifier>spring</classifier>
                 </configuration>
                 <executions>

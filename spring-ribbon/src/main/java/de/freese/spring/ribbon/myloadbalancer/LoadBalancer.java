@@ -18,7 +18,6 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -147,7 +146,8 @@ public class LoadBalancer implements LoadBalancerPing {
                     .parallel()
                     .map(server -> isAlive(server) ? server : null)
                     .filter(Objects::nonNull)
-                    .collect(Collectors.toList());
+                    .toList()
+                    ;
             // @formatter:on
         }
     }

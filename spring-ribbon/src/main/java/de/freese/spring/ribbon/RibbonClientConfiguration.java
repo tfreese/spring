@@ -4,7 +4,7 @@ package de.freese.spring.ribbon;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -40,6 +40,30 @@ public class RibbonClientConfiguration {
      * @author Thomas Freese
      */
     private static class MyPing extends PingUrl {
+        private static String getContent(final HttpURLConnection connection) {
+            try (InputStream inputStream = connection.getInputStream()) {
+                if (inputStream == null) {
+                    return null;
+                }
+
+                try (ReadableByteChannel channel = Channels.newChannel(inputStream)) {
+                    int capacity = inputStream.available();
+
+                    ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);
+
+                    channel.read(byteBuffer);
+                    byteBuffer.rewind();
+
+                    return StandardCharsets.UTF_8.decode(byteBuffer).toString();
+                }
+            }
+            catch (IOException iex) {
+                // Empty
+            }
+
+            return null;
+        }
+        
         private final Logger logger = LoggerFactory.getLogger(MyPing.class);
 
         /**
@@ -49,17 +73,17 @@ public class RibbonClientConfiguration {
         public boolean isAlive(final Server server) {
             this.logger.debug("pinging: {}", server);
 
-            String urlStr = "";
+            String uriStr = "";
 
             if (isSecure()) {
-                urlStr = "https://";
+                uriStr = "https://";
             }
             else {
-                urlStr = "http://";
+                uriStr = "http://";
             }
 
-            urlStr += server.getId();
-            urlStr += getPingAppendString();
+            uriStr += server.getId();
+            uriStr += getPingAppendString();
 
             boolean isAlive = false;
 
@@ -69,7 +93,7 @@ public class RibbonClientConfiguration {
                 // HttpResponse response = httpClient.execute(getRequest);
                 // String content = EntityUtils.toString(response.getEntity());
                 // isAlive = response.getStatusLine().getStatusCode() == 200;
-                HttpURLConnection connection = (HttpURLConnection) new URL(urlStr).openConnection();
+                HttpURLConnection connection = (HttpURLConnection) URI.create(uriStr).toURL().openConnection();
                 connection.setRequestMethod("GET");
                 String content = getContent(connection);
                 isAlive = connection.getResponseCode() == 200;
@@ -95,30 +119,6 @@ public class RibbonClientConfiguration {
             // }
 
             return isAlive;
-        }
-
-        private String getContent(final HttpURLConnection connection) {
-            try (InputStream inputStream = connection.getInputStream()) {
-                if (inputStream == null) {
-                    return null;
-                }
-
-                try (ReadableByteChannel channel = Channels.newChannel(inputStream)) {
-                    int capacity = inputStream.available();
-
-                    ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);
-
-                    channel.read(byteBuffer);
-                    byteBuffer.rewind();
-
-                    return StandardCharsets.UTF_8.decode(byteBuffer).toString();
-                }
-            }
-            catch (IOException iex) {
-                // Empty
-            }
-
-            return null;
         }
     }
 

@@ -3,7 +3,7 @@ package de.freese.spring.ribbon.myloadbalancer.ping;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
+import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -73,20 +73,20 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
     public boolean isAlive(final String server) {
         boolean isAlive = false;
 
-        String urlStr = "";
+        String uriStr = "";
 
         if (this.isSecure) {
-            urlStr = "https://";
+            uriStr = "https://";
         }
         else {
-            urlStr = "http://";
+            uriStr = "http://";
         }
 
-        urlStr += server;
-        urlStr += getPingAppendString();
+        uriStr += server;
+        uriStr += getPingAppendString();
 
         try {
-            ClientHttpRequest request = getHttpRequestFactory().createRequest(new URL(urlStr).toURI(), HttpMethod.GET);
+            ClientHttpRequest request = getHttpRequestFactory().createRequest(URI.create(uriStr), HttpMethod.GET);
 
             String content = null;
 
@@ -113,7 +113,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
             return isAlive;
         }
         catch (Exception ex) {
-            LOGGER.warn("{}: {}", urlStr, ex.getMessage());
+            LOGGER.warn("{}: {}", uriStr, ex.getMessage());
         }
 
         return isAlive;

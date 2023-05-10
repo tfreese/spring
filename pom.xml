@@ -45,7 +45,7 @@
     </developers>
 
     <properties>
-        <version_com.atomikos>6.0.0M2</version_com.atomikos>
+        <version_com.atomikos>6.0.0</version_com.atomikos>
         <version_com.esotericsoftware_kryo>5.5.0</version_com.esotericsoftware_kryo>
         <version_com.nimbusds_nimbus-jose-jwt>9.31</version_com.nimbusds_nimbus-jose-jwt>
 
