@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -104,47 +105,53 @@ public class SecurityConfig {
 
         // @formatter:off
         httpSecurity
-                //.anonymous().disable()
+//                .anonymous(customizer -> customizer
+//                        .disable()
+//                )
                 .addFilterBefore(myTokenFilter(authenticationManager), RequestHeaderAuthenticationFilter.class)
                 .authenticationProvider(myTokenPreauthAuthProvider)
-//                .antMatcher("/rest/**") // Nur auf den /rest Pfad beschränken.
-//                    .authorizeRequests()
-//                    .anyRequest().authenticated()// Alle HTTP Methoden zulässig.
-                .authorizeHttpRequests()
-                    .requestMatchers("/", "/index", "/createError", "/login/**", "/actuator/**", "/favicon.ico", "/manifest.appcache", "/css/**", "/js/**", "/images/**").permitAll()
-                    //.requestMatchers(HttpMethod.GET,"/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/web/**").authenticated()
-                    .requestMatchers("/rest/**").authenticated()
-                    .anyRequest().denyAll()
-                .and()
-                    //.httpBasic().disable()
-                    .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
-                .and()
-                    .formLogin()
+                .authorizeHttpRequests(customizer -> customizer
+                        .requestMatchers("/", "/index", "/createError", "/login/**", "/actuator/**", "/favicon.ico", "/manifest.appcache", "/css/**", "/js/**", "/images/**")
+                            .permitAll()
+                        //.requestMatchers(HttpMethod.GET,"/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/web/**").authenticated()
+                        .requestMatchers("/rest/**").authenticated()
+                        .anyRequest().denyAll() //.authenticated()// Alle HTTP Methoden zulässig.
+                )
+                .httpBasic(customizer -> customizer
+//                        .disable()
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                )
+                .formLogin(customizer -> customizer
                         .permitAll()
                         .loginPage("/login")
                         .failureUrl("/login?error=1")
                         .loginProcessingUrl("/authenticate") // Führt den Login durch
-                        .defaultSuccessUrl("/web/person/personList") // Aufruf bei erfolgreichem Login
-                .and()
-                    .logout()
+                        .defaultSuccessUrl("/web/person/personList") // Aufruf bei erfolgreichem Login)
+                )
+                .logout(customizer -> customizer
                         .permitAll()
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID", "remember-me")
                         .invalidateHttpSession(true)
                         // .logoutUrl("/logout")
                         .logoutSuccessUrl("/index?logout")
-                .and()
-                    .csrf().disable() // .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                    .exceptionHandling()
-                //.and()
-                    //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // REST-Services brauchen keine Session.
-                .and()
-                    .rememberMe()
-                    .rememberMeServices(rememberMeServices)
-                    .key("remember-me")
-                    .tokenValiditySeconds(10 * 60) // 10 Minuten Gültigkeit
-                ;
+                )
+                .csrf(customizer -> customizer
+                        .disable()
+                        // .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                )
+                .exceptionHandling(Customizer.withDefaults())
+//                .sessionManagement(customizer -> customizer
+//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // REST-Services brauchen keine Session.
+//                )
+                .rememberMe(customizer -> customizer
+                        .rememberMeServices(rememberMeServices)
+                        .key("remember-me")
+                        .tokenValiditySeconds(10 * 60) // 10 Minuten Gültigkeit
+                )
+
+        ;
         // @formatter:on
 
         return httpSecurity.build();

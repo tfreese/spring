@@ -56,7 +56,7 @@
         <version_io.springfox_swagger>3.0.0</version_io.springfox_swagger>
 
         <version_org.apache.qpid>9.0.0</version_org.apache.qpid>
-        <version_org.joinfaces>5.0.6</version_org.joinfaces>
+        <version_org.joinfaces>5.1.0</version_org.joinfaces>
         <version_org.springdoc>1.7.0</version_org.springdoc>
         <version_org.testcontainers>1.18.1</version_org.testcontainers>
 

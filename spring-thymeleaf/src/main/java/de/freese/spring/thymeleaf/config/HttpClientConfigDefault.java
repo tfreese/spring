@@ -4,6 +4,7 @@ package de.freese.spring.thymeleaf.config;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
@@ -33,7 +34,6 @@ public class HttpClientConfigDefault {
         // @formatter:off
         RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
-                .setConnectTimeout(3000, TimeUnit.MILLISECONDS)
                 .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
                 .build()
                 ;
@@ -57,7 +57,10 @@ public class HttpClientConfigDefault {
                 ;
         // @formatter:on
 
+        ConnectionConfig connectionConfig = ConnectionConfig.custom().setConnectTimeout(3000, TimeUnit.MILLISECONDS).build();
+
         PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+        poolingConnectionManager.setDefaultConnectionConfig(connectionConfig);
         poolingConnectionManager.setMaxTotal(MAX_TOTAL_CONNECTIONS);
 
         return poolingConnectionManager;

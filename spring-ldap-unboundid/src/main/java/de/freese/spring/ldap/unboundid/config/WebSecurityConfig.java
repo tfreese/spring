@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,12 +34,14 @@ public class WebSecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(final HttpSecurity httpSecurity) throws Exception {
+
         // @formatter:off
-        httpSecurity.authorizeHttpRequests()
-                .anyRequest()
-                .fullyAuthenticated()
-                .and()
-                .formLogin()
+        httpSecurity
+                .authorizeHttpRequests(customizer -> customizer
+                                .anyRequest()
+                                .fullyAuthenticated()
+                )
+                .formLogin(Customizer.withDefaults())
         ;
         // @formatter:on
 

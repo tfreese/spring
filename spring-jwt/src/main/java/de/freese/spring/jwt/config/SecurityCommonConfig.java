@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserCache;
@@ -77,21 +78,20 @@ public class SecurityCommonConfig {
     @Bean
     SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final Filter jwtRequestFilter, final AuthenticationEntryPoint authenticationEntryPoint) throws Exception {
         // @formatter:off
-        httpSecurity//.authorizeRequests().anyRequest().permitAll()
-            //.anonymous().disable() // Jeder User muss angemeldet sein, beisst sich mit antMatchers("/users/login").permitAll()
-            .csrf().disable()
-            .formLogin().disable()
-            .httpBasic().disable()
-            .authorizeHttpRequests()
-                .requestMatchers("/users/login").permitAll()
-                //.antMatchers("/users/register").hasRole("ADMIN")
-                .anyRequest().authenticated()
-            .and()
-                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
-            .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-//                .apply(new JwtTokenFilterConfigurer(this.jwtTokenProvider))
+        httpSecurity
+                // .authorizeHttpRequests(customizer -> customizer.anyRequest().permitAll())
+                // .anonymous(customizer -> customizer.disable()) // Jeder User muss angemeldet sein, beisst sich mit antMatchers("/users/login").permitAll()
+                .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(customizer -> customizer
+                    .requestMatchers("/users/login").permitAll()
+                    //.requestMatchers("/users/register").hasRole("ADMIN")
+                    .anyRequest().authenticated()
+                )
+                .exceptionHandling(customizer -> customizer.authenticationEntryPoint(authenticationEntryPoint))
+                .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // .apply(new JwtTokenFilterConfigurer(this.jwtTokenProvider))
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
             ;
         // @formatter:on
@@ -113,7 +113,7 @@ public class SecurityCommonConfig {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret", 16, 310000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
+        Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret", 16, 310_000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
         Map<String, PasswordEncoder> encoders = new HashMap<>();

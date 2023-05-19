@@ -83,7 +83,7 @@ public class Application {
 
     @Bean(name = PollerMetadata.DEFAULT_POLLER)
     public PollerMetadata poller() {
-        return Pollers.fixedDelay(500).maxMessagesPerPoll(1).get();
+        return Pollers.fixedDelay(500).maxMessagesPerPoll(1).getObject();
     }
 
     @Router(inputChannel = "channelDrinks")

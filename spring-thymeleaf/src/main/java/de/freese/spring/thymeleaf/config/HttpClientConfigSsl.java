@@ -8,6 +8,7 @@ import javax.net.ssl.SSLContext;
 
 import org.apache.hc.client5.http.ConnectionKeepAliveStrategy;
 import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.DefaultConnectionKeepAliveStrategy;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
@@ -55,7 +56,6 @@ public class HttpClientConfigSsl {
         // @formatter:off
         RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
-                .setConnectTimeout(3000, TimeUnit.MILLISECONDS)
                 .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
                 .build()
                 ;
@@ -112,7 +112,10 @@ public class HttpClientConfigSsl {
                 ;
         // @formatter:on
 
+        ConnectionConfig connectionConfig = ConnectionConfig.custom().setConnectTimeout(3000, TimeUnit.MILLISECONDS).build();
+
         PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+        poolingConnectionManager.setDefaultConnectionConfig(connectionConfig);
         poolingConnectionManager.setMaxTotal(50);
 
         return poolingConnectionManager;
