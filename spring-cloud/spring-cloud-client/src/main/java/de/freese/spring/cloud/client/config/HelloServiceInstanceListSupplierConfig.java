@@ -4,9 +4,11 @@ package de.freese.spring.cloud.client.config;
 import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * @author Thomas Freese
+ * @see "https://www.baeldung.com/spring-cloud-load-balancer"
  */
 //@Configuration
 public class HelloServiceInstanceListSupplierConfig {
@@ -15,8 +17,8 @@ public class HelloServiceInstanceListSupplierConfig {
      */
     @Bean
     ////@Primary
-    ServiceInstanceListSupplier serviceInstanceListSupplier(final ConfigurableApplicationContext context) {
-        return new HelloServiceInstanceListSupplier();
+    ServiceInstanceListSupplier serviceInstanceListSupplier(final ConfigurableApplicationContext context, WebClient.Builder webClientBuilder) {
+        return new MyServiceInstanceListSupplier("CLOUD-HELLO-SERVICE");
 
         //        // @formatter:off
 //        return ServiceInstanceListSupplier.builder()
@@ -24,7 +26,7 @@ public class HelloServiceInstanceListSupplierConfig {
 //                .withBase(instanceListSupplier)
 //                //.withBlockingHealthChecks() // RestTemplate muss vorhanden sein !
 //                //.withHealthChecks() // Funktioniert nicht !
-//                //.withHealthChecks(WebClient.builder().build()) // Funktioniert nicht !
+//                //.withHealthChecks(webClientBuilder.build()) // Funktioniert nicht !
 //                .withCaching()
 //                //.withRequestBasedStickySession()
 //                .build(context)

@@ -34,7 +34,7 @@ public class Application {
      * @author Thomas Freese
      */
     @MessagingGateway
-    public interface Cafe extends de.freese.spring.integration.cafe.Cafe {
+    public interface DslCafe extends de.freese.spring.integration.cafe.Cafe {
         /**
          * @see de.freese.spring.integration.cafe.Cafe#placeOrder(de.freese.spring.integration.cafe.Order)
          */
@@ -60,16 +60,13 @@ public class Application {
     public IntegrationFlow orders() {
         //@formatter:off
         return f -> f
-                .split(Order.class,
-                        Order::getItems)
-                .channel(
-                        c -> c.executor(
-                                Executors.newCachedThreadPool()))
+                .split(Order.class, Order::getItems)
+                .channel(c -> c.executor(Executors.newCachedThreadPool()))
                 .<OrderItem, Boolean> route(OrderItem::isIced,
                         mapping -> mapping
                                 .subFlowMapping(true,
                                         sf -> sf.channel(c -> c.queue(10))
-                                                .publishSubscribeChannel(c -> c.subscribe(s -> s.handle(m -> sleep(400)))
+                                                .publishSubscribeChannel(c -> c.subscribe(s -> s.handle(m -> sleep(400L)))
                                                         .subscribe(sub -> sub
                                                                 .<OrderItem, String> transform(p -> Thread.currentThread().getName()
                                                                         + " prepared cold drink #" + this.coldDrinkCounter.incrementAndGet()
@@ -77,7 +74,7 @@ public class Application {
                                                                 .handle(m -> LOGGER.info("{}", m.getPayload())))))
                                 .subFlowMapping(false,
                                         sf -> sf.channel(c -> c.queue(10))
-                                                .publishSubscribeChannel(c -> c.subscribe(s -> s.handle(m -> sleep(800)))
+                                                .publishSubscribeChannel(c -> c.subscribe(s -> s.handle(m -> sleep(800L)))
                                                         .subscribe(sub -> sub
                                                                 .<OrderItem, String> transform(p -> Thread.currentThread().getName()
                                                                         + " prepared hot drink #" + this.hotDrinkCounter.incrementAndGet()
@@ -100,6 +97,6 @@ public class Application {
 
     @Bean(name = PollerMetadata.DEFAULT_POLLER)
     public PollerMetadata poller() {
-        return Pollers.fixedDelay(500).maxMessagesPerPoll(1).getObject();
+        return Pollers.fixedDelay(500L).maxMessagesPerPoll(1L).getObject();
     }
 }

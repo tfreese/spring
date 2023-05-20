@@ -84,7 +84,7 @@ public class ClientRunner implements ApplicationRunner {
                 .retrieve()
                 .bodyToMono(String.class)
                 //.retryWhen(Retry.fixedDelay(2, Duration.ofMillis(200)))
-                .timeout(Duration.ofMillis(1000), Mono.just("fallback"))
+                .timeout(Duration.ofMillis(1000L), Mono.just("fallback"))
                 .onErrorResume(throwable -> {
                     LOGGER.error(throwable.getMessage());
                     return Mono.just("fallback");

@@ -8,19 +8,20 @@ import org.springframework.integration.annotation.MessageEndpoint;
 
 import de.freese.spring.integration.cafe.Delivery;
 import de.freese.spring.integration.cafe.Drink;
+import de.freese.spring.integration.cafe.xml.XmlWaiter;
 
 /**
  * @author Thomas Freese
  */
 @MessageEndpoint
-public class Waiter extends de.freese.spring.integration.cafe.xml.Waiter {
+public class AnnotationWaiter extends XmlWaiter {
     @CorrelationStrategy
     public int correlateByOrderNumber(final Drink drink) {
         return drink.getOrderNumber();
     }
 
     /**
-     * @see de.freese.spring.integration.cafe.xml.Waiter#prepareDelivery(java.util.List)
+     * @see XmlWaiter#prepareDelivery(java.util.List)
      */
     @Override
     @Aggregator(inputChannel = "preparedDrinks", outputChannel = "deliveries")

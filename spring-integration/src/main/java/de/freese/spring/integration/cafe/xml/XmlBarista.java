@@ -12,7 +12,7 @@ import de.freese.spring.integration.cafe.OrderItem;
 /**
  * @author Thomas Freese
  */
-public class Barista {
+public class XmlBarista {
     private final AtomicInteger coldDrinkCounter = new AtomicInteger();
 
     private final AtomicInteger hotDrinkCounter = new AtomicInteger();

@@ -23,10 +23,10 @@ class TestCafe {
     // {
     // TestCafe testCafe = new TestCafe();
     //
-    // testCafe.test010CafeDemoWithXmlSupport();
-    // testCafe.test020CafeDemoWithAnnotationSupport();
-    // testCafe.test030CafeConfig();
-    // testCafe.test040CafeDsl();
+    // testCafe.testCafeDemoWithXmlSupport();
+    // testCafe.testCafeDemoWithAnnotationSupport();
+    // testCafe.testCafeConfig();
+    // testCafe.testCafeDsl();
     // }
 
     @Test

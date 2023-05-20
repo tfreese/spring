@@ -12,15 +12,14 @@ import reactor.core.publisher.Flux;
  * @author Thomas Freese
  * @see "https://www.baeldung.com/spring-cloud-load-balancer"
  */
-class HelloServiceInstanceListSupplier implements ServiceInstanceListSupplier {
-    public static final String SERVICE_ID = "CLOUD-HELLO-SERVICE";
+class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier {
 
-    private final List<ServiceInstance> instances;
+    private final String serviceId;
 
-    HelloServiceInstanceListSupplier() {
+    MyServiceInstanceListSupplier(String serviceId) {
         super();
 
-        this.instances = List.of(new DefaultServiceInstance(SERVICE_ID + "-1", SERVICE_ID, "127.0.0.1", 8083, false), new DefaultServiceInstance(SERVICE_ID + "-2", SERVICE_ID, "127.0.0.1", 8082, false), new DefaultServiceInstance(SERVICE_ID + "-3", SERVICE_ID, "127.0.0.1", 8081, false));
+        this.serviceId = serviceId;
     }
 
     /**
@@ -28,7 +27,13 @@ class HelloServiceInstanceListSupplier implements ServiceInstanceListSupplier {
      */
     @Override
     public Flux<List<ServiceInstance>> get() {
-        return Flux.just(this.instances);
+        // @formatter:off
+        return Flux.just(List.of(
+                new DefaultServiceInstance(serviceId + "-1", serviceId, "127.0.0.1", 8081, false),
+                new DefaultServiceInstance(serviceId + "-2", serviceId, "127.0.0.1", 8082, false),
+                new DefaultServiceInstance(serviceId + "-3", serviceId, "127.0.0.1", 8083, false)
+        ));
+        // @formatter:on
     }
 
     /**
@@ -36,6 +41,6 @@ class HelloServiceInstanceListSupplier implements ServiceInstanceListSupplier {
      */
     @Override
     public String getServiceId() {
-        return SERVICE_ID;
+        return this.serviceId;
     }
 }

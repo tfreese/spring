@@ -22,8 +22,8 @@ import de.freese.spring.integration.cafe.DeliveryLogger;
 import de.freese.spring.integration.cafe.Drink;
 import de.freese.spring.integration.cafe.Order;
 import de.freese.spring.integration.cafe.OrderItem;
-import de.freese.spring.integration.cafe.xml.Barista;
-import de.freese.spring.integration.cafe.xml.Waiter;
+import de.freese.spring.integration.cafe.xml.XmlBarista;
+import de.freese.spring.integration.cafe.xml.XmlWaiter;
 
 /**
  * https://github.com/spring-projects/spring-integration-samples/blob/master/dsl/cafe-dsl/src/main/java/org/springframework/integration/samples/dsl/cafe/lambda/Application.java
@@ -57,8 +57,8 @@ public class Application {
     }
 
     @Bean
-    public Barista barista() {
-        return new Barista();
+    public XmlBarista barista() {
+        return new XmlBarista();
     }
 
     @Bean
@@ -83,7 +83,7 @@ public class Application {
 
     @Bean(name = PollerMetadata.DEFAULT_POLLER)
     public PollerMetadata poller() {
-        return Pollers.fixedDelay(500).maxMessagesPerPoll(1).getObject();
+        return Pollers.fixedDelay(500L).maxMessagesPerPoll(1L).getObject();
     }
 
     @Router(inputChannel = "channelDrinks")
@@ -112,7 +112,7 @@ public class Application {
     }
 
     @Bean
-    public Waiter waiter() {
-        return new Waiter();
+    public XmlWaiter waiter() {
+        return new XmlWaiter();
     }
 }

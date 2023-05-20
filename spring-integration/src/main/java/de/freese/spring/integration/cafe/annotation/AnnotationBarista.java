@@ -5,14 +5,15 @@ import org.springframework.stereotype.Component;
 
 import de.freese.spring.integration.cafe.Drink;
 import de.freese.spring.integration.cafe.OrderItem;
+import de.freese.spring.integration.cafe.xml.XmlBarista;
 
 /**
  * @author Thomas Freese
  */
 @Component
-public class Barista extends de.freese.spring.integration.cafe.xml.Barista {
+public class AnnotationBarista extends XmlBarista {
     /**
-     * @see de.freese.spring.integration.cafe.xml.Barista#prepareColdDrink(de.freese.spring.integration.cafe.OrderItem)
+     * @see XmlBarista#prepareColdDrink(de.freese.spring.integration.cafe.OrderItem)
      */
     @Override
     @ServiceActivator(inputChannel = "coldDrinkBarista", outputChannel = "preparedDrinks")
@@ -21,7 +22,7 @@ public class Barista extends de.freese.spring.integration.cafe.xml.Barista {
     }
 
     /**
-     * @see de.freese.spring.integration.cafe.xml.Barista#prepareHotDrink(de.freese.spring.integration.cafe.OrderItem)
+     * @see XmlBarista#prepareHotDrink(de.freese.spring.integration.cafe.OrderItem)
      */
     @Override
     @ServiceActivator(inputChannel = "hotDrinkBarista", outputChannel = "preparedDrinks")

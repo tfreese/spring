@@ -8,7 +8,7 @@ import de.freese.spring.integration.cafe.Drink;
 /**
  * @author Thomas Freese
  */
-public class Waiter {
+public class XmlWaiter {
     public Delivery prepareDelivery(final List<Drink> drinks) {
         return new Delivery(drinks);
     }
