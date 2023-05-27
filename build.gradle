@@ -27,7 +27,6 @@ subprojects {
             mavenBom "de.codecentric:spring-boot-admin-dependencies:$version_springBootAdmin"
             mavenBom "org.springframework.boot:spring-boot-dependencies:$version_springBoot"
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:$version_springCloud"
-            mavenBom "org.testcontainers:testcontainers-bom:$version_testcontainers"
         }
 
         dependencies {
