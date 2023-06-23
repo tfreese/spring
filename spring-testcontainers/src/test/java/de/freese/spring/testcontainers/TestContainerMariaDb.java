@@ -1,7 +1,6 @@
 package de.freese.spring.testcontainers;
 
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 
@@ -15,17 +14,18 @@ class TestContainerMariaDb extends AbstractTest {
      * mariadb:latest<br />
      */
     @Container
+    @ServiceConnection // Ersetzt @DynamicPropertySource
     private static final MariaDBContainer<?> DB_CONTAINER = new MariaDBContainer<>("mariadb:latest");
 
-    @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.driver-class-name", DB_CONTAINER::getDriverClassName);
-        registry.add("spring.datasource.url", DB_CONTAINER::getJdbcUrl);
-        registry.add("spring.datasource.username", DB_CONTAINER::getUsername);
-        registry.add("spring.datasource.password", DB_CONTAINER::getPassword);
-
-        registry.add("spring.datasource.hikari.pool-name", () -> "Hikari-" + DB_CONTAINER.getDockerImageName());
-    }
+    //    @DynamicPropertySource
+    //    static void properties(DynamicPropertyRegistry registry) {
+    //        registry.add("spring.datasource.driver-class-name", DB_CONTAINER::getDriverClassName);
+    //        registry.add("spring.datasource.url", DB_CONTAINER::getJdbcUrl);
+    //        registry.add("spring.datasource.username", DB_CONTAINER::getUsername);
+    //        registry.add("spring.datasource.password", DB_CONTAINER::getPassword);
+    //
+    //        registry.add("spring.datasource.hikari.pool-name", () -> "Hikari-" + DB_CONTAINER.getDockerImageName());
+    //    }
 
     //    /**
     //     * will be started before and stopped after each test method<br />
