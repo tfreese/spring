@@ -127,7 +127,7 @@
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
-                <version>${jjwt.version>}</version>
+                <version>${jjwt.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.springfox</groupId>

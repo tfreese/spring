@@ -20,35 +20,6 @@
         <skipTest>false</skipTest>                  <!-- skips executing the tests -->
     </properties>
 
-    <build>
-        <plugins>
-            <!-- spring-boot:run -->
-            <!-- spring-boot:repackage für executable jar -->
-            <!-- mvn package enthält hiermit schon spring-boot:repackage-->
-            <!--jvmArguments>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</jvmArguments -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>de.freese.spring.reactive.SpringReactiveJdbcApplication</mainClass>
-                    <layout>ZIP</layout>
-                    <classifier>jar-with-dependencies</classifier>
-                    <!--jvmArguments>
-                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
-                        </jvmArguments -->
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                            <goal>build-info</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
     <dependencies>
         <!-- compile scope -->
         <dependency>
