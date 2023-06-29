@@ -15,9 +15,6 @@
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>MicroService mit spring-boot</description>
 
-    <properties>
-    </properties>
-
     <build>
         <resources>
             <resource>

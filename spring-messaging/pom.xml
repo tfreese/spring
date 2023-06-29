@@ -15,9 +15,6 @@
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Messaging Demos</description>
 
-    <properties>
-    </properties>
-
     <modules>
         <module>spring-messaging-amqp-qpid</module>
         <module>spring-messaging-jms</module>
