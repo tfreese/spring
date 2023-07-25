@@ -1,5 +1,6 @@
 package de.freese.spring.web;
 
+import java.awt.geom.Point2D;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -7,10 +8,11 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.faces.view.ViewScoped;
 
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
+import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.line.LineChartDataSet;
+import org.primefaces.model.charts.line.LineChartModel;
+import org.primefaces.model.charts.line.LineChartOptions;
+import org.primefaces.model.charts.optionconfig.title.Title;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,31 +27,43 @@ public class LineChartBean implements Serializable {
     @Resource
     private transient DataService dataService;
 
-    private LineChartModel lineModel;
+    private LineChartModel lineChartModel;
 
-    public LineChartModel getLineModel() {
-        return lineModel;
+    public LineChartModel getLineChartModel() {
+        return lineChartModel;
     }
 
     @PostConstruct
     public void init() {
-        lineModel = new LineChartModel();
-        LineChartSeries s = new LineChartSeries();
-        s.setLabel("Population");
+        LineChartDataSet chartDataSet = new LineChartDataSet();
+        chartDataSet.setLabel("My First Dataset");
+        chartDataSet.setFill(false);
+        chartDataSet.setBorderColor("rgb(75, 192, 192)");
+        chartDataSet.setTension(0.0D);
+        chartDataSet.setData(this.dataService.getPoints().stream().map(Point2D.Double::getY).map(Object.class::cast).toList());
 
-        dataService.getLineChartData().forEach(s::set);
+        // x-Achse funktioniert bis jetzt nur mit Strings.
+        ChartData chartData = new ChartData();
+        chartData.addChartDataSet(chartDataSet);
+        chartData.setLabels(this.dataService.getPoints().stream().map(Point2D.Double::getX).map(x -> Double.toString(x)).toList());
+        //        chartData.setLabels(List.of("January", "February", "March", "April", "May", "June", "July"));
+        //        chartData.setLabels(List.of(1, 2, 3, 4, 5, 6));
 
-        lineModel.addSeries(s);
-        lineModel.setLegendPosition("e");
-        Axis y = lineModel.getAxis(AxisType.Y);
-        y.setMin(0.5);
-        y.setMax(700);
-        y.setLabel("Millions");
+        LineChartOptions options = new LineChartOptions();
+        options.setMaintainAspectRatio(false);
 
-        Axis x = lineModel.getAxis(AxisType.X);
-        x.setMin(0);
-        x.setMax(7);
-        x.setTickInterval("1");
-        x.setLabel("Number of Years");
+        Title title = new Title();
+        title.setDisplay(true);
+        title.setText("Line Chart");
+        options.setTitle(title);
+
+        Title subtitle = new Title();
+        subtitle.setDisplay(true);
+        subtitle.setText("Line Chart Subtitle");
+        options.setSubtitle(subtitle);
+
+        this.lineChartModel = new LineChartModel();
+        this.lineChartModel.setOptions(options);
+        this.lineChartModel.setData(chartData);
     }
 }

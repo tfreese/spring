@@ -21,7 +21,7 @@ public class WebAppConfig {
         servletContext.setInitParameter("jakarta.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
         servletContext.setInitParameter("jakarta.faces.PROJECT_STAGE", "Development");
 
-        servletContext.setInitParameter("primefaces.THEME", "arya");
+        //        servletContext.setInitParameter("primefaces.THEME", "arya");
 
         ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>();
         servletRegistrationBean.setServlet(new FacesServlet());

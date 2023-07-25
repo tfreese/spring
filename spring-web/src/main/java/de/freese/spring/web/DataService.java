@@ -17,16 +17,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class DataService {
     public Map<Number, Double> getLineChartData() {
-        //        Map<Double, Double> map = new LinkedHashMap<>();
-        //        map.put(1, 5.20D);
-        //        map.put(2, 19.63D);
-        //        map.put(3, 59.01D);
-        //        map.put(4, 139.76D);
-        //        map.put(5, 300.4D);
-        //        map.put(6, 630.0D);
-        //
-        //        return map;
-
         return getPoints().stream().collect(Collectors.toMap(Point2D.Double::getX, Point2D.Double::getY, (a, b) -> b, LinkedHashMap::new));
     }
 
@@ -36,12 +26,10 @@ public class DataService {
 
     public List<Point.Double> getPoints() {
         List<Point.Double> map = new ArrayList<>();
-        map.add(new Point2D.Double(1, 5.20D));
-        map.add(new Point2D.Double(2, 19.63D));
-        map.add(new Point2D.Double(3, 59.01D));
-        map.add(new Point2D.Double(4, 139.76D));
-        map.add(new Point2D.Double(5, 300.4D));
-        map.add(new Point2D.Double(6, 630.0D));
+
+        for (int i = 0; i < 10; i++) {
+            map.add(new Point2D.Double(i, Math.random() * 100D));
+        }
 
         return map;
     }
