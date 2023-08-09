@@ -38,10 +38,7 @@ public class MyLdapDao {
      *
      * @author Thomas Freese
      */
-    private static class GroupMemberDirContextMapper extends AbstractContextMapper<String[]> {
-        /**
-         * @see org.springframework.ldap.core.support.AbstractContextMapper#doMapFromContext(org.springframework.ldap.core.DirContextOperations)
-         */
+    private static final class GroupMemberDirContextMapper extends AbstractContextMapper<String[]> {
         @Override
         protected String[] doMapFromContext(final DirContextOperations ctx) {
             return ctx.getStringAttributes("member");
@@ -53,7 +50,7 @@ public class MyLdapDao {
      *
      * @author Thomas Freese
      */
-    private static class PersonAttributeMapper implements AttributesMapper<String> {
+    private static final class PersonAttributeMapper implements AttributesMapper<String> {
         private final String attributeId;
 
         PersonAttributeMapper(final String attributeId) {
@@ -62,9 +59,6 @@ public class MyLdapDao {
             this.attributeId = Objects.requireNonNull(attributeId, "attributeId required");
         }
 
-        /**
-         * @see org.springframework.ldap.core.AttributesMapper#mapFromAttributes(javax.naming.directory.Attributes)
-         */
         @Override
         public String mapFromAttributes(final Attributes attributes) throws NamingException {
             Attribute attribute = attributes.get(this.attributeId);
@@ -83,10 +77,7 @@ public class MyLdapDao {
      *
      * @author Thomas Freese
      */
-    private static class PersonCommonNameContextMapper implements ContextMapper<String> {
-        /**
-         * @see org.springframework.ldap.core.ContextMapper#mapFromContext(java.lang.Object)
-         */
+    private static final class PersonCommonNameContextMapper implements ContextMapper<String> {
         @Override
         public String mapFromContext(final Object ctx) throws NamingException {
             DirContextAdapter context = (DirContextAdapter) ctx;

@@ -26,10 +26,7 @@ abstract class AbstractTestJwtToken implements TestJwtToken {
      *
      * @author Thomas Freese
      */
-    private static class NoOpResponseErrorHandler extends DefaultResponseErrorHandler {
-        /**
-         * @see org.springframework.web.client.DefaultResponseErrorHandler#handleError(org.springframework.http.client.ClientHttpResponse)
-         */
+    private static final class NoOpResponseErrorHandler extends DefaultResponseErrorHandler {
         @Override
         public void handleError(final ClientHttpResponse response) throws IOException {
             // Das Auslesen des Responses ist nur einmal möglich !

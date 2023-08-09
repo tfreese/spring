@@ -24,18 +24,12 @@ class TestRepositoryR2dbc implements TestRepository {
     @Resource
     private EmployeeRepository repository;
 
-    /**
-     * @see de.freese.spring.reactive.repository.TestRepository#doAfterEach()
-     */
     @Override
     public void doAfterEach() {
         this.databaseClient.sql("DROP TABLE IF EXISTS employee").fetch().rowsUpdated().block();
         this.databaseClient.sql("DROP TABLE IF EXISTS department").fetch().rowsUpdated().block();
     }
 
-    /**
-     * @see de.freese.spring.reactive.repository.TestRepository#doBeforeEach()
-     */
     @Override
     public void doBeforeEach() {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
@@ -49,17 +43,11 @@ class TestRepositoryR2dbc implements TestRepository {
         // initializer.afterPropertiesSet();
     }
 
-    /**
-     * @see de.freese.spring.reactive.repository.TestRepository#getRepository()
-     */
     @Override
     public EmployeeRepository getRepository() {
         return this.repository;
     }
 
-    /**
-     * @see de.freese.spring.reactive.repository.TestRepository#testCreateNewEmployee()
-     */
     @Override
     @Test
     public void testCreateNewEmployee() {
@@ -67,9 +55,6 @@ class TestRepositoryR2dbc implements TestRepository {
         TestRepository.super.testCreateNewEmployee();
     }
 
-    /**
-     * @see de.freese.spring.reactive.repository.TestRepository#testGetEmployee()
-     */
     @Override
     @Test
     public void testGetEmployee() {

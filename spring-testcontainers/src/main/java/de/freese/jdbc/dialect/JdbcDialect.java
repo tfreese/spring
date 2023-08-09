@@ -19,27 +19,27 @@ public interface JdbcDialect {
     static JdbcDialect from(Connection connection) throws SQLException {
         DatabaseMetaData metaData = connection.getMetaData();
 
-        String product = metaData.getDatabaseProductName();
+        String product = metaData.getDatabaseProductName().toLowerCase();
 
-        if ("h2".equalsIgnoreCase(product)) {
+        if (product.contains("h2")) {
             return new H2JdbcDialect();
         }
-        else if ("hsql".equalsIgnoreCase(product)) {
+        else if (product.contains("hsql")) {
             return new HsqlDbJdbcDialect();
         }
-        else if ("derby".equalsIgnoreCase(product)) {
+        else if (product.contains("derby")) {
             return new DerbyJdbcDialect();
         }
-        else if ("maria".equalsIgnoreCase(product)) {
+        else if (product.contains("maria")) {
             return new MariaDbJdbcDialect();
         }
-        else if ("mysql".equalsIgnoreCase(product)) {
+        else if (product.contains("mysql")) {
             return new MySqlJdbcDialect();
         }
-        else if ("postgres".equalsIgnoreCase(product)) {
+        else if (product.contains("postgres")) {
             return new PostgresJdbcDialect();
         }
-        else if ("oracle".equalsIgnoreCase(product)) {
+        else if (product.contains("oracle")) {
             return new OracleJdbcDialect();
         }
 

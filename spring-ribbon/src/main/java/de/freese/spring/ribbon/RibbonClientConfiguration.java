@@ -39,7 +39,7 @@ public class RibbonClientConfiguration {
      *
      * @author Thomas Freese
      */
-    private static class MyPing extends PingUrl {
+    private static final class MyPing extends PingUrl {
         private static String getContent(final HttpURLConnection connection) {
             try (InputStream inputStream = connection.getInputStream()) {
                 if (inputStream == null) {
@@ -63,12 +63,9 @@ public class RibbonClientConfiguration {
 
             return null;
         }
-        
+
         private final Logger logger = LoggerFactory.getLogger(MyPing.class);
 
-        /**
-         * @see com.netflix.loadbalancer.PingUrl#isAlive(com.netflix.loadbalancer.Server)
-         */
         @Override
         public boolean isAlive(final Server server) {
             this.logger.debug("pinging: {}", server);

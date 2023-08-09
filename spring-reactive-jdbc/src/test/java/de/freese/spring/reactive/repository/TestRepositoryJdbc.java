@@ -20,18 +20,12 @@ class TestRepositoryJdbc implements TestRepository {
     @Resource
     private EmployeeRepository repository;
 
-    /**
-     * @see de.freese.spring.reactive.repository.TestRepository#doAfterEach()
-     */
     @Override
     public void doAfterEach() {
         this.jdbcTemplate.execute("DROP TABLE IF EXISTS employee");
         this.jdbcTemplate.execute("DROP TABLE IF EXISTS department");
     }
 
-    /**
-     * @see de.freese.spring.reactive.repository.TestRepository#doBeforeEach()
-     */
     @Override
     public void doBeforeEach() {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
@@ -40,26 +34,17 @@ class TestRepositoryJdbc implements TestRepository {
         populator.execute(this.jdbcTemplate.getDataSource());
     }
 
-    // /**
-    // * @see de.freese.spring.reactive.repository.TestRepository#getJdbcTemplate()
-    // */
     // @Override
     // public JdbcTemplate getJdbcTemplate()
     // {
     // return this.jdbcTemplate;
     // }
 
-    /**
-     * @see de.freese.spring.reactive.repository.TestRepository#getRepository()
-     */
     @Override
     public EmployeeRepository getRepository() {
         return this.repository;
     }
 
-    /**
-     * @see de.freese.spring.reactive.repository.TestRepository#testGetEmployee()
-     */
     @Override
     @Test
     public void testGetEmployee() {

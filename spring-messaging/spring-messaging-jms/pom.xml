@@ -24,14 +24,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>de.freese.spring.messaging.jms.SpringJmsApplication</mainClass>
-                    <!--jvmArguments>
-                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
-                        </jvmArguments -->
-                    <layout>ZIP</layout>
-                    <classifier>jar-with-dependencies</classifier>
-                </configuration>
                 <executions>
                     <execution>
                         <id>repackage</id>
@@ -41,6 +33,15 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <skip>true</skip>
+                    <mainClass>de.freese.spring.messaging.jms.SpringJmsApplication</mainClass>
+                    <!--jvmArguments>
+                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+                        </jvmArguments -->
+                    <layout>ZIP</layout>
+                    <classifier>jar-with-dependencies</classifier>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -44,7 +44,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>war</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>war</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
+                    <skip>true</skip>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <packagingExcludes>pom.xml</packagingExcludes>
                     <warSourceDirectory>${basedir}/src/main/webapp</warSourceDirectory>
@@ -65,15 +75,6 @@
                     <!--                        </resource>-->
                     <!--                    </webResources>-->
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>war</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>war</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

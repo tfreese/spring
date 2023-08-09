@@ -28,18 +28,12 @@ class TestWebJdbc implements TestWeb {
     @Resource
     private WebTestClient webTestClient;
 
-    /**
-     * @see de.freese.spring.reactive.web.TestWeb#doAfterEach()
-     */
     @Override
     public void doAfterEach() {
         this.jdbcTemplate.execute("DROP TABLE IF EXISTS employee");
         this.jdbcTemplate.execute("DROP TABLE IF EXISTS department");
     }
 
-    /**
-     * @see de.freese.spring.reactive.web.TestWeb#doBeforeEach()
-     */
     @Override
     public void doBeforeEach() {
         this.webClient = WebClient.create("http://localhost:" + this.port);
@@ -50,25 +44,16 @@ class TestWebJdbc implements TestWeb {
         populator.execute(this.jdbcTemplate.getDataSource());
     }
 
-    /**
-     * @see de.freese.spring.reactive.web.TestWeb#getWebClient()
-     */
     @Override
     public WebClient getWebClient() {
         return this.webClient;
     }
 
-    /**
-     * @see de.freese.spring.reactive.web.TestWeb#getWebTestClient()
-     */
     @Override
     public WebTestClient getWebTestClient() {
         return this.webTestClient;
     }
 
-    /**
-     * @see de.freese.spring.reactive.web.TestWeb#testGetEmployee()
-     */
     @Override
     @Test
     public void testGetEmployee() {

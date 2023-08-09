@@ -30,10 +30,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
     /**
      * @author Thomas Freese
      */
-    private static class DepartmentRowMapper implements RowMapper<Department> {
-        /**
-         * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
-         */
+    private static final class DepartmentRowMapper implements RowMapper<Department> {
         @Override
         public Department mapRow(final ResultSet rs, final int rowNum) throws SQLException {
             Department department = new Department();
@@ -47,10 +44,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
     /**
      * @author Thomas Freese
      */
-    private static class EmployeeRowMapper implements RowMapper<Employee> {
-        /**
-         * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
-         */
+    private static final class EmployeeRowMapper implements RowMapper<Employee> {
         @Override
         public Employee mapRow(final ResultSet rs, final int rowNum) throws SQLException {
             Employee employee = new Employee();
@@ -71,9 +65,6 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
         this.jdbcTemplate = new JdbcTemplate(Objects.requireNonNull(dataSource, "dataSource required"));
     }
 
-    /**
-     * @see de.freese.spring.reactive.repository.EmployeeRepository#createNewEmployee(de.freese.spring.reactive.model.Employee)
-     */
     @Override
     public Mono<Employee> createNewEmployee(final Employee newEmployee) {
         String sqlSelect = "SELECT department_id from department where department_name = ?";
@@ -96,9 +87,6 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
         return Mono.just(newEmployee);
     }
 
-    /**
-     * @see de.freese.spring.reactive.repository.EmployeeRepository#deleteEmployee(long)
-     */
     @Override
     public Mono<Long> deleteEmployee(final long id) {
         String sql = "DELETE FROM employee WHERE employee_id = ?";
@@ -108,9 +96,6 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
         return Mono.just(affectedRows);
     }
 
-    /**
-     * @see de.freese.spring.reactive.repository.EmployeeRepository#getAllDepartments()
-     */
     @Override
     public Flux<Department> getAllDepartments() {
         String sql = "select * from department";
@@ -120,9 +105,6 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
         return Flux.fromIterable(result);
     }
 
-    /**
-     * @see de.freese.spring.reactive.repository.EmployeeRepository#getAllEmployees()
-     */
     @Override
     public Flux<Employee> getAllEmployees() {
         String sql = """
@@ -136,9 +118,6 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
         return Flux.fromIterable(result);
     }
 
-    /**
-     * @see de.freese.spring.reactive.repository.EmployeeRepository#getEmployee(java.lang.String, java.lang.String)
-     */
     @Override
     public Mono<Employee> getEmployee(final String lastName, final String firstName) {
         String sql = """

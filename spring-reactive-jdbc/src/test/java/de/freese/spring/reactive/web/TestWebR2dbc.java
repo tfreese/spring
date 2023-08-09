@@ -35,18 +35,12 @@ class TestWebR2dbc implements TestWeb {
     @Resource
     private WebTestClient webTestClient;
 
-    /**
-     * @see de.freese.spring.reactive.web.TestWeb#doAfterEach()
-     */
     @Override
     public void doAfterEach() {
         this.databaseClient.sql("DROP TABLE IF EXISTS employee").fetch().rowsUpdated().block();
         this.databaseClient.sql("DROP TABLE IF EXISTS department").fetch().rowsUpdated().block();
     }
 
-    /**
-     * @see de.freese.spring.reactive.web.TestWeb#doBeforeEach()
-     */
     @Override
     public void doBeforeEach() {
         this.webClient = WebClient.create("http://localhost:" + this.port);
@@ -57,30 +51,20 @@ class TestWebR2dbc implements TestWeb {
         populator.populate(this.connectionFactory).block();
     }
 
-    /**
-     * @see de.freese.spring.reactive.web.TestWeb#getWebClient()
-     */
     @Override
     public WebClient getWebClient() {
         return this.webClient;
     }
 
-    /**
-     * @see de.freese.spring.reactive.web.TestWeb#getWebTestClient()
-     */
     @Override
     public WebTestClient getWebTestClient() {
         return this.webTestClient;
     }
 
-    /**
-     * @see de.freese.spring.reactive.web.TestWeb#testDeleteEmployee()
-     */
     @Override
     @Test
     public void testDeleteEmployee() {
         // nur zum Debuggen
         TestWeb.super.testDeleteEmployee();
     }
-
 }
