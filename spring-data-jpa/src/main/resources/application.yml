@@ -1,0 +1,41 @@
+spring:
+    main:
+        banner-mode: off
+    output:
+        ansi:
+            enabled: always
+    h2:
+        console:
+            enabled: true
+    datasource:
+        #url: jdbc:h2:mem:testDb
+        #driverClassName: org.h2.Driver
+        url: jdbc:hsqldb:mem:testDb:;shutdown=false
+        driverClassName: org.hsqldb.jdbc.JDBCDriver
+    jackson:
+        serialization:
+            indent-output: true
+    jpa:
+        #database-platform: org.hibernate.dialect.H2Dialect
+        database-platform: org.hibernate.dialect.HSQLDialect
+        open-in-view: false
+        show-sql: true
+        hibernate:
+            ddl-auto: create-drop
+
+server:
+    #address: ${APP_ADDRESS}
+    port: 8080
+    compression:
+        enabled: true
+    error:
+        include-message: always
+    shutdown: "graceful"
+
+logging:
+    level:
+        root: INFO
+        org.springframework.web: DEBUG
+        org.hibernate: ERROR
+    #file:
+    #name: logs/todo.log
