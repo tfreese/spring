@@ -20,9 +20,6 @@ public class AnnotationWaiter extends XmlWaiter {
         return drink.getOrderNumber();
     }
 
-    /**
-     * @see XmlWaiter#prepareDelivery(java.util.List)
-     */
     @Override
     @Aggregator(inputChannel = "preparedDrinks", outputChannel = "deliveries")
     public Delivery prepareDelivery(final List<Drink> drinks) {

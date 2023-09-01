@@ -21,9 +21,6 @@ class JwtAuthenticationToken extends AbstractAuthenticationToken {
         this.token = token;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -37,17 +34,11 @@ class JwtAuthenticationToken extends AbstractAuthenticationToken {
         return Objects.equals(this.token, other.token);
     }
 
-    /**
-     * @see org.springframework.security.core.Authentication#getCredentials()
-     */
     @Override
     public Object getCredentials() {
         return null;
     }
 
-    /**
-     * @see org.springframework.security.core.Authentication#getPrincipal()
-     */
     @Override
     public Object getPrincipal() {
         return null;
@@ -57,9 +48,6 @@ class JwtAuthenticationToken extends AbstractAuthenticationToken {
         return this.token;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;

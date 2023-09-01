@@ -23,9 +23,6 @@ public class JwtAuthorisationApplication extends SpringBootServletInitializer {
         return builder.sources(JwtAuthorisationApplication.class).headless(true);// .profiles("with-ssl");
     }
 
-    /**
-     * @see org.springframework.boot.web.servlet.support.SpringBootServletInitializer#configure(org.springframework.boot.builder.SpringApplicationBuilder)
-     */
     @Override
     protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
         return configureApplication(application);

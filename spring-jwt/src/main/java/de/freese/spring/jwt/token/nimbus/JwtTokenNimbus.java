@@ -30,25 +30,16 @@ public class JwtTokenNimbus implements JwtToken {
         this.jwt = Objects.requireNonNull(jwt, "jwt required");
     }
 
-    /**
-     * @see de.freese.spring.jwt.token.JwtToken#getExpirationDate()
-     */
     @Override
     public Date getExpirationDate() {
         return getClaimsValue(JWTClaimsSet::getExpirationTime);
     }
 
-    /**
-     * @see de.freese.spring.jwt.token.JwtToken#getPassword()
-     */
     @Override
     public String getPassword() {
         return getClaimsValue(jwtClaims -> (String) jwtClaims.getClaim("password"));
     }
 
-    /**
-     * @see de.freese.spring.jwt.token.JwtToken#getRoles()
-     */
     @Override
     public Set<GrantedAuthority> getRoles() {
         String rolesString = getClaimsValue(jwtClaims -> (String) jwtClaims.getClaim("roles"));
@@ -62,9 +53,6 @@ public class JwtTokenNimbus implements JwtToken {
         return Arrays.stream(rolesArray).map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
     }
 
-    /**
-     * @see de.freese.spring.jwt.token.JwtToken#getUsername()
-     */
     @Override
     public String getUsername() {
         return getClaimsValue(JWTClaimsSet::getSubject);

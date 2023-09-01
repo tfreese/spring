@@ -36,9 +36,6 @@ public class HsqldbServerProperties {
             this.path = path;
         }
 
-        /**
-         * @see java.lang.Object#toString()
-         */
         @Override
         public String toString() {
             StringBuilder builder = new StringBuilder();

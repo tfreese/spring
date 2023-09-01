@@ -38,9 +38,6 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Resource
     private MockMvc mockMvc;
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testHealthEndpoint()
-     */
     @Override
     @Test
     void testHealthEndpoint() throws Exception {
@@ -55,12 +52,9 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         // @formatter:on
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testPost()
-     */
     @Override
     @Test
-    // @WithMockUser(username = "admin", password = "pw", roles = "ADMIN")
+        // @WithMockUser(username = "admin", password = "pw", roles = "ADMIN")
     void testPost() throws Exception {
         // @formatter:off
         this.mockMvc.perform(post("/rest/person/personAdd")
@@ -97,12 +91,9 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testPostWithWrongRole()
-     */
     @Override
     @Test
-    // @WithMockUser(username = "user", password = "pw")
+        // @WithMockUser(username = "user", password = "pw")
     void testPostWithWrongRole() throws Exception {
         // @formatter:off
         this.mockMvc.perform(post("/rest/person/personAdd")
@@ -114,12 +105,9 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         // @formatter:on
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithLoginJSON()
-     */
     @Override
     @Test
-    // @WithMockUser(username = "user", password = "pw")
+        // @WithMockUser(username = "user", password = "pw")
     void testUserWithLoginJSON() throws Exception {
         AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
@@ -143,12 +131,9 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         assertTrue(persons.size() >= 2);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithLoginXML()
-     */
     @Override
     @Test
-    // @WithMockUser(username = "user", password = "pw")
+        // @WithMockUser(username = "user", password = "pw")
     void testUserWithLoginXML() throws Exception {
         ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
         AtomicReference<List<Person>> reference = new AtomicReference<>(null);
@@ -173,9 +158,6 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         assertTrue(persons.size() >= 2);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithPreAuthJSON()
-     */
     @Override
     @Test
     void testUserWithPreAuthJSON() throws Exception {
@@ -201,9 +183,6 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         assertTrue(persons.size() >= 2);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithPreAuthXML()
-     */
     @Override
     @Test
     void testUserWithPreAuthXML() throws Exception {
@@ -230,9 +209,6 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         assertTrue(persons.size() >= 2);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithWrongPass()
-     */
     @Override
     @Test
     void testUserWithWrongPass() throws Exception {
@@ -244,12 +220,9 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         // @formatter:on
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithWrongRole()
-     */
     @Override
     @Test
-    // @WithMockUser(username = "invalid", password = "pw", roles = "OTHER")
+        // @WithMockUser(username = "invalid", password = "pw", roles = "OTHER")
     void testUserWithWrongRole() throws Exception {
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
@@ -258,9 +231,6 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         // @formatter:on
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithoutLogin()
-     */
     @Override
     @Test
     void testUserWithoutLogin() throws Exception {

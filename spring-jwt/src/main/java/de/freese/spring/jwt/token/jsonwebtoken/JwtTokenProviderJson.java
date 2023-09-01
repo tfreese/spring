@@ -41,9 +41,6 @@ public class JwtTokenProviderJson implements JwtTokenProvider {
         this.validityInMilliseconds = validityInMilliseconds;
     }
 
-    /**
-     * @see de.freese.spring.jwt.token.JwtTokenProvider#createToken(java.lang.String, java.lang.String, java.util.Set)
-     */
     @Override
     public String createToken(final String username, final String password, final Set<String> roles) {
         Claims claims = Jwts.claims().setSubject(username);
@@ -82,9 +79,6 @@ public class JwtTokenProviderJson implements JwtTokenProvider {
         // @formatter:on;
     }
 
-    /**
-     * @see de.freese.spring.jwt.token.JwtTokenProvider#parseToken(java.lang.String)
-     */
     @Override
     public JwtToken parseToken(final String token) throws AuthenticationException {
         try {

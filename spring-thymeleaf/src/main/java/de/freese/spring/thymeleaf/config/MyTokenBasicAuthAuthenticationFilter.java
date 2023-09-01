@@ -78,10 +78,6 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
         this.rememberMeServices = Objects.requireNonNull(rememberMeServices, "rememberMeServices required");
     }
 
-    /**
-     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse,
-     * jakarta.servlet.FilterChain)
-     */
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader("my-token");

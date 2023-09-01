@@ -35,9 +35,6 @@ public class Application {
      */
     @MessagingGateway
     public interface DslCafe extends de.freese.spring.integration.cafe.Cafe {
-        /**
-         * @see de.freese.spring.integration.cafe.Cafe#placeOrder(de.freese.spring.integration.cafe.Order)
-         */
         @Override
         @Gateway(requestChannel = "orders.input")
         void placeOrder(Order order);

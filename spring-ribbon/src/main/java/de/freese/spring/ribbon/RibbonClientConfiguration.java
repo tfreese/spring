@@ -20,7 +20,6 @@ import com.netflix.loadbalancer.PingUrl;
 import com.netflix.loadbalancer.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -31,7 +30,6 @@ import org.springframework.context.annotation.Bean;
  * an IPing, which says how periodic pings of a server are performed.<br>
  *
  * @author Thomas Freese
- * @see LoadBalancerAutoConfiguration
  */
 public class RibbonClientConfiguration {
     /**

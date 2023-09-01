@@ -20,9 +20,6 @@ public class DemoServlet extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 891637777095320320L;
 
-    /**
-     * @see jakarta.servlet.http.HttpServlet#doGet(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
-     */
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");

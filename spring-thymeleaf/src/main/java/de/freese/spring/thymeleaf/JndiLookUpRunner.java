@@ -23,9 +23,6 @@ import org.springframework.stereotype.Component;
 public class JndiLookUpRunner implements CommandLineRunner {
     public static final Logger LOGGER = LoggerFactory.getLogger(JndiLookUpRunner.class);
 
-    /**
-     * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
-     */
     @Override
     public void run(final String... args) throws Exception {
         LOGGER.info("");

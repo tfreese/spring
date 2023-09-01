@@ -40,10 +40,6 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
         this.retries = retries;
     }
 
-    /**
-     * @see org.springframework.http.client.ClientHttpRequestInterceptor#intercept(org.springframework.http.HttpRequest, byte[],
-     * org.springframework.http.client.ClientHttpRequestExecution)
-     */
     @Override
     public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
         final URI originalUri = request.getURI();
@@ -79,9 +75,6 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
 
     private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
         HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request) {
-            /**
-             * @see org.springframework.http.client.support.HttpRequestWrapper#getURI()
-             */
             @Override
             public URI getURI() {
                 return newUri;

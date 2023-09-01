@@ -40,9 +40,6 @@ public class ClientRunner implements ApplicationRunner {
     //    @LoadBalanced
     private WebClient.Builder webClientBuilderLoadBalanced;
 
-    /**
-     * @see ApplicationRunner#run(ApplicationArguments)
-     */
     @Override
     public void run(final ApplicationArguments args) throws Exception {
         // Die Erzeugung im Konstruktor funktioniert nicht, da dort die WebClient.Builder noch nicht fertig konfiguriert sind.

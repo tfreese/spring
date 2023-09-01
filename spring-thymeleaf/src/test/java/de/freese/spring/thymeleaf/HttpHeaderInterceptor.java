@@ -24,10 +24,6 @@ public class HttpHeaderInterceptor implements ClientHttpRequestInterceptor {
         this.value = Objects.requireNonNull(value, "value required");
     }
 
-    /**
-     * @see org.springframework.http.client.ClientHttpRequestInterceptor#intercept(org.springframework.http.HttpRequest, byte[],
-     * org.springframework.http.client.ClientHttpRequestExecution)
-     */
     @Override
     public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
         request.getHeaders().add(this.name, this.value);

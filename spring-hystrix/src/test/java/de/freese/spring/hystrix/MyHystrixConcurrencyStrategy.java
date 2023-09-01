@@ -25,21 +25,12 @@ public class MyHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {
         this.executor = Objects.requireNonNull(executor, "executor required");
     }
 
-    /**
-     * @see com.netflix.hystrix.strategy.concurrency.HystrixConcurrencyStrategy#getThreadPool(com.netflix.hystrix.HystrixThreadPoolKey,
-     * com.netflix.hystrix.strategy.properties.HystrixProperty, com.netflix.hystrix.strategy.properties.HystrixProperty,
-     * com.netflix.hystrix.strategy.properties.HystrixProperty, java.util.concurrent.TimeUnit, java.util.concurrent.BlockingQueue)
-     */
     @Override
     public ThreadPoolExecutor getThreadPool(final HystrixThreadPoolKey threadPoolKey, final HystrixProperty<Integer> corePoolSize, final HystrixProperty<Integer> maximumPoolSize, final HystrixProperty<Integer> keepAliveTime, final TimeUnit unit, final BlockingQueue<Runnable> workQueue) {
         // return super.getThreadPool(threadPoolKey, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
         return this.executor;
     }
 
-    /**
-     * @see com.netflix.hystrix.strategy.concurrency.HystrixConcurrencyStrategy#getThreadPool(com.netflix.hystrix.HystrixThreadPoolKey,
-     * com.netflix.hystrix.HystrixThreadPoolProperties)
-     */
     @Override
     public ThreadPoolExecutor getThreadPool(final HystrixThreadPoolKey threadPoolKey, final HystrixThreadPoolProperties threadPoolProperties) {
         // return super.getThreadPool(threadPoolKey, threadPoolProperties);

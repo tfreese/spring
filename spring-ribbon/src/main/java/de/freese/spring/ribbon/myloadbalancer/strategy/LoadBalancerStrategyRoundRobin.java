@@ -14,9 +14,6 @@ public class LoadBalancerStrategyRoundRobin implements LoadBalancerStrategy {
 
     private volatile int nextIndex;
 
-    /**
-     * @see de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategy#chooseServer(java.util.List, java.lang.String)
-     */
     @Override
     public String chooseServer(final List<String> server, final String key) {
         int length = server.size();

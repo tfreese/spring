@@ -51,9 +51,6 @@ class TestClientToServerSimple implements TestClientToServer {
         // @formatter:on
     }
 
-    /**
-     * @see de.freese.spring.rsocket.TestClientToServer#getRequester()
-     */
     @Override
     public RSocketRequester getRequester() {
         return requester;

@@ -26,10 +26,6 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
     @Bean
     public ErrorAttributes errorAttributes() {
         return new DefaultErrorAttributes() {
-            /**
-             * @see org.springframework.boot.web.servlet.error.DefaultErrorAttributes#getErrorAttributes(org.springframework.web.context.request.WebRequest,
-             *      org.springframework.boot.web.error.ErrorAttributeOptions)
-             */
             @Override
             public Map<String, Object> getErrorAttributes(final WebRequest webRequest, final ErrorAttributeOptions options) {
                 Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, options);

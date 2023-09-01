@@ -75,15 +75,9 @@ public class SecurityConfig {
     // @Order(1)
     @Profile("login")
     public static class LoginConfigurationAdapter extends WebSecurityConfigurerAdapter {
-        /**
-         *
-         */
         @Resource
         private UserDetailsService userDetailsService;
 
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.WebSecurity)
-         */
         @Override
         public void configure(final WebSecurity web) throws Exception {
             // @formatter:off
@@ -93,11 +87,6 @@ public class SecurityConfig {
             // @formatter:on
         }
 
-        /**
-         * @param auth {@link AuthenticationManagerBuilder}
-         *
-         * @throws Exception Falls was schief geht.
-         */
         @Resource
         public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
             DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -106,9 +95,6 @@ public class SecurityConfig {
             auth.authenticationProvider(daoAuthenticationProvider);
         }
 
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
-         */
         @Override
         protected void configure(final HttpSecurity http) throws Exception {
             // @formatter:off
@@ -136,25 +122,14 @@ public class SecurityConfig {
     // @Order(2)
     @Profile("pre-auth")
     public static class PreAuthConfigurationAdapter extends WebSecurityConfigurerAdapter {
-        /**
-         *
-         */
         @Resource
         private UserDetailsService userDetailsService;
 
-        /**
-         * @param auth {@link AuthenticationManagerBuilder}
-         *
-         * @throws Exception Falls was schief geht.
-         */
         @Resource
         public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
             auth.authenticationProvider(preauthAuthProvider());
         }
 
-        /**
-         * @return {@link PreAuthenticatedAuthenticationProvider}
-         */
         @Bean
         public PreAuthenticatedAuthenticationProvider preauthAuthProvider() {
             PreAuthenticatedAuthenticationProvider preauthAuthProvider = new PreAuthenticatedAuthenticationProvider();
@@ -163,9 +138,6 @@ public class SecurityConfig {
             return preauthAuthProvider;
         }
 
-        /**
-         * @return {@link UserDetailsByNameServiceWrapper}
-         */
         @Bean
         public UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> userDetailsServiceWrapper() {
             UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> wrapper = new UserDetailsByNameServiceWrapper<>();
@@ -174,11 +146,6 @@ public class SecurityConfig {
             return wrapper;
         }
 
-        /**
-         * @return {@link RequestHeaderAuthenticationFilter}
-         *
-         * @throws Exception Falls was schief geht.
-         */
         @Bean
         public RequestHeaderAuthenticationFilter webSealFilter() throws Exception {
             // WebSealRequestHeaderAuthenticationFilter filter = new WebSealRequestHeaderAuthenticationFilter();
@@ -193,9 +160,6 @@ public class SecurityConfig {
             return filter;
         }
 
-        /**
-         * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
-         */
         @Override
         protected void configure(final HttpSecurity http) throws Exception {
             // @formatter:off
@@ -214,17 +178,10 @@ public class SecurityConfig {
         }
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link SecurityConfig}.
-     */
     public SecurityConfig() {
         super();
     }
 
-    // /**
-    // * @param auth {@link AuthenticationManagerBuilder}
-    // * @throws Exception Falls was schief geht.
-    // */
     // @Resource
     // public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception
     // {
@@ -246,9 +203,6 @@ public class SecurityConfig {
     // // "select username, role from user_roles where username=?");
     // }
 
-    /**
-     * @return {@link PasswordEncoder}
-     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -256,9 +210,6 @@ public class SecurityConfig {
         return bCryptPasswordEncoder;
     }
 
-    /**
-     * @return {@link UserDetailsService}
-     */
     @Bean
     public UserDetailsService userDetailsService() {
         // "{noop}PSW"= verhindert Meldungen wie "There is no PasswordEncoder mapped for the id "null""

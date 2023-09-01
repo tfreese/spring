@@ -40,9 +40,6 @@ public class OpenBrowserRunner implements CommandLineRunner {
     @Resource
     private Environment environment;
 
-    /**
-     * @see CommandLineRunner#run(String[])
-     */
     @Override
     public void run(final String... args) throws Exception {
         LOGGER.info("");

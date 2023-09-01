@@ -21,18 +21,12 @@ public class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthe
         setInvalidateSessionOnPrincipalChange(true);
     }
 
-    /**
-     * @see org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter#getPreAuthenticatedCredentials(jakarta.servlet.http.HttpServletRequest)
-     */
     @Override
     protected Object getPreAuthenticatedCredentials(final HttpServletRequest request) {
         // Decode Credentials
         return super.getPreAuthenticatedCredentials(request);
     }
 
-    /**
-     * @see org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter#getPreAuthenticatedPrincipal(jakarta.servlet.http.HttpServletRequest)
-     */
     @Override
     protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
         // Decode Principal

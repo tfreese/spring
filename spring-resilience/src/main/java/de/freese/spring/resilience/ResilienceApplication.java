@@ -23,9 +23,6 @@ public class ResilienceApplication implements CommandLineRunner {
         SpringApplication.run(ResilienceApplication.class, args);
     }
 
-    /**
-     * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
-     */
     @Override
     public void run(final String... args) throws Exception {
         final Runtime runtime = Runtime.getRuntime();

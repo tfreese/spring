@@ -54,19 +54,12 @@ import de.freese.spring.thymeleaf.ThymeleafApplication;
 public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
     private static final Logger LOGGER = LoggerFactory.getLogger(MvcConfig.class);
 
-    /**
-     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry)
-     */
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
 
         // Parsen von HTTPS-Headern vor der Verarbeitung des Requests.
         registry.addInterceptor(new HandlerInterceptor() {
-            /**
-             * @see org.springframework.web.servlet.HandlerInterceptor#preHandle(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse,
-             *      java.lang.Object)
-             */
             @Override
             public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
                 // System.out.println("HandlerInterceptor: " + Thread.currentThread().getName());
@@ -85,9 +78,6 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
         });
     }
 
-    /**
-     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addViewControllers(org.springframework.web.servlet.config.annotation.ViewControllerRegistry)
-     */
     @Override
     public void addViewControllers(final ViewControllerRegistry registry) {
         // Wird schon im HomeThymeleafController gemacht.
@@ -99,8 +89,6 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
      * Executer für die Verarbeitung der HTTP-Requests.<br>
      * Verlagert die asynchrone Ausführung von Server-Requests (Callable, WebAsyncTask) in diesen ThreadPool.<br>
      * Ansonsten würde für jeden Request immer ein neuer Thread erzeugt, siehe TaskExecutor des RequestMappingHandlerAdapter.<br>
-     *
-     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureAsyncSupport(org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer)
      */
     @Override
     public void configureAsyncSupport(final AsyncSupportConfigurer configurer) {
@@ -109,8 +97,6 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
 
     /**
      * JSON als Default, alternativ XML über ACCEPT-Header.
-     *
-     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureContentNegotiation(org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer)
      */
     @Override
     public void configureContentNegotiation(final ContentNegotiationConfigurer configurer) {
@@ -155,9 +141,6 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
         return new DelegatingSecurityContextExecutorService(executorService().getObject());
     }
 
-    /**
-     * @see org.springframework.scheduling.annotation.AsyncConfigurer#getAsyncUncaughtExceptionHandler()
-     */
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return (ex, method, params) -> ThymeleafApplication.LOGGER.error(ex.getMessage());

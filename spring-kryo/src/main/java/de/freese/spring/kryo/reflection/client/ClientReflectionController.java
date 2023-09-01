@@ -25,9 +25,6 @@ public class ClientReflectionController extends AbstractClientReflectionControll
         }
     }
 
-    /**
-     * @see de.freese.spring.kryo.reflection.ReflectionControllerApi#testKryo()
-     */
     @Override
     public LocalDateTime testKryo() {
         return this.proxy.testKryo();

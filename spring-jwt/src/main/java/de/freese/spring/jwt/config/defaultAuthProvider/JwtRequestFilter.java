@@ -30,10 +30,9 @@ import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * Der {@link JwtRequestFilter} verwendet den Default-{@link AuthenticationProvider}.<br>
- * Siehe {@link DaoAuthenticationProvider}.
+ * Siehe {@link DaoAuthenticationProvider}m {@link BasicAuthenticationFilter}.
  *
  * @author Thomas Freese
- * @see BasicAuthenticationFilter
  */
 class JwtRequestFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
@@ -58,10 +57,6 @@ class JwtRequestFilter extends OncePerRequestFilter {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    /**
-     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse,
-     * jakarta.servlet.FilterChain)
-     */
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
         String token = this.jwtTokenProvider.resolveToken(request);
@@ -103,9 +98,6 @@ class JwtRequestFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    /**
-     * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
-     */
     @Override
     protected void initFilterBean() throws ServletException {
         super.initFilterBean();

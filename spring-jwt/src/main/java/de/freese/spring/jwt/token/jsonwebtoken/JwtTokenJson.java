@@ -29,25 +29,16 @@ class JwtTokenJson implements JwtToken {
         this.jwt = Objects.requireNonNull(jwt, "jwt required");
     }
 
-    /**
-     * @see de.freese.spring.jwt.token.JwtToken#getExpirationDate()
-     */
     @Override
     public Date getExpirationDate() {
         return getClaimsValue(Claims::getExpiration);
     }
 
-    /**
-     * @see de.freese.spring.jwt.token.JwtToken#getPassword()
-     */
     @Override
     public String getPassword() {
         return getClaimsValue(claims -> (String) claims.get("password"));
     }
 
-    /**
-     * @see de.freese.spring.jwt.token.JwtToken#getRoles()
-     */
     @Override
     public Set<GrantedAuthority> getRoles() {
         String rolesString = getClaimsValue(claims -> (String) claims.get("roles"));
@@ -61,9 +52,6 @@ class JwtTokenJson implements JwtToken {
         return Arrays.stream(rolesArray).map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
     }
 
-    /**
-     * @see de.freese.spring.jwt.token.JwtToken#getUsername()
-     */
     @Override
     public String getUsername() {
         return getClaimsValue(Claims::getSubject);

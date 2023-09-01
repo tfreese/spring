@@ -53,65 +53,41 @@ public class MutableUser implements UserDetails, CredentialsContainer {
         return this;
     }
 
-    /**
-     * @see org.springframework.security.core.CredentialsContainer#eraseCredentials()
-     */
     @Override
     public void eraseCredentials() {
         setPassword(null);
     }
 
-    /**
-     * @see org.springframework.security.core.userdetails.UserDetails#getAuthorities()
-     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
 
-    /**
-     * @see org.springframework.security.core.userdetails.UserDetails#getPassword()
-     */
     @Override
     public String getPassword() {
         return this.password;
     }
 
-    /**
-     * @see org.springframework.security.core.userdetails.UserDetails#getUsername()
-     */
     @Override
     public String getUsername() {
         return this.username;
     }
 
-    /**
-     * @see org.springframework.security.core.userdetails.UserDetails#isAccountNonExpired()
-     */
     @Override
     public boolean isAccountNonExpired() {
         return this.accountNonExpired;
     }
 
-    /**
-     * @see org.springframework.security.core.userdetails.UserDetails#isAccountNonLocked()
-     */
     @Override
     public boolean isAccountNonLocked() {
         return this.accountNonLocked;
     }
 
-    /**
-     * @see org.springframework.security.core.userdetails.UserDetails#isCredentialsNonExpired()
-     */
     @Override
     public boolean isCredentialsNonExpired() {
         return this.credentialsNonExpired;
     }
 
-    /**
-     * @see org.springframework.security.core.userdetails.UserDetails#isEnabled()
-     */
     @Override
     public boolean isEnabled() {
         return this.enabled;

@@ -28,9 +28,6 @@ public class RunnerSendMessages implements CommandLineRunner {
         this.sender = Objects.requireNonNull(sender, "sender required");
     }
 
-    /**
-     * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
-     */
     @Override
     public void run(final String... args) throws Exception {
         for (int i = 0; i < 5; i++) {

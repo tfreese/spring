@@ -17,9 +17,6 @@ import de.freese.spring.jwt.token.JwtTokenProvider;
 class JwtTokenAuthenticationProvider extends DaoAuthenticationProvider {
     private JwtTokenProvider jwtTokenProvider;
 
-    /**
-     * @see org.springframework.security.authentication.AuthenticationProvider#authenticate(org.springframework.security.core.Authentication)
-     */
     @Override
     public Authentication authenticate(final Authentication authentication) {
         if (!(authentication instanceof JwtAuthenticationToken jwtAuthentication)) {
@@ -42,9 +39,6 @@ class JwtTokenAuthenticationProvider extends DaoAuthenticationProvider {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    /**
-     * @see org.springframework.security.authentication.AuthenticationProvider#supports(java.lang.Class)
-     */
     @Override
     public boolean supports(final Class<?> authentication) {
         return JwtAuthenticationToken.class.isAssignableFrom(authentication);

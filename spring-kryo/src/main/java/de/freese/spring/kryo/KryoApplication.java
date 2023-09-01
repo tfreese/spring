@@ -23,9 +23,6 @@ import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 @SpringBootApplication
 public class KryoApplication implements WebMvcConfigurer {
     public static final Pool<Kryo> KRYO_POOL = new Pool<>(true, true) {
-        /**
-         * @see com.esotericsoftware.kryo.util.Pool#create()
-         */
         @Override
         protected Kryo create() {
             Kryo kryo = new Kryo();
@@ -51,9 +48,6 @@ public class KryoApplication implements WebMvcConfigurer {
         new SpringApplicationBuilder(KryoApplication.class).run(args);
     }
 
-    /**
-     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#extendMessageConverters(java.util.List)
-     */
     @Override
     public void extendMessageConverters(final List<HttpMessageConverter<?>> converters) {
         converters.add(new KryoHttpMessageConverter(KRYO_POOL));

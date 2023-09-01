@@ -40,9 +40,6 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider {
         this.validityInMilliseconds = validityInMilliseconds;
     }
 
-    /**
-     * @see de.freese.spring.jwt.token.JwtTokenProvider#createToken(java.lang.String, java.lang.String, java.util.Set)
-     */
     @Override
     public String createToken(final String username, final String password, final Set<String> roles) {
         Builder builder = new JWTClaimsSet.Builder();
@@ -100,9 +97,6 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider {
         return encryptedJWT.serialize();
     }
 
-    /**
-     * @see de.freese.spring.jwt.token.JwtTokenProvider#parseToken(java.lang.String)
-     */
     @Override
     public JwtToken parseToken(final String token) throws AuthenticationException {
         try {

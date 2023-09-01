@@ -25,28 +25,17 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
         super(kryoPool);
     }
 
-    /**
-     * @see org.springframework.core.codec.Encoder#canEncode(org.springframework.core.ResolvableType, org.springframework.util.MimeType)
-     */
     @Override
     public boolean canEncode(final ResolvableType elementType, final MimeType mimeType) {
         return Object.class.isAssignableFrom(elementType.toClass()) && supportsMimeType(mimeType);
         // return elementType.isInstance(Object.class) && supportsMimeType(mimeType);
     }
 
-    /**
-     * @see org.springframework.core.codec.Encoder#encode(org.reactivestreams.Publisher, org.springframework.core.io.buffer.DataBufferFactory,
-     * org.springframework.core.ResolvableType, org.springframework.util.MimeType, java.util.Map)
-     */
     @Override
     public Flux<DataBuffer> encode(final Publisher<? extends Object> inputStream, final DataBufferFactory bufferFactory, final ResolvableType elementType, final MimeType mimeType, final Map<String, Object> hints) {
         return Flux.from(inputStream).map(message -> encodeValue(message, bufferFactory, elementType, mimeType, hints));
     }
 
-    /**
-     * @see org.springframework.core.codec.Encoder#encodeValue(java.lang.Object, org.springframework.core.io.buffer.DataBufferFactory,
-     * org.springframework.core.ResolvableType, org.springframework.util.MimeType, java.util.Map)
-     */
     @Override
     public DataBuffer encodeValue(final Object value, final DataBufferFactory bufferFactory, final ResolvableType valueType, final MimeType mimeType, final Map<String, Object> hints) {
         DataBuffer buffer = bufferFactory.allocateBuffer(256);
@@ -69,17 +58,11 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
         return buffer;
     }
 
-    /**
-     * @see org.springframework.core.codec.Encoder#getEncodableMimeTypes()
-     */
     @Override
     public List<MimeType> getEncodableMimeTypes() {
         return MIME_TYPES;
     }
 
-    /**
-     * @see org.springframework.http.codec.HttpMessageEncoder#getStreamingMediaTypes()
-     */
     @Override
     public List<MediaType> getStreamingMediaTypes() {
         return MEDIA_TYPES;

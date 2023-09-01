@@ -41,9 +41,6 @@ public class PrimarySecondaryCommand extends HystrixCommand<String> {
             this.id = id;
         }
 
-        /**
-         * @see com.netflix.hystrix.HystrixCommand#run()
-         */
         @Override
         protected String run() {
             P_LOGGER.info("run");
@@ -74,9 +71,6 @@ public class PrimarySecondaryCommand extends HystrixCommand<String> {
             this.id = id;
         }
 
-        /**
-         * @see com.netflix.hystrix.HystrixCommand#run()
-         */
         @Override
         protected String run() {
             S_LOGGER.info("run");
@@ -106,9 +100,6 @@ public class PrimarySecondaryCommand extends HystrixCommand<String> {
         return String.valueOf(this.id);
     }
 
-    /**
-     * @see com.netflix.hystrix.HystrixCommand#run()
-     */
     @Override
     protected String run() throws Exception {
         C_LOGGER.info("run");

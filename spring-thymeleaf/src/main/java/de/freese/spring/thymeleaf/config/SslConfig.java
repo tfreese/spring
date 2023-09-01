@@ -56,9 +56,6 @@ public class SslConfig {
     @Bean
     public ServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
-            /**
-             * @see org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory#getTomcatWebServer(org.apache.catalina.startup.Tomcat)
-             */
             @Override
             protected TomcatWebServer getTomcatWebServer(final Tomcat tomcat) {
                 // JNDI aktivieren.
@@ -67,9 +64,6 @@ public class SslConfig {
                 return super.getTomcatWebServer(tomcat);
             }
 
-            /**
-             * @see org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory#postProcessContext(org.apache.catalina.Context)
-             */
             @Override
             protected void postProcessContext(final Context context) {
                 // SSL Context definieren.

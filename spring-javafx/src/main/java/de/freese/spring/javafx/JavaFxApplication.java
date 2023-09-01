@@ -41,9 +41,6 @@ public class JavaFxApplication extends Application {
 
     private ConfigurableApplicationContext applicationContext;
 
-    /**
-     * @see javafx.application.Application#init()
-     */
     @Override
     public void init() throws Exception {
         ApplicationContextInitializer<GenericApplicationContext> initializer = ac -> {
@@ -63,17 +60,11 @@ public class JavaFxApplication extends Application {
         // @formatter:on
     }
 
-    /**
-     * @see javafx.application.Application#start(javafx.stage.Stage)
-     */
     @Override
     public void start(final Stage primaryStage) throws Exception {
         this.applicationContext.publishEvent(new StageReadyEvent(primaryStage));
     }
 
-    /**
-     * @see javafx.application.Application#stop()
-     */
     @Override
     public void stop() throws Exception {
         this.applicationContext.close();

@@ -51,9 +51,6 @@
 //        // this.r2dbcTemplate = new R2dbcEntityTemplate(Objects.requireNonNull(connectionFactory, "connectionFactory required"));
 //    }
 //
-//    /**
-//     * @see de.freese.spring.reactive.repository.EmployeeRepository#createNewEmployee(de.freese.spring.reactive.model.Employee)
-//     */
 //    @Override
 //    public Mono<Employee> createNewEmployee(final Employee newEmployee)
 //    {
@@ -98,9 +95,6 @@
 //        // @formatter:on
 //    }
 //
-//    /**
-//     * @see de.freese.spring.reactive.repository.EmployeeRepository#deleteEmployee(long)
-//     */
 //    @Override
 //    public Mono<Long> deleteEmployee(final long id)
 //    {
@@ -115,9 +109,6 @@
 //        // @formatter:on
 //    }
 //
-//    /**
-//     * @see de.freese.spring.reactive.repository.EmployeeRepository#getAllDepartments()
-//     */
 //    @Override
 //    public Flux<Department> getAllDepartments()
 //    {
@@ -131,9 +122,6 @@
 //        // @formatter:on
 //    }
 //
-//    /**
-//     * @see de.freese.spring.reactive.repository.EmployeeRepository#getAllEmployees()
-//     */
 //    @Override
 //    public Flux<Employee> getAllEmployees()
 //    {
@@ -152,9 +140,6 @@
 //        // @formatter:on
 //    }
 //
-//    /**
-//     * @see de.freese.spring.reactive.repository.EmployeeRepository#getEmployee(java.lang.String, java.lang.String)
-//     */
 //    @Override
 //    public Mono<Employee> getEmployee(final String lastName, final String firstName)
 //    {

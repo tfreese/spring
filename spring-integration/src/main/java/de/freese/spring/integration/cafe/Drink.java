@@ -22,9 +22,6 @@ public class Drink {
         return this.orderNumber;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return (this.iced ? "Iced" : "Hot") + " " + this.drinkType.toString();

@@ -32,9 +32,6 @@ public class Employee {
         this.id = id;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -66,9 +63,6 @@ public class Employee {
         return this.lastName;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         return Objects.hash(this.id, this.firstName, this.lastName, this.department);
@@ -90,9 +84,6 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

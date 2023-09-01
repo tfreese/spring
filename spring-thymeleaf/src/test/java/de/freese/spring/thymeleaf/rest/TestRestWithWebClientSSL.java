@@ -109,9 +109,6 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         ;
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testHealthEndpoint()
-     */
     @Override
     @Test
     void testHealthEndpoint() throws Exception {
@@ -153,9 +150,6 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         assertEquals("UP", status);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testPost()
-     */
     @Override
     @Test
     void testPost() throws Exception {
@@ -200,9 +194,6 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testPostWithWrongRole()
-     */
     @Override
     @Test
     void testPostWithWrongRole() throws Exception {
@@ -231,9 +222,6 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithLoginJSON()
-     */
     @Override
     @Test
     void testUserWithLoginJSON() throws Exception {
@@ -257,11 +245,8 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         assertTrue(persons.size() >= 2);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithLoginXML()
-     */
     @Override
-    // @Test
+        // @Test
     void testUserWithLoginXML() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
@@ -285,9 +270,6 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         assertTrue(persons.size() >= 2);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithPreAuthJSON()
-     */
     @Override
     @Test
     void testUserWithPreAuthJSON() throws Exception {
@@ -311,11 +293,8 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         assertTrue(persons.size() >= 2);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithPreAuthXML()
-     */
     @Override
-    // @Test
+        // @Test
     void testUserWithPreAuthXML() throws Exception {
         WebClient webClient = this.webClientBuilder.build();
 
@@ -337,9 +316,6 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         assertTrue(persons.size() >= 2);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithWrongPass()
-     */
     @Override
     @Test
     void testUserWithWrongPass() throws Exception {
@@ -371,9 +347,6 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithWrongRole()
-     */
     @Override
     @Test
     void testUserWithWrongRole() throws Exception {
@@ -395,9 +368,6 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithoutLogin()
-     */
     @Override
     @Test
     void testUserWithoutLogin() throws Exception {

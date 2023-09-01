@@ -105,25 +105,16 @@ class TestHelloWorld {
         // non-blocking
         // - this is a verbose anonymous inner-class approach and doesn't do assertions
         oWorld.subscribe(new Observer<>() {
-            /**
-             * @see rx.Observer#onCompleted()
-             */
             @Override
             public void onCompleted() {
                 // nothing needed here
             }
 
-            /**
-             * @see rx.Observer#onError(java.lang.Throwable)
-             */
             @Override
             public void onError(final Throwable e) {
                 System.out.println("onError: " + e.getLocalizedMessage());
             }
 
-            /**
-             * @see rx.Observer#onNext(java.lang.Object)
-             */
             @Override
             public void onNext(final String v) {
                 System.out.println("onNext: " + v);

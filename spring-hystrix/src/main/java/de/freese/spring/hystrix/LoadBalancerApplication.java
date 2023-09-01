@@ -69,9 +69,6 @@ public final class LoadBalancerApplication {
             // System.out.println(getThreadPoolKey());
         }
 
-        /**
-         * @see com.netflix.hystrix.HystrixCommand#getFallback()
-         */
         @Override
         protected ClientHttpResponse getFallback() {
             if (this.uris.isEmpty()) {
@@ -84,9 +81,6 @@ public final class LoadBalancerApplication {
             return cmd.execute();
         }
 
-        /**
-         * @see com.netflix.hystrix.HystrixCommand#run()
-         */
         @Override
         protected ClientHttpResponse run() throws Exception {
             // HystrixBadRequestException
@@ -97,9 +91,6 @@ public final class LoadBalancerApplication {
             // System.out.println(repository.getFragment());
 
             HttpRequestWrapper requestWrapper = new HttpRequestWrapper(this.request) {
-                /**
-                 * @see org.springframework.http.client.support.HttpRequestWrapper#getURI()
-                 */
                 @Override
                 public URI getURI() {
                     return uri;
@@ -126,10 +117,6 @@ public final class LoadBalancerApplication {
             this.server = Objects.requireNonNull(server, "server required");
         }
 
-        /**
-         * @see org.springframework.http.client.ClientHttpRequestInterceptor#intercept(org.springframework.http.HttpRequest, byte[],
-         * org.springframework.http.client.ClientHttpRequestExecution)
-         */
         @Override
         public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
             final URI originalUri = request.getURI();
@@ -191,10 +178,6 @@ public final class LoadBalancerApplication {
             this.server = Objects.requireNonNull(server, "server required");
         }
 
-        /**
-         * @see org.springframework.http.client.ClientHttpRequestInterceptor#intercept(org.springframework.http.HttpRequest, byte[],
-         * org.springframework.http.client.ClientHttpRequestExecution)
-         */
         @Override
         public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
             final URI originalUri = request.getURI();
@@ -239,9 +222,6 @@ public final class LoadBalancerApplication {
 
         private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
             HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request) {
-                /**
-                 * @see org.springframework.http.client.support.HttpRequestWrapper#getURI()
-                 */
                 @Override
                 public URI getURI() {
                     return newUri;

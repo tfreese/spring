@@ -30,9 +30,6 @@ public class OrderItem {
         return this.iced;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return ((this.iced) ? "iced " : "hot ") + this.type;

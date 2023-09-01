@@ -26,9 +26,6 @@ public class OpenBrowserRunner implements CommandLineRunner {
     @Resource
     private Environment environment;
 
-    /**
-     * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
-     */
     @Override
     public void run(final String... args) throws Exception {
         LOGGER.info("");

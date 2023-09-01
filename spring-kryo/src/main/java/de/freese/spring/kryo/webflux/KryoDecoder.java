@@ -27,19 +27,12 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
         super(kryoPool);
     }
 
-    /**
-     * @see org.springframework.core.codec.Decoder#canDecode(org.springframework.core.ResolvableType, org.springframework.util.MimeType)
-     */
     @Override
     public boolean canDecode(final ResolvableType elementType, final MimeType mimeType) {
         return Object.class.isAssignableFrom(elementType.toClass()) && supportsMimeType(mimeType);
         // return elementType.isInstance(Object.class) && supportsMimeType(mimeType);
     }
 
-    /**
-     * @see org.springframework.core.codec.Decoder#decode(org.springframework.core.io.buffer.DataBuffer, org.springframework.core.ResolvableType,
-     * org.springframework.util.MimeType, java.util.Map)
-     */
     @Override
     public Object decode(final DataBuffer buffer, final ResolvableType targetType, final MimeType mimeType, final Map<String, Object> hints) throws DecodingException {
         Kryo kryo = getKryoPool().obtain();
@@ -56,38 +49,23 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
         return value;
     }
 
-    /**
-     * @see org.springframework.core.codec.Decoder#decode(org.reactivestreams.Publisher, org.springframework.core.ResolvableType,
-     * org.springframework.util.MimeType, java.util.Map)
-     */
     @Override
     public Flux<Object> decode(final Publisher<DataBuffer> inputStream, final ResolvableType elementType, final MimeType mimeType, final Map<String, Object> hints) {
         // return Flux.from(decodeToMono(inputStream, elementType, mimeType, hints));
         return Flux.from(inputStream).map(buffer -> decode(buffer, elementType, mimeType, hints));
     }
 
-    /**
-     * @see org.springframework.core.codec.Decoder#decodeToMono(org.reactivestreams.Publisher, org.springframework.core.ResolvableType,
-     * org.springframework.util.MimeType, java.util.Map)
-     */
     @Override
     public Mono<Object> decodeToMono(final Publisher<DataBuffer> inputStream, final ResolvableType elementType, final MimeType mimeType, final Map<String, Object> hints) {
         // return DataBufferUtils.join(inputStream).map(dataBuffer -> decode(dataBuffer, elementType, mimeType, hints));
         return Mono.from(inputStream).map(buffer -> decode(buffer, elementType, mimeType, hints));
     }
 
-    /**
-     * @see org.springframework.core.codec.Decoder#getDecodableMimeTypes()
-     */
     @Override
     public List<MimeType> getDecodableMimeTypes() {
         return MIME_TYPES;
     }
 
-    /**
-     * @see org.springframework.http.codec.HttpMessageDecoder#getDecodeHints(org.springframework.core.ResolvableType, org.springframework.core.ResolvableType,
-     * org.springframework.http.server.reactive.ServerHttpRequest, org.springframework.http.server.reactive.ServerHttpResponse)
-     */
     @Override
     public Map<String, Object> getDecodeHints(final ResolvableType actualType, final ResolvableType elementType, final ServerHttpRequest request, final ServerHttpResponse response) {
         return Hints.none();

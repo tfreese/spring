@@ -19,17 +19,11 @@ public class CommandHelloFailure extends HystrixCommand<String> {
         this.name = name;
     }
 
-    /**
-     * @see com.netflix.hystrix.HystrixCommand#getFallback()
-     */
     @Override
     protected String getFallback() {
         return "Hello Failure " + this.name + "!";
     }
 
-    /**
-     * @see com.netflix.hystrix.HystrixCommand#run()
-     */
     @Override
     protected String run() throws Exception {
         throw new RuntimeException("this command always fails");

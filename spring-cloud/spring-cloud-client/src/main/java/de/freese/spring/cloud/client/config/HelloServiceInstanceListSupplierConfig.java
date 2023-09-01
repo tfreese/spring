@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * @author Thomas Freese
- * @see "https://www.baeldung.com/spring-cloud-load-balancer"
+ * <a href="https://www.baeldung.com/spring-cloud-load-balancer">spring-cloud-load-balancer</a>
  */
 //@Configuration
 public class HelloServiceInstanceListSupplierConfig {

@@ -11,9 +11,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = false)
 public class MethodSecurityConfig //extends GlobalMethodSecurityConfiguration
 {
-    // /**
-    // * @see org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration#createExpressionHandler()
-    // */
     // @Override
     // protected MethodSecurityExpressionHandler createExpressionHandler()
     // {

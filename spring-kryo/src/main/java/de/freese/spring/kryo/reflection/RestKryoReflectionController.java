@@ -18,9 +18,6 @@ public class RestKryoReflectionController extends AbstractRestReflectionControll
         super(kryoPool);
     }
 
-    /**
-     * @see de.freese.spring.kryo.reflection.ReflectionControllerApi#testKryo()
-     */
     @Override
     public LocalDateTime testKryo() {
         return LocalDateTime.now();

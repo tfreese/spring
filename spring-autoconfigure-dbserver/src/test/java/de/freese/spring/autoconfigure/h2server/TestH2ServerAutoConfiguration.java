@@ -28,17 +28,11 @@ class TestH2ServerAutoConfiguration implements TestAutoConfiguration {
     @Qualifier("dataSourceH2Memory")
     private DataSource dataSourceMemory;
 
-    /**
-     * @see de.freese.spring.autoconfigure.TestAutoConfiguration#getDataSourceFile()
-     */
     @Override
     public DataSource getDataSourceFile() {
         return this.dataSourceFile;
     }
 
-    /**
-     * @see de.freese.spring.autoconfigure.TestAutoConfiguration#getDataSourceMemory()
-     */
     @Override
     public DataSource getDataSourceMemory() {
         return this.dataSourceMemory;

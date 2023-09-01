@@ -9,9 +9,6 @@ import java.util.List;
  * @author Thomas Freese
  */
 public class LoadBalancerStrategyFirstAvailable implements LoadBalancerStrategy {
-    /**
-     * @see de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategy#chooseServer(java.util.List, java.lang.String)
-     */
     @Override
     public String chooseServer(final List<String> server, final String key) {
         return server.get(0);

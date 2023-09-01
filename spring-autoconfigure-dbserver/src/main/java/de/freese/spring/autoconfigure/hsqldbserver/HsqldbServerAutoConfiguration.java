@@ -90,9 +90,6 @@ public class HsqldbServerAutoConfiguration {
         }
 
         Server server = new Server() {
-            /**
-             * @see org.hsqldb.server.Server#shutdown()
-             */
             @Override
             public void shutdown() {
                 // "SHUTDOWN COMPACT"

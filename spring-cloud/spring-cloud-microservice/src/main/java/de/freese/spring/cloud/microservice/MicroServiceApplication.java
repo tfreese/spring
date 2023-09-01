@@ -43,8 +43,6 @@ public class MicroServiceApplication extends SpringBootServletInitializer {
      * &lt;packaging>&gt;war&lt;/packaging&gt;<<br>
      * Tomcat aus spring-boot-starter-web excludieren und explizit auf provided setzen.<br>
      * Alle anderen J2EE-Jars auf provided setzen.
-     *
-     * @see org.springframework.boot.web.servlet.support.SpringBootServletInitializer#configure(org.springframework.boot.builder.SpringApplicationBuilder)
      */
     @Override
     protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {

@@ -36,9 +36,6 @@ public class Person {
         this.lastName = lastName;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

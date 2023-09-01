@@ -19,9 +19,6 @@ public class CommandHelloWorld extends HystrixCommand<String> {
         this.name = name;
     }
 
-    /**
-     * @see com.netflix.hystrix.HystrixCommand#run()
-     */
     @Override
     protected String run() throws Exception {
         return "Hello " + this.name + "!";

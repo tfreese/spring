@@ -35,9 +35,6 @@ public class StageListener implements ApplicationListener<StageReadyEvent> {
         this.fxml = fxml;
     }
 
-    /**
-     * @see org.springframework.context.ApplicationListener#onApplicationEvent(org.springframework.context.ApplicationEvent)
-     */
     @Override
     public void onApplicationEvent(final StageReadyEvent event) {
         try {

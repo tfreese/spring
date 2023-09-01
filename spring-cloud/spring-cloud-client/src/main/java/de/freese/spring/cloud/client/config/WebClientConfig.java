@@ -8,7 +8,6 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
-import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,9 +45,6 @@ public class WebClientConfig {
         // @formatter:on
     }
 
-    /**
-     * @see LoadBalancerClientConfiguration
-     */
     @Bean
     @LoadBalanced
     WebClient.Builder webClientBuilderLoadBalanced() {

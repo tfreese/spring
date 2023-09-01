@@ -37,9 +37,6 @@ public class LoadBalancer implements LoadBalancerPing {
      * @author Thomas Freese
      */
     class Pinger extends TimerTask {
-        /**
-         * @see java.lang.Runnable#run()
-         */
         @Override
         public void run() {
             LoggerFactory.getLogger(getClass()).debug("Pinger");
@@ -263,9 +260,6 @@ public class LoadBalancer implements LoadBalancerPing {
         return this.pingDelay;
     }
 
-    /**
-     * @see de.freese.spring.ribbon.myloadbalancer.ping.LoadBalancerPing#isAlive(java.lang.String)
-     */
     @Override
     public boolean isAlive(final String server) {
         if (LOGGER.isDebugEnabled()) {

@@ -29,25 +29,16 @@ public class CipherJsonHttpMessageConverter extends AbstractHttpMessageConverter
 
     }
 
-    /**
-     * @see org.springframework.http.converter.AbstractHttpMessageConverter#readInternal(java.lang.Class, org.springframework.http.HttpInputMessage)
-     */
     @Override
     protected Object readInternal(final Class<? extends Object> clazz, final HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
         return this.objectMapper.readValue(decrypt(inputMessage.getBody()), clazz);
     }
 
-    /**
-     * @see org.springframework.http.converter.AbstractHttpMessageConverter#supports(java.lang.Class)
-     */
     @Override
     protected boolean supports(final Class<?> clazz) {
         return true;
     }
 
-    /**
-     * @see org.springframework.http.converter.AbstractHttpMessageConverter#writeInternal(java.lang.Object, org.springframework.http.HttpOutputMessage)
-     */
     @Override
     protected void writeInternal(final Object t, final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
         outputMessage.getBody().write(encrypt(this.objectMapper.writeValueAsBytes(t)));

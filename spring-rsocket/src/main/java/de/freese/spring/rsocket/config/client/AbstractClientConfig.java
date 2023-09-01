@@ -7,8 +7,6 @@ import io.rsocket.core.Resume;
 import io.rsocket.frame.decoder.PayloadDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.rsocket.RSocketRequesterAutoConfiguration;
-import org.springframework.boot.autoconfigure.rsocket.RSocketStrategiesAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.codec.Encoder;
 import org.springframework.messaging.rsocket.RSocketRequester;
@@ -18,8 +16,6 @@ import reactor.util.retry.Retry;
 
 /**
  * @author Thomas Freese
- * @see RSocketRequesterAutoConfiguration
- * @see RSocketStrategiesAutoConfiguration
  */
 abstract class AbstractClientConfig {
     private final Logger logger = LoggerFactory.getLogger(getClass());

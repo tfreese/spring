@@ -29,7 +29,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import de.freese.spring.jwt.token.JwtToken;
@@ -37,10 +36,9 @@ import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * Der {@link JwtRequestFilter} verwendet keinen {@link AuthenticationProvider},<br>
- * sondern validiert das Token mit Passwort-Vergleich, Gültigkeit etc. selber und setzt es in den {@link SecurityContext}..
+ * sondern validiert das Token mit Passwort-Vergleich, Gültigkeit etc. selber und setzt es in den {@link SecurityContext}.
  *
  * @author Thomas Freese
- * @see BasicAuthenticationFilter
  */
 class JwtRequestFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
@@ -71,10 +69,6 @@ class JwtRequestFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
-    /**
-     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse,
-     * jakarta.servlet.FilterChain)
-     */
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
         String token = this.jwtTokenProvider.resolveToken(request);
@@ -121,9 +115,6 @@ class JwtRequestFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    /**
-     * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
-     */
     @Override
     protected void initFilterBean() throws ServletException {
         super.initFilterBean();

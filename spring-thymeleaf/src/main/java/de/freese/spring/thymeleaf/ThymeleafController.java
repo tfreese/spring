@@ -12,10 +12,9 @@ import org.springframework.stereotype.Controller;
 import de.freese.spring.thymeleaf.exception.ThymeleafControllerExceptionHandler;
 
 /**
- * Extra-Annotation für ThymeleafController zum Vereinfachen des ExceptionHandlings.
+ * Extra-Annotation für ThymeleafController zum Vereinfachen des ExceptionHandlings ({@link ThymeleafControllerExceptionHandler}).
  *
  * @author Thomas Freese
- * @see ThymeleafControllerExceptionHandler
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

@@ -60,25 +60,16 @@ abstract class AbstractTestJwtToken implements TestJwtToken {
     @Resource
     private RestTemplateBuilder restTemplateBuilder;
 
-    /**
-     * @see de.freese.spring.jwt.TestJwtToken#getJwtTokenProvider()
-     */
     @Override
     public JwtTokenProvider getJwtTokenProvider() {
         return this.jwtTokenProvider;
     }
 
-    /**
-     * @see de.freese.spring.jwt.TestJwtToken#getMockMvc()
-     */
     @Override
     public MockMvc getMockMvc() {
         return this.mockMvc;
     }
 
-    /**
-     * @see de.freese.spring.jwt.TestJwtToken#getRestTemplateBuilder()
-     */
     @Override
     public RestTemplateBuilder getRestTemplateBuilder() {
         return this.restTemplateBuilder;

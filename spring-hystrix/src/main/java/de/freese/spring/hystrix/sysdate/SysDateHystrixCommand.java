@@ -58,8 +58,6 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
 
     // /**
     // * Wird für Request Caching benötigt.
-    // *
-    // * @see com.netflix.hystrix.AbstractCommand#getCacheKey()
     // */
     // @Override
     // protected String getCacheKey()
@@ -67,9 +65,6 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
     // return String.valueOf(myRequestValue);
     // }
 
-    /**
-     * @see com.netflix.hystrix.HystrixCommand#getFallback()
-     */
     @Override
     protected String getFallback() {
         if (this.urls.length == 1) {
@@ -88,9 +83,6 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
         return cmd.execute();
     }
 
-    /**
-     * @see com.netflix.hystrix.HystrixCommand#run()
-     */
     @Override
     protected String run() throws Exception {
         String result = this.restTemplate.getForObject(this.urls[0], String.class);

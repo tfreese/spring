@@ -40,9 +40,6 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
         this.kryoPool = Objects.requireNonNull(kryoPool, "kryoPool required");
     }
 
-    /**
-     * @see org.springframework.http.converter.AbstractHttpMessageConverter#readInternal(java.lang.Class, org.springframework.http.HttpInputMessage)
-     */
     @Override
     protected Object readInternal(final Class<? extends Object> clazz, final HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
         Kryo kryo = this.kryoPool.obtain();
@@ -59,17 +56,11 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
         return value;
     }
 
-    /**
-     * @see org.springframework.http.converter.AbstractHttpMessageConverter#supports(java.lang.Class)
-     */
     @Override
     protected boolean supports(final Class<?> clazz) {
         return Object.class.isAssignableFrom(clazz);
     }
 
-    /**
-     * @see org.springframework.http.converter.AbstractHttpMessageConverter#writeInternal(java.lang.Object, org.springframework.http.HttpOutputMessage)
-     */
     @Override
     protected void writeInternal(final Object t, final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
         Kryo kryo = this.kryoPool.obtain();

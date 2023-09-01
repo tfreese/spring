@@ -21,9 +21,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class HateoasMvcConfig implements WebMvcConfigurer {
-    /**
-     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#extendMessageConverters(java.util.List)
-     */
     @Override
     public void extendMessageConverters(final List<HttpMessageConverter<?>> converters) {
         // @formatter:off
@@ -55,9 +52,6 @@ public class HateoasMvcConfig implements WebMvcConfigurer {
         // @formatter:on
     }
 
-    // /**
-    // * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureMessageConverters(java.util.List)
-    // */
     // @Override
     // public void configureMessageConverters(final List<HttpMessageConverter<?>> converters)
     // {

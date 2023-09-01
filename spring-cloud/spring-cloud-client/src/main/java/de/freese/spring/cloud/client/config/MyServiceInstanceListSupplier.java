@@ -10,7 +10,7 @@ import reactor.core.publisher.Flux;
 
 /**
  * @author Thomas Freese
- * @see "https://www.baeldung.com/spring-cloud-load-balancer"
+ * <a href="https://www.baeldung.com/spring-cloud-load-balancer">spring-cloud-load-balancer</a>
  */
 class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier {
 
@@ -22,9 +22,6 @@ class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier {
         this.serviceId = serviceId;
     }
 
-    /**
-     * @see java.util.function.Supplier#get()
-     */
     @Override
     public Flux<List<ServiceInstance>> get() {
         // @formatter:off
@@ -36,9 +33,6 @@ class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier {
         // @formatter:on
     }
 
-    /**
-     * @see org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier#getServiceId()
-     */
     @Override
     public String getServiceId() {
         return this.serviceId;

@@ -50,9 +50,6 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
         this.rootUri = ThymeleafApplication.getRootUri(getEnvironment());
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testHealthEndpoint()
-     */
     @Override
     @Test
     void testHealthEndpoint() throws Exception {
@@ -76,9 +73,6 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
         assertNotNull(status);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testPost()
-     */
     @Override
     @Test
     void testPost() throws Exception {
@@ -118,9 +112,6 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
         assertTrue(persons.size() >= 2);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testPostWithWrongRole()
-     */
     @Override
     @Test
     void testPostWithWrongRole() throws Exception {
@@ -140,9 +131,6 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
         assertEquals(HttpStatus.FORBIDDEN.value(), response.statusCode());
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithLoginJSON()
-     */
     @Override
     @Test
     void testUserWithLoginJSON() throws Exception {
@@ -166,9 +154,6 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
         assertTrue(persons.size() >= 2);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithLoginXML()
-     */
     @Override
     @Test
     void testUserWithLoginXML() throws Exception {
@@ -193,9 +178,6 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
         assertTrue(persons.size() >= 2);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithPreAuthJSON()
-     */
     @Override
     @Test
     void testUserWithPreAuthJSON() throws Exception {
@@ -220,9 +202,6 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
         assertTrue(persons.size() >= 2);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithPreAuthXML()
-     */
     @Override
     @Test
     void testUserWithPreAuthXML() throws Exception {
@@ -248,9 +227,6 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
         assertTrue(persons.size() >= 2);
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithWrongPass()
-     */
     @Override
     @Test
     void testUserWithWrongPass() throws Exception {
@@ -279,9 +255,6 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
         });
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithWrongRole()
-     */
     @Override
     @Test
     void testUserWithWrongRole() throws Exception {
@@ -301,12 +274,9 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
         assertEquals(HttpStatus.FORBIDDEN.value(), response.statusCode());
     }
 
-    /**
-     * @see de.freese.spring.thymeleaf.rest.AbstractRestTestCase#testUserWithoutLogin()
-     */
     @Override
     @Test
-    // (expected = IOException.class)
+        // (expected = IOException.class)
     void testUserWithoutLogin() throws Exception {
         HttpClient httpClient = createClientBuilder().build();
 
@@ -341,9 +311,6 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
 
     private HttpClient.Builder createClientBuilder(final String user, final String password) {
         Authenticator authenticator = new Authenticator() {
-            /**
-             * @see java.net.Authenticator#getPasswordAuthentication()
-             */
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(user, password.toCharArray());

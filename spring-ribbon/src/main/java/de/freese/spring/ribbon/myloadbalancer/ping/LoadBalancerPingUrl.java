@@ -66,9 +66,6 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
         return this.pingAppendString;
     }
 
-    /**
-     * @see de.freese.spring.ribbon.myloadbalancer.ping.LoadBalancerPing#isAlive(java.lang.String)
-     */
     @Override
     public boolean isAlive(final String server) {
         boolean isAlive = false;

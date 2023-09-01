@@ -183,9 +183,6 @@ public class ApiError {
         this.stackTrace = stackTrace;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -264,25 +261,16 @@ class LowerCaseClassNameResolver extends TypeIdResolverBase {
         super();
     }
 
-    /**
-     * @see com.fasterxml.jackson.databind.jsontype.TypeIdResolver#getMechanism()
-     */
     @Override
     public JsonTypeInfo.Id getMechanism() {
         return JsonTypeInfo.Id.CUSTOM;
     }
 
-    /**
-     * @see com.fasterxml.jackson.databind.jsontype.TypeIdResolver#idFromValue(java.lang.Object)
-     */
     @Override
     public String idFromValue(final Object value) {
         return value.getClass().getSimpleName().toLowerCase();
     }
 
-    /**
-     * @see com.fasterxml.jackson.databind.jsontype.TypeIdResolver#idFromValueAndType(java.lang.Object, java.lang.Class)
-     */
     @Override
     public String idFromValueAndType(final Object value, final Class<?> suggestedType) {
         return idFromValue(value);
