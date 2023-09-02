@@ -26,7 +26,8 @@ public interface TestAutoConfiguration {
     default void createTable(final DataSource dataSource) throws SQLException {
         assertNotNull(dataSource);
 
-        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement()) {
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
             statement.execute("DROP TABLE IF EXISTS PERSON CASCADE");
             statement.execute("CREATE TABLE PERSON(ID BIGINT NOT NULL PRIMARY KEY, NAME VARCHAR(25) NOT NULL, VORNAME VARCHAR(25))");
         }
@@ -60,7 +61,9 @@ public interface TestAutoConfiguration {
     default void select(final DataSource dataSource) throws SQLException {
         assertNotNull(dataSource);
 
-        try (Connection con = dataSource.getConnection(); Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery("select * from PERSON")) {
+        try (Connection con = dataSource.getConnection();
+             Statement stmt = con.createStatement();
+             ResultSet rs = stmt.executeQuery("select * from PERSON")) {
             final boolean hasNext = rs.next();
 
             if (hasNext) {

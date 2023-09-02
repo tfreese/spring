@@ -21,14 +21,14 @@ import org.springframework.context.annotation.Configuration;
 import de.freese.spring.autoconfigure.hsqldbserver.HsqldbServerProperties.DB;
 
 /**
- * AutoConfiguration für ein HSQLDB-{@link Server}.<br>
- * Nur wenn noch kein {@link Server} vorhanden ist, wird ein {@link Server} erzeugt.<br>
- * Wird VOR der {@link DataSourceAutoConfiguration} ausgeführt.<br>
+ * AutoConfiguration for a HSQLDB-{@link Server}.<br>
+ * Server {@link Server} is creratedm when not already running.<br>
+ * Executed before {@link DataSourceAutoConfiguration}.<br>
  * <br>
- * Beispiel:
+ * Example:
  *
  * <pre>
- * Als Properties:
+ * With Properties:
  * hsqldb.server.enabled = true
  * hsqldb.server.port = ${port}
  * hsqldb.server.noSystemExit = true
@@ -39,7 +39,7 @@ import de.freese.spring.autoconfigure.hsqldbserver.HsqldbServerProperties.DB;
  * hsqldb.server.db[1].name=${name1}
  * hsqldb.server.db[1].path=mem:${name1}
  *
- * Als YAML:
+ * With YAML:
  * hsqldb:
  *     server:
  *         enabled: true
@@ -57,9 +57,9 @@ import de.freese.spring.autoconfigure.hsqldbserver.HsqldbServerProperties.DB;
  * @author Thomas Freese
  */
 @Configuration
-@ConditionalOnClass(Server.class) // Nur wenn HSQLDB auch im Classpath ist.
-@ConditionalOnMissingBean(Server.class) // Nur wenn Server noch nicht im SpringContext ist.
-@ConditionalOnProperty(prefix = "hsqldb.server", name = "enabled", matchIfMissing = false) // Nur wenn auch enabled.
+@ConditionalOnClass(Server.class) // Only when HSQLDB is in Classpath.
+@ConditionalOnMissingBean(Server.class) // Only when Server is not in the SpringContext.
+@ConditionalOnProperty(prefix = "hsqldb.server", name = "enabled", matchIfMissing = false) // Only if enabled.
 @EnableConfigurationProperties(HsqldbServerProperties.class)
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
 public class HsqldbServerAutoConfiguration {
@@ -95,7 +95,6 @@ public class HsqldbServerAutoConfiguration {
                 // "SHUTDOWN COMPACT"
                 super.shutdownWithCatalogs(Database.CLOSEMODE_COMPACT);
             }
-
         };
         server.setLogWriter(null);
         server.setErrWriter(null);

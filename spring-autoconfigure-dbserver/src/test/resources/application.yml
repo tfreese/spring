@@ -2,6 +2,10 @@ debug: false
 
 # ${random.int[10000,65000]}
 
+spring:
+    main:
+        banner-mode: OFF
+
 h2:
     port: 12345
     path: ${user.dir}/target/h2
@@ -19,7 +23,7 @@ hsqldb:
             -   name: memory-db
                 path: mem:mem.db
 
-# Funktioniert nicht mit ConfigurationProperties(prefix = "...")
+# Do not work with ConfigurationProperties(prefix = "...")
 #spring:
 #    datasource:
 #        hikari:

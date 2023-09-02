@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Properties für {@link HsqldbServerAutoConfiguration}.<br>
+ * Properties for {@link HsqldbServerAutoConfiguration}.<br>
  *
  * @author Thomas Freese
  */
@@ -17,7 +17,6 @@ public class HsqldbServerProperties {
      */
     public static class DB {
         private String name;
-
         private String path;
 
         public String getName() {
@@ -48,15 +47,10 @@ public class HsqldbServerProperties {
     }
 
     private List<DB> db;
-
     private boolean enabled = true;
-
     private boolean noSystemExit = true;
-
     private int port;
-
     private boolean silent = true;
-
     private boolean trace;
 
     public List<DB> getDb() {
