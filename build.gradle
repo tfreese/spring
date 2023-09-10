@@ -174,6 +174,8 @@ project("spring-cloud:spring-cloud-client") {
         runtimeOnly("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
         runtimeOnly("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
+        testImplementation("com.squareup.okhttp3:mockwebserver")
+        testImplementation("io.projectreactor:reactor-test")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
@@ -580,6 +582,7 @@ project("spring-testcontainers") {
         testImplementation("org.springframework.boot:spring-boot-starter-test") {
             exclude module: "junit-vintage-engine"
         }
+        testImplementation("org.springframework.boot:spring-boot-testcontainers")
         testImplementation("org.testcontainers:junit-jupiter")
         testImplementation("org.testcontainers:mariadb")
         testImplementation("org.testcontainers:oracle-xe")
