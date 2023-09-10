@@ -106,6 +106,7 @@ project("spring-autoconfigure-dbserver") {
 
         testImplementation("com.h2database:h2")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
     // Start: gradle bootRun --args="--spring.profiles.active=dev"
     // Deaktiviert, da wir 2 main-Klassen haben.
@@ -313,7 +314,7 @@ project("spring-javafx") {
         implementation("org.springframework.boot:spring-boot-starter")
 
         javafx {
-            version = "$version_javafxBase"
+            version = "$version_javafx"
             modules = ["javafx.controls", "javafx.fxml"]
         }
     }
