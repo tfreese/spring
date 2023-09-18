@@ -16,7 +16,6 @@ import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.FormLoginRequestBuilder;
 import org.springframework.test.context.ActiveProfiles;
@@ -27,7 +26,7 @@ import de.freese.spring.thymeleaf.ThymeleafApplication;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(properties = "server.port=0", webEnvironment = WebEnvironment.MOCK, classes = ThymeleafApplication.class)
+@SpringBootTest(properties = "server.port=0", webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
         // @ActiveProfiles(

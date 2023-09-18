@@ -60,7 +60,7 @@ class TestRestService {
                 //.addProfiler(GCProfiler.class)
                 //.addProfiler(HotspotMemoryProfiler.class)
                 .shouldFailOnError(true)
-                .jvmArgs("-Dserver.port=8080")
+                .jvmArgs("-Dserver.port=11111")
                 .threads(1)
                 .forks(1)
                 .resultFormat(ResultFormatType.CSV)
