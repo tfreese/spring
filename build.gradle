@@ -1,10 +1,9 @@
-// Tasks im SubModul ausführen: gradle MODUL:clean build
+// Execute Tasks in SubModule: gradle MODUL:clean build
 buildscript {
-    // Für Plugins
     repositories {
         mavenLocal()
         mavenCentral()
-        gradlePluginPortal() // maven { url "https://plugins.gradle.org/m2"; name "plugins-gradle" }
+        gradlePluginPortal()
     }
 
     dependencies {
