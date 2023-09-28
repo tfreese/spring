@@ -9,7 +9,7 @@ buildscript {
     dependencies {
         classpath "de.freese.gradle:gradle-plugins:0.0.1-SNAPSHOT"
         classpath "io.spring.gradle:dependency-management-plugin:$version_springDependencyManagement"
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$version_springBootGradlePlugin"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$version_springBoot"
         classpath "org.openjfx:javafx-plugin:$version_javafxPlugin"
     }
 }
