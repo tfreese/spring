@@ -54,7 +54,7 @@ subprojects {
             }
 
             dependency("org.primefaces.themes:all-themes:$version_primefacesThemes")
-            dependency("org.springdoc:springdoc-openapi-ui:$version_springdoc")
+            dependency("org.springdoc:springdoc-openapi-ui:$version_springDoc")
 
             dependencySet(group: "org.springframework.cloud", version: "$version_springCloudNetflix") {
                 entry "spring-cloud-starter-netflix-ribbon"
