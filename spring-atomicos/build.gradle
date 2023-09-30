@@ -1,0 +1,13 @@
+description = "Demo für verteilte Transaktionen"
+
+dependencies {
+    implementation("com.atomikos:transactions-spring-boot3-starter")
+    implementation("com.h2database:h2")
+    implementation("jakarta.platform:jakarta.jakartaee-api")
+    implementation("org.springframework.boot:spring-boot-starter")
+
+    runtimeOnly("org.hsqldb:hsqldb")
+//    runtimeOnly("com.h2database:h2")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}

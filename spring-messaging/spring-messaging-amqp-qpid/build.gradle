@@ -1,0 +1,12 @@
+description = "Messaging with AMQP by Apache QPID"
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
+    implementation("org.springframework.boot:spring-boot-starter-json")
+    implementation("org.apache.qpid:qpid-broker")
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+springBoot {
+    mainClass = "org.spring.messaging.amqp.qpid.SpringQpidApplication"
+}

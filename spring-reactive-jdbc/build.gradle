@@ -1,0 +1,18 @@
+description = "Reactive JDBC with Spring"
+
+dependencies {
+    implementation("io.r2dbc:r2dbc-h2")
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+    testImplementation("io.projectreactor:reactor-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+springBoot {
+    mainClass = "de.freese.spring.reactive.SpringReactiveJdbcApplication"
+}
+
+//    test.enabled = false

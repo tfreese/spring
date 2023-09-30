@@ -1,0 +1,14 @@
+description = "Messaging with JMS by ActiveMQ"
+
+dependencies {
+    implementation("org.apache.activemq:artemis-server")
+    implementation("org.springframework.boot:spring-boot-starter-json")
+    implementation("org.springframework.boot:spring-boot-starter-artemis")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+springBoot {
+    mainClass = "de.freese.spring.messaging.jms.SpringJmsApplication"
+}

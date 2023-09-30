@@ -1,0 +1,24 @@
+description = "EUREKA-Server (ServiceDiscovery) von spring-boot"
+
+dependencies {
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-server")
+
+    runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+springBoot {
+    mainClass = "de.freese.spring.cloud.eureka.EurekaServerApplication"
+}
+
+//Für Platzhalter in application.properties
+ext.artifactId = project.name
+
+processResources {
+    filesMatching("application.properties") {
+        filteringCharset = "UTF-8"
+
+        // Bei Problemen müssen die Platzhalter escaped werden: \${...}.}
+        //expand(project.properties)
+    }
+}

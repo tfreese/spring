@@ -1,6 +1,7 @@
 // Created: 16.08.23
 package de.freese.spring.data.jpa.domain;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -17,6 +18,8 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "todo")
 public class Todo extends AbstractBaseEntity {
+    @Serial
+    private static final long serialVersionUID = 1901539776951339427L;
 
     @NotNull(message = "End Time cannot be blank")
     private LocalDateTime endTime;
@@ -43,7 +46,7 @@ public class Todo extends AbstractBaseEntity {
         if (!super.equals(o)) {
             return false;
         }
-        
+
         return Objects.equals(endTime, todo.endTime) && Objects.equals(name, todo.name) && Objects.equals(startTime, todo.startTime) && taskStatus == todo.taskStatus;
     }
 

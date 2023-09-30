@@ -1,0 +1,21 @@
+description = "Client mit LoadBalancer"
+
+dependencies {
+    implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
+
+    runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+    runtimeOnly("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
+    runtimeOnly("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+
+    testImplementation("com.squareup.okhttp3:mockwebserver")
+    testImplementation("io.projectreactor:reactor-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+// Deaktiviert, da wir 2 main-Klassen haben.
+springBoot {
+    mainClass = "disabled"
+}

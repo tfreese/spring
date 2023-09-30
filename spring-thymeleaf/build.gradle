@@ -1,0 +1,61 @@
+description = "Spring Boot Web Thymeleaf mit Security Beispiel"
+
+dependencies {
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+
+    implementation("org.apache.httpcomponents.client5:httpclient5")
+    implementation("org.springframework.boot:spring-boot-starter-json")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
+    // hot swapping, disable cache for template, enable live reload
+    //implementation("org.springframework.boot:spring-boot-devtools")
+
+    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+
+    runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+
+    // Optional, for bootstrap
+    //runtimeOnly("org.webjars:bootstrap:4.6.0")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-webflux")
+    testImplementation("org.springframework.security:spring-security-test")
+}
+
+// Durch die parallelen Tests kann es passsieren, das die Ports 8080 und 8443 bereits belegt sind.
+// Die Alternative wäre den Build durch 'gradle --no-parallel --max-workers 1 test' zu starten.
+test {
+    filter {
+        // Klasse deaktivieren
+        excludeTestsMatching "de.freese.spring.thymeleaf.rest.TestRestWithWebClientSSL"
+
+        // Einzelne Methode deaktivieren
+        // excludeTestsMatching "de.freese.spring.thymeleaf.rest.TestRestWithWebClientSSL.test000HealthEndpoint"
+
+        // Package Deaktivierung mit Wildscards
+        //excludeTestsMatching "*.integration.*"
+
+        // Methoden Deaktivierung mit Wildscards
+        //excludeTestsMatching "*stress*"
+    }
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+springBoot {
+    mainClass = "de.freese.spring.thymeleaf.ThymeleafApplication"
+}
+
+//Für Platzhalter in application.properties
+ext.artifactId = project.name
+
+processResources {
+    filesMatching("application.yml") {
+        filteringCharset = "UTF-8"
+
+        // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+        expand(project.properties)
+    }
+}

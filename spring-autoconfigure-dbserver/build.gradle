@@ -1,0 +1,15 @@
+description = "spring-autoconfigure-dbserver"
+
+dependencies {
+    implementation("org.hsqldb:hsqldb")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+
+    testImplementation("com.h2database:h2")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+// Deaktiviert, da wir 2 main-Klassen haben.
+springBoot {
+    mainClass = "disabled"
+}

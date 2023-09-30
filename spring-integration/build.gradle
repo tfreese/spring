@@ -1,0 +1,15 @@
+description = "Test Projekt für das Spring-Integration Modul"
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-integration") {
+        exclude group: "ch.qos.logback", module: "logback-classic"
+    }
+
+    testImplementation("org.slf4j:slf4j-simple")
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+// Deaktiviert, da wir keine main-Klasse haben.
+springBoot {
+    mainClass = "disabled"
+}

@@ -1,0 +1,19 @@
+plugins {
+    id "org.openjfx.javafxplugin"
+}
+
+description = "spring with javafx"
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter")
+
+    javafx {
+        version = "$version_javafx"
+        modules = ["javafx.controls", "javafx.fxml"]
+    }
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+springBoot {
+    mainClass = "de.freese.spring.javafx.MainSpringFxApplication"
+}

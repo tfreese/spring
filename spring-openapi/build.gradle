@@ -1,0 +1,11 @@
+description = "OpenApi-Demo"
+
+dependencies {
+    implementation("org.springdoc:springdoc-openapi-ui")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+springBoot {
+    mainClass = "de.freese.spring.openapi.OpenApiApplication"
+}

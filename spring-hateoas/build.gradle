@@ -1,0 +1,28 @@
+description = "Demo für REST-HATEOAS"
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-hateoas")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+//        runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+
+//        testImplementation("com.jayway.jsonpath:json-path")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+springBoot {
+    mainClass = "de.freese.spring.hateoas.HateoasApplication"
+}
+
+//Für Platzhalter in application.properties
+ext.artifactId = project.name
+
+processResources {
+    filesMatching("application.properties") {
+        filteringCharset = "UTF-8"
+
+        // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+        expand(project.properties)
+    }
+}

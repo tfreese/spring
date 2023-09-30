@@ -1,0 +1,31 @@
+description = "Demo project for Spring Boot"
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
+
+    runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+    runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+
+    testImplementation("io.github.resilience4j:resilience4j-all")
+    testImplementation("io.projectreactor:reactor-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+springBoot {
+    mainClass = "de.freese.spring.resilience.SpringResilienceApplication"
+}
+
+//Für Platzhalter in application.properties
+ext.artifactId = project.name
+
+processResources {
+    filesMatching("application.yml") {
+        filteringCharset = "UTF-8"
+
+        // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+        //expand(project.properties)
+    }
+}

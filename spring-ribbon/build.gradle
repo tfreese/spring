@@ -1,0 +1,17 @@
+description = "ribbon Loadbalancer von spring-boot"
+
+dependencies {
+    implementation("org.apache.httpcomponents:httpclient")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-ribbon")
+
+    testImplementation("io.projectreactor:reactor-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+// Deaktiviert, da wir 2 main-Klassen haben.
+springBoot {
+    mainClass = "disabled"
+}
