@@ -55,7 +55,6 @@ class TestRestService {
     void testBenchmark() throws Exception {
         // @formatter:off
         Options options = new OptionsBuilder()
-                .include(MicroServiceBenchmark.class.getSimpleName())
                 //.include("\\." + this.getClass().getSimpleName() + "\\.") für Benchmark in dieser Junit-Klasse
                 //.addProfiler(GCProfiler.class)
                 //.addProfiler(HotspotMemoryProfiler.class)
@@ -64,11 +63,12 @@ class TestRestService {
                 .warmupTime(TimeValue.milliseconds(100))
                 .measurementIterations(1)
                 .measurementTime(TimeValue.milliseconds(200))
-                .jvmArgs("-Dserver.port=11111")
-//                .threads(1)
                 .forks(0)
-//                .resultFormat(ResultFormatType.CSV)
-//                .result("/dev/null")
+                //                .threads(1)
+                .jvmArgs("-Dserver.port=11111")
+                //                .resultFormat(ResultFormatType.CSV)
+                //                .result("/dev/null")
+                .include(MicroServiceBenchmark.class.getSimpleName())
                 .build()
                 ;
         // @formatter:on
