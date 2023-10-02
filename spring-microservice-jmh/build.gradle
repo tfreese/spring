@@ -5,10 +5,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
-    //compileOnly("org.openjdk.jmh:jmh-generator-annprocess")
-    //testAnnotationProcessor("org.openjdk.jmh:jmh-generator-annprocess")
-    //runtimeOnly("org.openjdk.jmh:jmh-generator-annprocess")
-    //implementation("org.openjdk.jmh:jmh-generator-annprocess")
+    testAnnotationProcessor("org.openjdk.jmh:jmh-generator-annprocess")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
@@ -18,14 +15,14 @@ springBoot {
     mainClass = "de.freese.spring.Benchmarks"
 }
 
-test {
-    filter {
-        // JMH-Test deaktivieren, weil das mit den Annotation-Processor nicht klappt.
-        excludeTestsMatching "de.freese.spring.TestRestService.testBenchmark"
-    }
-}
+//test {
+//    filter {
+//        // JMH-Test deaktivieren, weil das mit den Annotation-Processor nicht klappt.
+//        excludeTestsMatching "de.freese.spring.TestRestService.testBenchmark"
+//    }
+//}
 
-//Für Platzhalter in application.properties
+// Für Platzhalter in application.properties
 ext.artifactId = project.name
 
 processResources {

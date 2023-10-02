@@ -13,10 +13,10 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.openjdk.jmh.results.format.ResultFormatType;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
+import org.openjdk.jmh.runner.options.TimeValue;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -60,11 +60,15 @@ class TestRestService {
                 //.addProfiler(GCProfiler.class)
                 //.addProfiler(HotspotMemoryProfiler.class)
                 .shouldFailOnError(true)
+                .warmupIterations(0)
+                .warmupTime(TimeValue.milliseconds(100))
+                .measurementIterations(1)
+                .measurementTime(TimeValue.milliseconds(200))
                 .jvmArgs("-Dserver.port=11111")
-                .threads(1)
-                .forks(1)
-                .resultFormat(ResultFormatType.CSV)
-                .result("/dev/null")
+//                .threads(1)
+                .forks(0)
+//                .resultFormat(ResultFormatType.CSV)
+//                .result("/dev/null")
                 .build()
                 ;
         // @formatter:on
