@@ -25,7 +25,10 @@ subprojects {
 
             dependency("de.javakaffee:kryo-serializers:$version_kryoSerializers")
 
-            dependency("io.jsonwebtoken:jjwt:$version_jjwt")
+            dependencySet(group: "io.jsonwebtoken", version: "$version_jjwt") {
+                entry "jjwt"
+                entry "jjwt-impl"
+            }
 
             //dependency("javax:javaee-web-api:$version_javaee")
             dependency("jakarta.platform:jakarta.jakartaee-api:$version_jakarta")

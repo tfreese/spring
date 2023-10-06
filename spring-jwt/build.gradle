@@ -10,6 +10,7 @@ dependencies {
 
     // Older Alternative for nimbus-jose-jwt
     implementation("io.jsonwebtoken:jjwt")
+    implementation("io.jsonwebtoken:jjwt-impl")
 
     implementation("org.springframework:spring-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-cache")

@@ -58,6 +58,6 @@ class JwtTokenJson implements JwtToken {
     }
 
     private <T> T getClaimsValue(final Function<Claims, T> function) {
-        return function.apply(this.jwt.getBody().getBody());
+        return function.apply(this.jwt.getPayload().getPayload());
     }
 }
