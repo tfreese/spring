@@ -1,9 +1,14 @@
+plugins {
+    id "java"
+    id "org.springframework.boot"
+}
+
 description = "JWT-Demo"
 
 dependencies {
     implementation("com.nimbusds:nimbus-jose-jwt")
 
-    // Ältere Alternative für nimbus-jose-jwt
+    // Older Alternative for nimbus-jose-jwt
     implementation("io.jsonwebtoken:jjwt")
 
     implementation("org.springframework:spring-jdbc")

@@ -1,3 +1,7 @@
+plugins {
+    id "java"
+}
+
 description = "Demo für Test-Container"
 
 dependencies {

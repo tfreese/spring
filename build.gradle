@@ -1,23 +1,13 @@
 // Execute Tasks in SubModule: gradle MODUL:clean build
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-
-    dependencies {
-        classpath("de.freese.gradle:gradle-plugins:$version_myConventionPlugin")
-        classpath("io.spring.gradle:dependency-management-plugin:$version_springDependencyManagement")
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:$version_springBoot")
-        classpath("org.openjfx:javafx-plugin:$version_javafxPlugin")
-    }
+plugins {
+    id "de.freese.gradle.plugin.conventions" version "$version_myConventionPlugin" apply false
+    id "io.spring.dependency-management" version "$version_springDependencyManagement" apply false
+    id "org.openjfx.javafxplugin" version "$version_javafxPlugin" apply false
+    id "org.springframework.boot" version "$version_springBoot" apply false
 }
 
 subprojects {
-    apply plugin: "java"
-//    apply plugin: "maven-publish"
-    apply plugin: "org.springframework.boot"
+    apply plugin: "base"
     apply plugin: "io.spring.dependency-management"
     apply plugin: "de.freese.gradle.plugin.conventions"
 
@@ -69,15 +59,19 @@ subprojects {
         }
     }
 
-    dependencies {
-        //implementation(platform("de.freese:maven-bom:$version_mavenBom"))
-
-        testImplementation("org.junit.jupiter:junit-jupiter")
-        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    afterEvaluate { project ->
+        if (project.plugins.hasPlugin("java") || project.plugins.hasPlugin("java-library") || project.plugins.hasPlugin("application")) {
+            dependencies {
+                //implementation(platform("de.freese:maven-bom:$version_mavenBom"))
+                testImplementation("org.junit.jupiter:junit-jupiter")
+                testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+            }
+        }
     }
 }
 
 project("kubernetes") {
+    apply plugin: "org.springframework.boot"
     description = "Folder project"
     // All SubProjects have Plugin 'org.springframework.boot' that requires a mainClass.
     springBoot {
@@ -86,6 +80,7 @@ project("kubernetes") {
 }
 
 project("spring-cloud") {
+    apply plugin: "org.springframework.boot"
     description = "Folder project"
     // All SubProjects have Plugin 'org.springframework.boot' that requires a mainClass.
     springBoot {
@@ -94,6 +89,7 @@ project("spring-cloud") {
 }
 
 project("spring-messaging") {
+    apply plugin: "org.springframework.boot"
     description = "Folder project"
     // All SubProjects have Plugin 'org.springframework.boot' that requires a mainClass.
     springBoot {

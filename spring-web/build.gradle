@@ -1,3 +1,8 @@
+plugins {
+    id "java"
+    id "org.springframework.boot"
+}
+
 description = "Demo für spring-boot-web mit JSF"
 
 dependencies {
