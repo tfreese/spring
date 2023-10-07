@@ -8,12 +8,16 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.crypto.SecretKey;
+
 import com.nimbusds.jose.EncryptionMethod;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWEAlgorithm;
 import com.nimbusds.jose.JWEDecrypter;
 import com.nimbusds.jose.JWEEncrypter;
 import com.nimbusds.jose.JWEHeader;
+import com.nimbusds.jose.crypto.DirectDecrypter;
+import com.nimbusds.jose.crypto.DirectEncrypter;
 import com.nimbusds.jose.crypto.PasswordBasedDecrypter;
 import com.nimbusds.jose.crypto.PasswordBasedEncrypter;
 import com.nimbusds.jwt.EncryptedJWT;
@@ -29,15 +33,34 @@ import de.freese.spring.jwt.token.JwtTokenProvider;
  * @author Thomas Freese
  */
 public class JwtTokenProviderNimbus implements JwtTokenProvider {
-    private final String secretKey;
-
+    private final JWEDecrypter decrypter;
+    private final JWEEncrypter encrypter;
     private final long validityInMilliseconds;
 
-    public JwtTokenProviderNimbus(final String secretKey, final long validityInMilliseconds) {
+    public JwtTokenProviderNimbus(final long validityInMilliseconds, final String secretKey) {
         super();
 
-        this.secretKey = secretKey;
         this.validityInMilliseconds = validityInMilliseconds;
+
+        this.encrypter = new PasswordBasedEncrypter(secretKey, 8, 1000);
+        this.decrypter = new PasswordBasedDecrypter(secretKey);
+    }
+
+    public JwtTokenProviderNimbus(final long validityInMilliseconds, final SecretKey secretKey) {
+        super();
+
+        this.validityInMilliseconds = validityInMilliseconds;
+
+        try {
+            this.encrypter = new DirectEncrypter(secretKey);
+            this.decrypter = new DirectDecrypter(secretKey);
+        }
+        catch (RuntimeException ex) {
+            throw ex;
+        }
+        catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
@@ -79,8 +102,6 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider {
         // JWT jwt = new PlainJWT(jwtClaims);
 
         // Verschlüsseln
-        JWEEncrypter encrypter = new PasswordBasedEncrypter(this.secretKey, 8, 1000);
-
         JWEHeader header = new JWEHeader(JWEAlgorithm.PBES2_HS512_A256KW, EncryptionMethod.A256CBC_HS512);
         EncryptedJWT encryptedJWT = new EncryptedJWT(header, jwtClaims);
 
@@ -101,8 +122,6 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider {
     public JwtToken parseToken(final String token) throws AuthenticationException {
         try {
             EncryptedJWT encryptedJWT = EncryptedJWT.parse(token);
-
-            JWEDecrypter decrypter = new PasswordBasedDecrypter(this.secretKey);
             encryptedJWT.decrypt(decrypter);
 
             // JWTClaimsSet jwtClaims = encryptedJWT.getJWTClaimsSet();

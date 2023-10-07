@@ -107,8 +107,8 @@ public class SecurityCommonConfig {
         // SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         // SecretKey secretKey = factory.generateSecret(keySpec);
 
-        return new JwtTokenProviderNimbus(secretKey, validityInMilliseconds);
-        //return new JwtTokenProviderJson(secretKey, validityInMilliseconds);
+        return new JwtTokenProviderNimbus(validityInMilliseconds, secretKey);
+        //        return new JwtTokenProviderJson(validityInMilliseconds, secretKey);
     }
 
     @Bean

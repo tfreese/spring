@@ -10,10 +10,12 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ClaimsBuilder;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwt;
@@ -33,23 +35,44 @@ import de.freese.spring.jwt.token.JwtTokenProvider;
  * @author Thomas Freese
  */
 public class JwtTokenProviderJson implements JwtTokenProvider {
-    private final String base64EncodedSecretKey;
-
+    private final SecretKey secretKey;
     private final long validityInMilliseconds;
 
-    public JwtTokenProviderJson(final String secretKey, final long validityInMilliseconds) {
+    public JwtTokenProviderJson(final long validityInMilliseconds, final String secretKey) {
         super();
 
-        this.base64EncodedSecretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
         this.validityInMilliseconds = validityInMilliseconds;
+
+        String base64EncodedSecretKey = Base64.getEncoder().encodeToString(secretKey.repeat(4).getBytes(StandardCharsets.UTF_8));
+        byte[] decodedKey = Base64.getDecoder().decode(base64EncodedSecretKey);
+
+        try {
+            //        Jwts.SIG.HS256
+            //            SecretKey secretKey = Keys.hmacShaKeyFor(decodedKey);
+            Mac mac = Mac.getInstance("HmacSHA256");
+            this.secretKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, mac.getAlgorithm());
+        }
+        catch (RuntimeException ex) {
+            throw ex;
+        }
+        catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public JwtTokenProviderJson(final long validityInMilliseconds, final SecretKey secretKey) {
+        super();
+
+        this.validityInMilliseconds = validityInMilliseconds;
+        this.secretKey = secretKey;
     }
 
     @Override
     public String createToken(final String username, final String password, final Set<String> roles) {
-        Claims claims = Jwts.claims().subject(username).build();
+        ClaimsBuilder claimsBuilder = Jwts.claims().subject(username);
 
         if ((password != null) && !password.isBlank()) {
-            claims.put("password", password);
+            claimsBuilder.add("password", password);
         }
 
         if ((roles != null) && !roles.isEmpty()) {
@@ -62,23 +85,21 @@ public class JwtTokenProviderJson implements JwtTokenProvider {
                     ;
             // @formatter:on
 
-            claims.put("roles", rolesString);
+            claimsBuilder.add("roles", rolesString);
         }
 
         Date now = new Date();
         Date expiration = new Date(now.getTime() + this.validityInMilliseconds);
 
-        SecretKey secretKey = new SecretKeySpec(Base64.getDecoder().decode(this.base64EncodedSecretKey), Jwts.SIG.HS512.getId());
-
         // @formatter:off
         return Jwts.builder()
-                .claims(claims)
+                .claims(claimsBuilder.build())
                 .issuer("tommy")
                 .issuedAt(now)
                 .expiration(expiration)
                 .id(UUID.randomUUID().toString())
 //                .compressWith(CompressionCodecs.DEFLATE)
-                .signWith(secretKey)
+                .signWith(secretKey) // Jwts.SIG.HS256
                 .compact()
                 ;
         // @formatter:on;
@@ -87,8 +108,6 @@ public class JwtTokenProviderJson implements JwtTokenProvider {
     @Override
     public JwtToken parseToken(final String token) throws AuthenticationException {
         try {
-            SecretKey secretKey = new SecretKeySpec(Base64.getDecoder().decode(this.base64EncodedSecretKey), Jwts.SIG.HS512.getId());
-
             // @formatter:off
             Jws<Claims> claims = Jwts.parser()
                     .verifyWith(secretKey)
