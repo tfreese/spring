@@ -1,50 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html lang="de"
-	manifest="manifest.appcache" 
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+<html lang="de" manifest="manifest.appcache" xmlns:th="http://www.thymeleaf.org"
 >
 
-<head th:replace="/fragments/head :: headFragment" />
+<head th:replace="/fragments/head :: headFragment"/>
 
 <body>
-	<div th:replace="/fragments/header :: headerMenuFragment" />
+<div th:replace="/fragments/header :: headerMenuFragment"/>
 
-	<div id="content_container">
-		<div id="content">
-			<h2 th:utext="#{error}" />
-						
-			<div th:if="${apiError}">
-				<h3 th:if="${apiError.timestamp}" th:utext="${'Timestamp: ' + #temporals.format(apiError.timestamp, 'yyyy-MM-dd HH:mm.ss.SSS')}" />
-			
-				<h3 th:if="${apiError.path}" th:utext="${'Path: ' + apiError.path}" />
-				<h3 th:if="${apiError.httpStatus}" th:utext="${'HttpStatus: ' + apiError.httpStatus}" />
-				<h3 th:if="${apiError.message}" th:utext="${'Message: ' + apiError.message}" />
-				<h3 th:if="${apiError.exceptionMessage}" th:utext="${'ExceptionMessage: ' + apiError.exceptionMessage}" />
-				<div th:if="${apiError.details}">
-					<h3>Details:</h3>
-					<table border="1">
-					<tr>
-						<th>Key</th>
-						<th>Value</th>
-					</tr>
-					<tr th:each="entry : ${apiError.details}">
-						<td th:utext="${entry.key}" />
-						<td th:utext="${entry.value}" />
-					</tr>
-					</table>
-				</div>
-			
-				<!-- h3 th:if="${apiError.stackTrace}" th:utext="${'StackTrace:<br /> ' + apiError.stackTrace}" /-->
-				<div th:if="${apiError.stackTrace}">
-					<h3>StackTrace:</h3>
-					<pre th:text="${apiError.stackTrace}" />
-				</div>
-			</div>
-		</div>
-	</div>
+<div id="content_container">
+    <div id="content">
+        <h2 th:utext="#{error}"/>
 
-	<div th:replace="/fragments/footer :: footerFragment" />
+        <div th:if="${problemDetail}">
+            <!--				<h3 th:if="${apiError.timestamp}" th:utext="${'Timestamp: ' + #temporals.format(apiError.timestamp, 'yyyy-MM-dd HH:mm.ss.SSS')}" />-->
+
+            <h3 th:if="${problemDetail.status}" th:utext="${'HttpStatus: ' + problemDetail.status}"/>
+            <h3 th:if="${problemDetail.title}" th:utext="${'Title: ' + problemDetail.title}"/>
+            <div th:if="${problemDetail.detail}">
+                <h3>Details:</h3>
+                <table border="1">
+                    <tr>
+                        <td colspan="2" th:utext="${problemDetail.details}"/>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="/fragments/footer :: footerFragment"/>
 </body>
 </html>

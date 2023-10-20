@@ -14,7 +14,6 @@ import org.springframework.http.client.ClientHttpResponse;
  */
 public class HttpHeaderInterceptor implements ClientHttpRequestInterceptor {
     private final String name;
-
     private final String value;
 
     public HttpHeaderInterceptor(final String name, final String value) {

@@ -30,7 +30,7 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
 }
 
-// Durch die parallelen Tests kann es passsieren, das die Ports 8080 und 8443 bereits belegt sind.
+// Durch die parallelen Tests kann es passieren, das die Ports 8080 und 8443 bereits belegt sind.
 // Die Alternative wäre den Build durch 'gradle --no-parallel --max-workers 1 test' zu starten.
 test {
     filter {
@@ -40,10 +40,10 @@ test {
         // Einzelne Methode deaktivieren
         // excludeTestsMatching "de.freese.spring.thymeleaf.rest.TestRestWithWebClientSSL.test000HealthEndpoint"
 
-        // Package Deaktivierung mit Wildscards
+        // Package Deaktivierung mit Wildcards
         //excludeTestsMatching "*.integration.*"
 
-        // Methoden Deaktivierung mit Wildscards
+        // Methoden Deaktivierung mit Wildcards
         //excludeTestsMatching "*stress*"
     }
 }

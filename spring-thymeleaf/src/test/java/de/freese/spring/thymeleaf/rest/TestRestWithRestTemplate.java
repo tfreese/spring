@@ -22,6 +22,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -32,7 +33,6 @@ import org.springframework.web.client.RestTemplate;
 
 import de.freese.spring.thymeleaf.HttpHeaderInterceptor;
 import de.freese.spring.thymeleaf.ThymeleafApplication;
-import de.freese.spring.thymeleaf.exception.ApiError;
 import de.freese.spring.thymeleaf.model.Person;
 
 /**
@@ -120,7 +120,7 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
         // @formatter:on
 
         HttpEntity<Person> httpEntity = new HttpEntity<>(new Person("Thomas", "Freese"));
-        ResponseEntity<ApiError> responseEntity = restTemplate.exchange("/rest/person/personAdd", HttpMethod.POST, httpEntity, ApiError.class);
+        ResponseEntity<ProblemDetail> responseEntity = restTemplate.exchange("/rest/person/personAdd", HttpMethod.POST, httpEntity, ProblemDetail.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // @formatter:off
@@ -150,8 +150,8 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
                 .build();
         // @formatter:on
 
-        ApiError error = restTemplate.postForObject("/rest/person/personAdd", new Person("Thomas", "Freese"), ApiError.class);
-        assertEquals(HttpStatus.FORBIDDEN.value(), error.getHttpStatus());
+        ProblemDetail error = restTemplate.postForObject("/rest/person/personAdd", new Person("Thomas", "Freese"), ProblemDetail.class);
+        assertEquals(HttpStatus.FORBIDDEN.value(), error.getStatus());
     }
 
     @Override

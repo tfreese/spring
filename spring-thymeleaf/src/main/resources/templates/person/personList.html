@@ -1,33 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html lang="de"
-	xmlns:th="http://www.thymeleaf.org">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="/fragments/head :: headFragment" /> 
+<head th:replace="/fragments/head :: headFragment"/>
 
 <body>
-	<div th:replace="/fragments/header :: headerMenuFragment" />
+<div th:replace="/fragments/header :: headerMenuFragment"/>
 
-	<div id="content_container">
-		<div id="content">
-			<h2 th:utext="#{person.list}" />
-			<a href="/web/person/personAdd" th:utext="#{person.add}" />
-			<br>
-			<br>
-			
-			<table border="1">
-				<tr>
-					<th>First Name</th>
-					<th>Last Name</th>
-				</tr>
-				<tr th:each="person : ${persons}">
-					<td th:utext="${person.firstName}">...</td>
-					<td th:utext="${person.lastName}">...</td>
-				</tr>
-			</table>
-		</div>
-	</div>
+<div id="content_container">
+    <div id="content">
+        <h2 th:utext="#{person.list}"/>
+        <a href="/web/person/personAdd" th:utext="#{person.add}"/>
+        <br>
+        <br>
 
-	<div th:replace="/fragments/footer :: footerFragment" />
+        <table border="1">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+            <tr th:each="person : ${persons}">
+                <td th:utext="${person.firstName}">...</td>
+                <td th:utext="${person.lastName}">...</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div th:replace="/fragments/footer :: footerFragment"/>
 </body>
 </html>

@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html lang="de"
-	xmlns:th="http://www.thymeleaf.org" 
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 
 <head th:fragment="headFragment">
-<title th:utext="#{title}" />
-<meta charset="UTF-8" />
-<meta name="application-name" content="Spring Boot Thymeleaf" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta http-equiv="Cache-Control" content="no-cache, no-store, max-age=0, must-revalidate" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="0" />
-<link rel="stylesheet" type="text/css" th:href="@{/css/app.css}">
-<link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}">
-<link rel="stylesheet" type="text/css" href="/css/menuBar.css">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" sizes="32x32">
+    <title th:utext="#{title}"/>
+    <meta charset="UTF-8"/>
+    <meta content="Spring Boot Thymeleaf" name="application-name"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="no-cache, no-store, max-age=0, must-revalidate" http-equiv="Cache-Control"/>
+    <meta content="no-cache" http-equiv="Pragma"/>
+    <meta content="0" http-equiv="Expires"/>
+    <link rel="stylesheet" th:href="@{/css/app.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/layout.css}" type="text/css">
+    <link href="/css/menuBar.css" rel="stylesheet" type="text/css">
+    <link href="/favicon.ico" rel="shortcut icon" sizes="32x32" type="image/x-icon">
 </head>
 
 <body>

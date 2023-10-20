@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html lang="de"
-	xmlns:th="http://www.thymeleaf.org"> 
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="/fragments/head :: headFragment" />
+<head th:replace="/fragments/head :: headFragment"/>
 
 <body>
-	<div th:replace="/fragments/header :: headerMenuFragment" />
+<div th:replace="/fragments/header :: headerMenuFragment"/>
 
-	<div id="content_container">
-		<div id="content">
-			<h2>Login:</h2>
+<div id="content_container">
+    <div id="content">
+        <h2>Login:</h2>
 
-			<form action="/authenticate" method="POST">
-				<table>
-					<tr><td th:utext="#{login.user}" /><td><input type="text" placeholder="Username" name="username" /></td></tr>
-					<tr><td th:utext="#{login.password}"/><td><input type="password" placeholder="Password" name="password" /></td></tr>
-					<tr><td>Remember Me ?</td><td><input type="checkbox" id="remember-me" name="remember-me" /></td></tr>
-					<tr><td colspan="2" align="right"><input type="submit" value="Login" /></td></tr>
-				</table>
-			</form>
+        <form action="/authenticate" method="POST">
+            <table>
+                <tr>
+                    <td th:utext="#{login.user}"/>
+                    <td><input name="username" placeholder="Username" type="text"/></td>
+                </tr>
+                <tr>
+                    <td th:utext="#{login.password}"/>
+                    <td><input name="password" placeholder="Password" type="password"/></td>
+                </tr>
+                <tr>
+                    <td>Remember Me ?</td>
+                    <td><input id="remember-me" name="remember-me" type="checkbox"/></td>
+                </tr>
+                <tr>
+                    <td align="right" colspan="2"><input type="submit" value="Login"/></td>
+                </tr>
+            </table>
+        </form>
 
-			<br>
-			<div th:if="${param.error}" style="color: red;">Invalid username and password.</div>
-			<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic;">...</div>
-		</div>
-	</div>
+        <br>
+        <div style="color: red;" th:if="${param.error}">Invalid username and password.</div>
+        <div style="color: red; font-style: italic;" th:if="${errorMessage}" th:utext="${errorMessage}">...</div>
+    </div>
+</div>
 
-	<div th:replace="/fragments/footer :: footerFragment" />
+<div th:replace="/fragments/footer :: footerFragment"/>
 </body>
 </html>

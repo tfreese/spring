@@ -1,30 +1,23 @@
 // Created: 03.09.2018
 package de.freese.spring.thymeleaf.exception;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.util.stream.Collectors;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
@@ -85,31 +78,40 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         super();
     }
 
-    protected ResponseEntity<Object> buildResponseEntity(final ApiError apiError, final WebRequest request, final HttpStatusCode statusCode, final Throwable ex, final String message) {
+    protected ResponseEntity<Object> buildResponseEntity(final Throwable ex, final WebRequest request, final String message, final HttpStatus httpStatus) {
         this.logger.error(ex.getLocalizedMessage());
 
-        // apiError.addDetail("detail_a", "value_a");
-        // apiError.addDetail("detail_b", "value_b");
+        ProblemDetail problemDetail = ProblemDetail.forStatus(httpStatus);
+        problemDetail.setTitle(ex.getMessage());
+        problemDetail.setStatus(httpStatus);
 
-        apiError.setPath(getPath(request));
-        apiError.setHttpStatus(statusCode.value());
-        apiError.setMessage(message);
-        apiError.setExceptionMessage(ex.getMessage());
+        // Keep the last 10 Entries.
+        StackTraceElement[] origin = ex.getStackTrace();
+        StackTraceElement[] limited = origin;
 
-        StringWriter sw = new StringWriter();
-
-        try (PrintWriter pw = new PrintWriter(sw)) {
-            ex.printStackTrace(pw);
+        if (origin.length > 10) {
+            limited = new StackTraceElement[10];
+            System.arraycopy(origin, 0, limited, 0, 10);
         }
 
-        apiError.setStackTrace(sw.toString());
+        StringBuilder sb = new StringBuilder();
 
-        return new ResponseEntity<>(apiError, statusCode);
+        for (StackTraceElement stackTraceElement : limited) {
+            sb.append("\tat ").append(stackTraceElement);
+        }
+
+        if (origin.length > 10) {
+            sb.append("\t...");
+        }
+
+        problemDetail.setDetail(sb.toString());
+
+        return new ResponseEntity<>(problemDetail, httpStatus);
     }
 
     @ExceptionHandler(value = AccessDeniedException.class)
     protected ResponseEntity<Object> handleAccessDeniedException(final AccessDeniedException ex, final WebRequest request) {
-        return buildResponseEntity(new ApiError(), request, HttpStatus.FORBIDDEN, ex, "Access Denied");
+        return buildResponseEntity(ex, request, "Access Denied", HttpStatus.FORBIDDEN);
     }
 
     /**
@@ -117,17 +119,9 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      */
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<Object> handleConstraintViolation(final ConstraintViolationException ex, final WebRequest request) {
-        ApiError apiError = new ApiError();
-        apiError.addValidationErrors(ex.getConstraintViolations());
+        String message = ex.getConstraintViolations().stream().map(ConstraintViolation::toString).collect(Collectors.joining(","));
 
-        return buildResponseEntity(apiError, request, HttpStatus.BAD_REQUEST, ex, "Validation error");
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
-        // return super.handleExceptionInternal(ex, body, headers, status, request);
-
-        return buildResponseEntity(new ApiError(), request, statusCode, ex, null);
+        return buildResponseEntity(ex, request, message, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Throwable.class)
@@ -144,74 +138,16 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         }
 
         if (responseEntity == null) {
-            responseEntity = buildResponseEntity(new ApiError(), request, HttpStatus.INTERNAL_SERVER_ERROR, ex, "Unhandled Exception: " + ex.getClass().getSimpleName());
+            responseEntity = buildResponseEntity(ex, request, "Unhandled Exception: " + ex.getClass().getSimpleName(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return responseEntity;
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(final HttpMediaTypeNotSupportedException ex, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(ex.getContentType());
-        builder.append(" media type is not supported. Supported media types are ");
-        ex.getSupportedMediaTypes().forEach(t -> builder.append(t).append(", "));
-
-        return buildResponseEntity(new ApiError(), request, HttpStatus.UNSUPPORTED_MEDIA_TYPE, ex, builder.substring(0, builder.length() - 2));
-    }
-
-    // @ExceptionHandler(DataIntegrityViolationException.class)
-    // protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex,
-    // WebRequest request) {
-    // if (ex.getCause() instanceof ConstraintViolationException) {
-    // return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, "Database error", ex.getCause()));
-    // }
-    //
-    // return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex));
-    // }
-
-    // @ExceptionHandler(jakarta.persistence.EntityNotFoundException.class)
-    // protected ResponseEntity<Object> handleEntityNotFound(jakarta.persistence.EntityNotFoundException ex) {
-    // return buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND, ex));
-    // }
-
-    @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
-        return buildResponseEntity(new ApiError(), request, HttpStatus.BAD_REQUEST, ex, "Malformed JSON request");
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleHttpMessageNotWritable(final HttpMessageNotWritableException ex, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
-        return buildResponseEntity(new ApiError(), request, HttpStatus.INTERNAL_SERVER_ERROR, ex, "Error writing JSON output");
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
-        ApiError apiError = new ApiError();
-        apiError.addValidationErrors(ex.getBindingResult().getFieldErrors());
-        apiError.addValidationError(ex.getBindingResult().getGlobalErrors());
-
-        return buildResponseEntity(apiError, request, HttpStatus.BAD_REQUEST, ex, "Validation error");
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException ex, final WebRequest request) {
         String message = String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 
-        return buildResponseEntity(new ApiError(), request, HttpStatus.BAD_REQUEST, ex, message);
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(final MissingServletRequestParameterException ex, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
-        String error = ex.getParameterName() + " parameter is missing";
-
-        return buildResponseEntity(new ApiError(), request, HttpStatus.BAD_REQUEST, ex, error);
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleNoHandlerFoundException(final NoHandlerFoundException ex, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
-        String error = String.format("Could not find the %s method for URL %s", ex.getHttpMethod(), ex.getRequestURL());
-
-        return buildResponseEntity(new ApiError(), request, HttpStatus.BAD_REQUEST, ex, error);
+        return buildResponseEntity(ex, request, message, HttpStatus.BAD_REQUEST);
     }
 }
