@@ -14,7 +14,7 @@ dependencies {
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
-// Deaktiviert, da wir keine main-Klasse haben.
+// Inactive, there are no main-Classes.
 springBoot {
     mainClass = "disabled"
 }

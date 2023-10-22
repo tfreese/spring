@@ -6,9 +6,9 @@ plugins {
 description = "Messaging with AMQP by Apache QPID"
 
 dependencies {
+    implementation("org.apache.qpid:qpid-broker")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-json")
-    implementation("org.apache.qpid:qpid-broker")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"

@@ -3,10 +3,10 @@ plugins {
     id "org.springframework.boot"
 }
 
-description = "ribbon Loadbalancer von spring-boot"
+description = "Ribbon Loadbalancer von spring-boot"
 
 dependencies {
-    implementation("org.apache.httpcomponents:httpclient")
+    implementation("org.apache.httpcomponents.client5:httpclient5")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-ribbon")
@@ -16,7 +16,7 @@ dependencies {
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
-// Deaktiviert, da wir 2 main-Klassen haben.
+// Inactive, there are multiple main-Classes.
 springBoot {
     mainClass = "disabled"
 }

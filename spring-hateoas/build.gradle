@@ -20,14 +20,14 @@ springBoot {
     mainClass = "de.freese.spring.hateoas.HateoasApplication"
 }
 
-//Für Platzhalter in application.properties
+// For Placeholder in application.properties/application.yml
 ext.artifactId = project.name
 
 processResources {
     filesMatching("application.properties") {
         filteringCharset = "UTF-8"
 
-        // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+        // During Problems escape Placeholder: \${...}
         expand(project.properties)
     }
 }

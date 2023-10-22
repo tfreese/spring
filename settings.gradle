@@ -1,9 +1,9 @@
 // Can not be configured by Conventions-Plugin.
 pluginManagement {
     repositories {
+        mavenLocal()
         mavenCentral()
         gradlePluginPortal()
-        mavenLocal()
     }
 }
 

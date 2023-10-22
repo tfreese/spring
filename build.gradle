@@ -44,7 +44,7 @@ subprojects {
                 }
             }
 
-            dependency("org.joinfaces:primefaces-spring-boot-starter:${version_joinfaces}")
+            dependency("org.joinfaces:primefaces-spring-boot-starter:$version_joinfaces")
 
             dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {
                 entry "jmh-core"
@@ -73,29 +73,29 @@ subprojects {
     }
 }
 
-project("kubernetes") {
-    apply plugin: "org.springframework.boot"
-    description = "Folder project"
-    // All SubProjects have Plugin 'org.springframework.boot' that requires a mainClass.
-    springBoot {
-        mainClass = "disabled"
-    }
-}
-
-project("spring-cloud") {
-    apply plugin: "org.springframework.boot"
-    description = "Folder project"
-    // All SubProjects have Plugin 'org.springframework.boot' that requires a mainClass.
-    springBoot {
-        mainClass = "disabled"
-    }
-}
-
-project("spring-messaging") {
-    apply plugin: "org.springframework.boot"
-    description = "Folder project"
-    // All SubProjects have Plugin 'org.springframework.boot' that requires a mainClass.
-    springBoot {
-        mainClass = "disabled"
-    }
-}
+//project("kubernetes") {
+//    apply plugin: "org.springframework.boot"
+//    description = "Folder project"
+//    // All SubProjects have Plugin 'org.springframework.boot' that requires a mainClass.
+//    springBoot {
+//        mainClass = "disabled"
+//    }
+//}
+//
+//project("spring-cloud") {
+//    apply plugin: "org.springframework.boot"
+//    description = "Folder project"
+//    // All SubProjects have Plugin 'org.springframework.boot' that requires a mainClass.
+//    springBoot {
+//        mainClass = "disabled"
+//    }
+//}
+//
+//project("spring-messaging") {
+//    apply plugin: "org.springframework.boot"
+//    description = "Folder project"
+//    // All SubProjects have Plugin 'org.springframework.boot' that requires a mainClass.
+//    springBoot {
+//        mainClass = "disabled"
+//    }
+//}

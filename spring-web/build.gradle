@@ -17,9 +17,6 @@ springBoot {
     mainClass = "de.freese.spring.web.SpringBootWebApplication"
 }
 
-//Für Platzhalter in application.properties/application.yml
-ext.artifactId = project.name
-
 sourceSets {
     main {
         resources {
@@ -29,12 +26,15 @@ sourceSets {
     }
 }
 
+// For Placeholder in application.properties/application.yml
+ext.artifactId = project.name
+
 processResources {
     // filesMatching("**/*.properties")
     filesMatching("application.properties") {
         filteringCharset = "UTF-8"
 
-        // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+        // During Problems escape Placeholder: \${...}
         expand(project.properties)
 
         //expand ("@project.description@": project.description,
