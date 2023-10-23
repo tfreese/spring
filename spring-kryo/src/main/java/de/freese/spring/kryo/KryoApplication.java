@@ -1,11 +1,12 @@
 package de.freese.spring.kryo;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.UUID;
 
 import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.serializers.MapSerializer;
+import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
+import com.esotericsoftware.kryo.serializers.DefaultSerializers;
 import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy;
 import com.esotericsoftware.kryo.util.Pool;
 import org.objenesis.strategy.StdInstantiatorStrategy;
@@ -29,16 +30,19 @@ public class KryoApplication implements WebMvcConfigurer {
 
             kryo.setClassLoader(Thread.currentThread().getContextClassLoader());
             kryo.setInstantiatorStrategy(new DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
-            kryo.setReferences(true); // Verhindert Rekursion.
+            kryo.setReferences(true); // Avoid Recursion.
             kryo.setRegistrationRequired(false);
 
             kryo.register(Timestamp.class, new TimestampSerializer());
-            kryo.register(LinkedHashMap.class, new MapSerializer<>());
+            //            kryo.register(LinkedHashMap.class, new MapSerializer<>());
 
-            // Serializer von de.javakaffee haben ne Macke.
-            // Unable to make field private java.util.TimeZone java.util.Calendar.zone accessible
+            // de.javakaffee Serializer's does not work anymore.
             //            kryo.register(Date.class, new de.javakaffee.kryoserializers.DateSerializer(Date.class));
             //            kryo.register(GregorianCalendar.class, new de.javakaffee.kryoserializers.GregorianCalendarSerializer());
+            kryo.register(UUID.class, new DefaultSerializers.UUIDSerializer());
+
+            // Supports different JRE Versions.
+            kryo.setDefaultSerializer(CompatibleFieldSerializer.class);
 
             return kryo;
         }
