@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
+import com.esotericsoftware.kryo.SerializerFactory;
 import com.esotericsoftware.kryo.serializers.DefaultSerializers;
 import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy;
 import com.esotericsoftware.kryo.util.Pool;
@@ -32,6 +32,7 @@ public class KryoApplication implements WebMvcConfigurer {
             kryo.setInstantiatorStrategy(new DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
             kryo.setReferences(true); // Avoid Recursion.
             kryo.setRegistrationRequired(false);
+            kryo.setOptimizedGenerics(false);
 
             kryo.register(Timestamp.class, new TimestampSerializer());
             //            kryo.register(LinkedHashMap.class, new MapSerializer<>());
@@ -42,7 +43,9 @@ public class KryoApplication implements WebMvcConfigurer {
             kryo.register(UUID.class, new DefaultSerializers.UUIDSerializer());
 
             // Supports different JRE Versions.
-            kryo.setDefaultSerializer(CompatibleFieldSerializer.class);
+            SerializerFactory.CompatibleFieldSerializerFactory serializerFactory = new SerializerFactory.CompatibleFieldSerializerFactory();
+            serializerFactory.getConfig().setExtendedFieldNames(true);
+            kryo.setDefaultSerializer(serializerFactory);
 
             return kryo;
         }
