@@ -30,6 +30,7 @@ import de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategyRound
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("unchecked")
 public class LoadBalancer implements LoadBalancerPing {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancer.class);
 
