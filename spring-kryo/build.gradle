@@ -7,7 +7,7 @@ description = "Kryo Demo"
 
 dependencies {
     implementation("com.esotericsoftware:kryo")
-    implementation("de.javakaffee:kryo-serializers")
+//    implementation("de.javakaffee:kryo-serializers")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
