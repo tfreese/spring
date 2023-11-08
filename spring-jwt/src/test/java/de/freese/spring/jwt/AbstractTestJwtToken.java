@@ -21,7 +21,7 @@ import de.freese.spring.jwt.token.JwtTokenProvider;
 @AutoConfigureMockMvc
 abstract class AbstractTestJwtToken implements TestJwtToken {
     /**
-     * Das Auslesen des Responses ist nur einmal möglich !<br>
+     * Das Auslesen vom Response ist nur einmal möglich !<br>
      * Das führt bei den Tests zu Fehlern, da für die Asserts ein 2. x auf dem Response zugegriffen werden muss.
      *
      * @author Thomas Freese

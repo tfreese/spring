@@ -1,19 +1,19 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: microservice
+    name: microservice
 spec:
-  host: microservice
-  trafficPolicy:
-    loadBalancer:
-      simple: ROUND_ROBIN
-    connectionPool:
-      tcp:
-        maxConnections: 2
-      http:
-        http1MaxPendingRequests: 2
-        http2MaxRequests: 2
-        maxRequestsPerConnection: 2      
+    host: microservice
+    trafficPolicy:
+        loadBalancer:
+            simple: ROUND_ROBIN
+        connectionPool:
+            tcp:
+                maxConnections: 2
+            http:
+                http1MaxPendingRequests: 2
+                http2MaxRequests: 2
+                maxRequestsPerConnection: 2
 
 # simple: RANDOM
 # simple: ROUND_ROBIN
