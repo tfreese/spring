@@ -5,6 +5,10 @@ plugins {
 
 description = "Messaging with AMQP by Apache QPID"
 
+configurations.configureEach {
+    exclude group: "org.dojotoolkit", module: "dojo"
+}
+
 dependencies {
     implementation("org.apache.qpid:qpid-broker")
     implementation("org.springframework.boot:spring-boot-starter-amqp")

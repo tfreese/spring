@@ -7,6 +7,7 @@ import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.util.descriptor.web.ContextEnvironment;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
@@ -109,7 +110,8 @@ public class SslConfig {
                 //
                 // context.getNamingResources().addResourceLink(resourceLink);
 
-                this.logger.info(context.getNamingResources());
+                //                this.logger.info(context.getNamingResources());
+                LoggerFactory.getLogger(getClass()).info("{}", context.getNamingResources());
             }
         };
 
