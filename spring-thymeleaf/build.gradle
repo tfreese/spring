@@ -33,6 +33,9 @@ dependencies {
 // Durch die parallelen Tests kann es passieren, das die Ports 8080 und 8443 bereits belegt sind.
 // Die Alternative wäre den Build durch 'gradle --no-parallel --max-workers 1 test' zu starten.
 test {
+    // No parallel Tests to avoid "Address is already in use".
+    maxParallelForks = 1
+
     filter {
         // Klasse deaktivieren
         excludeTestsMatching "de.freese.spring.thymeleaf.rest.TestRestWithWebClientSSL"

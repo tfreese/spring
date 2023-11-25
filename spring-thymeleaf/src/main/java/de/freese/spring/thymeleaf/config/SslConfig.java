@@ -52,7 +52,7 @@ public class SslConfig {
     // }
 
     /**
-     * Umleiten von Port 8080 auf 8443.
+     * Umleiten von Port 9090 auf 8443.
      */
     @Bean
     public ServletWebServerFactory servletContainer() {
@@ -121,12 +121,12 @@ public class SslConfig {
     }
 
     /**
-     * Umleiten von Port 8080 auf 8443.
+     * Umleiten von Port 9090 auf 8443.
      */
     private Connector servletRedirectConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");
-        connector.setPort(8080);
+        connector.setPort(9090);
         connector.setSecure(false);
         connector.setRedirectPort(this.serverPort);
 

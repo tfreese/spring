@@ -79,7 +79,7 @@ server:
             enabled: true
     http2:
         enabled: true
-    port: 8080
+    port: 9090
     servlet:
         #context-path: /${project.artifactId}
         #context-path: /thymeleaf

@@ -25,7 +25,7 @@ spring:
 
 server:
     #address: ${APP_ADDRESS}
-    port: 8080
+    port: 9090
     compression:
         enabled: true
     error:

@@ -24,7 +24,6 @@ import org.springframework.data.annotation.LastModifiedDate;
  */
 @MappedSuperclass
 public abstract class AbstractBaseEntity implements Serializable {
-
     @Serial
     private static final long serialVersionUID = 5L;
 
@@ -53,7 +52,7 @@ public abstract class AbstractBaseEntity implements Serializable {
         if (this == o) {
             return true;
         }
-        
+
         if (!(o instanceof final AbstractBaseEntity that)) {
             return false;
         }
