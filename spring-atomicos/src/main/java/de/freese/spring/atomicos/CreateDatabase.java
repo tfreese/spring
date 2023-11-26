@@ -33,10 +33,11 @@ public class CreateDatabase implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         LOGGER.info("create person database");
 
-        try (Connection connection = this.dataSourcePerson.getConnection(); Statement statement = connection.createStatement()) {
+        try (Connection connection = this.dataSourcePerson.getConnection();
+             Statement statement = connection.createStatement()) {
             String sql = """
                     create table PERSON (
-                        ID bigint  not null primary key,
+                        ID bigint not null primary key,
                         NAME varchar(20) not null
                     )
                     """;
@@ -46,10 +47,11 @@ public class CreateDatabase implements ApplicationRunner {
 
         LOGGER.info("create address database");
 
-        try (Connection connection = this.dataSourceAddress.getConnection(); Statement statement = connection.createStatement()) {
+        try (Connection connection = this.dataSourceAddress.getConnection();
+             Statement statement = connection.createStatement()) {
             String sql = """
                     create table ADDRESS (
-                        PERSON_ID bigint  not null primary key,
+                        PERSON_ID bigint not null primary key,
                         CITY varchar(20) not null
                     )
                     """;
