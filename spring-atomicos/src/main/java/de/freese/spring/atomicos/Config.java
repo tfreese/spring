@@ -75,7 +75,7 @@ public class Config {
      * @param userTransactionManager {@link com.atomikos.icatch.jta.UserTransactionManager}
      */
     @Bean
-    public JtaTransactionManager jtaTransactionManager(UserTransactionManager userTransactionManager) {
+    public JtaTransactionManager jtaTransactionManager(final UserTransactionManager userTransactionManager) {
         JtaTransactionManager jtaTransactionManager = new JtaTransactionManager();
         jtaTransactionManager.setTransactionManager(userTransactionManager);
         jtaTransactionManager.setUserTransaction(userTransactionManager);

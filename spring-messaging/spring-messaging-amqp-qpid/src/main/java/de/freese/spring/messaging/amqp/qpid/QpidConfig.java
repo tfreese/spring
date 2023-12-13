@@ -42,7 +42,7 @@ public class QpidConfig {
     // }
 
     @Bean(destroyMethod = "shutdown")
-    public SystemLauncher systemLauncher(@Value("${spring.rabbitmq.port}") int port) throws Exception {
+    public SystemLauncher systemLauncher(final @Value("${spring.rabbitmq.port}") int port) throws Exception {
         URL initialConfig = ClassLoader.getSystemClassLoader().getResource(INITIAL_CONFIGURATION);
         System.setProperty("QPID_HOME", QPID_HOME_DIR);
         // System.setProperty("QPID_WORK", QPID_WORK_DIR);

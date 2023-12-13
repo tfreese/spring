@@ -16,7 +16,7 @@ class TestContainerOracle extends AbstractTest {
     private static final OracleContainer DB_CONTAINER = new OracleContainer("gvenzl/oracle-xe:latest");
 
     //    @DynamicPropertySource
-    //    static void properties(DynamicPropertyRegistry registry) {
+    //    static void properties(final DynamicPropertyRegistry registry) {
     //        registry.add("spring.datasource.driver-class-name", DB_CONTAINER::getDriverClassName);
     //        registry.add("spring.datasource.url", DB_CONTAINER::getJdbcUrl);
     //        registry.add("spring.datasource.username", DB_CONTAINER::getUsername);

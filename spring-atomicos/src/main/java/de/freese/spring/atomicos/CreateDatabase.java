@@ -25,12 +25,11 @@ public class CreateDatabase implements ApplicationRunner {
 
     @Resource
     private DataSource dataSourceAddress;
-
     @Resource
     private DataSource dataSourcePerson;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(final ApplicationArguments args) throws Exception {
         LOGGER.info("create person database");
 
         try (Connection connection = this.dataSourcePerson.getConnection();

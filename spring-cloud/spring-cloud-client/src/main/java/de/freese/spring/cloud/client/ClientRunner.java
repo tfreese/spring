@@ -60,7 +60,7 @@ public class ClientRunner implements ApplicationRunner {
         }
     }
 
-    private String call(WebClient webClient, String uri) {
+    private String call(final WebClient webClient, final String uri) {
         // @formatter:off
 //        return webClient
 //                .get()
@@ -92,7 +92,7 @@ public class ClientRunner implements ApplicationRunner {
         // @formatter:on
     }
 
-    private void runServiceDiscovery(WebClient webClient) {
+    private void runServiceDiscovery(final WebClient webClient) {
         ReactiveLoadBalancer<ServiceInstance> loadBalancer = this.serviceInstanceFactory.getInstance("CLOUD-HELLO-SERVICE");
 
         // @formatter:off
@@ -114,13 +114,13 @@ public class ClientRunner implements ApplicationRunner {
         LOGGER.info("runServiceDiscovery: {}", response.strip());
     }
 
-    private void runWebClientWithLoadBalancedFunction(WebClient webClient) {
+    private void runWebClientWithLoadBalancedFunction(final WebClient webClient) {
         String response = call(webClient, "/");
 
         LOGGER.info("runWebClientWithLoadBalancedFunction: {}", response.strip());
     }
 
-    private void runWebClientWithLoadBalancer(WebClient webClient) {
+    private void runWebClientWithLoadBalancer(final WebClient webClient) {
         String response = call(webClient, "/");
 
         LOGGER.info("runWebClientWithLoadBalancer: {}", response.strip());

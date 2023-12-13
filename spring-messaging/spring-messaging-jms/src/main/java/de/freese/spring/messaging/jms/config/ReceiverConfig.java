@@ -18,7 +18,7 @@ import de.freese.spring.messaging.jms.JmsReceiver;
 @Configuration
 public class ReceiverConfig {
     @Bean
-    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(ActiveMQConnectionFactory receiverActiveMQConnectionFactory, DefaultJmsListenerContainerFactoryConfigurer configurer, Executor taskExecutor) {
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(final ActiveMQConnectionFactory receiverActiveMQConnectionFactory, final DefaultJmsListenerContainerFactoryConfigurer configurer, final Executor taskExecutor) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(receiverActiveMQConnectionFactory);
         //        factory.setMessageConverter(jacksonJmsMessageConverter);
@@ -37,7 +37,7 @@ public class ReceiverConfig {
     }
 
     @Bean
-    public ActiveMQConnectionFactory receiverActiveMQConnectionFactory(@Value("${artemis.broker-url}") String brokerUrl) {
+    public ActiveMQConnectionFactory receiverActiveMQConnectionFactory(final @Value("${artemis.broker-url}") String brokerUrl) {
         return new ActiveMQConnectionFactory(brokerUrl);
     }
 }

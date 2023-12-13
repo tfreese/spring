@@ -143,7 +143,7 @@ class TestWebClient {
         });
     }
 
-    private void logValues(String name, List<String> values) {
+    private void logValues(final String name, final List<String> values) {
         values.forEach(value -> LOGGER.info("{} = {}", name, value));
     }
 

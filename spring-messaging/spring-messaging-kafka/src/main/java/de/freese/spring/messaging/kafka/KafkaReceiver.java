@@ -15,7 +15,7 @@ public class KafkaReceiver {
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaReceiver.class);
 
     @KafkaListener(topics = "${test.topic}")
-    public void receive(ConsumerRecord<?, ?> consumerRecord) {
+    public void receive(final ConsumerRecord<?, ?> consumerRecord) {
         LOGGER.info("received payload='{}'", consumerRecord.toString());
     }
 }

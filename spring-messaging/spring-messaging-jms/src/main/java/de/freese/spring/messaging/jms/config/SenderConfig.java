@@ -17,7 +17,7 @@ import de.freese.spring.messaging.jms.JmsSender;
 @Configuration
 public class SenderConfig {
     @Bean
-    public CachingConnectionFactory cachingConnectionFactory(ActiveMQConnectionFactory senderActiveMQConnectionFactory) {
+    public CachingConnectionFactory cachingConnectionFactory(final ActiveMQConnectionFactory senderActiveMQConnectionFactory) {
         CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory(senderActiveMQConnectionFactory);
         cachingConnectionFactory.setSessionCacheSize(10);
 
@@ -25,7 +25,7 @@ public class SenderConfig {
     }
 
     @Bean
-    public JmsTemplate jmsTemplate(CachingConnectionFactory cachingConnectionFactory, MessageConverter jacksonJmsMessageConverter) {
+    public JmsTemplate jmsTemplate(final CachingConnectionFactory cachingConnectionFactory, final MessageConverter jacksonJmsMessageConverter) {
         JmsTemplate jmsTemplate = new JmsTemplate(cachingConnectionFactory);
         jmsTemplate.setMessageConverter(jacksonJmsMessageConverter);
         jmsTemplate.setReceiveTimeout(5000);
@@ -34,12 +34,12 @@ public class SenderConfig {
     }
 
     @Bean
-    public JmsSender sender(JmsTemplate jmsTemplate) {
+    public JmsSender sender(final JmsTemplate jmsTemplate) {
         return new JmsSender(jmsTemplate);
     }
 
     @Bean
-    public ActiveMQConnectionFactory senderActiveMQConnectionFactory(@Value("${artemis.broker-url}") String brokerUrl) {
+    public ActiveMQConnectionFactory senderActiveMQConnectionFactory(final @Value("${artemis.broker-url}") String brokerUrl) {
         return new ActiveMQConnectionFactory(brokerUrl);
     }
 }

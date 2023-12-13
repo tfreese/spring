@@ -26,12 +26,11 @@ public class TxService {
 
     @Resource
     private DataSource dataSourceAddress;
-
     @Resource
     private DataSource dataSourcePerson;
 
     @Transactional(rollbackFor = Exception.class)
-    public void insertData(String personName, String city) throws Exception {
+    public void insertData(final String personName, final String city) throws Exception {
         long id = System.nanoTime();
 
         String sqlPerson = """

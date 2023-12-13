@@ -15,12 +15,12 @@ import de.freese.spring.testcontainers.model.Person;
  */
 @Repository
 public class DefaultPersonRepository implements PersonRepository {
-    
+
     private final JdbcDialect jdbcDialect;
 
     private final JdbcTemplate jdbcTemplate;
 
-    public DefaultPersonRepository(DataSource dataSource, JdbcDialect jdbcDialect) {
+    public DefaultPersonRepository(final DataSource dataSource, final JdbcDialect jdbcDialect) {
         super();
 
         this.jdbcTemplate = new JdbcTemplate(dataSource);

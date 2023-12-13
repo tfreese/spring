@@ -93,7 +93,7 @@ public class MyLdapDao {
 
     private final LdapTemplate ldapTemplate;
 
-    public MyLdapDao(final ContextSource contextSource, @Value("${spring.ldap.base-dn}") String baseDn) {
+    public MyLdapDao(final ContextSource contextSource, final @Value("${spring.ldap.base-dn}") String baseDn) {
         super();
 
         this.ldapTemplate = new LdapTemplate(Objects.requireNonNull(contextSource, "contextSource required"));

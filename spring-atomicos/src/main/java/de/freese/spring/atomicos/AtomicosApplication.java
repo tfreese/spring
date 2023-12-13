@@ -15,7 +15,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class AtomicosApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(AtomicosApplication.class);
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         //        SpringApplication.run(AtomicosApplication.class, args);
         SpringApplication application = new SpringApplication(AtomicosApplication.class);
         application.setWebApplicationType(WebApplicationType.NONE);

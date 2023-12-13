@@ -16,7 +16,7 @@ class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier {
 
     private final String serviceId;
 
-    MyServiceInstanceListSupplier(String serviceId) {
+    MyServiceInstanceListSupplier(final String serviceId) {
         super();
 
         this.serviceId = serviceId;

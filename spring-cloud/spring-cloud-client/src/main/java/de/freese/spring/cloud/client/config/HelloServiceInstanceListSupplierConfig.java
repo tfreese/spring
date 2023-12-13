@@ -17,7 +17,7 @@ public class HelloServiceInstanceListSupplierConfig {
      */
     @Bean
     ////@Primary
-    ServiceInstanceListSupplier serviceInstanceListSupplier(final ConfigurableApplicationContext context, WebClient.Builder webClientBuilder) {
+    ServiceInstanceListSupplier serviceInstanceListSupplier(final ConfigurableApplicationContext context, final WebClient.Builder webClientBuilder) {
         return new MyServiceInstanceListSupplier("CLOUD-HELLO-SERVICE");
 
         //        // @formatter:off

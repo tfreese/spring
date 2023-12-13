@@ -13,20 +13,19 @@ import de.freese.spring.data.jpa.domain.Todo;
  */
 @Service
 public class TodoService {
-
     private final TodoRepository repository;
 
-    TodoService(TodoRepository repository) {
+    TodoService(final TodoRepository repository) {
         super();
 
         this.repository = repository;
     }
 
-    public Todo createTodo(Todo todo) {
+    public Todo createTodo(final Todo todo) {
         return repository.save(todo);
     }
 
-    public void deleteTodo(UUID id) {
+    public void deleteTodo(final UUID id) {
         repository.deleteById(id);
     }
 
@@ -34,11 +33,11 @@ public class TodoService {
         return repository.findAll();
     }
 
-    public Todo getTodoById(UUID id) {
+    public Todo getTodoById(final UUID id) {
         return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Todo not found"));
     }
 
-    public Todo updateTodo(UUID id, Todo todoDetail) {
+    public Todo updateTodo(final UUID id, final Todo todoDetail) {
         Todo todo = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Todo not found"));
 
         todo.setName(todoDetail.getName());

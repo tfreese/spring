@@ -35,7 +35,7 @@ public class TimestampSerializer extends Serializer<Timestamp> {
     //    }
 
     @Override
-    public Timestamp read(Kryo kryo, Input input, Class<? extends Timestamp> type) {
+    public Timestamp read(final Kryo kryo, final Input input, final Class<? extends Timestamp> type) {
         long time = input.readLong(false);
 
         if (time == -1L) {
@@ -51,7 +51,7 @@ public class TimestampSerializer extends Serializer<Timestamp> {
     }
 
     @Override
-    public void write(Kryo kryo, Output output, Timestamp obj) {
+    public void write(final Kryo kryo, final Output output, final Timestamp obj) {
         if (obj == null) {
             output.writeLong(-1L, false);
         }

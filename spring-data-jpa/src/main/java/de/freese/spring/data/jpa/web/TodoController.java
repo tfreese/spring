@@ -29,19 +29,19 @@ public class TodoController {
     private final TodoService todoService;
 
     @Autowired
-    TodoController(TodoService todoService) {
+    TodoController(final TodoService todoService) {
         this.todoService = todoService;
     }
 
     @PostMapping
-    public ResponseEntity<Todo> createTodo(@RequestBody Todo todo) {
+    public ResponseEntity<Todo> createTodo(final @RequestBody Todo todo) {
         Todo createdTodo = todoService.createTodo(todo);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTodo);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteProduct(final @PathVariable UUID id) {
         todoService.deleteTodo(id);
         return ResponseEntity.noContent().build();
     }
@@ -54,14 +54,14 @@ public class TodoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Todo> getTodoById(@PathVariable UUID id) {
+    public ResponseEntity<Todo> getTodoById(final @PathVariable UUID id) {
         Todo product = todoService.getTodoById(id);
 
         return ResponseEntity.ok(product);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Todo> updateTodo(@PathVariable UUID id, @RequestBody Todo todoDetails) {
+    public ResponseEntity<Todo> updateTodo(final @PathVariable UUID id, final @RequestBody Todo todoDetails) {
         Todo updatedTodo = todoService.updateTodo(id, todoDetails);
 
         return ResponseEntity.ok(updatedTodo);

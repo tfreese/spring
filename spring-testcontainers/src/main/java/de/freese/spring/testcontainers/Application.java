@@ -15,12 +15,12 @@ import de.freese.jdbc.dialect.JdbcDialect;
  */
 @SpringBootApplication
 public class Application {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
     @Bean
-    JdbcDialect jdbcDialect(DataSource dataSource) throws SQLException {
+    JdbcDialect jdbcDialect(final DataSource dataSource) throws SQLException {
         return JdbcDialect.from(dataSource);
     }
 }

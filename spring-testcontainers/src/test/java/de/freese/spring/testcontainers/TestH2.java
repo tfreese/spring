@@ -12,7 +12,7 @@ import org.springframework.test.context.DynamicPropertySource;
 //@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD) // Jede Methode mit eigenem Context.
 class TestH2 extends AbstractTest {
     @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry) {
+    static void properties(final DynamicPropertyRegistry registry) {
         String id = UUID.randomUUID().toString();
 
         registry.add("spring.datasource.driver-class-name", DatabaseDriver.H2::getDriverClassName);

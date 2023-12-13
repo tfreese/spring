@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebAppConfig {
     @Bean
-    public ServletRegistrationBean<FacesServlet> facesServletRegistration(ServletContext servletContext) {
+    public ServletRegistrationBean<FacesServlet> facesServletRegistration(final ServletContext servletContext) {
         //        servletContext.setInitParameter("jakarta.faces.CONFIG_FILES", "/WEB-INF/faces-config.xml");
         servletContext.setInitParameter("jakarta.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
         servletContext.setInitParameter("jakarta.faces.PROJECT_STAGE", "Development");

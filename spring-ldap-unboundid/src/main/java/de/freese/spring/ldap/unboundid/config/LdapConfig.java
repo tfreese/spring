@@ -17,7 +17,7 @@ import org.springframework.security.ldap.userdetails.PersonContextMapper;
 @Configuration
 public class LdapConfig {
     @Bean
-    LdapAuthenticationProvider authenticationProvider(LdapAuthenticator authenticator) {
+    LdapAuthenticationProvider authenticationProvider(final LdapAuthenticator authenticator) {
         LdapAuthenticationProvider provider = new LdapAuthenticationProvider(authenticator);
         provider.setUserDetailsContextMapper(new PersonContextMapper());
 
@@ -25,7 +25,7 @@ public class LdapConfig {
     }
 
     @Bean
-    BindAuthenticator authenticator(BaseLdapPathContextSource contextSource) {
+    BindAuthenticator authenticator(final BaseLdapPathContextSource contextSource) {
         BindAuthenticator authenticator = new BindAuthenticator(contextSource);
         authenticator.setUserDnPatterns(new String[]{"uid={0}, ou=people"});
 
@@ -33,14 +33,14 @@ public class LdapConfig {
     }
 
     @Bean
-    BaseLdapPathContextSource contextSource(UnboundIdContainer container, @Value("${spring.ldap.base-dn}") String baseDn) {
+    BaseLdapPathContextSource contextSource(final UnboundIdContainer container, final @Value("${spring.ldap.base-dn}") String baseDn) {
         int port = container.getPort();
 
         return new DefaultSpringSecurityContextSource("ldap://localhost:" + port + "/" + baseDn);
     }
 
     @Bean
-    UnboundIdContainer ldapContainer(@Value("${spring.ldap.base-dn}") String baseDn) {
+    UnboundIdContainer ldapContainer(final @Value("${spring.ldap.base-dn}") String baseDn) {
         UnboundIdContainer container = new UnboundIdContainer(baseDn, "classpath:users.ldif");
         container.setPort(0);
 

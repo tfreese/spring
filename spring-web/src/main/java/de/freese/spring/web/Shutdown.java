@@ -112,7 +112,7 @@ final class Shutdown {
         return parseShutdownUri(properties);
     }
 
-    private static URI parseShutdownUri(Properties properties) {
+    private static URI parseShutdownUri(final Properties properties) {
         boolean sslEnabled = Optional.ofNullable(properties.getProperty("server.ssl.enabled")).map(Boolean::parseBoolean).orElse(false);
         String host = Optional.ofNullable(properties.getProperty("server.address")).orElse("localhost");
         int port = Integer.parseInt(Optional.ofNullable(properties.getProperty("local.server.port")).orElse(properties.getProperty("server.port")));

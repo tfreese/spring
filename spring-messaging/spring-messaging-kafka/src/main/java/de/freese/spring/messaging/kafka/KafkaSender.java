@@ -21,7 +21,7 @@ public class KafkaSender {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void send(String topic, String payload) {
+    public void send(final String topic, final String payload) {
         LOGGER.info("sending payload='{}' to topic='{}'", payload, topic);
 
         kafkaTemplate.send(topic, payload);

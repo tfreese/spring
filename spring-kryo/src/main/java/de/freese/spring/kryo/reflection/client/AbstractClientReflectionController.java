@@ -187,18 +187,20 @@ public abstract class AbstractClientReflectionController<T> {
             String url = "/reflection/" + fassadeType.getSimpleName() + "/rt/" + method.getName();
 
             try {
-                if (args == null) {
-                    args = new Object[0];
+                Object[] arguments = args;
+
+                if (arguments == null) {
+                    arguments = new Object[0];
                 }
 
-                Class<?>[] paramTypes = new Class<?>[args.length];
+                Class<?>[] paramTypes = new Class<?>[arguments.length];
 
                 Object[] paramTypesAndArgs = new Object[2];
                 paramTypesAndArgs[0] = paramTypes;
-                paramTypesAndArgs[1] = args;
+                paramTypesAndArgs[1] = arguments;
 
-                for (int i = 0; i < args.length; i++) {
-                    Object arg = args[i];
+                for (int i = 0; i < arguments.length; i++) {
+                    Object arg = arguments[i];
 
                     if (arg == null) {
                         continue;

@@ -18,7 +18,7 @@ class TestContainerMariaDb extends AbstractTest {
     private static final MariaDBContainer<?> DB_CONTAINER = new MariaDBContainer<>("mariadb:latest");
 
     //    @DynamicPropertySource
-    //    static void properties(DynamicPropertyRegistry registry) {
+    //    static void properties(final DynamicPropertyRegistry registry) {
     //        registry.add("spring.datasource.driver-class-name", DB_CONTAINER::getDriverClassName);
     //        registry.add("spring.datasource.url", DB_CONTAINER::getJdbcUrl);
     //        registry.add("spring.datasource.username", DB_CONTAINER::getUsername);

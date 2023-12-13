@@ -14,7 +14,7 @@ import org.springframework.test.context.DynamicPropertySource;
 @Disabled("Derby löscht die Sequence nicht")
 class TestDerby extends AbstractTest {
     @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry) {
+    static void properties(final DynamicPropertyRegistry registry) {
         String id = UUID.randomUUID().toString();
 
         registry.add("spring.datasource.driver-class-name", DatabaseDriver.DERBY::getDriverClassName);
