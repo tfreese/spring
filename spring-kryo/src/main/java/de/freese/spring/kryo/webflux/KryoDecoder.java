@@ -35,7 +35,7 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
 
     @Override
     public Object decode(final DataBuffer buffer, final ResolvableType targetType, final MimeType mimeType, final Map<String, Object> hints) throws DecodingException {
-        Kryo kryo = getKryoPool().obtain();
+        final Kryo kryo = getKryoPool().obtain();
         Object value = null;
 
         // try (Input input = new ByteBufferInput(buffer.asInputStream(),, 1024 * 1024))

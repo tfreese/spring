@@ -61,7 +61,7 @@ public class MyLdapDao {
 
         @Override
         public String mapFromAttributes(final Attributes attributes) throws NamingException {
-            Attribute attribute = attributes.get(this.attributeId);
+            final Attribute attribute = attributes.get(this.attributeId);
             String value = null;
 
             if (attribute != null) {
@@ -80,7 +80,7 @@ public class MyLdapDao {
     private static final class PersonCommonNameContextMapper implements ContextMapper<String> {
         @Override
         public String mapFromContext(final Object ctx) throws NamingException {
-            DirContextAdapter context = (DirContextAdapter) ctx;
+            final DirContextAdapter context = (DirContextAdapter) ctx;
 
             // return context.getStringAttribute("entryDN");
             return context.getStringAttribute("cn");
@@ -103,8 +103,8 @@ public class MyLdapDao {
      * uid=bob,ou=people,dc=springframework,dc=org
      */
     public void create(final String userId, final String password, final String firstName, final String lastName) {
-        Name name = LdapNameBuilder.newInstance().add("ou", "people").add("uid", userId).build();
-        DirContextAdapter context = new DirContextAdapter(name);
+        final Name name = LdapNameBuilder.newInstance().add("ou", "people").add("uid", userId).build();
+        final DirContextAdapter context = new DirContextAdapter(name);
 
         context.setAttributeValues("objectclass", new String[]{"top", "person", "organizationalPerson", "inetOrgPerson"});
         context.setAttributeValue("cn", firstName + " " + lastName);
@@ -115,8 +115,8 @@ public class MyLdapDao {
     }
 
     public void modify(final String userId, final String password, final String firstName, final String lastName) {
-        Name name = LdapNameBuilder.newInstance().add("ou", "people").add("uid", userId).build();
-        DirContextOperations context = getLdapTemplate().lookupContext(name);
+        final Name name = LdapNameBuilder.newInstance().add("ou", "people").add("uid", userId).build();
+        final DirContextOperations context = getLdapTemplate().lookupContext(name);
 
         context.setAttributeValues("objectclass", new String[]{"top", "person", "organizationalPerson", "inetOrgPerson"});
         context.setAttributeValue("cn", firstName + " " + lastName);
@@ -130,10 +130,10 @@ public class MyLdapDao {
      * cn = developers
      */
     public List<String> searchGroup(final String groupName) {
-        Name base = LdapNameBuilder.newInstance().add("ou", "groups").build();
+        final Name base = LdapNameBuilder.newInstance().add("ou", "groups").build();
 
         // @formatter:off
-        LdapQuery query = LdapQueryBuilder.query()
+        final LdapQuery query = LdapQueryBuilder.query()
                 .base(base)
                 .searchScope(SearchScope.SUBTREE)
                 .timeLimit(3 * 1000)
@@ -145,7 +145,7 @@ public class MyLdapDao {
                 ;
         // @formatter:on
 
-        List<String[]> result = getLdapTemplate().search(query, new GroupMemberDirContextMapper());
+        final List<String[]> result = getLdapTemplate().search(query, new GroupMemberDirContextMapper());
 
         return result.stream().flatMap(Arrays::stream).sorted().toList();
     }
@@ -154,10 +154,10 @@ public class MyLdapDao {
      * uid = b*
      */
     public List<String> searchPeopleByUid(final String userId, final String attributeId) {
-        Name base = LdapNameBuilder.newInstance().add("ou", "people").build();
+        final Name base = LdapNameBuilder.newInstance().add("ou", "people").build();
 
         // @formatter:off
-        LdapQuery query = LdapQueryBuilder.query()
+        final LdapQuery query = LdapQueryBuilder.query()
                 .base(base)
                 .searchScope(SearchScope.SUBTREE)
                 .timeLimit(3 * 1000)

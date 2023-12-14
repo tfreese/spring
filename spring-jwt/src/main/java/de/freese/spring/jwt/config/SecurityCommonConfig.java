@@ -54,7 +54,7 @@ public class SecurityCommonConfig {
      */
     @Bean
     AuthenticationProvider authenticationProviderDao(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService, final UserCache userCache) {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         // authenticationProvider.setMessageSource(applicationContext); // Wird automatisch gemacht.
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         authenticationProvider.setUserDetailsService(userDetailsService);
@@ -101,11 +101,11 @@ public class SecurityCommonConfig {
 
     @Bean
     JwtTokenProvider jwtTokenUtils(@Value("${security.jwt.token.secret-key:secret-key}") final String secretKey, @Value("${security.jwt.token.expire-length:3600000}") final long validityInMilliseconds) {
-        // byte[] salt = KeyGenerators.secureRandom(16).generateKey();
+        // final byte[] salt = KeyGenerators.secureRandom(16).generateKey();
         //
-        // PBEKeySpec keySpec = new PBEKeySpec(this.secretKey.toCharArray(), salt, 1024, 256);
-        // SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        // SecretKey secretKey = factory.generateSecret(keySpec);
+        // final PBEKeySpec keySpec = new PBEKeySpec(this.secretKey.toCharArray(), salt, 1024, 256);
+        // final SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        // final SecretKey secretKey = factory.generateSecret(keySpec);
 
         return new JwtTokenProviderNimbus(validityInMilliseconds, secretKey);
         //        return new JwtTokenProviderJson(validityInMilliseconds, secretKey);
@@ -113,10 +113,10 @@ public class SecurityCommonConfig {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret", 16, 310_000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
+        final Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret", 16, 310_000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
-        Map<String, PasswordEncoder> encoders = new HashMap<>();
+        final Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put("pbkdf2", pbkdf2passwordEncoder);
         encoders.put("bcrypt", new BCryptPasswordEncoder(10));
         // encoders.put("scrypt", new SCryptPasswordEncoder()); // Benötigt BountyCastle
@@ -139,7 +139,7 @@ public class SecurityCommonConfig {
     @Bean
     @ConditionalOnMissingBean(DataSource.class)
     UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder) {
-        InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
+        final InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
 
         userDetailsManager.createUser(User.withUsername("admin").passwordEncoder(passwordEncoder::encode).password("pass").roles("ADMIN", "USER").build());
         userDetailsManager.createUser(User.withUsername("user").passwordEncoder(passwordEncoder::encode).password("pass").roles("USER").build());
@@ -155,7 +155,7 @@ public class SecurityCommonConfig {
     @Bean
     @ConditionalOnBean(DataSource.class)
     UserDetailsService userDetailsServiceJdbc(final DataSource dataSource, final UserCache userCache) {
-        JdbcDaoImpl jdbcDao = new JdbcDaoImpl();
+        final JdbcDaoImpl jdbcDao = new JdbcDaoImpl();
         jdbcDao.setDataSource(dataSource);
         jdbcDao.setUsersByUsernameQuery(JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY);
         jdbcDao.setAuthoritiesByUsernameQuery(JdbcDaoImpl.DEF_AUTHORITIES_BY_USERNAME_QUERY);
@@ -165,7 +165,7 @@ public class SecurityCommonConfig {
 
         // UserDetails kopieren, da bei ProviderManager.setEraseCredentialsAfterAuthentication(true)
         // das Password auf null gesetzt wird, kein zweiter Login mehr möglich, es folgt NullPointer.
-        UserDetailsService cachingUserDetailsService = username -> {
+        final UserDetailsService cachingUserDetailsService = username -> {
             UserDetails userDetails = userCache.getUserFromCache(username);
 
             if (userDetails == null) {
@@ -193,7 +193,7 @@ public class SecurityCommonConfig {
 
         return cachingUserDetailsService;
 
-        // JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
+        // final JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
         // userDetailsManager.setUserCache(userCache);
         // userDetailsManager.setUsersByUsernameQuery(JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY);
         // userDetailsManager.setAuthoritiesByUsernameQuery(JdbcDaoImpl.DEF_AUTHORITIES_BY_USERNAME_QUERY);

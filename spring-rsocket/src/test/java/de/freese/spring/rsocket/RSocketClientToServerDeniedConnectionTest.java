@@ -51,8 +51,8 @@ class RSocketClientToServerDeniedConnectionTest {
             // Empty
         });
 
-        UsernamePasswordMetadata credentials = new UsernamePasswordMetadata("fake", "pass");
-        MimeType mimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
+        final UsernamePasswordMetadata credentials = new UsernamePasswordMetadata("fake", "pass");
+        final MimeType mimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
 
         // @formatter:off
         requester = builder
@@ -65,7 +65,7 @@ class RSocketClientToServerDeniedConnectionTest {
     @Test
     void testConnectionIsRefused() {
         // @formatter:off
-        Mono<Void> result = requester
+        final Mono<Void> result = requester
                 .route("fire-and-forget")
                 .data(new MessageRequest("TEST - fire-and-forget"))
                 .retrieveMono(Void.class)

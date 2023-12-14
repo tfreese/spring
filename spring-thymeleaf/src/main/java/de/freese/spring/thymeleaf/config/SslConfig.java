@@ -38,11 +38,11 @@ public class SslConfig {
     // @SuppressWarnings("resource")
     // public HttpComponentsClientHttpRequestFactory createHttpComponentsClientHttpRequestFactory(final SSLContext sslContext) throws Exception
     // {
-    // SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
+    // final SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
     //
-    // CloseableHttpClient client = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+    // final CloseableHttpClient client = HttpClients.custom().setSSLSocketFactory(sslsf).build();
     //
-    // HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
+    // final HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
     // httpRequestFactory.setReadTimeout(3000);
     // httpRequestFactory.setConnectTimeout(3000);
     //
@@ -56,7 +56,7 @@ public class SslConfig {
      */
     @Bean
     public ServletWebServerFactory servletContainer() {
-        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
+        final TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
             @Override
             protected TomcatWebServer getTomcatWebServer(final Tomcat tomcat) {
                 // JNDI aktivieren.
@@ -68,15 +68,16 @@ public class SslConfig {
             @Override
             protected void postProcessContext(final Context context) {
                 // SSL Context definieren.
-                SecurityConstraint securityConstraint = new SecurityConstraint();
+                final SecurityConstraint securityConstraint = new SecurityConstraint();
                 securityConstraint.setUserConstraint("CONFIDENTIAL");
-                SecurityCollection collection = new SecurityCollection();
+                
+                final SecurityCollection collection = new SecurityCollection();
                 collection.addPattern("/*");
                 securityConstraint.addCollection(collection);
                 context.addConstraint(securityConstraint);
 
                 // JNDI-Inhalt
-                ContextEnvironment contextEnvironment = new ContextEnvironment();
+                final ContextEnvironment contextEnvironment = new ContextEnvironment();
                 contextEnvironment.setName("test");
                 contextEnvironment.setType("java.lang.String");
                 contextEnvironment.setValue("MY-JNDI");
@@ -85,7 +86,7 @@ public class SslConfig {
 
                 // ContextResource funktioniert nur bei "javax.sql.DataSource" und "javax.mail.Session".
                 // Siehe org.apache.naming.factory.ResourceFactory.
-                // ContextResource resource = new ContextResource();
+                // final ContextResource resource = new ContextResource();
                 // resource.setName("jdbc/datasource");
                 // // resource.setType("org.hsql.jdbcDriver");
                 // resource.setType(jdbcDriver.class.getName());
@@ -97,12 +98,12 @@ public class SslConfig {
                 // resource.setProperty("password", "PASSWORD");
                 // context.getNamingResources().addResource(resource);
 
-                // ContextResourceEnvRef envRef = new ContextResourceEnvRef();
+                // final ContextResourceEnvRef envRef = new ContextResourceEnvRef();
                 // envRef.setName("test");
                 // envRef.setType(DataSourceProperties.class.getName());
                 // context.getNamingResources().addResourceEnvRef(envRef);
 
-                // ContextResourceLink resourceLink = new ContextResourceLink();
+                // final ContextResourceLink resourceLink = new ContextResourceLink();
                 // resourceLink.setName("jdbc/aJNDI");
                 // resourceLink.setGlobal("jdbc/aJNDIGlobal");
                 // resourceLink.setType("javax.sql.DataSource");
@@ -124,7 +125,7 @@ public class SslConfig {
      * Umleiten von Port 9090 auf 8443.
      */
     private Connector servletRedirectConnector() {
-        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        final Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");
         connector.setPort(9090);
         connector.setSecure(false);

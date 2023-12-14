@@ -13,7 +13,7 @@ import org.springframework.test.context.DynamicPropertySource;
 class TestH2 extends AbstractTest {
     @DynamicPropertySource
     static void properties(final DynamicPropertyRegistry registry) {
-        String id = UUID.randomUUID().toString();
+        final String id = UUID.randomUUID().toString();
 
         registry.add("spring.datasource.driver-class-name", DatabaseDriver.H2::getDriverClassName);
         registry.add("spring.datasource.url", () -> "jdbc:h2:mem:" + UUID.randomUUID() + ";DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false");

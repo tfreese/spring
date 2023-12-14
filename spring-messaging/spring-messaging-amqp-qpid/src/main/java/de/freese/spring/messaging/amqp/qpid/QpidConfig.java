@@ -27,7 +27,7 @@ public class QpidConfig {
     // @Bean
     // public MessageListenerContainer container(final ConnectionFactory connectionFactory)
     // {
-    // SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+    // final SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
     // container.setConnectionFactory(connectionFactory);
     // container.setQueueNames(SpringQpidApplication.queueName);
     // // container.setMessageListener(listenerAdapter);
@@ -43,11 +43,11 @@ public class QpidConfig {
 
     @Bean(destroyMethod = "shutdown")
     public SystemLauncher systemLauncher(final @Value("${spring.rabbitmq.port}") int port) throws Exception {
-        URL initialConfig = ClassLoader.getSystemClassLoader().getResource(INITIAL_CONFIGURATION);
+        final URL initialConfig = ClassLoader.getSystemClassLoader().getResource(INITIAL_CONFIGURATION);
         System.setProperty("QPID_HOME", QPID_HOME_DIR);
         // System.setProperty("QPID_WORK", QPID_WORK_DIR);
 
-        Map<String, Object> attributes = new HashMap<>();
+        final Map<String, Object> attributes = new HashMap<>();
         attributes.put(ConfiguredObject.TYPE, "Memory");
         attributes.put(SystemConfig.INITIAL_CONFIGURATION_LOCATION, initialConfig.toExternalForm());
         attributes.put(SystemConfig.STARTUP_LOGGED_TO_SYSTEM_OUT, true);
@@ -56,7 +56,7 @@ public class QpidConfig {
         attributes.put("qpid.amqp_port", port);
         attributes.put("qpid.http_port", "8080");
 
-        SystemLauncher systemLauncher = new SystemLauncher();
+        final SystemLauncher systemLauncher = new SystemLauncher();
         systemLauncher.startup(attributes);
 
         return systemLauncher;

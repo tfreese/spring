@@ -62,7 +62,7 @@ public class RSocketController {
 
     @MessageExceptionHandler
     Mono<MessageResponse> errorHandler(final Throwable th) {
-        MessageResponse response = new MessageResponse();
+        final MessageResponse response = new MessageResponse();
         response.setMessage(th.getClass().getSimpleName() + ": " + th.getMessage());
 
         return Mono.just(response);

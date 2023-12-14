@@ -20,17 +20,17 @@ class JwtTokenAuthenticationProvider extends DaoAuthenticationProvider {
     @Override
     public Authentication authenticate(final Authentication authentication) {
         if (!(authentication instanceof JwtAuthenticationToken jwtAuthentication)) {
-            String message = getMessages().getMessage("JwtTokenAuthenticationProvider.onlySupports", "JwtTokenAuthenticationProvider only supports JwtAuthenticationToken");
+            final String message = getMessages().getMessage("JwtTokenAuthenticationProvider.onlySupports", "JwtTokenAuthenticationProvider only supports JwtAuthenticationToken");
 
             throw new IllegalArgumentException(message);
         }
 
-        String token = jwtAuthentication.getToken();
+        final String token = jwtAuthentication.getToken();
 
-        JwtToken jwtToken = getJwtTokenProvider().parseToken(token);
+        final JwtToken jwtToken = getJwtTokenProvider().parseToken(token);
 
-        String username = jwtToken.getUsername();
-        String password = jwtToken.getPassword();
+        final String username = jwtToken.getUsername();
+        final String password = jwtToken.getPassword();
 
         return super.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }

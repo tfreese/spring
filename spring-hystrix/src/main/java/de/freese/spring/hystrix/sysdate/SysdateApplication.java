@@ -18,17 +18,17 @@ import org.springframework.web.client.RestTemplate;
 public final class SysdateApplication {
     public static void main(final String[] args) throws Exception {
         // configuration from environment properties
-        ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
+        final ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
 
         // configuration from system properties
-        ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
+        final ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
 
         // // configuration from local properties file
-        ConcurrentMapConfiguration configFromPropertiesFile = new ConcurrentMapConfiguration(new PropertiesConfiguration("hystrix.properties"));
+        final ConcurrentMapConfiguration configFromPropertiesFile = new ConcurrentMapConfiguration(new PropertiesConfiguration("hystrix.properties"));
 
         // create a hierarchy of configuration that makes
         // 1) system properties override properties file
-        ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
+        final ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
         finalConfig.addConfiguration(configFromEnvironmentProperties, "environmentConfig");
         finalConfig.addConfiguration(configFromSystemProperties, "systemConfig");
         finalConfig.addConfiguration(configFromPropertiesFile, "fileConfig");
@@ -40,16 +40,16 @@ public final class SysdateApplication {
         // Server2.main(new String[0]);
         // Server3.main(new String[0]);
 
-        RestTemplate restTemplate = new RestTemplateBuilder().build();
-        String[] urls = new String[]{"http://localhost:8081/service/sysdate/", "http://localhost:8082/service/sysdate/", "http://localhost:8083/service/sysdate/"};
+        final RestTemplate restTemplate = new RestTemplateBuilder().build();
+        final String[] urls = new String[]{"http://localhost:8081/service/sysdate/", "http://localhost:8082/service/sysdate/", "http://localhost:8083/service/sysdate/"};
         // System.out.println(restTemplate.getForObject("http://localhost:8081/service/sysdate/", String.class));
 
         while (true) {
-            SysDateHystrixCommand cmd = new SysDateHystrixCommand();
+            final SysDateHystrixCommand cmd = new SysDateHystrixCommand();
             cmd.setRestTemplate(restTemplate);
             cmd.setURLs(urls);
 
-            String result = cmd.execute();
+            final String result = cmd.execute();
 
             // System.out.println(result);
 

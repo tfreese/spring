@@ -22,12 +22,12 @@ public class FailingService {
     private final int port = -1;
 
     public Mono<String> greet(final Optional<String> name) {
-        var seconds = (long) (Math.random() * 5);
+        final long seconds = (long) (Math.random() * 5);
 
         //@formatter:off
         return name
                 .map(s -> {
-                    var msg = "Hello " + s + " ! (in " + seconds + " Seconds) on " + getHost();
+                    final String msg = "Hello " + s + " ! (in " + seconds + " Seconds) on " + getHost();
                     LOGGER.info(msg);
                     return Mono.just(msg);
                 })

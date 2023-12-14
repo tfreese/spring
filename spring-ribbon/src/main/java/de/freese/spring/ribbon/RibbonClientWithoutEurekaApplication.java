@@ -39,15 +39,15 @@ public class RibbonClientWithoutEurekaApplication {
             .run(args))
         // @formatter:on
         {
-            RestTemplate restTemplate = context.getBean("restTemplate", RestTemplate.class);
-            LoadBalancerClient loadBalancer = context.getBean("loadBalancerClient", LoadBalancerClient.class);
+            final RestTemplate restTemplate = context.getBean("restTemplate", RestTemplate.class);
+            final LoadBalancerClient loadBalancer = context.getBean("loadBalancerClient", LoadBalancerClient.class);
 
-            ServiceInstance instance = loadBalancer.choose("date-service");
-            URI serviceUri = URI.create(String.format("http://%s:%s", instance.getHost(), instance.getPort()));
+            final ServiceInstance instance = loadBalancer.choose("date-service");
+            final URI serviceUri = URI.create(String.format("http://%s:%s", instance.getHost(), instance.getPort()));
             LOGGER.info("manual look,up: {}", serviceUri);
 
             while (true) {
-                String result = restTemplate.getForObject("http://date-service/service/sysdate", String.class);
+                final String result = restTemplate.getForObject("http://date-service/service/sysdate", String.class);
 
                 LOGGER.info(result);
                 // System.out.println(result);

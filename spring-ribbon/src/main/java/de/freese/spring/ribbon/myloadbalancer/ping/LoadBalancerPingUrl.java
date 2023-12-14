@@ -31,11 +31,8 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
     private final HttpMessageConverter<String> messageConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
 
     private String expectedContent;
-
     private volatile ClientHttpRequestFactory httpRequestFactory;
-
     private boolean isSecure;
-
     private String pingAppendString = "";
 
     /**
@@ -83,7 +80,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
         uriStr += getPingAppendString();
 
         try {
-            ClientHttpRequest request = getHttpRequestFactory().createRequest(URI.create(uriStr), HttpMethod.GET);
+            final ClientHttpRequest request = getHttpRequestFactory().createRequest(URI.create(uriStr), HttpMethod.GET);
 
             String content = null;
 
@@ -166,9 +163,9 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
         }
 
         try (ReadableByteChannel channel = Channels.newChannel(inputStream)) {
-            int capacity = inputStream.available();
+            final int capacity = inputStream.available();
 
-            ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);
+            final ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);
 
             channel.read(byteBuffer);
             byteBuffer.rewind();

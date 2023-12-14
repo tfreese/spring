@@ -16,7 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
  */
 public interface JwtTokenProvider {
     default String createToken(final String username, final String password) {
-        Set<String> roles = null;
+        final Set<String> roles = null;
 
         return createToken(username, password, roles);
     }
@@ -42,7 +42,7 @@ public interface JwtTokenProvider {
     JwtToken parseToken(String token) throws AuthenticationException;
 
     default String resolveToken(final HttpServletRequest req) {
-        String bearerToken = req.getHeader("Authorization");
+        final String bearerToken = req.getHeader("Authorization");
 
         if ((bearerToken != null) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);

@@ -6,7 +6,6 @@ package de.freese.spring.thymeleaf.model;
  */
 public class Person {
     private String firstName;
-
     private String lastName;
 
     public Person() {
@@ -38,7 +37,7 @@ public class Person {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("Person [firstName=");
         builder.append(this.firstName);
         builder.append(", lastName=");

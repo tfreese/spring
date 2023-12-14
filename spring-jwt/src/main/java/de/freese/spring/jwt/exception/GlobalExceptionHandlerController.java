@@ -28,7 +28,7 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
         return new DefaultErrorAttributes() {
             @Override
             public Map<String, Object> getErrorAttributes(final WebRequest webRequest, final ErrorAttributeOptions options) {
-                Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, options);
+                final Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, options);
 
                 // StackTrace entfernen.
                 errorAttributes.remove("trace");

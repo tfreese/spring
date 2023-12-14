@@ -42,7 +42,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 
     @BeforeEach
     void beforeTest() throws Exception {
-        String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
+        final String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
 
         // final SslContext sslContext;
         //
@@ -95,14 +95,14 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         //
         // }).build();
 
-        TrustManagerFactory trustManagerFactory = InsecureTrustManagerFactory.INSTANCE;
+        final TrustManagerFactory trustManagerFactory = InsecureTrustManagerFactory.INSTANCE;
         // TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509", "SunJSSE");
         // trustManagerFactory.init(trustStore);
 
-        SslContext sslContext = SslContextBuilder.forClient().trustManager(trustManagerFactory).build();
+        final SslContext sslContext = SslContextBuilder.forClient().trustManager(trustManagerFactory).build();
 
         // ClientHttpConnector httpConnector = new ReactorClientHttpConnector(opt -> opt.sslContext(sslContext));
-        HttpClient httpClient = HttpClient.create().secure(sslContextSpec -> sslContextSpec.sslContext(sslContext));
+        final HttpClient httpClient = HttpClient.create().secure(sslContextSpec -> sslContextSpec.sslContext(sslContext));
 
         this.webClientBuilder.baseUrl(rootUri).clientConnector(new ReactorClientHttpConnector(httpClient))
         // .exchangeStrategies(strategies)
@@ -113,7 +113,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Test
     void testHealthEndpoint() throws Exception {
         // @formatter:off
-        WebClient webClient = this.webClientBuilder.build();
+        final  WebClient webClient = this.webClientBuilder.build();
 
 //        RequestHeadersSpec<?> request = webClient.get()
 //                .repository("/actuator/health")
@@ -135,29 +135,29 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 //                .flatMap(clientResponse -> clientResponse.bodyToMono(String.class))
 //                ;
 
-        Mono<ResponseEntity<String>> response = webClient.get()
+        final Mono<ResponseEntity<String>> response = webClient.get()
                 .uri("/actuator/health")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class)) // Liefert auch Header und Status.
                 ;
         // @formatter:on
 
-        ResponseEntity<String> responseEntity = response.block();
+        final ResponseEntity<String> responseEntity = response.block();
 
         assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType());
 
-        String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
+        final String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
         assertEquals("UP", status);
     }
 
     @Override
     @Test
     void testPost() throws Exception {
-        WebClient webClient = this.webClientBuilder.build();
-        Person newPerson = new Person("Thomas", "Freese");
+        final WebClient webClient = this.webClientBuilder.build();
+        final Person newPerson = new Person("Thomas", "Freese");
 
         // @formatter:off
-        Mono<ResponseEntity<String>> response = webClient.mutate()
+        final Mono<ResponseEntity<String>> response = webClient.mutate()
                 .filter(ExchangeFilterFunctions.basicAuthentication("admin", "pw"))
                 .build()
                 .post()
@@ -170,11 +170,11 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         // @formatter:on
 
         // ResponseEntity<ApiError> responseEntity = response.block();
-        ResponseEntity<String> responseEntity = response.block();
+        final ResponseEntity<String> responseEntity = response.block();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // @formatter:off
-        Flux<Person> personFlux = webClient.mutate()
+        final Flux<Person> personFlux = webClient.mutate()
                    .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
                    .build()
                    .get()
@@ -185,7 +185,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
                    ;
         // @formatter:on
 
-        List<Person> persons = personFlux.collectList().block();
+        final List<Person> persons = personFlux.collectList().block();
 
         assertNotNull(persons);
         assertTrue(persons.size() >= 3);
@@ -197,11 +197,11 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testPostWithWrongRole() throws Exception {
-        WebClient webClient = this.webClientBuilder.build();
-        Person newPerson = new Person("Thomas", "Freese");
+        final WebClient webClient = this.webClientBuilder.build();
+        final Person newPerson = new Person("Thomas", "Freese");
 
         // @formatter:off
-        Mono<ResponseEntity<String>> response = webClient.mutate()
+        final Mono<ResponseEntity<String>> response = webClient.mutate()
                 .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
                 .build()
                 .post()
@@ -213,9 +213,9 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
                 ;
         // @formatter:on
 
-        // ResponseEntity<ApiError> responseEntity = response.block();
-        ResponseEntity<String> responseEntity = response.block();
-        // ApiError apiError = responseEntity.getBody();
+        // final ResponseEntity<ApiError> responseEntity = response.block();
+        final ResponseEntity<String> responseEntity = response.block();
+        // final ApiError apiError = responseEntity.getBody();
 
         //        assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCode());
         //        assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
@@ -225,10 +225,10 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithLoginJSON() throws Exception {
-        WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
-        Flux<Person> personFlux = webClient.mutate()
+        final Flux<Person> personFlux = webClient.mutate()
                    .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
                    .build()
                    .get()
@@ -239,7 +239,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
                    ;
         // @formatter:on
 
-        List<Person> persons = personFlux.collectList().block();
+        final List<Person> persons = personFlux.collectList().block();
 
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
@@ -248,10 +248,10 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
         // @Test
     void testUserWithLoginXML() throws Exception {
-        WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
-        Flux<Person> personFlux = webClient.mutate()
+        final Flux<Person> personFlux = webClient.mutate()
                    .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
                    .build()
                    .get()
@@ -264,7 +264,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
                    ;
         // @formatter:on
 
-        List<Person> persons = personFlux.collectList().block();
+        final List<Person> persons = personFlux.collectList().block();
 
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
@@ -273,10 +273,10 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithPreAuthJSON() throws Exception {
-        WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
-        Flux<Person> personFlux = webClient
+        final Flux<Person> personFlux = webClient
                    .get()
                    .uri("/rest/person/personList")
                    .accept(MediaType.APPLICATION_JSON)
@@ -287,7 +287,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
                    ;
         // @formatter:on
 
-        List<Person> persons = personFlux.collectList().block();
+        final List<Person> persons = personFlux.collectList().block();
 
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
@@ -296,10 +296,10 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
         // @Test
     void testUserWithPreAuthXML() throws Exception {
-        WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
-        Flux<Person> personFlux = webClient
+        final Flux<Person> personFlux = webClient
                    .get()
                    .uri("/rest/person/personList")
                    .accept(MediaType.APPLICATION_XML)
@@ -310,7 +310,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
                    ;
         // @formatter:on
 
-        List<Person> persons = personFlux.collectList().block();
+        final List<Person> persons = personFlux.collectList().block();
 
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
@@ -319,10 +319,10 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithWrongPass() throws Exception {
-        WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
-//        Flux<Person> personFlux = webClient.mutate()
+//        final Flux<Person> personFlux = webClient.mutate()
 //                .filter(ExchangeFilterFunctions.basicAuthentication("user", "pass"))
 //                .build()
 //                .get()
@@ -332,7 +332,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 //                .onStatus(status ->  !HttpStatus.UNAUTHORIZED.equals(status), response -> Mono.just(new Exception()))
 //                .bodyToFlux(Person.class)
 //                ;
-        Mono<ResponseEntity<String>> response = webClient.mutate()
+        final Mono<ResponseEntity<String>> response = webClient.mutate()
                 .filter(ExchangeFilterFunctions.basicAuthentication("user", "pass"))
                 .build()
                 .get()
@@ -342,7 +342,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
                 ;
         // @formatter:on
 
-        ResponseEntity<String> responseEntity = response.block();
+        final ResponseEntity<String> responseEntity = response.block();
 
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
@@ -350,10 +350,10 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithWrongRole() throws Exception {
-        WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
-        Mono<ResponseEntity<String>> response = webClient.mutate()
+        final Mono<ResponseEntity<String>> response = webClient.mutate()
                 .filter(ExchangeFilterFunctions.basicAuthentication("invalid", "pw"))
                 .build()
                 .get()
@@ -363,7 +363,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
                 ;
         // @formatter:on
 
-        ResponseEntity<String> responseEntity = response.block();
+        final ResponseEntity<String> responseEntity = response.block();
 
         assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
     }
@@ -371,10 +371,10 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithoutLogin() throws Exception {
-        WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
-//        Flux<Person> personFlux = webClient.get()
+//        final Flux<Person> personFlux = webClient.get()
 //                .repository("/rest/person/personList")
 //                .accept(MediaType.APPLICATION_JSON)
 //                .retrieve()
@@ -384,14 +384,14 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 //                .exchange()
 //                .flatMapIterable(clientResponse -> clientResponse.bodyToFlux(Person.class))
 //                ;
-        Mono<ResponseEntity<String>> response = webClient.get()
+        final Mono<ResponseEntity<String>> response = webClient.get()
                 .uri("/rest/person/personList")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
                 ;
         // @formatter:on
 
-        ResponseEntity<String> responseEntity = response.block();
+        final ResponseEntity<String> responseEntity = response.block();
 
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }

@@ -39,11 +39,8 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
     private final AuthenticationManager authenticationManager;
 
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
-
     private AuthenticationEntryPoint authenticationEntryPoint;
-
     private boolean ignoreFailure;
-
     private RememberMeServices rememberMeServices = new NullRememberMeServices();
 
     public MyTokenBasicAuthAuthenticationFilter(final AuthenticationManager authenticationManager) {
@@ -80,7 +77,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader("my-token");
+        final String header = request.getHeader("my-token");
 
         if ((header == null) || header.isEmpty()) {
             filterChain.doFilter(request, response);
@@ -90,16 +87,16 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             // Decode Credentials.
-            String username = header;
-            String password = "pw";
+            final String username = header;
+            final String password = "pw";
 
             LOGGER.debug("MyToken Pre-Authentication Authorization header found for user '{}'", username);
 
             if (isAuthenticationIsRequired(username)) {
                 // AbstractAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
-                AbstractAuthenticationToken authRequest = new PreAuthenticatedAuthenticationToken(username, password);
+                final AbstractAuthenticationToken authRequest = new PreAuthenticatedAuthenticationToken(username, password);
                 authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
-                Authentication authResult = this.authenticationManager.authenticate(authRequest);
+                final Authentication authResult = this.authenticationManager.authenticate(authRequest);
                 // Authentication authResult = new PreAuthenticatedAuthenticationToken(username, null, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
 
                 LOGGER.debug("Authentication success: {}", authResult);
@@ -136,7 +133,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
     protected boolean isAuthenticationIsRequired(final String username) {
         // Only reauthenticate if username doesn't match SecurityContextHolder and user
         // isn't authenticated (see SEC-53)
-        Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
 
         // Limit username comparison to providers which use usernames (ie
         // UsernamePasswordAuthenticationToken)

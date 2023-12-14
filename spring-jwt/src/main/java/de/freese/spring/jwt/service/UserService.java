@@ -42,7 +42,7 @@ public class UserService {
     public String login(final String username, final String password) {
         this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-        // UserDetails userDetails = this.userDetailsManager.loadUserByUsername(username);
+        // final UserDetails userDetails = this.userDetailsManager.loadUserByUsername(username);
 
         return this.jwtTokenProvider.createToken(username, password);
     }
@@ -50,11 +50,11 @@ public class UserService {
     public String register(final UserDetails userDetails) {
         throw new AuthenticationServiceException("Need a UserDetailsManager");
 
-        //        boolean exist = this.userDetailsManager.userExists(userDetails.getUsername());
+        //        final boolean exist = this.userDetailsManager.userExists(userDetails.getUsername());
         //
         //        if (!exist)
         //        {
-        //            MutableUser mutableUser = new MutableUser(userDetails);
+        //            final MutableUser mutableUser = new MutableUser(userDetails);
         //            mutableUser.setPassword(this.passwordEncoder.encode(userDetails.getPassword()));
         //
         //            this.userDetailsManager.createUser(mutableUser);
@@ -66,7 +66,7 @@ public class UserService {
     }
 
     public UserDetails search(final String username) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+        final UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
         if (userDetails == null) {
             throw new UsernameNotFoundException("The user doesn't exist");
@@ -76,11 +76,11 @@ public class UserService {
     }
 
     public UserDetails whoami(final HttpServletRequest req) {
-        String token = this.jwtTokenProvider.resolveToken(req);
-        JwtToken jwtToken = this.jwtTokenProvider.parseToken(token);
-        String username = jwtToken.getUsername();
+        final String token = this.jwtTokenProvider.resolveToken(req);
+        final JwtToken jwtToken = this.jwtTokenProvider.parseToken(token);
+        final String username = jwtToken.getUsername();
 
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+        final UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
         return new MutableUser(userDetails).clearCredentials();
     }

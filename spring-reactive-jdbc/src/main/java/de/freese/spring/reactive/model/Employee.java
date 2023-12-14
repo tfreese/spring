@@ -42,7 +42,7 @@ public class Employee {
             return false;
         }
 
-        Employee other = (Employee) obj;
+        final Employee other = (Employee) obj;
 
         return (this.id == other.id) && Objects.equals(this.firstName, other.firstName) && Objects.equals(this.lastName, other.lastName) && Objects.equals(this.department, other.department);
     }
@@ -86,7 +86,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("Employee [");
         builder.append("id=").append(this.id);
         builder.append(", lastName=").append(this.lastName);

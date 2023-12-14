@@ -41,13 +41,13 @@ class JwtTokenJson implements JwtToken {
 
     @Override
     public Set<GrantedAuthority> getRoles() {
-        String rolesString = getClaimsValue(claims -> (String) claims.get("roles"));
+        final String rolesString = getClaimsValue(claims -> (String) claims.get("roles"));
 
         if ((rolesString == null) || rolesString.isBlank()) {
             return Collections.emptySet();
         }
 
-        String[] rolesArray = rolesString.split(",");
+        final String[] rolesArray = rolesString.split(",");
 
         return Arrays.stream(rolesArray).map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
     }

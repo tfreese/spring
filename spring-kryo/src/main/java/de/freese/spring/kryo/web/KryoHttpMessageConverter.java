@@ -29,7 +29,6 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
      * application/x-java-object; application/x-kryo
      */
     public static final String APPLICATION_KRYO_VALUE = "application/x-kryo";
-
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
     private final Pool<Kryo> kryoPool;
@@ -42,7 +41,7 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
 
     @Override
     protected Object readInternal(final Class<? extends Object> clazz, final HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
-        Kryo kryo = this.kryoPool.obtain();
+        final Kryo kryo = this.kryoPool.obtain();
         Object value = null;
 
         // try (Input input = new ByteBufferInput(inputMessage.getBody(), 1024 * 1024))
@@ -63,7 +62,7 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
 
     @Override
     protected void writeInternal(final Object t, final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-        Kryo kryo = this.kryoPool.obtain();
+        final Kryo kryo = this.kryoPool.obtain();
 
         // try (Output output = new ByteBufferOutput(outputMessage.getBody(), 1024 * 1024))
         try (Output output = new Output(outputMessage.getBody(), 1024 * 1024)) {

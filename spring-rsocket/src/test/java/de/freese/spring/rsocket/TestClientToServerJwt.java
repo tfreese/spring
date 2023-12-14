@@ -50,7 +50,7 @@ class TestClientToServerJwt implements TestClientToServer {
         });
 
         // @formatter:off
-        JWTClaimsSet jwtClaims = new JWTClaimsSet.Builder()
+        final JWTClaimsSet jwtClaims = new JWTClaimsSet.Builder()
                 .issuer("test-app")
                 .subject("user")
                 .claim("password", "pass")
@@ -60,15 +60,15 @@ class TestClientToServerJwt implements TestClientToServer {
                 ;
         // @formatter:on
 
-        JWEEncrypter encrypter = new PasswordBasedEncrypter("my-password", 8, 1000);
-        JWEHeader jweHeader = new JWEHeader(JWEAlgorithm.PBES2_HS512_A256KW, EncryptionMethod.A256CBC_HS512);
-        EncryptedJWT encryptedJWT = new EncryptedJWT(jweHeader, jwtClaims);
+        final JWEEncrypter encrypter = new PasswordBasedEncrypter("my-password", 8, 1000);
+        final JWEHeader jweHeader = new JWEHeader(JWEAlgorithm.PBES2_HS512_A256KW, EncryptionMethod.A256CBC_HS512);
+        final EncryptedJWT encryptedJWT = new EncryptedJWT(jweHeader, jwtClaims);
         encryptedJWT.encrypt(encrypter);
 
-        String token = encryptedJWT.serialize();
+        final String token = encryptedJWT.serialize();
 
-        BearerTokenMetadata credentials = new BearerTokenMetadata(token);
-        MimeType mimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
+        final BearerTokenMetadata credentials = new BearerTokenMetadata(token);
+        final MimeType mimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
 
         // .setupMetadata(token, BearerTokenMetadata.BEARER_AUTHENTICATION_MIME_TYPE)
 

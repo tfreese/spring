@@ -42,16 +42,16 @@ public class LoadBalancer implements LoadBalancerPing {
         public void run() {
             LoggerFactory.getLogger(getClass()).debug("Pinger");
 
-            List<String> allServers = getAllServer();
+            final List<String> allServers = getAllServer();
 
             if (allServers.isEmpty()) {
                 return;
             }
 
-            List<String> workingServers = pingWithCompletionService(allServers);
-            // List<String> workingServers = pingWithCompletableFuture(allServers);
-            // List<String> workingServers = pingWithStreams(allServers);
-            // List<String> workingServers = pingSequentiell(allServers);
+            final List<String> workingServers = pingWithCompletionService(allServers);
+            // final List<String> workingServers = pingWithCompletableFuture(allServers);
+            // final List<String> workingServers = pingWithStreams(allServers);
+            // final List<String> workingServers = pingSequentiell(allServers);
 
             refreshAliveServer(workingServers);
         }
@@ -60,10 +60,10 @@ public class LoadBalancer implements LoadBalancerPing {
          * Sequentielle Pings.
          */
         List<String> pingSequentiell(final List<String> allServers) {
-            List<String> workingServers = new ArrayList<>();
+            final List<String> workingServers = new ArrayList<>();
 
             for (String server : allServers) {
-                boolean isAlive = isAlive(server);
+                final boolean isAlive = isAlive(server);
 
                 if (isAlive) {
                     workingServers.add(server);
@@ -77,22 +77,22 @@ public class LoadBalancer implements LoadBalancerPing {
          * Parallele Pings mit dem {@link CompletableFuture}.
          */
         List<String> pingWithCompletableFuture(final List<String> allServers) {
-            List<String> workingServers = new ArrayList<>();
+            final List<String> workingServers = new ArrayList<>();
 
             // @formatter:off
-            CompletableFuture<String> [] futures = allServers.stream()
+            final CompletableFuture<String> [] futures = allServers.stream()
                 .map(server -> CompletableFuture.supplyAsync(() -> isAlive(server) ? server : null))
                 .toArray(CompletableFuture[]::new);
             // @formatter:on
 
-            CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(futures);
+            final CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(futures);
 
             try {
                 combinedFuture.get();
 
                 for (CompletableFuture<String> cf : futures) {
                     try {
-                        String server = cf.get();
+                        final String server = cf.get();
 
                         if (server != null) {
                             workingServers.add(server);
@@ -114,14 +114,14 @@ public class LoadBalancer implements LoadBalancerPing {
          * Parallele Pings mit dem {@link ExecutorCompletionService}.
          */
         List<String> pingWithCompletionService(final List<String> allServers) {
-            List<String> workingServers = new ArrayList<>();
+            final List<String> workingServers = new ArrayList<>();
 
-            CompletionService<String> completionService = new ExecutorCompletionService<>(ForkJoinPool.commonPool());
+            final CompletionService<String> completionService = new ExecutorCompletionService<>(ForkJoinPool.commonPool());
             allServers.forEach(server -> completionService.submit(() -> isAlive(server) ? server : null));
 
             for (int i = 0; i < allServers.size(); ++i) {
                 try {
-                    String server = completionService.take().get();
+                    final String server = completionService.take().get();
 
                     if (server != null) {
                         workingServers.add(server);
@@ -151,11 +151,8 @@ public class LoadBalancer implements LoadBalancerPing {
     }
 
     private final List<String> aliveServer = new LinkedList<>();
-
     private final List<String> allServer = new LinkedList<>();
-
     private final ReentrantLock lock = new ReentrantLock(true);
-
     private LoadBalancerPing ping = new LoadBalancerPingNoOp();
     /**
      * Default 15 Sekunden.
@@ -225,7 +222,7 @@ public class LoadBalancer implements LoadBalancerPing {
         this.lock.lock();
 
         try {
-            String server = this.strategy.chooseServer(this.aliveServer, key);
+            final String server = this.strategy.chooseServer(this.aliveServer, key);
 
             if (server == null) {
                 throw new RuntimeException("no active server available");
@@ -283,7 +280,7 @@ public class LoadBalancer implements LoadBalancerPing {
      */
     public URI reconstructURI(final String serviceName, final URI original) {
         String url = original.toString();
-        String nextServer = chooseServer();
+        final String nextServer = chooseServer();
 
         url = url.replace(serviceName, nextServer);
 
@@ -311,7 +308,7 @@ public class LoadBalancer implements LoadBalancerPing {
             throw new IllegalArgumentException("pingDelay must be greater than 0");
         }
 
-        long old = this.pingDelay;
+        final long old = this.pingDelay;
 
         this.pingDelay = pingDelay;
 

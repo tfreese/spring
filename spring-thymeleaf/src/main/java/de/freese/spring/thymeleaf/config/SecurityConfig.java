@@ -45,7 +45,7 @@ public class SecurityConfig {
 
     @Bean
     AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderPreAuthenticated, final AuthenticationProvider authenticationProviderDao) {
-        ProviderManager providerManager = new ProviderManager(authenticationProviderPreAuthenticated, authenticationProviderDao);
+        final ProviderManager providerManager = new ProviderManager(authenticationProviderPreAuthenticated, authenticationProviderDao);
         // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
         providerManager.setEraseCredentialsAfterAuthentication(true);
 
@@ -58,7 +58,7 @@ public class SecurityConfig {
      */
     @Bean
     AuthenticationProvider authenticationProviderDao(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService, final UserCache userCache) {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         // authenticationProvider.setMessageSource(applicationContext); // Wird automatisch gemacht.
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         authenticationProvider.setUserDetailsService(userDetailsService);
@@ -82,7 +82,7 @@ public class SecurityConfig {
     @Primary
     @Bean
     AuthenticationProvider authenticationProviderPreAuthenticated(final AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> authenticationUserDetailsService) {
-        PreAuthenticatedAuthenticationProvider preAuthenticatedAuthenticationProvider = new PreAuthenticatedAuthenticationProvider();
+        final PreAuthenticatedAuthenticationProvider preAuthenticatedAuthenticationProvider = new PreAuthenticatedAuthenticationProvider();
         preAuthenticatedAuthenticationProvider.setPreAuthenticatedUserDetailsService(authenticationUserDetailsService);
 
         return preAuthenticatedAuthenticationProvider;
@@ -90,7 +90,7 @@ public class SecurityConfig {
 
     @Bean
     AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> authenticationUserDetailsService(final UserDetailsService userDetailsService) {
-        UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> wrapper = new UserDetailsByNameServiceWrapper<>();
+        final UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> wrapper = new UserDetailsByNameServiceWrapper<>();
         wrapper.setUserDetailsService(userDetailsService);
 
         return wrapper;
@@ -162,16 +162,16 @@ public class SecurityConfig {
     // @Bean
     // Mit @Bean funktionieren die REST-Services nicht mehr !
     GenericFilterBean myTokenFilter(final AuthenticationManager authenticationManager) throws Exception {
-        // RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
+        // final RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
         // filter.setPrincipalRequestHeader("my-token");
         // filter.setExceptionIfHeaderMissing(false); // Damit keine konkrete Fehlermeldung ausgegeben wird.
         // filter.setCheckForPrincipalChanges(true);
         // filter.setInvalidateSessionOnPrincipalChange(true);
 
-        MyTokenRequestHeaderAuthenticationFilter filter = new MyTokenRequestHeaderAuthenticationFilter();
+        final MyTokenRequestHeaderAuthenticationFilter filter = new MyTokenRequestHeaderAuthenticationFilter();
         filter.setAuthenticationManager(authenticationManager);
 
-        // MyTokenBasicAuthAuthenticationFilter filter = new MyTokenBasicAuthAuthenticationFilter(authenticationManager);
+        // final MyTokenBasicAuthAuthenticationFilter filter = new MyTokenBasicAuthAuthenticationFilter(authenticationManager);
 
         filter.afterPropertiesSet();
 
@@ -180,7 +180,7 @@ public class SecurityConfig {
 
     @Bean
     PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider(final AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> auds) {
-        PreAuthenticatedAuthenticationProvider preauthAuthProvider = new PreAuthenticatedAuthenticationProvider();
+        final PreAuthenticatedAuthenticationProvider preauthAuthProvider = new PreAuthenticatedAuthenticationProvider();
         preauthAuthProvider.setPreAuthenticatedUserDetailsService(auds);
 
         return preauthAuthProvider;
@@ -206,7 +206,7 @@ public class SecurityConfig {
      */
     @Bean
     UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache) throws Exception {
-        InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
+        final InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
         userDetailsManager.createUser(User.withUsername("admin").passwordEncoder(passwordEncoder::encode).password("pw").roles("ADMIN", "USER").build());
         userDetailsManager.createUser(User.withUsername("user").passwordEncoder(passwordEncoder::encode).password("pw").roles("USER").build());
         userDetailsManager.createUser(User.withUsername("invalid").passwordEncoder(passwordEncoder::encode).password("pw").roles("OTHER").build());
@@ -214,7 +214,7 @@ public class SecurityConfig {
         return userDetailsManager;
 
         // CachingUserDetailsService erzeugen, erzeugt Fehler bei den Tests !
-        // Constructor<CachingUserDetailsService> constructor = ClassUtils.getConstructorIfAvailable(CachingUserDetailsService.class, UserDetailsService.class);
+        // final Constructor<CachingUserDetailsService> constructor = ClassUtils.getConstructorIfAvailable(CachingUserDetailsService.class, UserDetailsService.class);
         //
         // if (constructor == null)
         // {
@@ -223,7 +223,7 @@ public class SecurityConfig {
         //
         // if (constructor != null)
         // {
-        // CachingUserDetailsService cachingUserDetailsService = BeanUtils.instantiateClass(constructor, userDetailsManager);
+        // final CachingUserDetailsService cachingUserDetailsService = BeanUtils.instantiateClass(constructor, userDetailsManager);
         // cachingUserDetailsService.setUserCache(userCache);
         //
         // return cachingUserDetailsService;

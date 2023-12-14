@@ -32,12 +32,12 @@ interface TestClientToServer {
 
     @Test
     default void testChannel() {
-        Mono<Duration> setting1 = Mono.just(Duration.ofSeconds(3)).delayElement(Duration.ofSeconds(0));
-        Mono<Duration> setting2 = Mono.just(Duration.ofSeconds(3)).delayElement(Duration.ofSeconds(2));
-        Flux<Duration> settings = Flux.concat(setting1, setting2);
+        final Mono<Duration> setting1 = Mono.just(Duration.ofSeconds(3)).delayElement(Duration.ofSeconds(0));
+        final Mono<Duration> setting2 = Mono.just(Duration.ofSeconds(3)).delayElement(Duration.ofSeconds(2));
+        final Flux<Duration> settings = Flux.concat(setting1, setting2);
 
         // Send a stream of request messages
-        Flux<MessageResponse> result = getRequester().route("channel").data(settings).retrieveFlux(MessageResponse.class);
+        final Flux<MessageResponse> result = getRequester().route("channel").data(settings).retrieveFlux(MessageResponse.class);
 
         // Verify that the response messages contain the expected data
         StepVerifier.create(result).consumeNextWith(response -> {
@@ -52,7 +52,7 @@ interface TestClientToServer {
     @Test
     default void testFireAndForget() {
         // Send a fire-and-forget message
-        Mono<Void> result = getRequester().route("fire-and-forget").data(new MessageRequest("Fire-And-Forget")).retrieveMono(Void.class);
+        final Mono<Void> result = getRequester().route("fire-and-forget").data(new MessageRequest("Fire-And-Forget")).retrieveMono(Void.class);
 
         // Assert that the result is a completed Mono.
         StepVerifier.create(result).verifyComplete();
@@ -61,7 +61,7 @@ interface TestClientToServer {
     @Test
     default void testNoMatchingRoute() {
         // Send a request with bad route and data
-        Mono<String> result = getRequester().route("invalid").data("anything").retrieveMono(String.class);
+        final Mono<String> result = getRequester().route("invalid").data("anything").retrieveMono(String.class);
 
         // Verify that an error is generated
         StepVerifier.create(result).expectErrorMessage("No handler for destination 'invalid'").verify(Duration.ofSeconds(5));
@@ -69,10 +69,10 @@ interface TestClientToServer {
 
     @Test
     default void testRequestResponse() {
-        MessageRequest request = new MessageRequest("Request");
+        final MessageRequest request = new MessageRequest("Request");
 
         // Send a request message
-        Mono<MessageResponse> result = getRequester().route("request-response").data(request).retrieveMono(MessageResponse.class);
+        final Mono<MessageResponse> result = getRequester().route("request-response").data(request).retrieveMono(MessageResponse.class);
 
         // Verify that the response message contains the expected data
         StepVerifier.create(result).consumeNextWith(response -> {
@@ -83,10 +83,10 @@ interface TestClientToServer {
 
     @Test
     default void testStream() {
-        MessageRequest request = new MessageRequest("Stream");
+        final MessageRequest request = new MessageRequest("Stream");
 
         // Send a request message
-        Flux<MessageResponse> result = getRequester().route("stream").data(request).retrieveFlux(MessageResponse.class);
+        final Flux<MessageResponse> result = getRequester().route("stream").data(request).retrieveFlux(MessageResponse.class);
 
         // Verify that the response messages contain the expected data
         StepVerifier.create(result).consumeNextWith(response -> {

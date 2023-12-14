@@ -21,17 +21,17 @@ public final class PrimarySecondaryApplication {
 
     public static void main(final String[] args) throws Exception {
         // configuration from environment properties
-        ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
+        final ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
 
         // configuration from system properties
-        ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
+        final ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
 
         // // configuration from local properties file
-        ConcurrentMapConfiguration configFromPropertiesFile = new ConcurrentMapConfiguration(new PropertiesConfiguration("hystrix.properties"));
+        final ConcurrentMapConfiguration configFromPropertiesFile = new ConcurrentMapConfiguration(new PropertiesConfiguration("hystrix.properties"));
 
         // create a hierarchy of configuration that makes
         // 1) system properties override properties file
-        ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
+        final ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
         finalConfig.addConfiguration(configFromEnvironmentProperties, "environmentConfig");
         finalConfig.addConfiguration(configFromSystemProperties, "systemConfig");
         finalConfig.addConfiguration(configFromPropertiesFile, "fileConfig");
@@ -42,9 +42,9 @@ public final class PrimarySecondaryApplication {
         try (HystrixRequestContext context = HystrixRequestContext.initializeContext()) {
             for (int i = 0; i < 2; i++) {
                 for (int j = 1; j <= 10; j++) {
-                    PrimarySecondaryCommand cmd = new PrimarySecondaryCommand(j);
+                    final PrimarySecondaryCommand cmd = new PrimarySecondaryCommand(j);
 
-                    String result = cmd.execute();
+                    final String result = cmd.execute();
 
                     // Ohne Logs der Commands wird das Ergebnis aus dem Cache geholt, siehe PrimarySecondaryCommand#getCacheKey.
                     LOGGER.info(result);

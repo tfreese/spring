@@ -51,12 +51,12 @@ public class MyRestController {
 
     @GetMapping("greet")
     public Publisher<String> greet(@RequestParam final Optional<String> name) {
-        String hostName = getHostName();
+        final String hostName = getHostName();
 
         //@formatter:off
         return name
                 .map(s -> {
-                    var msg = "Hello " + s + " on " + hostName;
+                    final var msg = "Hello " + s + " on " + hostName;
                     return Mono.just(msg);
                     })
                 //.orElse(Mono.error(new NullPointerException("name")))

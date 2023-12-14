@@ -21,7 +21,7 @@ class MyApplicationTest {
 
     @Test
     void testRequest() {
-        WebTestClient webClient = WebTestClient.bindToController(new MyRestController()).build();
+        final WebTestClient webClient = WebTestClient.bindToController(new MyRestController()).build();
 
         //@formatter:off
         webClient

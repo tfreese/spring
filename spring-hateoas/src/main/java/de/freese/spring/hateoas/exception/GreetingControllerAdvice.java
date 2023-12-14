@@ -18,14 +18,14 @@ public class GreetingControllerAdvice {
     // @ResponseStatus(HttpStatus.BAD_REQUEST)
     // public VndErrors greetingExceptionHandler(final GreetingException ex)
     // {
-    // StringWriter sw = new StringWriter();
+    // final StringWriter sw = new StringWriter();
     //
     // try (PrintWriter pw = new PrintWriter(sw))
     // {
     // ex.printStackTrace(pw);
     // }
     //
-    // String stackTrace = sw.toString();
+    // final String stackTrace = sw.toString();
     //
     // return new VndErrors(ex.getMessage(), stackTrace);
     // }

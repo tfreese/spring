@@ -47,7 +47,7 @@ public class GatewayApplication {
      */
     @Bean
     RouteLocator myRoutes(final RouteLocatorBuilder builder, final UriConfiguration uriConfiguration) {
-        String httpUri = uriConfiguration.getHttpbin();
+        final String httpUri = uriConfiguration.getHttpbin();
 
         // @formatter:off
         return builder.routes()

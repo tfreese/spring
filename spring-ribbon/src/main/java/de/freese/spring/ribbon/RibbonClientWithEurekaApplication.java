@@ -36,10 +36,10 @@ public class RibbonClientWithEurekaApplication {
                 .run(args))
         // @formatter:on
         {
-            RestTemplate restTemplate = context.getBean("restTemplate", RestTemplate.class);
+            final RestTemplate restTemplate = context.getBean("restTemplate", RestTemplate.class);
 
             while (true) {
-                String result = restTemplate.getForObject("http://DATE-SERVICE/service/sysdate", String.class);
+                final String result = restTemplate.getForObject("http://DATE-SERVICE/service/sysdate", String.class);
 
                 LOGGER.info(result);
                 // System.out.println(result);

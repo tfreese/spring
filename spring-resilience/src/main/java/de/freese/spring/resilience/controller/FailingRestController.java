@@ -35,7 +35,7 @@ public class FailingRestController {
      */
     @GetMapping("greet")
     Publisher<String> greet(@RequestParam final Optional<String> name) {
-        Mono<String> results = this.service.greet(name);
+        final Mono<String> results = this.service.greet(name);
 
         return getReactiveCircuitBreaker().run(results, throwable -> Mono.just("fallback (no name): hello world !")).map(r -> r + "\n");
     }

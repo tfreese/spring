@@ -34,12 +34,12 @@ public abstract class AbstractRestReflectionController {
 
     @PostMapping(path = "{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public Object invoke(@PathVariable("method") final String method, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        Kryo kryo = getKryoPool().obtain();
+        final Kryo kryo = getKryoPool().obtain();
 
         try (Input inputStream = new Input(request.getInputStream(), 1024 * 1024)) {
             // Parameter-Typen und -Argumente auslesen.
-            Object[] paramTypesAndArgs = (Object[]) kryo.readClassAndObject(inputStream);
-            Class<?>[] parameterTypes = (Class<?>[]) paramTypesAndArgs[0];
+            final Object[] paramTypesAndArgs = (Object[]) kryo.readClassAndObject(inputStream);
+            final Class<?>[] parameterTypes = (Class<?>[]) paramTypesAndArgs[0];
             Object[] arguments = (Object[]) paramTypesAndArgs[1];
 
             // Streams berücksichtigen.
@@ -56,8 +56,8 @@ public abstract class AbstractRestReflectionController {
             }
 
             // Konkrete Methode aufrufen.
-            Method apiMethod = getClass().getMethod(method, parameterTypes);
-            Object result = apiMethod.invoke(this, arguments);
+            final Method apiMethod = getClass().getMethod(method, parameterTypes);
+            final Object result = apiMethod.invoke(this, arguments);
 
             // Ergebnis mit Kryo codieren.
             try (Output output = new Output(response.getOutputStream())) {
@@ -84,12 +84,12 @@ public abstract class AbstractRestReflectionController {
     @PostMapping(path = "/rt/{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public Object invokeFromRestTemplate(@PathVariable("method") final String method, @RequestBody final Object body) throws Exception {
         // Parameter-Typen und -Argumente auslesen.
-        Object[] paramTypesAndArgs = (Object[]) body;
-        Class<?>[] parameterTypes = (Class<?>[]) paramTypesAndArgs[0];
-        Object[] arguments = (Object[]) paramTypesAndArgs[1];
+        final Object[] paramTypesAndArgs = (Object[]) body;
+        final Class<?>[] parameterTypes = (Class<?>[]) paramTypesAndArgs[0];
+        final Object[] arguments = (Object[]) paramTypesAndArgs[1];
 
         // Konkrete Methode aufrufen.
-        Method apiMethod = getClass().getMethod(method, parameterTypes);
+        final Method apiMethod = getClass().getMethod(method, parameterTypes);
 
         return apiMethod.invoke(this, arguments);
     }

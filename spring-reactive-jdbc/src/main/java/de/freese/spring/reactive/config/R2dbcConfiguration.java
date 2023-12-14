@@ -21,7 +21,7 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
 {
     @Bean
     ConnectionFactory connectionFactory() {
-        String id = UUID.randomUUID().toString();
+        final String id = UUID.randomUUID().toString();
 
         // :create=true;shutdown=true
         // return ConnectionFactories.get("r2dbc:h2:mem:testR2dbc");
@@ -30,7 +30,7 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
         // return new H2ConnectionFactory(H2ConnectionConfiguration.builder().inMemory(id).property(H2ConnectionOption.DB_CLOSE_DELAY, "-1").build());
 
         //        // @formatter:off
-//        ConnectionFactoryOptions options = ConnectionFactoryOptions.builder()
+//        final ConnectionFactoryOptions options = ConnectionFactoryOptions.builder()
 //                .option(ConnectionFactoryOptions.DRIVER, "h2")
 //                .option(ConnectionFactoryOptions.PROTOCOL, "mem")
 //                //.option(ConnectionFactoryOptions.HOST, "…")
@@ -75,11 +75,11 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
     // @Bean
     // public ConnectionFactoryInitializer initializer(final ConnectionFactory connectionFactory)
     // {
-    // ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+    // final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
     // populator.addScript(new ClassPathResource("sql/schema.sql"));
     // populator.addScript(new ClassPathResource("sql/data.sql"));
     //
-    // ConnectionFactoryInitializer initializer = new ConnectionFactoryInitializer();
+    // final ConnectionFactoryInitializer initializer = new ConnectionFactoryInitializer();
     // initializer.setConnectionFactory(connectionFactory);
     // initializer.setDatabasePopulator(populator);
     //

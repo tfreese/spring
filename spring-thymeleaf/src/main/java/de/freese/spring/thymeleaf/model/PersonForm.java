@@ -6,7 +6,6 @@ package de.freese.spring.thymeleaf.model;
  */
 public class PersonForm {
     private String firstName;
-
     private String lastName;
 
     public String getFirstName() {

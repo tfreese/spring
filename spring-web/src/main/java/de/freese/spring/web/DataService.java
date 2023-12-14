@@ -25,7 +25,7 @@ public class DataService {
     }
 
     public List<Point.Double> getPoints() {
-        List<Point.Double> map = new ArrayList<>();
+        final List<Point.Double> map = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
             map.add(new Point2D.Double(i, Math.random() * 100D));

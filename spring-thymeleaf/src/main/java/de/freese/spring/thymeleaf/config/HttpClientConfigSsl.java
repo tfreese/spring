@@ -44,17 +44,17 @@ public class HttpClientConfigSsl {
 
     @Bean
     public HttpClient httpClient(final PoolingHttpClientConnectionManager poolingConnectionManager) throws Exception {
-        ConnectionKeepAliveStrategy connectionKeepAliveStrategy = new DefaultConnectionKeepAliveStrategy() {
+        final ConnectionKeepAliveStrategy connectionKeepAliveStrategy = new DefaultConnectionKeepAliveStrategy() {
             @Override
             public TimeValue getKeepAliveDuration(final HttpResponse response, final HttpContext context) {
-                TimeValue duration = super.getKeepAliveDuration(response, context);
+                final TimeValue duration = super.getKeepAliveDuration(response, context);
 
                 return duration.getDuration() == -1L ? TimeValue.ofMilliseconds(20) : duration;
             }
         };
 
         // @formatter:off
-        RequestConfig requestConfig = RequestConfig.custom()
+        final RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
                 .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
                 .build()
@@ -95,7 +95,7 @@ public class HttpClientConfigSsl {
                     }
                 }
                 catch (Exception ex) {
-                    String message = String.format("idleConnectionMonitor - Exception occurred. msg = %s", ex.getMessage());
+                    final String message = String.format("idleConnectionMonitor - Exception occurred. msg = %s", ex.getMessage());
                     LOGGER.error(message, ex);
                 }
             }
@@ -105,16 +105,16 @@ public class HttpClientConfigSsl {
     @Bean
     public PoolingHttpClientConnectionManager poolingConnectionManager(final SSLContext sslContext) throws Exception {
         // @formatter:off
-        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+        final Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", new PlainConnectionSocketFactory())
                 .register("https", new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier()))
                 .build()
                 ;
         // @formatter:on
 
-        ConnectionConfig connectionConfig = ConnectionConfig.custom().setConnectTimeout(3000, TimeUnit.MILLISECONDS).build();
+        final ConnectionConfig connectionConfig = ConnectionConfig.custom().setConnectTimeout(3000, TimeUnit.MILLISECONDS).build();
 
-        PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+        final PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
         poolingConnectionManager.setDefaultConnectionConfig(connectionConfig);
         poolingConnectionManager.setMaxTotal(50);
 
@@ -123,16 +123,16 @@ public class HttpClientConfigSsl {
 
     @Bean
     public SSLContext sslContext() throws Exception {
-        PrivateKeyStrategy privateKeyStrategy = (aliases, socket) -> {
+        final PrivateKeyStrategy privateKeyStrategy = (aliases, socket) -> {
             LOGGER.debug("{}", aliases);
             return "server";
         };
 
-        TrustStrategy trustStrategy = new TrustAllStrategy(); // (chain, authType) -> true;
+        final TrustStrategy trustStrategy = new TrustAllStrategy(); // (chain, authType) -> true;
 
-        char[] keyStorePassword = "password".toCharArray();
-        char[] certPassword = "password".toCharArray();
-        char[] trustStorePassword = "password".toCharArray();
+        final char[] keyStorePassword = "password".toCharArray();
+        final char[] certPassword = "password".toCharArray();
+        final char[] trustStorePassword = "password".toCharArray();
 
         // @formatter:off
         return SSLContextBuilder.create()

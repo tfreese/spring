@@ -16,9 +16,9 @@ public class LoadBalancerStrategyRoundRobin implements LoadBalancerStrategy {
 
     @Override
     public String chooseServer(final List<String> server, final String key) {
-        int length = server.size();
+        final int length = server.size();
 
-        int indexToUse = Math.abs(NEXT_INDEX.getAndIncrement(this) % length);
+        final int indexToUse = Math.abs(NEXT_INDEX.getAndIncrement(this) % length);
 
         return server.get(indexToUse);
     }

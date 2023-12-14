@@ -27,20 +27,20 @@ class TestClientReflection {
 
     @Test
     void testHttpConnection() {
-        String rootUri = "http://localhost:" + this.localServerPort;
-        ReflectionControllerApi fassade = new ClientReflectionController(KryoApplication.KRYO_POOL, rootUri, ConnectType.HTTP_CONNECTION);
+        final String rootUri = "http://localhost:" + this.localServerPort;
+        final ReflectionControllerApi fassade = new ClientReflectionController(KryoApplication.KRYO_POOL, rootUri, ConnectType.HTTP_CONNECTION);
 
-        LocalDateTime localDateTime = fassade.testKryo();
+        final LocalDateTime localDateTime = fassade.testKryo();
 
         TestKryo.validateLocalDateTime(localDateTime);
     }
 
     @Test
     void testRestTemplate() {
-        String rootUri = "http://localhost:" + this.localServerPort;
-        ReflectionControllerApi fassade = new ClientReflectionController(KryoApplication.KRYO_POOL, rootUri, ConnectType.REST_TEMPLATE);
+        final String rootUri = "http://localhost:" + this.localServerPort;
+        final ReflectionControllerApi fassade = new ClientReflectionController(KryoApplication.KRYO_POOL, rootUri, ConnectType.REST_TEMPLATE);
 
-        LocalDateTime localDateTime = fassade.testKryo();
+        final LocalDateTime localDateTime = fassade.testKryo();
 
         TestKryo.validateLocalDateTime(localDateTime);
     }

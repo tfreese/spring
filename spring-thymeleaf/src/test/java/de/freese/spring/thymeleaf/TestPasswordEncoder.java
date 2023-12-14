@@ -40,14 +40,14 @@ class TestPasswordEncoder {
     @MethodSource("createPasswordEncoder")
     @DisplayName("Test PasswordEncoder")
     void testPasswordEncoder(final String name, final PasswordEncoder passwordEncoder) {
-        String password = "gehaim";
+        final String password = "gehaim";
 
         //        if (passwordEncoder instanceof Pbkdf2PasswordEncoder pe)
         //        {
         //            pe.setEncodeHashAsBase64(true);
         //        }
 
-        String encoded = passwordEncoder.encode(password);
+        final String encoded = passwordEncoder.encode(password);
 
         Assertions.assertTrue(passwordEncoder.matches(password, encoded));
     }

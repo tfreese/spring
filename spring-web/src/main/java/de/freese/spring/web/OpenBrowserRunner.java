@@ -31,14 +31,14 @@ public class OpenBrowserRunner implements CommandLineRunner {
     public void run(final String... args) throws Exception {
         LOGGER.info("open browser");
 
-        boolean sslEnabled = Optional.ofNullable(environment.getProperty("server.ssl.enabled", boolean.class)).orElse(false);
-        String host = Optional.ofNullable(environment.getProperty("server.address")).orElse("localhost");
-        int port = Optional.ofNullable(environment.getProperty("local.server.port", int.class)).orElse(environment.getProperty("server.port", int.class, 0));
-        String contextPath = Optional.ofNullable(environment.getProperty("server.servlet.context-path")).orElse("");
+        final boolean sslEnabled = Optional.ofNullable(environment.getProperty("server.ssl.enabled", boolean.class)).orElse(false);
+        final String host = Optional.ofNullable(environment.getProperty("server.address")).orElse("localhost");
+        final int port = Optional.ofNullable(environment.getProperty("local.server.port", int.class)).orElse(environment.getProperty("server.port", int.class, 0));
+        final String contextPath = Optional.ofNullable(environment.getProperty("server.servlet.context-path")).orElse("");
 
-        String url = "%s://%s:%d%s/index.html".formatted(sslEnabled ? "https" : "http", host, port, contextPath);
+        final String url = "%s://%s:%d%s/index.html".formatted(sslEnabled ? "https" : "http", host, port, contextPath);
 
-        URI uri = URI.create(url);
+        final URI uri = URI.create(url);
 
         try {
             openLinuxChrome(uri.toString());

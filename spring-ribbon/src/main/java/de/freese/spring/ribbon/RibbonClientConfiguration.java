@@ -45,9 +45,9 @@ public class RibbonClientConfiguration {
                 }
 
                 try (ReadableByteChannel channel = Channels.newChannel(inputStream)) {
-                    int capacity = inputStream.available();
+                    final int capacity = inputStream.available();
 
-                    ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);
+                    final ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);
 
                     channel.read(byteBuffer);
                     byteBuffer.rewind();
@@ -88,9 +88,9 @@ public class RibbonClientConfiguration {
                 // HttpResponse response = httpClient.execute(getRequest);
                 // String content = EntityUtils.toString(response.getEntity());
                 // isAlive = response.getStatusLine().getStatusCode() == 200;
-                HttpURLConnection connection = (HttpURLConnection) URI.create(uriStr).toURL().openConnection();
+                final HttpURLConnection connection = (HttpURLConnection) URI.create(uriStr).toURL().openConnection();
                 connection.setRequestMethod("GET");
-                String content = getContent(connection);
+                final String content = getContent(connection);
                 isAlive = connection.getResponseCode() == 200;
                 connection.disconnect();
 
@@ -122,7 +122,7 @@ public class RibbonClientConfiguration {
 
     @Bean
     public IPing ribbonPing(final IClientConfig config) {
-        PingUrl ping = new MyPing();
+        final PingUrl ping = new MyPing();
         ping.setPingAppendString("/service/ping"); // /netflix/service/actuator/health
         ping.setExpectedContent("true"); // UP
 

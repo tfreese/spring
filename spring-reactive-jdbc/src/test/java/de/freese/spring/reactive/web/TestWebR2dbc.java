@@ -45,7 +45,7 @@ class TestWebR2dbc implements TestWeb {
     public void doBeforeEach() {
         this.webClient = WebClient.create("http://localhost:" + this.port);
 
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("sql/schema.sql"));
         populator.addScript(new ClassPathResource("sql/data.sql"));
         populator.populate(this.connectionFactory).block();

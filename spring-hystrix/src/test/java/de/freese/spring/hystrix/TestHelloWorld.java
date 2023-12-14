@@ -30,34 +30,34 @@ class TestHelloWorld {
     @BeforeAll
     static void beforeAll() {
         // // configuration from a dynamic source
-        // PolledConfigurationSource source = createMyOwnSource();
+        // final PolledConfigurationSource source = createMyOwnSource();
         // AbstractPollingScheduler scheduler = createMyOwnScheduler();
         // DynamicConfiguration dynamicConfiguration =
         // new DynamicConfiguration(source, scheduler);
         //
         // // configuration from system properties
-        // ConcurrentMapConfiguration configFromSystemProperties =
+        // final ConcurrentMapConfiguration configFromSystemProperties =
         // new ConcurrentMapConfiguration(new SystemConfiguration());
         //
         // // configuration from local properties file
-        // String fileName = "...";
-        // ConcurrentMapConfiguration configFromPropertiesFile =
+        // final String fileName = "...";
+        // final ConcurrentMapConfiguration configFromPropertiesFile =
         // new ConcurrentMapConfiguration(new PropertiesConfiguration(fileName));
         //
         // // create a hierarchy of configuration that makes
         // // 1) dynamic configuration source override system properties and,
         // // 2) system properties override properties file
-        // ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
+        // final ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
         // finalConfig.add(dynamicConfiguration, "dynamicConfig");
         // finalConfig.add(configFromSystemProperties, "systemConfig");
         // finalConfig.add(configFromPropertiesFile, "fileConfig");
         //
         // // install with ConfigurationManager so that finalConfig becomes the source of dynamic properties
-        // ConfigurationManager.install(finalConfig);
+        // final ConfigurationManager.install(finalConfig);
 
         // Was eigentlich bei Hystrix NICHT sein soll, nur einen ThreadPool für alles !
-        // ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        // HystrixPlugins.getInstance().registerConcurrencyStrategy(new MyHystrixConcurrencyStrategy(executor));
+        // final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        // final HystrixPlugins.getInstance().registerConcurrencyStrategy(new MyHystrixConcurrencyStrategy(executor));
 
         // Context für Request-Caching, bei Web-Anwendungen pro Request aufrufen.
         context = HystrixRequestContext.initializeContext();
@@ -69,8 +69,8 @@ class TestHelloWorld {
 
     @Test
     void testAsynchronous() throws Exception {
-        Future<String> fWorld = new CommandHelloWorld("World").queue();
-        Future<String> fBob = new CommandHelloWorld("Bob").queue();
+        final Future<String> fWorld = new CommandHelloWorld("World").queue();
+        final Future<String> fBob = new CommandHelloWorld("Bob").queue();
 
         assertEquals("Hello World!", fWorld.get());
         assertEquals("Hello Bob!", fBob.get());
@@ -79,8 +79,8 @@ class TestHelloWorld {
     @Test
         // (expected = RuntimeException.class)
     void testFailAsynchronous() throws Exception {
-        Future<String> fWorld = new CommandHelloFailure("World").queue();
-        Future<String> fBob = new CommandHelloFailure("Bob").queue();
+        final Future<String> fWorld = new CommandHelloFailure("World").queue();
+        final Future<String> fBob = new CommandHelloFailure("Bob").queue();
 
         assertEquals("Hello Failure World!", fWorld.get());
         assertEquals("Hello Failure Bob!", fBob.get());
@@ -95,8 +95,8 @@ class TestHelloWorld {
 
     @Test
     void testObservable() throws Exception {
-        Observable<String> oWorld = new CommandHelloWorld("World").observe();
-        Observable<String> oBob = new CommandHelloWorld("Bob").observe();
+        final Observable<String> oWorld = new CommandHelloWorld("World").observe();
+        final Observable<String> oBob = new CommandHelloWorld("Bob").observe();
 
         // blocking
         assertEquals("Hello World!", oWorld.toBlocking().single());

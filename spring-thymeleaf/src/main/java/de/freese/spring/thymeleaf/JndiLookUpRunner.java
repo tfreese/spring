@@ -36,16 +36,16 @@ public class JndiLookUpRunner implements CommandLineRunner {
             // System.setProperty(javax.naming.Context.URL_PKG_PREFIXES, "org.apache.naming");
             // System.setProperty(javax.naming.Context.INITIAL_CONTEXT_FACTORY, "org.apache.naming.java.javaURLContextFactory");
 
-            Context context = new InitialContext();
+            final Context context = new InitialContext();
 
             try {
-                // Context context = (javax.naming.Context) initialContext.lookup("java:comp/env");
+                // final Context context = (javax.naming.Context) initialContext.lookup("java:comp/env");
 
                 // NamingEnumeration<NameClassPair> enumeration = context.list("");
-                NamingEnumeration<NameClassPair> enumeration = context.list("java:comp");
+                final NamingEnumeration<NameClassPair> enumeration = context.list("java:comp");
 
                 while (enumeration.hasMoreElements()) {
-                    NameClassPair nameClassPair = enumeration.nextElement();
+                    final NameClassPair nameClassPair = enumeration.nextElement();
                     LOGGER.info("{}", nameClassPair);
                 }
             }
@@ -63,7 +63,7 @@ public class JndiLookUpRunner implements CommandLineRunner {
                 LOGGER.error(ex.getLocalizedMessage());
             }
 
-            JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+            final JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
             bean.setJndiName("java:/comp/env/test");
             bean.afterPropertiesSet();
             object = bean.getObject();

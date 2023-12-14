@@ -46,11 +46,8 @@ class JwtRequestFilter extends OncePerRequestFilter {
     private final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 
     private AuthenticationEntryPoint authenticationEntryPoint;
-
     private JwtTokenProvider jwtTokenProvider;
-
     private PasswordEncoder passwordEncoder;
-
     private UserDetailsService userDetailsService;
 
     public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint) {
@@ -71,24 +68,24 @@ class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
-        String token = this.jwtTokenProvider.resolveToken(request);
+        final String token = this.jwtTokenProvider.resolveToken(request);
 
         try {
             String username = null;
             String password = null;
 
             if (token != null) {
-                JwtToken jwtToken = this.jwtTokenProvider.parseToken(token);
+                final JwtToken jwtToken = this.jwtTokenProvider.parseToken(token);
 
                 username = jwtToken.getUsername();
                 password = jwtToken.getPassword();
             }
 
             if ((username != null) && isAuthenticationIsRequired(username)) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+                final UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
                 if (isValid(userDetails, password)) {
-                    UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    final UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authResult.setDetails(this.authenticationDetailsSource.buildDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authResult);
@@ -130,7 +127,7 @@ class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private boolean isAuthenticationIsRequired(final String username) {
-        Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
 
         if ((existingAuth == null) || !existingAuth.isAuthenticated() || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username))) {
             return true;

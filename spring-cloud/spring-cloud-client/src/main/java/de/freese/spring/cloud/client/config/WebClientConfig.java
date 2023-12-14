@@ -30,7 +30,7 @@ public class WebClientConfig {
     @Primary
     WebClient.Builder webClientBuilder() {
         // @formatter:off
-        HttpClient httpClient = HttpClient.create()
+        final HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000)
                 .doOnConnected(connection ->
                         connection
@@ -49,7 +49,7 @@ public class WebClientConfig {
     @LoadBalanced
     WebClient.Builder webClientBuilderLoadBalanced() {
         // @formatter:off
-        HttpClient httpClient = HttpClient.create()
+        final HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000)
                 .doOnConnected(connection ->
                         connection
@@ -71,8 +71,8 @@ public class WebClientConfig {
     //    @Bean
     //    ReactorLoadBalancer<ServiceInstance> randomLoadBalancer(Environment environment, LoadBalancerClientFactory loadBalancerClientFactory, ServiceInstanceListSupplier serviceInstanceListSupplier)
     //    {
-    //        //        String name = environment.getProperty(LoadBalancerClientFactory.PROPERTY_NAME);
-    //        String name = serviceInstanceListSupplier.getServiceId();
+    //        //        final String name = environment.getProperty(LoadBalancerClientFactory.PROPERTY_NAME);
+    //        final String name = serviceInstanceListSupplier.getServiceId();
     //
     //        return new RandomLoadBalancer(loadBalancerClientFactory.getLazyProvider(name, ServiceInstanceListSupplier.class), name);
     //    }

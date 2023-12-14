@@ -66,7 +66,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 ;
         // @formatter:on
 
-        AtomicReference<List<Person>> reference = new AtomicReference<>(null);
+        final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
@@ -75,7 +75,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(result -> {
-                    List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
+                    final List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
                     {
                     });
                     reference.set(list);
@@ -83,7 +83,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 ;
         // @formatter:on
 
-        List<Person> persons = reference.get();
+        final List<Person> persons = reference.get();
         assertNotNull(persons);
         assertTrue(persons.size() >= 3);
 
@@ -109,7 +109,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Test
         // @WithMockUser(username = "user", password = "pw")
     void testUserWithLoginJSON() throws Exception {
-        AtomicReference<List<Person>> reference = new AtomicReference<>(null);
+        final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
@@ -118,7 +118,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(result -> {
-                    List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
+                    final List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
                     {
                     });
                     reference.set(list);
@@ -126,7 +126,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 ;
         // @formatter:on
 
-        List<Person> persons = reference.get();
+        final List<Person> persons = reference.get();
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
     }
@@ -135,8 +135,8 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Test
         // @WithMockUser(username = "user", password = "pw")
     void testUserWithLoginXML() throws Exception {
-        ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
-        AtomicReference<List<Person>> reference = new AtomicReference<>(null);
+        final ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
+        final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
@@ -145,7 +145,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"))
                 .andDo(result -> {
-                    List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
+                    final List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
                     {
                     });
                     reference.set(list);
@@ -153,7 +153,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 ;
         // @formatter:on
 
-        List<Person> persons = reference.get();
+        final List<Person> persons = reference.get();
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
     }
@@ -161,7 +161,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithPreAuthJSON() throws Exception {
-        AtomicReference<List<Person>> reference = new AtomicReference<>(null);
+        final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
@@ -170,7 +170,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(result -> {
-                    List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
+                    final List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
                     {
                     });
                     reference.set(list);
@@ -178,7 +178,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 ;
         // @formatter:on
 
-        List<Person> persons = reference.get();
+        final List<Person> persons = reference.get();
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
     }
@@ -186,8 +186,8 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithPreAuthXML() throws Exception {
-        ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
-        AtomicReference<List<Person>> reference = new AtomicReference<>(null);
+        final ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
+        final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
@@ -196,7 +196,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE+";charset=UTF-8"))
                 .andDo(result -> {
-                    List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
+                    final List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
                     {
                     });
                     reference.set(list);
@@ -204,7 +204,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 ;
         // @formatter:on
 
-        List<Person> persons = reference.get();
+        final List<Person> persons = reference.get();
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
     }
@@ -227,7 +227,8 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
                 .with(httpBasic("invalid", "pw")))
-            .andExpect(status().isForbidden());
+                .andExpect(status().isForbidden())
+        ;
         // @formatter:on
     }
 
@@ -236,7 +237,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     void testUserWithoutLogin() throws Exception {
         // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList"))
-            .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized());
         // @formatter:on
     }
 }

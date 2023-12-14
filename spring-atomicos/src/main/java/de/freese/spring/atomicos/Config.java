@@ -32,12 +32,12 @@ public class Config {
      */
     @Bean//(initMethod = "init", destroyMethod = "close")
     public AtomikosDataSourceBean dataSourceAddress() {
-        Properties xaProperties = new Properties();
+        final Properties xaProperties = new Properties();
         xaProperties.put("url", "jdbc:h2:mem:address;DB_CLOSE_DELAY=-1");
         xaProperties.put("user", "sa");
         xaProperties.put("password", "");
 
-        AtomikosDataSourceBean dataSource = new AtomikosDataSourceBean();
+        final AtomikosDataSourceBean dataSource = new AtomikosDataSourceBean();
         dataSource.setXaDataSourceClassName(DatabaseDriver.H2.getXaDataSourceClassName());
         dataSource.setXaProperties(xaProperties);
         dataSource.setUniqueResourceName("address");
@@ -54,14 +54,14 @@ public class Config {
      */
     @Bean//(initMethod = "init", destroyMethod = "close")
     public AtomikosDataSourceBean dataSourcePerson() {
-        JdbcDataSource h2DataSource = new JdbcDataSource();
+        final JdbcDataSource h2DataSource = new JdbcDataSource();
         h2DataSource.setUrl("jdbc:h2:mem:person;DB_CLOSE_DELAY=-1");
         h2DataSource.setUser("sa");
         h2DataSource.setUser("");
 
-        XADataSource xaDataSource = h2DataSource;
+        final XADataSource xaDataSource = h2DataSource;
 
-        AtomikosDataSourceBean dataSource = new AtomikosDataSourceBean();
+        final AtomikosDataSourceBean dataSource = new AtomikosDataSourceBean();
         dataSource.setXaDataSource(xaDataSource);
         dataSource.setUniqueResourceName("person");
         dataSource.setLocalTransactionMode(true);
@@ -76,7 +76,7 @@ public class Config {
      */
     @Bean
     public JtaTransactionManager jtaTransactionManager(final UserTransactionManager userTransactionManager) {
-        JtaTransactionManager jtaTransactionManager = new JtaTransactionManager();
+        final JtaTransactionManager jtaTransactionManager = new JtaTransactionManager();
         jtaTransactionManager.setTransactionManager(userTransactionManager);
         jtaTransactionManager.setUserTransaction(userTransactionManager);
 
@@ -88,7 +88,7 @@ public class Config {
      */
     @Bean(initMethod = "init", destroyMethod = "close")
     public UserTransactionManager userTransactionManager() throws SystemException {
-        UserTransactionManager userTransactionManager = new UserTransactionManager();
+        final UserTransactionManager userTransactionManager = new UserTransactionManager();
         userTransactionManager.setTransactionTimeout(300);
         userTransactionManager.setForceShutdown(true);
 
@@ -123,7 +123,7 @@ public class Config {
 //
 //    @Bean
 //    public EntityManagerFactory entityManagerPerson(DataSource dataSourcePerson) {
-//        Properties jpaProperties = new Properties();
+//        final Properties jpaProperties = new Properties();
 //        jpaProperties.put("hibernate.show_sql", "true");
 //        jpaProperties.put("hibernate.format_sql", "true");
 //        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
@@ -132,7 +132,7 @@ public class Config {
 //        jpaProperties.put("hibernate.transaction.manager_lookup_class", "com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup");
 //        jpaProperties.put("hibernate.hbm2ddl.auto", "create-drop");
 //
-//        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+//        final LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 //        factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 //        factory.setPackagesToScan("de.freese.spring.atomicos.person");
 //        factory.setDataSource(dataSourcePerson);

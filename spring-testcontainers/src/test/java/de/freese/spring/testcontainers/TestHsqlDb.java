@@ -13,7 +13,7 @@ import org.springframework.test.context.DynamicPropertySource;
 class TestHsqlDb extends AbstractTest {
     @DynamicPropertySource
     static void properties(final DynamicPropertyRegistry registry) {
-        String id = UUID.randomUUID().toString();
+        final String id = UUID.randomUUID().toString();
 
         registry.add("spring.datasource.driver-class-name", DatabaseDriver.HSQLDB::getDriverClassName);
         registry.add("spring.datasource.url", () -> "jdbc:hsqldb:mem:" + id + ";shutdown=true");

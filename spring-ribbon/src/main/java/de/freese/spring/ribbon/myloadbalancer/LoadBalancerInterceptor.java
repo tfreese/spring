@@ -18,7 +18,6 @@ import org.springframework.http.client.support.HttpRequestWrapper;
  */
 public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
     private final LoadBalancer loadBalancer;
-
     private final int retries;
 
     public LoadBalancerInterceptor(final LoadBalancer loadBalancer) {
@@ -43,13 +42,13 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
         final URI originalUri = request.getURI();
-        String serviceName = originalUri.getHost();
+        final String serviceName = originalUri.getHost();
 
         Exception lastException = null;
 
         for (int i = 0; i < this.retries; i++) {
             try {
-                URI newUri = this.loadBalancer.reconstructURI(serviceName, originalUri);
+                final URI newUri = this.loadBalancer.reconstructURI(serviceName, originalUri);
 
                 return intercept(newUri, request, body, execution);
             }
@@ -74,7 +73,7 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
     }
 
     private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
-        HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request) {
+        final HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request) {
             @Override
             public URI getURI() {
                 return newUri;

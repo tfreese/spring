@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfiguration {
     @Bean
     public OpenAPI customOpenAPI() {
-        String description = """
+        final String description = """
                 This is a sample OpenApi service.
                 """;
 

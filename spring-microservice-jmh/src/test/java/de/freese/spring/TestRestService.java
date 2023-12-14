@@ -54,7 +54,7 @@ class TestRestService {
     @Test
     void testBenchmark() throws Exception {
         // @formatter:off
-        Options options = new OptionsBuilder()
+        final Options options = new OptionsBuilder()
                 //.include("\\." + this.getClass().getSimpleName() + "\\.") für Benchmark in dieser Junit-Klasse
                 //.addProfiler(GCProfiler.class)
                 //.addProfiler(HotspotMemoryProfiler.class)
@@ -93,11 +93,11 @@ class TestRestService {
 
     @Test
     void testRestTemplate() throws Exception {
-        // TestRestTemplate restTemplate = new TestRestTemplate(this.restTemplateBuilder.rootUri("http://localhost:" + this.port));
-        RestTemplate restTemplate = this.restTemplateBuilder.rootUri("http://localhost:" + this.port).build();
+        // Tfinal estRestTemplate restTemplate = new TestRestTemplate(this.restTemplateBuilder.rootUri("http://localhost:" + this.port));
+        final RestTemplate restTemplate = this.restTemplateBuilder.rootUri("http://localhost:" + this.port).build();
 
         // String result = restTemplate.getForObject("/",String.class);
-        ResponseEntity<String> response = restTemplate.getForEntity("/", String.class);
+        final ResponseEntity<String> response = restTemplate.getForEntity("/", String.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -106,10 +106,10 @@ class TestRestService {
 
     @Test
     void testWebClient() throws Exception {
-        WebClient webClient = this.webClientBuilder.baseUrl("http://localhost:" + this.port).build();
+        final WebClient webClient = this.webClientBuilder.baseUrl("http://localhost:" + this.port).build();
 
         // String response = webClient.get().uri("/").retrieve().bodyToMono(String.class).block();
-        ResponseEntity<String> response = webClient.get().uri("/").exchangeToMono(clientResponse -> clientResponse.toEntity(String.class)).block();
+        final ResponseEntity<String> response = webClient.get().uri("/").exchangeToMono(clientResponse -> clientResponse.toEntity(String.class)).block();
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());

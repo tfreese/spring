@@ -70,21 +70,21 @@ public class JwtAuthServerConfig extends AbstractServerConfig {
 
     @Bean
     Converter<Jwt, AbstractAuthenticationToken> authenticationConverter(final ReactiveUserDetailsService reactiveUserDetailsService, final PasswordEncoder passwordEncoder) {
-        // JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        // final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         // jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
         //
         // // TODO Eigener AuthenticationConverter um aus dem Token die UserDetails zu laden und ein JwtAuthenticationToken zu erstellen.
-        // JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter();
+        // final JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter();
         // authenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         //
         // return authenticationConverter;
 
         return jwt -> {
-            String user = jwt.getSubject();
-            String password = jwt.getClaimAsString("password");
-            Instant expiresAt = jwt.getExpiresAt();
+            final String user = jwt.getSubject();
+            final String password = jwt.getClaimAsString("password");
+            final Instant expiresAt = jwt.getExpiresAt();
 
-            UserDetails userDetails = reactiveUserDetailsService.findByUsername(user).block();
+            final UserDetails userDetails = reactiveUserDetailsService.findByUsername(user).block();
 
             if (userDetails == null) {
                 ReactiveSecurityContextHolder.clearContext();
@@ -125,7 +125,7 @@ public class JwtAuthServerConfig extends AbstractServerConfig {
 
     @Bean
     JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager(final ReactiveJwtDecoder reactiveJwtDecoder, final Converter<Jwt, AbstractAuthenticationToken> authenticationConverter) {
-        JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager = new JwtReactiveAuthenticationManager(reactiveJwtDecoder);
+        final JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager = new JwtReactiveAuthenticationManager(reactiveJwtDecoder);
         jwtReactiveAuthenticationManager.setJwtAuthenticationConverter(new ReactiveJwtAuthenticationConverterAdapter(authenticationConverter));
 
         return jwtReactiveAuthenticationManager;
@@ -133,8 +133,8 @@ public class JwtAuthServerConfig extends AbstractServerConfig {
 
     @Bean
     ReactiveJwtDecoder reactiveJwtDecoder() throws Exception {
-        // Mac mac = Mac.getInstance("HmacSHA256");
-        // SecretKeySpec secretKey = new SecretKeySpec("my-secret".getBytes(), mac.getAlgorithm());
+        // final Mac mac = Mac.getInstance("HmacSHA256");
+        // final SecretKeySpec secretKey = new SecretKeySpec("my-secret".getBytes(), mac.getAlgorithm());
         //
         //        // @formatter:off
 //        return NimbusReactiveJwtDecoder.withSecretKey(secretKey)
@@ -142,22 +142,22 @@ public class JwtAuthServerConfig extends AbstractServerConfig {
 //                .build()
 //                ;
 //        // @formatter:on
-        Converter<Map<String, Object>, Map<String, Object>> claimSetConverter = MappedJwtClaimSetConverter.withDefaults(Collections.emptyMap());
+        final Converter<Map<String, Object>, Map<String, Object>> claimSetConverter = MappedJwtClaimSetConverter.withDefaults(Collections.emptyMap());
 
         return token -> {
             try {
-                EncryptedJWT jwt = EncryptedJWT.parse(token);
-                JWEDecrypter decrypter = new PasswordBasedDecrypter("my-password");
+                final EncryptedJWT jwt = EncryptedJWT.parse(token);
+                final JWEDecrypter decrypter = new PasswordBasedDecrypter("my-password");
                 jwt.decrypt(decrypter);
 
-                // JWT jwt = PlainJWT.parse(token);
+                // final JWT jwt = PlainJWT.parse(token);
 
-                Map<String, Object> headers = new LinkedHashMap<>(jwt.getHeader().toJSONObject());
-                JWTClaimsSet jwtClaimsSet = jwt.getJWTClaimsSet();
-                Map<String, Object> claims = claimSetConverter.convert(jwtClaimsSet.getClaims());
+                final Map<String, Object> headers = new LinkedHashMap<>(jwt.getHeader().toJSONObject());
+                final JWTClaimsSet jwtClaimsSet = jwt.getJWTClaimsSet();
+                final Map<String, Object> claims = claimSetConverter.convert(jwtClaimsSet.getClaims());
 
                 // @formatter:off
-                Jwt jwtSpring = Jwt.withTokenValue(token)
+                final Jwt jwtSpring = Jwt.withTokenValue(token)
                         .headers(map -> map.putAll(headers)) // Header müssen gefüllt sein, sonst gib es Exception.
                         .claims(map -> map.putAll(claims))
                         //.issuer(jwtClaimsSet.getIssuer())

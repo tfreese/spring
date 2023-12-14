@@ -71,14 +71,14 @@ public class HsqldbServerAutoConfiguration {
     @Bean(initMethod = "start", destroyMethod = "shutdown")
     // @Scope(ConfigurableBeanFactory#SCOPE_SINGLETON)
     public Server hsqldbServer() throws Exception {
-        int port = this.hsqldbServerProperties.getPort();
-        boolean noSystemExit = this.hsqldbServerProperties.isNoSystemExit();
-        boolean silent = this.hsqldbServerProperties.isSilent();
-        boolean trace = this.hsqldbServerProperties.isTrace();
-        List<DB> dbs = this.hsqldbServerProperties.getDb();
+        final int port = this.hsqldbServerProperties.getPort();
+        final boolean noSystemExit = this.hsqldbServerProperties.isNoSystemExit();
+        final boolean silent = this.hsqldbServerProperties.isSilent();
+        final boolean trace = this.hsqldbServerProperties.isTrace();
+        final List<DB> dbs = this.hsqldbServerProperties.getDb();
 
         if (LOGGER.isInfoEnabled()) {
-            StringBuilder sb = new StringBuilder();
+            final StringBuilder sb = new StringBuilder();
             sb.append("Create HsqldbServer with:");
             sb.append(" port={}");
             sb.append(", noSystemExit={}");
@@ -89,7 +89,7 @@ public class HsqldbServerAutoConfiguration {
             LOGGER.info(sb.toString(), port, noSystemExit, silent, trace, dbs);
         }
 
-        Server server = new Server() {
+        final Server server = new Server() {
             @Override
             public void shutdown() {
                 // "SHUTDOWN COMPACT"
@@ -108,7 +108,7 @@ public class HsqldbServerAutoConfiguration {
         server.setPort(port);
 
         for (int i = 0; i < dbs.size(); i++) {
-            DB db = dbs.get(i);
+            final DB db = dbs.get(i);
 
             server.setDatabaseName(i, db.getName());
             server.setDatabasePath(i, db.getPath());

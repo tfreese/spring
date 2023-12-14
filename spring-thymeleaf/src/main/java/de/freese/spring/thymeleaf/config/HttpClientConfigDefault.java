@@ -32,7 +32,7 @@ public class HttpClientConfigDefault {
     @Bean
     public HttpClient httpClient(final PoolingHttpClientConnectionManager poolingConnectionManager) throws Exception {
         // @formatter:off
-        RequestConfig requestConfig = RequestConfig.custom()
+        final RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
                 .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
                 .build()
@@ -50,16 +50,16 @@ public class HttpClientConfigDefault {
     @Bean
     public PoolingHttpClientConnectionManager poolingConnectionManager() throws Exception {
         // @formatter:off
-        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+        final Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", new PlainConnectionSocketFactory())
                 .register("https", new SSLConnectionSocketFactory(SSLContexts.createDefault(), new NoopHostnameVerifier()))
                 .build()
                 ;
         // @formatter:on
 
-        ConnectionConfig connectionConfig = ConnectionConfig.custom().setConnectTimeout(3000, TimeUnit.MILLISECONDS).build();
+        final ConnectionConfig connectionConfig = ConnectionConfig.custom().setConnectTimeout(3000, TimeUnit.MILLISECONDS).build();
 
-        PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+        final PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
         poolingConnectionManager.setDefaultConnectionConfig(connectionConfig);
         poolingConnectionManager.setMaxTotal(MAX_TOTAL_CONNECTIONS);
 

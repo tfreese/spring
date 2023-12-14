@@ -73,7 +73,7 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider {
 
         if ((roles != null) && !roles.isEmpty()) {
             // @formatter:off
-            String rolesString = roles.stream()
+            final String rolesString = roles.stream()
                     .filter(Objects::nonNull)
                     .distinct()
                     .sorted()
@@ -84,11 +84,11 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider {
             builder = builder.claim("roles", rolesString);
         }
 
-        Date now = new Date();
-        Date expiration = new Date(now.getTime() + this.validityInMilliseconds);
+        final Date now = new Date();
+        final Date expiration = new Date(now.getTime() + this.validityInMilliseconds);
 
         // @formatter:off
-        JWTClaimsSet jwtClaims = builder
+        final JWTClaimsSet jwtClaims = builder
                 .issuer("tommy")
                 .subject(username)
                 .expirationTime(expiration)
@@ -102,8 +102,8 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider {
         // JWT jwt = new PlainJWT(jwtClaims);
 
         // Verschlüsseln
-        JWEHeader header = new JWEHeader(JWEAlgorithm.PBES2_HS512_A256KW, EncryptionMethod.A256CBC_HS512);
-        EncryptedJWT encryptedJWT = new EncryptedJWT(header, jwtClaims);
+        final JWEHeader header = new JWEHeader(JWEAlgorithm.PBES2_HS512_A256KW, EncryptionMethod.A256CBC_HS512);
+        final EncryptedJWT encryptedJWT = new EncryptedJWT(header, jwtClaims);
 
         try {
             encryptedJWT.encrypt(encrypter);
@@ -121,7 +121,7 @@ public class JwtTokenProviderNimbus implements JwtTokenProvider {
     @Override
     public JwtToken parseToken(final String token) throws AuthenticationException {
         try {
-            EncryptedJWT encryptedJWT = EncryptedJWT.parse(token);
+            final EncryptedJWT encryptedJWT = EncryptedJWT.parse(token);
             encryptedJWT.decrypt(decrypter);
 
             // JWTClaimsSet jwtClaims = encryptedJWT.getJWTClaimsSet();

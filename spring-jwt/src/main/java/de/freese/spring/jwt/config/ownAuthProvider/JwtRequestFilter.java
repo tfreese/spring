@@ -29,9 +29,7 @@ class JwtRequestFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
 
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
-
     private AuthenticationEntryPoint authenticationEntryPoint;
-
     private AuthenticationManager authenticationManager;
 
     public void setAuthenticationDetailsSource(final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource) {
@@ -48,7 +46,7 @@ class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
-        String bearerToken = request.getHeader("Authorization");
+        final String bearerToken = request.getHeader("Authorization");
 
         String token = null;
 
@@ -60,10 +58,10 @@ class JwtRequestFilter extends OncePerRequestFilter {
             if ((token != null) && !token.isBlank()) {
                 getLogger().debug("JwtToken Pre-Authentication Authorization header found");
 
-                JwtAuthenticationToken authRequest = new JwtAuthenticationToken(token);
+                final JwtAuthenticationToken authRequest = new JwtAuthenticationToken(token);
                 authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
 
-                Authentication authResult = this.authenticationManager.authenticate(authRequest);
+                final Authentication authResult = this.authenticationManager.authenticate(authRequest);
 
                 getLogger().debug("Authentication success: {}", authResult);
 

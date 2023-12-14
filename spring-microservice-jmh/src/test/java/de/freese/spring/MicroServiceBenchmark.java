@@ -72,7 +72,7 @@ public class MicroServiceBenchmark {
         }
 
         private void autowireBean(final Object bean) {
-            AutowireCapableBeanFactory factory = this.context.getAutowireCapableBeanFactory();
+            final AutowireCapableBeanFactory factory = this.context.getAutowireCapableBeanFactory();
             factory.autowireBean(bean);
         }
     }
@@ -80,9 +80,9 @@ public class MicroServiceBenchmark {
     @Benchmark
     @Group("spring") // Nur einen SpringContext für alle Benchmarks.
     public void benchmarkRestTemplate(final Blackhole blackhole, final BenchmarkState state) {
-        RestTemplate restTemplate = state.restTemplate;
+        final RestTemplate restTemplate = state.restTemplate;
 
-        String response = restTemplate.getForObject("/", String.class);
+        final String response = restTemplate.getForObject("/", String.class);
 
         blackhole.consume(response);
     }
@@ -90,12 +90,12 @@ public class MicroServiceBenchmark {
     @Benchmark
     @Group("spring") // Nur einen SpringContext für alle Benchmarks.
     public void benchmarkWebClient(final Blackhole blackhole, final BenchmarkState state) {
-        WebClient webClient = state.webClient;
+        final WebClient webClient = state.webClient;
 
         // Erzeugt Fehler, da Connection im Benchmark bereits geschlossen ist.
         // webClient.get().uri("/").retrieve().bodyToMono(String.class).subscribe(blackhole::consume);
 
-        String response = webClient.get().uri("/").retrieve().bodyToMono(String.class).block();
+        final String response = webClient.get().uri("/").retrieve().bodyToMono(String.class).block();
 
         blackhole.consume(response);
     }

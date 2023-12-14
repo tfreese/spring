@@ -33,10 +33,10 @@ class TestResilience {
 
     @Test
     void testDecorators() throws Exception {
-        Object data = new Object();
+        final Object data = new Object();
 
-        Callable<Object> failingCode = () -> {
-            double value = Math.random();
+        final Callable<Object> failingCode = () -> {
+            final double value = Math.random();
 
             if (value < 0.5D) {
                 LOGGER.info("throw Exception: {}", value);
@@ -47,21 +47,21 @@ class TestResilience {
             return data;
         };
 
-        // CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("backendService");
-        CircuitBreaker circuitBreaker = CircuitBreaker.of("backendService", CircuitBreakerConfig.custom().failureRateThreshold(50F).build());
+        // final CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("backendService");
+        final CircuitBreaker circuitBreaker = CircuitBreaker.of("backendService", CircuitBreakerConfig.custom().failureRateThreshold(50F).build());
         circuitBreaker.getEventPublisher().onError(event -> LOGGER.error(event.toString()));
 
-        // Retry retry = Retry.ofDefaults("backendService");
-        Retry retry = Retry.of("backendService", RetryConfig.custom().maxAttempts(10).waitDuration(Duration.ofMillis(100)).build());
+        // final Retry retry = Retry.ofDefaults("backendService");
+        final Retry retry = Retry.of("backendService", RetryConfig.custom().maxAttempts(10).waitDuration(Duration.ofMillis(100)).build());
         retry.getEventPublisher().onRetry(event -> LOGGER.info(event.toString()));
         retry.getEventPublisher().onSuccess(event -> LOGGER.info(event.toString()));
 
-        // Bulkhead bulkhead = Bulkhead.ofDefaults("backendService");
-        Bulkhead bulkhead = Bulkhead.of("backendService", BulkheadConfig.custom().maxConcurrentCalls(5).maxWaitDuration(Duration.ofMillis(10)).build());
+        // final Bulkhead bulkhead = Bulkhead.ofDefaults("backendService");
+        final Bulkhead bulkhead = Bulkhead.of("backendService", BulkheadConfig.custom().maxConcurrentCalls(5).maxWaitDuration(Duration.ofMillis(10)).build());
         bulkhead.getEventPublisher().onCallRejected(event -> LOGGER.error(event.toString()));
 
         // @formatter:off
-        Callable<Object> decoratedSupplier = Decorators.ofCallable(failingCode)
+        final Callable<Object> decoratedSupplier = Decorators.ofCallable(failingCode)
                 .withCircuitBreaker(circuitBreaker)//.withFallback(th -> data)
                 .withRetry(retry)
                 .withBulkhead(bulkhead)
@@ -69,11 +69,11 @@ class TestResilience {
                 ;
         // @formatter:on
 
-        AtomicReference<Object> valueReference = new AtomicReference<>();
+        final AtomicReference<Object> valueReference = new AtomicReference<>();
 
         IntStream.range(0, 10).parallel().forEach(i -> {
             try {
-                Object value = decoratedSupplier.call();
+                final Object value = decoratedSupplier.call();
 
                 if (value != null) {
                     valueReference.set(value);
@@ -90,17 +90,17 @@ class TestResilience {
     @Test
     void testRateLimiter() throws Exception {
         // 10 Requests/Second
-        RateLimiterConfig config = RateLimiterConfig.custom().limitForPeriod(10).limitRefreshPeriod(Duration.ofSeconds(1)).build();
+        final RateLimiterConfig config = RateLimiterConfig.custom().limitForPeriod(10).limitRefreshPeriod(Duration.ofSeconds(1)).build();
         // .timeoutDuration(Duration.ofSeconds(1))
 
-        RateLimiterRegistry rateLimiterRegistry = RateLimiterRegistry.of(config);
+        final RateLimiterRegistry rateLimiterRegistry = RateLimiterRegistry.of(config);
 
-        RateLimiter rateLimiter = rateLimiterRegistry.rateLimiter("name1");
+        final RateLimiter rateLimiter = rateLimiterRegistry.rateLimiter("name1");
 
         int index = 0;
 
         while (index < 100) {
-            int[] buffer = new int[10];
+            final int[] buffer = new int[10];
 
             for (int i = 0; i < 10; i++) {
                 rateLimiter.acquirePermission(1);
@@ -116,10 +116,10 @@ class TestResilience {
 
     @Test
     void testRetry() throws Exception {
-        Object data = new Object();
+        final Object data = new Object();
 
-        Callable<Object> failingCode = () -> {
-            double value = Math.random();
+        final Callable<Object> failingCode = () -> {
+            final double value = Math.random();
 
             if (value < 0.95D) {
                 LOGGER.info("throw Exception: {}", value);
@@ -130,24 +130,24 @@ class TestResilience {
             return data;
         };
 
-        RetryConfig retryConfig = RetryConfig.custom().maxAttempts(10).waitDuration(Duration.ofMillis(100)).build();
-        Retry retry = Retry.of("test-retry", retryConfig);
+        final RetryConfig retryConfig = RetryConfig.custom().maxAttempts(10).waitDuration(Duration.ofMillis(100)).build();
+        final Retry retry = Retry.of("test-retry", retryConfig);
 
         retry.getEventPublisher().onRetry(event -> LOGGER.info("onRetry: try={}", event.getNumberOfRetryAttempts()));
         retry.getEventPublisher().onSuccess(event -> LOGGER.info("onSuccess: tries={}", event.getNumberOfRetryAttempts()));
 
-        // Callable<Object> retryableCallable = Retry.decorateCallable(retry, failingCode);
+        // final Callable<Object> retryableCallable = Retry.decorateCallable(retry, failingCode);
         // Object value = Try.ofCallable(retryableCallable).get();
 
         try {
-            Object value = retry.executeCallable(failingCode);
+            final Object value = retry.executeCallable(failingCode);
             assertEquals(data, value);
         }
         catch (Exception ex) {
             assertEquals("test exception", ex.getMessage());
         }
 
-        Metrics metrics = retry.getMetrics();
+        final Metrics metrics = retry.getMetrics();
         LOGGER.info("{}, {}, {}, {}", metrics.getNumberOfFailedCallsWithoutRetryAttempt(), metrics.getNumberOfFailedCallsWithRetryAttempt(), metrics.getNumberOfSuccessfulCallsWithoutRetryAttempt(), metrics.getNumberOfSuccessfulCallsWithRetryAttempt());
     }
 }

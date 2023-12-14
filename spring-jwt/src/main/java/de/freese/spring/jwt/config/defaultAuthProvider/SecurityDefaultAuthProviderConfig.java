@@ -27,7 +27,7 @@ import de.freese.spring.jwt.token.JwtTokenProvider;
 public class SecurityDefaultAuthProviderConfig {
     @Bean
     AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao) {
-        ProviderManager providerManager = new ProviderManager(authenticationProviderDao);
+        final ProviderManager providerManager = new ProviderManager(authenticationProviderDao);
         // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
         providerManager.setEraseCredentialsAfterAuthentication(true);
 
@@ -36,7 +36,7 @@ public class SecurityDefaultAuthProviderConfig {
 
     @Bean
     Filter jwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint, final JwtTokenProvider jwtTokenProvider) throws Exception {
-        JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();
+        final JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();
         jwtRequestFilter.setAuthenticationManager(authenticationManager);
         jwtRequestFilter.setAuthenticationEntryPoint(authenticationEntryPoint);
         jwtRequestFilter.setJwtTokenProvider(jwtTokenProvider);

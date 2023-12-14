@@ -22,7 +22,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 public class JdbcConfiguration {
     @Bean
     DataSource dataSource() {
-        String id = UUID.randomUUID().toString();
+        final String id = UUID.randomUUID().toString();
 
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName(id).build();
 
@@ -49,12 +49,12 @@ public class JdbcConfiguration {
     // @Bean
     // DataSourceInitializer initializer(final DataSource dataSource)
     // {
-    // ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+    // final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
     // populator.addScript(new ClassPathResource("sql/schema.sql"));
     // populator.addScript(new ClassPathResource("sql/data.sql"));
     // // populator.execute(this.dataSource);
     //
-    // DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
+    // final DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
     // dataSourceInitializer.setDataSource(dataSource);
     // dataSourceInitializer.setDatabasePopulator(populator);
     //

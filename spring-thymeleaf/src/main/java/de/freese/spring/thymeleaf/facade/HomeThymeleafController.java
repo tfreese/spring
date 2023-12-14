@@ -82,13 +82,13 @@ public class HomeThymeleafController {
      */
     @PostMapping("/loginWithToken")
     protected String loginWithToken(final HttpServletRequest req, @RequestParam final String token) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(token);
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        final UserDetails userDetails = this.userDetailsService.loadUserByUsername(token);
+        final UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
-        SecurityContext sc = SecurityContextHolder.getContext();
+        final SecurityContext sc = SecurityContextHolder.getContext();
         sc.setAuthentication(auth);
 
-        HttpSession session = req.getSession(true);
+        final HttpSession session = req.getSession(true);
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
 
         ThymeleafApplication.LOGGER.info("User logged in. username={}, token={}", userDetails.getUsername(), token);
@@ -99,37 +99,37 @@ public class HomeThymeleafController {
 
     @PostMapping("/loginWithUserAndPassword")
     protected void loginWithUserAndPassword(final HttpServletRequest req, @RequestParam final String user, @RequestParam final String pass) {
-        UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(user, pass);
-        Authentication auth = this.authenticationManager.authenticate(authReq);
+        final UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(user, pass);
+        final Authentication auth = this.authenticationManager.authenticate(authReq);
 
-        SecurityContext sc = SecurityContextHolder.getContext();
+        final SecurityContext sc = SecurityContextHolder.getContext();
         sc.setAuthentication(auth);
 
-        HttpSession session = req.getSession(true);
+        final HttpSession session = req.getSession(true);
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
     }
 
     @PostMapping("/loginWithoutPassword")
     protected void loginWithoutPassword(final HttpServletRequest req, @RequestParam final User user) {
-        // List<Privilege> privileges = user.getRoles().stream()
+        // final List<Privilege> privileges = user.getRoles().stream()
         // .map(role -> role.getPrivileges())
         // .flatMap(list -> list.stream())
         // .distinct().collect(Collectors.toList());
 
-        List<GrantedAuthority> authorities = new ArrayList<>(user.getAuthorities());
+        final List<GrantedAuthority> authorities = new ArrayList<>(user.getAuthorities());
 
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, authorities);
+        final UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, authorities);
 
-        SecurityContext sc = SecurityContextHolder.getContext();
+        final SecurityContext sc = SecurityContextHolder.getContext();
         sc.setAuthentication(auth);
 
-        HttpSession session = req.getSession(true);
+        final HttpSession session = req.getSession(true);
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
     }
 
     @GetMapping("/logout")
     protected String logout(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null) {
             authentication.setAuthenticated(false);

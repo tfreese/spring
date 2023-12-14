@@ -38,14 +38,14 @@ public class StageListener implements ApplicationListener<StageReadyEvent> {
     @Override
     public void onApplicationEvent(final StageReadyEvent event) {
         try {
-            Stage stage = event.getStage();
-            URL url = this.fxml.getURL();
+            final Stage stage = event.getStage();
+            final URL url = this.fxml.getURL();
 
-            FXMLLoader fxmlLoader = new FXMLLoader(url);
+            final FXMLLoader fxmlLoader = new FXMLLoader(url);
             fxmlLoader.setControllerFactory(this.applicationContext::getBean);
 
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 600, 600);
+            final Parent root = fxmlLoader.load();
+            final Scene scene = new Scene(root, 600, 600);
             stage.setScene(scene);
             stage.setTitle(this.applicationTitle);
             stage.show();

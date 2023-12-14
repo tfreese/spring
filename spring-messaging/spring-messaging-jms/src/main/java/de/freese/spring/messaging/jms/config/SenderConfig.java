@@ -18,7 +18,7 @@ import de.freese.spring.messaging.jms.JmsSender;
 public class SenderConfig {
     @Bean
     public CachingConnectionFactory cachingConnectionFactory(final ActiveMQConnectionFactory senderActiveMQConnectionFactory) {
-        CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory(senderActiveMQConnectionFactory);
+        final CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory(senderActiveMQConnectionFactory);
         cachingConnectionFactory.setSessionCacheSize(10);
 
         return cachingConnectionFactory;
@@ -26,7 +26,7 @@ public class SenderConfig {
 
     @Bean
     public JmsTemplate jmsTemplate(final CachingConnectionFactory cachingConnectionFactory, final MessageConverter jacksonJmsMessageConverter) {
-        JmsTemplate jmsTemplate = new JmsTemplate(cachingConnectionFactory);
+        final JmsTemplate jmsTemplate = new JmsTemplate(cachingConnectionFactory);
         jmsTemplate.setMessageConverter(jacksonJmsMessageConverter);
         jmsTemplate.setReceiveTimeout(5000);
 

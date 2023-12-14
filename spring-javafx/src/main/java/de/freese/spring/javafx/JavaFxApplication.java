@@ -43,7 +43,7 @@ public class JavaFxApplication extends Application {
 
     @Override
     public void init() throws Exception {
-        ApplicationContextInitializer<GenericApplicationContext> initializer = ac -> {
+        final ApplicationContextInitializer<GenericApplicationContext> initializer = ac -> {
             ac.registerBean(Application.class, () -> JavaFxApplication.this);
             ac.registerBean(Parameters.class, this::getParameters);
             ac.registerBean(HostServices.class, this::getHostServices);

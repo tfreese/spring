@@ -25,7 +25,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
     @Bean
     AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao) {
-        ProviderManager providerManager = new ProviderManager(authenticationProviderDao);
+        final ProviderManager providerManager = new ProviderManager(authenticationProviderDao);
         // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
         providerManager.setEraseCredentialsAfterAuthentication(true);
 
@@ -34,7 +34,6 @@ public class WebSecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(final HttpSecurity httpSecurity) throws Exception {
-
         // @formatter:off
         httpSecurity
                 .authorizeHttpRequests(customizer -> customizer
@@ -50,10 +49,10 @@ public class WebSecurityConfig {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret", 16, 310000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
+        final Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret", 16, 310000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
-        Map<String, PasswordEncoder> encoders = new HashMap<>();
+        final Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put("pbkdf2", pbkdf2passwordEncoder);
         encoders.put("bcrypt", new BCryptPasswordEncoder(10));
         encoders.put("", new PasswordEncoder() {

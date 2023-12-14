@@ -39,25 +39,23 @@ class GreetingMockMvcTests {
             .andExpect(jsonPath("_links.forPojo.href").value("http://localhost/greeter/pojo?name=World"))
             .andExpect(jsonPath("_links.forSimple.href").value("http://localhost/greeter/simple?name=World"))
             ;
-        // @formatter:end
+        // @formatter:on
     }
 
     @Test
-    void testFail() throws Exception
-    {
+    void testFail() throws Exception {
         // @formatter:off
         this.mockMvc.perform(get("/greeter/fail"))
             //.andDo(MockMvcResultHandlers.print())
             .andExpect(status().isBadRequest())
             ;
-        // @formatter:end
+        // @formatter:on
     }
 
     @Test
-    void testJsonPath() throws Exception
-    {
+    void testJsonPath() throws Exception {
         // @formatter:off
-        String response = this.mockMvc.perform(get("/greeter/simple"))
+        final String response = this.mockMvc.perform(get("/greeter/simple"))
             //.andDo(MockMvcResultHandlers.print())
             .andExpect(status().isOk())
             .andReturn()
@@ -69,11 +67,11 @@ class GreetingMockMvcTests {
         // System.out.println(response);
 
         // CacheProvider.setCache für intern erzeugte JsonPath Instanzen
-        DocumentContext documentContext = JsonPath.parse(response);
+        final DocumentContext documentContext = JsonPath.parse(response);
         assertEquals("Hello, World!", documentContext.read("greeting", String.class));
 
         // Hier greift der Cache nicht.
-        // JsonPath jsonPathGreeting = JsonPath.compile("greeting");
+        // final JsonPath jsonPathGreeting = JsonPath.compile("greeting");
         // assertEquals("Hello, World!", documentContext.read(jsonPathGreeting, String.class));
         // assertEquals("Hello, World!", JsonPath.compile("greeting").read(response));
     }

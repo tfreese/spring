@@ -33,7 +33,7 @@ class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
-        PrintWriter writer = response.getWriter();
+        final PrintWriter writer = response.getWriter();
         writer.println("HTTP Status 401 - " + authEx.getMessage());
         writer.flush();
 

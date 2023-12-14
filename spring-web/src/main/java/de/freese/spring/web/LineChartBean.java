@@ -35,7 +35,7 @@ public class LineChartBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        LineChartDataSet chartDataSet = new LineChartDataSet();
+        final LineChartDataSet chartDataSet = new LineChartDataSet();
         chartDataSet.setLabel("My First Dataset");
         chartDataSet.setFill(false);
         chartDataSet.setBorderColor("rgb(75, 192, 192)");
@@ -43,21 +43,21 @@ public class LineChartBean implements Serializable {
         chartDataSet.setData(this.dataService.getPoints().stream().map(Point2D.Double::getY).map(Object.class::cast).toList());
 
         // x-Achse funktioniert bis jetzt nur mit Strings.
-        ChartData chartData = new ChartData();
+        final ChartData chartData = new ChartData();
         chartData.addChartDataSet(chartDataSet);
         chartData.setLabels(this.dataService.getPoints().stream().map(Point2D.Double::getX).map(x -> Double.toString(x)).toList());
         //        chartData.setLabels(List.of("January", "February", "March", "April", "May", "June", "July"));
         //        chartData.setLabels(List.of(1, 2, 3, 4, 5, 6));
 
-        LineChartOptions options = new LineChartOptions();
+        final LineChartOptions options = new LineChartOptions();
         options.setMaintainAspectRatio(false);
 
-        Title title = new Title();
+        final Title title = new Title();
         title.setDisplay(true);
         title.setText("Line Chart");
         options.setTitle(title);
 
-        Title subtitle = new Title();
+        final Title subtitle = new Title();
         subtitle.setDisplay(true);
         subtitle.setText("Line Chart Subtitle");
         options.setSubtitle(subtitle);

@@ -18,17 +18,11 @@ public class MutableUser implements UserDetails, CredentialsContainer {
     private static final long serialVersionUID = -5966384384144097545L;
 
     private boolean accountNonExpired = true;
-
     private boolean accountNonLocked = true;
-
     private transient Set<? extends GrantedAuthority> authorities;
-
     private boolean credentialsNonExpired;
-
     private boolean enabled;
-
     private String password;
-
     private String username;
 
     public MutableUser() {

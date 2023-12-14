@@ -24,7 +24,6 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
     private final int level;
 
     private RestTemplate restTemplate;
-
     private String[] urls;
 
     public SysDateHystrixCommand() {
@@ -74,9 +73,9 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
 
         LOGGER.info("");
 
-        String[] fallbackURLs = (String[]) ArrayUtils.remove(this.urls, 0);
+        final String[] fallbackURLs = (String[]) ArrayUtils.remove(this.urls, 0);
 
-        SysDateHystrixCommand cmd = new SysDateHystrixCommand((this.level + 1));
+        final SysDateHystrixCommand cmd = new SysDateHystrixCommand((this.level + 1));
         cmd.setRestTemplate(this.restTemplate);
         cmd.setURLs(fallbackURLs);
 
@@ -85,7 +84,7 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
 
     @Override
     protected String run() throws Exception {
-        String result = this.restTemplate.getForObject(this.urls[0], String.class);
+        final String result = this.restTemplate.getForObject(this.urls[0], String.class);
 
         LOGGER.info("level={}: {}", this.level, result);
 

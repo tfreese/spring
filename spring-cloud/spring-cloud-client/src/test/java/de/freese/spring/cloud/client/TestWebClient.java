@@ -52,7 +52,7 @@ class TestWebClient {
         SERVER.enqueue(new MockResponse().setResponseCode(200).setBody("{success}"));
 
         // @formatter:off
-        ExchangeFilterFunction retryFilterFunction = (request, next) -> next.exchange(request)
+        final ExchangeFilterFunction retryFilterFunction = (request, next) -> next.exchange(request)
                 .flatMap(clientResponse -> Mono.just(clientResponse)
                 .filter(response -> clientResponse.statusCode().isError())
                 .flatMap(response -> clientResponse.createException())
@@ -64,10 +64,10 @@ class TestWebClient {
                 ;
         // @formatter:on
 
-        WebClient webClient = createWebClientBuilder().filter(retryFilterFunction).baseUrl(SERVER.url("/test").toString()).build();
+        final WebClient webClient = createWebClientBuilder().filter(retryFilterFunction).baseUrl(SERVER.url("/test").toString()).build();
 
         // @formatter:off
-        Mono<String> responseMono1 = webClient
+        final Mono<String> responseMono1 = webClient
                 .get()
                 .uri("/api")
                 .retrieve()
@@ -85,10 +85,10 @@ class TestWebClient {
         SERVER.enqueue(new MockResponse().setResponseCode(500).setBody("{failure}"));
         SERVER.enqueue(new MockResponse().setResponseCode(200).setBody("{success}"));
 
-        WebClient webClient = createWebClientBuilder().baseUrl(SERVER.url("/test").toString()).build();
+        final WebClient webClient = createWebClientBuilder().baseUrl(SERVER.url("/test").toString()).build();
 
         // @formatter:off
-        Mono<String> responseMono = webClient
+        final Mono<String> responseMono = webClient
                 .get()
                 .uri("/api")
                 .retrieve()
@@ -104,7 +104,7 @@ class TestWebClient {
 
     private WebClient.Builder createWebClientBuilder() {
         // @formatter:off
-        HttpClient httpClient = HttpClient.create()
+        final HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000)
                 .doOnConnected(connection ->
                         connection
@@ -148,7 +148,7 @@ class TestWebClient {
     }
 
     //    private LoadBalancedExchangeFilterFunction loadBalancerExchangeFilterFunction() {
-    //        LoadBalancerClientFactory loadBalancerClientFactory = new LoadBalancerClientFactory(new LoadBalancerClientsProperties());
+    //        final LoadBalancerClientFactory loadBalancerClientFactory = new LoadBalancerClientFactory(new LoadBalancerClientsProperties());
     //
     //        return new ReactorLoadBalancerExchangeFilterFunction(loadBalancerClientFactory, null);
     //    }

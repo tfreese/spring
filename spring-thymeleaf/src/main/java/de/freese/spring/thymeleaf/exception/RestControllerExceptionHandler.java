@@ -34,7 +34,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     }
 
     protected static Exception getException(final WebRequest request) {
-        HttpServletRequest httpServletRequest = getHttpServletRequest(request);
+        final HttpServletRequest httpServletRequest = getHttpServletRequest(request);
 
         return getException(httpServletRequest);
     }
@@ -48,13 +48,13 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     }
 
     protected static String getPath(final WebRequest request) {
-        HttpServletRequest httpServletRequest = getHttpServletRequest(request);
+        final HttpServletRequest httpServletRequest = getHttpServletRequest(request);
 
         return getPath(httpServletRequest);
     }
 
     protected static HttpStatus getStatus(final HttpServletRequest request) {
-        Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        final Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
         if (statusCode == null) {
             return HttpStatus.INTERNAL_SERVER_ERROR;
@@ -69,7 +69,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     }
 
     protected static HttpStatus getStatus(final WebRequest request) {
-        HttpServletRequest httpServletRequest = getHttpServletRequest(request);
+        final HttpServletRequest httpServletRequest = getHttpServletRequest(request);
 
         return getStatus(httpServletRequest);
     }
@@ -81,12 +81,12 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     protected ResponseEntity<Object> buildResponseEntity(final Throwable ex, final WebRequest request, final String message, final HttpStatus httpStatus) {
         this.logger.error(ex.getLocalizedMessage());
 
-        ProblemDetail problemDetail = ProblemDetail.forStatus(httpStatus);
+        final ProblemDetail problemDetail = ProblemDetail.forStatus(httpStatus);
         problemDetail.setTitle(ex.getMessage());
         problemDetail.setStatus(httpStatus);
 
         // Keep the last 10 Entries.
-        StackTraceElement[] origin = ex.getStackTrace();
+        final StackTraceElement[] origin = ex.getStackTrace();
         StackTraceElement[] limited = origin;
 
         if (origin.length > 10) {
@@ -94,7 +94,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
             System.arraycopy(origin, 0, limited, 0, 10);
         }
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         for (StackTraceElement stackTraceElement : limited) {
             sb.append("\tat ").append(stackTraceElement);
@@ -119,7 +119,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
      */
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<Object> handleConstraintViolation(final ConstraintViolationException ex, final WebRequest request) {
-        String message = ex.getConstraintViolations().stream().map(ConstraintViolation::toString).collect(Collectors.joining(","));
+        final String message = ex.getConstraintViolations().stream().map(ConstraintViolation::toString).collect(Collectors.joining(","));
 
         return buildResponseEntity(ex, request, message, HttpStatus.BAD_REQUEST);
     }
@@ -146,7 +146,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException ex, final WebRequest request) {
-        String message = String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
+        final String message = String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 
         return buildResponseEntity(ex, request, message, HttpStatus.BAD_REQUEST);
     }

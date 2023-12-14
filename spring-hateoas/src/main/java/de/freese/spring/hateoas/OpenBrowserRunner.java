@@ -25,11 +25,11 @@ public class OpenBrowserRunner implements CommandLineRunner {
     public static final Logger LOGGER = LoggerFactory.getLogger(OpenBrowserRunner.class);
 
     public static String getRootUri(final Environment environment) {
-        int port = Optional.ofNullable(environment.getProperty("local.server.port", Integer.class)).orElse(environment.getProperty("server.port", Integer.class));
-        Optional<String> contextPath = Optional.ofNullable(environment.getProperty("server.servlet.context-path", String.class));
-        Optional<Boolean> sslEnabled = Optional.ofNullable(environment.getProperty("server.ssl.enabled", Boolean.class));
+        final int port = Optional.ofNullable(environment.getProperty("local.server.port", Integer.class)).orElse(environment.getProperty("server.port", Integer.class));
+        final Optional<String> contextPath = Optional.ofNullable(environment.getProperty("server.servlet.context-path", String.class));
+        final Optional<Boolean> sslEnabled = Optional.ofNullable(environment.getProperty("server.ssl.enabled", Boolean.class));
 
-        String protocol = sslEnabled.orElse(false) ? "https" : "http";
+        final String protocol = sslEnabled.orElse(false) ? "https" : "http";
 
         String rootUri = protocol + "://localhost:" + port + contextPath.orElse("");
         rootUri += "/greeter";
@@ -44,8 +44,8 @@ public class OpenBrowserRunner implements CommandLineRunner {
     public void run(final String... args) throws Exception {
         LOGGER.info("");
 
-        String rootUri = getRootUri(this.environment);
-        URI uri = URI.create(rootUri);
+        final String rootUri = getRootUri(this.environment);
+        final URI uri = URI.create(rootUri);
 
         try {
             openLinuxChrome(uri.toString());

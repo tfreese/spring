@@ -15,7 +15,7 @@ import org.springframework.test.context.DynamicPropertySource;
 class TestDerby extends AbstractTest {
     @DynamicPropertySource
     static void properties(final DynamicPropertyRegistry registry) {
-        String id = UUID.randomUUID().toString();
+        final String id = UUID.randomUUID().toString();
 
         registry.add("spring.datasource.driver-class-name", DatabaseDriver.DERBY::getDriverClassName);
         registry.add("spring.datasource.url", () -> "jdbc:derby:memory:" + id + ";create=true");

@@ -17,9 +17,9 @@ public interface JdbcDialect {
     }
 
     static JdbcDialect from(Connection connection) throws SQLException {
-        DatabaseMetaData metaData = connection.getMetaData();
+        final DatabaseMetaData metaData = connection.getMetaData();
 
-        String product = metaData.getDatabaseProductName().toLowerCase();
+        final String product = metaData.getDatabaseProductName().toLowerCase();
 
         if (product.contains("h2")) {
             return new H2JdbcDialect();

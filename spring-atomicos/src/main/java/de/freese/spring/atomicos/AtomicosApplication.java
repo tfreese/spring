@@ -17,11 +17,11 @@ public class AtomicosApplication {
 
     public static void main(final String[] args) {
         //        SpringApplication.run(AtomicosApplication.class, args);
-        SpringApplication application = new SpringApplication(AtomicosApplication.class);
+        final SpringApplication application = new SpringApplication(AtomicosApplication.class);
         application.setWebApplicationType(WebApplicationType.NONE);
-        ConfigurableApplicationContext applicationContext = application.run(args);
+        final ConfigurableApplicationContext applicationContext = application.run(args);
 
-        TxService service = applicationContext.getBean(TxService.class);
+        final TxService service = applicationContext.getBean(TxService.class);
 
         try {
             service.insertData("Person1", "City1");

@@ -28,7 +28,7 @@ class TestContainerOracle extends AbstractTest {
     @Override
     @BeforeEach
     void beforeEach() throws Exception {
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("db-schema-oracle.sql"));
         populator.execute(getDataSource());
     }

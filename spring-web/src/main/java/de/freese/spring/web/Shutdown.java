@@ -41,26 +41,26 @@ final class Shutdown {
         LOGGER.info("execute {}", uri);
 
         // curl -X POST localhost:8088/spring-boot-web/actuator/shutdown
-        HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).followRedirects(HttpClient.Redirect.NEVER).proxy(ProxySelector.getDefault()).connectTimeout(Duration.ofSeconds(3))
+        final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).followRedirects(HttpClient.Redirect.NEVER).proxy(ProxySelector.getDefault()).connectTimeout(Duration.ofSeconds(3))
                 //.executor(executorServiceHttpClient)
                 .build();
 
-        HttpRequest request = HttpRequest.newBuilder().uri(uri).POST(HttpRequest.BodyPublishers.noBody()).header("user-agent", "Java").build();
+        final HttpRequest request = HttpRequest.newBuilder().uri(uri).POST(HttpRequest.BodyPublishers.noBody()).header("user-agent", "Java").build();
 
         String response = null;
 
-        HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        final HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         response = httpResponse.body();
 
         // REST-Template
-        //       HttpHeaders headers = new HttpHeaders();
+        //       final HttpHeaders headers = new HttpHeaders();
         //       headers.setContentType(MediaType.APPLICATION_JSON);
-        //       HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        //       final HttpEntity<String> entity = new HttpEntity<>(null, headers);
         //
         //        response = new RestTemplate().postForEntity(shutdownUri, entity, String.class).getBody();
         //
         // PLAIN
-        //        HttpURLConnection connection = (HttpURLConnection) shutdownUri.toURL().openConnection();
+        //        final HttpURLConnection connection = (HttpURLConnection) shutdownUri.toURL().openConnection();
         //        connection.setRequestMethod("POST");
         //
         //        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
@@ -73,11 +73,11 @@ final class Shutdown {
     }
 
     private static URI parseApplicationProperties() throws Exception {
-        DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
-        Resource resource = resourceLoader.getResource("classpath:application.properties");
+        final DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
+        final Resource resource = resourceLoader.getResource("classpath:application.properties");
         // Resource resource = new FileSystemResource("application.properties");
 
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
 
         if (resource.isReadable()) {
             try (InputStream inputStream = resource.getInputStream()) {
@@ -93,14 +93,14 @@ final class Shutdown {
     }
 
     private static URI parseApplicationYaml() throws Exception {
-        Resource resource = new ClassPathResource("application.yml");
+        final Resource resource = new ClassPathResource("application.yml");
 
         Properties properties = null;
 
         if (resource.isReadable()) {
             System.setProperty("spring.profiles.active", "shutdown");
 
-            YamlPropertiesFactoryBean yamlFactory = new YamlPropertiesFactoryBean();
+            final YamlPropertiesFactoryBean yamlFactory = new YamlPropertiesFactoryBean();
             yamlFactory.setResources(resource);
             properties = Objects.requireNonNull(yamlFactory.getObject());
         }
@@ -113,13 +113,13 @@ final class Shutdown {
     }
 
     private static URI parseShutdownUri(final Properties properties) {
-        boolean sslEnabled = Optional.ofNullable(properties.getProperty("server.ssl.enabled")).map(Boolean::parseBoolean).orElse(false);
-        String host = Optional.ofNullable(properties.getProperty("server.address")).orElse("localhost");
-        int port = Integer.parseInt(Optional.ofNullable(properties.getProperty("local.server.port")).orElse(properties.getProperty("server.port")));
-        String contextPath = Optional.ofNullable(properties.getProperty("server.servlet.context-path")).orElse("");
-        String endPointPath = Optional.ofNullable(properties.getProperty("management.endpoints.web.base-path")).orElse("");
+        final boolean sslEnabled = Optional.ofNullable(properties.getProperty("server.ssl.enabled")).map(Boolean::parseBoolean).orElse(false);
+        final String host = Optional.ofNullable(properties.getProperty("server.address")).orElse("localhost");
+        final int port = Integer.parseInt(Optional.ofNullable(properties.getProperty("local.server.port")).orElse(properties.getProperty("server.port")));
+        final String contextPath = Optional.ofNullable(properties.getProperty("server.servlet.context-path")).orElse("");
+        final String endPointPath = Optional.ofNullable(properties.getProperty("management.endpoints.web.base-path")).orElse("");
 
-        String url = "%s://%s:%d%s%s/shutdown".formatted(sslEnabled ? "https" : "http", host, port, contextPath, endPointPath);
+        final String url = "%s://%s:%d%s%s/shutdown".formatted(sslEnabled ? "https" : "http", host, port, contextPath, endPointPath);
 
         return URI.create(url);
     }

@@ -45,11 +45,8 @@ public abstract class AbstractClientReflectionController<T> {
     }
 
     private final Class<T> fassadeType;
-
     private final Pool<Kryo> kryoPool;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     private final String rootUri;
 
     @SuppressWarnings("unchecked")
@@ -79,13 +76,13 @@ public abstract class AbstractClientReflectionController<T> {
     }
 
     protected T lookupProxyHttpConnection(final Class<T> fassadeType) {
-        Object proxyObject = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
+        final Object proxyObject = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
 
-            URI uri = URI.create(this.rootUri + "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName());
-            HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
+            final URI uri = URI.create(this.rootUri + "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName());
+            final HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
 
-            Kryo kryo = getKryoPool().obtain();
-            int chunkSize = 1024 * 1024;
+            final Kryo kryo = getKryoPool().obtain();
+            final int chunkSize = 1024 * 1024;
             Object result = null;
 
             try {
@@ -96,8 +93,8 @@ public abstract class AbstractClientReflectionController<T> {
                 connection.setChunkedStreamingMode(chunkSize);
 
                 // Streams berücksichtigen, muss der letzte Parameter sein !
-                boolean hasInputStreamArg = (args != null) && (args.length > 0) && (args[args.length - 1] instanceof InputStream);
-                boolean hasOutputStreamArg = (args != null) && (args.length > 0) && (args[args.length - 1] instanceof OutputStream);
+                final boolean hasInputStreamArg = (args != null) && (args.length > 0) && (args[args.length - 1] instanceof InputStream);
+                final boolean hasOutputStreamArg = (args != null) && (args.length > 0) && (args[args.length - 1] instanceof OutputStream);
 
                 connection.setRequestProperty(ReflectionControllerApi.INPUTSTREAM_IN_METHOD, Boolean.toString(hasInputStreamArg));
                 connection.setRequestProperty(ReflectionControllerApi.OUTPUTSTREAM_IN_METHOD, Boolean.toString(hasOutputStreamArg));
@@ -167,13 +164,13 @@ public abstract class AbstractClientReflectionController<T> {
     }
 
     protected T lookupProxyRestTemplate(final Class<T> fassadeType) {
-        Object proxyObject = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
+        final Object proxyObject = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
 
             // @formatter:off
-            RestTemplate restTemplate = new RestTemplateBuilder()
+            final RestTemplate restTemplate = new RestTemplateBuilder()
                     .rootUri(this.rootUri)
                     .interceptors((request, body, execution) -> {
-                        HttpHeaders headers = request.getHeaders();
+                        final HttpHeaders headers = request.getHeaders();
                         headers.setAccept(Arrays.asList(KryoHttpMessageConverter.APPLICATION_KRYO));
                         headers.setContentType(KryoHttpMessageConverter.APPLICATION_KRYO);
                         return execution.execute(request, body);
@@ -183,8 +180,8 @@ public abstract class AbstractClientReflectionController<T> {
                     ;
             // @formatter:on
 
-            // String url = "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName();
-            String url = "/reflection/" + fassadeType.getSimpleName() + "/rt/" + method.getName();
+            // final String url = "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName();
+            final String url = "/reflection/" + fassadeType.getSimpleName() + "/rt/" + method.getName();
 
             try {
                 Object[] arguments = args;
@@ -193,14 +190,14 @@ public abstract class AbstractClientReflectionController<T> {
                     arguments = new Object[0];
                 }
 
-                Class<?>[] paramTypes = new Class<?>[arguments.length];
+                final Class<?>[] paramTypes = new Class<?>[arguments.length];
 
-                Object[] paramTypesAndArgs = new Object[2];
+                final Object[] paramTypesAndArgs = new Object[2];
                 paramTypesAndArgs[0] = paramTypes;
                 paramTypesAndArgs[1] = arguments;
 
                 for (int i = 0; i < arguments.length; i++) {
-                    Object arg = arguments[i];
+                    final Object arg = arguments[i];
 
                     if (arg == null) {
                         continue;

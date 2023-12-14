@@ -25,7 +25,7 @@ abstract class AbstractClientConfig {
     // {
     // LOGGER.info("reactorResourceFactory");
     //
-    // ReactorResourceFactory factory = new ReactorResourceFactory();
+    // final ReactorResourceFactory factory = new ReactorResourceFactory();
     // factory.setUseGlobalResources(false);
     // factory.setLoopResources(LoopResources.create("client", 4, true));
     //

@@ -44,7 +44,8 @@ abstract class AbstractTest {
 
     @AfterEach
     void afterEach() throws Exception {
-        try (Connection connection = getDataSource().getConnection(); Statement statement = connection.createStatement()) {
+        try (Connection connection = getDataSource().getConnection();
+             Statement statement = connection.createStatement()) {
             statement.execute("DROP TABLE person");
             statement.execute(jdbcDialect.dropSequence("person_seq"));
         }
@@ -52,7 +53,7 @@ abstract class AbstractTest {
 
     @BeforeEach
     void beforeEach() throws Exception {
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("db-schema.sql"));
         populator.execute(getDataSource());
     }
@@ -63,7 +64,7 @@ abstract class AbstractTest {
         // @formatter:off
         final List<Person> personsToSave = IntStream.rangeClosed(1, 3)
                 .mapToObj(i -> {
-                    Person person = new Person();
+                    final Person person = new Person();
                     person.setName("Name-" + i);
 
                     return person;
@@ -74,7 +75,7 @@ abstract class AbstractTest {
 
         personService.saveAll(personsToSave);
 
-        List<Person> persons = personService.getAll();
+        final List<Person> persons = personService.getAll();
 
         assertNotNull(persons);
         assertEquals(3, persons.size());
@@ -92,12 +93,12 @@ abstract class AbstractTest {
     //    @Sql(scripts = "classpath:db-schema.sql")
     @Test
     void testSave() {
-        Person person = new Person();
+        final Person person = new Person();
         person.setName("Name");
 
         personService.save(person);
 
-        List<Person> persons = personService.getAll();
+        final List<Person> persons = personService.getAll();
 
         assertNotNull(persons);
         assertEquals(1, persons.size());
@@ -112,7 +113,7 @@ abstract class AbstractTest {
         // @formatter:off
         final List<Person> personsToSave = IntStream.rangeClosed(1, 3)
                 .mapToObj(i -> {
-                    Person person = new Person();
+                    final Person person = new Person();
                     person.setName("Name-" + i);
 
                     return person;
@@ -121,11 +122,11 @@ abstract class AbstractTest {
                 ;
         // @formatter:on
 
-        Exception exception = assertThrows(RuntimeException.class, () -> personService.saveAllWithException(personsToSave));
+        final Exception exception = assertThrows(RuntimeException.class, () -> personService.saveAllWithException(personsToSave));
 
         assertEquals("saveAllWithException", exception.getMessage());
 
-        List<Person> persons = personService.getAll();
+        final List<Person> persons = personService.getAll();
 
         assertNotNull(persons);
         assertEquals(0, persons.size());

@@ -41,11 +41,8 @@ public final class LoadBalancerApplication {
      */
     public static class HttpResponseHystrixCommand extends HystrixCommand<ClientHttpResponse> {
         private final byte[] body;
-
         private final ClientHttpRequestExecution execution;
-
         private final HttpRequest request;
-
         private final List<URI> uris;
 
         public HttpResponseHystrixCommand(final List<URI> uris, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) {
@@ -76,7 +73,7 @@ public final class LoadBalancerApplication {
                 return null;
             }
 
-            HttpResponseHystrixCommand cmd = new HttpResponseHystrixCommand(this.uris, this.request, this.body, this.execution);
+            final HttpResponseHystrixCommand cmd = new HttpResponseHystrixCommand(this.uris, this.request, this.body, this.execution);
 
             return cmd.execute();
         }
@@ -90,7 +87,7 @@ public final class LoadBalancerApplication {
             // System.out.println(repository.getPath());
             // System.out.println(repository.getFragment());
 
-            HttpRequestWrapper requestWrapper = new HttpRequestWrapper(this.request) {
+            final HttpRequestWrapper requestWrapper = new HttpRequestWrapper(this.request) {
                 @Override
                 public URI getURI() {
                     return uri;
@@ -108,7 +105,6 @@ public final class LoadBalancerApplication {
      */
     public static class LoadBalancerHystrixInterceptor implements ClientHttpRequestInterceptor {
         private final String[] server;
-
         private int serverIndex;
 
         public LoadBalancerHystrixInterceptor(final String... server) {
@@ -121,8 +117,8 @@ public final class LoadBalancerApplication {
         public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
             final URI originalUri = request.getURI();
 
-            List<URI> uris = new ArrayList<>();
-            int count = this.server.length;
+            final List<URI> uris = new ArrayList<>();
+            final int count = this.server.length;
 
             for (int i = 0; i < count; i++) {
                 uris.add(convertURI(originalUri, nextServer()));
@@ -130,7 +126,7 @@ public final class LoadBalancerApplication {
 
             nextServer();
 
-            HttpResponseHystrixCommand command = new HttpResponseHystrixCommand(uris, request, body, execution);
+            final HttpResponseHystrixCommand command = new HttpResponseHystrixCommand(uris, request, body, execution);
 
             return command.execute();
         }
@@ -152,7 +148,7 @@ public final class LoadBalancerApplication {
         }
 
         private String nextServer() {
-            String host = this.server[this.serverIndex];
+            final String host = this.server[this.serverIndex];
             this.serverIndex++;
 
             if (this.serverIndex == this.server.length) {
@@ -181,7 +177,7 @@ public final class LoadBalancerApplication {
         @Override
         public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
             final URI originalUri = request.getURI();
-            int trys = this.server.length;
+            final int trys = this.server.length;
 
             IOException lastException = null;
 
@@ -221,7 +217,7 @@ public final class LoadBalancerApplication {
         }
 
         private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
-            HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request) {
+            final HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request) {
                 @Override
                 public URI getURI() {
                     return newUri;
@@ -232,7 +228,7 @@ public final class LoadBalancerApplication {
         }
 
         private String nextServer() {
-            String host = this.server[this.index];
+            final String host = this.server[this.index];
             this.index++;
 
             if (this.index == this.server.length) {
@@ -245,17 +241,17 @@ public final class LoadBalancerApplication {
 
     public static void main(final String[] args) throws Exception {
         // configuration from environment properties
-        ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
+        final ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
 
         // configuration from system properties
-        ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
+        final ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
 
         // // configuration from local properties file
-        ConcurrentMapConfiguration configFromPropertiesFile = new ConcurrentMapConfiguration(new PropertiesConfiguration("hystrix.properties"));
+        final ConcurrentMapConfiguration configFromPropertiesFile = new ConcurrentMapConfiguration(new PropertiesConfiguration("hystrix.properties"));
 
         // create a hierarchy of configuration that makes
         // 1) system properties override properties file
-        ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
+        final ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
         finalConfig.addConfiguration(configFromEnvironmentProperties, "environmentConfig");
         finalConfig.addConfiguration(configFromSystemProperties, "systemConfig");
         finalConfig.addConfiguration(configFromPropertiesFile, "fileConfig");
@@ -263,14 +259,14 @@ public final class LoadBalancerApplication {
         // install with ConfigurationManager so that finalConfig becomes the source of dynamic properties
         ConfigurationManager.install(finalConfig);
 
-        // RestTemplate restTemplate = new RestTemplateBuilder()
+        // final RestTemplate restTemplate = new RestTemplateBuilder()
         // .additionalInterceptors(new LoadBalancerInterceptor("localhost:65501", "localhost:65502", "localhost:65503")).build();
-        RestTemplate restTemplate = new RestTemplateBuilder().additionalInterceptors(new LoadBalancerHystrixInterceptor("localhost:8081", "localhost:8082", "localhost:8083")).build();
+        final RestTemplate restTemplate = new RestTemplateBuilder().additionalInterceptors(new LoadBalancerHystrixInterceptor("localhost:8081", "localhost:8082", "localhost:8083")).build();
 
-        String url = "http://date-service/service/sysdate";
+        final String url = "http://date-service/service/sysdate";
 
         while (true) {
-            String result = restTemplate.getForObject(url, String.class);
+            final String result = restTemplate.getForObject(url, String.class);
 
             LOGGER.info(result);
 

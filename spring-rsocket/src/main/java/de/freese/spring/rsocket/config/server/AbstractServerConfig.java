@@ -31,8 +31,8 @@ abstract class AbstractServerConfig {
 
     @Bean
     ReactiveUserDetailsService authorization(final PasswordEncoder passwordEncoder) {
-        UserDetails user = User.builder().passwordEncoder(passwordEncoder::encode).username("user").password("pass").roles("USER").build();
-        UserDetails admin = User.builder().passwordEncoder(passwordEncoder::encode).username("fail").password("pass").roles("NONE").build();
+        final UserDetails user = User.builder().passwordEncoder(passwordEncoder::encode).username("user").password("pass").roles("USER").build();
+        final UserDetails admin = User.builder().passwordEncoder(passwordEncoder::encode).username("fail").password("pass").roles("NONE").build();
 
         return new MapReactiveUserDetailsService(user, admin);
     }
@@ -55,7 +55,7 @@ abstract class AbstractServerConfig {
 
     @Bean
     RSocketMessageHandler messageHandler(final RSocketStrategies rSocketStrategies) {
-        RSocketMessageHandler handler = new RSocketMessageHandler();
+        final RSocketMessageHandler handler = new RSocketMessageHandler();
         handler.setRSocketStrategies(rSocketStrategies);
 
         // Wird für Login/Security benötigt.
@@ -73,10 +73,10 @@ abstract class AbstractServerConfig {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret", 16, 310000, SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
+        final Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret", 16, 310000, SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
-        Map<String, PasswordEncoder> encoders = new HashMap<>();
+        final Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put("bcrypt", new BCryptPasswordEncoder(10));
         encoders.put("pbkdf2", pbkdf2passwordEncoder);
         encoders.put("noop", new PasswordEncoder() {
@@ -91,7 +91,7 @@ abstract class AbstractServerConfig {
             }
         });
 
-        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("noop", encoders);
+        final DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("noop", encoders);
         // passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
 
         return passwordEncoder;
@@ -106,7 +106,7 @@ abstract class AbstractServerConfig {
     // {
     // LOGGER.info("reactorResourceFactory");
     //
-    // ReactorResourceFactory factory = new ReactorResourceFactory();
+    // final ReactorResourceFactory factory = new ReactorResourceFactory();
     // factory.setUseGlobalResources(false);
     // factory.setLoopResources(LoopResources.create("server", 4, true));
     //

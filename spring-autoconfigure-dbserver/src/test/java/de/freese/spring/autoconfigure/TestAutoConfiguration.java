@@ -47,7 +47,7 @@ public interface TestAutoConfiguration {
                 stmt.setLong(1, 7);
                 stmt.setString(2, "Test");
 
-                int affectedRows = stmt.executeUpdate();
+                final int affectedRows = stmt.executeUpdate();
                 assertEquals(1, affectedRows);
 
                 con.commit();
@@ -82,7 +82,7 @@ public interface TestAutoConfiguration {
     @Test
     // @Transactional("nameOfTransactionManager")
     default void testDataSourceFile() throws SQLException {
-        DataSource dataSource = getDataSourceFile();
+        final DataSource dataSource = getDataSourceFile();
 
         createTable(dataSource);
         insert(dataSource);
@@ -92,7 +92,7 @@ public interface TestAutoConfiguration {
     @Test
     // @Transactional("nameOfTransactionManager")
     default void testDataSourceMemory() throws SQLException {
-        DataSource dataSource = getDataSourceMemory();
+        final DataSource dataSource = getDataSourceMemory();
 
         createTable(dataSource);
         insert(dataSource);

@@ -38,7 +38,7 @@ public class TodoService {
     }
 
     public Todo updateTodo(final UUID id, final Todo todoDetail) {
-        Todo todo = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Todo not found"));
+        final Todo todo = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Todo not found"));
 
         todo.setName(todoDetail.getName());
         todo.setStartTime(todoDetail.getStartTime());

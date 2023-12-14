@@ -32,7 +32,7 @@ abstract class AbstractTestJwtToken implements TestJwtToken {
             // Das Auslesen des Responses ist nur einmal möglich !
             // Das führt bei den Tests zu Fehlern, da für die Asserts ein 2. x auf dem Response zugegriffen werden muss.
 
-            // RestClientResponseException exception =
+            // final RestClientResponseException exception =
             // new RestClientResponseException("Server Error: [" + response.getRawStatusCode() + "]" + " " + response.getStatusText(),
             // response.getRawStatusCode(), response.getStatusText(), response.getHeaders(), getResponseBody(response), getCharset(response));
             //
@@ -40,7 +40,7 @@ abstract class AbstractTestJwtToken implements TestJwtToken {
 
             // try
             // {
-            // ApiError apiError = TestRestApi.this.objectMapper.readValue(exception.getResponseBodyAsByteArray(), ApiError.class);
+            // final ApiError apiError = TestRestApi.this.objectMapper.readValue(exception.getResponseBodyAsByteArray(), ApiError.class);
             // // exception.setStackTrace(apiError.getStackTrace());
             // System.err.println(apiError);
             // }
@@ -77,7 +77,7 @@ abstract class AbstractTestJwtToken implements TestJwtToken {
 
     @BeforeEach
     void beforeEach(@LocalServerPort final int localServerPort) throws Exception {
-        String rootUri = "http://localhost:" + localServerPort;
+        final String rootUri = "http://localhost:" + localServerPort;
 
         // @formatter:off
        this.restTemplateBuilder = this.restTemplateBuilder

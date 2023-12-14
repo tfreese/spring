@@ -97,7 +97,7 @@ class GreetingWebFluxTests {
     @Test
     void testSimple() throws Exception {
         // @formatter:off
-        String response = this.webTestClient.get()
+        final String response = this.webTestClient.get()
             .uri("/greeter/simple")
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
@@ -108,7 +108,7 @@ class GreetingWebFluxTests {
             ;
         // @formatter:on
 
-        DocumentContext documentContext = JsonPath.parse(response);
+        final DocumentContext documentContext = JsonPath.parse(response);
         assertEquals("Hello, World!", documentContext.read("greeting", String.class));
 
         // @formatter:off

@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class EmbeddedServerConfig {
     @Bean(initMethod = "start", destroyMethod = "stop")
     public EmbeddedActiveMQ embeddedActiveMQ() throws Exception {
-        org.apache.activemq.artemis.core.config.Configuration config = new ConfigurationImpl();
+        final org.apache.activemq.artemis.core.config.Configuration config = new ConfigurationImpl();
 
         config.addAcceptorConfiguration("in-vm", "vm://0");
         //        config.addAcceptorConfiguration("tcp", "tcp://127.0.0.1:61616");
@@ -23,13 +23,13 @@ public class EmbeddedServerConfig {
         // Kein Zwischen-Speichern von Daten.
         config.setPersistenceEnabled(false);
 
-        //        Path storePath = Paths.get(".activeMQ").toAbsolutePath();
+        //        final Path storePath = Paths.get(".activeMQ").toAbsolutePath();
         //        config.setBindingsDirectory(storePath.resolve("bindings").toString());
         //        config.setJournalDirectory(storePath.resolve("journal").toString());
         //        config.setLargeMessagesDirectory(storePath.resolve("largeMessages").toString());
         //        config.setPagingDirectory(storePath.resolve("paging").toString());
 
-        EmbeddedActiveMQ server = new EmbeddedActiveMQ();
+        final EmbeddedActiveMQ server = new EmbeddedActiveMQ();
         server.setConfiguration(config);
         //        ActiveMQServer server = new ActiveMQServerImpl(config);
 

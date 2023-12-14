@@ -62,7 +62,7 @@ class TestKryo {
     static void validateLocalDateTime(final LocalDateTime localDateTime) {
         Assertions.assertNotNull(localDateTime);
 
-        LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime now = LocalDateTime.now();
 
         Assertions.assertEquals(localDateTime.getYear(), now.getYear());
         Assertions.assertEquals(localDateTime.getMonth().getValue(), now.getMonth().getValue());
@@ -126,7 +126,7 @@ class TestKryo {
 
     @PostConstruct
     protected void setup() {
-        KryoHttpMessageConverter kryoHttpMessageConverter = new KryoHttpMessageConverter(KryoApplication.KRYO_POOL);
+        final KryoHttpMessageConverter kryoHttpMessageConverter = new KryoHttpMessageConverter(KryoApplication.KRYO_POOL);
 
         this.restTemplate = new RestTemplateBuilder().rootUri("http://localhost:" + this.localServerPort).additionalMessageConverters(kryoHttpMessageConverter, new MappingJackson2HttpMessageConverter()).build();
 
@@ -136,7 +136,7 @@ class TestKryo {
         // @formatter:off
         // Verursacht eine UnsupportedMediaTypeException
 
-//        ExchangeStrategies strategies = ExchangeStrategies.builder()
+//        final ExchangeStrategies strategies = ExchangeStrategies.builder()
 //              .codecs(configurer -> {
 //                  //configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
 //                  configurer.customCodecs().register(new KryoEncoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
@@ -162,10 +162,10 @@ class TestKryo {
     }
 
     protected void testHttpClient(final String path, final MimeType mimeType) throws Exception {
-        HttpClient httpClient = this.httpClientbuilder.build();
+        final HttpClient httpClient = this.httpClientbuilder.build();
 
         // @formatter:off
-        HttpRequest request = HttpRequest.newBuilder()
+        final HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:" + this.localServerPort+path))
                 .header("Accept", mimeType.toString())
                 .GET()
@@ -173,11 +173,11 @@ class TestKryo {
                 ;
         // @formatter:on
 
-        HttpResponse<InputStream> response = httpClient.send(request, BodyHandlers.ofInputStream());
+        final HttpResponse<InputStream> response = httpClient.send(request, BodyHandlers.ofInputStream());
         Assertions.assertTrue(response.headers().firstValue("Content-Type").get().startsWith(mimeType.toString()));
 
-        HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
-        MediaType mediaType = MediaType.asMediaType(mimeType);
+        final HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
+        final MediaType mediaType = MediaType.asMediaType(mimeType);
 
         LocalDateTime localDateTime = null;
 
@@ -192,13 +192,13 @@ class TestKryo {
 
     protected void testMockMvc(final String path, final MediaType mediaType) throws Exception {
         // MockMvcBuilders.standaloneSetup(controllers).
-        MockMvc mmvc = this.mockMvc;
-        // MockMvc mmvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
+        final MockMvc mmvc = this.mockMvc;
+        // final MockMvc mmvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
 
         // String url = "/test";
-        String url = "http://localhost:" + this.localServerPort + path;
+        final String url = "http://localhost:" + this.localServerPort + path;
 
-        AtomicReference<LocalDateTime> reference = new AtomicReference<>(null);
+        final AtomicReference<LocalDateTime> reference = new AtomicReference<>(null);
 
         // @formatter:off
         mmvc.perform(get(url).accept(mediaType))
@@ -206,9 +206,9 @@ class TestKryo {
            .andExpect(content().contentTypeCompatibleWith(mediaType)) //  + ";charset=UTF-8"
            //.andDo(print())
            .andDo(result -> {
-               HttpMessageConverterExtractor<LocalDateTime> converterExtractor =
+               final HttpMessageConverterExtractor<LocalDateTime> converterExtractor =
                        new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
-               byte[] bytes = result.getResponse().getContentAsByteArray();
+               final byte[] bytes = result.getResponse().getContentAsByteArray();
 
                LocalDateTime localDateTime = null;
 
@@ -229,7 +229,7 @@ class TestKryo {
 
     protected void testRestTemplate(final String path, final MediaType mediaType) {
         //        // @formatter:off
-//        RestTemplateBuilder builder = new RestTemplateBuilder()
+//        final RestTemplateBuilder builder = new RestTemplateBuilder()
 //                .rootUri("http://localhost:" + this.localServerPort)
 //                .messageConverters(this.kryoHttpMessageConverter,
 //                            new MappingJackson2HttpMessageConverter());
@@ -237,23 +237,23 @@ class TestKryo {
         //
         // RestTemplate restTemplate = builder.build();
 
-        HttpHeaders headers = new HttpHeaders();
+        final HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(mediaType));
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+        final HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<LocalDateTime> responseEntity = this.restTemplate.exchange(path, HttpMethod.GET, entity, LocalDateTime.class);
+        final ResponseEntity<LocalDateTime> responseEntity = this.restTemplate.exchange(path, HttpMethod.GET, entity, LocalDateTime.class);
 
         Assertions.assertTrue(mediaType.isCompatibleWith(responseEntity.getHeaders().getContentType()));
 
-        LocalDateTime localDateTime = responseEntity.getBody();
+        final LocalDateTime localDateTime = responseEntity.getBody();
 
         validateLocalDateTime(localDateTime);
     }
 
     protected void testUrlConnection(final String path, final MediaType mediaType) throws Exception {
-        URI uri = URI.create("http://localhost:" + this.localServerPort + path);
+        final URI uri = URI.create("http://localhost:" + this.localServerPort + path);
 
-        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
+        final HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
 
         connection.setRequestMethod(HttpMethod.GET.toString());
         // connection.setRequestProperty("Content-Type", KryoHttpMessageConverter.APPLICATION_KRYO_VALUE);
@@ -269,7 +269,7 @@ class TestKryo {
 
         Assertions.assertTrue(connection.getHeaderField("Content-Type").startsWith(mediaType.toString()));
 
-        HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
+        final HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
 
         LocalDateTime localDateTime = null;
 
@@ -295,10 +295,10 @@ class TestKryo {
     }
 
     protected void testWebClient(final String path, final MimeType mimeType) {
-        MediaType mediaType = MediaType.asMediaType(mimeType);
+        final MediaType mediaType = MediaType.asMediaType(mimeType);
 
         // @formatter:off
-        Mono<ResponseEntity<LocalDateTime>> response = this.webClientBuilder.build()
+        final Mono<ResponseEntity<LocalDateTime>> response = this.webClientBuilder.build()
                 .get()
                 .uri(path)
                 .accept(mediaType)
@@ -306,11 +306,11 @@ class TestKryo {
                 ;
         // @formatter:on
 
-        ResponseEntity<LocalDateTime> responseEntity = response.block();
+        final ResponseEntity<LocalDateTime> responseEntity = response.block();
 
         Assertions.assertTrue(mediaType.isCompatibleWith(responseEntity.getHeaders().getContentType()));
 
-        LocalDateTime localDateTime = responseEntity.getBody();
+        final LocalDateTime localDateTime = responseEntity.getBody();
 
         validateLocalDateTime(localDateTime);
     }

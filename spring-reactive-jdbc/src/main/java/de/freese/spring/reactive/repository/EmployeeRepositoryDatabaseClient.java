@@ -23,7 +23,7 @@ import de.freese.spring.reactive.model.Employee;
 @Profile("r2dbc")
 public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
     private static final BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) -> {
-        Department department = new Department();
+        final Department department = new Department();
         department.setId(row.get("department_id", Long.class));
         department.setName(row.get("department_name", String.class));
 
@@ -31,7 +31,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
     };
 
     private static final BiFunction<Row, RowMetadata, Employee> EMPLOYEE_ROWMAPPER = (row, rowMetadata) -> {
-        Employee employee = new Employee();
+        final Employee employee = new Employee();
         employee.setId(row.get("employee_id", Long.class));
         employee.setLastName(row.get("employee_lastname", String.class));
         employee.setFirstName(row.get("employee_firstname", String.class));
@@ -59,7 +59,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
         // Das block() ist hier ein Problem, wenn das DAO in einem Reactive-Server läuft.
         // Meldung: java.lang.IllegalStateException: block()/blockFirst()/blockLast() are blocking, which is not supported
 
-        // AtomicInteger departmentId = new AtomicInteger(-1);
+        // final AtomicInteger departmentId = new AtomicInteger(-1);
         //
         //        // @formatter:off
 //        this.databaseClient.sql("SELECT department_id from department where department_name = :name")
@@ -80,7 +80,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
 //                .fetch()
 //                .first()
 //                .map(r -> {
-//                    long employeeId = (Long) r.get("employee_id");
+//                    final long employeeId = (Long) r.get("employee_id");
 //                    newEmployee.setId(employeeId);
 //                    return newEmployee;
 //                })
@@ -102,7 +102,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
                         .fetch()
                         .first()
                         .map(generatedValues -> {
-                            long employeeId = (Long) generatedValues.get("employee_id");
+                            final long employeeId = (Long) generatedValues.get("employee_id");
                             newEmployee.setId(employeeId);
                             return newEmployee;
                         }))
@@ -128,7 +128,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
 
     @Override
     public Flux<Employee> getAllEmployees() {
-        String sql = """
+        final String sql = """
                 select e.*, d.department_name
                 from employee e
                 INNER JOIN department d ON d.department_id = e.department_id
@@ -145,7 +145,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
 
     @Override
     public Mono<Employee> getEmployee(final String lastName, final String firstName) {
-        String sql = """
+        final String sql = """
                 select e.*, d.department_name
                 from employee e
                 INNER JOIN department d ON d.department_id = e.department_id
@@ -167,7 +167,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
     public Flux<Long> saveAll(final List<Department> data) {
         return this.databaseClient.inConnectionMany(connection -> {
             //            connection.createBatch()
-            var statement = connection.createStatement("INSERT INTO department (department_name) VALUES (:name)").returnGeneratedValues("department_id");
+            final var statement = connection.createStatement("INSERT INTO department (department_name) VALUES (:name)").returnGeneratedValues("department_id");
 
             for (var d : data) {
                 statement.bind(0, d.getName()).add();

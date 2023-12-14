@@ -31,9 +31,9 @@ public class TxService {
 
     @Transactional(rollbackFor = Exception.class)
     public void insertData(final String personName, final String city) throws Exception {
-        long id = System.nanoTime();
+        final long id = System.nanoTime();
 
-        String sqlPerson = """
+        final String sqlPerson = """
                 insert into PERSON
                     (ID, NAME)
                     values
@@ -47,7 +47,7 @@ public class TxService {
             preparedStatement.executeUpdate();
         }
 
-        String sqlAddress = """
+        final String sqlAddress = """
                 insert into ADDRESS
                     (PERSON_ID, CITY)
                     values
@@ -64,7 +64,7 @@ public class TxService {
     }
 
     public void selectAll() throws Exception {
-        Map<Long, String> personIdToCity = new HashMap<>();
+        final Map<Long, String> personIdToCity = new HashMap<>();
 
         try (Connection connectionAddress = this.dataSourceAddress.getConnection();
              PreparedStatement preparedStatementAddress = connectionAddress.prepareStatement("select * from ADDRESS");
@@ -78,9 +78,9 @@ public class TxService {
              Statement statementPerson = connectionPerson.createStatement();
              ResultSet resultSetPerson = statementPerson.executeQuery("select * from PERSON")) {
             while (resultSetPerson.next()) {
-                long personId = resultSetPerson.getLong("ID");
-                String personName = resultSetPerson.getString("NAME");
-                String city = personIdToCity.getOrDefault(personId, null);
+                final long personId = resultSetPerson.getLong("ID");
+                final String personName = resultSetPerson.getString("NAME");
+                final String city = personIdToCity.getOrDefault(personId, null);
 
                 LOGGER.info("{} - {} - {}", personId, personName, city);
             }

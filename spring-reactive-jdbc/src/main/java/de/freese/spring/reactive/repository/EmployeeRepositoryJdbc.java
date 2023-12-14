@@ -33,7 +33,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
     private static final class DepartmentRowMapper implements RowMapper<Department> {
         @Override
         public Department mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-            Department department = new Department();
+            final Department department = new Department();
             department.setId(rs.getLong("department_id"));
             department.setName(rs.getString("department_name"));
 
@@ -47,7 +47,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
     private static final class EmployeeRowMapper implements RowMapper<Employee> {
         @Override
         public Employee mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-            Employee employee = new Employee();
+            final Employee employee = new Employee();
             employee.setId(rs.getLong("employee_id"));
             employee.setLastName(rs.getString("employee_lastname"));
             employee.setFirstName(rs.getString("employee_firstname"));
@@ -67,21 +67,21 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
 
     @Override
     public Mono<Employee> createNewEmployee(final Employee newEmployee) {
-        String sqlSelect = "SELECT department_id from department where department_name = ?";
-        long departmentId = this.jdbcTemplate.queryForObject(sqlSelect, Long.class, newEmployee.getDepartment());
+        final String sqlSelect = "SELECT department_id from department where department_name = ?";
+        final long departmentId = this.jdbcTemplate.queryForObject(sqlSelect, Long.class, newEmployee.getDepartment());
 
-        String sqlInsert = "INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (?, ?, ?)";
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+        final String sqlInsert = "INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (?, ?, ?)";
+        final KeyHolder keyHolder = new GeneratedKeyHolder();
 
         this.jdbcTemplate.update(connection -> {
-            PreparedStatement prepStmt = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
+            final PreparedStatement prepStmt = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, newEmployee.getLastName());
             prepStmt.setString(2, newEmployee.getFirstName());
             prepStmt.setLong(3, departmentId);
             return prepStmt;
         }, keyHolder);
 
-        long employeeId = keyHolder.getKey().longValue();
+        final long employeeId = keyHolder.getKey().longValue();
         newEmployee.setId(employeeId);
 
         return Mono.just(newEmployee);
@@ -89,38 +89,38 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
 
     @Override
     public Mono<Long> deleteEmployee(final long id) {
-        String sql = "DELETE FROM employee WHERE employee_id = ?";
+        final String sql = "DELETE FROM employee WHERE employee_id = ?";
 
-        long affectedRows = this.jdbcTemplate.update(sql, id);
+        final long affectedRows = this.jdbcTemplate.update(sql, id);
 
         return Mono.just(affectedRows);
     }
 
     @Override
     public Flux<Department> getAllDepartments() {
-        String sql = "select * from department";
+        final String sql = "select * from department";
 
-        List<Department> result = this.jdbcTemplate.query(sql, new DepartmentRowMapper());
+        final List<Department> result = this.jdbcTemplate.query(sql, new DepartmentRowMapper());
 
         return Flux.fromIterable(result);
     }
 
     @Override
     public Flux<Employee> getAllEmployees() {
-        String sql = """
+        final String sql = """
                 select e.*, d.department_name
                 from employee e
                 INNER JOIN department d ON d.department_id = e.department_id
                 """;
 
-        List<Employee> result = this.jdbcTemplate.query(sql, new EmployeeRowMapper());
+        final List<Employee> result = this.jdbcTemplate.query(sql, new EmployeeRowMapper());
 
         return Flux.fromIterable(result);
     }
 
     @Override
     public Mono<Employee> getEmployee(final String lastName, final String firstName) {
-        String sql = """
+        final String sql = """
                 select e.*, d.department_name
                 from employee e
                 INNER JOIN department d ON d.department_id = e.department_id
@@ -129,7 +129,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
                 and e.employee_firstname = ?
                 """;
 
-        Employee result = this.jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), lastName, firstName);
+        final Employee result = this.jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), lastName, firstName);
 
         return Mono.just(result);
     }

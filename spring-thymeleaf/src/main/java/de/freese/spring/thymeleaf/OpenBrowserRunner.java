@@ -30,8 +30,8 @@ public class OpenBrowserRunner implements CommandLineRunner {
     public void run(final String... args) throws Exception {
         LOGGER.info("");
 
-        String rootUri = ThymeleafApplication.getRootUri(this.environment);
-        URI uri = URI.create(rootUri);
+        final String rootUri = ThymeleafApplication.getRootUri(this.environment);
+        final URI uri = URI.create(rootUri);
 
         try {
             openLinuxChrome(uri.toString());

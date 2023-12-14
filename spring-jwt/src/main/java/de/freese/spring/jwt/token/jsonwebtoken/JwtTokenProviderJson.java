@@ -43,13 +43,13 @@ public class JwtTokenProviderJson implements JwtTokenProvider {
 
         this.validityInMilliseconds = validityInMilliseconds;
 
-        String base64EncodedSecretKey = Base64.getEncoder().encodeToString(secretKey.repeat(4).getBytes(StandardCharsets.UTF_8));
-        byte[] decodedKey = Base64.getDecoder().decode(base64EncodedSecretKey);
+        final String base64EncodedSecretKey = Base64.getEncoder().encodeToString(secretKey.repeat(4).getBytes(StandardCharsets.UTF_8));
+        final byte[] decodedKey = Base64.getDecoder().decode(base64EncodedSecretKey);
 
         try {
             //        Jwts.SIG.HS256
-            //            SecretKey secretKey = Keys.hmacShaKeyFor(decodedKey);
-            Mac mac = Mac.getInstance("HmacSHA256");
+            //            final SecretKey secretKey = Keys.hmacShaKeyFor(decodedKey);
+            final Mac mac = Mac.getInstance("HmacSHA256");
             this.secretKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, mac.getAlgorithm());
         }
         catch (RuntimeException ex) {
@@ -69,7 +69,7 @@ public class JwtTokenProviderJson implements JwtTokenProvider {
 
     @Override
     public String createToken(final String username, final String password, final Set<String> roles) {
-        ClaimsBuilder claimsBuilder = Jwts.claims().subject(username);
+        final ClaimsBuilder claimsBuilder = Jwts.claims().subject(username);
 
         if ((password != null) && !password.isBlank()) {
             claimsBuilder.add("password", password);
@@ -77,7 +77,7 @@ public class JwtTokenProviderJson implements JwtTokenProvider {
 
         if ((roles != null) && !roles.isEmpty()) {
             // @formatter:off
-            String rolesString = roles.stream()
+            final String rolesString = roles.stream()
                     .filter(Objects::nonNull)
                     .distinct()
                     .sorted()
@@ -88,8 +88,8 @@ public class JwtTokenProviderJson implements JwtTokenProvider {
             claimsBuilder.add("roles", rolesString);
         }
 
-        Date now = new Date();
-        Date expiration = new Date(now.getTime() + this.validityInMilliseconds);
+        final Date now = new Date();
+        final Date expiration = new Date(now.getTime() + this.validityInMilliseconds);
 
         // @formatter:off
         return Jwts.builder()
@@ -109,14 +109,14 @@ public class JwtTokenProviderJson implements JwtTokenProvider {
     public JwtToken parseToken(final String token) throws AuthenticationException {
         try {
             // @formatter:off
-            Jws<Claims> claims = Jwts.parser()
+            final Jws<Claims> claims = Jwts.parser()
                     .verifyWith(secretKey)
                     .build()
                     .parseSignedClaims(token)
                     ;
             // @formatter:on
 
-            Jwt<?, Jws<Claims>> jwt = new DefaultJwt<>(new DefaultHeader(Collections.emptyMap()), claims);
+            final Jwt<?, Jws<Claims>> jwt = new DefaultJwt<>(new DefaultHeader(Collections.emptyMap()), claims);
 
             return new JwtTokenJson(jwt);
         }

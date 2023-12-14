@@ -25,8 +25,8 @@ public class PersonService {
 
     @Secured("ROLE_ADMIN")
     public void addPerson(final Person newPerson) {
-        String firstName = newPerson.getFirstName();
-        String lastName = newPerson.getLastName();
+        final String firstName = newPerson.getFirstName();
+        final String lastName = newPerson.getLastName();
 
         if ((firstName != null) && !firstName.isEmpty() && (lastName != null) && !lastName.isEmpty()) {
             this.persons.add(newPerson);

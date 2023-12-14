@@ -84,10 +84,10 @@ class TestCafe {
     }
 
     private void testCafe(final ApplicationContext context) throws Exception {
-        Cafe cafe = context.getBean(Cafe.class);
+        final Cafe cafe = context.getBean(Cafe.class);
 
         for (int i = 1; i < 4; i++) {
-            Order order = new Order(i);
+            final Order order = new Order(i);
             order.addItem(DrinkType.LATTE, false);
             order.addItem(DrinkType.MOCHA, true);
             cafe.placeOrder(order);

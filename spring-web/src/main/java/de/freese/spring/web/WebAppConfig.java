@@ -23,7 +23,7 @@ public class WebAppConfig {
 
         //        servletContext.setInitParameter("primefaces.THEME", "arya");
 
-        ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>();
+        final ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>();
         servletRegistrationBean.setServlet(new FacesServlet());
         servletRegistrationBean.setUrlMappings(Set.of("*.xhtml", "*.jsf"));
         servletRegistrationBean.setLoadOnStartup(1);

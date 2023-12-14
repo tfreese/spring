@@ -76,10 +76,10 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
 
     @BeforeEach
     void beforeTest() throws Exception {
-        // String rootUri = "http://localhost:" + this.localServerPort;
-        String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
+        // final String rootUri = "http://localhost:" + this.localServerPort;
+        final String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
 
-        HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory(this.httpClient);
+        final HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory(this.httpClient);
 
         // @formatter:off
         this.restTemplateBuilder = this.restTemplateBuilder
@@ -94,16 +94,16 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Test
     void testHealthEndpoint() throws Exception {
         // @formatter:off
-        RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/actuator/health", String.class);
+        final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/actuator/health", String.class);
 
         assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType());
 
-        String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
+        final String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
         assertEquals("UP", status);
     }
 
@@ -111,14 +111,14 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Test
     void testPost() throws Exception {
         // @formatter:off
-        RestTemplate restTemplate = this.restTemplateBuilder
+         RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("admin", "pw", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 
-        HttpEntity<Person> httpEntity = new HttpEntity<>(new Person("Thomas", "Freese"));
-        ResponseEntity<ProblemDetail> responseEntity = restTemplate.exchange("/rest/person/personAdd", HttpMethod.POST, httpEntity, ProblemDetail.class);
+        final HttpEntity<Person> httpEntity = new HttpEntity<>(new Person("Thomas", "Freese"));
+        final ResponseEntity<ProblemDetail> responseEntity = restTemplate.exchange("/rest/person/personAdd", HttpMethod.POST, httpEntity, ProblemDetail.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         // @formatter:off
@@ -128,8 +128,8 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
                 .build();
         // @formatter:on
 
-        Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
-        List<Person> persons = Arrays.asList(personArray);
+        final Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
+        final List<Person> persons = Arrays.asList(personArray);
 
         assertNotNull(persons);
         assertTrue(persons.size() >= 3);
@@ -142,13 +142,13 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Test
     void testPostWithWrongRole() throws Exception {
         // @formatter:off
-        RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 
-        ProblemDetail error = restTemplate.postForObject("/rest/person/personAdd", new Person("Thomas", "Freese"), ProblemDetail.class);
+        final ProblemDetail error = restTemplate.postForObject("/rest/person/personAdd", new Person("Thomas", "Freese"), ProblemDetail.class);
         assertEquals(HttpStatus.FORBIDDEN.value(), error.getStatus());
     }
 
@@ -156,23 +156,23 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Test
     void testUserWithLoginJSON() throws Exception {
         // @formatter:off
-        RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 
-        // ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
+        // final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
         // persons = this.objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<Person>>()
         // {
         // });
 
-        // Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
+        // final Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
         // persons = Arrays.asList(personArray);
 
-        ResponseEntity<List<Person>> responseEntity = restTemplate.exchange("/rest/person/personList", HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+        final ResponseEntity<List<Person>> responseEntity = restTemplate.exchange("/rest/person/personList", HttpMethod.GET, null, new ParameterizedTypeReference<>() {
         });
-        List<Person> persons = responseEntity.getBody();
+        final List<Person> persons = responseEntity.getBody();
 
         // assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getAccept());
         // assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
@@ -184,7 +184,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Test
     void testUserWithLoginXML() throws Exception {
         // @formatter:off
-        RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"))
                 .build();
@@ -195,12 +195,12 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
         // {
         // });
 
-        // Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
+        // final Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
         // persons = Arrays.asList(personArray);
 
-        ResponseEntity<List<Person>> responseEntity = restTemplate.exchange("/rest/person/personList", HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+        final ResponseEntity<List<Person>> responseEntity = restTemplate.exchange("/rest/person/personList", HttpMethod.GET, null, new ParameterizedTypeReference<>() {
         });
-        List<Person> persons = responseEntity.getBody();
+        final List<Person> persons = responseEntity.getBody();
 
         // assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getAccept());
         // assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
@@ -212,14 +212,14 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Test
     void testUserWithPreAuthJSON() throws Exception {
         // @formatter:off
-        RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new HttpHeaderInterceptor("my-token", "user"),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 
-        Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
-        List<Person> persons = Arrays.asList(personArray);
+        final Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
+        final List<Person> persons = Arrays.asList(personArray);
 
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
@@ -229,14 +229,14 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Test
     void testUserWithPreAuthXML() throws Exception {
         // @formatter:off
-        RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new HttpHeaderInterceptor("my-token", "user"),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_XML_VALUE+";charset=UTF-8"))
                 .build();
         // @formatter:on
 
-        Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
-        List<Person> persons = Arrays.asList(personArray);
+        final Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
+        final List<Person> persons = Arrays.asList(personArray);
 
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
@@ -246,12 +246,12 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Test
     void testUserWithWrongPass() throws Exception {
         // @formatter:off
-        RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8))
                 .build();
         // @formatter:on
 
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
+        final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
 
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
@@ -260,12 +260,12 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Test
     void testUserWithWrongRole() throws Exception {
         // @formatter:off
-        RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("invalid", "pw", StandardCharsets.UTF_8))
                 .build();
         // @formatter:on
 
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
+        final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
 
         assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
     }
@@ -274,12 +274,12 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Test
     void testUserWithoutLogin() throws Exception {
         // @formatter:off
-        RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
         // @formatter:on
 
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
+        final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
 
         //assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
 

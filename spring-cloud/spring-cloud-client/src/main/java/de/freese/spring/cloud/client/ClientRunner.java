@@ -29,13 +29,10 @@ public class ClientRunner implements ApplicationRunner {
 
     @Resource
     private LoadBalancedExchangeFilterFunction loadBalancedFunction;
-
     @Resource
     private ReactiveLoadBalancer.Factory<ServiceInstance> serviceInstanceFactory;
-
     @Resource
     private WebClient.Builder webClientBuilder;
-
     @Resource
     //    @LoadBalanced
     private WebClient.Builder webClientBuilderLoadBalanced;
@@ -43,9 +40,9 @@ public class ClientRunner implements ApplicationRunner {
     @Override
     public void run(final ApplicationArguments args) throws Exception {
         // Die Erzeugung im Konstruktor funktioniert nicht, da dort die WebClient.Builder noch nicht fertig konfiguriert sind.
-        WebClient webClient = webClientBuilder.build();
-        WebClient webClientLoadBalanced = webClientBuilderLoadBalanced.clone().baseUrl("http://CLOUD-HELLO-SERVICE").build();
-        WebClient webClientWithLoadBalancedFunction = webClientBuilder.clone().baseUrl("http://CLOUD-HELLO-SERVICE").filter(this.loadBalancedFunction).build();
+        final WebClient webClient = webClientBuilder.build();
+        final WebClient webClientLoadBalanced = webClientBuilderLoadBalanced.clone().baseUrl("http://CLOUD-HELLO-SERVICE").build();
+        final WebClient webClientWithLoadBalancedFunction = webClientBuilder.clone().baseUrl("http://CLOUD-HELLO-SERVICE").filter(this.loadBalancedFunction).build();
 
         for (int i = 0; i < 4; i++) {
             runServiceDiscovery(webClient);
@@ -93,14 +90,14 @@ public class ClientRunner implements ApplicationRunner {
     }
 
     private void runServiceDiscovery(final WebClient webClient) {
-        ReactiveLoadBalancer<ServiceInstance> loadBalancer = this.serviceInstanceFactory.getInstance("CLOUD-HELLO-SERVICE");
+        final ReactiveLoadBalancer<ServiceInstance> loadBalancer = this.serviceInstanceFactory.getInstance("CLOUD-HELLO-SERVICE");
 
         // @formatter:off
-        String url = Mono.from(loadBalancer.choose())
+        final String url = Mono.from(loadBalancer.choose())
                 .map(Response::getServer)
                 .map(server ->
                 {
-                    String protocol = server.isSecure() ? "https" : "http";
+                    final String protocol = server.isSecure() ? "https" : "http";
 
                     return String.format("%s://%s:%d/",protocol, server.getHost(), server.getPort());
                 })
@@ -109,19 +106,19 @@ public class ClientRunner implements ApplicationRunner {
                 ;
         // @formatter:on
 
-        String response = call(webClient, url);
+        final String response = call(webClient, url);
 
         LOGGER.info("runServiceDiscovery: {}", response.strip());
     }
 
     private void runWebClientWithLoadBalancedFunction(final WebClient webClient) {
-        String response = call(webClient, "/");
+        final String response = call(webClient, "/");
 
         LOGGER.info("runWebClientWithLoadBalancedFunction: {}", response.strip());
     }
 
     private void runWebClientWithLoadBalancer(final WebClient webClient) {
-        String response = call(webClient, "/");
+        final String response = call(webClient, "/");
 
         LOGGER.info("runWebClientWithLoadBalancer: {}", response.strip());
     }

@@ -24,7 +24,7 @@ public class HateoasMvcConfig implements WebMvcConfigurer {
     @Override
     public void extendMessageConverters(final List<HttpMessageConverter<?>> converters) {
         // @formatter:off
-        Optional<MappingJackson2HttpMessageConverter> converterOptional = converters.stream()
+        final Optional<MappingJackson2HttpMessageConverter> converterOptional = converters.stream()
                 //.peek(c -> System.out.println(c.getClass().getSimpleName()))
                 .filter(MappingJackson2HttpMessageConverter.class::isInstance)
                 .map(MappingJackson2HttpMessageConverter.class::cast)
@@ -33,7 +33,7 @@ public class HateoasMvcConfig implements WebMvcConfigurer {
         // @formatter:on
 
         if (converterOptional.isPresent()) {
-            MappingJackson2HttpMessageConverter converter = converterOptional.get();
+            final MappingJackson2HttpMessageConverter converter = converterOptional.get();
 
             // converter.setObjectMapper(objectMapper());
             converter.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
@@ -60,7 +60,7 @@ public class HateoasMvcConfig implements WebMvcConfigurer {
     // System.out.println(httpMessageConverter.getClass().getSimpleName());
     // }
     //
-    // MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+    // final MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
     // jackson2HttpMessageConverter.setObjectMapper(objectMapper());
     // // jackson2HttpMessageConverter.setPrettyPrint(true);
     //
@@ -70,7 +70,7 @@ public class HateoasMvcConfig implements WebMvcConfigurer {
     // @Bean
     // public ObjectMapper objectMapper()
     // {
-    // ObjectMapper mapper = new ObjectMapper();
+    // final ObjectMapper mapper = new ObjectMapper();
     // mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     // mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
     // // mapper.enable(SerializationFeature.INDENT_OUTPUT);

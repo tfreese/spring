@@ -26,7 +26,7 @@ public class KryoApplication implements WebMvcConfigurer {
     public static final Pool<Kryo> KRYO_POOL = new Pool<>(true, true) {
         @Override
         protected Kryo create() {
-            Kryo kryo = new Kryo();
+            final Kryo kryo = new Kryo();
 
             kryo.setClassLoader(Thread.currentThread().getContextClassLoader());
             kryo.setInstantiatorStrategy(new DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
@@ -43,7 +43,7 @@ public class KryoApplication implements WebMvcConfigurer {
             kryo.register(UUID.class, new DefaultSerializers.UUIDSerializer());
 
             // Supports different JRE Versions.
-            SerializerFactory.CompatibleFieldSerializerFactory serializerFactory = new SerializerFactory.CompatibleFieldSerializerFactory();
+            final SerializerFactory.CompatibleFieldSerializerFactory serializerFactory = new SerializerFactory.CompatibleFieldSerializerFactory();
             serializerFactory.getConfig().setExtendedFieldNames(true);
             kryo.setDefaultSerializer(serializerFactory);
 

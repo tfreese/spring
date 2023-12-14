@@ -37,15 +37,15 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
             .run(args))
         // @formatter:on
         {
-            RestTemplate restTemplate = context.getBean("restTemplate", RestTemplate.class);
-            LoadBalancer loadBalancer = context.getBean("loadBalancer", LoadBalancer.class);
+            final RestTemplate restTemplate = context.getBean("restTemplate", RestTemplate.class);
+            final LoadBalancer loadBalancer = context.getBean("loadBalancer", LoadBalancer.class);
 
-            String server = loadBalancer.chooseServer("date-service");
-            URI serviceUri = URI.create(String.format("http://%s", server));
+            final String server = loadBalancer.chooseServer("date-service");
+            final URI serviceUri = URI.create(String.format("http://%s", server));
             LOGGER.info("manual look,up: {}", serviceUri);
 
             while (true) {
-                String result = restTemplate.getForObject("http://date-service/service/sysdate", String.class);
+                final String result = restTemplate.getForObject("http://date-service/service/sysdate", String.class);
 
                 LOGGER.info(result);
                 // System.out.println(result);
@@ -63,26 +63,26 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
 
     @Bean(destroyMethod = "shutdown")
     public LoadBalancer loadBalancer(final Environment env, final RestTemplate restTemplate) {
-        String serverList = env.getProperty("loadbalancer.servers");
-        String[] servers = serverList.split(",");
+        final String serverList = env.getProperty("loadbalancer.servers");
+        final String[] servers = serverList.split(",");
 
-        LoadBalancerPingUrl ping = new LoadBalancerPingUrl();
+        final LoadBalancerPingUrl ping = new LoadBalancerPingUrl();
         ping.setPingAppendString("/service/ping"); // /netflix/service/actuator/health
         ping.setExpectedContent("true"); // UP
         ping.setHttpRequestFactory(restTemplate.getRequestFactory());
         // ping.setHttpRequestFactory(new Netty4ClientHttpRequestFactory());
 
-        // LoadBalancerPing ping = new LoadBalancerPingNoOp();
+        // final LoadBalancerPing ping = new LoadBalancerPingNoOp();
 
-        LoadBalancerStrategy strategy = new LoadBalancerStrategyRoundRobin();
-        // LoadBalancerStrategy strategy = new LoadBalancerStrategyFirstAvailable();
+        final LoadBalancerStrategy strategy = new LoadBalancerStrategyRoundRobin();
+        // final LoadBalancerStrategy strategy = new LoadBalancerStrategyFirstAvailable();
 
-        LoadBalancer loadBalancer = new LoadBalancer(servers);
+        final LoadBalancer loadBalancer = new LoadBalancer(servers);
         loadBalancer.setPingDelay(Long.parseLong(env.getProperty("loadbalancer.pingIntervall")));
         loadBalancer.setPing(ping);
         loadBalancer.setStrategy(strategy);
 
-        List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
+        final List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
         interceptors.add(new LoadBalancerInterceptor(loadBalancer));
 
         restTemplate.setInterceptors(interceptors);

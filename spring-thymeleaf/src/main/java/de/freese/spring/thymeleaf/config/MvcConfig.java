@@ -66,10 +66,10 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
 
                 LOGGER.info("Request: {}", LocalDateTime.now());
 
-                Enumeration<String> headerNames = request.getHeaderNames();
+                final Enumeration<String> headerNames = request.getHeaderNames();
 
                 while (headerNames.hasMoreElements()) {
-                    String headerName = headerNames.nextElement();
+                    final String headerName = headerNames.nextElement();
                     LOGGER.info("{} = {}", headerName, request.getHeader(headerName));
                 }
 
@@ -117,12 +117,12 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
     @ConditionalOnMissingBean({Executor.class, ExecutorService.class})
     @Primary
     public ThreadPoolExecutorFactoryBean executorService() {
-        int coreSize = Math.max(2, Runtime.getRuntime().availableProcessors());
-        int maxSize = coreSize * 2;
-        int queueSize = maxSize * 2;
-        int keepAliveSeconds = 60;
+        final int coreSize = Math.max(2, Runtime.getRuntime().availableProcessors());
+        final int maxSize = coreSize * 2;
+        final int queueSize = maxSize * 2;
+        final int keepAliveSeconds = 60;
 
-        ThreadPoolExecutorFactoryBean bean = new ThreadPoolExecutorFactoryBean();
+        final ThreadPoolExecutorFactoryBean bean = new ThreadPoolExecutorFactoryBean();
         bean.setCorePoolSize(coreSize);
         bean.setMaxPoolSize(maxSize);
         bean.setQueueCapacity(queueSize);
@@ -151,7 +151,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
      */
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
-        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        final LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
 
         return localeChangeInterceptor;
@@ -162,22 +162,22 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
      */
     @Bean
     public LocaleResolver localeResolver() {
-        // CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+        // final CookieLocaleResolver localeResolver = new CookieLocaleResolver();
         // localeResolver.setCookieName("mycookie");
         // localeResolver.setCookieMaxAge(60 * 60); // 60 Minuten
 
-        // AcceptHeaderLocaleResolver acceptHeaderLocaleResolver = new AcceptHeaderLocaleResolver();
+        // final AcceptHeaderLocaleResolver acceptHeaderLocaleResolver = new AcceptHeaderLocaleResolver();
         // acceptHeaderLocaleResolver.setDefaultLocale(Locale.GERMAN);
 
         // Ohne #setDefaultLocale wird im "Accept-Language" Header nachgeschaut.
-        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+        final SessionLocaleResolver localeResolver = new SessionLocaleResolver();
         //        localeResolver.setDefaultLocale(null);
         localeResolver.setDefaultTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
         localeResolver.setDefaultLocaleFunction(request -> {
-            Locale defaultLocale = request.getLocale();
+            final Locale defaultLocale = request.getLocale();
 
             if (defaultLocale == null) {
-                defaultLocale = Locale.ENGLISH;
+                return Locale.ENGLISH;
             }
 
             return defaultLocale;
@@ -193,8 +193,8 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
      */
     @Bean
     public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        // ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        // final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("static/i18n/messages");
         messageSource.setDefaultEncoding("UTF-8");
         // messageSource.setCacheSeconds(60 * 60); // 60 Minuten, -1 = kein Refresh
@@ -205,9 +205,9 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
     @Bean
     @ConditionalOnMissingBean(ScheduledExecutorService.class)
     public ScheduledExecutorFactoryBean scheduledExecutorService() {
-        int poolSize = Math.max(2, Runtime.getRuntime().availableProcessors() / 2);
+        final int poolSize = Math.max(2, Runtime.getRuntime().availableProcessors() / 2);
 
-        ScheduledExecutorFactoryBean bean = new ScheduledExecutorFactoryBean();
+        final ScheduledExecutorFactoryBean bean = new ScheduledExecutorFactoryBean();
         bean.setPoolSize(poolSize);
         bean.setThreadPriority(Thread.NORM_PRIORITY);
         bean.setThreadNamePrefix("scheduler-");

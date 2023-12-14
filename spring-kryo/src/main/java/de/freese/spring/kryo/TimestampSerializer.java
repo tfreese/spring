@@ -36,15 +36,15 @@ public class TimestampSerializer extends Serializer<Timestamp> {
 
     @Override
     public Timestamp read(final Kryo kryo, final Input input, final Class<? extends Timestamp> type) {
-        long time = input.readLong(false);
+        final long time = input.readLong(false);
 
         if (time == -1L) {
             return null;
         }
 
-        int nanos = input.readInt(false);
+        final int nanos = input.readInt(false);
 
-        Timestamp timestamp = new Timestamp(time);
+        final Timestamp timestamp = new Timestamp(time);
         timestamp.setNanos(nanos);
 
         return timestamp;

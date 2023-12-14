@@ -28,7 +28,7 @@ public class ThymeleafControllerExceptionHandler {
 
     @ExceptionHandler(value = AccessDeniedException.class)
     protected String handleAccessDeniedException(final Model model, final AccessDeniedException ex, final WebRequest request) {
-        ResponseEntity<Object> responseEntity = this.exceptionHandler.handleAccessDeniedException(ex, request);
+        final ResponseEntity<Object> responseEntity = this.exceptionHandler.handleAccessDeniedException(ex, request);
 
         model.addAttribute("apiError", responseEntity.getBody());
 
@@ -57,7 +57,7 @@ public class ThymeleafControllerExceptionHandler {
     // @ExceptionHandler(jakarta.persistence.EntityNotFoundException.class)
     // protected String handleEntityNotFound(final Model model, final EntityNotFoundException ex, final WebRequest request)
     // {
-    // ResponseEntity<Object> responseEntity = this.exceptionHandler.handleEntityNotFound(ex, request);
+    // final ResponseEntity<Object> responseEntity = this.exceptionHandler.handleEntityNotFound(ex, request);
     //
     // model.addAttribute("apiError", responseEntity.getBody());
     //
@@ -66,7 +66,7 @@ public class ThymeleafControllerExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     protected String handleConstraintViolation(final Model model, final ConstraintViolationException ex, final WebRequest request) {
-        ResponseEntity<Object> responseEntity = this.exceptionHandler.handleConstraintViolation(ex, request);
+        final ResponseEntity<Object> responseEntity = this.exceptionHandler.handleConstraintViolation(ex, request);
 
         model.addAttribute("apiError", responseEntity.getBody());
 
@@ -75,7 +75,7 @@ public class ThymeleafControllerExceptionHandler {
 
     @ExceptionHandler(Throwable.class)
     protected String handleGenericException(final Model model, final Throwable ex, final WebRequest request) {
-        ResponseEntity<Object> responseEntity = this.exceptionHandler.handleGenericException(ex, request);
+        final ResponseEntity<Object> responseEntity = this.exceptionHandler.handleGenericException(ex, request);
 
         model.addAttribute("apiError", responseEntity.getBody());
 
@@ -84,7 +84,7 @@ public class ThymeleafControllerExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected String handleMethodArgumentTypeMismatch(final Model model, final MethodArgumentTypeMismatchException ex, final WebRequest request) {
-        ResponseEntity<Object> responseEntity = this.exceptionHandler.handleMethodArgumentTypeMismatch(ex, request);
+        final ResponseEntity<Object> responseEntity = this.exceptionHandler.handleMethodArgumentTypeMismatch(ex, request);
 
         model.addAttribute("apiError", responseEntity.getBody());
 

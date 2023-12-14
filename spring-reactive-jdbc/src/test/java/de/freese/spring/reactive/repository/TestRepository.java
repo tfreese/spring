@@ -35,7 +35,7 @@ public interface TestRepository {
 
     @Test
     default void testCreateNewEmployee() {
-        Employee newEmployee = new Employee("Foo", "Bar", "Dep1");
+        final Employee newEmployee = new Employee("Foo", "Bar", "Dep1");
 
         // @formatter:off
         getRepository().createNewEmployee(newEmployee)

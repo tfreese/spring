@@ -14,12 +14,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 // @JsonRootName("greeting")
 // @XmlRootElement
 // @Relation(value = "greeting", collectionRelation = "greetings")
-public class GreetingPOJO {
+public class GreetingPojo {
     @JsonProperty("greeting")
     private String message;
 
     @JsonCreator
-    public GreetingPOJO(final @JsonProperty("greeting") String message) {
+    public GreetingPojo(final @JsonProperty("greeting") String message) {
         super();
 
         setMessage(message);

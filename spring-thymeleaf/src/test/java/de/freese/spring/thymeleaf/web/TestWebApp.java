@@ -101,7 +101,7 @@ class TestWebApp {
 
     @Test
     void testLoginWithUnknownUser() throws Exception {
-        FormLoginRequestBuilder login = formLogin().loginProcessingUrl("/authenticate").user("unknown").password("pw");
+        final FormLoginRequestBuilder login = formLogin().loginProcessingUrl("/authenticate").user("unknown").password("pw");
 
         // @formatter:off
         this.mockMvc.perform(login)
