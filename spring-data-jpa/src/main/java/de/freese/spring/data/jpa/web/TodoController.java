@@ -1,10 +1,21 @@
 // Created: 16.08.23
 package de.freese.spring.data.jpa.web;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +26,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import de.freese.spring.data.jpa.domain.Todo;
 import de.freese.spring.data.jpa.infrastructure.TodoService;
@@ -25,11 +37,14 @@ import de.freese.spring.data.jpa.infrastructure.TodoService;
 @RestController
 @RequestMapping("/api/todo")
 public class TodoController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TodoController.class);
 
     private final TodoService todoService;
 
     @Autowired
-    TodoController(final TodoService todoService) {
+    public TodoController(final TodoService todoService) {
+        super();
+
         this.todoService = todoService;
     }
 
@@ -48,23 +63,63 @@ public class TodoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Todo>> getAllTodos() {
-        final List<Todo> todos = todoService.getAllTodos();
-
-        return ResponseEntity.ok(todos);
+    public List<Todo> getAllTodos() {
+        return todoService.getAllTodos();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Todo> getTodoById(final @PathVariable UUID id) {
-        final Todo product = todoService.getTodoById(id);
+    public Todo getTodoById(final @PathVariable UUID id) {
+        return todoService.getTodoById(id);
+    }
 
-        return ResponseEntity.ok(product);
+    /**
+     * Jakarta:<br>
+     * <pre>{@code
+     * public void test(@PathVariable("id") final UUID id,  final InputStream inputStream) throws IOException {}
+     * }</pre>
+     */
+    @PostMapping("/{id}/stream")
+    public void testStream(@PathVariable("id") final UUID id, @RequestBody final InputStreamResource inputStreamResource) throws IOException {
+        LOGGER.info("id = {}", id);
+
+        try (InputStream inputStream = inputStreamResource.getInputStream();
+             Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+             BufferedReader bufferedReader = new BufferedReader(reader)) {
+            final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
+            LOGGER.info("message = {}", message);
+        }
+    }
+
+    /**
+     * Jakarta:<br>
+     * <pre>{@code
+     * public Response test(@PathVariable("id") final UUID id) throws IOException {
+     *     return Response.ok((StreamingOutput) outputStream -> {
+     *              try (InputStream inputStream = new … {
+     *                 inputStream.transferTo(outputStream);
+     *                 outputStream.flush();
+     *             }
+     *         }).build();
+     * }     * }</pre>
+     * <p>
+     * StreamingResponseBody, InputStreamResource working booth.
+     */
+    @GetMapping("/{id}/stream")
+    public StreamingResponseBody testStream(@PathVariable("id") final UUID id) {
+        LOGGER.info("id = {}", id);
+
+        return outputStream -> {
+            try (InputStream inputStream = new ByteArrayInputStream("From Server: Hello World".getBytes(StandardCharsets.UTF_8))) {
+                inputStream.transferTo(outputStream);
+                outputStream.flush();
+            }
+        };
+
+        // return new InputStreamResource(new ByteArrayInputStream("From Server: Hello World".getBytes(StandardCharsets.UTF_8)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Todo> updateTodo(final @PathVariable UUID id, final @RequestBody Todo todoDetails) {
-        final Todo updatedTodo = todoService.updateTodo(id, todoDetails);
-
-        return ResponseEntity.ok(updatedTodo);
+    public Todo updateTodo(final @PathVariable UUID id, final @RequestBody Todo todoDetails) {
+        return todoService.updateTodo(id, todoDetails);
     }
 }

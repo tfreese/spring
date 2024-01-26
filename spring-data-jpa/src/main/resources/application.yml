@@ -35,7 +35,7 @@ server:
 logging:
     level:
         root: INFO
-        org.springframework.web: DEBUG
+        org.springframework.web: INFO
         org.hibernate: ERROR
     #file:
     #name: logs/todo.log
