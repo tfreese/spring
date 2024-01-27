@@ -70,7 +70,6 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
 
     @Resource
     private HttpClient httpClient;
-
     @Resource
     private RestTemplateBuilder restTemplateBuilder;
 
@@ -129,13 +128,15 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
         // @formatter:on
 
         final Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
+        assertNotNull(personArray);
+
         final List<Person> persons = Arrays.asList(personArray);
 
         assertNotNull(persons);
         assertTrue(persons.size() >= 3);
 
-        assertEquals("Thomas", persons.get(persons.size() - 1).getFirstName());
-        assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
+        assertEquals("Thomas", persons.getLast().getFirstName());
+        assertEquals("Freese", persons.getLast().getLastName());
     }
 
     @Override
@@ -219,6 +220,8 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
         // @formatter:on
 
         final Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
+        assertNotNull(personArray);
+
         final List<Person> persons = Arrays.asList(personArray);
 
         assertNotNull(persons);
@@ -236,6 +239,8 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
         // @formatter:on
 
         final Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
+        assertNotNull(personArray);
+
         final List<Person> persons = Arrays.asList(personArray);
 
         assertNotNull(persons);
@@ -281,7 +286,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
 
         final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
 
-        //assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+        // assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
 
         // Eigentlich UNAUTHORIZED erwartet -> RememberMeServices ?
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());

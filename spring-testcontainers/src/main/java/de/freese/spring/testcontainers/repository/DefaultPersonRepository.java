@@ -15,7 +15,6 @@ import de.freese.spring.testcontainers.model.Person;
  */
 @Repository
 public class DefaultPersonRepository implements PersonRepository {
-
     private final JdbcDialect jdbcDialect;
     private final JdbcTemplate jdbcTemplate;
 

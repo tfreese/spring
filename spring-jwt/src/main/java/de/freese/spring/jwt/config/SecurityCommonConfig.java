@@ -63,7 +63,7 @@ public class SecurityCommonConfig {
         // Der UserCache im AuthenticationProvider behält die UserDetails der User.
         // Bei diesen werden aber die Passwörter aus Sicherheitsgründen im ProviderManager entfernt.
         // Dadurch ist ein 2. Login dann nicht mehr möglich, es folgt NullPointer wegen UserDetails.getPassword = null
-        //authenticationProvider.setUserCache(userCache);
+        // authenticationProvider.setUserCache(userCache);
 
         // Dieses Problem könnte behoben werden, indem nur der UserName und nicht das User-Object verwendet wird.
         // Dann kann aber nicht der User in die Controller-Methode übergeben werden.
@@ -100,7 +100,8 @@ public class SecurityCommonConfig {
     }
 
     @Bean
-    JwtTokenProvider jwtTokenUtils(@Value("${security.jwt.token.secret-key:secret-key}") final String secretKey, @Value("${security.jwt.token.expire-length:3600000}") final long validityInMilliseconds) {
+    JwtTokenProvider jwtTokenUtils(@Value("${security.jwt.token.secret-key:secret-key}") final String secretKey,
+                                   @Value("${security.jwt.token.expire-length:3600000}") final long validityInMilliseconds) {
         // final byte[] salt = KeyGenerators.secureRandom(16).generateKey();
         //
         // final PBEKeySpec keySpec = new PBEKeySpec(this.secretKey.toCharArray(), salt, 1024, 256);
@@ -113,7 +114,8 @@ public class SecurityCommonConfig {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        final Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret", 16, 310_000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
+        final Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret", 16, 310_000,
+                Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
         final Map<String, PasswordEncoder> encoders = new HashMap<>();
@@ -176,7 +178,7 @@ public class SecurityCommonConfig {
 
             userCache.putUserInCache(userDetails);
 
-            //return User.withUserDetails(userDetails).build();
+            // return User.withUserDetails(userDetails).build();
 
             // @formatter:off
             return new User(

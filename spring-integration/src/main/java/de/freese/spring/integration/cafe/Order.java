@@ -8,7 +8,6 @@ import java.util.List;
  */
 public class Order {
     private final int number;
-
     private final List<OrderItem> orderItems = new ArrayList<>();
 
     public Order(final int number) {

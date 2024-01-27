@@ -6,7 +6,6 @@ package de.freese.spring.rsocket.model;
  */
 public class MessageResponse {
     private long index;
-
     private String message;
 
     public MessageResponse() {

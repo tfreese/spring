@@ -20,10 +20,10 @@ import de.freese.spring.resilience.service.FailingService;
 @RestController
 public class FailingRestController {
     private final ReactiveCircuitBreakerFactory<Resilience4JConfigBuilder.Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> reactiveCircuitBreakerFactory;
-
     private final FailingService service;
 
-    FailingRestController(final FailingService service, final ReactiveCircuitBreakerFactory<Resilience4JConfigBuilder.Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> reactiveCircuitBreakerFactory) {
+    FailingRestController(final FailingService service,
+                          final ReactiveCircuitBreakerFactory<Resilience4JConfigBuilder.Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> reactiveCircuitBreakerFactory) {
         super();
 
         this.reactiveCircuitBreakerFactory = reactiveCircuitBreakerFactory;
@@ -37,7 +37,7 @@ public class FailingRestController {
     Publisher<String> greet(@RequestParam final Optional<String> name) {
         final Mono<String> results = this.service.greet(name);
 
-        return getReactiveCircuitBreaker().run(results, throwable -> Mono.just("fallback (no name): hello world !")).map(r -> r + "\n");
+        return getReactiveCircuitBreaker().run(results, throwable -> Mono.just("fallback (no name): hello world !")).map(r -> r + System.lineSeparator());
     }
 
     private ReactiveCircuitBreaker getReactiveCircuitBreaker() {

@@ -24,19 +24,16 @@ import de.freese.spring.jwt.token.JwtTokenProvider;
 public class UserService {
     @Resource
     private AuthenticationManager authenticationManager;
-
     @Resource
     private JwtTokenProvider jwtTokenProvider;
-
     @Resource
     private PasswordEncoder passwordEncoder;
-
     @Resource
     private UserDetailsService userDetailsService;
 
     public void delete(final String username) {
         throw new AuthenticationServiceException("Need a UserDetailsManager");
-        //this.userDetailsManager.deleteUser(username);
+        // this.userDetailsManager.deleteUser(username);
     }
 
     public String login(final String username, final String password) {

@@ -7,7 +7,6 @@ import java.util.List;
  */
 public class Delivery {
     private final List<Drink> deliveredDrinks;
-
     private final int orderNumber;
 
     public Delivery(final List<Drink> deliveredDrinks) {
@@ -18,7 +17,7 @@ public class Delivery {
         }
 
         this.deliveredDrinks = deliveredDrinks;
-        this.orderNumber = deliveredDrinks.get(0).getOrderNumber();
+        this.orderNumber = deliveredDrinks.getFirst().getOrderNumber();
     }
 
     public List<Drink> getDeliveredDrinks() {

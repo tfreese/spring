@@ -7,7 +7,6 @@ import java.util.Objects;
  */
 public class Person {
     private long id;
-
     private String name;
 
     @Override

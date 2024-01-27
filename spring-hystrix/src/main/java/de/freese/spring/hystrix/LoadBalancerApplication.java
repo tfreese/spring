@@ -81,7 +81,7 @@ public final class LoadBalancerApplication {
         @Override
         protected ClientHttpResponse run() throws Exception {
             // HystrixBadRequestException
-            final URI uri = this.uris.remove(0);
+            final URI uri = this.uris.removeFirst();
 
             // System.out.println(repository.getHost());
             // System.out.println(repository.getPath());
@@ -105,6 +105,7 @@ public final class LoadBalancerApplication {
      */
     public static class LoadBalancerHystrixInterceptor implements ClientHttpRequestInterceptor {
         private final String[] server;
+
         private int serverIndex;
 
         public LoadBalancerHystrixInterceptor(final String... server) {
@@ -166,6 +167,7 @@ public final class LoadBalancerApplication {
      */
     public static class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
         private final String[] server;
+
         private int index;
 
         public LoadBalancerInterceptor(final String... server) {
@@ -261,7 +263,8 @@ public final class LoadBalancerApplication {
 
         // final RestTemplate restTemplate = new RestTemplateBuilder()
         // .additionalInterceptors(new LoadBalancerInterceptor("localhost:65501", "localhost:65502", "localhost:65503")).build();
-        final RestTemplate restTemplate = new RestTemplateBuilder().additionalInterceptors(new LoadBalancerHystrixInterceptor("localhost:8081", "localhost:8082", "localhost:8083")).build();
+        final RestTemplate restTemplate = new RestTemplateBuilder().additionalInterceptors(new LoadBalancerHystrixInterceptor("localhost:8081", "localhost:8082", "localhost:8083"))
+                .build();
 
         final String url = "http://date-service/service/sysdate";
 

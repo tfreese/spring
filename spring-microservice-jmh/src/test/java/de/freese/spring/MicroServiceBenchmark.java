@@ -48,10 +48,8 @@ public class MicroServiceBenchmark {
         private final WebClient webClient;
         @Value("${server.port}")
         private int port;
-
         @Resource
         private RestTemplateBuilder restTemplateBuilder;
-
         @Resource
         private WebClient.Builder webClientBuilder;
 

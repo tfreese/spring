@@ -38,7 +38,8 @@ public class SecurityFilterOnlyConfig {
     }
 
     @Bean
-    Filter jwtRequestFilter(final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder, final JwtTokenProvider jwtTokenProvider, final AuthenticationEntryPoint authenticationEntryPoint) {
+    Filter jwtRequestFilter(final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder, final JwtTokenProvider jwtTokenProvider,
+                            final AuthenticationEntryPoint authenticationEntryPoint) {
         final JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();
         jwtRequestFilter.setUserDetailsService(userDetailsService);
         jwtRequestFilter.setPasswordEncoder(passwordEncoder);

@@ -5,7 +5,6 @@ package de.freese.spring.reactive.model;
  */
 public class Department {
     private long id;
-
     private String name;
 
     public long getId() {

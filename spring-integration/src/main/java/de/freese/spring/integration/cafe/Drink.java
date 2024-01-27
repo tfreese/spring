@@ -5,9 +5,7 @@ package de.freese.spring.integration.cafe;
  */
 public class Drink {
     private final DrinkType drinkType;
-
     private final boolean iced;
-
     private final int orderNumber;
 
     public Drink(final int orderNumber, final DrinkType drinkType, final boolean iced) {

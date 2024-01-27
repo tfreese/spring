@@ -19,9 +19,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class QpidConfig {
     private static final String INITIAL_CONFIGURATION = "qpid-config.json";
-
     private static final String QPID_HOME_DIR = System.getProperty("user.dir");
-
     private static final String QPID_WORK_DIR = QPID_HOME_DIR + File.separator + "qpid-work";
 
     // @Bean

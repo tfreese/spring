@@ -40,17 +40,18 @@ final class Shutdown {
 
         LOGGER.info("execute {}", uri);
 
-        // curl -X POST localhost:8088/spring-boot-web/actuator/shutdown
-        final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).followRedirects(HttpClient.Redirect.NEVER).proxy(ProxySelector.getDefault()).connectTimeout(Duration.ofSeconds(3))
-                //.executor(executorServiceHttpClient)
-                .build();
-
-        final HttpRequest request = HttpRequest.newBuilder().uri(uri).POST(HttpRequest.BodyPublishers.noBody()).header("user-agent", "Java").build();
-
         String response = null;
 
-        final HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        response = httpResponse.body();
+        // curl -X POST localhost:8088/spring-boot-web/actuator/shutdown
+        try (HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).followRedirects(HttpClient.Redirect.NEVER).proxy(ProxySelector.getDefault())
+                .connectTimeout(Duration.ofSeconds(3))
+                //.executor(executorServiceHttpClient)
+                .build()) {
+            final HttpRequest request = HttpRequest.newBuilder().uri(uri).POST(HttpRequest.BodyPublishers.noBody()).header("user-agent", "Java").build();
+
+            final HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            response = httpResponse.body();
+        }
 
         // REST-Template
         //       final HttpHeaders headers = new HttpHeaders();

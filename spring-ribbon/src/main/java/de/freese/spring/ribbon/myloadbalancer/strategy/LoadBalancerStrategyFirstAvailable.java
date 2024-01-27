@@ -11,6 +11,6 @@ import java.util.List;
 public class LoadBalancerStrategyFirstAvailable implements LoadBalancerStrategy {
     @Override
     public String chooseServer(final List<String> server, final String key) {
-        return server.get(0);
+        return server.getFirst();
     }
 }

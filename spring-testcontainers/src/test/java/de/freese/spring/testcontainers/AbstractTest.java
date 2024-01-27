@@ -35,10 +35,8 @@ import de.freese.spring.testcontainers.service.PersonService;
 abstract class AbstractTest {
     @Resource
     private DataSource dataSource;
-
     @Resource
     private JdbcDialect jdbcDialect;
-
     @Resource
     private PersonService personService;
 
@@ -80,8 +78,8 @@ abstract class AbstractTest {
         assertNotNull(persons);
         assertEquals(3, persons.size());
 
-        assertEquals(1, persons.get(0).getId());
-        assertEquals("Name-1", persons.get(0).getName());
+        assertEquals(1, persons.getFirst().getId());
+        assertEquals("Name-1", persons.getFirst().getName());
 
         assertEquals(2, persons.get(1).getId());
         assertEquals("Name-2", persons.get(1).getName());
@@ -103,8 +101,8 @@ abstract class AbstractTest {
         assertNotNull(persons);
         assertEquals(1, persons.size());
 
-        assertEquals(1, persons.get(0).getId());
-        assertEquals("Name", persons.get(0).getName());
+        assertEquals(1, persons.getFirst().getId());
+        assertEquals("Name", persons.getFirst().getName());
     }
 
     //    @Sql(scripts = "classpath:db-schema.sql")

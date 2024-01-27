@@ -1,6 +1,6 @@
 package de.freese.spring.web;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -35,7 +35,7 @@ public class DataBean implements Serializable {
         return this.localDateTimeFormatted;
     }
 
-    public List<Point.Double> getPoints() {
+    public List<Point2D.Double> getPoints() {
         return dataService.getPoints();
     }
 

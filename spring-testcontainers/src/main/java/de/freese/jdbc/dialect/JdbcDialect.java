@@ -10,13 +10,13 @@ import javax.sql.DataSource;
  * @author Thomas Freese
  */
 public interface JdbcDialect {
-    static JdbcDialect from(DataSource dataSource) throws SQLException {
+    static JdbcDialect from(final DataSource dataSource) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             return from(connection);
         }
     }
 
-    static JdbcDialect from(Connection connection) throws SQLException {
+    static JdbcDialect from(final Connection connection) throws SQLException {
         final DatabaseMetaData metaData = connection.getMetaData();
 
         final String product = metaData.getDatabaseProductName().toLowerCase();
@@ -46,39 +46,39 @@ public interface JdbcDialect {
         throw new IllegalArgumentException("unsupported database: " + product);
     }
 
-    default String createSequence(String name) {
+    default String createSequence(final String name) {
         return "CREATE SEQUENCE %s start with 1 increment by 1".formatted(name);
     }
 
-    default String dropSequence(String name) {
+    default String dropSequence(final String name) {
         return "DROP SEQUENCE %s".formatted(name);
     }
 
     /**
      * As Standalone-Query: select current value for SEQUENCE
      */
-    default String getSelectSequenceCurrentValString(String name) {
+    default String getSelectSequenceCurrentValString(final String name) {
         return "select current value for %s".formatted(name);
     }
 
     /**
      * As Standalone-Query: select next value for SEQUENCE
      */
-    default String getSelectSequenceNextValString(String name) {
+    default String getSelectSequenceNextValString(final String name) {
         return "select next value for %s".formatted(name);
     }
 
     /**
      * Example: current value for SEQUENCE
      */
-    default String getSequenceCurrentValString(String name) {
+    default String getSequenceCurrentValString(final String name) {
         return "current value for %s".formatted(name);
     }
 
     /**
      * Example: next value for SEQUENCE
      */
-    default String getSequenceNextValString(String name) {
+    default String getSequenceNextValString(final String name) {
         return "next value for %s".formatted(name);
     }
 }

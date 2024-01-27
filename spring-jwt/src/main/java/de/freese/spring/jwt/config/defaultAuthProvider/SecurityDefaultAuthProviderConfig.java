@@ -35,7 +35,8 @@ public class SecurityDefaultAuthProviderConfig {
     }
 
     @Bean
-    Filter jwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint, final JwtTokenProvider jwtTokenProvider) throws Exception {
+    Filter jwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint, final JwtTokenProvider jwtTokenProvider)
+            throws Exception {
         final JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();
         jwtRequestFilter.setAuthenticationManager(authenticationManager);
         jwtRequestFilter.setAuthenticationEntryPoint(authenticationEntryPoint);

@@ -50,7 +50,6 @@ public class Application {
     }
 
     private final AtomicInteger coldDrinkCounter = new AtomicInteger();
-
     private final AtomicInteger hotDrinkCounter = new AtomicInteger();
 
     @Bean

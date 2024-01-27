@@ -7,11 +7,8 @@ import java.util.Objects;
  */
 public class Employee {
     private String department;
-
     private String firstName;
-
     private long id;
-
     private String lastName;
 
     public Employee() {
@@ -44,7 +41,8 @@ public class Employee {
 
         final Employee other = (Employee) obj;
 
-        return (this.id == other.id) && Objects.equals(this.firstName, other.firstName) && Objects.equals(this.lastName, other.lastName) && Objects.equals(this.department, other.department);
+        return (this.id == other.id) && Objects.equals(this.firstName, other.firstName) && Objects.equals(this.lastName, other.lastName) && Objects.equals(this.department,
+                other.department);
     }
 
     public String getDepartment() {

@@ -20,13 +20,11 @@ import de.freese.spring.thymeleaf.ThymeleafApplication;
 abstract class AbstractRestTestCase {
     @Resource
     private Environment environment;
-
     @LocalServerPort
     private int localServerPort;
 
     @Resource
     private ObjectMapper objectMapper;
-
     @Resource
     private Jackson2ObjectMapperBuilder objectMapperBuilder;
 

@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -22,12 +23,11 @@ import de.freese.spring.javafx.JavaFxApplication.StageReadyEvent;
 @Component
 public class StageListener implements ApplicationListener<StageReadyEvent> {
     private final ApplicationContext applicationContext;
-
     private final String applicationTitle;
-
     private final Resource fxml;
 
-    public StageListener(final ApplicationContext applicationContext, @Value("${spring.application.ui.title}") final String applicationTitle, @Value("classpath:/ui.fxml") final Resource fxml) {
+    public StageListener(final ApplicationContext applicationContext, @Value("${spring.application.ui.title}") final String applicationTitle,
+                         @Value("classpath:/ui.fxml") final Resource fxml) {
         super();
 
         this.applicationContext = applicationContext;

@@ -41,13 +41,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 class TestRestService {
     @Resource
     private MockMvc mockMvc;
-
     @LocalServerPort
     private int port;
-
     @Resource
     private RestTemplateBuilder restTemplateBuilder;
-
     @Resource
     private WebClient.Builder webClientBuilder;
 

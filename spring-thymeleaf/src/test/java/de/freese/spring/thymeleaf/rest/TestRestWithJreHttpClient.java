@@ -42,7 +42,6 @@ import de.freese.spring.thymeleaf.model.Person;
 class TestRestWithJreHttpClient extends AbstractRestTestCase {
     @Resource
     private ExecutorService executorService;
-
     private String rootUri;
 
     @BeforeEach
@@ -53,204 +52,206 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     @Override
     @Test
     void testHealthEndpoint() throws Exception {
-        final HttpClient httpClient = createClientBuilder().build();
+        try (HttpClient httpClient = createClientBuilder().build()) {
+            // @formatter:off
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.rootUri + "/actuator/health"))
+                    .header("Accept", MediaType.APPLICATION_JSON_VALUE)
+                    .GET()
+                    .build()
+                    ;
+            // @formatter:on
 
-        // @formatter:off
-        final HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(this.rootUri + "/actuator/health"))
-                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .GET()
-                .build()
-                ;
-        // @formatter:on
+            final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            assertEquals(MediaType.APPLICATION_JSON_VALUE, response.headers().firstValue("Content-Type").orElse(null));
 
-        assertEquals(MediaType.APPLICATION_JSON_VALUE, response.headers().firstValue("Content-Type").get());
-
-        final Object status = JsonPath.parse(response.body()).read("$.status");
-        // assertEquals("UP", status);
-        assertNotNull(status);
+            final Object status = JsonPath.parse(response.body()).read("$.status");
+            // assertEquals("UP", status);
+            assertNotNull(status);
+        }
     }
 
     @Override
     @Test
     void testPost() throws Exception {
-        // POST
-        HttpClient httpClient = createClientBuilder("admin", "pw").build();
+        try (HttpClient httpClient = createClientBuilder("admin", "pw").build()) {
+            // POST
+            // @formatter:off
+             final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.rootUri + "/rest/person/personAdd"))
+                    .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                    .POST(BodyPublishers.ofString("{\"firstName\":\"Thomas\",\"lastName\":\"Freese\"}", StandardCharsets.UTF_8))
+                    .build()
+                    ;
+            // @formatter:on
 
-        // @formatter:off
-         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(this.rootUri + "/rest/person/personAdd"))
-                .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                .POST(BodyPublishers.ofString("{\"firstName\":\"Thomas\",\"lastName\":\"Freese\"}", StandardCharsets.UTF_8))
-                .build()
-                ;
-        // @formatter:on
+            final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            assertEquals(HttpStatus.OK.value(), response.statusCode());
+        }
 
-        HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-        assertEquals(HttpStatus.OK.value(), response.statusCode());
+        try (HttpClient httpClient = createClientBuilder("user", "pw").build()) {
+            // GET
+            // @formatter:off
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .header("Accept", MediaType.APPLICATION_JSON_VALUE)
+                    .GET()
+                    .build()
+                    ;
+            // @formatter:on
 
-        // GET
-        httpClient = createClientBuilder("user", "pw").build();
+            final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        // @formatter:off
-        request = HttpRequest.newBuilder()
-                .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .GET()
-                .build()
-                ;
-        // @formatter:on
+            final List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>() {
+            });
 
-        response = httpClient.send(request, BodyHandlers.ofString());
-
-        final List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>() {
-        });
-
-        assertNotNull(persons);
-        assertTrue(persons.size() >= 2);
+            assertNotNull(persons);
+            assertTrue(persons.size() >= 2);
+        }
     }
 
     @Override
     @Test
     void testPostWithWrongRole() throws Exception {
-        final HttpClient httpClient = createClientBuilder("user", "pw").build();
+        try (final HttpClient httpClient = createClientBuilder("user", "pw").build()) {
+            // @formatter:off
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.rootUri + "/rest/person/personAdd"))
+                    .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                    .POST(BodyPublishers.ofString("{\"firstName\":\"Thomas\",\"lastName\":\"Freese\"}", StandardCharsets.UTF_8))
+                    .build()
+                    ;
+            // @formatter:on
 
-        // @formatter:off
-        final HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(this.rootUri + "/rest/person/personAdd"))
-                .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                .POST(BodyPublishers.ofString("{\"firstName\":\"Thomas\",\"lastName\":\"Freese\"}", StandardCharsets.UTF_8))
-                .build()
-                ;
-        // @formatter:on
+            final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-
-        assertEquals(HttpStatus.FORBIDDEN.value(), response.statusCode());
+            assertEquals(HttpStatus.FORBIDDEN.value(), response.statusCode());
+        }
     }
 
     @Override
     @Test
     void testUserWithLoginJSON() throws Exception {
-        final HttpClient httpClient = createClientBuilder("user", "pw").build();
+        try (HttpClient httpClient = createClientBuilder("user", "pw").build()) {
+            // @formatter:off
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .header("Accept", MediaType.APPLICATION_JSON_VALUE)
+                    .GET()
+                    .build()
+                    ;
+            // @formatter:on
 
-        // @formatter:off
-        final HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .GET()
-                .build()
-                ;
-        // @formatter:on
+            final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            final List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>() {
+            });
 
-        final List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>() {
-        });
-
-        assertNotNull(persons);
-        assertTrue(persons.size() >= 2);
+            assertNotNull(persons);
+            assertTrue(persons.size() >= 2);
+        }
     }
 
     @Override
     @Test
     void testUserWithLoginXML() throws Exception {
         final ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
-        final HttpClient httpClient = createClientBuilder("user", "pw").build();
 
-        // @formatter:off
-        final HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8")
-                .GET()
-                .build()
-                ;
-        // @formatter:on
+        try (HttpClient httpClient = createClientBuilder("user", "pw").build()) {
+            // @formatter:off
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .header("Accept", MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8")
+                    .GET()
+                    .build()
+                    ;
+            // @formatter:on
 
-        final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        final List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<>() {
-        });
+            final List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<>() {
+            });
 
-        assertNotNull(persons);
-        assertTrue(persons.size() >= 2);
+            assertNotNull(persons);
+            assertTrue(persons.size() >= 2);
+        }
     }
 
     @Override
     @Test
     void testUserWithPreAuthJSON() throws Exception {
-        final HttpClient httpClient = createClientBuilder().build();
+        try (HttpClient httpClient = createClientBuilder().build()) {
+            // @formatter:off
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .header("Accept", MediaType.APPLICATION_JSON_VALUE)
+                    .header("my-token", "user")
+                    .GET()
+                    .build()
+                    ;
+            // @formatter:on
 
-        // @formatter:off
-        final HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .header("my-token", "user")
-                .GET()
-                .build()
-                ;
-        // @formatter:on
+            final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            final List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>() {
+            });
 
-        final List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>() {
-        });
-
-        assertNotNull(persons);
-        assertTrue(persons.size() >= 2);
+            assertNotNull(persons);
+            assertTrue(persons.size() >= 2);
+        }
     }
 
     @Override
     @Test
     void testUserWithPreAuthXML() throws Exception {
         final ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
-        final HttpClient httpClient = createClientBuilder().build();
 
-        // @formatter:off
-        final HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8")
-                .header("my-token", "user")
-                .GET()
-                .build()
-                ;
-        // @formatter:on
+        try (HttpClient httpClient = createClientBuilder().build()) {
+            // @formatter:off
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .header("Accept", MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8")
+                    .header("my-token", "user")
+                    .GET()
+                    .build()
+                    ;
+            // @formatter:on
 
-        final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        final List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<>() {
-        });
+            final List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<>() {
+            });
 
-        assertNotNull(persons);
-        assertTrue(persons.size() >= 2);
+            assertNotNull(persons);
+            assertTrue(persons.size() >= 2);
+        }
     }
 
     @Override
     @Test
     void testUserWithWrongPass() throws Exception {
         final IOException ioException = Assertions.assertThrows(IOException.class, () -> {
-            final HttpClient httpClient = createClientBuilder("user", "pass").build();
+            try (HttpClient httpClient = createClientBuilder("user", "pass").build()) {
+                // @formatter:off
+                final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .header("Accept", MediaType.APPLICATION_JSON_VALUE)
+                    .GET()
+                    .build()
+                    ;
+                // @formatter:on
 
-            // @formatter:off
-            final HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .GET()
-                .build()
-                ;
-            // @formatter:on
-
-            try {
-                // HttpResponse<String> response =
-                httpClient.send(request, BodyHandlers.ofString());
-                // Assertions.assertEquals(HttpStatus.UNAUTHORIZED, response.statusCode());
-                fail("sollte nicht erfolgreich sein");
-            }
-            catch (Exception ex) {
-                assertEquals("too many authentication attempts. Limit: 3", ex.getMessage());
-                throw ex;
+                try {
+                    // HttpResponse<String> response =
+                    httpClient.send(request, BodyHandlers.ofString());
+                    // Assertions.assertEquals(HttpStatus.UNAUTHORIZED, response.statusCode());
+                    fail("sollte nicht erfolgreich sein");
+                }
+                catch (Exception ex) {
+                    assertEquals("too many authentication attempts. Limit: 3", ex.getMessage());
+                    throw ex;
+                }
             }
         });
 
@@ -260,45 +261,45 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithWrongRole() throws Exception {
-        final HttpClient httpClient = createClientBuilder("invalid", "pw").build();
+        try (HttpClient httpClient = createClientBuilder("invalid", "pw").build()) {
+            // @formatter:off
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .header("Accept", MediaType.APPLICATION_JSON_VALUE)
+                    .GET()
+                    .build()
+                    ;
+            // @formatter:on
 
-        // @formatter:off
-        final HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .GET()
-                .build()
-                ;
-        // @formatter:on
+            final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-        final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-
-        assertEquals(HttpStatus.FORBIDDEN.value(), response.statusCode());
+            assertEquals(HttpStatus.FORBIDDEN.value(), response.statusCode());
+        }
     }
 
     @Override
     @Test
         // (expected = IOException.class)
     void testUserWithoutLogin() throws Exception {
-        final HttpClient httpClient = createClientBuilder().build();
+        try (HttpClient httpClient = createClientBuilder().build()) {
+            // @formatter:off
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .header("Accept", MediaType.APPLICATION_JSON_VALUE)
+                    .GET()
+                    .build()
+                    ;
+            // @formatter:on
 
-        // @formatter:off
-        final HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(this.rootUri + "/rest/person/personList"))
-                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
-                .GET()
-                .build()
-                ;
-        // @formatter:on
-
-        try {
-            final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-            assertEquals(HttpStatus.UNAUTHORIZED.value(), response.statusCode());
-            // Assertions.fail("sollte nicht erfolgreich sein");
-        }
-        catch (Exception ex) {
-            assertEquals("No authenticator set", ex.getMessage());
-            throw ex;
+            try {
+                final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+                assertEquals(HttpStatus.UNAUTHORIZED.value(), response.statusCode());
+                // Assertions.fail("sollte nicht erfolgreich sein");
+            }
+            catch (Exception ex) {
+                assertEquals("No authenticator set", ex.getMessage());
+                throw ex;
+            }
         }
     }
 

@@ -18,7 +18,8 @@ import de.freese.spring.messaging.jms.JmsReceiver;
 @Configuration
 public class ReceiverConfig {
     @Bean
-    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(final ActiveMQConnectionFactory receiverActiveMQConnectionFactory, final DefaultJmsListenerContainerFactoryConfigurer configurer, final Executor taskExecutor) {
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(final ActiveMQConnectionFactory receiverActiveMQConnectionFactory,
+                                                                          final DefaultJmsListenerContainerFactoryConfigurer configurer, final Executor taskExecutor) {
         final DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(receiverActiveMQConnectionFactory);
         //        factory.setMessageConverter(jacksonJmsMessageConverter);

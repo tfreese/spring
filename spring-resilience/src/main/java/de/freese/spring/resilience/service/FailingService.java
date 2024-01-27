@@ -2,8 +2,10 @@ package de.freese.spring.resilience.service;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.Optional;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +19,12 @@ import reactor.core.publisher.Mono;
 @Service
 public class FailingService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FailingService.class);
-
     @Value("${server.port}")
     private final int port = -1;
+    private final Random random = new SecureRandom();
 
     public Mono<String> greet(final Optional<String> name) {
-        final long seconds = (long) (Math.random() * 5);
+        final long seconds = random.nextLong(5);
 
         //@formatter:off
         return name

@@ -26,7 +26,6 @@ public class LineChartBean implements Serializable {
 
     @Resource
     private transient DataService dataService;
-
     private LineChartModel lineChartModel;
 
     public LineChartModel getLineChartModel() {

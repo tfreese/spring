@@ -16,9 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
  */
 public interface JwtTokenProvider {
     default String createToken(final String username, final String password) {
-        final Set<String> roles = null;
-
-        return createToken(username, password, roles);
+        return createToken(username, password, (Set<String>) null);
     }
 
     default String createToken(final String username, final String password, final Collection<? extends GrantedAuthority> roles) {

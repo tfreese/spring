@@ -29,11 +29,8 @@ public final class StreamResponse {
 
     public static StreamingResponseBody ok(final InputStream inputStream) {
         return outputStream -> {
-            final byte[] buffer = new byte[4096];
-
-            for (int n = 0; n >= 0; n = inputStream.read(buffer)) {
-                outputStream.write(buffer, 0, n);
-            }
+            inputStream.transferTo(outputStream);
+            outputStream.flush();
         };
     }
 

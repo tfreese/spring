@@ -87,8 +87,8 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         assertNotNull(persons);
         assertTrue(persons.size() >= 3);
 
-        assertEquals("Thomas", persons.get(persons.size() - 1).getFirstName());
-        assertEquals("Freese", persons.get(persons.size() - 1).getLastName());
+        assertEquals("Thomas", persons.getLast().getFirstName());
+        assertEquals("Freese", persons.getLast().getLastName());
     }
 
     @Override

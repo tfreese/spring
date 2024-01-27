@@ -32,12 +32,14 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
     }
 
     @Override
-    public Flux<DataBuffer> encode(final Publisher<? extends Object> inputStream, final DataBufferFactory bufferFactory, final ResolvableType elementType, final MimeType mimeType, final Map<String, Object> hints) {
+    public Flux<DataBuffer> encode(final Publisher<? extends Object> inputStream, final DataBufferFactory bufferFactory, final ResolvableType elementType, final MimeType mimeType,
+                                   final Map<String, Object> hints) {
         return Flux.from(inputStream).map(message -> encodeValue(message, bufferFactory, elementType, mimeType, hints));
     }
 
     @Override
-    public DataBuffer encodeValue(final Object value, final DataBufferFactory bufferFactory, final ResolvableType valueType, final MimeType mimeType, final Map<String, Object> hints) {
+    public DataBuffer encodeValue(final Object value, final DataBufferFactory bufferFactory, final ResolvableType valueType, final MimeType mimeType,
+                                  final Map<String, Object> hints) {
         final DataBuffer buffer = bufferFactory.allocateBuffer(256);
         final Kryo kryo = getKryoPool().obtain();
         final boolean release = true;

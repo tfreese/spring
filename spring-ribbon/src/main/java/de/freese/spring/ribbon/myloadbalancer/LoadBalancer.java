@@ -153,6 +153,7 @@ public class LoadBalancer implements LoadBalancerPing {
     private final List<String> aliveServer = new LinkedList<>();
     private final List<String> allServer = new LinkedList<>();
     private final ReentrantLock lock = new ReentrantLock(true);
+    
     private LoadBalancerPing ping = new LoadBalancerPingNoOp();
     /**
      * Default 15 Sekunden.

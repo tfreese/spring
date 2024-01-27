@@ -5,9 +5,7 @@ package de.freese.spring.integration.cafe;
  */
 public class OrderItem {
     private final boolean iced;
-
     private final Order order;
-
     private final DrinkType type;
 
     public OrderItem(final Order order, final DrinkType type, final boolean iced) {

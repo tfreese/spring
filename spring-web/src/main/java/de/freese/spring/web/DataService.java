@@ -1,6 +1,5 @@
 package de.freese.spring.web;
 
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,8 +23,8 @@ public class DataService {
         return LocalDateTime.now();
     }
 
-    public List<Point.Double> getPoints() {
-        final List<Point.Double> map = new ArrayList<>();
+    public List<Point2D.Double> getPoints() {
+        final List<Point2D.Double> map = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
             map.add(new Point2D.Double(i, Math.random() * 100D));
