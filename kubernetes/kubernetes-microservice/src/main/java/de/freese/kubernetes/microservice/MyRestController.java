@@ -50,11 +50,11 @@ public class MyRestController {
     }
 
     @GetMapping("greet")
-    public Publisher<String> greet(@RequestParam final Optional<String> name) {
+    public Publisher<String> greet(@RequestParam final String name) {
         final String hostName = getHostName();
 
         //@formatter:off
-        return name
+        return Optional.ofNullable(name)
                 .map(s -> {
                     final var msg = "Hello " + s + " on " + hostName;
                     return Mono.just(msg);

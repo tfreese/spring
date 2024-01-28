@@ -1,23 +1,23 @@
-//package de.freese.spring.reactive.repository;
+// package de.freese.spring.reactive.repository;
 //
-//import java.util.Objects;
-//import java.util.function.BiFunction;
+// import java.util.Objects;
+// import java.util.function.BiFunction;
 //
-//import de.freese.spring.reactive.model.Department;
-//import de.freese.spring.reactive.model.Employee;
-//import io.r2dbc.client.R2dbc;
-//import io.r2dbc.spi.ConnectionFactory;
-//import io.r2dbc.spi.Row;
-//import io.r2dbc.spi.RowMetadata;
-//import reactor.core.publisher.Flux;
-//import reactor.core.publisher.Mono;
+// import de.freese.spring.reactive.model.Department;
+// import de.freese.spring.reactive.model.Employee;
+// import io.r2dbc.client.R2dbc;
+// import io.r2dbc.spi.ConnectionFactory;
+// import io.r2dbc.spi.Row;
+// import io.r2dbc.spi.RowMetadata;
+// import reactor.core.publisher.Flux;
+// import reactor.core.publisher.Mono;
 //
 ///**
 // * @author Thomas Freese
 // */
 //// @Repository
 //// @Profile("r2dbc")
-//public class EmployeeRepositoryR2dbcClient implements EmployeeRepository
+// public class EmployeeRepositoryR2dbcClient implements EmployeeRepository
 //{
 //    private static final BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) ->
 //    {

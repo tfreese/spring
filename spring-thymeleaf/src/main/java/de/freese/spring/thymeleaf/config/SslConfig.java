@@ -70,7 +70,7 @@ public class SslConfig {
                 // SSL Context definieren.
                 final SecurityConstraint securityConstraint = new SecurityConstraint();
                 securityConstraint.setUserConstraint("CONFIDENTIAL");
-                
+
                 final SecurityCollection collection = new SecurityCollection();
                 collection.addPattern("/*");
                 securityConstraint.addCollection(collection);

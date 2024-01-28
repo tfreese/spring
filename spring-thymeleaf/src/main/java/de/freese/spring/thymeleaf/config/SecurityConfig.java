@@ -97,7 +97,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider, final AuthenticationEntryPoint authenticationEntryPoint, final RememberMeServices rememberMeServices, final AuthenticationManager authenticationManager) throws Exception {
+    SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider,
+                                    final AuthenticationEntryPoint authenticationEntryPoint, final RememberMeServices rememberMeServices,
+                                    final AuthenticationManager authenticationManager) throws Exception {
         // Beispiel: https://developer.okta.com/blog/2018/07/30/10-ways-to-secure-spring-boot
         // http.requiresChannel().anyRequest().requiresSecure();
         //

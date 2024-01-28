@@ -18,6 +18,6 @@ dependencies {
 test {
     filter {
         // Funktioniert irgendwie nicht mehr.
-        excludeTestsMatching "de.freese.spring.rsocket.RSocketClientToServerDeniedConnectionTest.testConnectionIsRefused"
+        // excludeTestsMatching "de.freese.spring.rsocket.RSocketClientToServerDeniedConnectionTest.testConnectionIsRefused"
     }
 }

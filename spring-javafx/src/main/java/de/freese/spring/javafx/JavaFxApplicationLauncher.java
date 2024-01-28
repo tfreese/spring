@@ -2,6 +2,7 @@
 package de.freese.spring.javafx;
 
 import javafx.application.Application;
+
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**

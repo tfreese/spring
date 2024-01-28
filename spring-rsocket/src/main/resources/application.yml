@@ -14,12 +14,9 @@ logging:
 spring:
     main:
         #banner-mode: OFF
-        web-application-type: NONE     
+        web-application-type: NONE
     rsocket:
         server:
             address: localhost
             port: 7000
             transport: TCP
-
-
- 

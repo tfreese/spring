@@ -22,7 +22,7 @@
         <immediateFlush>true</immediateFlush>
         <encoder>
             <pattern>${pattern}</pattern>
-            <outputPatternAsHeader>false</outputPatternAsHeader>            
+            <outputPatternAsHeader>false</outputPatternAsHeader>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -36,7 +36,7 @@
         <immediateFlush>true</immediateFlush>
         <encoder>
             <pattern>${pattern}</pattern>
-            <outputPatternAsHeader>false</outputPatternAsHeader>            
+            <outputPatternAsHeader>false</outputPatternAsHeader>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
@@ -62,8 +62,8 @@
         </filter>
     </appender-->
 
-    <logger name="org.springframework.jdbc.core.JdbcTemplate" level="INFO"/>
-    <logger name="org.springframework.boot.autoconfigure" level="INFO"/>
+    <logger name="org.springframework.jdbc.core.JdbcTemplate" level="INFO" />
+    <logger name="org.springframework.boot.autoconfigure" level="INFO" />
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

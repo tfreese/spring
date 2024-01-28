@@ -138,7 +138,8 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
         // Limit username comparison to providers which use usernames (ie
         // UsernamePasswordAuthenticationToken)
         // (see SEC-348)
-        if ((existingAuth == null) || !existingAuth.isAuthenticated() || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username))) {
+        if ((existingAuth == null) || !existingAuth.isAuthenticated() || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName()
+                .equals(username))) {
             return true;
         }
 

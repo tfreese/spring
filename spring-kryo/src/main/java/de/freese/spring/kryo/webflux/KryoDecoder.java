@@ -67,7 +67,8 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
     }
 
     @Override
-    public Map<String, Object> getDecodeHints(final ResolvableType actualType, final ResolvableType elementType, final ServerHttpRequest request, final ServerHttpResponse response) {
+    public Map<String, Object> getDecodeHints(final ResolvableType actualType, final ResolvableType elementType, final ServerHttpRequest request,
+                                              final ServerHttpResponse response) {
         return Hints.none();
     }
 }

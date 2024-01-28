@@ -104,18 +104,18 @@ public class Config {
 //    <version>5.0.9</version>
 //</dependency>
 //
-//Integrating with Hibernate 5.2 and higher
+// Integrating with Hibernate 5.2 and higher
 //
-//As of these hibernate releases, connections are closed differently: connection release mode has been replaced by a new property: hibernate.connection.handling_mode.
-//Its value for JTA transaction should be set to DELAYED_ACQUISITION_AND_RELEASE_AFTER_STATEMENT:
+// As of these hibernate releases, connections are closed differently: connection release mode has been replaced by a new property: hibernate.connection.handling_mode.
+// Its value for JTA transaction should be set to DELAYED_ACQUISITION_AND_RELEASE_AFTER_STATEMENT:
 //
-//Otherwise, you will exhaust the connection pool.
+// Otherwise, you will exhaust the connection pool.
 //
-//hibernate.connection.handling_mode = DELAYED_ACQUISITION_AND_RELEASE_AFTER_STATEMENT
+// hibernate.connection.handling_mode = DELAYED_ACQUISITION_AND_RELEASE_AFTER_STATEMENT
 //
 //@Configuration
 //@EnableJpaRepositories(basePackages = "de.freese.spring.atomicos.person", entityManagerFactoryRef = "entityManagerPerson", transactionManagerRef = "transactionManager")
-//public class PersonConfig {
+// public class PersonConfig {
 //    @Bean(initMethod = "init", destroyMethod = "close")
 //    public AtomikosDataSourceBean dataSourcePerson() {
 //        ...

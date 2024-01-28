@@ -1,7 +1,6 @@
 package de.freese.spring.resilience.controller;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
@@ -34,10 +33,18 @@ public class FailingRestController {
      * http://localhost:8080/greet?name=tommy
      */
     @GetMapping("greet")
-    Publisher<String> greet(@RequestParam final Optional<String> name) {
+    Publisher<String> greet(@RequestParam final String name) {
         final Mono<String> results = this.service.greet(name);
 
         return getReactiveCircuitBreaker().run(results, throwable -> Mono.just("fallback (no name): hello world !")).map(r -> r + System.lineSeparator());
+    }
+
+    /**
+     * http://localhost:8080/greetFail
+     */
+    @GetMapping("greetFail")
+    Publisher<String> greetFail() {
+        return greet(null);
     }
 
     private ReactiveCircuitBreaker getReactiveCircuitBreaker() {

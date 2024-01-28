@@ -128,7 +128,8 @@ class TestKryo {
     protected void setup() {
         final KryoHttpMessageConverter kryoHttpMessageConverter = new KryoHttpMessageConverter(KryoApplication.KRYO_POOL);
 
-        this.restTemplate = new RestTemplateBuilder().rootUri("http://localhost:" + this.localServerPort).additionalMessageConverters(kryoHttpMessageConverter, new MappingJackson2HttpMessageConverter()).build();
+        this.restTemplate = new RestTemplateBuilder().rootUri("http://localhost:" + this.localServerPort)
+                .additionalMessageConverters(kryoHttpMessageConverter, new MappingJackson2HttpMessageConverter()).build();
 
         // this.restTemplate = this.restTemplateBuilder.rootUri("http://localhost:" + this.localServerPort)
         // .additionalMessageConverters(this.kryoHttpMessageConverter).build();

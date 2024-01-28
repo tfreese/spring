@@ -8,11 +8,11 @@
     <property name="pattern" value="%date{HH:mm:ss.SSS} - %5level - [%25.-25thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <target>System.out</target>        
+        <target>System.out</target>
         <!--immediateFlush>true</immediateFlush-->
         <encoder>
             <pattern>${pattern}</pattern>
-            <outputPatternAsHeader>false</outputPatternAsHeader>            
+            <outputPatternAsHeader>false</outputPatternAsHeader>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -22,11 +22,11 @@
     </appender>
 
     <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
-        <target>System.err</target>       
+        <target>System.err</target>
         <!--immediateFlush>true</immediateFlush-->
         <encoder>
             <pattern>${pattern}</pattern>
-            <outputPatternAsHeader>false</outputPatternAsHeader>             
+            <outputPatternAsHeader>false</outputPatternAsHeader>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
@@ -37,5 +37,5 @@
         <appender-ref ref="STDOUT" />
         <appender-ref ref="STDERR" />
     </root>
-    
+
 </configuration>

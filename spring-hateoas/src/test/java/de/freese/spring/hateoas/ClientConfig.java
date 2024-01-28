@@ -28,7 +28,8 @@ class ClientConfig {
      * "@Value("${local.server.port}") final int port"
      */
     @Bean
-    RestTemplateBuilder restTemplateBuilder(@Value("${server.address:localhost}") final String host, @Value("${server.port}") final int port, @Value("${server.servlet.context-path:}") final String contextPath) {
+    RestTemplateBuilder restTemplateBuilder(@Value("${server.address:localhost}") final String host, @Value("${server.port}") final int port,
+                                            @Value("${server.servlet.context-path:}") final String contextPath) {
         // "http://localhost:" + this.port + this.contextPath + "/greeter/"
         return new RestTemplateBuilder().rootUri("http://" + host + ":" + port + contextPath);
     }

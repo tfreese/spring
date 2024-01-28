@@ -7,20 +7,20 @@
 debug: false
 
 logging:
-   #   config: classpath:logback.xml
-   pattern:
-      console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
-   level:
-      org.springframework: WARN
+    #   config: classpath:logback.xml
+    pattern:
+        console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
+    level:
+        org.springframework: WARN
 
 server:
-   port: 8081
+    port: 8081
 
 spring:
-   jmx:
-      enabled: false
-   main:
-      banner-mode: 'OFF'
-   output:
-      ansi:
-         enabled: DETECT
+    jmx:
+        enabled: false
+    main:
+        banner-mode: 'OFF'
+    output:
+        ansi:
+            enabled: DETECT

@@ -124,7 +124,8 @@ public class JwtAuthServerConfig extends AbstractServerConfig {
     }
 
     @Bean
-    JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager(final ReactiveJwtDecoder reactiveJwtDecoder, final Converter<Jwt, AbstractAuthenticationToken> authenticationConverter) {
+    JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager(final ReactiveJwtDecoder reactiveJwtDecoder,
+                                                                      final Converter<Jwt, AbstractAuthenticationToken> authenticationConverter) {
         final JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager = new JwtReactiveAuthenticationManager(reactiveJwtDecoder);
         jwtReactiveAuthenticationManager.setJwtAuthenticationConverter(new ReactiveJwtAuthenticationConverterAdapter(authenticationConverter));
 

@@ -57,7 +57,8 @@ public abstract class AbstractBaseEntity implements Serializable {
             return false;
         }
 
-        return Objects.equals(createdDate, that.createdDate) && Objects.equals(id, that.id) && Objects.equals(updatedDate, that.updatedDate) && Objects.equals(version, that.version);
+        return Objects.equals(createdDate, that.createdDate) && Objects.equals(id, that.id) && Objects.equals(updatedDate, that.updatedDate) && Objects.equals(version,
+                that.version);
     }
 
     public LocalDateTime getCreatedDate() {

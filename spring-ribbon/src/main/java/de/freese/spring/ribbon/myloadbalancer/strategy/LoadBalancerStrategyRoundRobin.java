@@ -10,7 +10,8 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
  * @author Thomas Freese
  */
 public class LoadBalancerStrategyRoundRobin implements LoadBalancerStrategy {
-    private static final AtomicIntegerFieldUpdater<LoadBalancerStrategyRoundRobin> NEXT_INDEX = AtomicIntegerFieldUpdater.newUpdater(LoadBalancerStrategyRoundRobin.class, "nextIndex");
+    private static final AtomicIntegerFieldUpdater<LoadBalancerStrategyRoundRobin> NEXT_INDEX = AtomicIntegerFieldUpdater.newUpdater(LoadBalancerStrategyRoundRobin.class,
+            "nextIndex");
 
     private volatile int nextIndex;
 
