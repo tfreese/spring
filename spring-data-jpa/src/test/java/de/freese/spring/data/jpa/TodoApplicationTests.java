@@ -2,7 +2,9 @@
 package de.freese.spring.data.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -12,32 +14,192 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import jakarta.annotation.Resource;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import de.freese.spring.data.jpa.domain.Status;
+import de.freese.spring.data.jpa.domain.Todo;
+import de.freese.spring.data.jpa.exception.ApplicationException;
 
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+        // @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TodoApplicationTests {
 
+    @LocalServerPort
+    private int localServerPort;
+    @Resource
+    private RestClient.Builder restClientBuilder;
     @Resource
     private WebTestClient webTestClient;
 
+    @BeforeEach
+    void beforeEach() {
+        //        webTestClient = WebTestClient.bindToController(new TodoController(new TodoService(repository))).build();
+        //        webTestClient = WebTestClient
+        //                .bindToServer()
+        //                .baseUrl(http://localhost: + localServerPort)
+        //                .codecs(configurer -> {
+        ////                  configurer.registerDefaults(true);
+        //                    configurer.defaultCodecs().jaxb2Encoder(new Jaxb2XmlEncoder());
+        //                    configurer.defaultCodecs().jaxb2Decoder(new Jaxb2XmlDecoder());
+        ////                   configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder());
+        ////                  configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder());
+        //                }).build();
+    }
+
     @Test
-    void contextLoads() {
-        assertTrue(true);
+    void testGetAllTodosJson() {
+        testCreateTodo();
+
+        // @formatter:off
+        webTestClient.get()
+                .uri("/api/todo")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class).value(value -> {
+                    System.out.println(value);
+                    assertNotNull(value);
+                })
+        ;
+        // @formatter:on
+
+        // @formatter:off
+        webTestClient.get()
+                .uri("/api/todo")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(Todo.class).value(list -> {
+                    System.out.println(list);
+                    assertNotNull(list);
+                    assertFalse(list.isEmpty());
+                })
+        ;
+        // @formatter:on
+
+        // final Function<ClientResponse, Mono<ClientResponse>> exceptionFilterFunction = clientResponse -> {
+        //     final HttpStatus statusCode = HttpStatus.resolve(clientResponse.statusCode().value());
+        //
+        //     if (!HttpStatus.OK.equals(statusCode)) {
+        //         return clientResponse.bodyToMono(String.class).flatMap(body -> Mono.error(new ApplicationException(body)));
+        //     }
+        //
+        //     return Mono.just(clientResponse);
+        // };
+
+        // @formatter:off
+        final WebClient webClient = WebClient.builder()
+                .baseUrl("http://localhost:" + localServerPort)
+                // .filter(ExchangeFilterFunction.ofResponseProcessor(exceptionFilterFunction))
+                .build();
+
+        webClient.get()
+                .uri("/api/todo")
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                // .onStatus(status -> status != HttpStatus.OK, clientResponse -> Mono.empty())
+                .onStatus(status -> status != HttpStatus.OK, clientResponse -> clientResponse.bodyToMono(String.class).map(ApplicationException::new))
+                .bodyToFlux(Todo.class)
+                //.exchangeToFlux(response -> response.bodyToFlux(Todo.class))
+                //                .blockOptional().ifPresent(System.out::println)
+                .doOnNext(value -> {
+                    System.out.println(value);
+                    assertNotNull(value);
+                }).blockLast();
+        // @formatter:on
+    }
+
+    @Test
+    void testGetAllTodosXml() {
+        testCreateTodo();
+
+        // @formatter:off
+        webTestClient.get()
+                .uri("/api/todo")
+                .accept(MediaType.APPLICATION_XML)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class).value(value -> {
+                    System.out.println(value);
+                    assertNotNull(value);
+                })
+        ;
+        // @formatter:on
+
+        // @formatter:off
+        webTestClient.get()
+                .uri("/api/todo")
+                .accept(MediaType.APPLICATION_XML)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(Todo.class).value(list -> {
+                    System.out.println(list);
+                    assertNotNull(list);
+                    // assertFalse(list.isEmpty());
+                })
+        ;
+        // @formatter:on
+    }
+
+    @Test
+    void testNotFoundRestClient() {
+        final RestClient restClient = restClientBuilder.baseUrl("http://localhost:" + localServerPort).build();
+
+        final HttpClientErrorException exception = assertThrows(HttpClientErrorException.NotFound.class,
+                () -> restClient.get().uri("/api/todo/" + UUID.randomUUID()).accept(MediaType.APPLICATION_JSON).retrieve()
+                        //                        .onStatus(new DefaultResponseErrorHandler() {
+                        //                            @Override
+                        //                            public boolean hasError(final ClientHttpResponse response) throws IOException {
+                        //                                return false;
+                        //                            }
+                        //                        })
+                        .body(Todo.class));
+
+        assertEquals(HttpStatus.NOT_FOUND.value(), exception.getStatusCode().value());
+
+        // final ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
+        final String problemDetail = exception.getResponseBodyAs(String.class);
+        System.out.println(problemDetail);
+        assertNotNull(problemDetail);
+    }
+
+    @Test
+    void testNotFoundWebTestClient() {
+        // @formatter:off
+        webTestClient.get()
+                .uri("/api/todo/" + UUID.randomUUID())
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isNotFound()
+                // .expectBody(ProblemDetail.class).value(System.out::println)
+                .expectBody(String.class).value(value -> {
+                    System.out.println(value);
+                    assertNotNull(value);
+                })
+        ;
+        // @formatter:on
     }
 
     @Test
@@ -73,6 +235,27 @@ class TodoApplicationTests {
                     }
                 })
          ;
+        // @formatter:on
+    }
+
+    private void testCreateTodo() {
+        final Todo todo = new Todo();
+        todo.setName("Test");
+        todo.setStartTime(LocalDateTime.now());
+        todo.setEndTime(LocalDateTime.now().plusDays(1));
+        todo.setTaskStatus(Status.PENDING);
+
+        // @formatter:off
+        webTestClient.post()
+                .uri("/api/todo")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(todo)).exchange()
+                .expectStatus().isCreated()
+                .expectBody(Todo.class).value(value -> {
+                    System.out.println(value);
+                    assertNotNull(value);
+                });
         // @formatter:on
     }
 }

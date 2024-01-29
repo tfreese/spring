@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import de.freese.spring.data.jpa.domain.Todo;
+import de.freese.spring.data.jpa.exception.ObjectNotFoundException;
 
 /**
  * @author Thomas Freese
@@ -34,11 +35,11 @@ public class TodoService {
     }
 
     public Todo getTodoById(final UUID id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Todo not found"));
+        return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException(Todo.class, id));
     }
 
     public Todo updateTodo(final UUID id, final Todo todoDetail) {
-        final Todo todo = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Todo not found"));
+        final Todo todo = getTodoById(id);
 
         todo.setName(todoDetail.getName());
         todo.setStartTime(todoDetail.getStartTime());

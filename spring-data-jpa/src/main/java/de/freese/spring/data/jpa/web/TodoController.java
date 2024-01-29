@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,7 +63,7 @@ public class TodoController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public List<Todo> getAllTodos() {
         return todoService.getAllTodos();
     }
@@ -78,7 +79,7 @@ public class TodoController {
      * public void test(@PathVariable("id") final UUID id,  final InputStream inputStream) throws IOException {}
      * }</pre>
      */
-    @PostMapping("/{id}/stream")
+    @PostMapping(value = "/{id}/stream", consumes = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     public void testStream(@PathVariable("id") final UUID id, @RequestBody final InputStreamResource inputStreamResource) throws IOException {
         LOGGER.info("id = {}", id);
 
@@ -104,7 +105,7 @@ public class TodoController {
      * <p>
      * StreamingResponseBody, InputStreamResource working booth.
      */
-    @GetMapping("/{id}/stream")
+    @GetMapping(value = "/{id}/stream", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     public StreamingResponseBody testStream(@PathVariable("id") final UUID id) {
         LOGGER.info("id = {}", id);
 

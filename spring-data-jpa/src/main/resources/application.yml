@@ -29,7 +29,7 @@ server:
     compression:
         enabled: true
     error:
-        include-message: always
+        include-message: never
     shutdown: "graceful"
 
 logging:

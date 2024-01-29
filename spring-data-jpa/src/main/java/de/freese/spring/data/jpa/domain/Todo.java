@@ -11,23 +11,28 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * @author Thomas Freese
  */
 @Entity
 @Table(name = "todo")
+@XmlRootElement
 public class Todo extends AbstractBaseEntity {
     @Serial
     private static final long serialVersionUID = 1901539776951339427L;
 
     @NotNull(message = "End Time cannot be blank")
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime endTime;
 
     @NotEmpty(message = "Name cannot be blank")
     private String name;
 
     @NotNull(message = "Start Time cannot be blank")
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime startTime;
 
     @Enumerated(EnumType.STRING)
