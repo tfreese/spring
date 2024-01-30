@@ -102,7 +102,7 @@ public class TodoController {
      *             }
      *         }).build();
      * }     * }</pre>
-     * <p>
+     *
      * StreamingResponseBody, InputStreamResource working booth.
      */
     @GetMapping(value = "/{id}/stream", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})

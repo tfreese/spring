@@ -83,28 +83,9 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
         final ProblemDetail problemDetail = ProblemDetail.forStatus(httpStatus);
         problemDetail.setTitle(ex.getMessage());
+        problemDetail.setDetail(getDetail(ex).toString());
         problemDetail.setStatus(httpStatus);
-
-        // Keep the last 10 Entries.
-        final StackTraceElement[] origin = ex.getStackTrace();
-        StackTraceElement[] limited = origin;
-
-        if (origin.length > 10) {
-            limited = new StackTraceElement[10];
-            System.arraycopy(origin, 0, limited, 0, 10);
-        }
-
-        final StringBuilder sb = new StringBuilder();
-
-        for (StackTraceElement stackTraceElement : limited) {
-            sb.append("\tat ").append(stackTraceElement);
-        }
-
-        if (origin.length > 10) {
-            sb.append("\t...");
-        }
-
-        problemDetail.setDetail(sb.toString());
+        // problemDetail.setType(URI.create(webRequest.getContextPath()));
 
         return new ResponseEntity<>(problemDetail, httpStatus);
     }
@@ -150,5 +131,40 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
                 ex.getRequiredType().getSimpleName());
 
         return buildResponseEntity(ex, request, message, HttpStatus.BAD_REQUEST);
+    }
+
+    private StringBuilder getDetail(final Throwable ex) {
+        //        StringWriter sw = new StringWriter();
+        //
+        //        try (PrintWriter pw = new PrintWriter(sw, false)) {
+        //            pw.println(ex);
+        //            ex.printStackTrace(pw);
+        //        }
+        //
+        //        return sw.toString();
+
+        final StringBuilder sb = new StringBuilder();
+        sb.append(ex.getClass().getSimpleName()).append(": ").append(ex.getMessage());
+
+        // Keep last N Elements.
+        final int keepLastNStaceTraceElements = 4;
+
+        final StackTraceElement[] stackTraceOrigin = ex.getStackTrace();
+        StackTraceElement[] stackTrace = stackTraceOrigin;
+
+        if (stackTraceOrigin.length > keepLastNStaceTraceElements) {
+            stackTrace = new StackTraceElement[keepLastNStaceTraceElements];
+            System.arraycopy(stackTraceOrigin, 0, stackTrace, 0, keepLastNStaceTraceElements);
+        }
+
+        for (StackTraceElement stackTraceElement : stackTrace) {
+            sb.append("\tat ").append(stackTraceElement);
+        }
+
+        if (stackTraceOrigin.length > keepLastNStaceTraceElements) {
+            sb.append("\t...");
+        }
+
+        return sb;
     }
 }

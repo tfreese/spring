@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -41,8 +42,9 @@ import de.freese.spring.data.jpa.exception.ApplicationException;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(properties = "server.port=0", webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+        // @ExtendWith(SpringExtension.class)
         // @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TodoApplicationTests {
 
@@ -183,6 +185,7 @@ class TodoApplicationTests {
         final String problemDetail = exception.getResponseBodyAs(String.class);
         System.out.println(problemDetail);
         assertNotNull(problemDetail);
+        assertTrue(problemDetail.contains("Todo not found by ID:"));
     }
 
     @Test
@@ -197,6 +200,7 @@ class TodoApplicationTests {
                 .expectBody(String.class).value(value -> {
                     System.out.println(value);
                     assertNotNull(value);
+                    assertTrue(value.contains("Todo not found by ID:"));
                 })
         ;
         // @formatter:on
