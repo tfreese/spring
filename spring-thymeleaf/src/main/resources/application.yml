@@ -144,16 +144,36 @@ spring:
     config:
         activate:
             on-profile: with-ssl
+    ssl:
+        bundle:
+            jks:
+                web-server:
+                    key:
+                        alias: "server"
+                        password: "password"
+                    keystore:
+                        location: "classpath:server_keystore.p12"
+                        password: "password"
+                        type: "PKCS12"
+                    truststore:
+                        location: "classpath:server_truststore.p12"
+                        password: "password"
+                        type: "PKCS12"
 
 server:
     port: 8443
+    shutdown: "graceful"
     ssl:
         enabled: true
-        key-alias: server
-        key-password: password
-        key-store: classpath:server_keystore.p12
-        key-store-password: password
-        key-store-type: PKCS12
-        trust-store: classpath:server_truststore.p12
-        trust-store-password: password
-        trust-store-type: PKCS12  
+        bundle: "web-server"
+        #        key-alias: server
+        #        key-password: password
+        #        key-store: classpath:server_keystore.p12
+        #        key-store-password: password
+        #        key-store-type: PKCS12
+        #        trust-store: classpath:server_truststore.p12
+        #        trust-store-password: password
+        #        trust-store-type: PKCS12
+        client-auth: NEED
+        protocol: TLS
+        enabled-protocols: TLSv1.2

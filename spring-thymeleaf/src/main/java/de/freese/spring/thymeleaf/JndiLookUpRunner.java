@@ -70,8 +70,7 @@ public class JndiLookUpRunner implements CommandLineRunner {
 
             LOGGER.info("{}", object);
 
-            // context.close();
-            // initialContext.close();
+            context.close();
         }
         catch (Exception ex) {
             LOGGER.error(ex.getLocalizedMessage());
