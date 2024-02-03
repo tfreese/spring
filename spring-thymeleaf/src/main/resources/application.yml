@@ -159,6 +159,18 @@ spring:
                         location: "classpath:server_truststore.p12"
                         password: "password"
                         type: "PKCS12"
+                web-client:
+                    key:
+                        alias: "client"
+                        password: "password"
+                    keystore:
+                        location: "classpath:client_keystore.p12"
+                        password: "password"
+                        type: "PKCS12"
+                    truststore:
+                        location: "classpath:client_truststore.p12"
+                        password: "password"
+                        type: "PKCS12"
 
 server:
     port: 8443
@@ -174,6 +186,6 @@ server:
         #        trust-store: classpath:server_truststore.p12
         #        trust-store-password: password
         #        trust-store-type: PKCS12
-        client-auth: NEED
+        #client-auth: NEED
         protocol: TLS
-        enabled-protocols: TLSv1.2
+        enabled-protocols: TLSv1.3

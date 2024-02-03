@@ -45,7 +45,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     private String rootUri;
 
     @BeforeEach
-    void beforeTest() throws Exception {
+    void beforeTest() {
         this.rootUri = ThymeleafApplication.getRootUri(getEnvironment());
     }
 

@@ -36,9 +36,9 @@ public class SslConfig {
     // * @throws Exception Falls was schief geht.
     // */
     // @SuppressWarnings("resource")
-    // public HttpComponentsClientHttpRequestFactory createHttpComponentsClientHttpRequestFactory(final SSLContext sslContext) throws Exception
+    // public HttpComponentsClientHttpRequestFactory createHttpComponentsClientHttpRequestFactory(final SslBundles sslBundles) throws Exception
     // {
-    // final SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
+    // final SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslBundles.getBundle("web-server").createSslContext(), new NoopHostnameVerifier());
     //
     // final CloseableHttpClient client = HttpClients.custom().setSSLSocketFactory(sslsf).build();
     //

@@ -8,26 +8,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import javax.net.ssl.TrustManagerFactory;
-
 import jakarta.annotation.Resource;
 
 import com.jayway.jsonpath.JsonPath;
-import io.netty.handler.ssl.SslContext;
-import io.netty.handler.ssl.SslContextBuilder;
-import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientSsl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.netty.http.client.HttpClient;
 
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 import de.freese.spring.thymeleaf.model.Person;
@@ -39,54 +33,12 @@ import de.freese.spring.thymeleaf.model.Person;
 class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Resource
     private WebClient.Builder webClientBuilder;
+    @Resource
+    private WebClientSsl webClientSsl;
 
     @BeforeEach
-    void beforeTest() throws Exception {
+    void beforeTest() {
         final String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
-
-        // final SslContext sslContext;
-        //
-        // try
-        // {
-        // KeyStore trustStore = KeyStore.getInstance("PKCS12");
-        // trustStore.load(new FileInputStream(ResourceUtils.getFile("classpath:server_truststore.p12")), "password".toCharArray());
-        //
-        // List<Certificate> certificateCollection = null;
-        //
-        // // certificateCollection = Collections.list(trustStore.aliases()).stream().filter(alias -> {
-        // // try
-        // // {
-        // // return trustStore.isCertificateEntry(alias);
-        // // }
-        // // catch (KeyStoreException ex)
-        // // {
-        // // throw new RuntimeException("Error reading truststore", ex);
-        // // }
-        // // }).map(alias -> {
-        // // try
-        // // {
-        // // return trustStore.getCertificate(alias);
-        // // }
-        // // catch (KeyStoreException ex)
-        // // {
-        // // throw new RuntimeException("Error reading truststore", ex);
-        // // }
-        // // }).collect(Collectors.toList());
-        //
-        // certificateCollection = Arrays.asList(trustStore.getCertificate("localhost"));
-        //
-        // KeyStore keyStore = KeyStore.getInstance("PKCS12");
-        // keyStore.load(new FileInputStream(ResourceUtils.getFile("classpath:server_keystore.p12")), "password".toCharArray());
-        //
-        // // .trustManager(certificateCollection.toArray(new X509Certificate[certificateCollection.size()]))
-        // sslContext = SslContextBuilder.forClient().keyManager((PrivateKey) keyStore.getKey("localhost", "password".toCharArray()))
-        // .trustManager(InsecureTrustManagerFactory.INSTANCE).build();
-        // }
-        // catch (Exception ex)
-        // {
-        // // log.error("Error creating web client", e);
-        // throw new RuntimeException(ex);
-        // }
 
         // ExchangeStrategies strategies = ExchangeStrategies.builder()
         // .codecs(configurer -> {
@@ -95,23 +47,20 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         //
         // }).build();
 
-        final TrustManagerFactory trustManagerFactory = InsecureTrustManagerFactory.INSTANCE;
-        // TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509", "SunJSSE");
-        // trustManagerFactory.init(trustStore);
-
-        final SslContext sslContext = SslContextBuilder.forClient().trustManager(trustManagerFactory).build();
+        // final SslContext sslContext = SslContextBuilder.forClient().trustManager(trustManagerFactory).build();
 
         // ClientHttpConnector httpConnector = new ReactorClientHttpConnector(opt -> opt.sslContext(sslContext));
-        final HttpClient httpClient = HttpClient.create().secure(sslContextSpec -> sslContextSpec.sslContext(sslContext));
+        // HttpClient httpClient = HttpClient.create().secure(sslContextSpec -> sslContextSpec.sslContext(sslContext));
+        // this.webClientBuilder.baseUrl(rootUri).clientConnector(new ReactorClientHttpConnector(httpClient))
 
-        this.webClientBuilder.baseUrl(rootUri).clientConnector(new ReactorClientHttpConnector(httpClient))
+        this.webClientBuilder.baseUrl(rootUri).apply(webClientSsl.fromBundle("web-client"))
         // .exchangeStrategies(strategies)
         ;
     }
 
     @Override
     @Test
-    void testHealthEndpoint() throws Exception {
+    void testHealthEndpoint() {
         // @formatter:off
         final  WebClient webClient = this.webClientBuilder.build();
 
@@ -152,7 +101,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testPost() throws Exception {
+    void testPost() {
         final WebClient webClient = this.webClientBuilder.build();
         final Person newPerson = new Person("Thomas", "Freese");
 
@@ -196,7 +145,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testPostWithWrongRole() throws Exception {
+    void testPostWithWrongRole() {
         final WebClient webClient = this.webClientBuilder.build();
         final Person newPerson = new Person("Thomas", "Freese");
 
@@ -224,7 +173,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testUserWithLoginJSON() throws Exception {
+    void testUserWithLoginJSON() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -247,7 +196,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 
     @Override
         // @Test
-    void testUserWithLoginXML() throws Exception {
+    void testUserWithLoginXML() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -272,7 +221,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testUserWithPreAuthJSON() throws Exception {
+    void testUserWithPreAuthJSON() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -295,7 +244,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 
     @Override
         // @Test
-    void testUserWithPreAuthXML() throws Exception {
+    void testUserWithPreAuthXML() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -318,7 +267,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testUserWithWrongPass() throws Exception {
+    void testUserWithWrongPass() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -349,7 +298,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testUserWithWrongRole() throws Exception {
+    void testUserWithWrongRole() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -370,7 +319,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testUserWithoutLogin() throws Exception {
+    void testUserWithoutLogin() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off

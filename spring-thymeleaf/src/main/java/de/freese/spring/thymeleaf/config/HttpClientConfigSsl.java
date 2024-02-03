@@ -1,10 +1,7 @@
 // Created: 14.09.2018
 package de.freese.spring.thymeleaf.config;
 
-import java.security.SecureRandom;
 import java.util.concurrent.TimeUnit;
-
-import javax.net.ssl.SSLContext;
 
 import org.apache.hc.client5.http.ConnectionKeepAliveStrategy;
 import org.apache.hc.client5.http.classic.HttpClient;
@@ -17,22 +14,18 @@ import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
 import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
 import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
-import org.apache.hc.client5.http.ssl.TrustAllStrategy;
 import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.config.Registry;
 import org.apache.hc.core5.http.config.RegistryBuilder;
 import org.apache.hc.core5.http.protocol.HttpContext;
-import org.apache.hc.core5.ssl.PrivateKeyStrategy;
-import org.apache.hc.core5.ssl.SSLContextBuilder;
-import org.apache.hc.core5.ssl.TrustStrategy;
 import org.apache.hc.core5.util.TimeValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.ssl.SslBundles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.util.ResourceUtils;
 
 /**
  * @author Thomas Freese
@@ -103,11 +96,11 @@ public class HttpClientConfigSsl {
     }
 
     @Bean
-    public PoolingHttpClientConnectionManager poolingConnectionManager(final SSLContext sslContext) throws Exception {
+    public PoolingHttpClientConnectionManager poolingConnectionManager(final SslBundles sslBundles) {
         // @formatter:off
         final Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", new PlainConnectionSocketFactory())
-                .register("https", new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier()))
+                .register("https", new SSLConnectionSocketFactory(sslBundles.getBundle("web-client").createSslContext(), new NoopHostnameVerifier()))
                 .build()
                 ;
         // @formatter:on
@@ -121,28 +114,28 @@ public class HttpClientConfigSsl {
         return poolingConnectionManager;
     }
 
-    @Bean
-    public SSLContext sslContext() throws Exception {
-        final PrivateKeyStrategy privateKeyStrategy = (aliases, socket) -> {
-            LOGGER.debug("{}", aliases);
-            return "server";
-        };
-
-        final TrustStrategy trustStrategy = new TrustAllStrategy(); // (chain, authType) -> true;
-
-        final char[] keyStorePassword = "password".toCharArray();
-        final char[] certPassword = "password".toCharArray();
-        final char[] trustStorePassword = "password".toCharArray();
-
-        // @formatter:off
-        return SSLContextBuilder.create()
-                .setKeyStoreType("PKCS12")
-                .setProtocol("TLSv1.3")
-                .setSecureRandom(new SecureRandom())
-                .loadKeyMaterial(ResourceUtils.getFile("classpath:server_keystore.p12"), keyStorePassword, certPassword, privateKeyStrategy)
-                .loadTrustMaterial(ResourceUtils.getFile("classpath:server_truststore.p12"), trustStorePassword, trustStrategy)
-                .build()
-                ;
-        // @formatter:on
-    }
+    // @Bean
+    // public SSLContext sslContext() throws Exception {
+    //     final PrivateKeyStrategy privateKeyStrategy = (aliases, socket) -> {
+    //         LOGGER.debug("{}", aliases);
+    //         return "server";
+    //     };
+    //
+    //     final TrustStrategy trustStrategy = new TrustAllStrategy(); // (chain, authType) -> true;
+    //
+    //     final char[] keyStorePassword = "password".toCharArray();
+    //     final char[] certPassword = "password".toCharArray();
+    //     final char[] trustStorePassword = "password".toCharArray();
+    //
+    //     // @formatter:off
+    //     return SSLContextBuilder.create()
+    //             .setKeyStoreType("PKCS12")
+    //             .setProtocol("TLSv1.3")
+    //             .setSecureRandom(new SecureRandom())
+    //             .loadKeyMaterial(ResourceUtils.getFile("classpath:client_keystore.p12"), keyStorePassword, certPassword, privateKeyStrategy)
+    //             .loadTrustMaterial(ResourceUtils.getFile("classpath:client_truststore.p12"), trustStorePassword, trustStrategy)
+    //             .build()
+    //             ;
+    //     // @formatter:on
+    // }
 }

@@ -40,7 +40,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
     // private WebTestClient webTestClient = null;
 
     @BeforeEach
-    void beforeTest() throws Exception {
+    void beforeTest() {
         final String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
 
         // @formatter:off
@@ -59,7 +59,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testHealthEndpoint() throws Exception {
+    void testHealthEndpoint() {
         // @formatter:off
         final WebClient webClient = this.webClientBuilder.build();
 
@@ -100,7 +100,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testPost() throws Exception {
+    void testPost() {
         final WebClient webClient = this.webClientBuilder.build();
         final Person newPerson = new Person("Thomas", "Freese");
 
@@ -145,7 +145,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testPostWithWrongRole() throws Exception {
+    void testPostWithWrongRole() {
         final WebClient webClient = this.webClientBuilder.build();
         final Person newPerson = new Person("Thomas", "Freese");
 
@@ -174,7 +174,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testUserWithLoginJSON() throws Exception {
+    void testUserWithLoginJSON() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -197,7 +197,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
 
     @Override
         // @Test
-    void testUserWithLoginXML() throws Exception {
+    void testUserWithLoginXML() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -222,7 +222,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testUserWithPreAuthJSON() throws Exception {
+    void testUserWithPreAuthJSON() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -245,7 +245,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
 
     @Override
         // @Test
-    void testUserWithPreAuthXML() throws Exception {
+    void testUserWithPreAuthXML() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -268,7 +268,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testUserWithWrongPass() throws Exception {
+    void testUserWithWrongPass() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -299,7 +299,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testUserWithWrongRole() throws Exception {
+    void testUserWithWrongRole() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off
@@ -320,7 +320,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testUserWithoutLogin() throws Exception {
+    void testUserWithoutLogin() {
         final WebClient webClient = this.webClientBuilder.build();
 
         // @formatter:off

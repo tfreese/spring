@@ -3,222 +3,168 @@
 # Thomas Freese
 # Erzeugt ein self-signed RootCA und signiert damit weitere Zertifikate.
 #
+# CN: CommonName
+# OU: OrganizationalUnit
+# O: Organization
+# L: Locality
+# S: StateOrProvinceName
+# C: CountryName
+
+# Exit, if one Command fails.
+set -e
+
+trap bashtrap SIGINT SIGTERM
+
+bashtrap()
+{
+	echo "Exit"
+	exit 1;
+}
+
 readonly PW="password"
-readonly DNAME="CN=Root CA 1,OU=Dev,O=thofre,L=BS,ST=NS,C=DE";
+readonly DNAME="OU=Development,O=MyCompany,L=MyCity,ST=MyState,C=DE";
 
 rm -rf "openssl";
 mkdir "openssl";
 
-#rm -f *.p12;
-#rm -f *.jks;
-#rm -f *.crt;
-#rm -f *.csr;
 
-# A Self Signed certificate is easy to generate with one command:
-# openssl req -newkey rsa:4096 -nodes -keyout key.pem -x509 -days 365 -out openssl/certificate.pem
-
-echo;
-echo "####################################################################################################";
-echo "Erzeugen eines self signed key pair root CA Zertifikats.";
-echo "####################################################################################################";
-openssl genrsa -aes256 -passout pass:"$PW" -out openssl/root_ca.key 4096;
-openssl rsa -in openssl/root_ca.key -check -noout -passin pass:"$PW";
+#echo;
+#echo "####################################################################################################";
+#echo "A Self Signed certificate is easy to generate with one command.";
+#echo "####################################################################################################";
+# openssl req -x509 -newkey rsa:4096 -keyout openssl/root_ca_1.key -out openssl/root_ca_1.crt -days 36500 -passout pass:"$PW" -sha512 -subj "/CN=root_ca_1,$DNAME";
 
 echo;
 echo "####################################################################################################";
-echo "Exportieren des CA public Zertifikats als *.crt so das es in TrustStores verwendet werden kann.";
+echo "Create a self signed key pair root CA Certificate.";
 echo "####################################################################################################";
-openssl req -x509 -new -key openssl/root_ca.key -passin pass:"$PW" -out openssl/root_ca.crt -days 36500 -sha512 -subj "/CN=Root CA 1"
+openssl genrsa -aes256 -passout pass:"$PW" -out openssl/root_ca_1.key 4096;
+openssl rsa -in openssl/root_ca_1.key -check -noout -passin pass:"$PW";
+
+
 
 echo;
 echo "####################################################################################################";
-echo "Erzeugen eines Server Zertifikats, z.B. server.";
+echo "Export of the CA public Certificate to use it in TrustStores.";
+echo "####################################################################################################";
+openssl req -x509 -new -key openssl/root_ca_1.key -passin pass:"$PW" -out openssl/root_ca_1.crt -days 36500 -sha512 -subj "/CN=root_ca_1,$DNAME";
+
+# root_ca_2: Create self Signed certificate
+#openssl req -x509 -newkey rsa:4096 -keyout openssl/root_ca_2.key -out openssl/root_ca_2.crt -days 36500 -passout pass:"$PW" -sha512 -subj "/CN=root_ca_2,$DNAME";
+# root_ca_2: CSR
+#openssl req -new -key openssl/root_ca_2.key -sha512 -out openssl/root_ca_2.csr -subj "/CN=root_ca_2,$DNAME" -passin pass:"$PW";
+# root_ca_2: Signing with root_ca_1
+#openssl x509 -req -CA openssl/root_ca_1.crt -CAkey openssl/root_ca_1.key -in openssl/root_ca_2.csr -out openssl/root_ca_2.crt -days 36500 -CAcreateserial -sha512 -passin pass:"$PW"
+
+
+
+echo;
+echo "####################################################################################################";
+echo "Create Certificates for server and client.";
 echo "####################################################################################################";
 openssl genrsa -aes256 -passout pass:"$PW" -out openssl/server.key 4096;
 openssl rsa -in openssl/server.key -check -noout -passin pass:"$PW";
 
-#keytool -genkey -v \
-#  -storetype PKCS12 \
-#  -keystore keytool/server_keystore.p12 \
-#  -storepass "$PW" \
-#  -alias server \
-#  -dname "CN=Thomas Freese: server, OU=Development, O=Thomas Freese, L=Braunschweig, ST=Niedersachsen, C=DE" \
-#  -keyalg RSA \
-#  -keysize 4096 \
-#  -validity 36500;
 
-#echo;
-#echo "####################################################################################################";
-#echo "Erzeugen eines Client Zertifikats, z.B. client.";
-#echo "####################################################################################################";
-#keytool -genkey -v \
-#  -storetype PKCS12 \
-#  -keystore keytool/client_keystore.p12 \
-#  -storepass "$PW" \
-#  -alias client \
-#  -dname "CN=Thomas Freese: client, OU=Development, O=Thomas Freese, L=Braunschweig, ST=Niedersachsen, C=DE" \
-#  -keyalg RSA \
-#  -keysize 4096 \
-#  -validity 36500;
 
-echo;
-echo "####################################################################################################";
-echo "Erzeugen eines Certificate Signing Requests (CSR) für server.";
-echo "####################################################################################################";
-openssl req -new -key openssl/server.key -sha512 -out openssl/server.csr -subj "/$DNAME" -passin pass:"$PW"
-#openssl req -text -noout -verify -in server.csr
+openssl genrsa -aes256 -passout pass:"$PW" -out openssl/client.key 4096;
+openssl rsa -in openssl/client.key -check -noout -passin pass:"$PW";
 
-#keytool -certreq -v \
-#  -keystore keytool/server_keystore.p12 \
-#  -storepass "$PW" \
-#  -alias server \
-#  -file keytool/server.csr;
-
-#echo;
-#echo "####################################################################################################";
-#echo "Erzeugen eines Certificate Signing Requests (CSR) für client.";
-#echo "####################################################################################################";
-#keytool -certreq -v \
-#  -keystore keytool/client_keystore.p12 \
-#  -storepass "$PW" \
-#  -alias client \
-#  -file keytool/client.csr;
-
-echo;
-echo "####################################################################################################";
-echo "Signieren des server-Zertifikats und des -CSR mit dem ROOT CA Zertifikat.";
-echo "####################################################################################################";
-openssl x509 -req -CA openssl/root_ca.crt -CAkey openssl/root_ca.key -in openssl/server.csr -out openssl/server.pem -days 36500 -CAcreateserial -sha512 -passin pass:"$PW"
-
-#keytool -gencert -v \
-#  -keystore keytool/root_ca.p12 \
-#  -storepass "$PW" \
-#  -alias root_ca_1 \
-#  -infile keytool/server.csr \
-#  -outfile keytool/server.crt \
-#  -ext KeyUsage:critical="digitalSignature,keyEncipherment" \
-#  -ext EKU="serverAuth" \
-#  -ext SAN="DNS:localhost" \
-#  -rfc;
-
-#echo;
-#echo "####################################################################################################";
-#echo "Signieren des client-Zertifikats und des -CSR mit dem ROOT CA Zertifikat.";
-#echo "KeyEncipherment for RSA: DHE or ECDHE.";
-#echo "####################################################################################################";
-#keytool -gencert -v \
-#  -keystore keytool/root_ca.p12 \
-#  -storepass "$PW" \
-#  -alias root_ca_1 \
-#  -infile keytool/client.csr \
-#  -outfile keytool/client.crt \
-#  -ext KeyUsage:critical="digitalSignature,keyEncipherment" \
-#  -ext EKU="serverAuth" \
-#  -ext SAN="DNS:localhost" \
-#  -rfc;
-
-#echo;
-#echo "####################################################################################################";
-#echo "Import des ROOT CA public Zertifikats in den Server TrustStore.";
-#echo "####################################################################################################";
-#keytool -import -v \
-#  -keystore keytool/server_truststore.p12 \
-#  -storepass "$PW" \
-#  -alias root_ca_1 \
-#  -file keytool/root_ca_1_pub.crt << EOF
-#ja
-#EOF
-
-#echo;
-#echo "####################################################################################################";
-#echo "Import des ROOT CA public Zertifikats in den Client TrustStore.";
-#echo "####################################################################################################";
-#keytool -import -v \
-#  -keystore keytool/client_truststore.p12 \
-#  -storepass "$PW" \
-#  -alias root_ca_1 \
-#  -file keytool/root_ca_1_pub.crt << EOF
-#ja
-#EOF
-
-echo;
-echo "####################################################################################################";
-echo "Create Server KeyStore.";
-echo "####################################################################################################";
-cat openssl/root_ca.crt openssl/server.pem > openssl/serverca.pem
-
-openssl pkcs12 -export -in openssl/serverca.pem -inkey openssl/server.key -name localhost -passin pass:"$PW" -passout pass:"$PW" > openssl/server_keystore.p12
-
-#keytool -importkeystore -srckeystore KEYSTORE-FILENAME.jks -destkeystore KEYSTORE-FILENAME.p12 -srcstoretype JKS -deststoretype PKCS12 -srcstorepass somepassword \
-#-deststorepass somepassword
 
 
 echo;
 echo "####################################################################################################";
-echo "Create Server TrustStore.";
+echo "Create Certificate Signing Requests (CSR) for server and client.";
 echo "####################################################################################################";
-openssl pkcs12 -export -in openssl/root_ca.crt -inkey openssl/root_ca.key -name localhost -passin pass:"$PW" -passout pass:"$PW" > openssl/server_truststore.p12
+openssl req -new -key openssl/server.key -sha512 -out openssl/server.csr -subj "/CN=server,$DNAME" -passin pass:"$PW";
+openssl req -verify -noout -in openssl/server.csr;
 
-#echo;
-#echo "####################################################################################################";
-#echo "Import des ROOT CA public Zertifikats in den Client KeyStore.";
-#echo "####################################################################################################";
-#keytool -import -v \
-#  -keystore keytool/client_keystore.p12 \
-#  -storepass "$PW" \
-#  -alias root_ca_1 \
-#  -file keytool/root_ca_1_pub.crt << EOF
-#ja
-#EOF
 
-#echo;
-#echo "####################################################################################################";
-#echo "Import des signierten Server-Zertifikats in den Server KeyStore, das alte unsignierte wird dabei überschrieben.";
-#echo "####################################################################################################";
-#keytool -import -v \
-#  -keystore keytool/server_keystore.p12 \
-#  -storepass "$PW" \
-#  -alias server \
-#  -file keytool/server.crt;
 
-#echo;
-#echo "####################################################################################################";
-#echo "Import des signierten Client-Zertifikats in den Client KeyStore, das alte unsignierte wird dabei überschrieben.";
-#echo "####################################################################################################";
-#keytool -import -v \
-#  -keystore keytool/client_keystore.p12 \
-#  -storepass "$PW" \
-#  -alias client \
-#  -file keytool/client.crt;
+openssl req -new -key openssl/client.key -sha512 -out openssl/client.csr -subj "/CN=client,$DNAME" -passin pass:"$PW";
+openssl req -verify -noout -in openssl/client.csr;
+
+
 
 echo;
 echo "####################################################################################################";
-echo "Inhalt Server-Keystore";
+echo "Signing the Certificates and the CSRs with the ROOT CA Certificate.";
 echo "####################################################################################################";
-keytool -list \
-  -keystore openssl/server_keystore.p12 \
-  -storepass "$PW";
+openssl x509 -req -CA openssl/root_ca_1.crt -CAkey openssl/root_ca_1.key -in openssl/server.csr -out openssl/server.crt -days 36500 -CAcreateserial -sha512 -passin pass:"$PW";
 
-#echo;
-#echo "####################################################################################################";
-#echo "Inhalt Client-Keystore";
-#echo "####################################################################################################";
-#keytool -list \
-#  -keystore keytool/client_keystore.p12 \
-#  -storepass "$PW";
+
+
+openssl x509 -req -CA openssl/root_ca_1.crt -CAkey openssl/root_ca_1.key -in openssl/client.csr -out openssl/client.crt -days 36500 -CAcreateserial -sha512 -passin pass:"$PW";
+
+
 
 echo;
 echo "####################################################################################################";
-echo "Inhalt des Server TrustStore";
+echo "Create the KeyStores.";
 echo "####################################################################################################";
-keytool -list -v \
-  -keystore openssl/server_truststore.p12 \
-  -storepass "$PW";
+#cat openssl/root_ca_1.crt openssl/root_ca_2.crt openssl/server.crt > openssl/server-all.crts;
+cat openssl/root_ca_1.crt openssl/server.crt > openssl/server-all.crts;
 
-#echo;
-#echo "####################################################################################################";
-#echo "Inhalt des Client TrustStore";
-#echo "####################################################################################################";
-#keytool -list -v \
-#  -keystore keytool/client_truststore.p12 \
-#  -storepass "$PW"
+openssl pkcs12 -export -in openssl/server-all.crts -inkey openssl/server.key -name localhost -passin pass:"$PW" -passout pass:"$PW" > openssl/server_keystore.p12;
+
+#keytool -importkeystore -srckeystore KEYSTORE-FILENAME.jks -srcstoretype JKS -srcstorepass somepassword \
+# -destkeystore KEYSTORE-FILENAME.p12 -deststoretype PKCS12 -deststorepass somepassword
+
+
+
+cat openssl/root_ca_1.crt openssl/client.crt > openssl/client-all.crts;
+openssl pkcs12 -export -in openssl/client-all.crts -inkey openssl/client.key -name localhost -passin pass:"$PW" -passout pass:"$PW" > openssl/client_keystore.p12;
+
+
+
+echo;
+echo "####################################################################################################";
+echo "Create the TrustStores.";
+echo "####################################################################################################";
+#cat openssl/root_ca_1.crt openssl/client.crt > openssl/server-all.trust;
+#openssl pkcs12 -export -in openssl/server-all.trust -inkey openssl/root_ca_1.key -name root_ca_1 -passin pass:"$PW" -passout pass:"$PW" > openssl/server_truststore.p12
+openssl pkcs12 -export -in openssl/root_ca_1.crt -inkey openssl/root_ca_1.key -name root_ca_1 -passin pass:"$PW" -passout pass:"$PW" > openssl/server_truststore.p12
+
+
+
+openssl pkcs12 -export -in openssl/root_ca_1.crt -inkey openssl/root_ca_1.key -name root_ca_1 -passin pass:"$PW" -passout pass:"$PW" > openssl/client_truststore.p12
+
+
+
+echo;
+echo "####################################################################################################";
+echo "Content of Server-Keystore";
+echo "####################################################################################################";
+openssl pkcs12 -nokeys -info \
+    -in openssl/server_keystore.p12 \
+    -passin pass:"$PW";
+
+
+
+echo;
+echo "####################################################################################################";
+echo "Content of Client-Keystore";
+echo "####################################################################################################";
+openssl pkcs12 -nokeys -info \
+    -in openssl/client_keystore.p12 \
+    -passin pass:"$PW";
+
+
+
+echo;
+echo "####################################################################################################";
+echo "Content of Server TrustStore";
+echo "####################################################################################################";
+openssl pkcs12 -nokeys -info \
+    -in openssl/server_truststore.p12 \
+    -passin pass:"$PW";
+
+
+
+echo;
+echo "####################################################################################################";
+echo "Content of Client TrustStore";
+echo "####################################################################################################";
+openssl pkcs12 -nokeys -info \
+    -in openssl/client_truststore.p12 \
+    -passin pass:"$PW";
