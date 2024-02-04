@@ -43,18 +43,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
     void beforeTest() {
         final String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
 
-        // @formatter:off
-//        ExchangeStrategies strategies = ExchangeStrategies.builder()
-//                .codecs(configurer -> {
-//                    configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
-//                    configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(this.objectMapper, MediaType.APPLICATION_JSON));
-//
-//                }).build();
-
-        this.webClientBuilder.baseUrl(rootUri)
-            //.exchangeStrategies(strategies)
-            ;
-        // @formatter:on
+        this.webClientBuilder.baseUrl(rootUri);
     }
 
     @Override

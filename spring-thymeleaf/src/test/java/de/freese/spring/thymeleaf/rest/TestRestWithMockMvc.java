@@ -30,10 +30,6 @@ import de.freese.spring.thymeleaf.model.Person;
  * @author Thomas Freese
  */
 @ActiveProfiles("test")
-        // @ActiveProfiles(
-        // {
-        // "test", "with-ssl"
-        // })
 class TestRestWithMockMvc extends AbstractRestTestCase {
     @Resource
     private MockMvc mockMvc;

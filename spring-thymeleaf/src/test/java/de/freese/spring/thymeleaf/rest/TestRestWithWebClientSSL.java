@@ -13,7 +13,6 @@ import jakarta.annotation.Resource;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientSsl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,29 +32,12 @@ import de.freese.spring.thymeleaf.model.Person;
 class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Resource
     private WebClient.Builder webClientBuilder;
-    @Resource
-    private WebClientSsl webClientSsl;
 
     @BeforeEach
     void beforeTest() {
         final String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
 
-        // ExchangeStrategies strategies = ExchangeStrategies.builder()
-        // .codecs(configurer -> {
-        // configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
-        // configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(this.objectMapper, MediaType.APPLICATION_JSON));
-        //
-        // }).build();
-
-        // final SslContext sslContext = SslContextBuilder.forClient().trustManager(trustManagerFactory).build();
-
-        // ClientHttpConnector httpConnector = new ReactorClientHttpConnector(opt -> opt.sslContext(sslContext));
-        // HttpClient httpClient = HttpClient.create().secure(sslContextSpec -> sslContextSpec.sslContext(sslContext));
-        // this.webClientBuilder.baseUrl(rootUri).clientConnector(new ReactorClientHttpConnector(httpClient))
-
-        this.webClientBuilder.baseUrl(rootUri).apply(webClientSsl.fromBundle("web-client"))
-        // .exchangeStrategies(strategies)
-        ;
+        this.webClientBuilder.baseUrl(rootUri);
     }
 
     @Override

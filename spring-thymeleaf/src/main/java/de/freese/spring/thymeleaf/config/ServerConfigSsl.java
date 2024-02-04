@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Profile;
  */
 @Configuration
 @Profile("with-ssl")
-public class SslConfig {
+public class ServerConfigSsl {
     // @Value("${server.port ?: #{systemProperties['server_port']}}")
     // @Value("${server.port : #{systemProperties['server_port']}}")
     // @Value("${server.port : #{systemProperties.server_port}}")
@@ -30,36 +30,12 @@ public class SslConfig {
     @Value("${server.port}")
     private int serverPort;
 
-    // /**
-    // * @param sslContext {@link SSLContext}
-    // * @return {@link HttpComponentsClientHttpRequestFactory}
-    // * @throws Exception Falls was schief geht.
-    // */
-    // @SuppressWarnings("resource")
-    // public HttpComponentsClientHttpRequestFactory createHttpComponentsClientHttpRequestFactory(final SslBundles sslBundles) throws Exception
-    // {
-    // final SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslBundles.getBundle("web-server").createSslContext(), new NoopHostnameVerifier());
-    //
-    // final CloseableHttpClient client = HttpClients.custom().setSSLSocketFactory(sslsf).build();
-    //
-    // final HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
-    // httpRequestFactory.setReadTimeout(3000);
-    // httpRequestFactory.setConnectTimeout(3000);
-    //
-    // // this.restTemplateBuilder = this.restTemplateBuilder.requestFactory(() -> httpRequestFactory);
-    //
-    // return httpRequestFactory;
-    // }
-
-    /**
-     * Umleiten von Port 9090 auf 8443.
-     */
     @Bean
     public ServletWebServerFactory servletContainer() {
         final TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
             @Override
             protected TomcatWebServer getTomcatWebServer(final Tomcat tomcat) {
-                // JNDI aktivieren.
+                // Enable JNDI.
                 tomcat.enableNaming();
 
                 return super.getTomcatWebServer(tomcat);
@@ -122,7 +98,7 @@ public class SslConfig {
     }
 
     /**
-     * Umleiten von Port 9090 auf 8443.
+     * Redirect Port 9090 to 8443.
      */
     private Connector servletRedirectConnector() {
         final Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");

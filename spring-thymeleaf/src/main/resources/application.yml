@@ -171,6 +171,8 @@ spring:
                         location: "classpath:client_truststore.p12"
                         password: "password"
                         type: "PKCS12"
+    lifecycle:
+        timeout-per-shutdown-phase: 10s
 
 server:
     port: 8443

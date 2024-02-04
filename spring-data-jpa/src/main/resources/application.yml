@@ -22,6 +22,8 @@ spring:
         show-sql: true
         hibernate:
             ddl-auto: create-drop
+    lifecycle:
+        timeout-per-shutdown-phase: 10s
 
 server:
     #address: ${APP_ADDRESS}

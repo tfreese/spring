@@ -13,7 +13,6 @@ import java.util.List;
 import jakarta.annotation.Resource;
 
 import com.jayway.jsonpath.JsonPath;
-import org.apache.hc.client5.http.classic.HttpClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -25,7 +24,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.DefaultResponseErrorHandler;
@@ -69,8 +67,6 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     }
 
     @Resource
-    private HttpClient httpClient;
-    @Resource
     private RestTemplateBuilder restTemplateBuilder;
 
     @BeforeEach
@@ -78,13 +74,10 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
         // final String rootUri = "http://localhost:" + this.localServerPort;
         final String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
 
-        final HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory(this.httpClient);
-
         // @formatter:off
         this.restTemplateBuilder = this.restTemplateBuilder
                 .rootUri(rootUri)
                 .errorHandler(new NoOpResponseErrorHandler())
-                .requestFactory(() -> httpRequestFactory)
                 ;
         // @formatter:on
     }

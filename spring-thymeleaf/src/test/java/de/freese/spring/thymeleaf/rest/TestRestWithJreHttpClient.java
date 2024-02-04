@@ -114,7 +114,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     @Override
     @Test
     void testPostWithWrongRole() throws Exception {
-        try (final HttpClient httpClient = createClientBuilder("user", "pw").build()) {
+        try (HttpClient httpClient = createClientBuilder("user", "pw").build()) {
             // @formatter:off
             final HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(this.rootUri + "/rest/person/personAdd"))

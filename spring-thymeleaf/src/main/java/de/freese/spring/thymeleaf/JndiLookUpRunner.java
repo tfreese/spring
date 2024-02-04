@@ -25,11 +25,9 @@ public class JndiLookUpRunner implements CommandLineRunner {
 
     @Override
     public void run(final String... args) throws Exception {
-        LOGGER.info("");
+        LOGGER.info("JNDI Content");
 
         try {
-            LOGGER.info("JNDI Content");
-
             // TomcatServletWebServerFactory#getTomcatWebServer
             // Tomcat#enableNaming
             // System.setProperty("catalina.useNaming", "true");
@@ -41,13 +39,15 @@ public class JndiLookUpRunner implements CommandLineRunner {
             try {
                 // final Context context = (javax.naming.Context) initialContext.lookup("java:comp/env");
 
-                // NamingEnumeration<NameClassPair> enumeration = context.list("");
-                final NamingEnumeration<NameClassPair> enumeration = context.list("java:comp");
+                final NamingEnumeration<NameClassPair> enumeration = context.list("");
+                // final NamingEnumeration<NameClassPair> enumeration = context.list("java:comp/env");
 
                 while (enumeration.hasMoreElements()) {
                     final NameClassPair nameClassPair = enumeration.nextElement();
                     LOGGER.info("{}", nameClassPair);
                 }
+
+                enumeration.close();
             }
             catch (Exception ex) {
                 LOGGER.error(ex.getLocalizedMessage());
