@@ -1,3 +1,10 @@
+!.idea/
+
+.idea/*
+!.idea/codeStyles/
+!.idea/inspectionProfiles/
+!.idea/scopes/
+
 .activeMQ/
 spring-ldap-unboundid/export.ldif
 spring-thymeleaf/CA/keytool
