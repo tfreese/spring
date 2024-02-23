@@ -26,12 +26,16 @@ class MyApplicationTest {
         //@formatter:off
         webClient
             .get()
-            .uri("/greet")
+            // .uri("/greet")
+            .uri(uriBuilder -> uriBuilder
+                    .path("/greet")
+                    .queryParam("name", "Tommy")
+                    .build())
             .accept(MediaType.TEXT_PLAIN)
             .exchange()
             .expectStatus().isOk()
             //.expectBody(String.class).isEqualTo("Hello, Spring!")
-            .expectBody(String.class).value(StringStartsWith.startsWith("Hello World"))
+            .expectBody(String.class).value(StringStartsWith.startsWith("Hello Tommy"))
             ;
         //@formatter:on
     }

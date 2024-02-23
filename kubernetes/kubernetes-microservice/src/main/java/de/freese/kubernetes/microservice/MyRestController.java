@@ -50,7 +50,7 @@ public class MyRestController {
     }
 
     @GetMapping("greet")
-    public Publisher<String> greet(@RequestParam final String name) {
+    public Publisher<String> greet(@RequestParam("name") final String name) {
         final String hostName = getHostName();
 
         //@formatter:off
