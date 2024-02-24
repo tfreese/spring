@@ -16,6 +16,20 @@
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Demo für Test-Container</description>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!-- No parallel Tests -->
+                    <rerunFailingTestsCount>3</rerunFailingTestsCount>
+                    <forkCount>1</forkCount>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <!-- compile scope -->
         <dependency>
@@ -40,11 +54,6 @@
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derbytools</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

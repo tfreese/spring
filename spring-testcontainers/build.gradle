@@ -9,12 +9,13 @@ dependencies {
 
     testImplementation("com.h2database:h2")
     testImplementation("com.oracle.database.jdbc:ojdbc11")
+    // testImplementation("junit:junit")
     testImplementation("org.apache.derby:derby")
     testImplementation("org.hsqldb:hsqldb")
     testImplementation("org.mariadb.jdbc:mariadb-java-client")
     testImplementation("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude module: "junit-vintage-engine"
+        // exclude module: "junit-vintage-engine"
     }
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")

@@ -89,8 +89,6 @@ spring:
         time-zone: Europe/Berlin
     main:
         banner-mode: "OFF"
-    mvc:
-        throw-exception-if-no-handler-found: true
     output:
         ansi:
             enabled: DETECT

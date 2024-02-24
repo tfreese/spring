@@ -47,8 +47,6 @@ spring:
     main:
         banner-mode: CONSOLE
         web-application-type: SERVLET
-    mvc:
-        throw-exception-if-no-handler-found: true
     output:
         ansi:
             enabled: DETECT

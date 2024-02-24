@@ -23,9 +23,8 @@ server:
 
 spring:
     mvc:
-        #charset: UTF-8
-        #force: true
-        throw-exception-if-no-handler-found: false
+    #charset: UTF-8
+    #force: true
     web:
         resources:
             add-mappings: false

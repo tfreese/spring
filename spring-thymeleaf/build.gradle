@@ -18,37 +18,37 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     // hot swapping, disable cache for template, enable live reload
-    //implementation("org.springframework.boot:spring-boot-devtools")
+    // implementation("org.springframework.boot:spring-boot-devtools")
 
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
     // Optional, for bootstrap
-    //runtimeOnly("org.webjars:bootstrap:4.6.0")
+    // runtimeOnly("org.webjars:bootstrap:4.6.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
 }
 
-// Durch die parallelen Tests kann es passieren, das die Ports 8080 und 8443 bereits belegt sind.
-// Die Alternative wäre den Build durch 'gradle --no-parallel --max-workers 1 test' zu starten.
 test {
     // No parallel Tests to avoid "Address is already in use".
     maxParallelForks = 1
 
+    // Alternative: 'gradle --no-parallel --max-workers 1 test'
+
     filter {
-        // Klasse deaktivieren
-        excludeTestsMatching "de.freese.spring.thymeleaf.rest.TestRestWithWebClientSSL"
+        // Deactivate Class
+        // excludeTestsMatching "PACKAGE.CLASS"
 
-        // Einzelne Methode deaktivieren
-        // excludeTestsMatching "de.freese.spring.thymeleaf.rest.TestRestWithWebClientSSL.test000HealthEndpoint"
+        // Deactivate Method
+        // excludeTestsMatching "PACKAGE.CLASS.METHOD"
 
-        // Package Deaktivierung mit Wildcards
-        //excludeTestsMatching "*.integration.*"
+        // Deactivate Package with Wildcards
+        // excludeTestsMatching "*.integration.*"
 
-        // Methoden Deaktivierung mit Wildcards
-        //excludeTestsMatching "*stress*"
+        // Deactivate Method with Wildcards
+        // excludeTestsMatching "*stress*"
     }
 }
 
