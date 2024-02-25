@@ -69,15 +69,6 @@
         <module>kubernetes/kubernetes-microservice</module>
     </modules>
 
-    <!--
-    methods – runs test methods in separate threads
-    classes – runs test classes in separate threads
-    classesAndMethods – runs classes and methods in separate threads
-    suites – runs suites in parallel
-    suitesAndClasses – runs suites and classes in separate threads
-    suitesAndMethods – creates separate threads for classes and for methods
-    all – runs suites, classes as well as methods in separate threads    
-    -->
     <build>
         <plugins>
             <!--plugin>

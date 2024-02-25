@@ -64,7 +64,9 @@ subprojects {
     }
 
     afterEvaluate { project ->
-        if (project.plugins.hasPlugin("java") || project.plugins.hasPlugin("java-library") || project.plugins.hasPlugin("application")) {
+        if (project.plugins.hasPlugin("java")
+                || project.plugins.hasPlugin("java-library")
+                || project.plugins.hasPlugin("application")) {
             dependencies {
                 // implementation(platform("de.freese:maven-bom:$version_mavenBom"))
 
