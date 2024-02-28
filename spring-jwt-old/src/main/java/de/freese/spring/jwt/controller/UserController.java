@@ -32,7 +32,15 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @DeleteMapping("delete/{username}")
+    @PostMapping
+    @Secured("ROLE_ADMIN")
+    public String add(@RequestBody final UserDetails userDetails, @AuthenticationPrincipal final UserDetails user) {
+        LOGGER.info("register called by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
+
+        return this.userService.register(userDetails);
+    }
+
+    @DeleteMapping("{username}")
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Secured("ROLE_ADMIN")
     public String delete(@PathVariable final String username) {
@@ -46,14 +54,6 @@ public class UserController {
         return this.userService.login(username, password);
     }
 
-    @PostMapping("register")
-    @Secured("ROLE_ADMIN")
-    public String register(@RequestBody final UserDetails userDetails, @AuthenticationPrincipal final UserDetails user) {
-        LOGGER.info("register called by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
-
-        return this.userService.register(userDetails);
-    }
-
     @GetMapping("search/{username}")
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Secured("ROLE_ADMIN")
@@ -63,7 +63,7 @@ public class UserController {
         return this.userService.search(username);
     }
 
-    @GetMapping("me")
+    @GetMapping("whoami")
     // @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Principal whoami(final Principal principal, @AuthenticationPrincipal final UserDetails user) {

@@ -8,7 +8,7 @@ pluginManagement {
 }
 
 // Without rootProject.name the Name of the Projekt-Directory is used.
-//rootProject.name = "spring"
+// rootProject.name = "spring"
 
 include "kubernetes:kubernetes-microservice"
 include "spring-atomicos"
@@ -18,7 +18,7 @@ include "spring-cloud:spring-cloud-boot-admin"
 include "spring-cloud:spring-cloud-client"
 include "spring-cloud:spring-cloud-eureka"
 include "spring-cloud:spring-cloud-microservice"
-//file("${rootDir}/spring-cloud").eachDirMatch(~/spring-cloud-.*/) {
+// file("${rootDir}/spring-cloud").eachDirMatch(~/spring-cloud-.*/) {
 //    include "spring-cloud:${it.name}"
 //}
 include "spring-data-jpa"
@@ -27,6 +27,7 @@ include "spring-hystrix"
 include "spring-integration"
 include "spring-javafx"
 include "spring-jwt"
+include "spring-jwt-old"
 include "spring-kryo"
 include "spring-ldap-unboundid"
 include "spring-messaging:spring-messaging-amqp-qpid"

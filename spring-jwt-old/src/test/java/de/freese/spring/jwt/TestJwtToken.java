@@ -147,7 +147,7 @@ interface TestJwtToken {
                 ;
         // @formatter:on
 
-        final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/me", String.class);
+        final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/whoami", String.class);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
@@ -166,7 +166,7 @@ interface TestJwtToken {
                 ;
         // @formatter:on
 
-        final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/me", String.class);
+        final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/jwt/users/whoami", String.class);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());

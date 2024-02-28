@@ -114,8 +114,8 @@ public class SecurityCommonConfig {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        final Pbkdf2PasswordEncoder pbkdf2passwordEncoder = new Pbkdf2PasswordEncoder("mySecret", 16, 310_000,
-                Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
+        final Pbkdf2PasswordEncoder pbkdf2passwordEncoder =
+                new Pbkdf2PasswordEncoder("mySecret", 16, 310_000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
         pbkdf2passwordEncoder.setEncodeHashAsBase64(false);
 
         final Map<String, PasswordEncoder> encoders = new HashMap<>();
@@ -126,7 +126,7 @@ public class SecurityCommonConfig {
         encoders.put("noop", new PasswordEncoder() {
             @Override
             public String encode(final CharSequence rawPassword) {
-                return rawPassword.toString();
+                return rawPassword.toString().replace("{noop}", "");
             }
 
             @Override
@@ -143,8 +143,8 @@ public class SecurityCommonConfig {
     UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder) {
         final InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
 
-        userDetailsManager.createUser(User.withUsername("admin").passwordEncoder(passwordEncoder::encode).password("pass").roles("ADMIN", "USER").build());
-        userDetailsManager.createUser(User.withUsername("user").passwordEncoder(passwordEncoder::encode).password("pass").roles("USER").build());
+        userDetailsManager.createUser(User.withUsername("admin").passwordEncoder(passwordEncoder::encode).password("{noop}pass").roles("ADMIN", "USER").build());
+        userDetailsManager.createUser(User.withUsername("user").passwordEncoder(passwordEncoder::encode).password("{noop}pass").roles("USER").build());
 
         // UserDetails kopieren, da bei ProviderManager.setEraseCredentialsAfterAuthentication(true)
         // das Password auf null gesetzt wird, kein zweiter Login mehr möglich, es folgt NullPointer
@@ -178,19 +178,19 @@ public class SecurityCommonConfig {
 
             userCache.putUserInCache(userDetails);
 
-            // return User.withUserDetails(userDetails).build();
+            return User.withUserDetails(userDetails).build();
 
-            // @formatter:off
-            return new User(
-                    userDetails.getUsername()
-                    , userDetails.getPassword()
-                    , userDetails.isEnabled()
-                    , userDetails.isAccountNonExpired()
-                    , userDetails.isCredentialsNonExpired()
-                    , userDetails.isAccountNonLocked()
-                    , userDetails.getAuthorities()
-            );
-            // @formatter:on
+            // // @formatter:off
+            // return new User(
+            //         userDetails.getUsername()
+            //         , userDetails.getPassword()
+            //         , userDetails.isEnabled()
+            //         , userDetails.isAccountNonExpired()
+            //         , userDetails.isCredentialsNonExpired()
+            //         , userDetails.isAccountNonLocked()
+            //         , userDetails.getAuthorities()
+            // );
+            // // @formatter:on
         };
 
         return cachingUserDetailsService;

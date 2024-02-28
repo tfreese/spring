@@ -6,18 +6,18 @@ plugins {
 description = "JWT-Demo"
 
 dependencies {
-    // implementation("com.nimbusds:nimbus-jose-jwt")
+    implementation("com.nimbusds:nimbus-jose-jwt")
 
     // Older Alternative for nimbus-jose-jwt
-    // implementation("io.jsonwebtoken:jjwt")
-    // implementation("io.jsonwebtoken:jjwt-impl")
+    implementation("io.jsonwebtoken:jjwt")
+    implementation("io.jsonwebtoken:jjwt-impl")
 
-    // implementation("org.springframework:spring-jdbc")
+    implementation("org.springframework:spring-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-cache")
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
 
-    // runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
+    //runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
@@ -25,5 +25,5 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.jwt.JwtApplication"
+    mainClass = "de.freese.spring.jwt.JwtAuthorisationApplication"
 }

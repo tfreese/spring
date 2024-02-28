@@ -6,6 +6,3 @@
 !.idea/scopes/
 
 .activeMQ/
-spring-ldap-unboundid/export.ldif
-spring-thymeleaf/CA/keytool
-spring-thymeleaf/CA/openssl

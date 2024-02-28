@@ -5,6 +5,7 @@ import jakarta.servlet.Filter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -38,6 +39,7 @@ public class SecurityFilterOnlyConfig {
     }
 
     @Bean
+    @Primary
     Filter jwtRequestFilter(final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder, final JwtTokenProvider jwtTokenProvider,
                             final AuthenticationEntryPoint authenticationEntryPoint) {
         final JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();

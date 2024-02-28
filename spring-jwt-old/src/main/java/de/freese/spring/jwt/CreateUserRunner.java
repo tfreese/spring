@@ -28,11 +28,11 @@ public class CreateUserRunner implements CommandLineRunner {
     public void run(final String... args) throws Exception {
         LOGGER.info("Create Users & Roles");
 
-        final User admin = new User("admin", "pass", Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER")));
+        final User admin = new User("admin", "{noop}pass", Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER")));
         String token = this.userService.register(admin);
         LOGGER.info("Admin Token: {}", token);
 
-        final User user = new User("user", "pass", Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+        final User user = new User("user", "{noop}pass", Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
         token = this.userService.register(user);
         LOGGER.info("User Token: {}", token);
     }
