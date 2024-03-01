@@ -11,70 +11,51 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
+import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import de.freese.spring.jwt.token.JwtToken;
-import de.freese.spring.jwt.token.JwtTokenProvider;
-
 /**
- * Der {@link JwtRequestFilter} verwendet den Default-{@link AuthenticationProvider}.<br>
- * Siehe {@link DaoAuthenticationProvider}m {@link BasicAuthenticationFilter}.
- *
  * @author Thomas Freese
+ * @see BearerTokenAuthenticationFilter
  */
 class JwtRequestFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
 
     private final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
+    private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final AuthenticationManager authenticationManager;
+    private final BearerTokenResolver bearerTokenResolver = new DefaultBearerTokenResolver();
 
-    private AuthenticationEntryPoint authenticationEntryPoint;
-    private AuthenticationManager authenticationManager;
-    private JwtTokenProvider jwtTokenProvider;
+    public JwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint) {
+        super();
 
-    public void setAuthenticationEntryPoint(final AuthenticationEntryPoint authenticationEntryPoint) {
-        this.authenticationEntryPoint = authenticationEntryPoint;
-    }
-
-    public void setAuthenticationManager(final AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-    }
-
-    public void setJwtTokenProvider(final JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
-        final String token = this.jwtTokenProvider.resolveToken(request);
-
         try {
-            String username = null;
-            String password = null;
+            final String bearerToken = bearerTokenResolver.resolve(request);
 
-            if (token != null) {
-                final JwtToken jwtToken = this.jwtTokenProvider.parseToken(token);
+            final AbstractAuthenticationToken authenticationToken = new BearerTokenAuthenticationToken(bearerToken);
+            authenticationToken.setDetails(this.authenticationDetailsSource.buildDetails(request));
 
-                username = jwtToken.getUsername();
-                password = jwtToken.getPassword();
-            }
-
-            if ((username != null) && isAuthenticationIsRequired(username)) {
-                final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-                usernamePasswordAuthenticationToken.setDetails(this.authenticationDetailsSource.buildDetails(request));
-
-                final Authentication authResult = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+            if (isAuthenticationIsRequired(authenticationToken.getName())) {
+                final Authentication authResult = this.authenticationManager.authenticate(authenticationToken);
 
                 SecurityContextHolder.getContext().setAuthentication(authResult);
                 // SecurityContext context = SecurityContextHolder.createEmptyContext();
@@ -85,7 +66,7 @@ class JwtRequestFilter extends OncePerRequestFilter {
         catch (AuthenticationException ex) {
             SecurityContextHolder.clearContext();
 
-            getLogger().error("Authentication request failed: {}", ex.getMessage());
+            LOGGER.error("Authentication request failed: {}", ex.getMessage());
 
             // // Deswegen würden Tests der Logins über den RestController nicht mehr funktionieren !
             this.authenticationEntryPoint.commence(request, response, ex);
@@ -102,18 +83,13 @@ class JwtRequestFilter extends OncePerRequestFilter {
 
         Objects.requireNonNull(this.authenticationManager, "authenticationManager required");
         Objects.requireNonNull(this.authenticationEntryPoint, "authenticationEntryPoint required");
-        Objects.requireNonNull(this.jwtTokenProvider, "jwtTokenProvider required");
-    }
-
-    private Logger getLogger() {
-        return LOGGER;
     }
 
     private boolean isAuthenticationIsRequired(final String username) {
         final Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
 
-        if ((existingAuth == null) || !existingAuth.isAuthenticated() || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName()
-                .equals(username))) {
+        if ((existingAuth == null) || !existingAuth.isAuthenticated() ||
+                ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username))) {
             return true;
         }
 

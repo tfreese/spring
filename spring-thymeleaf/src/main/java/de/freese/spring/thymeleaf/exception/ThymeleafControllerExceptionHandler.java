@@ -19,6 +19,7 @@ import de.freese.spring.thymeleaf.ThymeleafController;
  * @author Thomas Freese
  */
 @ControllerAdvice(annotations = ThymeleafController.class)
+// @RestControllerAdvice
 public class ThymeleafControllerExceptionHandler {
     @Value("${server.error.path:${error.path:/error}}")
     private String errorPage;

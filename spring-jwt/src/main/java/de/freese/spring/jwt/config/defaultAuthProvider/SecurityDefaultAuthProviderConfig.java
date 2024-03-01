@@ -11,10 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.AuthenticationEntryPoint;
-
-import de.freese.spring.jwt.token.JwtTokenProvider;
 
 /**
  * Der {@link JwtRequestFilter} verwendet den Default-{@link AuthenticationProvider}.<br>
@@ -23,8 +20,7 @@ import de.freese.spring.jwt.token.JwtTokenProvider;
  * @author Thomas Freese
  */
 @Configuration
-@EnableWebSecurity
-@Profile({"defaultAuthProvider", "default"})
+@Profile("defaultAuthProvider")
 public class SecurityDefaultAuthProviderConfig {
     @Bean
     AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao) {
@@ -37,12 +33,8 @@ public class SecurityDefaultAuthProviderConfig {
 
     @Bean
     @Primary
-    Filter jwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint, final JwtTokenProvider jwtTokenProvider)
-            throws Exception {
-        final JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();
-        jwtRequestFilter.setAuthenticationManager(authenticationManager);
-        jwtRequestFilter.setAuthenticationEntryPoint(authenticationEntryPoint);
-        jwtRequestFilter.setJwtTokenProvider(jwtTokenProvider);
+    Filter jwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint) {
+        final JwtRequestFilter jwtRequestFilter = new JwtRequestFilter(authenticationManager, authenticationEntryPoint);
 
         // BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
         // entryPoint.setRealmName("Tommy");

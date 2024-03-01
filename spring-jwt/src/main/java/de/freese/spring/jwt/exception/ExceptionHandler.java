@@ -1,7 +1,6 @@
 // Created: 28.10.2018
 package de.freese.spring.jwt.exception;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.boot.web.error.ErrorAttributeOptions;
@@ -13,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -21,8 +19,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 /**
  * @author Thomas Freese
  */
+// @ControllerAdvice(annotations = RestController.class)
 @RestControllerAdvice
-public class GlobalExceptionHandlerController extends ResponseEntityExceptionHandler {
+public class ExceptionHandler extends ResponseEntityExceptionHandler {
     @Bean
     public ErrorAttributes errorAttributes() {
         return new DefaultErrorAttributes() {
@@ -38,19 +37,19 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
         };
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> handleAccessDeniedException(final AccessDeniedException ex, final WebRequest request) {
         return handleExceptionInternal(ex, "Access denied", HttpStatus.FORBIDDEN, request);
         // return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<Object> handleAuthenticationException(final AuthenticationException ex, final WebRequest request) throws IOException {
+    @org.springframework.web.bind.annotation.ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Object> handleAuthenticationException(final AuthenticationException ex, final WebRequest request) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGenericException(final Exception ex) throws IOException {
+    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleGenericException(final Exception ex) {
         return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
     }
 
