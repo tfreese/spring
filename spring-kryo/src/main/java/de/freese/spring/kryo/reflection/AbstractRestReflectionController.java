@@ -95,13 +95,9 @@ public abstract class AbstractRestReflectionController {
     }
 
     protected Object[] addArgument(final Object[] arguments, final Object argument) {
-        Object[] newArgs = null;
+        Object[] newArgs = arguments != null ? arguments : new Object[0];
 
-        if (arguments == null) {
-            newArgs = new Object[0];
-        }
-
-        Arrays.copyOf(newArgs, newArgs.length + 1);
+        newArgs = Arrays.copyOf(newArgs, newArgs.length + 1);
 
         newArgs[newArgs.length - 1] = argument;
 

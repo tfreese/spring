@@ -1,6 +1,8 @@
 // Created: 22.05.2018
 package de.freese.spring.kryo;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -119,7 +121,7 @@ class TestKryo {
     }
 
     @Test
-    void testWebClient() throws Exception {
+    void testWebClient() {
         testWebClient("/kryo", AbstractKryoCodecSupport.APPLICATION_KRYO);
         testWebClient("/json", MediaType.APPLICATION_JSON);
     }
@@ -163,32 +165,35 @@ class TestKryo {
     }
 
     protected void testHttpClient(final String path, final MimeType mimeType) throws Exception {
-        final HttpClient httpClient = this.httpClientbuilder.build();
+        try (HttpClient httpClient = this.httpClientbuilder.build()) {
+            // @formatter:off
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:" + this.localServerPort+path))
+                    .header("Accept", mimeType.toString())
+                    .GET()
+                    .build()
+                    ;
+            // @formatter:on
 
-        // @formatter:off
-        final HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:" + this.localServerPort+path))
-                .header("Accept", mimeType.toString())
-                .GET()
-                .build()
-                ;
-        // @formatter:on
+            final HttpResponse<InputStream> response = httpClient.send(request, BodyHandlers.ofInputStream());
 
-        final HttpResponse<InputStream> response = httpClient.send(request, BodyHandlers.ofInputStream());
-        Assertions.assertTrue(response.headers().firstValue("Content-Type").get().startsWith(mimeType.toString()));
+            assertNotNull(response);
+            assertTrue(response.headers().firstValue("Content-Type").orElse("").startsWith(mimeType.toString()));
 
-        final HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
-        final MediaType mediaType = MediaType.asMediaType(mimeType);
+            final HttpMessageConverterExtractor<LocalDateTime> converterExtractor =
+                    new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
+            final MediaType mediaType = MediaType.asMediaType(mimeType);
 
-        LocalDateTime localDateTime = null;
+            LocalDateTime localDateTime = null;
 
-        try (ClientHttpResponse clientHttpResponse = new MockClientHttpResponse(response.body(), HttpStatus.OK)) {
-            clientHttpResponse.getHeaders().setContentType(mediaType);
+            try (ClientHttpResponse clientHttpResponse = new MockClientHttpResponse(response.body(), HttpStatus.OK)) {
+                clientHttpResponse.getHeaders().setContentType(mediaType);
 
-            localDateTime = converterExtractor.extractData(clientHttpResponse);
+                localDateTime = converterExtractor.extractData(clientHttpResponse);
+            }
+
+            validateLocalDateTime(localDateTime);
         }
-
-        validateLocalDateTime(localDateTime);
     }
 
     protected void testMockMvc(final String path, final MediaType mediaType) throws Exception {
@@ -240,11 +245,12 @@ class TestKryo {
 
         final HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(mediaType));
+
         final HttpEntity<String> entity = new HttpEntity<>(headers);
 
         final ResponseEntity<LocalDateTime> responseEntity = this.restTemplate.exchange(path, HttpMethod.GET, entity, LocalDateTime.class);
 
-        Assertions.assertTrue(mediaType.isCompatibleWith(responseEntity.getHeaders().getContentType()));
+        assertTrue(mediaType.isCompatibleWith(responseEntity.getHeaders().getContentType()));
 
         final LocalDateTime localDateTime = responseEntity.getBody();
 
@@ -268,7 +274,7 @@ class TestKryo {
 
         connection.connect();
 
-        Assertions.assertTrue(connection.getHeaderField("Content-Type").startsWith(mediaType.toString()));
+        assertTrue(connection.getHeaderField("Content-Type").startsWith(mediaType.toString()));
 
         final HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
 
@@ -309,7 +315,8 @@ class TestKryo {
 
         final ResponseEntity<LocalDateTime> responseEntity = response.block();
 
-        Assertions.assertTrue(mediaType.isCompatibleWith(responseEntity.getHeaders().getContentType()));
+        assertNotNull(responseEntity);
+        assertTrue(mediaType.isCompatibleWith(responseEntity.getHeaders().getContentType()));
 
         final LocalDateTime localDateTime = responseEntity.getBody();
 

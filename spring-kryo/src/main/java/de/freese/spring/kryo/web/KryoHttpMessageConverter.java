@@ -31,6 +31,11 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
     public static final String APPLICATION_KRYO_VALUE = "application/x-kryo";
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
+    /**
+     * 1 MB
+     */
+    private static final int DEFAULT_BUFFER_SIZE = 1024 * 1024;
+
     private final Pool<Kryo> kryoPool;
 
     public KryoHttpMessageConverter(final Pool<Kryo> kryoPool) {
@@ -44,8 +49,8 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
         final Kryo kryo = this.kryoPool.obtain();
         Object value = null;
 
-        // try (Input input = new ByteBufferInput(inputMessage.getBody(), 1024 * 1024))
-        try (Input input = new Input(inputMessage.getBody(), 1024 * 1024)) {
+        // try (Input input = new ByteBufferInput(inputMessage.getBody(), DEFAULT_BUFFER_SIZE))
+        try (Input input = new Input(inputMessage.getBody(), DEFAULT_BUFFER_SIZE)) {
             value = kryo.readClassAndObject(input);
         }
         finally {
@@ -64,8 +69,8 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
     protected void writeInternal(final Object t, final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
         final Kryo kryo = this.kryoPool.obtain();
 
-        // try (Output output = new ByteBufferOutput(outputMessage.getBody(), 1024 * 1024))
-        try (Output output = new Output(outputMessage.getBody(), 1024 * 1024)) {
+        // try (Output output = new ByteBufferOutput(outputMessage.getBody(), DEFAULT_BUFFER_SIZE))
+        try (Output output = new Output(outputMessage.getBody(), DEFAULT_BUFFER_SIZE)) {
             kryo.writeClassAndObject(output, t);
             output.flush();
         }

@@ -20,9 +20,12 @@ public abstract class AbstractKryoCodecSupport {
      * application/x-java-object; application/x-kryo
      */
     public static final MimeType APPLICATION_KRYO = MimeType.valueOf(KryoHttpMessageConverter.APPLICATION_KRYO_VALUE);
+    /**
+     * 1 MB
+     */
+    protected static final int DEFAULT_BUFFER_SIZE = 1024 * 1024;
     protected static final List<MediaType> MEDIA_TYPES = Stream.of(APPLICATION_KRYO).map(mimeType -> new MediaType(mimeType.getType(), mimeType.getSubtype())).toList();
     protected static final List<MimeType> MIME_TYPES = List.of(APPLICATION_KRYO);
-
     private final Pool<Kryo> kryoPool;
 
     protected AbstractKryoCodecSupport(final Pool<Kryo> kryoPool) {

@@ -38,8 +38,8 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
         final Kryo kryo = getKryoPool().obtain();
         Object value = null;
 
-        // try (Input input = new ByteBufferInput(buffer.asInputStream(),, 1024 * 1024))
-        try (Input input = new Input(buffer.asInputStream(), 1024 * 1024)) {
+        // try (Input input = new ByteBufferInput(buffer.asInputStream(), DEFAULT_BUFFER_SIZE))
+        try (Input input = new Input(buffer.asInputStream(), DEFAULT_BUFFER_SIZE)) {
             value = kryo.readClassAndObject(input);
         }
         finally {

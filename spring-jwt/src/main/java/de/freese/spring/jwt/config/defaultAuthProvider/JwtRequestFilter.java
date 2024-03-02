@@ -39,7 +39,7 @@ class JwtRequestFilter extends OncePerRequestFilter {
     private final AuthenticationManager authenticationManager;
     private final BearerTokenResolver bearerTokenResolver = new DefaultBearerTokenResolver();
 
-    public JwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint) {
+    JwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint) {
         super();
 
         this.authenticationManager = authenticationManager;

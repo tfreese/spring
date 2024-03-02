@@ -22,14 +22,8 @@ subprojects {
         dependencies {
             dependency("com.atomikos:transactions-spring-boot3-starter:$version_atomicos")
             dependency("com.esotericsoftware:kryo:$version_kryo")
-            dependency("com.nimbusds:nimbus-jose-jwt:$version_nimbus")
 
 //            dependency("de.javakaffee:kryo-serializers:$version_kryoSerializers")
-
-            dependencySet(group: "io.jsonwebtoken", version: "$version_jjwt") {
-                entry "jjwt"
-                entry "jjwt-impl"
-            }
 
             // dependency("javax:javaee-web-api:$version_javaee")
             dependency("jakarta.platform:jakarta.jakartaee-api:$version_jakarta")

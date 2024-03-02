@@ -44,8 +44,8 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
         final Kryo kryo = getKryoPool().obtain();
         final boolean release = true;
 
-        // try (Output output = new ByteBufferOutput(buffer.asOutputStream(), 1024 * 1024))
-        try (Output output = new Output(buffer.asOutputStream(), 1024 * 1024)) {
+        // try (Output output = new ByteBufferOutput(buffer.asOutputStream(), DEFAULT_BUFFER_SIZE))
+        try (Output output = new Output(buffer.asOutputStream(), DEFAULT_BUFFER_SIZE)) {
             kryo.writeClassAndObject(output, value);
             output.flush();
         }
