@@ -92,23 +92,30 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
 
             <dependency>
                 <groupId>com.atomikos</groupId>
                 <artifactId>transactions-spring-boot3-starter</artifactId>
-                <version>${atomikos.version}</version>
+                <version>${version_atomikos}</version>
             </dependency>
             <dependency>
                 <groupId>com.esotericsoftware</groupId>
                 <artifactId>kryo</artifactId>
-                <version>${kryo.version}</version>
+                <version>${version_kryo}</version>
             </dependency>
 
-            <dependency>
-                <groupId>de.javakaffee</groupId>
-                <artifactId>kryo-serializers</artifactId>
-                <version>${kryo-serializers.version}</version>
-            </dependency>
+            <!-- <dependency> -->
+            <!--     <groupId>de.javakaffee</groupId> -->
+            <!--     <artifactId>kryo-serializers</artifactId> -->
+            <!--     <version>${version_kryoSerializers}</version> -->
+            <!-- </dependency> -->
 
             <dependency>
                 <groupId>io.springfox</groupId>
@@ -146,7 +153,7 @@
             <dependency>
                 <groupId>org.joinfaces</groupId>
                 <artifactId>primefaces-spring-boot-starter</artifactId>
-                <version>${joinfaces.version}</version>
+                <version>${version_joinfaces}</version>
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
@@ -179,6 +186,7 @@
 
     <dependencies>
         <!-- compile scope -->
+
         <!-- runtime scope -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -26,7 +26,7 @@ subprojects {
 //            dependency("de.javakaffee:kryo-serializers:$version_kryoSerializers")
 
             // dependency("javax:javaee-web-api:$version_javaee")
-            dependency("jakarta.platform:jakarta.jakartaee-api:$version_jakarta")
+            dependency("jakarta.platform:jakarta.jakartaee-api:$version_jakartaApi")
 
             dependencySet(group: "org.apache.qpid", version: "$version_qpid") {
                 entry("qpid-broker") {
@@ -60,12 +60,14 @@ subprojects {
     afterEvaluate { project ->
         if (project.plugins.hasPlugin("java")
                 || project.plugins.hasPlugin("java-library")
-                || project.plugins.hasPlugin("application")) {
+                || project.plugins.hasPlugin("application")
+                || project.plugins.hasPlugin("war")) {
             dependencies {
                 // implementation(platform("de.freese:maven-bom:$version_mavenBom"))
 
                 runtimeOnly("org.springframework.boot:spring-boot-properties-migrator")
 
+                testImplementation("org.awaitility:awaitility")
                 testImplementation("org.junit.jupiter:junit-jupiter")
                 testRuntimeOnly("org.junit.platform:junit-platform-launcher")
             }
