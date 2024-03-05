@@ -16,6 +16,9 @@ spring:
         allow-bean-definition-overriding: true
         banner-mode: "OFF"
         web-application-type: NONE
+    output:
+        ansi:
+            enabled: always
 
 servers: localhost:8081,localhost:8082,localhost:8083
 

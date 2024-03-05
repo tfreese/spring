@@ -35,4 +35,17 @@ public class TokenController {
 
         return token;
     }
+
+    // How to do a programmatic login with Spring Security?
+    // UserDetails principal = userDetailsService.loadUserByUsername(username);
+    // Authentication authentication = new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), principal.getAuthorities());
+    // SecurityContext context = SecurityContextHolder.createEmptyContext();
+    // context.setAuthentication(authentication);
+
+    // How do I programmatically access the currently authenticated user in Spring Security?
+    // SecurityContext context = SecurityContextHolder.getContext();
+    // Authentication authentication = context.getAuthentication();
+    // String username = authentication.getName();
+    // Object principal = authentication.getPrincipal();
+    // Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 }

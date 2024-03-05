@@ -15,6 +15,9 @@ spring:
     main:
         #banner-mode: OFF
         web-application-type: NONE
+    output:
+        ansi:
+            enabled: always
     rsocket:
         server:
             address: localhost

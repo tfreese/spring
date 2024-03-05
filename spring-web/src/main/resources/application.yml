@@ -60,7 +60,10 @@ spring:
     config:
         activate:
             on-profile: shutdown
-
+    output:
+        ansi:
+            enabled: always
+            
 logging:
     level:
         org.springframework.beans.factory.config.YamlPropertiesFactoryBean: INFO
