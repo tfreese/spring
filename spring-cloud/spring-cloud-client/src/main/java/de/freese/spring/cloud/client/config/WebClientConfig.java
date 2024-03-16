@@ -69,7 +69,9 @@ public class WebClientConfig {
     //     * @see MyServiceInstanceListSupplier
     //     */
     //    @Bean
-    //    ReactorLoadBalancer<ServiceInstance> randomLoadBalancer(Environment environment, LoadBalancerClientFactory loadBalancerClientFactory, ServiceInstanceListSupplier serviceInstanceListSupplier)
+    //    ReactorLoadBalancer<ServiceInstance> randomLoadBalancer(Environment environment
+    //      , LoadBalancerClientFactory loadBalancerClientFactory
+    //      , ServiceInstanceListSupplier serviceInstanceListSupplier)
     //    {
     //        //        final String name = environment.getProperty(LoadBalancerClientFactory.PROPERTY_NAME);
     //        final String name = serviceInstanceListSupplier.getServiceId();

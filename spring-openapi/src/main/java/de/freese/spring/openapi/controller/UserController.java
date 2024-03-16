@@ -33,7 +33,9 @@ public class UserController {
 
     @DeleteMapping("delete/{username}")
     @Operation(summary = "Delete user", description = "Deletes specific user by username.")
-    @ApiResponses(value = {@ApiResponse(responseCode = "400", description = "Something went wrong"), @ApiResponse(responseCode = "403", description = "Access denied"), @ApiResponse(responseCode = "404", description = "The user doesn't exist", content = @Content),})
+    @ApiResponses(value = {@ApiResponse(responseCode = "400", description = "Something went wrong")
+            , @ApiResponse(responseCode = "403", description = "Access denied")
+            , @ApiResponse(responseCode = "404", description = "The user doesn't exist", content = @Content),})
     public String delete(@PathVariable final String username) {
         this.userMap.remove(username);
 
