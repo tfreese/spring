@@ -1,12 +1,5 @@
 # docker build --force-rm=true --no-cache=true --tag=<IMAGE_NAME>:<VERSION> .
 # docker build --force-rm=true --no-cache=true --tag=<IMAGE_NAME>:<VERSION> -f <Dockerfile> .
-# docker run [-d] [--rm] --name <CONTAINER_NAME> --publish/-p 8080:8080 --memory/-m 128m --cpus="2" <IMAGE_NAME>:<VERSION> --spring.profiles.active=test
-# -e "VM_PARAMS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"
-# docker start/stop <CONTAINER_NAME>
-
-# --network host: für Internetzugang
-
-# for i in {1..1000}; do curl localhost:8080; echo ""; sleep 1; done;
 
 # 2060 MB
 #FROM openjdk:21
@@ -22,10 +15,7 @@ FROM eclipse-temurin:21-jre-alpine
 
 LABEL org.opencontainers.image.authors="commercial@freese-home.de"
 
-ARG JAR_FILE=build/libs/kubernetes-microservice-boot.jar
 ENV VM_PARAMS="-Xms64m -Xmx128m"
-
-COPY ${JAR_FILE} /app/app.jar
 
 RUN echo "Europe/Berlin" > /etc/timezone
 

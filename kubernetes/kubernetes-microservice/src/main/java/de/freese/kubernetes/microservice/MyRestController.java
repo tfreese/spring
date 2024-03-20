@@ -4,13 +4,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
+import java.time.LocalDateTime;
 
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -49,19 +48,10 @@ public class MyRestController {
         return hostName;
     }
 
-    @GetMapping("greet")
-    public Publisher<String> greet(@RequestParam("name") final String name) {
+    @GetMapping("/")
+    public Publisher<String> greet() {
         final String hostName = getHostName();
 
-        //@formatter:off
-        return Optional.ofNullable(name)
-                .map(s -> {
-                    final var msg = "Hello " + s + " on " + hostName;
-                    return Mono.just(msg);
-                    })
-                //.orElse(Mono.error(new NullPointerException("name")))
-                .orElse(Mono.just("Hello World on " +  hostName))
-                ;
-        //@formatter:on
+        return Mono.just("Hello World from " + hostName + ": " + LocalDateTime.now());
     }
 }

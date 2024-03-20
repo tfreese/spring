@@ -11,10 +11,13 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
-// Start: gradle bootRun --args="--spring.profiles.active=dev"
 // The archive name. If the name has not been explicitly set, the pattern for the name is:
 // [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
-// archiveFileName = "my-boot.jar"
+bootJar {
+    archiveFileName = "${archiveBaseName.get()}-boot.${archiveExtension.get()}"
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
     mainClass = "de.freese.kubernetes.microservice.MyApplication"
 }

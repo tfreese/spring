@@ -24,7 +24,6 @@ EXPOSE 9999
 
 ENTRYPOINT exec java \
  $VM_PARAMS \
- -XX:TieredStopAtLevel=1 \
  -Djava.security.egd=file:/dev/./urandom \
  -jar \
  /app/app.jar \

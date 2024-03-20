@@ -4,25 +4,27 @@
 # Die Container können sich nun untereinander über ihre Aliasnamen ansprechen (HTTP://container1), keine IPs verwenden !
 
 # docker-compose build
-# docker-compose up -d --scale microservice=3
-# docker-compose scale microservice=3 (deprecated)
+# docker-compose build up -d --scale kubernetes-microservice=3 --remove-orphans
 # docker-compose ps
-# docker logs ID/NAME;
 # docker-compose down
+# docker-compose rm;
+# docker logs ID/NAME;
 
-# for disk in {1..1000}; do curl localhost/greet; echo ""; sleep 1; done;
+# for i in {1..1000}; do curl localhost:8080; echo ""; sleep 1; done;
 #
 # multi-stage builds: https://docs.docker.com/develop/develop-images/multistage-build/
 
 version: '3'
 services:
 
-    kubernetes-microservice:
+    kubernetes-microservice-1:
         #container_name: kubernetes-microservice
         build:
             context: ./kubernetes-microservice
             dockerfile: Dockerfile
         image: kubernetes-microservice:latest
+        ports:
+            - "8080:8080"
         #image: localhost:5000/kubernetes-microservice:latest
         #restart: always
         #         environment:
@@ -49,13 +51,46 @@ services:
                     cpus: "0.25"
                     memory: 64M
 
-    # export HAPROXY_IMAGE=haproxy:1.9.8-alpine
-    loadbalancer:
-        image: "${HAPROXY_IMAGE:-dockercloud/haproxy:latest}"
-        #restart: always
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-        ports:
-            - "80:80"
-        links:
-            - kubernetes-microservice
+#    kubernetes-microservice-2:
+#        build:
+#            context: ./kubernetes-microservice
+#            dockerfile: Dockerfile
+#        image: kubernetes-microservice:latest
+#        ports:
+#            - "8080:8080"
+#        deploy:
+#            resources:
+#                limits:
+#                    cpus: "0.5"
+#                    memory: 128M
+#                reservations:
+#                    cpus: "0.25"
+#                    memory: 64M
+#
+#    kubernetes-microservice-3:
+#        build:
+#            context: ./kubernetes-microservice
+#            dockerfile: Dockerfile
+#        image: kubernetes-microservice:latest
+#        ports:
+#            - "8080:8080"
+#        deploy:
+#            resources:
+#                limits:
+#                    cpus: "0.5"
+#                    memory: 128M
+#                reservations:
+#                    cpus: "0.25"
+#                    memory: 64M
+
+#    loadbalancer:
+#        image: "${HAPROXY_IMAGE:-haproxy:latest}"
+#        #restart: always
+#        volumes:
+#            - /var/run/docker.sock:/var/run/docker.sock
+#        ports:
+#            - "8080:8080"
+#        links:
+#            - kubernetes-microservice-1
+#            - kubernetes-microservice-2
+#            - kubernetes-microservice-3
