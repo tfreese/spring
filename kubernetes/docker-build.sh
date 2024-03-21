@@ -1,27 +1,37 @@
 #!/bin/sh
 #
-# docker build -t microservice:1 .;
-# docker build -t microservice:1 -f ~/kubernetes-microservice/Dockerfile;
-# docker run [-d] --name microservice -p 8080:8080 microservice:1;
-# docker start/stop microservice;
-#
+# docker build --force-rm=true --no-cache=true --tag=<IMAGE_NAME>:<VERSION> .
+# docker build --force-rm=true --no-cache=true --tag=<IMAGE_NAME>:<VERSION> -f <Dockerfile> .
+# docker run [-d] [--rm] --name <CONTAINER_NAME> --publish/-p 8080:8080 --memory/-m 128m --cpus="2" <IMAGE_NAME>:<VERSION> --spring.profiles.active=test
+# -e "VM_PARAMS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"
+# docker start/stop <CONTAINER_NAME>
 
-mvn -f kubernetes-microservice clean package;
+# --network host: für Internetzugang
+
+# for i in {1..1000}; do curl localhost:8080; echo ""; sleep 1; done;
+
+# wget -O /opt/hsqldb/hsqldb.jar https://repo1.maven.org/maven2/org/hsqldb/hsqldb/2.7.2/hsqldb-2.7.2.jar
+# curl -L "https://repo1.maven.org/maven2/org/hsqldb/hsqldb/2.7.2/hsqldb-2.7.2.jar" -o /opt/hsqldb/hsqldb.jar
+
+# docker run --rm --name hsqldb -p 9001:9001 -v /opt/hsqldb/data:/tmp/hsqldb hsqldb:1
+
+# Exit, if one Command fails.
+set -e
+
+trap bashtrap SIGINT SIGTERM
+
+bashtrap()
+{
+	echo "Exit"
+	exit 1;
+}
+
+gradle -p microservice build;
 
 # Image bauen
-docker build --tag=kubernetes-microservice:1 kubernetes-microservice;
+docker build --force-rm=true --no-cache=true --tag=microservice:1 microservice;
+docker build --force-rm=true --no-cache=true --network=host --tag=hsqldb:1 hsqldb;
 
 # Version taggen
-docker tag kubernetes-microservice:1 kubernetes-microservice:latest;
-
-# Für lokale Registry taggen
-#docker tag kubernetes-microservice:latest localhost:5000/kubernetes-microservice:latest;
-
-# In die lokale Registry pushen
-#docker push localhost:5000/kubernetes-microservice:latest;
-
-# Lokale Images löschen
-#docker image remove -f kubernetes-microservice kubernetes-microservice:1 localhost:5000/kubernetes-microservice:latest;
-
-# Image aus lokaler Registry neu laden (Kontrolle)
-#docker pull localhost:5000/kubernetes-microservice:latest;
+docker tag microservice:1 microservice:latest;
+docker tag hsqldb:1 hsqldb:latest;

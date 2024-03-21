@@ -20,8 +20,8 @@ services:
     kubernetes-microservice-1:
         #container_name: kubernetes-microservice
         build:
-            context: ./kubernetes-microservice
-            dockerfile: Dockerfile
+            context: ../kubernetes-microservice
+            dockerfile: ../kubernetes-microservice/Dockerfile
         image: kubernetes-microservice:latest
         ports:
             - "8080:8080"

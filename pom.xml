@@ -65,7 +65,6 @@
         <module>spring-testcontainers</module>
         <module>spring-thymeleaf</module>
         <module>spring-web</module>
-        <module>kubernetes/kubernetes-microservice</module>
     </modules>
 
     <build>
