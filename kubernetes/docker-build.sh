@@ -13,7 +13,10 @@
 # wget -O /opt/hsqldb/hsqldb.jar https://repo1.maven.org/maven2/org/hsqldb/hsqldb/2.7.2/hsqldb-2.7.2.jar
 # curl -L "https://repo1.maven.org/maven2/org/hsqldb/hsqldb/2.7.2/hsqldb-2.7.2.jar" -o /opt/hsqldb/hsqldb.jar
 
-# docker run --rm --name hsqldb -p 9001:9001 -v /opt/hsqldb/data:/tmp/hsqldb hsqldb:1
+# docker run --rm --name hsqldb -p 9001:9001 -v /tmp/hsqldb:/opt/hsqldb/data hsqldb:1
+# --mount type=bind,source=/tmp/hsqldb,target=/opt/hsqldb/data
+# docker run --rm --name h2 -p 9082:9082 -v /tmp/h2:/opt/h2/data h2:1
+# --mount type=bind,source=/tmp/h2,target=/opt/h2/data
 
 # Exit, if one Command fails.
 set -e
@@ -31,7 +34,9 @@ gradle -p microservice build;
 # Image bauen
 docker build --force-rm=true --no-cache=true --tag=microservice:1 microservice;
 docker build --force-rm=true --no-cache=true --network=host --tag=hsqldb:1 hsqldb;
+docker build --force-rm=true --no-cache=true --network=host --tag=h2:1 h2;
 
 # Version taggen
 docker tag microservice:1 microservice:latest;
 docker tag hsqldb:1 hsqldb:latest;
+docker tag h2:1 h2:latest;

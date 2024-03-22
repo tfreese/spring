@@ -6,6 +6,8 @@
 # COMMIT;
 # SELECT * from person;
 # CHECKPOINT; (compact)
+# SHUTDOWN SQL;
+# SHUTDOWN COMPACT;
 
 # 2060 MB
 #FROM openjdk:21
@@ -67,5 +69,5 @@ ENTRYPOINT exec java \
     # can open databases remotely
     --remote_open ${HSQLDB_REMOTE_OPEN} \
     #--props /opt/hsqldb/hsqldb.properties
-    -database.0 "file:/opt/hsqldb/data;user=sa;password=" -dbname.0 fileDb \
-    -database.1 "mem:/memDb;user=sa;password=" -dbname.1 memDb
+    -database.0 "file:/opt/hsqldb/data/fileDb;user=sa;password=;shutdown=false;create=true" -dbname.0 fileDb \
+    -database.1 "mem:/memDb;user=sa;password=;shutdown=false;create=true" -dbname.1 memDb
