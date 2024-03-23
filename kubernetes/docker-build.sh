@@ -29,9 +29,10 @@ bashtrap()
 	exit 1;
 }
 
-gradle -p microservice build;
+gradle -p microservice clean build;
 
 # Image bauen
+# minikube image build -t microservice microservice
 docker build --force-rm=true --no-cache=true --tag=microservice:1 microservice;
 docker build --force-rm=true --no-cache=true --network=host --tag=hsqldb:1 hsqldb;
 docker build --force-rm=true --no-cache=true --network=host --tag=h2:1 h2;

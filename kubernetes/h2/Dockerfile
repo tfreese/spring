@@ -6,7 +6,6 @@
 # COMMIT;
 # SELECT * from person;
 # CHECKPOINT; (compact)
-# SHUTDOWN SQL;
 # SHUTDOWN COMPACT;
 
 # 2060 MB
@@ -25,6 +24,7 @@ LABEL org.opencontainers.image.authors="commercial@freese-home.de"
 
 ENV H2_VERSION=2.2.224 \
     H2_PORT_TCP=9082 \
+    H2_PORT_WEB=8082 \
     VM_PARAMS="-Xms32m -Xmx64m"
 
 
@@ -51,6 +51,7 @@ USER h2
 WORKDIR /
 VOLUME /opt/h2/data
 EXPOSE ${H2_PORT_TCP}
+EXPOSE ${H2_PORT_WEB}
 
 #CMD java \
 ENTRYPOINT exec java \
@@ -59,6 +60,6 @@ ENTRYPOINT exec java \
     org.h2.tools.Server \
     #-properties "${H2CONF}"
     -tcp -tcpAllowOthers -tcpPort ${H2_PORT_TCP} \
-    #-web -webAllowOthers -webPort 8082 \
+    -web -webAllowOthers -webPort ${H2_PORT_WEB} \
     -ifNotExists \
     -baseDir /opt/h2/data

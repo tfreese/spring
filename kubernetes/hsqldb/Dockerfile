@@ -6,7 +6,6 @@
 # COMMIT;
 # SELECT * from person;
 # CHECKPOINT; (compact)
-# SHUTDOWN SQL;
 # SHUTDOWN COMPACT;
 
 # 2060 MB
