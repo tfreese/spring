@@ -1,15 +1,8 @@
 # PODs und Anzahl definieren
-# kubectl apply -f deployment.yml;
-# kubectl get pod;
-# kubectl get deployment;
-# kubectl describe pod microservice;
-# kubectl describe deployment microservice;
-# kubectl delete deployment microservice;
-#
-# eval $(minikube docker-env)
-# minikube image load microservice:latest
-# kubectl run microservice --image=microservice:latest --port=8989 --image-pull-policy=Never
-# minikube image ls --format table
+# kubectl apply -f 01_deployment.yml;
+# kubectl get all
+# kubectl describe pod microservice
+# kubectl describe deployment microservice
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,7 +22,7 @@ spec:
         spec:
             containers:
                 -   name: microservice
-                    image: microservice:latest
+                    image: 192.168.155.100:5000/microservice:latest
                     imagePullPolicy: Never
                     ports:
                         -   containerPort: 8080

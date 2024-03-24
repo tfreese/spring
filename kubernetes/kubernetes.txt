@@ -26,8 +26,14 @@ minikube config set memory 4096 [4GB]
 minikube config set cpus 4
 
 # minicube mit 2GB RAM, 4 CPUs starten
-minikube start [--memory=2048m --cpus=4]
+minikube start --driver=docker [--memory=2048m --cpus=4];
+minikube stop;
+minikube delete;
+minikube config set driver docker
 minikube addons list;
+minikube addons enable dashboard;
+minikube addons enable metrics-server;
+minikube addons enable registry; # To push Docker images
 minikube addons enable ingress;
 minikube status;
 minikube ip;

@@ -6,22 +6,22 @@
 # docker start/stop microservice;
 #
 
-mvn -f kubernetes-microservice clean package;
+mvn -f microservice clean package;
 
 # Image bauen
-docker build --tag=kubernetes-microservice:1 kubernetes-microservice;
+docker build --tag=microservice:1 microservice;
 
 # Version taggen
-docker tag kubernetes-microservice:1 kubernetes-microservice:latest;
+docker tag microservice:1 microservice:latest;
 
 # Für lokale Registry taggen
-#docker tag kubernetes-microservice:latest localhost:5000/kubernetes-microservice:latest;
+#docker tag microservice:latest localhost:5000/microservice:latest;
 
 # In die lokale Registry pushen
-#docker push localhost:5000/kubernetes-microservice:latest;
+#docker push localhost:5000/microservice:latest;
 
 # Lokale Images löschen
-#docker image remove -f kubernetes-microservice kubernetes-microservice:1 localhost:5000/kubernetes-microservice:latest;
+#docker image remove -f microservice microservice:1 localhost:5000/microservice:latest;
 
 # Image aus lokaler Registry neu laden (Kontrolle)
-#docker pull localhost:5000/kubernetes-microservice:latest;
+#docker pull localhost:5000/microservice:latest;
