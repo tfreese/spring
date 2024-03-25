@@ -1,24 +1,23 @@
-# PODs und Anzahl definieren
-# kubectl apply -f 01_deployment.yml;
-# kubectl get all
-# kubectl describe pod microservice
-# kubectl describe deployment microservice
+# Define PODs and Replicas for microservice.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: microservice
     labels:
         app: microservice
+        env: test
 spec:
     selector:
         matchLabels:
             app: microservice
-    replicas: 1
+            env: test
+    replicas: 3
     template:
         metadata:
             name: microservice
             labels:
                 app: microservice
+                env: test
         spec:
             containers:
                 -   name: microservice
@@ -26,5 +25,11 @@ spec:
                     imagePullPolicy: Never
                     ports:
                         -   containerPort: 8080
-
-#imagePullPolicy: IfNotPresent, Never
+                            protocol: TCP
+                    resources:
+                        requests:
+                            cpu: "10m"
+                            memory: 64Mi
+                        limits:
+                            cpu: 0.75
+                            memory: 128Mi
