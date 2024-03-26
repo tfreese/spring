@@ -6,9 +6,17 @@ plugins {
 description = "Demo Project for Kubernetes"
 
 dependencies {
+    // implementation("io.r2dbc:r2dbc-h2")
+    // implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
+    // runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+    runtimeOnly("com.h2database:h2")
+    // runtimeOnly("org.hsqldb:hsqldb")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    // testRuntimeOnly("com.h2database:h2")
 }
 
 // The archive name. If the name has not been explicitly set, the pattern for the name is:

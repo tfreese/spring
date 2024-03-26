@@ -23,3 +23,24 @@ server:
     http2:
         enabled: true
     port: 8090
+
+spring:
+    datasource:
+        #url: ${DB_URL:jdbc:hsqldb:hsql://${DB_HOST}:${DB_PORT}/memDb}
+        url: ${DB_URL:jdbc:h2:tcp://${DB_HOST}:${DB_PORT}/memDb}
+        username: ${DB_USER}
+        password: ${DB_PSW}
+        hikari:
+            auto-commit: true
+            minimum-idle: 1
+            maximum-pool-size: 3
+
+#    r2dbc:
+#        #url: ${R2DBC_URL:r2dbc:h2:tcp://${DB_HOST}:${DB_PORT}/mem:memDb}
+#        #url: ${R2DBC_URL:r2dbc:h2:mem:///memDb?DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true}
+#        username: sa
+#        password:
+#        pool:
+#            enabled: true
+#            min-idle: 1
+#            max-size: 3

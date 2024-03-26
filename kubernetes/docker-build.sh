@@ -30,30 +30,30 @@ gradle -p microservice clean build;
 
 # Build Image
 docker build --force-rm=true --no-cache=true --tag=microservice:1 microservice;
-docker build --force-rm=true --no-cache=true --network=host --tag=hsqldb:1 hsqldb;
-docker build --force-rm=true --no-cache=true --network=host --tag=h2:1 h2;
+docker build --network=host --tag=h2:1 h2;
+docker build --network=host --tag=hsqldb:1 hsqldb;
 
 # Tag Version
 docker tag microservice:1 microservice:latest;
-docker tag hsqldb:1 hsqldb:latest;
 docker tag h2:1 h2:latest;
+docker tag hsqldb:1 hsqldb:latest;
 
 # Tag for local Registry
 docker tag microservice:latest localhost:5000/microservice:latest;
-docker tag hsqldb:latest localhost:5000/hsqldb:latest;
 docker tag h2:latest localhost:5000/h2:latest;
+docker tag hsqldb:latest localhost:5000/hsqldb:latest;
 
 # Push into local Registry
 docker push localhost:5000/microservice:latest;
-docker push localhost:5000/hsqldb:latest;
 docker push localhost:5000/h2:latest;
+docker push localhost:5000/hsqldb:latest;
 
 # Delete local Image
 docker image remove -f microservice microservice:1 localhost:5000/microservice:latest;
-docker image remove -f hsqldb hsqldb:1 localhost:5000/hsqldb:latest;
 docker image remove -f h2 h2:1 localhost:5000/h2:latest;
+docker image remove -f hsqldb hsqldb:1 localhost:5000/hsqldb:latest;
 
 # Load Image from local Registry (for testing)
 # docker pull localhost:5000/microservice:latest;
-# docker pull localhost:5000/hsqldb:latest;
 # docker pull localhost:5000/h2:latest;
+# docker pull localhost:5000/hsqldb:latest;

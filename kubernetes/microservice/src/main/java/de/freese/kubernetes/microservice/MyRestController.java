@@ -4,11 +4,15 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Objects;
 
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -48,10 +52,33 @@ public class MyRestController {
         return hostName;
     }
 
+    // private final DatabaseClient databaseClient;
+    private final JdbcClient jdbcClient;
+
+    public MyRestController(final JdbcClient jdbcClient) {
+        super();
+
+        // this.databaseClient = Objects.requireNonNull(databaseClient, "databaseClient required");
+        this.jdbcClient = Objects.requireNonNull(jdbcClient, "jdbcClient required");
+    }
+
     @GetMapping("/")
     public Publisher<String> greet() {
-        final String hostName = getHostName();
+        final String message = "Hello World from %s: ".formatted(getHostName());
 
-        return Mono.just("Hello World from " + hostName + ": " + LocalDateTime.now());
+        return getDbTimestamp()
+                .map(ts -> message + ts.toString())
+                .onErrorReturn(message + LocalTime.now())
+                ;
+    }
+
+    private Mono<LocalDateTime> getDbTimestamp() {
+        // return databaseClient.sql("call LOCALTIMESTAMP").map((row, rowMetadata) -> row.get(0, LocalDateTime.class)).one();
+
+        return Mono.just(jdbcClient.sql("call LOCALTIMESTAMP").query(rs -> {
+            rs.next();
+            final Timestamp timestamp = rs.getTimestamp(1);
+            return timestamp.toLocalDateTime();
+        }));
     }
 }

@@ -1,0 +1,35 @@
+# https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
+# If the control plane finds a suitable PersistentVolume with the same StorageClass, it binds the claim to the volume.
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+    name: pv0001
+    #annotations:
+    #    pv.beta.kubernetes.io/gid: "1234"
+spec:
+    storageClassName: standard
+    volumeMode: Filesystem
+    #volumeMode: Block
+    accessModes:
+        - ReadWriteOnce
+    capacity:
+        storage: 3Gi
+    #persistentVolumeReclaimPolicy: Recycle
+    hostPath:
+        path: /mnt/ssd850/kubernetes-pv0001
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: pv-claim
+spec:
+    storageClassName: standard
+    volumeMode: Filesystem
+    accessModes:
+        - ReadWriteOnce
+    resources:
+        requests:
+            storage: 1Gi

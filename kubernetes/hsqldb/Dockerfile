@@ -27,6 +27,7 @@ ENV HSQLDB_VERSION=2.7.2 \
     HSQLDB_TRACE=false \
     HSQLDB_SILENT=true \
     HSQLDB_REMOTE_OPEN=true \
+    HSQLDB_USER=sa \
     VM_PARAMS="-Xms32m -Xmx64m"
 
 # && wget -O /opt/hsqldb/hsqldb.jar "https://repo1.maven.org/maven2/org/hsqldb/hsqldb/${HSQLDB_VERSION}/hsqldb-${HSQLDB_VERSION}.jar" \
