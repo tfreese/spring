@@ -1,0 +1,47 @@
+# POD: Database
+apiVersion: v1
+kind: Pod
+metadata:
+    name: db
+    labels:
+        app: db
+        env: test
+spec:
+    containers:
+        -   name: db
+            image: 192.168.155.100:5000/h2:latest
+            imagePullPolicy: Never
+            ports:
+                -   name: db-tcp
+                    containerPort: 9082
+                    protocol: TCP
+                -   name: db-web
+                    containerPort: 8082
+            resources:
+                requests:
+                    cpu: "10m"
+                    memory: 64Mi
+                limits:
+                    cpu: 0.75
+                    memory: 128Mi
+            volumeMounts:
+                -   name: db-storage
+                    mountPath: "/opt/h2/data"
+                    subPath: h2
+                    #readOnly: false
+            env:
+                -   name: DB_IP
+                    valueFrom:
+                        fieldRef:
+                            fieldPath: status.podIP
+        #securityContext:
+        #    runAsUser: 1000
+        #    fsGroup: 1000
+    volumes:
+        -   name: db-storage
+            emptyDir: { } # Works
+            #hostPath:
+            #    path: "/mnt/ssd850/kubernetes-pv0001"
+            #type: DirectoryOrCreate
+            #persistentVolumeClaim:
+            #    claimName: pv-claim

@@ -1,0 +1,18 @@
+# Internal Service for Database to access from the microservices.
+apiVersion: v1
+kind: Service
+metadata:
+    name: db
+    labels:
+        app: db
+        env: test
+spec:
+    selector:
+        app: db
+        env: test
+    ports:
+        -   port: 9082
+            targetPort: 9082
+            #            nodePort: 32123
+            protocol: TCP
+    type: ClusterIP

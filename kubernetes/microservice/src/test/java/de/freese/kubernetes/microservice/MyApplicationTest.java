@@ -18,6 +18,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  * @author Thomas Freese
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = {"DB_URL=jdbc:h2:mem:memDb", "DB_USER=sa", "DB_PSW="})
+        // properties = {"DB_URL=jdbc:h2:mem:memDb", "DB_USER=sa", "DB_PSW="}
+        // properties = {"DB_URL=jdbc:h2:tcp://localhost:9082/file:fileDb", "DB_USER=sa", "DB_PSW="}
         // properties = {"DB_URL=jdbc:hsqldb:mem:memDb"}
         // properties = {"R2DBC_URL=r2dbc:h2:mem:///memDb?DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true"}
 class MyApplicationTest {

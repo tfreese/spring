@@ -27,7 +27,7 @@ server:
 spring:
     datasource:
         #url: ${DB_URL:jdbc:hsqldb:hsql://${DB_HOST}:${DB_PORT}/memDb}
-        url: ${DB_URL:jdbc:h2:tcp://${DB_HOST}:${DB_PORT}/memDb}
+        url: ${DB_URL:jdbc:h2:tcp://${DB_HOST}:${DB_PORT}/file:fileDb}
         username: ${DB_USER}
         password: ${DB_PSW}
         hikari:

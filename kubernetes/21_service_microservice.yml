@@ -1,4 +1,4 @@
-# Service: External access.
+# Service: External access by LoadBalancer.
 # curl http://$(minikube ip):32123
 # curl http://$(minikube service microservice --url)
 apiVersion: v1

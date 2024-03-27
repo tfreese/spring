@@ -15,21 +15,12 @@ spec:
         - ReadWriteOnce
     capacity:
         storage: 3Gi
-    #persistentVolumeReclaimPolicy: Recycle
+    persistentVolumeReclaimPolicy: Retain
     hostPath:
-        path: /mnt/ssd850/kubernetes-pv0001
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-    name: pv-claim
-spec:
-    storageClassName: standard
-    volumeMode: Filesystem
-    accessModes:
-        - ReadWriteOnce
-    resources:
-        requests:
-            storage: 1Gi
+        path: "/mnt/ssd850/kubernetes-pv0001"
+#    nodeAffinity:
+#        required:
+#            nodeSelectorTerms:
+#                -   matchExpressions:
+#                        -   key: kubernetes.io/hostname
+#                            operator: In
