@@ -1,0 +1,9 @@
+# First, a StorageClass should be created that sets volumeBindingMode: WaitForFirstConsumer to enable volume topology-aware scheduling.
+# This mode instructs Kubernetes to wait to bind a PVC until a Pod using it is scheduled.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+    name: local-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain

@@ -1,6 +1,15 @@
 # https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
 # If the control plane finds a suitable PersistentVolume with the same StorageClass, it binds the claim to the volume.
-
+#
+# minikube mount <source directory>:<target directory>
+# Make is accessible in PersistentVolume.
+# minikube mount /mnt/ssd850/minikube:/pv; # If Error "No route to host" occurred disable firewall.
+# minikube start --driver=docker --memory=8192m --cpus=8 --mount-string=/mnt/ssd850/minikube:/pv --mount;
+#
+# The hostPath is created INSIDE the minikube VM !!!
+# minikube ssh;
+# ls -hal /tmp/kubernetes/pv0001/h2/
+#
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -8,19 +17,25 @@ metadata:
     #annotations:
     #    pv.beta.kubernetes.io/gid: "1234"
 spec:
-    storageClassName: standard
+    storageClassName: local-storage
     volumeMode: Filesystem
     #volumeMode: Block
     accessModes:
         - ReadWriteOnce
     capacity:
-        storage: 3Gi
+        storage: 2Gi
     persistentVolumeReclaimPolicy: Retain
     hostPath:
-        path: "/mnt/ssd850/kubernetes-pv0001"
+        # Mounted in minikube to "/mnt/ssd850/minikube".
+        path: "/pv/pv0001"
+        type: DirectoryOrCreate
+#    local:
+#        path: "/pv/pv0001"
 #    nodeAffinity:
 #        required:
 #            nodeSelectorTerms:
 #                -   matchExpressions:
 #                        -   key: kubernetes.io/hostname
 #                            operator: In
+#                            values:
+#                                - minikube

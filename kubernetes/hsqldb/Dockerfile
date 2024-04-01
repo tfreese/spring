@@ -39,8 +39,8 @@ RUN apk update \
     && echo "Europe/Berlin" > /etc/timezone \
     && mkdir -p /opt/hsqldb/data \
     && wget -O /opt/hsqldb/hsqldb.jar "https://repo1.maven.org/maven2/org/hsqldb/hsqldb/${HSQLDB_VERSION}/hsqldb-${HSQLDB_VERSION}.jar" \
-    && addgroup -S hsqldb \
-    && adduser -S -g hsqldb hsqldb \
+    && addgroup -S --gid 1000 hsqldb \
+    && adduser -S -g hsqldb --uid 1000 hsqldb \
     && chown hsqldb:hsqldb -R /opt/hsqldb \
     && apk cache clean
 
@@ -48,7 +48,8 @@ RUN apk update \
 RUN rm -rf /tmp/* \
     && rm -rf /var/log/*
 
-USER hsqldb
+# Run with an own user, the File-DBs have no write permissions.
+#USER hsqldb
 
 WORKDIR /
 VOLUME /opt/hsqldb/data

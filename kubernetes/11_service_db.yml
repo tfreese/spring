@@ -13,6 +13,6 @@ spec:
     ports:
         -   port: 9082
             targetPort: 9082
-            #            nodePort: 32123
+            #            nodePort: 31123
             protocol: TCP
     type: ClusterIP

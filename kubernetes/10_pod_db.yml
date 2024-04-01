@@ -24,24 +24,33 @@ spec:
                 limits:
                     cpu: 0.75
                     memory: 128Mi
+            #volumeDevices:
+            #    -   name: db-storage
+            #        devicePath: /dev/block
             volumeMounts:
                 -   name: db-storage
                     mountPath: "/opt/h2/data"
                     subPath: h2
-                    #readOnly: false
+                    readOnly: false
             env:
                 -   name: DB_IP
                     valueFrom:
                         fieldRef:
                             fieldPath: status.podIP
-        #securityContext:
-        #    runAsUser: 1000
-        #    fsGroup: 1000
+    #securityContext:
+    #    fsGroup: 1000
+    #    runAsUser: 1000
+    #    runAsGroup: 1000
     volumes:
         -   name: db-storage
-            emptyDir: { } # Works
+            #emptyDir: { } # Works
+            #
+            # The hostPath is created INSIDE the minikube VM !!!
+            # minikube ssh;
+            # ls -hal /tmp/kubernetes/db/h2/
             #hostPath:
-            #    path: "/mnt/ssd850/kubernetes-pv0001"
-            #type: DirectoryOrCreate
-            #persistentVolumeClaim:
-            #    claimName: pv-claim
+            #    path: "/tmp/kubernetes/db"
+            #    type: DirectoryOrCreate
+            #
+            persistentVolumeClaim:
+                claimName: pv-claim

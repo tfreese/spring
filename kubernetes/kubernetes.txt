@@ -20,20 +20,21 @@ curl -Lo https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 
 ===================================================================================================
 
-# Start-Parameter
-minikube config -h
-minikube config set memory 4096 [4GB]
-minikube config set cpus 4
+minikube config set driver docker;
+minikube config set memory 8192;
+minikube config set cpus 8;
+minikube addons enable registry; # To push Docker images
 
-# minicube mit 2GB RAM, 4 CPUs starten
-minikube start --driver=docker [--memory=2048m --cpus=4];
+minikube start --driver=docker --memory=8192m --cpus=8 --mount-string=/mnt/ssd850/minikube:/pv --mount;
+minikube start --mount-string=/mnt/ssd850/minikube:/pv --mount;
+
 minikube stop;
 minikube delete;
-minikube config set driver docker
+minikube config -h;
+minikube config view;
 minikube addons list;
 minikube addons enable dashboard;
 minikube addons enable metrics-server;
-minikube addons enable registry; # To push Docker images
 minikube addons enable ingress;
 minikube status;
 minikube ip;

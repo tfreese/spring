@@ -37,8 +37,8 @@ RUN apk update \
     && echo "Europe/Berlin" > /etc/timezone \
     && mkdir -p /opt/h2/data \
     && wget -O /opt/h2/h2.jar "https://repo1.maven.org/maven2/com/h2database/h2/${H2_VERSION}/h2-${H2_VERSION}.jar" \
-    && addgroup -S h2 \
-    && adduser -S -g h2 h2 \
+    && addgroup -S --gid 1000 h2 \
+    && adduser -S -g h2 --uid 1000 h2 \
     && chown h2:h2 -R /opt/h2 \
     && apk cache clean
 
@@ -46,7 +46,8 @@ RUN apk update \
 RUN rm -rf /tmp/* \
     && rm -rf /var/log/*
 
-USER h2
+# Run with an own user, the File-DBs have no write permissions.
+#USER h2
 
 WORKDIR /
 VOLUME /opt/h2/data

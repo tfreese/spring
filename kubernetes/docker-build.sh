@@ -15,6 +15,8 @@
 # docker run --rm --name h2 -p 9082:9082 -v /tmp/h2:/opt/h2/data h2:1
 # --mount type=bind,source=/tmp/h2,target=/opt/h2/data
 
+# kubectl/docker exec -it h2 -- sh
+
 # Exit, if one Command fails.
 set -e
 
