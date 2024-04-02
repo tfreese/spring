@@ -75,7 +75,7 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
 
         final String[] fallbackURLs = (String[]) ArrayUtils.remove(this.urls, 0);
 
-        final SysDateHystrixCommand cmd = new SysDateHystrixCommand((this.level + 1));
+        final SysDateHystrixCommand cmd = new SysDateHystrixCommand(this.level + 1);
         cmd.setRestTemplate(this.restTemplate);
         cmd.setURLs(fallbackURLs);
 

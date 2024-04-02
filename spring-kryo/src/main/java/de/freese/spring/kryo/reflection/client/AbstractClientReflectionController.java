@@ -93,8 +93,8 @@ public abstract class AbstractClientReflectionController<T> {
                 connection.setChunkedStreamingMode(chunkSize);
 
                 // Streams berücksichtigen, muss der letzte Parameter sein !
-                final boolean hasInputStreamArg = (args != null) && (args.length > 0) && (args[args.length - 1] instanceof InputStream);
-                final boolean hasOutputStreamArg = (args != null) && (args.length > 0) && (args[args.length - 1] instanceof OutputStream);
+                final boolean hasInputStreamArg = args != null && args.length > 0 && args[args.length - 1] instanceof InputStream;
+                final boolean hasOutputStreamArg = args != null && args.length > 0 && args[args.length - 1] instanceof OutputStream;
 
                 connection.setRequestProperty(ReflectionControllerApi.INPUTSTREAM_IN_METHOD, Boolean.toString(hasInputStreamArg));
                 connection.setRequestProperty(ReflectionControllerApi.OUTPUTSTREAM_IN_METHOD, Boolean.toString(hasOutputStreamArg));
@@ -175,7 +175,7 @@ public abstract class AbstractClientReflectionController<T> {
                         headers.setContentType(KryoHttpMessageConverter.APPLICATION_KRYO);
                         return execution.execute(request, body);
                     })
-                    .additionalMessageConverters(new KryoHttpMessageConverter( getKryoPool()), new MappingJackson2HttpMessageConverter())
+                    .additionalMessageConverters(new KryoHttpMessageConverter(getKryoPool()), new MappingJackson2HttpMessageConverter())
                     .build()
                     ;
             // @formatter:on

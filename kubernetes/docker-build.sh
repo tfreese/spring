@@ -1,5 +1,8 @@
 #!/bin/sh
 #
+#  Start local registry.
+# docker run -d -p 5000:5000 --restart=always -v /mnt/ssd850/docker-registry:/var/lib/registry --name registry registry:latest
+#
 # docker build --force-rm=true --no-cache=true --tag=<IMAGE_NAME>:<VERSION> -f <Dockerfile> .
 # docker run [-d] [--rm] --name <CONTAINER_NAME> --publish/-p 8080:8080 --memory/-m 128m --cpus="2" <IMAGE_NAME>:<VERSION> --spring.profiles.active=test
 # -e "VM_PARAMS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"
@@ -28,34 +31,34 @@ bashtrap()
 	exit 1;
 }
 
-gradle -p microservice clean build;
+gradle -p backend clean build;
 
 # Build Image
-docker build --force-rm=true --no-cache=true --tag=microservice:1 microservice;
+docker build --force-rm=true --no-cache=true --tag=backend:1 backend;
 docker build --network=host --tag=h2:1 h2;
 docker build --network=host --tag=hsqldb:1 hsqldb;
 
 # Tag Version
-docker tag microservice:1 microservice:latest;
+docker tag backend:1 backend:latest;
 docker tag h2:1 h2:latest;
 docker tag hsqldb:1 hsqldb:latest;
 
 # Tag for local Registry
-docker tag microservice:latest localhost:5000/microservice:latest;
+docker tag backend:latest localhost:5000/backend:latest;
 docker tag h2:latest localhost:5000/h2:latest;
 docker tag hsqldb:latest localhost:5000/hsqldb:latest;
 
 # Push into local Registry
-docker push localhost:5000/microservice:latest;
+docker push localhost:5000/backend:latest;
 docker push localhost:5000/h2:latest;
 docker push localhost:5000/hsqldb:latest;
 
 # Delete local Image
-docker image remove -f microservice microservice:1 localhost:5000/microservice:latest;
+docker image remove -f backend backend:1 localhost:5000/backend:latest;
 docker image remove -f h2 h2:1 localhost:5000/h2:latest;
 docker image remove -f hsqldb hsqldb:1 localhost:5000/hsqldb:latest;
 
 # Load Image from local Registry (for testing)
-# docker pull localhost:5000/microservice:latest;
+# docker pull localhost:5000/backend:latest;
 # docker pull localhost:5000/h2:latest;
 # docker pull localhost:5000/hsqldb:latest;

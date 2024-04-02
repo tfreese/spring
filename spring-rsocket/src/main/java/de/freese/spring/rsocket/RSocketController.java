@@ -48,7 +48,7 @@ public class RSocketController {
                 // Pro Element 1 Sekunde warten.
                 .delayElements(Duration.ofSeconds(1))
                 // Response-Objekt erzeugen.
-                .map(objects -> new MessageResponse( objects.getT2().getMessage() , objects.getT1()))
+                .map(objects -> new MessageResponse(objects.getT2().getMessage(), objects.getT1()))
                 // Flux-Events der Responses loggen.
                 .log()
                 ;
@@ -114,7 +114,7 @@ public class RSocketController {
                 // Indizierung
                 .index()
                 // Response-Objekt erzeugen.
-                .map(objects -> new MessageResponse( request.getMessage(), objects.getT1()))
+                .map(objects -> new MessageResponse(request.getMessage(), objects.getT1()))
                 // Flux-Events loggen.
                 .log()
                 ;

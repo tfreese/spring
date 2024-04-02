@@ -1,17 +1,18 @@
 # Service: External access by LoadBalancer.
 # curl http://$(minikube ip):32123
-# curl http://$(minikube service microservice --url)
+# curl http://$(minikube service backend-service --url)
 apiVersion: v1
 kind: Service
 metadata:
-    name: microservice
+    name: backend-service
+    #namespace: demo
     labels:
-        app: microservice
-        env: test
+        app: backend-service
+    #    env: test
 spec:
     selector:
-        app: microservice
-        env: test
+        app: backend
+        #env: test
     ports:
         -   port: 8090
             targetPort: 8090

@@ -31,17 +31,14 @@ class TestCafe {
 
     @Test
     void testCafeConfig() throws Exception {
-        //@formatter:off
-        try(ConfigurableApplicationContext context= new SpringApplicationBuilder()
-            .headless(true)
-            .registerShutdownHook(true)
-            .web(WebApplicationType.NONE)
-            .bannerMode(Banner.Mode.OFF)
-            .sources(de.freese.spring.integration.cafe.config.Application.class)
-            .build()
-            .run())
-        //@formatter:on
-        {
+        try (ConfigurableApplicationContext context = new SpringApplicationBuilder()
+                .headless(true)
+                .registerShutdownHook(true)
+                .web(WebApplicationType.NONE)
+                .bannerMode(Banner.Mode.OFF)
+                .sources(de.freese.spring.integration.cafe.config.Application.class)
+                .build()
+                .run()) {
             testCafe(context);
         }
     }
@@ -68,17 +65,14 @@ class TestCafe {
     void testCafeDsl() throws Exception {
         // ConfigurableApplicationContext context = SpringApplication.run(Application.class);
 
-        //@formatter:off
-        try(ConfigurableApplicationContext context= new SpringApplicationBuilder()
-            .headless(true)
-            .registerShutdownHook(true)
-            .web(WebApplicationType.NONE)
-            .bannerMode(Banner.Mode.OFF)
-            .sources(de.freese.spring.integration.cafe.dsl.Application.class)
-            .build()
-            .run())
-        //@formatter:on
-        {
+        try (ConfigurableApplicationContext context = new SpringApplicationBuilder()
+                .headless(true)
+                .registerShutdownHook(true)
+                .web(WebApplicationType.NONE)
+                .bannerMode(Banner.Mode.OFF)
+                .sources(de.freese.spring.integration.cafe.dsl.Application.class)
+                .build()
+                .run()) {
             testCafe(context);
         }
     }

@@ -58,13 +58,13 @@ public class Application {
         return f -> f
                 .split(Order.class, Order::getItems)
                 .channel(c -> c.executor(Executors.newCachedThreadPool()))
-                .<OrderItem, Boolean> route(OrderItem::isIced,
+                .<OrderItem, Boolean>route(OrderItem::isIced,
                         mapping -> mapping
                                 .subFlowMapping(true,
                                         sf -> sf.channel(c -> c.queue(10))
                                                 .publishSubscribeChannel(c -> c.subscribe(s -> s.handle(m -> sleep(400L)))
                                                         .subscribe(sub -> sub
-                                                                .<OrderItem, String> transform(p -> Thread.currentThread().getName()
+                                                                .<OrderItem, String>transform(p -> Thread.currentThread().getName()
                                                                         + " prepared cold drink #" + this.coldDrinkCounter.incrementAndGet()
                                                                         + " for order #" + p.getOrderNumber() + ": " + p)
                                                                 .handle(m -> LOGGER.info("{}", m.getPayload())))))
@@ -72,22 +72,22 @@ public class Application {
                                         sf -> sf.channel(c -> c.queue(10))
                                                 .publishSubscribeChannel(c -> c.subscribe(s -> s.handle(m -> sleep(800L)))
                                                         .subscribe(sub -> sub
-                                                                .<OrderItem, String> transform(p -> Thread.currentThread().getName()
+                                                                .<OrderItem, String>transform(p -> Thread.currentThread().getName()
                                                                         + " prepared hot drink #" + this.hotDrinkCounter.incrementAndGet()
                                                                         + " for order #" + p.getOrderNumber() + ": " + p)
                                                                 .handle(m -> LOGGER.info("{}", m.getPayload())))))
                                 .defaultOutputToParentFlow())
-                .<OrderItem, Drink> transform(
+                .<OrderItem, Drink>transform(
                         orderItem -> new Drink(orderItem.getOrderNumber(), orderItem.getDrinkType(), orderItem.isIced()))
                 .aggregate(aggregator -> aggregator
-                        .outputProcessor(g -> new Delivery(
-                                g.getMessages().stream().map(message -> (Drink) message.getPayload()).toList()))
+                        .outputProcessor(g ->
+                                new Delivery(g.getMessages().stream().map(message -> (Drink) message.getPayload()).toList()))
                         .correlationStrategy(m -> ((Drink) m.getPayload()).getOrderNumber()))
-//                .handle(CharacterStreamWritingMessageHandler.stdout());
-//         .handle((MessageHandler)obj -> {
-//             System.out.println("Result: " + obj.toString());
-//             })
-         ;
+                //                .handle(CharacterStreamWritingMessageHandler.stdout());
+                //         .handle((MessageHandler)obj -> {
+                //             System.out.println("Result: " + obj.toString());
+                //             })
+                ;
         //@formatter:on
     }
 

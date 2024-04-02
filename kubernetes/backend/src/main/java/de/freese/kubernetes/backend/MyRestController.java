@@ -1,4 +1,4 @@
-package de.freese.kubernetes.microservice;
+package de.freese.kubernetes.backend;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

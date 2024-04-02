@@ -190,7 +190,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 .header("my-token", "admin")
                 .accept(MediaType.APPLICATION_XML))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE+";charset=UTF-8"))
+                .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"))
                 .andDo(result -> {
                     final List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
                     {

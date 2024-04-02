@@ -1,4 +1,4 @@
-package de.freese.kubernetes.microservice;
+package de.freese.kubernetes.backend;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

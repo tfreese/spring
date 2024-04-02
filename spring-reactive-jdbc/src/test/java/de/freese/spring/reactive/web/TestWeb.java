@@ -220,7 +220,7 @@ public interface TestWeb {
             .exchange() // Liefert auch Header und Status.
             .expectStatus().isOk()
             .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-            .expectBody(Employee.class).isEqualTo(new Employee("LastName1","FirstName1", "Dep1", 1))
+            .expectBody(Employee.class).isEqualTo(new Employee("LastName1", "FirstName1", "Dep1", 1))
             ;
         // @formatter:on
 
@@ -232,7 +232,7 @@ public interface TestWeb {
             .retrieve()
             .bodyToMono(Employee.class)
             .as(StepVerifier::create)
-            .expectNextMatches(emp -> emp.equals(new Employee("LastName1","FirstName1", "Dep1", 1)))
+            .expectNextMatches(emp -> emp.equals(new Employee("LastName1", "FirstName1", "Dep1", 1)))
             .verifyComplete()
             ;
         // @formatter:on

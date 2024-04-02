@@ -39,6 +39,6 @@ public abstract class AbstractKryoCodecSupport {
     }
 
     protected boolean supportsMimeType(final MimeType mimeType) {
-        return ((mimeType == null) || MIME_TYPES.stream().anyMatch(m -> m.isCompatibleWith(mimeType)));
+        return mimeType == null || MIME_TYPES.stream().anyMatch(m -> m.isCompatibleWith(mimeType));
     }
 }

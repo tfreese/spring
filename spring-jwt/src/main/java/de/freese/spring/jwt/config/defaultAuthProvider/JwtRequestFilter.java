@@ -88,11 +88,10 @@ class JwtRequestFilter extends OncePerRequestFilter {
     private boolean isAuthenticationIsRequired(final String username) {
         final Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
 
-        if ((existingAuth == null) || !existingAuth.isAuthenticated() ||
-                ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName().equals(username))) {
+        if (existingAuth == null || !existingAuth.isAuthenticated() || existingAuth instanceof UsernamePasswordAuthenticationToken && !existingAuth.getName().equals(username)) {
             return true;
         }
 
-        return (existingAuth instanceof AnonymousAuthenticationToken);
+        return existingAuth instanceof AnonymousAuthenticationToken;
     }
 }

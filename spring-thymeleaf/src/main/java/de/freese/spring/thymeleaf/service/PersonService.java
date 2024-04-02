@@ -28,7 +28,7 @@ public class PersonService {
         final String firstName = newPerson.getFirstName();
         final String lastName = newPerson.getLastName();
 
-        if ((firstName != null) && !firstName.isEmpty() && (lastName != null) && !lastName.isEmpty()) {
+        if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty()) {
             this.persons.add(newPerson);
         }
         else {

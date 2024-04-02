@@ -10,7 +10,7 @@ pluginManagement {
 // Without rootProject.name the Name of the Projekt-Directory is used.
 // rootProject.name = "spring"
 
-include "kubernetes:microservice"
+include "kubernetes:backend"
 include "spring-atomicos"
 include "spring-autoconfigure-dbserver"
 include "spring-cloud:spring-cloud-api-gateway"

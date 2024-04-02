@@ -12,7 +12,7 @@ FROM eclipse-temurin:21-jre-alpine
 
 LABEL org.opencontainers.image.authors="commercial@freese-home.de"
 
-ARG JAR_FILE=build/libs/microservice-boot.jar
+ARG JAR_FILE=build/libs/backend-boot.jar
 ENV VM_PARAMS="-Xms32m -Xmx64m"
 
 COPY ${JAR_FILE} /app/app.jar

@@ -35,13 +35,13 @@ public class Employee {
             return true;
         }
 
-        if ((obj == null) || (getClass() != obj.getClass())) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
 
         final Employee other = (Employee) obj;
 
-        return (this.id == other.id) && Objects.equals(this.firstName, other.firstName) && Objects.equals(this.lastName, other.lastName) && Objects.equals(this.department,
+        return this.id == other.id && Objects.equals(this.firstName, other.firstName) && Objects.equals(this.lastName, other.lastName) && Objects.equals(this.department,
                 other.department);
     }
 

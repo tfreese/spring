@@ -21,9 +21,8 @@ public class FailingRestController {
     private final ReactiveCircuitBreakerFactory<Resilience4JConfigBuilder.Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> reactiveCircuitBreakerFactory;
     private final FailingService service;
 
-    FailingRestController(final FailingService service
-            , final ReactiveCircuitBreakerFactory<Resilience4JConfigBuilder.Resilience4JCircuitBreakerConfiguration
-            , Resilience4JConfigBuilder> reactiveCircuitBreakerFactory) {
+    FailingRestController(final FailingService service, final ReactiveCircuitBreakerFactory<Resilience4JConfigBuilder.Resilience4JCircuitBreakerConfiguration,
+            Resilience4JConfigBuilder> reactiveCircuitBreakerFactory) {
         super();
 
         this.reactiveCircuitBreakerFactory = reactiveCircuitBreakerFactory;

@@ -79,7 +79,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
         final String header = request.getHeader("my-token");
 
-        if ((header == null) || header.isEmpty()) {
+        if (header == null || header.isEmpty()) {
             filterChain.doFilter(request, response);
 
             return;
@@ -138,12 +138,11 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
         // Limit username comparison to providers which use usernames (ie
         // UsernamePasswordAuthenticationToken)
         // (see SEC-348)
-        if ((existingAuth == null) || !existingAuth.isAuthenticated() || ((existingAuth instanceof UsernamePasswordAuthenticationToken) && !existingAuth.getName()
-                .equals(username))) {
+        if (existingAuth == null || !existingAuth.isAuthenticated() || existingAuth instanceof UsernamePasswordAuthenticationToken && !existingAuth.getName().equals(username)) {
             return true;
         }
 
-        if ((existingAuth instanceof PreAuthenticatedAuthenticationToken) && !existingAuth.getName().equals(username)) {
+        if (existingAuth instanceof PreAuthenticatedAuthenticationToken && !existingAuth.getName().equals(username)) {
             return true;
         }
 

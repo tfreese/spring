@@ -227,7 +227,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
         // @formatter:off
         final RestTemplate restTemplate = this.restTemplateBuilder
                 .interceptors(new HttpHeaderInterceptor("my-token", "user"),
-                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_XML_VALUE+";charset=UTF-8"))
+                        new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"))
                 .build();
         // @formatter:on
 

@@ -80,7 +80,7 @@ public class LoadBalancer implements LoadBalancerPing {
             final List<String> workingServers = new ArrayList<>();
 
             // @formatter:off
-            final CompletableFuture<String> [] futures = allServers.stream()
+            final CompletableFuture<String>[] futures = allServers.stream()
                 .map(server -> CompletableFuture.supplyAsync(() -> isAlive(server) ? server : null))
                 .toArray(CompletableFuture[]::new);
             // @formatter:on

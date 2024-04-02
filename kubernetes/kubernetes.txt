@@ -20,13 +20,16 @@ curl -Lo https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 
 ===================================================================================================
 
+minikube addons enable registry; # To push Docker images
+
+minikube start --driver=docker --memory=8192m --cpus=8 --mount-string=/tmp/minikube:/mnt/share --mount;
+
+OR
+
 minikube config set driver docker;
 minikube config set memory 8192;
 minikube config set cpus 8;
-minikube addons enable registry; # To push Docker images
-
-minikube start --driver=docker --memory=8192m --cpus=8 --mount-string=/mnt/ssd850/minikube:/pv --mount;
-minikube start --mount-string=/mnt/ssd850/minikube:/pv --mount;
+minikube start --mount-string=/tmp/minikube:/mnt/share --mount;
 
 minikube stop;
 minikube delete;
@@ -42,8 +45,8 @@ minikube dashboard [--url];
 minikube delete;
 minikube logs;
 minikube service list;
-minikube service microservice --url;
-curl $(minikube service microservice --url);
+minikube service backend-service --url;
+curl $(minikube service backend-service --url);
 curl $(minikube ip);
 
 ===================================================================================================
@@ -62,44 +65,20 @@ kubectl delete TYPE -n <namespace> NAME;
 kubectl edit TYPE NAME; -> generiert YAML
 kubectl cluster-info;
 
-kubectl delete services hello-minikube;
-kubectl delete deployment hello-minikube;
-
-kubectl run microservice --image=k8s.gcr.io/microservice:1.10 --port=8080;
-kubectl create microservice --image=k8s.gcr.io/echoserver:1.10 --port=8080;
-kubectl expose deployment microservice --type=NodePort;
-
 ===================================================================================================
 
 # Share local Docker images with minikube.
 
-# Start local registry.
-docker run -d -p 5000:5000 --restart=always -v /mnt/ssd850/docker-registry:/var/lib/registry --name registry registry:latest
-
-# Tag image for local registry.
-docker tag microservice:latest localhost:5000/microservice:latest;
-
-# Push iomage into local Registry
-docker push localhost:5000/microservice:latest;
-
-# Delete local Image (optional)
-docker image remove -f microservice microservice:1 localhost:5000/microservice:latest;
-
-# Load Image from local Registry (optional for testing)
-docker pull localhost:5000/microservice:latest;
-
 # Load image into minikube, USE NOT LOCALHOST, USE THE LOCAL IP !!!.
-minikube image load 192.168.155.100:5000/microservice:latest;
+minikube image load 192.168.155.100:5000/backend:latest;
 minikube image ls --format table;
 
 # Start image, image-pull-policy MUST 'NEVER' !!!
-kubectl run microservice --image=192.168.155.100:5000/microservice:latest --image-pull-policy=Never --restart=Never (--port=8989);
+kubectl run backend --image=192.168.155.100:5000/backend:latest --image-pull-policy=Never --restart=Never (--port=8989);
 
-kubectl describe pod microservice;
-kubectl delete pod microservice;
-kubectl logs microservice;
+kubectl describe pod backend;
+kubectl delete pod backend;
+kubectl logs backend;
 
 # Only for testing !!!
-kubectl port-forward microservice 8080:8080;
-
-for i in {1..20}; do curl $(minikube service microservice --url); echo ""; sleep 0.1; done;
+kubectl port-forward backend 8080:8080;

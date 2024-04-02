@@ -3,17 +3,18 @@
 #
 # minikube mount <source directory>:<target directory>
 # Make is accessible in PersistentVolume.
-# minikube mount /mnt/ssd850/minikube:/pv; # If Error "No route to host" occurred disable firewall.
-# minikube start --driver=docker --memory=8192m --cpus=8 --mount-string=/mnt/ssd850/minikube:/pv --mount;
+# minikube mount /tmp/minikube:/mnt/share; # If Error "No route to host" occurred disable firewall.
+# minikube start --driver=docker --memory=8192m --cpus=8 --mount-string=/tmp/minikube:/mnt/share --mount;
 #
 # The hostPath is created INSIDE the minikube VM !!!
 # minikube ssh;
-# ls -hal /tmp/kubernetes/pv0001/h2/
+# ls -hal /mnt/share
 #
 apiVersion: v1
 kind: PersistentVolume
 metadata:
     name: pv0001
+    #namespace: demo
     #annotations:
     #    pv.beta.kubernetes.io/gid: "1234"
 spec:
@@ -26,11 +27,10 @@ spec:
         storage: 2Gi
     persistentVolumeReclaimPolicy: Retain
     hostPath:
-        # Mounted in minikube to "/mnt/ssd850/minikube".
-        path: "/pv/pv0001"
+        path: "/mnt/share/pv0001"
         type: DirectoryOrCreate
 #    local:
-#        path: "/pv/pv0001"
+#        path: "/mnt/share/pv0001"
 #    nodeAffinity:
 #        required:
 #            nodeSelectorTerms:

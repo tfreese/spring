@@ -70,7 +70,7 @@ public class ThymeleafApplication extends SpringBootServletInitializer {
         // headless(false) für Desktop
         // .bannerMode(Banner.Mode.OFF);
         // .profiles(profiles)
-        return builder.sources(ThymeleafApplication.class).headless(true);// .profiles("with-ssl");
+        return builder.sources(ThymeleafApplication.class).headless(true); // .profiles("with-ssl");
     }
 
     /**

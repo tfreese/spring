@@ -107,7 +107,7 @@ public class JwtAuthServerConfig extends AbstractServerConfig {
                 throw new CredentialsExpiredException("User credentials have expired");
             }
 
-            if ((userDetails.getPassword() == null) || !passwordEncoder.matches(password, userDetails.getPassword())) {
+            if (userDetails.getPassword() == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
                 throw new BadCredentialsException("Bad credentials");
             }
 

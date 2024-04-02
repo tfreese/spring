@@ -150,7 +150,7 @@ class TestKryo {
             //.exchangeStrategies(strategies) // Verursacht eine UnsupportedMediaTypeException
             .codecs(configurer -> {
                 //configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
-                configurer.customCodecs().register(new KryoEncoder( KryoApplication.KRYO_POOL));
+                configurer.customCodecs().register(new KryoEncoder(KryoApplication.KRYO_POOL));
                 configurer.customCodecs().register(new KryoDecoder(KryoApplication.KRYO_POOL));
             })
             ;
@@ -168,7 +168,7 @@ class TestKryo {
         try (HttpClient httpClient = this.httpClientbuilder.build()) {
             // @formatter:off
             final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:" + this.localServerPort+path))
+                    .uri(URI.create("http://localhost:" + this.localServerPort + path))
                     .header("Accept", mimeType.toString())
                     .GET()
                     .build()

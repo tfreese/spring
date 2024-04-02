@@ -32,8 +32,8 @@ public class ResilienceConfig {
         return factory -> factory.configure(builder ->
                         builder
                                 .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(2)).build())
-                                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-                , "greet")
+                                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults()),
+                "greet")
                 ;
         //@formatter:on
     }

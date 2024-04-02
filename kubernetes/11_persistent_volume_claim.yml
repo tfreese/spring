@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
     name: pv-claim
+    #namespace: demo
 spec:
     storageClassName: local-storage
     volumeMode: Filesystem

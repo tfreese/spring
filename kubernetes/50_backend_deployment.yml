@@ -1,15 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: microservice
+    name: backend-deployment
+    #namespace: demo
     labels:
-        app: microservice
-        env: test
+        app: backend-deployment
+    #    env: test
 spec:
     selector:
         matchLabels:
-            app: microservice
-            env: test
+            app: backend
+            #env: test
     replicas: 3
     minReadySeconds: 30
     strategy:
@@ -19,15 +20,17 @@ spec:
             maxUnavailable: 0
     template:
         metadata:
-            name: microservice
+            name: backend
             labels:
-                app: microservice
-                env: test
+                app: backend
+                #env: test
         spec:
+            dnsPolicy: ClusterFirst
             containers:
-                -   name: microservice
-                    image: 192.168.155.100:5000/microservice:latest
+                -   name: backend
+                    image: 192.168.155.100:5000/backend:latest
                     imagePullPolicy: Never
+                    #imagePullPolicy: IfNotPresent
                     ports:
                         -   containerPort: 8090
                             protocol: TCP
@@ -36,7 +39,7 @@ spec:
                     #      name: db-secret
                     env:
                         -   name: DB_HOST
-                            value: db
+                            value: db-service
                         -   name: DB_PORT
                             value: "9082"
                         -   name: DB_USER

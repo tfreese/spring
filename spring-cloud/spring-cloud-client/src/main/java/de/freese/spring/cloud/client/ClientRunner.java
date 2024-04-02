@@ -99,7 +99,7 @@ public class ClientRunner implements ApplicationRunner {
                 {
                     final String protocol = server.isSecure() ? "https" : "http";
 
-                    return String.format("%s://%s:%d/",protocol, server.getHost(), server.getPort());
+                    return String.format("%s://%s:%d/", protocol, server.getHost(), server.getPort());
                 })
                 .onErrorResume(throwable -> Mono.empty())
                 .block()

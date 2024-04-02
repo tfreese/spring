@@ -12,7 +12,7 @@ public class Delivery {
     public Delivery(final List<Drink> deliveredDrinks) {
         super();
 
-        if ((deliveredDrinks == null) || deliveredDrinks.isEmpty()) {
+        if (deliveredDrinks == null || deliveredDrinks.isEmpty()) {
             throw new IllegalArgumentException("deliveredDrinks required");
         }
 

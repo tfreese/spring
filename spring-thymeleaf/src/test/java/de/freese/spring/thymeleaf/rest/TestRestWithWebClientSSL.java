@@ -44,7 +44,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Test
     void testHealthEndpoint() {
         // @formatter:off
-        final  WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = this.webClientBuilder.build();
 
 //        RequestHeadersSpec<?> request = webClient.get()
 //                .repository("/actuator/health")
