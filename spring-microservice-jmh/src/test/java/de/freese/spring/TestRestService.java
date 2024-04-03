@@ -50,7 +50,6 @@ class TestRestService {
 
     @Test
     void testBenchmark() throws Exception {
-        // @formatter:off
         final Options options = new OptionsBuilder()
                 //.include("\\." + this.getClass().getSimpleName() + "\\.") für Benchmark in dieser Junit-Klasse
                 //.addProfiler(GCProfiler.class)
@@ -66,9 +65,7 @@ class TestRestService {
                 //                .resultFormat(ResultFormatType.CSV)
                 //                .result("/dev/null")
                 .include(MicroServiceBenchmark.class.getSimpleName())
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         new Runner(options).run();
     }
@@ -77,15 +74,13 @@ class TestRestService {
     void testMockMvc() throws Exception {
         // .andDo(print()).andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
 
-        // @formatter:off
         this.mockMvc.perform(get("/")) // Test-URLs ohne Context-Root angeben.
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-//          .andDo(MockMvcResultHandlers.print())
-            .andExpect(content().string("Hello, World"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$").value("Hello, World")) // Alternative zu string("true")
-            .andExpect(MockMvcResultMatchers.jsonPath("$").value(Matchers.is("Hello, World"))); // Alternative zu string("true")
-        // @formatter:on
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                // .andDo(MockMvcResultHandlers.print())
+                .andExpect(content().string("Hello, World"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$").value("Hello, World")) // Alternative zu string("true")
+                .andExpect(MockMvcResultMatchers.jsonPath("$").value(Matchers.is("Hello, World"))); // Alternative zu string("true")
     }
 
     @Test

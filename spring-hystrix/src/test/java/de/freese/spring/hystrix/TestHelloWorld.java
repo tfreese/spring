@@ -76,8 +76,10 @@ class TestHelloWorld {
         assertEquals("Hello Bob!", fBob.get());
     }
 
+    /**
+     * (expected = RuntimeException.class)
+     */
     @Test
-        // (expected = RuntimeException.class)
     void testFailAsynchronous() throws Exception {
         final Future<String> fWorld = new CommandHelloFailure("World").queue();
         final Future<String> fBob = new CommandHelloFailure("Bob").queue();
@@ -86,8 +88,10 @@ class TestHelloWorld {
         assertEquals("Hello Failure Bob!", fBob.get());
     }
 
+    /**
+     * (expected = RuntimeException.class)
+     */
     @Test
-        // (expected = RuntimeException.class)
     void testFailSynchronous() {
         assertEquals("Hello Failure World!", new CommandHelloFailure("World").execute());
         assertEquals("Hello Failure Bob!", new CommandHelloFailure("Bob").execute());

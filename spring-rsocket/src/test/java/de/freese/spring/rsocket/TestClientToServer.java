@@ -16,17 +16,19 @@ import de.freese.spring.rsocket.model.MessageRequest;
 import de.freese.spring.rsocket.model.MessageResponse;
 
 /**
+ * <pre>{@code
+ * Wird für den reinen Client nicht benötigt.
+ * , exclude = {
+ * ReactiveUserDetailsServiceAutoConfiguration.class,
+ * SecurityAutoConfiguration.class,
+ * ReactiveSecurityAutoConfiguration.class,
+ * RSocketSecurityAutoConfiguration.class
+ * }
+ * }</pre>
+ *
  * @author Thomas Freese
  */
 @SpringBootTest(properties = "spring.rsocket.server.port=0", webEnvironment = WebEnvironment.RANDOM_PORT)
-        // Wird für den reinen Client nicht benötigt.
-        // , exclude =
-        // {
-        // ReactiveUserDetailsServiceAutoConfiguration.class,
-        // SecurityAutoConfiguration.class,
-        // ReactiveSecurityAutoConfiguration.class,
-        // RSocketSecurityAutoConfiguration.class
-        // }
 interface TestClientToServer {
     RSocketRequester getRequester();
 

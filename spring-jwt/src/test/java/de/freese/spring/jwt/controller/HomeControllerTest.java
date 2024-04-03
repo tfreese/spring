@@ -19,7 +19,6 @@ import de.freese.spring.jwt.service.TokenService;
 
 @WebMvcTest({HomeController.class, TokenController.class})
 @Import({SecurityConfig.class, TokenService.class})
-        // @ActiveProfiles("defaultAuthProvider")
 class HomeControllerTest {
 
     @Autowired

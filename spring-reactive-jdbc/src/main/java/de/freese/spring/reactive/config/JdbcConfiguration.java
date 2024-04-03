@@ -26,15 +26,13 @@ public class JdbcConfiguration {
 
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName(id).build();
 
-        // @formatter:off
-//        return DataSourceBuilder.create()
-//                .driverClassName("org.h2.Driver")
-//                .url("jdbc:h2:mem:" + id) // :create=true;shutdown=true
-//                .username("SA")
-//                .password("")
-//                .build()
-//                ;
-        // @formatter:on
+        // return DataSourceBuilder.create()
+        //         .driverClassName("org.h2.Driver")
+        //         .url("jdbc:h2:mem:" + id) // :create=true;shutdown=true
+        //         .username("SA")
+        //         .password("")
+        //         .build()
+        //         ;
     }
 
     // /**

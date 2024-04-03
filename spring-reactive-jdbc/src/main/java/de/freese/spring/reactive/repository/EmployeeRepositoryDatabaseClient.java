@@ -45,13 +45,11 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
     public EmployeeRepositoryDatabaseClient(final ConnectionFactory connectionFactory) {
         super();
 
-        // @formatter:off
         this.databaseClient = DatabaseClient.builder()
                 .connectionFactory(Objects.requireNonNull(connectionFactory, "connectionFactory required"))
                 .namedParameters(true)
                 .build()
         ;
-        // @formatter:on
     }
 
     @Override
@@ -61,53 +59,47 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
 
         // final AtomicInteger departmentId = new AtomicInteger(-1);
         //
-        //        // @formatter:off
-//        this.databaseClient.sql("SELECT department_id from department where department_name = :name")
-//                .bind("name", newEmployee.getDepartment())
-//                .map((row, rowMetadata) -> row.get("department_id", Integer.class))
-//                .one()
-//                //.block()
-//                .subscribe(departmentId::set)
-//                ;
-//        // @formatter:on
+        // this.databaseClient.sql("SELECT department_id from department where department_name = :name")
+        //         .bind("name", newEmployee.getDepartment())
+        //         .map((row, rowMetadata) -> row.get("department_id", Integer.class))
+        //         .one()
+        //         //.block()
+        //         .subscribe(departmentId::set)
+        // ;
         //
-        //        // @formatter:off
-//        return this.databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
-//                .filter((statement, executeFunction) -> statement.returnGeneratedValues("employee_id").execute())
-//                .bind("lastName", newEmployee.getLastName())
-//                .bind("firstName", newEmployee.getFirstName())
-//                .bind("depId", departmentId.get())
-//                .fetch()
-//                .first()
-//                .map(r -> {
-//                    final long employeeId = (Long) r.get("employee_id");
-//                    newEmployee.setId(employeeId);
-//                    return newEmployee;
-//                })
-//                ;
-//        // @formatter:on
+        // return this.databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
+        //         .filter((statement, executeFunction) -> statement.returnGeneratedValues("employee_id").execute())
+        //         .bind("lastName", newEmployee.getLastName())
+        //         .bind("firstName", newEmployee.getFirstName())
+        //         .bind("depId", departmentId.get())
+        //         .fetch()
+        //         .first()
+        //         .map(r -> {
+        //             final long employeeId = (Long) r.get("employee_id");
+        //             newEmployee.setId(employeeId);
+        //             return newEmployee;
+        //         })
+        //         ;
 
-        // @formatter:off
         return this.databaseClient.sql("SELECT department_id from department where department_name = :name")
                 .bind("name", newEmployee.getDepartment())
                 //.map((row, rowMetadata) -> row.get("department_id", Long.class))
                 .map(row -> row.get("department_id", Long.class))
                 .one()
                 .flatMap(depId ->
-                    this.databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
-                        .filter((statement, executeFunction) -> statement.returnGeneratedValues("employee_id").execute())
-                        .bind("lastName", newEmployee.getLastName())
-                        .bind("firstName", newEmployee.getFirstName())
-                        .bind("depId", depId)
-                        .fetch()
-                        .first()
-                        .map(generatedValues -> {
-                            final long employeeId = (Long) generatedValues.get("employee_id");
-                            newEmployee.setId(employeeId);
-                            return newEmployee;
-                        }))
+                        this.databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
+                                .filter((statement, executeFunction) -> statement.returnGeneratedValues("employee_id").execute())
+                                .bind("lastName", newEmployee.getLastName())
+                                .bind("firstName", newEmployee.getFirstName())
+                                .bind("depId", depId)
+                                .fetch()
+                                .first()
+                                .map(generatedValues -> {
+                                    final long employeeId = (Long) generatedValues.get("employee_id");
+                                    newEmployee.setId(employeeId);
+                                    return newEmployee;
+                                }))
                 ;
-        // @formatter:on
     }
 
     @Override
@@ -117,13 +109,11 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
 
     @Override
     public Flux<Department> getAllDepartments() {
-        // @formatter:off
         return this.databaseClient.sql("select * from department")
                 //.filter((statement, executeFunction) -> statement.fetchSize(10).execute())
                 .map(DEPARTMENT_ROWMAPPER)
                 .all()
                 ;
-        // @formatter:on
     }
 
     @Override
@@ -134,13 +124,11 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
                 INNER JOIN department d ON d.department_id = e.department_id
                 """;
 
-        // @formatter:off
         return this.databaseClient.sql(sql)
                 //.filter((statement, executeFunction) -> statement.fetchSize(10).execute())
                 .map(EMPLOYEE_ROWMAPPER)
                 .all()
                 ;
-        // @formatter:on
     }
 
     @Override
@@ -154,14 +142,12 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
                 and e.employee_firstname = :firstName
                 """;
 
-        // @formatter:off
         return this.databaseClient.sql(sql)
                 .bind("lastName", lastName)
                 .bind("firstName", firstName)
                 .map(EMPLOYEE_ROWMAPPER)
                 .one()
                 ;
-        // @formatter:on
     }
 
     public Flux<Long> saveAll(final List<Department> data) {

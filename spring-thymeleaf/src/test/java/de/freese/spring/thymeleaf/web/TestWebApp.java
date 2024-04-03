@@ -29,53 +29,43 @@ import de.freese.spring.thymeleaf.ThymeleafApplication;
 @SpringBootTest(properties = "server.port=0", webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-        // @ActiveProfiles(
-        // {
-        // "test", "with-ssl"
-        // })
 class TestWebApp {
-    //    @LocalServerPort
-    //    private int localServerPort;
+    // @LocalServerPort
+    // private int localServerPort;
 
     @Resource
     private MockMvc mockMvc;
 
     @Test
     void testAccessSecuredResourceUnauthenticated() throws Exception {
-        // @formatter:off
         this.mockMvc.perform(get("/web/person/personList"))
                 .andDo(print())
                 //.andExpect(status().is3xxRedirection())
                 .andExpect(status().isUnauthorized())
                 .andExpect(unauthenticated())
-                //.andExpect(redirectedUrlPattern("**/login"))
-                ;
-        // @formatter:on
+        // .andExpect(redirectedUrlPattern("**/login"))
+        ;
     }
 
     @Test
     void testAccessUnsecuredResourceUnauthenticated() throws Exception {
         this.mockMvc.perform(get("/")).andExpect(status().isOk());
 
-        // @formatter:off
         this.mockMvc.perform(get("/index"))
-            .andDo(print())
-            .andExpect(status().isOk())
-            //.andExpect(content().string(containsString(this.message)))
-            ;
-        // @formatter:on
+                .andDo(print())
+                .andExpect(status().isOk())
+        // .andExpect(content().string(containsString(this.message)))
+        ;
     }
 
     @Test
     void testHealthEndpoint() throws Exception {
-        // @formatter:off
         this.mockMvc.perform(get("/actuator/health"))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$").exists())
-            .andExpect(jsonPath("$.status").value("UP"));
-       // @formatter:on
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$").exists())
+                .andExpect(jsonPath("$.status").value("UP"));
     }
 
     @Test
@@ -103,12 +93,11 @@ class TestWebApp {
     void testLoginWithUnknownUser() throws Exception {
         final FormLoginRequestBuilder login = formLogin().loginProcessingUrl("/authenticate").user("unknown").password("pw");
 
-        // @formatter:off
         this.mockMvc.perform(login)
-            .andExpect(status().is3xxRedirection())
-            .andExpect(unauthenticated())
-            .andExpect(redirectedUrlPattern("/login?error=1"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(unauthenticated())
+                .andExpect(redirectedUrlPattern("/login?error=1"));
+
         // this.mockMvc.perform(login).andExpect(status().isForbidden()).andExpect(unauthenticated());
-        // @formatter:on
     }
 }

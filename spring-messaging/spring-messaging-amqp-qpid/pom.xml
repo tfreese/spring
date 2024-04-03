@@ -40,7 +40,7 @@
                         -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
                         </jvmArguments -->
                     <layout>ZIP</layout>
-                    <classifier>jar-with-dependencies</classifier>
+                    <classifier>boot</classifier>
                 </configuration>
             </plugin>
         </plugins>

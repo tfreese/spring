@@ -29,40 +29,33 @@ class GreetingMockMvcTests {
 
     @Test
     void testDefault() throws Exception {
-        // @formatter:off
         this.mockMvc.perform(get("/greeter"))
-            .andDo(MockMvcResultHandlers.print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("greeting").value("Hello, World!"))
-            .andExpect(jsonPath("_links.self.href").value("http://localhost/greeter?name=World"))
-            .andExpect(jsonPath("_links.forPath.href").value("http://localhost/greeter/path/World"))
-            .andExpect(jsonPath("_links.forPojo.href").value("http://localhost/greeter/pojo?name=World"))
-            .andExpect(jsonPath("_links.forSimple.href").value("http://localhost/greeter/simple?name=World"))
-            ;
-        // @formatter:on
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("greeting").value("Hello, World!"))
+                .andExpect(jsonPath("_links.self.href").value("http://localhost/greeter?name=World"))
+                .andExpect(jsonPath("_links.forPath.href").value("http://localhost/greeter/path/World"))
+                .andExpect(jsonPath("_links.forPojo.href").value("http://localhost/greeter/pojo?name=World"))
+                .andExpect(jsonPath("_links.forSimple.href").value("http://localhost/greeter/simple?name=World"))
+        ;
     }
 
     @Test
     void testFail() throws Exception {
-        // @formatter:off
         this.mockMvc.perform(get("/greeter/fail"))
-            //.andDo(MockMvcResultHandlers.print())
-            .andExpect(status().isBadRequest())
-            ;
-        // @formatter:on
+                //.andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isBadRequest())
+        ;
     }
 
     @Test
     void testJsonPath() throws Exception {
-        // @formatter:off
         final String response = this.mockMvc.perform(get("/greeter/simple"))
-            //.andDo(MockMvcResultHandlers.print())
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString()
-            ;
-        // @formatter:on
+                //.andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
         // System.out.println(response);
 
@@ -78,45 +71,39 @@ class GreetingMockMvcTests {
 
     @Test
     void testPath() throws Exception {
-        // @formatter:off
-       this.mockMvc.perform(get("/greeter/path/Test"))
-           //.andDo(MockMvcResultHandlers.print())
-           .andExpect(status().isOk())
-           .andExpect(jsonPath("greeting").value("Hello, Test!"))
-           .andExpect(jsonPath("_links.self.href").value("http://localhost/greeter/path/Test"))
-           .andExpect(jsonPath("_links.forPojo.href").value("http://localhost/greeter/pojo?name=Test"))
-           .andExpect(jsonPath("_links.forSimple.href").value("http://localhost/greeter/simple?name=Test"))
-           ;
-       // @formatter:on
+        this.mockMvc.perform(get("/greeter/path/Test"))
+                //.andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("greeting").value("Hello, Test!"))
+                .andExpect(jsonPath("_links.self.href").value("http://localhost/greeter/path/Test"))
+                .andExpect(jsonPath("_links.forPojo.href").value("http://localhost/greeter/pojo?name=Test"))
+                .andExpect(jsonPath("_links.forSimple.href").value("http://localhost/greeter/simple?name=Test"))
+        ;
     }
 
     @Test
     void testPojo() throws Exception {
-        // @formatter:off
         this.mockMvc.perform(get("/greeter/pojo").param("name", "Test"))
-            //.andDo(MockMvcResultHandlers.print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("greeting").value("Hello, Test!"))
-            .andExpect(jsonPath("_links.self.href").value("http://localhost/greeter/pojo?name=Test"))
-            .andExpect(jsonPath("_links.forPath.href").value("http://localhost/greeter/path/Test"))
-            .andExpect(jsonPath("_links.forSimple.href").value("http://localhost/greeter/simple?name=Test"))
-            ;
-        // @formatter:on
+                //.andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("greeting").value("Hello, Test!"))
+                .andExpect(jsonPath("_links.self.href").value("http://localhost/greeter/pojo?name=Test"))
+                .andExpect(jsonPath("_links.forPath.href").value("http://localhost/greeter/path/Test"))
+                .andExpect(jsonPath("_links.forSimple.href").value("http://localhost/greeter/simple?name=Test"))
+        ;
     }
 
     @Test
     void testSimple() throws Exception {
-        // @formatter:off
         this.mockMvc.perform(get("/greeter/simple"))
-            //.andDo(MockMvcResultHandlers.print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("greeting").value("Hello, World!"))
-            ;
+                //.andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("greeting").value("Hello, World!"))
+        ;
 
         this.mockMvc.perform(get("/greeter/simple").param("name", "Test"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("greeting").value("Hello, Test!"))
-            ;
-        // @formatter:on
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("greeting").value("Hello, Test!"))
+        ;
     }
 }

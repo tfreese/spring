@@ -136,7 +136,6 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
-        // @formatter:off
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
@@ -148,27 +147,24 @@ public class SecurityConfig {
                                 .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
                 // .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-        // @formatter:on
     }
 
-    /*
+    /**
      * This will allow the /token endpoint to use basic auth and everything else uses the SFC above.
      */
     @Order(Ordered.HIGHEST_PRECEDENCE)
     @Bean
     SecurityFilterChain securityFilterChainToken(final HttpSecurity http) throws Exception {
-        // @formatter:off
         return http
                 .securityMatcher(new AntPathRequestMatcher("/token"))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex ->
-                    ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                            .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+                        ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
                 ).httpBasic(Customizer.withDefaults())
                 .build();
-        // @formatter:on
     }
 
     @Bean
@@ -180,7 +176,7 @@ public class SecurityConfig {
         jdbcDao.setAuthoritiesByUsernameQuery(JdbcDaoImpl.DEF_AUTHORITIES_BY_USERNAME_QUERY);
 
         // final CachingUserDetailsService cachingUserDetailsService = new CachingUserDetailsService(jdbcDao);
-        //        cachingUserDetailsService.setUserCache(userCache);
+        // cachingUserDetailsService.setUserCache(userCache);
 
         // UserDetails kopieren, da bei ProviderManager.setEraseCredentialsAfterAuthentication(true)
         // das Password auf null gesetzt wird, kein zweiter Login mehr möglich, es folgt NullPointer.
@@ -197,7 +193,6 @@ public class SecurityConfig {
 
             return User.withUserDetails(userDetails).build();
 
-            // // @formatter:off
             // return new User(
             //         userDetails.getUsername()
             //         , userDetails.getPassword()
@@ -207,7 +202,6 @@ public class SecurityConfig {
             //         , userDetails.isAccountNonLocked()
             //         , userDetails.getAuthorities()
             // );
-            // // @formatter:on
         };
 
         // final JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);

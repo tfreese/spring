@@ -37,47 +37,44 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Override
     @Test
     void testHealthEndpoint() throws Exception {
-        // @formatter:off
         this.mockMvc.perform(get("/actuator/health")
-                .accept(MediaType.APPLICATION_JSON_VALUE))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$").exists())
-            .andExpect(jsonPath("$.status").value("UP"));
-        // @formatter:on
-    }
-
-    @Override
-    @Test
-        // @WithMockUser(username = "admin", password = "pw", roles = "ADMIN")
-    void testPost() throws Exception {
-        // @formatter:off
-        this.mockMvc.perform(post("/rest/person/personAdd")
-                .with(httpBasic("admin", "pw"))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"firstName\":\"Thomas\", \"lastName\":\"Freese\"}"))
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
-                ;
-        // @formatter:on
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$").exists())
+                .andExpect(jsonPath("$.status").value("UP"));
+    }
+
+    /**
+     * <pre>{@code
+     * @WithMockUser(username = "admin", password = "pw", roles = "ADMIN")
+     * }</pre>
+     */
+    @Override
+    @Test
+    void testPost() throws Exception {
+        this.mockMvc.perform(post("/rest/person/personAdd")
+                        .with(httpBasic("admin", "pw"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"firstName\":\"Thomas\", \"lastName\":\"Freese\"}"))
+                .andDo(print())
+                .andExpect(status().isOk())
+        ;
 
         final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
-        // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
-                .with(httpBasic("user", "pw"))
-                .accept(MediaType.APPLICATION_JSON_VALUE))
+                        .with(httpBasic("user", "pw"))
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(result -> {
-                    final List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
-                    {
+                    final List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
                     });
                     reference.set(list);
                 })
-                ;
-        // @formatter:on
+        ;
 
         final List<Person> persons = reference.get();
         assertNotNull(persons);
@@ -87,67 +84,71 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         assertEquals("Freese", persons.getLast().getLastName());
     }
 
+    /**
+     * <pre>{@code
+     * @WithMockUser(username = "user", password = "pw")
+     * }</pre>
+     */
     @Override
     @Test
-        // @WithMockUser(username = "user", password = "pw")
     void testPostWithWrongRole() throws Exception {
-        // @formatter:off
         this.mockMvc.perform(post("/rest/person/personAdd")
-                .with(httpBasic("user", "pw"))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"firstName\":\"Thomas\",\"lastName\":\"Freese\"}"))
+                        .with(httpBasic("user", "pw"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"firstName\":\"Thomas\",\"lastName\":\"Freese\"}"))
                 .andExpect(status().isForbidden())
-                ;
-        // @formatter:on
+        ;
     }
 
+    /**
+     * <pre>{@code
+     * @WithMockUser(username = "user", password = "pw")
+     * }</pre>
+     */
     @Override
     @Test
-        // @WithMockUser(username = "user", password = "pw")
     void testUserWithLoginJSON() throws Exception {
         final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
-        // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
-                .with(httpBasic("user", "pw"))
-                .accept(MediaType.APPLICATION_JSON_VALUE))
+                        .with(httpBasic("user", "pw"))
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(result -> {
-                    final List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
-                    {
+                    final List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
                     });
                     reference.set(list);
                 })
-                ;
-        // @formatter:on
+        ;
 
         final List<Person> persons = reference.get();
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
     }
 
+    /**
+     * <pre>{@code
+     * @WithMockUser(username = "user", password = "pw")
+     * }</pre>
+     */
     @Override
     @Test
-        // @WithMockUser(username = "user", password = "pw")
     void testUserWithLoginXML() throws Exception {
         final ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
         final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
-        // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
-                .with(httpBasic("admin", "pw"))
-                .accept(MediaType.APPLICATION_XML))
+                        .with(httpBasic("admin", "pw"))
+                        .accept(MediaType.APPLICATION_XML))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"))
                 .andDo(result -> {
-                    final List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
-                    {
+                    final List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
                     });
                     reference.set(list);
                 })
-                ;
-        // @formatter:on
+        ;
 
         final List<Person> persons = reference.get();
         assertNotNull(persons);
@@ -159,20 +160,17 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     void testUserWithPreAuthJSON() throws Exception {
         final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
-        // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
-                .header("my-token", "user")
-                .accept(MediaType.APPLICATION_JSON_VALUE))
+                        .header("my-token", "user")
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(result -> {
-                    final List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
-                    {
+                    final List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
                     });
                     reference.set(list);
                 })
-                ;
-        // @formatter:on
+        ;
 
         final List<Person> persons = reference.get();
         assertNotNull(persons);
@@ -185,20 +183,17 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         final ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
         final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
-        // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
-                .header("my-token", "admin")
-                .accept(MediaType.APPLICATION_XML))
+                        .header("my-token", "admin")
+                        .accept(MediaType.APPLICATION_XML))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"))
                 .andDo(result -> {
-                    final List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>()
-                    {
+                    final List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
                     });
                     reference.set(list);
                 })
-                ;
-        // @formatter:on
+        ;
 
         final List<Person> persons = reference.get();
         assertNotNull(persons);
@@ -208,32 +203,30 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithWrongPass() throws Exception {
-        // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
-                .with(httpBasic("user", "pass")))
+                        .with(httpBasic("user", "pass")))
                 .andExpect(status().isUnauthorized())
-                ;
-        // @formatter:on
+        ;
     }
 
+    /**
+     * <pre>{@code
+     * @WithMockUser(username = "invalid", password = "pw", roles = "OTHER")
+     * }</pre>
+     */
     @Override
     @Test
-        // @WithMockUser(username = "invalid", password = "pw", roles = "OTHER")
     void testUserWithWrongRole() throws Exception {
-        // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList")
-                .with(httpBasic("invalid", "pw")))
+                        .with(httpBasic("invalid", "pw")))
                 .andExpect(status().isForbidden())
         ;
-        // @formatter:on
     }
 
     @Override
     @Test
     void testUserWithoutLogin() throws Exception {
-        // @formatter:off
         this.mockMvc.perform(get("/rest/person/personList"))
                 .andExpect(status().isUnauthorized());
-        // @formatter:on
     }
 }

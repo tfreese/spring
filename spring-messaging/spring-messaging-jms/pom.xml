@@ -36,11 +36,13 @@
                 <configuration>
                     <skip>true</skip>
                     <mainClass>de.freese.spring.messaging.jms.SpringJmsApplication</mainClass>
+                    <layout>ZIP</layout>
+                    <classifier>boot</classifier>
+                    <compilerArguments>--enable-preview</compilerArguments>
+                    <jvmArguments>--enable-preview</jvmArguments>
                     <!--jvmArguments>
                         -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
                         </jvmArguments -->
-                    <layout>ZIP</layout>
-                    <classifier>jar-with-dependencies</classifier>
                 </configuration>
             </plugin>
         </plugins>

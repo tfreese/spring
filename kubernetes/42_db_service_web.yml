@@ -1,0 +1,22 @@
+# Public Service for Database to access from Browser.
+# kubectl port-forward db-pod 8082:8082
+# jdbc:h2:tcp://localhost:9082/file:fileDb
+apiVersion: v1
+kind: Service
+metadata:
+    name: db-service-web
+    #namespace: demo
+    labels:
+        app: db-service-web
+    #    env: test
+spec:
+    selector:
+        app: db-pod
+        #env: test
+    ports:
+        -   port: 8082
+            targetPort: 8082
+            nodePort: 32082
+            protocol: TCP
+    #type: LoadBalancer
+    type: NodePort

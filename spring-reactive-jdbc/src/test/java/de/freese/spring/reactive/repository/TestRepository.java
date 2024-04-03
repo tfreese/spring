@@ -37,63 +37,51 @@ public interface TestRepository {
     default void testCreateNewEmployee() {
         final Employee newEmployee = new Employee("Foo", "Bar", "Dep1");
 
-        // @formatter:off
         getRepository().createNewEmployee(newEmployee)
-            .as(StepVerifier::create)
-            .expectNextMatches(emp -> emp.equals(new Employee("Foo", "Bar", "Dep1", 4)))
-            .verifyComplete()
-            ;
-        // @formatter:on
+                .as(StepVerifier::create)
+                .expectNextMatches(emp -> emp.equals(new Employee("Foo", "Bar", "Dep1", 4)))
+                .verifyComplete()
+        ;
 
-        // @formatter:off
         getRepository().getAllEmployees()
-            .as(StepVerifier::create)
-            .expectNextCount(4)
-            .verifyComplete()
-            ;
-        // @formatter:on
+                .as(StepVerifier::create)
+                .expectNextCount(4)
+                .verifyComplete()
+        ;
     }
 
     @Test
     default void testDeleteEmployee() {
-        // @formatter:off
         getRepository().deleteEmployee(1)
-            .as(StepVerifier::create)
-            .expectNextMatches(count -> count == 1)
-            .verifyComplete()
-            ;
-        // @formatter:on
+                .as(StepVerifier::create)
+                .expectNextMatches(count -> count == 1)
+                .verifyComplete()
+        ;
 
-        // @formatter:off
         getRepository().getAllEmployees()
-            .as(StepVerifier::create)
-            .expectNextCount(2)
-            .verifyComplete()
-            ;
-        // @formatter:on
+                .as(StepVerifier::create)
+                .expectNextCount(2)
+                .verifyComplete()
+        ;
     }
 
     @Test
     default void testGetAllDepartments() {
-        // @formatter:off
         getRepository().getAllDepartments()
-            .as(StepVerifier::create)
-            .expectNextCount(3)
-            .verifyComplete()
-            ;
-        // @formatter:on
+                .as(StepVerifier::create)
+                .expectNextCount(3)
+                .verifyComplete()
+        ;
     }
 
     @Test
     default void testGetEmployee() {
-        // @formatter:off
         getRepository().getEmployee("LastName1", "FirstName1")
-            .as(StepVerifier::create)
-            .expectNextMatches(emp -> emp.equals(new Employee("LastName1", "FirstName1", "Dep1", 1)))
-            .verifyComplete()
-            //.expectComplete()
-            //.verify()
-            ;
-        // @formatter:on
+                .as(StepVerifier::create)
+                .expectNextMatches(emp -> emp.equals(new Employee("LastName1", "FirstName1", "Dep1", 1)))
+                .verifyComplete()
+        //.expectComplete()
+        //.verify()
+        ;
     }
 }

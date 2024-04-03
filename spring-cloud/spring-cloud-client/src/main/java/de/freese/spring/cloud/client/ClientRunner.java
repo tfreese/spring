@@ -58,20 +58,17 @@ public class ClientRunner implements ApplicationRunner {
     }
 
     private String call(final WebClient webClient, final String uri) {
-        // @formatter:off
-//        return webClient
-//                .get()
-//                .uri(uri)
-//                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
-//                .retryWhen(Retry.fixedDelay(2, Duration.ofMillis(100)))
-//                .timeout(Duration.ofMillis(1000), Mono.just("fallback"))
-//                .onErrorResume(throwable -> Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body("fallback")))
-//                .block()
-//                .getBody()
-//                ;
-         //@formatter:on
+        // return webClient
+        //         .get()
+        //         .uri(uri)
+        //         .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
+        //         .retryWhen(Retry.fixedDelay(2, Duration.ofMillis(100)))
+        //         .timeout(Duration.ofMillis(1000), Mono.just("fallback"))
+        //         .onErrorResume(throwable -> Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body("fallback")))
+        //         .block()
+        //         .getBody()
+        //         ;
 
-        // @formatter:off
         return webClient
                 .get()
                 .uri(uri)
@@ -86,13 +83,11 @@ public class ClientRunner implements ApplicationRunner {
                 .block()
                 //.subscribe(response -> LOGGER.info("call: {}", response.strip()) )
                 ;
-        // @formatter:on
     }
 
     private void runServiceDiscovery(final WebClient webClient) {
         final ReactiveLoadBalancer<ServiceInstance> loadBalancer = this.serviceInstanceFactory.getInstance("CLOUD-HELLO-SERVICE");
 
-        // @formatter:off
         final String url = Mono.from(loadBalancer.choose())
                 .map(Response::getServer)
                 .map(server ->
@@ -102,9 +97,7 @@ public class ClientRunner implements ApplicationRunner {
                     return String.format("%s://%s:%d/", protocol, server.getHost(), server.getPort());
                 })
                 .onErrorResume(throwable -> Mono.empty())
-                .block()
-                ;
-        // @formatter:on
+                .block();
 
         final String response = call(webClient, url);
 

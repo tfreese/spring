@@ -136,44 +136,37 @@ class TestKryo {
         // this.restTemplate = this.restTemplateBuilder.rootUri("http://localhost:" + this.localServerPort)
         // .additionalMessageConverters(this.kryoHttpMessageConverter).build();
 
-        // @formatter:off
         // Verursacht eine UnsupportedMediaTypeException
 
-//        final ExchangeStrategies strategies = ExchangeStrategies.builder()
-//              .codecs(configurer -> {
-//                  //configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
-//                  configurer.customCodecs().register(new KryoEncoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
-//                  configurer.customCodecs().register(new KryoDecoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
-//              }).build();
+        // final ExchangeStrategies strategies = ExchangeStrategies.builder()
+        //       .codecs(configurer -> {
+        //           //configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
+        //           configurer.customCodecs().register(new KryoEncoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
+        //           configurer.customCodecs().register(new KryoDecoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
+        //       }).build();
 
         this.webClientBuilder.baseUrl("http://localhost:" + this.localServerPort)
-            //.exchangeStrategies(strategies) // Verursacht eine UnsupportedMediaTypeException
-            .codecs(configurer -> {
-                //configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
-                configurer.customCodecs().register(new KryoEncoder(KryoApplication.KRYO_POOL));
-                configurer.customCodecs().register(new KryoDecoder(KryoApplication.KRYO_POOL));
-            })
-            ;
-        // @formatter:on
+                //.exchangeStrategies(strategies) // Verursacht eine UnsupportedMediaTypeException
+                .codecs(configurer -> {
+                    // configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
+                    configurer.customCodecs().register(new KryoEncoder(KryoApplication.KRYO_POOL));
+                    configurer.customCodecs().register(new KryoDecoder(KryoApplication.KRYO_POOL));
+                })
+        ;
 
-        // @formatter:off
         this.httpClientbuilder = HttpClient.newBuilder()
                 .version(Version.HTTP_2)
                 .executor(ForkJoinPool.commonPool())
-                ;
-        // @formatter:on
+        ;
     }
 
     protected void testHttpClient(final String path, final MimeType mimeType) throws Exception {
         try (HttpClient httpClient = this.httpClientbuilder.build()) {
-            // @formatter:off
             final HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("http://localhost:" + this.localServerPort + path))
                     .header("Accept", mimeType.toString())
                     .GET()
-                    .build()
-                    ;
-            // @formatter:on
+                    .build();
 
             final HttpResponse<InputStream> response = httpClient.send(request, BodyHandlers.ofInputStream());
 
@@ -206,40 +199,35 @@ class TestKryo {
 
         final AtomicReference<LocalDateTime> reference = new AtomicReference<>(null);
 
-        // @formatter:off
         mmvc.perform(get(url).accept(mediaType))
-           .andExpect(status().isOk())
-           .andExpect(content().contentTypeCompatibleWith(mediaType)) //  + ";charset=UTF-8"
-           //.andDo(print())
-           .andDo(result -> {
-               final HttpMessageConverterExtractor<LocalDateTime> converterExtractor =
-                       new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
-               final byte[] bytes = result.getResponse().getContentAsByteArray();
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(mediaType)) //  + ";charset=UTF-8"
+                //.andDo(print())
+                .andDo(result -> {
+                    final HttpMessageConverterExtractor<LocalDateTime> converterExtractor =
+                            new HttpMessageConverterExtractor<>(LocalDateTime.class, this.restTemplate.getMessageConverters());
+                    final byte[] bytes = result.getResponse().getContentAsByteArray();
 
-               LocalDateTime localDateTime = null;
+                    LocalDateTime localDateTime = null;
 
-               try (ClientHttpResponse response = new MockClientHttpResponse(bytes, HttpStatus.OK))
-               {
-                   response.getHeaders().setContentType(mediaType);
+                    try (ClientHttpResponse response = new MockClientHttpResponse(bytes, HttpStatus.OK)) {
+                        response.getHeaders().setContentType(mediaType);
 
-                   localDateTime = converterExtractor.extractData(response);
-               }
+                        localDateTime = converterExtractor.extractData(response);
+                    }
 
-               reference.set(localDateTime);
-           })
-           ;
-        // @formatter:on
+                    reference.set(localDateTime);
+                })
+        ;
 
         validateLocalDateTime(reference.get());
     }
 
     protected void testRestTemplate(final String path, final MediaType mediaType) {
-        //        // @formatter:off
-//        final RestTemplateBuilder builder = new RestTemplateBuilder()
-//                .rootUri("http://localhost:" + this.localServerPort)
-//                .messageConverters(this.kryoHttpMessageConverter,
-//                            new MappingJackson2HttpMessageConverter());
-//        // @formatter:on
+        // final RestTemplateBuilder builder = new RestTemplateBuilder()
+        //         .rootUri("http://localhost:" + this.localServerPort)
+        //         .messageConverters(this.kryoHttpMessageConverter,
+        //                 new MappingJackson2HttpMessageConverter());
         //
         // RestTemplate restTemplate = builder.build();
 
@@ -286,15 +274,12 @@ class TestKryo {
             localDateTime = converterExtractor.extractData(response);
         }
 
-        // if (KryoHttpMessageConverter.APPLICATION_KRYO.equals(mediaType))
-        // {
+        // if (KryoHttpMessageConverter.APPLICATION_KRYO.equals(mediaType)) {
         // localDateTime = (LocalDateTime) this.kryoHttpMessageConverter.read(LocalDateTime.class, new MockHttpInputMessage(connection.getInputStream()));
         // }
-        // else
-        // {
+        // else {
         // localDateTime = this.objectMapper.readValue(connection.getInputStream(), LocalDateTime.class);
-        // // LocalDateTime localDateTime = this.objectMapper.readValue(bytes, new TypeReference<LocalDateTime>()
-        // // {
+        // // LocalDateTime localDateTime = this.objectMapper.readValue(bytes, new TypeReference<LocalDateTime>() {
         // // });
         // }
 
@@ -304,14 +289,12 @@ class TestKryo {
     protected void testWebClient(final String path, final MimeType mimeType) {
         final MediaType mediaType = MediaType.asMediaType(mimeType);
 
-        // @formatter:off
         final Mono<ResponseEntity<LocalDateTime>> response = this.webClientBuilder.build()
                 .get()
                 .uri(path)
                 .accept(mediaType)
                 .exchangeToMono(clientResponse -> clientResponse.toEntity(LocalDateTime.class)) // Liefert auch Header und Status
                 ;
-        // @formatter:on
 
         final ResponseEntity<LocalDateTime> responseEntity = response.block();
 

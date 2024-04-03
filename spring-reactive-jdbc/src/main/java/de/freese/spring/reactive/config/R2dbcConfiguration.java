@@ -29,18 +29,15 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
         return H2ConnectionFactory.inMemory(id);
         // return new H2ConnectionFactory(H2ConnectionConfiguration.builder().inMemory(id).property(H2ConnectionOption.DB_CLOSE_DELAY, "-1").build());
 
-        //        // @formatter:off
-//        final ConnectionFactoryOptions options = ConnectionFactoryOptions.builder()
-//                .option(ConnectionFactoryOptions.DRIVER, "h2")
-//                .option(ConnectionFactoryOptions.PROTOCOL, "mem")
-//                //.option(ConnectionFactoryOptions.HOST, "…")
-//                //.option(ConnectionFactoryOptions.port, 8123)
-//                .option(ConnectionFactoryOptions.USER, "SA")
-//                .option(ConnectionFactoryOptions.PASSWORD, "")
-//                .option(ConnectionFactoryOptions.DATABASE, id)
-//                .build()
-//                ;
-//        // @formatter:on
+        // final ConnectionFactoryOptions options = ConnectionFactoryOptions.builder()
+        //         .option(ConnectionFactoryOptions.DRIVER, "h2")
+        //         .option(ConnectionFactoryOptions.PROTOCOL, "mem")
+        //         //.option(ConnectionFactoryOptions.HOST, "…")
+        //         //.option(ConnectionFactoryOptions.port, 8123)
+        //         .option(ConnectionFactoryOptions.USER, "SA")
+        //         .option(ConnectionFactoryOptions.PASSWORD, "")
+        //         .option(ConnectionFactoryOptions.DATABASE, id)
+        //         .build();
         //
         // return ConnectionFactories.get(options);
     }

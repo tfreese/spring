@@ -20,17 +20,15 @@ public class HelloServiceInstanceListSupplierConfig {
     ServiceInstanceListSupplier serviceInstanceListSupplier(final ConfigurableApplicationContext context, final WebClient.Builder webClientBuilder) {
         return new MyServiceInstanceListSupplier("CLOUD-HELLO-SERVICE");
 
-        //        // @formatter:off
-//        return ServiceInstanceListSupplier.builder()
-//                //.withDiscoveryClient()
-//                .withBase(instanceListSupplier)
-//                //.withBlockingHealthChecks() // RestTemplate muss vorhanden sein !
-//                //.withHealthChecks() // Funktioniert nicht !
-//                //.withHealthChecks(webClientBuilder.build()) // Funktioniert nicht !
-//                .withCaching()
-//                //.withRequestBasedStickySession()
-//                .build(context)
-//                ;
-//        // @formatter:on
+        // return ServiceInstanceListSupplier.builder()
+        //         //.withDiscoveryClient()
+        //         .withBase(instanceListSupplier)
+        //         //.withBlockingHealthChecks() // RestTemplate muss vorhanden sein !
+        //         //.withHealthChecks() // Funktioniert nicht !
+        //         //.withHealthChecks(webClientBuilder.build()) // Funktioniert nicht !
+        //         .withCaching()
+        //         //.withRequestBasedStickySession()
+        //         .build(context)
+        //         ;
     }
 }

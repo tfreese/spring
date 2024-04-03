@@ -36,7 +36,6 @@ public class OpenApiConfiguration {
                 This is a sample OpenApi service.
                 """;
 
-        // @formatter:off
         return new OpenAPI()
                 .info(new Info().title("OpenApi Demo")
                         .version("0.0.1-SNAPSHOT")
@@ -46,20 +45,16 @@ public class OpenApiConfiguration {
                         .license(new License().name("Apache 2.0").url("http://springdoc.org"))
                 )
                 ;
-        // @formatter:on
     }
 
-    //    @Bean
-    //    SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final Filter jwtRequestFilter, final AuthenticationEntryPoint authenticationEntryPoint)
-    //            throws Exception
-    //    {
-    //        // @formatter:off
-//        httpSecurity
-//                .antMatchers("/api-docs","/swagger-ui.html","/webjars/**","/api-docs","/swagger-resources/**").permitAll()
-//                .anyRequest().authenticated()
-//        ;
-//        // @formatter:on
+    // @Bean
+    // SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final Filter jwtRequestFilter, final AuthenticationEntryPoint authenticationEntryPoint)
+    //         throws Exception {
+    //     httpSecurity
+    //             .antMatchers("/api-docs", "/swagger-ui.html", "/webjars/**", "/api-docs", "/swagger-resources/**").permitAll()
+    //             .anyRequest().authenticated()
+    //     ;
     //
-    //        return httpSecurity.build();
-    //    }
+    //     return httpSecurity.build();
+    // }
 }

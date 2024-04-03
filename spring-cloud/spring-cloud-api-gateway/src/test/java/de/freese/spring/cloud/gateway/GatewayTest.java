@@ -26,15 +26,13 @@ class GatewayTest {
 
     @Test
     void testCircuitbreaker() {
-        // @formatter:off
         this.webClient
-            .get().uri("/delay/1")
-            .header("Host", "www.circuitbreaker.com")
-            .exchange()
-            .expectStatus().isOk()
-            .expectBody()
-            .consumeWith(response -> assertThat(response.getResponseBody()).isEqualTo("fallback\n".getBytes()));
-        // @formatter:on
+                .get().uri("/delay/1")
+                .header("Host", "www.circuitbreaker.com")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .consumeWith(response -> assertThat(response.getResponseBody()).isEqualTo(("fallback" + System.lineSeparator()).getBytes()));
     }
 
     @Test
@@ -44,14 +42,12 @@ class GatewayTest {
 
     @Test
     void testGet() {
-        // @formatter:off
         this.webClient
-            .get().uri("/get")
-            .exchange()
-            .expectStatus().isOk()
-            .expectBody()
-            .jsonPath("$.headers.Hello").isEqualTo("World");
-        // @formatter:on
+                .get().uri("/get")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.headers.Hello").isEqualTo("World");
     }
 
     /**
@@ -59,14 +55,12 @@ class GatewayTest {
      */
     @Test
     void testHello() {
-        // @formatter:off
-       this.webClient
-           .get().uri("/hello")
-           .exchange()
-           .expectStatus().isOk()
-           .expectBody()
-           .consumeWith(response -> assertThat(response.getResponseBody()).isNotEmpty());
-       // @formatter:on
+        this.webClient
+                .get().uri("/hello")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .consumeWith(response -> assertThat(response.getResponseBody()).isNotEmpty());
     }
 
     /**
@@ -74,14 +68,12 @@ class GatewayTest {
      */
     @Test
     void testHelloLb() {
-        // @formatter:off
-       this.webClient
-           .get().uri("/lb")
-           .exchange()
-           .expectStatus().isOk()
-           .expectBody()
-           .consumeWith(response -> assertThat(response.getResponseBody()).isNotEmpty());
-       // @formatter:on
+        this.webClient
+                .get().uri("/lb")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .consumeWith(response -> assertThat(response.getResponseBody()).isNotEmpty());
     }
 
     /**
@@ -90,13 +82,11 @@ class GatewayTest {
     @Test
     @Disabled
     void testHelloLbManuell() {
-        // @formatter:off
-       this.webClient
-           .get().uri("/lbman")
-           .exchange()
-           .expectStatus().isOk()
-           .expectBody()
-           .consumeWith(response -> assertThat(response.getResponseBody()).isNotEmpty());
-       // @formatter:on
+        this.webClient
+                .get().uri("/lbman")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .consumeWith(response -> assertThat(response.getResponseBody()).isNotEmpty());
     }
 }

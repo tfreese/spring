@@ -31,6 +31,7 @@ spec:
                     protocol: TCP
                 -   name: db-web
                     containerPort: 8082
+                    protocol: TCP
             resources:
                 requests:
                     cpu: "10m"

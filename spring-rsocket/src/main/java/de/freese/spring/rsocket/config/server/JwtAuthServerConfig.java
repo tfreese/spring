@@ -50,20 +50,18 @@ import reactor.core.publisher.Mono;
 public class JwtAuthServerConfig extends AbstractServerConfig {
     @Bean
     PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security, final ReactiveAuthenticationManager reactiveAuthenticationManager) {
-        //@formatter:off
         security.authorizePayload(authorize ->
-            authorize
-                    // User muss ROLE_SETUP haben, um Verbindung zum Server herzustellen.
-                    //.setup().hasRole("SETUP")
-                    // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
-                    //.route("greet/*").hasRole("ADMIN")
-                    //.route("greet/*").authenticated()
-                    .anyRequest().authenticated()
-                    .anyExchange().authenticated()
-        )
-        .jwt(jwtSpec -> jwtSpec.authenticationManager(reactiveAuthenticationManager))
+                        authorize
+                                // User muss ROLE_SETUP haben, um Verbindung zum Server herzustellen.
+                                //.setup().hasRole("SETUP")
+                                // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
+                                //.route("greet/*").hasRole("ADMIN")
+                                //.route("greet/*").authenticated()
+                                .anyRequest().authenticated()
+                                .anyExchange().authenticated()
+                )
+                .jwt(jwtSpec -> jwtSpec.authenticationManager(reactiveAuthenticationManager))
         ;
-        //@formatter:on
 
         return security.build();
     }
@@ -137,12 +135,11 @@ public class JwtAuthServerConfig extends AbstractServerConfig {
         // final Mac mac = Mac.getInstance("HmacSHA256");
         // final SecretKeySpec secretKey = new SecretKeySpec("my-secret".getBytes(), mac.getAlgorithm());
         //
-        //        // @formatter:off
-//        return NimbusReactiveJwtDecoder.withSecretKey(secretKey)
-//                .macAlgorithm(MacAlgorithm.HS256)
-//                .build()
-//                ;
-//        // @formatter:on
+        // return NimbusReactiveJwtDecoder.withSecretKey(secretKey)
+        //         .macAlgorithm(MacAlgorithm.HS256)
+        //         .build()
+        //         ;
+
         final Converter<Map<String, Object>, Map<String, Object>> claimSetConverter = MappedJwtClaimSetConverter.withDefaults(Collections.emptyMap());
 
         return token -> {
@@ -157,7 +154,6 @@ public class JwtAuthServerConfig extends AbstractServerConfig {
                 final JWTClaimsSet jwtClaimsSet = jwt.getJWTClaimsSet();
                 final Map<String, Object> claims = claimSetConverter.convert(jwtClaimsSet.getClaims());
 
-                // @formatter:off
                 final Jwt jwtSpring = Jwt.withTokenValue(token)
                         .headers(map -> map.putAll(headers)) // Header müssen gefüllt sein, sonst gib es Exception.
                         .claims(map -> map.putAll(claims))
@@ -166,9 +162,7 @@ public class JwtAuthServerConfig extends AbstractServerConfig {
                         //.claim("password", jwtClaimsSet.getClaim("password"))
                         //.expiresAt(jwtClaimsSet.getExpirationTime().toInstant())
                         //.jti(jwtClaimsSet.getJWTID())
-                        .build()
-                        ;
-                // @formatter:on
+                        .build();
 
                 return Mono.just(jwtSpring);
             }

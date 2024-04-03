@@ -18,6 +18,7 @@ minikube image load 192.168.155.100:5000/backend:latest;
 kubectl delete --ignore-not-found=true service backend-service;
 kubectl delete --ignore-not-found=true deployment backend-deployment;
 
+kubectl delete --ignore-not-found=true service db-service-web;
 kubectl delete --ignore-not-found=true service db-service;
 kubectl delete --ignore-not-found=true pod db-pod;
 
@@ -40,6 +41,7 @@ kubectl apply -f 11_persistent_volume_claim.yml;
 sleep 3;
 kubectl apply -f 40_db_pod.yml;
 kubectl apply -f 41_db_service.yml;
+kubectl apply -f 42_db_service_web.yml;
 sleep 3;
 kubectl apply -f 50_backend_deployment.yml;
 kubectl apply -f 51_backend_service.yml;

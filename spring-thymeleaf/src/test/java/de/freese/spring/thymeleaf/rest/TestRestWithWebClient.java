@@ -49,35 +49,33 @@ class TestRestWithWebClient extends AbstractRestTestCase {
     @Override
     @Test
     void testHealthEndpoint() {
-        // @formatter:off
         final WebClient webClient = this.webClientBuilder.build();
 
-//        final RequestHeadersSpec<?> request = webClient.get()
-//                .repository("/actuator/health")
-//                .accept(MediaType.APPLICATION_JSON_UTF8)
-//                ;
-
-//        final Mono<String> response = webClient.get()
-//                .repository("/actuator/health")
-//                .accept(MediaType.APPLICATION_JSON_UTF8)
-//                .retrieve() // Liefert nur den Body.
-//                .bodyToMono(String.class)
-//                ;
-
-//        final Mono<String> response = webClient.get()
-//                .repository("/actuator/health")
-//                .accept(MediaType.APPLICATION_JSON_UTF8)
-//                .exchange() // Liefert auch Header und Status.
-//                .doOnSuccess(clientResponse -> Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, clientResponse.headers().asHttpHeaders().getFirst("Content-Type")))
-//                .flatMap(clientResponse -> clientResponse.bodyToMono(String.class))
-//                ;
+        // final RequestHeadersSpec<?> request = webClient.get()
+        //         .repository("/actuator/health")
+        //         .accept(MediaType.APPLICATION_JSON_UTF8)
+        //         ;
+        //
+        // final Mono<String> response = webClient.get()
+        //         .repository("/actuator/health")
+        //         .accept(MediaType.APPLICATION_JSON_UTF8)
+        //         .retrieve() // Liefert nur den Body.
+        //         .bodyToMono(String.class)
+        //         ;
+        //
+        // final Mono<String> response = webClient.get()
+        //         .repository("/actuator/health")
+        //         .accept(MediaType.APPLICATION_JSON_UTF8)
+        //         .exchange() // Liefert auch Header und Status.
+        //         .doOnSuccess(clientResponse -> Assertions.assertEquals(MediaType.APPLICATION_JSON_VALUE, clientResponse.headers().asHttpHeaders().getFirst("Content-Type")))
+        //         .flatMap(clientResponse -> clientResponse.bodyToMono(String.class))
+        //         ;
 
         final Mono<ResponseEntity<String>> response = webClient.get()
                 .uri("/actuator/health")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class)) // Liefert Header, Status und ResponseBody.
                 ;
-        // @formatter:on
 
         final ResponseEntity<String> responseEntity = response.block();
 
@@ -93,7 +91,6 @@ class TestRestWithWebClient extends AbstractRestTestCase {
         final WebClient webClient = this.webClientBuilder.build();
         final Person newPerson = new Person("Thomas", "Freese");
 
-        // @formatter:off
         final Mono<ResponseEntity<String>> response = webClient.mutate()
                 .filter(ExchangeFilterFunctions.basicAuthentication("admin", "pw"))
                 .build()
@@ -103,25 +100,20 @@ class TestRestWithWebClient extends AbstractRestTestCase {
                 //.body(Mono.just(newPerson), Person.class)
                 // ist das gleiche wie '.body(BodyInserters.fromObject(newPerson))'
                 .bodyValue(newPerson)
-                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
-                ;
-        // @formatter:on
+                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class));
 
         // ResponseEntity<ApiError> responseEntity = response.block();
         final ResponseEntity<String> responseEntity = response.block();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
-        // @formatter:off
         final Flux<Person> personFlux = webClient.mutate()
-                   .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
-                   .build()
-                   .get()
-                   .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_JSON)
-                   .retrieve()
-                   .bodyToFlux(Person.class)
-                   ;
-        // @formatter:on
+                .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
+                .build()
+                .get()
+                .uri("/rest/person/personList")
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(Person.class);
 
         final List<Person> persons = personFlux.collectList().block();
 
@@ -138,7 +130,6 @@ class TestRestWithWebClient extends AbstractRestTestCase {
         final WebClient webClient = this.webClientBuilder.build();
         final Person newPerson = new Person("Thomas", "Freese");
 
-        // @formatter:off
         final Mono<ResponseEntity<String>> response = webClient.mutate()
                 .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
                 .build()
@@ -148,16 +139,14 @@ class TestRestWithWebClient extends AbstractRestTestCase {
                 //.body(Mono.just(newPerson), Person.class)
                 // ist das gleiche wie '.body(BodyInserters.fromObject(newPerson))'
                 .bodyValue(newPerson)
-                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
-                ;
-        // @formatter:on
+                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class));
 
         // final ResponseEntity<ApiError> responseEntity = response.block();
         final ResponseEntity<String> responseEntity = response.block();
         // final ApiError apiError = responseEntity.getBody();
 
-        //        assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCode());
-        //        assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
+        // assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCode());
+        // assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
@@ -166,17 +155,14 @@ class TestRestWithWebClient extends AbstractRestTestCase {
     void testUserWithLoginJSON() {
         final WebClient webClient = this.webClientBuilder.build();
 
-        // @formatter:off
         final Flux<Person> personFlux = webClient.mutate()
-                   .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
-                   .build()
-                   .get()
-                   .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_JSON)
-                   .retrieve()
-                   .bodyToFlux(Person.class)
-                   ;
-        // @formatter:on
+                .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
+                .build()
+                .get()
+                .uri("/rest/person/personList")
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(Person.class);
 
         final List<Person> persons = personFlux.collectList().block();
 
@@ -185,23 +171,19 @@ class TestRestWithWebClient extends AbstractRestTestCase {
     }
 
     @Override
-        // @Test
     void testUserWithLoginXML() {
         final WebClient webClient = this.webClientBuilder.build();
 
-        // @formatter:off
         final Flux<Person> personFlux = webClient.mutate()
-                   .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
-                   .build()
-                   .get()
-                   .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_XML)
-                   .acceptCharset(StandardCharsets.UTF_8)
-                   //.header("Accept", MediaType.APPLICATION_XML_VALUE+";charset=UTF-8")
-                   .retrieve()
-                   .bodyToFlux(Person.class)
-                   ;
-        // @formatter:on
+                .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
+                .build()
+                .get()
+                .uri("/rest/person/personList")
+                .accept(MediaType.APPLICATION_XML)
+                .acceptCharset(StandardCharsets.UTF_8)
+                //.header("Accept", MediaType.APPLICATION_XML_VALUE+";charset=UTF-8")
+                .retrieve()
+                .bodyToFlux(Person.class);
 
         final List<Person> persons = personFlux.collectList().block();
 
@@ -214,17 +196,14 @@ class TestRestWithWebClient extends AbstractRestTestCase {
     void testUserWithPreAuthJSON() {
         final WebClient webClient = this.webClientBuilder.build();
 
-        // @formatter:off
         final Flux<Person> personFlux = webClient
-                   .get()
-                   .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_JSON)
-                   .acceptCharset(StandardCharsets.UTF_8)
-                   .header("my-token", "user")
-                   .retrieve()
-                   .bodyToFlux(Person.class)
-                   ;
-        // @formatter:on
+                .get()
+                .uri("/rest/person/personList")
+                .accept(MediaType.APPLICATION_JSON)
+                .acceptCharset(StandardCharsets.UTF_8)
+                .header("my-token", "user")
+                .retrieve()
+                .bodyToFlux(Person.class);
 
         final List<Person> persons = personFlux.collectList().block();
 
@@ -233,21 +212,17 @@ class TestRestWithWebClient extends AbstractRestTestCase {
     }
 
     @Override
-        // @Test
     void testUserWithPreAuthXML() {
         final WebClient webClient = this.webClientBuilder.build();
 
-        // @formatter:off
         final Flux<Person> personFlux = webClient
-                   .get()
-                   .uri("/rest/person/personList")
-                   .accept(MediaType.APPLICATION_XML)
-                   .acceptCharset(StandardCharsets.UTF_8)
-                   .header("my-token", "user")
-                   .retrieve()
-                   .bodyToFlux(Person.class)
-                   ;
-        // @formatter:on
+                .get()
+                .uri("/rest/person/personList")
+                .accept(MediaType.APPLICATION_XML)
+                .acceptCharset(StandardCharsets.UTF_8)
+                .header("my-token", "user")
+                .retrieve()
+                .bodyToFlux(Person.class);
 
         final List<Person> persons = personFlux.collectList().block();
 
@@ -260,26 +235,23 @@ class TestRestWithWebClient extends AbstractRestTestCase {
     void testUserWithWrongPass() {
         final WebClient webClient = this.webClientBuilder.build();
 
-        // @formatter:off
-//        final Flux<Person> personFlux = webClient.mutate()
-//                .filter(ExchangeFilterFunctions.basicAuthentication("user", "pass"))
-//                .build()
-//                .get()
-//                .repository("/rest/person/personList")
-//                .accept(MediaType.APPLICATION_JSON_UTF8)
-//                .retrieve()
-//                .onStatus(status ->  !HttpStatus.UNAUTHORIZED.equals(status), response -> Mono.just(new Exception()))
-//                .bodyToFlux(Person.class)
-//                ;
+        // final Flux<Person> personFlux = webClient.mutate()
+        //         .filter(ExchangeFilterFunctions.basicAuthentication("user", "pass"))
+        //         .build()
+        //         .get()
+        //         .repository("/rest/person/personList")
+        //         .accept(MediaType.APPLICATION_JSON_UTF8)
+        //         .retrieve()
+        //         .onStatus(status -> !HttpStatus.UNAUTHORIZED.equals(status), response -> Mono.just(new Exception()))
+        //         .bodyToFlux(Person.class);
+
         final Mono<ResponseEntity<String>> response = webClient.mutate()
                 .filter(ExchangeFilterFunctions.basicAuthentication("user", "pass"))
                 .build()
                 .get()
                 .uri("/rest/person/personList")
                 .accept(MediaType.APPLICATION_JSON)
-                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
-                ;
-        // @formatter:on
+                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class));
 
         final ResponseEntity<String> responseEntity = response.block();
 
@@ -291,16 +263,13 @@ class TestRestWithWebClient extends AbstractRestTestCase {
     void testUserWithWrongRole() {
         final WebClient webClient = this.webClientBuilder.build();
 
-        // @formatter:off
         final Mono<ResponseEntity<String>> response = webClient.mutate()
                 .filter(ExchangeFilterFunctions.basicAuthentication("invalid", "pw"))
                 .build()
                 .get()
                 .uri("/rest/person/personList")
                 .accept(MediaType.APPLICATION_JSON)
-                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
-                ;
-        // @formatter:on
+                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class));
 
         final ResponseEntity<String> responseEntity = response.block();
 
@@ -312,23 +281,19 @@ class TestRestWithWebClient extends AbstractRestTestCase {
     void testUserWithoutLogin() {
         final WebClient webClient = this.webClientBuilder.build();
 
-        // @formatter:off
-//        final Flux<Person> personFlux = webClient.get()
-//                .repository("/rest/person/personList")
-//                .accept(MediaType.APPLICATION_JSON_UTF8)
-//                .retrieve()
-//                .onStatus(status ->  !HttpStatus.UNAUTHORIZED.equals(status) , response -> Mono.just(new Exception()))
-//                .bodyToFlux(Person.class)
+        // final Flux<Person> personFlux = webClient.get()
+        //         .repository("/rest/person/personList")
+        //         .accept(MediaType.APPLICATION_JSON_UTF8)
+        //         .retrieve()
+        //         .onStatus(status -> !HttpStatus.UNAUTHORIZED.equals(status), response -> Mono.just(new Exception()))
+        //         .bodyToFlux(Person.class)
+        //         .exchange()
+        //         .flatMapIterable(clientResponse -> clientResponse.bodyToFlux(Person.class));
 
-//                .exchange()
-//                .flatMapIterable(clientResponse -> clientResponse.bodyToFlux(Person.class))
-//                ;
         final Mono<ResponseEntity<String>> response = webClient.get()
                 .uri("/rest/person/personList")
                 .accept(MediaType.APPLICATION_JSON)
-                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class))
-                ;
-        // @formatter:on
+                .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class));
 
         final ResponseEntity<String> responseEntity = response.block();
 

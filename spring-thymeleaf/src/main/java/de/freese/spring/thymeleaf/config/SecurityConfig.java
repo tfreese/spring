@@ -107,23 +107,22 @@ public class SecurityConfig {
         // .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
         // .requiresSecure();
 
-        // @formatter:off
         httpSecurity
-//                .anonymous(customizer -> customizer
-//                        .disable()
-//                )
+                // .anonymous(customizer -> customizer
+                //         .disable()
+                // )
                 .addFilterBefore(myTokenFilter(authenticationManager), RequestHeaderAuthenticationFilter.class)
                 .authenticationProvider(myTokenPreauthAuthProvider)
                 .authorizeHttpRequests(customizer -> customizer
                         .requestMatchers("/", "/index", "/createError", "/login/**", "/actuator/**", "/favicon.ico", "/manifest.appcache", "/css/**", "/js/**", "/images/**")
-                            .permitAll()
+                        .permitAll()
                         //.requestMatchers(HttpMethod.GET,"/admin/**").hasRole("ADMIN")
                         .requestMatchers("/web/**").authenticated()
                         .requestMatchers("/rest/**").authenticated()
                         .anyRequest().denyAll() //.authenticated()// Alle HTTP Methoden zulässig.
                 )
                 .httpBasic(customizer -> customizer
-//                        .disable()
+                        // .disable()
                         .authenticationEntryPoint(authenticationEntryPoint)
                 )
                 .formLogin(customizer -> customizer
@@ -142,21 +141,19 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/index?logout")
                 )
                 .csrf(customizer -> customizer
-                        .disable()
                         // .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .disable()
                 )
                 .exceptionHandling(Customizer.withDefaults())
-//                .sessionManagement(customizer -> customizer
-//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // REST-Services brauchen keine Session.
-//                )
+                // .sessionManagement(customizer -> customizer
+                //         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // REST-Services brauchen keine Session.
+                // )
                 .rememberMe(customizer -> customizer
                         .rememberMeServices(rememberMeServices)
                         .key("remember-me")
                         .tokenValiditySeconds(10 * 60) // 10 Minuten Gültigkeit
                 )
-
         ;
-        // @formatter:on
 
         return httpSecurity.build();
     }
@@ -218,13 +215,11 @@ public class SecurityConfig {
         // CachingUserDetailsService erzeugen, erzeugt Fehler bei den Tests !
         // final Constructor<CachingUserDetailsService> constructor = ClassUtils.getConstructorIfAvailable(CachingUserDetailsService.class, UserDetailsService.class);
         //
-        // if (constructor == null)
-        // {
+        // if (constructor == null) {
         // constructor = CachingUserDetailsService.class.getDeclaredConstructor(UserDetailsService.class);
         // }
         //
-        // if (constructor != null)
-        // {
+        // if (constructor != null) {
         // final CachingUserDetailsService cachingUserDetailsService = BeanUtils.instantiateClass(constructor, userDetailsManager);
         // cachingUserDetailsService.setUserCache(userCache);
         //
@@ -233,14 +228,11 @@ public class SecurityConfig {
     }
 
     //    @Bean
-    //    WebSecurityCustomizer webSecurityCustomizer()
-    //    {
-    //        // @formatter:off
-//        return webSecurity ->
-//                // Pfade ohne Sicherheitsprüfung.
-//                webSecurity.ignoring()
-//                        .requestMatchers(, , )
-//                ;
-//        // @formatter:on
+    //    WebSecurityCustomizer webSecurityCustomizer() {
+    //    return webSecurity ->
+    //            // Pfade ohne Sicherheitsprüfung.
+    //            webSecurity.ignoring()
+    //                    .requestMatchers(, , )
+    //            ;
     //    }
 }

@@ -41,7 +41,6 @@ abstract class AbstractServerConfig {
     RSocketServerCustomizer customizeRSocketServer() {
         getLogger().info("customizeRSocketServer");
 
-        // @formatter:off
         return rSocketServer -> rSocketServer
                 // Make the socket capable of resumption.
                 // By default, the Resume Session will have a duration of 120s,
@@ -50,7 +49,6 @@ abstract class AbstractServerConfig {
                 .payloadDecoder(PayloadDecoder.ZERO_COPY)
                 .fragment(1492)
                 ;
-        // @formatter:on
     }
 
     @Bean
@@ -65,8 +63,7 @@ abstract class AbstractServerConfig {
     }
 
     // @Bean
-    // RSocketServerFactory rSocketServerFactory()
-    // {
+    // RSocketServerFactory rSocketServerFactory() {
     // // TODO RSocketServer manuell erstellen und konfigurieren.
     //        return socketAcceptor -> null;
     // }
@@ -116,11 +113,9 @@ abstract class AbstractServerConfig {
     // @Bean
     // RSocketStrategiesCustomizer rSocketStrategiesCustomizer()
     // {
-    //        // @formatter:off
-//        return strategies ->
-//            //strategies.dataBufferFactory(null)
-//        ;
-//        // @formatter:on
+    //    return strategies ->
+    //        //strategies.dataBufferFactory(null)
+    //    ;
     // }
 
     // /**
@@ -131,16 +126,14 @@ abstract class AbstractServerConfig {
     // {
     // LOGGER.info("rSocketStrategies");
     //
-    //        // @formatter:off
-//        return RSocketStrategies.builder()
-////                .decoder(new Jackson2JsonDecoder())
-////                .encoder(new Jackson2JsonEncoder())
-////                .decoder(new Jackson2CborDecoder())
-////                .encoder(new Jackson2CborEncoder())
-////                .dataBufferFactory(new DefaultDataBufferFactory(true))
-//                // .routeMatcher(new PathPatternRouteMatcher() // Nur für Client
-//                .build()
-//                ;
-//        // @formatter:on
+    //        return RSocketStrategies.builder()
+    // //                .decoder(new Jackson2JsonDecoder())
+    // //                .encoder(new Jackson2JsonEncoder())
+    // //                .decoder(new Jackson2CborDecoder())
+    // //                .encoder(new Jackson2CborEncoder())
+    // //                .dataBufferFactory(new DefaultDataBufferFactory(true))
+    //                // .routeMatcher(new PathPatternRouteMatcher() // Nur für Client
+    //                .build()
+    //                ;
     // }
 }

@@ -40,12 +40,15 @@ import de.freese.spring.data.jpa.domain.Todo;
 import de.freese.spring.data.jpa.exception.ApplicationException;
 
 /**
+ * <pre>{@code
+ * @ExtendWith(SpringExtension.class)
+ * @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+ * }</pre>
+ *
  * @author Thomas Freese
  */
 @SpringBootTest(properties = "server.port=0", webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-        // @ExtendWith(SpringExtension.class)
-        // @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TodoApplicationTests {
 
     @LocalServerPort
@@ -57,24 +60,23 @@ class TodoApplicationTests {
 
     @BeforeEach
     void beforeEach() {
-        //        webTestClient = WebTestClient.bindToController(new TodoController(new TodoService(repository))).build();
-        //        webTestClient = WebTestClient
-        //                .bindToServer()
-        //                .baseUrl(http://localhost: + localServerPort)
-        //                .codecs(configurer -> {
-        ////                  configurer.registerDefaults(true);
-        //                    configurer.defaultCodecs().jaxb2Encoder(new Jaxb2XmlEncoder());
-        //                    configurer.defaultCodecs().jaxb2Decoder(new Jaxb2XmlDecoder());
-        ////                   configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder());
-        ////                  configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder());
-        //                }).build();
+        // webTestClient = WebTestClient.bindToController(new TodoController(new TodoService(repository))).build();
+        // webTestClient = WebTestClient
+        //         .bindToServer()
+        //         .baseUrl("http://localhost:" + localServerPort)
+        //         .codecs(configurer -> {
+        //             //                  configurer.registerDefaults(true);
+        //             configurer.defaultCodecs().jaxb2Encoder(new Jaxb2XmlEncoder());
+        //             configurer.defaultCodecs().jaxb2Decoder(new Jaxb2XmlDecoder());
+        //             //                   configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder());
+        //             //                  configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder());
+        //         }).build();
     }
 
     @Test
     void testGetAllTodosJson() {
         testCreateTodo();
 
-        // @formatter:off
         webTestClient.get()
                 .uri("/api/todo")
                 .accept(MediaType.APPLICATION_JSON)
@@ -85,9 +87,7 @@ class TodoApplicationTests {
                     assertNotNull(value);
                 })
         ;
-        // @formatter:on
 
-        // @formatter:off
         webTestClient.get()
                 .uri("/api/todo")
                 .accept(MediaType.APPLICATION_JSON)
@@ -99,7 +99,6 @@ class TodoApplicationTests {
                     assertFalse(list.isEmpty());
                 })
         ;
-        // @formatter:on
 
         // final Function<ClientResponse, Mono<ClientResponse>> exceptionFilterFunction = clientResponse -> {
         //     final HttpStatus statusCode = HttpStatus.resolve(clientResponse.statusCode().value());
@@ -111,7 +110,6 @@ class TodoApplicationTests {
         //     return Mono.just(clientResponse);
         // };
 
-        // @formatter:off
         final WebClient webClient = WebClient.builder()
                 .baseUrl("http://localhost:" + localServerPort)
                 // .filter(ExchangeFilterFunction.ofResponseProcessor(exceptionFilterFunction))
@@ -130,14 +128,12 @@ class TodoApplicationTests {
                     System.out.println(value);
                     assertNotNull(value);
                 }).blockLast();
-        // @formatter:on
     }
 
     @Test
     void testGetAllTodosXml() {
         testCreateTodo();
 
-        // @formatter:off
         webTestClient.get()
                 .uri("/api/todo")
                 .accept(MediaType.APPLICATION_XML)
@@ -148,9 +144,7 @@ class TodoApplicationTests {
                     assertNotNull(value);
                 })
         ;
-        // @formatter:on
 
-        // @formatter:off
         webTestClient.get()
                 .uri("/api/todo")
                 .accept(MediaType.APPLICATION_XML)
@@ -162,7 +156,6 @@ class TodoApplicationTests {
                     // assertFalse(list.isEmpty());
                 })
         ;
-        // @formatter:on
     }
 
     @Test
@@ -190,7 +183,6 @@ class TodoApplicationTests {
 
     @Test
     void testNotFoundWebTestClient() {
-        // @formatter:off
         webTestClient.get()
                 .uri("/api/todo/" + UUID.randomUUID())
                 .accept(MediaType.APPLICATION_JSON)
@@ -203,12 +195,10 @@ class TodoApplicationTests {
                     assertTrue(value.contains("Todo not found by ID:"));
                 })
         ;
-        // @formatter:on
     }
 
     @Test
     void testStreams() {
-        // @formatter:off
         webTestClient.post()
                 .uri("/api/todo/" + UUID.randomUUID() + "/stream")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
@@ -218,10 +208,8 @@ class TodoApplicationTests {
                 .expectStatus()
                 .isOk()
         ;
-        // @formatter:on
 
-        // @formatter:off
-         webTestClient.get()
+        webTestClient.get()
                 .uri("/api/todo/" + UUID.randomUUID() + "/stream")
                 .accept(MediaType.APPLICATION_OCTET_STREAM).exchange()
                 .expectStatus()
@@ -238,8 +226,7 @@ class TodoApplicationTests {
                         throw new UncheckedIOException(ex);
                     }
                 })
-         ;
-        // @formatter:on
+        ;
     }
 
     private void testCreateTodo() {
@@ -249,7 +236,6 @@ class TodoApplicationTests {
         todo.setEndTime(LocalDateTime.now().plusDays(1));
         todo.setTaskStatus(Status.PENDING);
 
-        // @formatter:off
         webTestClient.post()
                 .uri("/api/todo")
                 .accept(MediaType.APPLICATION_JSON)
@@ -260,6 +246,5 @@ class TodoApplicationTests {
                     System.out.println(value);
                     assertNotNull(value);
                 });
-        // @formatter:on
     }
 }
