@@ -51,8 +51,7 @@ RUN rm -rf /tmp/* \
 
 WORKDIR /
 VOLUME /opt/h2/data
-EXPOSE ${H2_PORT_TCP}
-EXPOSE ${H2_PORT_WEB}
+EXPOSE ${H2_PORT_TCP} ${H2_PORT_WEB}
 
 #CMD java \
 ENTRYPOINT exec java \

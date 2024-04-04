@@ -33,8 +33,8 @@ kubectl delete --ignore-not-found=true namespace demo;
 echo "###########################################";
 kubectl create secret generic db-secret --from-literal='username=sa' --from-literal='password=';
 
-kubectl apply -f 00_namespace.yml;
-kubectl apply -f 01_storage_class.yml;
+#kubectl apply -f 00_namespace.yml;
+#kubectl apply -f 01_storage_class.yml;
 
 kubectl apply -f 10_persistent_volume.yml;
 kubectl apply -f 11_persistent_volume_claim.yml;

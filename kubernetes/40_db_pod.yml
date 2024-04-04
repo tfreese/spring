@@ -1,4 +1,5 @@
 # POD: Database
+# H2-Console: jdbc:h2:tcp://localhost:9082/file:dummyDb
 apiVersion: v1
 kind: Pod
 metadata:

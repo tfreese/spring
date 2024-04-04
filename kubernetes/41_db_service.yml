@@ -13,7 +13,7 @@ spec:
         #env: test
     ports:
         -   port: 9082
-            targetPort: 9082
+            targetPort: db-tcp
             # nodePort: 31123
             protocol: TCP
     type: ClusterIP

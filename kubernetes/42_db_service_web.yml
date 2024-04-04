@@ -15,8 +15,8 @@ spec:
         #env: test
     ports:
         -   port: 8082
-            targetPort: 8082
-            nodePort: 32082
-            protocol: TCP
+            targetPort: db-web
+            #nodePort: 32082
+            #protocol: TCP
     #type: LoadBalancer
     type: NodePort
