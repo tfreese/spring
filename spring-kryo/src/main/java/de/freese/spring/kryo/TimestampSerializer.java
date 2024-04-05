@@ -14,15 +14,13 @@ import com.esotericsoftware.kryo.io.Output;
  *
  * @author Thomas Freese
  */
-public class TimestampSerializer extends Serializer<Timestamp> {
-    //    public TimestampSerializer()
-    //    {
+class TimestampSerializer extends Serializer<Timestamp> {
+    //    public TimestampSerializer() {
     //        super(true);
     //    }
     //
     //    @Override
-    //    public Timestamp copy(final Kryo kryo, final Timestamp original)
-    //    {
+    //    public Timestamp copy(final Kryo kryo, final Timestamp original) {
     //        if (original == null)
     //        {
     //            return null;

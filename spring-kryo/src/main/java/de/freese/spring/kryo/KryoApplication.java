@@ -31,8 +31,19 @@ public class KryoApplication implements WebMvcConfigurer {
             kryo.setClassLoader(Thread.currentThread().getContextClassLoader());
             kryo.setInstantiatorStrategy(new DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
             kryo.setReferences(true); // Avoid Recursion.
-            kryo.setRegistrationRequired(false);
             kryo.setOptimizedGenerics(false);
+
+            kryo.setRegistrationRequired(false);
+            // kryo.setRegistrationRequired(true);
+            // kryo.setWarnUnregisteredClasses(true);
+
+            // Supports different JRE Versions and different order of fields.
+            final SerializerFactory.CompatibleFieldSerializerFactory serializerFactory = new SerializerFactory.CompatibleFieldSerializerFactory();
+            serializerFactory.getConfig().setExtendedFieldNames(true);
+            kryo.setDefaultSerializer(serializerFactory);
+
+            // UnmodifiableCollectionsSerializer.registerSerializers(kryo);
+            // SynchronizedCollectionsSerializer.registerSerializers(kryo);
 
             kryo.register(Timestamp.class, new TimestampSerializer());
             //            kryo.register(LinkedHashMap.class, new MapSerializer<>());
@@ -41,11 +52,6 @@ public class KryoApplication implements WebMvcConfigurer {
             //            kryo.register(Date.class, new de.javakaffee.kryoserializers.DateSerializer(Date.class));
             //            kryo.register(GregorianCalendar.class, new de.javakaffee.kryoserializers.GregorianCalendarSerializer());
             kryo.register(UUID.class, new DefaultSerializers.UUIDSerializer());
-
-            // Supports different JRE Versions.
-            final SerializerFactory.CompatibleFieldSerializerFactory serializerFactory = new SerializerFactory.CompatibleFieldSerializerFactory();
-            serializerFactory.getConfig().setExtendedFieldNames(true);
-            kryo.setDefaultSerializer(serializerFactory);
 
             return kryo;
         }
