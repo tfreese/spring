@@ -139,14 +139,12 @@ public class LoadBalancer implements LoadBalancerPing {
          * Parallele Pings durch Streams.
          */
         List<String> pingWithStreams(final List<String> allServers) {
-            // @formatter:off
             return allServers.stream()
                     .parallel()
                     .map(server -> isAlive(server) ? server : null)
                     .filter(Objects::nonNull)
                     .toList()
                     ;
-            // @formatter:on
         }
     }
 
@@ -334,8 +332,7 @@ public class LoadBalancer implements LoadBalancerPing {
             this.timer.cancel();
         }
 
-        // if (this.scheduledExecutorService != null)
-        // {
+        // if (this.scheduledExecutorService != null) {
         // this.scheduledExecutorService.shutdown();
         // }
     }
@@ -359,12 +356,10 @@ public class LoadBalancer implements LoadBalancerPing {
      * Startet den Ping-Task.
      */
     protected void setupPingTask() {
-        // if (this.scheduledExecutorService != null)
-        // {
+        // if (this.scheduledExecutorService != null) {
         // this.scheduledExecutorService.scheduleWithFixedDelay(new Pinger(), 3000L, getPingDelay(), TimeUnit.MILLISECONDS);
         // }
-        // else
-        // {
+        // else {
 
         if (this.timer != null) {
             this.timer.cancel();

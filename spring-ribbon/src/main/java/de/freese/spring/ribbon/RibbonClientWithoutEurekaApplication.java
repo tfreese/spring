@@ -33,12 +33,9 @@ public class RibbonClientWithoutEurekaApplication {
     public static void main(final String[] args) throws Exception {
         // Dependency darf nicht vorhanden sein: spring-cloud-starter-netflix-eureka-client
 
-        // @formatter:off
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder(RibbonClientWithoutEurekaApplication.class)
                 .profiles("without-eureka")
-            .run(args))
-        // @formatter:on
-        {
+                .run(args)) {
             final RestTemplate restTemplate = context.getBean("restTemplate", RestTemplate.class);
             final LoadBalancerClient loadBalancer = context.getBean("loadBalancerClient", LoadBalancerClient.class);
 

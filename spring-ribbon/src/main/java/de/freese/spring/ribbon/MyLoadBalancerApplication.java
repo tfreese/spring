@@ -31,12 +31,9 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
     private static final Logger LOGGER = LoggerFactory.getLogger(MyLoadBalancerApplication.class);
 
     public static void main(final String[] args) throws Exception {
-        // @formatter:off
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder(MyLoadBalancerApplication.class)
-            .profiles("my-loadbalancer")
-            .run(args))
-        // @formatter:on
-        {
+                .profiles("my-loadbalancer")
+                .run(args)) {
             final RestTemplate restTemplate = context.getBean("restTemplate", RestTemplate.class);
             final LoadBalancer loadBalancer = context.getBean("loadBalancer", LoadBalancer.class);
 

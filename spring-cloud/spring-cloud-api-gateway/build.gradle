@@ -22,14 +22,19 @@ springBoot {
     mainClass = "de.freese.spring.cloud.gateway.GatewayApplication"
 }
 
-//Für Platzhalter in application.properties
+// For Placeholder in Resources.
 ext.artifactId = project.name
 
 processResources {
+    // All Files
+    // expand(project.properties)
+
+    // filesNotMatching(...)
+    // filesMatching("**/*.properties", "a.txt", "z.txt")
     filesMatching("application.yml") {
         filteringCharset = "UTF-8"
 
-        // Bei Problemen müssen die Platzhalter escaped werden: \${...}
-        //expand(project.properties)
+        // If Problems escape Placeholder: \${...}
+        expand(project.properties)
     }
 }

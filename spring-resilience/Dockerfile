@@ -4,35 +4,37 @@
 # -e "VM_PARAMS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"
 # docker start/stop <CONTAINER_NAME>
 
-#FROM localhost:5083/openjdk:17
-FROM openjdk:latest
+# 2060 MB
+#FROM openjdk:21
+
+# 226 MB
+#FROM openjdk:21-jdk-slim
+
+# 97 MB
+#FROM eclipse-temurin:21-jre-jammy
+
+# 67 MB
+FROM eclipse-temurin:21-jre-alpine
+
+LABEL org.opencontainers.image.authors="commercial@freese-home.de"
  
-MAINTAINER Thomas Freese <commercial@freese-home.de>
- 
-ARG JAR_FILE=target/*-jar-with-dependencies.jar
+ARG JAR_FILE=build/libs/*-boot.jar
 ENV VM_PARAMS="-Xms64m -Xmx128m"
 
 COPY ${JAR_FILE} /app/app.jar
 
 RUN echo "Europe/Berlin" > /etc/timezone
 
-#ARG DEPENDENCY=target/dependency
-#COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
-#COPY ${DEPENDENCY}/META-INF /app/META-INF
-#COPY ${DEPENDENCY}/BOOT-INF/classes /app
-#ENTRYPOINT ["java","-cp","app:app/lib/*","hello.Application"]
-
 WORKDIR /
-VOLUME /tmp
+#VOLUME /tmp
 EXPOSE 8080
 
 ENTRYPOINT exec java \
  $VM_PARAMS \
- -XX:TieredStopAtLevel=1 \
  -Djava.security.egd=file:/dev/./urandom \
  -jar \
  /app/app.jar \
- $0 $@
+ "$0" $@
  
 #ENTRYPOINT ["java",\
 # "-Xms256m",\

@@ -13,7 +13,7 @@ import java.util.function.BiFunction;
 @FunctionalInterface
 public interface LoadBalancerStrategy extends BiFunction<List<String>, String, String> {
     @Override
-    default String apply(List<String> server, String key) {
+    default String apply(final List<String> server, final String key) {
         return chooseServer(server, key);
     }
 

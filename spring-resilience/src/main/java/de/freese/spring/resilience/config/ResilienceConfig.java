@@ -17,30 +17,27 @@ import org.springframework.context.annotation.Configuration;
 public class ResilienceConfig {
     @Bean
     Customizer<ReactiveResilience4JCircuitBreakerFactory> customizerDefault() {
-        //@formatter:off
         return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
                 .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(10)).build())
                 .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
                 .build())
                 ;
-        //@formatter:on
     }
 
     @Bean
     Customizer<ReactiveResilience4JCircuitBreakerFactory> customizerSlowGreet() {
-        //@formatter:off
-        return factory -> factory.configure(builder ->
-                        builder
-                                .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(2)).build())
-                                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults()),
+        return factory -> factory.configure(builder -> builder
+                        .timeLimiterConfig(TimeLimiterConfig.custom()
+                                .timeoutDuration(Duration.ofSeconds(2)).build()
+                        )
+                        .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults()
+                        ),
                 "greet")
                 ;
-        //@formatter:on
     }
 
     // @Bean
-    // ReactiveCircuitBreakerFactory<Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> circuitBreakerFactory()
-    // {
+    // ReactiveCircuitBreakerFactory<Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder> circuitBreakerFactory() {
     // var factory = new ReactiveResilience4JCircuitBreakerFactory();
     //
     // return factory;

@@ -60,14 +60,11 @@ class TestResilience {
         final Bulkhead bulkhead = Bulkhead.of("backendService", BulkheadConfig.custom().maxConcurrentCalls(5).maxWaitDuration(Duration.ofMillis(10)).build());
         bulkhead.getEventPublisher().onCallRejected(event -> LOGGER.error(event.toString()));
 
-        // @formatter:off
         final Callable<Object> decoratedSupplier = Decorators.ofCallable(failingCode)
                 .withCircuitBreaker(circuitBreaker)//.withFallback(th -> data)
                 .withRetry(retry)
                 .withBulkhead(bulkhead)
-                .decorate()
-                ;
-        // @formatter:on
+                .decorate();
 
         final AtomicReference<Object> valueReference = new AtomicReference<>();
 

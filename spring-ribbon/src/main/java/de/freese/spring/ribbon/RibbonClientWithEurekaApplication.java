@@ -30,12 +30,9 @@ public class RibbonClientWithEurekaApplication {
     public static void main(final String[] args) throws Exception {
         // Benötigt Dependency: spring-cloud-starter-netflix-eureka-client
 
-        // @formatter:off
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder(RibbonClientWithEurekaApplication.class)
                 .profiles("with-eureka")
-                .run(args))
-        // @formatter:on
-        {
+                .run(args)) {
             final RestTemplate restTemplate = context.getBean("restTemplate", RestTemplate.class);
 
             while (true) {

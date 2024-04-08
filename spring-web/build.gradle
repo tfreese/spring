@@ -21,30 +21,34 @@ sourceSets {
     main {
         resources {
             srcDirs += ["${projectDir}/src/main/webapp"]
-            //srcDir "src/main/webapp"
+            // srcDir "src/main/webapp"
         }
     }
 }
 
-// For Placeholder in application.properties/application.yml
+// For Placeholder in Resources.
 ext.artifactId = project.name
 
 processResources {
-    // filesMatching("**/*.properties")
-    filesMatching("application.properties") {
+    // All Files
+    // expand(project.properties)
+
+    // filesNotMatching(...)
+    // filesMatching("**/*.properties", "a.txt", "z.txt")
+    filesMatching("application.yml") {
         filteringCharset = "UTF-8"
 
-        // During Problems escape Placeholder: \${...}
+        // If Problems escape Placeholder: \${...}
         expand(project.properties)
 
-        //expand ("@project.description@": project.description,
+        // expand ("@project.description@": project.description,
         //		"@project.artifactId@": project.name,
         //		"@project.version@": project.version
         //)
 
-        //filter{ it.replaceAll("@project.description@", project.description)}
-        //filter{ it.replaceAll("@project.artifactId@", project.name)}
-        //filter{ it.replaceAll("@project.version@", project.version)}
+        // filter{ it.replaceAll("@project.description@", project.description)}
+        // filter{ it.replaceAll("@project.artifactId@", project.name)}
+        // filter{ it.replaceAll("@project.version@", project.version)}
     }
 
     filesMatching("application.yml") {

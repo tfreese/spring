@@ -19,16 +19,15 @@ import reactor.core.publisher.Mono;
 @Service
 public class FailingService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FailingService.class);
-    
+
     private final Random random = new SecureRandom();
 
     @Value("${server.port}")
     private int port = -1;
 
     public Mono<String> greet(final String name) {
-        final long seconds = random.nextLong(5);
+        final long seconds = random.nextLong(4);
 
-        //@formatter:off
         return Optional.ofNullable(name)
                 .map(s -> {
                     final String msg = "Hello " + s + " ! (in " + seconds + " Seconds) on " + getHost();
@@ -38,7 +37,6 @@ public class FailingService {
                 .orElse(Mono.error(new NullPointerException("name required")))
                 .delayElement(Duration.ofSeconds(seconds)
                 );
-        //@formatter:on
     }
 
     private String getHost() {

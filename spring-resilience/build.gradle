@@ -9,28 +9,39 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
 
-    runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
+    // runtimeOnly("de.codecentric:spring-boot-admin-starter-client")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
     testImplementation("io.github.resilience4j:resilience4j-all")
-    testImplementation("io.projectreactor:reactor-test")
+    // testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+// The archive name. If the name has not been explicitly set, the pattern for the name is:
+// [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
+bootJar {
+    archiveFileName = "${archiveBaseName.get()}-boot.${archiveExtension.get()}"
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.resilience.SpringResilienceApplication"
+    mainClass = "de.freese.spring.resilience.ResilienceApplication"
 }
 
-// For Placeholder in application.properties/application.yml
+// For Placeholder in Resources.
 ext.artifactId = project.name
 
 processResources {
+    // All Files
+    // expand(project.properties)
+
+    // filesNotMatching(...)
+    // filesMatching("**/*.properties", "a.txt", "z.txt")
     filesMatching("application.yml") {
         filteringCharset = "UTF-8"
 
-        // During Problems escape Placeholder: \${...}
-        //expand(project.properties)
+        // If Problems escape Placeholder: \${...}
+        expand(project.properties)
     }
 }

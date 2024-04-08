@@ -107,8 +107,7 @@ public class RibbonClientConfiguration {
                 // ex.printStackTrace();
                 this.logger.warn("{}: {}", server, ex.getMessage());
             }
-            // finally
-            // {
+            // finally {
             // // Release the connection.
             // getRequest.abort();
             // }

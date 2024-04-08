@@ -20,21 +20,26 @@ springBoot {
     mainClass = "de.freese.spring.Benchmarks"
 }
 
-//test {
+// test {
 //    filter {
 //        // JMH-Test deaktivieren, weil das mit den Annotation-Processor nicht klappt.
 //        excludeTestsMatching "de.freese.spring.TestRestService.testBenchmark"
 //    }
 //}
 
-// For Placeholder in application.properties/application.yml
+// For Placeholder in Resources.
 ext.artifactId = project.name
 
 processResources {
+    // All Files
+    // expand(project.properties)
+
+    // filesNotMatching(...)
+    // filesMatching("**/*.properties", "a.txt", "z.txt")
     filesMatching("application.yml") {
         filteringCharset = "UTF-8"
 
-        // During Problems escape Placeholder: \${...}
+        // If Problems escape Placeholder: \${...}
         expand(project.properties)
     }
 }
