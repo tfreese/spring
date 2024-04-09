@@ -1,3 +1,8 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
 debug: false
 
 # ${random.int[10000,65000]}
@@ -51,9 +56,9 @@ datasource:
             maximum-pool-size: 3
     h2:
         file:
-            jdbc-url: jdbc:h2:tcp://localhost:${h2.port}/file-db;CIPHER=AES"
+            jdbc-url: jdbc:h2:tcp://localhost:${h2.port}/file:file-db;CIPHER=AES"
             username: sa
-            password: cipherPasswort ''
+            password: cipherPw dbPw
             pool-name: h2File
             auto-commit: false
             minimum-idle: 1

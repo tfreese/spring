@@ -1,3 +1,8 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
 spring:
     main:
         banner-mode: off

@@ -39,8 +39,8 @@ public class TestH2Config {
         // TimeUnit.MILLISECONDS.sleep(100);
         // }
 
-        // , "-trace"
-        return Server.createTcpServer("-tcpPort", Integer.toString(port), "-trace", "-tcpDaemon", "-ifNotExists", "-baseDir", path);
+        // , "-trace", "-tcpAllowOthers"
+        return Server.createTcpServer("-tcp", "-tcpPort", Integer.toString(port), "-tcpDaemon", "-trace", "-ifNotExists", "-baseDir", path);
     }
 
     @Bean
