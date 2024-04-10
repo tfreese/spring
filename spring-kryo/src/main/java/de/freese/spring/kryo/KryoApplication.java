@@ -1,12 +1,10 @@
 package de.freese.spring.kryo;
 
-import java.sql.Timestamp;
+import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.SerializerFactory;
-import com.esotericsoftware.kryo.serializers.DefaultSerializers;
 import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy;
 import com.esotericsoftware.kryo.util.Pool;
 import org.objenesis.strategy.StdInstantiatorStrategy;
@@ -33,25 +31,27 @@ public class KryoApplication implements WebMvcConfigurer {
             kryo.setReferences(true); // Avoid Recursion.
             kryo.setOptimizedGenerics(false);
 
-            kryo.setRegistrationRequired(false);
-            // kryo.setRegistrationRequired(true);
-            // kryo.setWarnUnregisteredClasses(true);
+            final boolean registerClasses = false;
 
-            // Supports different JRE Versions and different order of fields.
-            final SerializerFactory.CompatibleFieldSerializerFactory serializerFactory = new SerializerFactory.CompatibleFieldSerializerFactory();
-            serializerFactory.getConfig().setExtendedFieldNames(true);
-            kryo.setDefaultSerializer(serializerFactory);
+            kryo.setRegistrationRequired(registerClasses);
+            kryo.setWarnUnregisteredClasses(registerClasses);
+
+            try {
+                KryoRegistrationClasses.getInstance().registerClasses(kryo, registerClasses);
+            }
+            catch (ClassNotFoundException | IOException ex) {
+                throw new RuntimeException(ex);
+            }
 
             // UnmodifiableCollectionsSerializer.registerSerializers(kryo);
             // SynchronizedCollectionsSerializer.registerSerializers(kryo);
 
-            kryo.register(Timestamp.class, new TimestampSerializer());
-            //            kryo.register(LinkedHashMap.class, new MapSerializer<>());
-
-            // de.javakaffee Serializer's does not work anymore.
-            //            kryo.register(Date.class, new de.javakaffee.kryoserializers.DateSerializer(Date.class));
-            //            kryo.register(GregorianCalendar.class, new de.javakaffee.kryoserializers.GregorianCalendarSerializer());
-            kryo.register(UUID.class, new DefaultSerializers.UUIDSerializer());
+            // Supports different JRE Versions and different order of fields.
+            final SerializerFactory.CompatibleFieldSerializerFactory serializerFactory = new SerializerFactory.CompatibleFieldSerializerFactory();
+            serializerFactory.getConfig().setExtendedFieldNames(true);
+            // serializerFactory.getConfig().setFieldsAsAccessible(true);
+            // serializerFactory.getConfig().setIgnoreSyntheticFields(true);
+            kryo.setDefaultSerializer(serializerFactory);
 
             return kryo;
         }

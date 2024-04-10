@@ -34,13 +34,13 @@ class TimestampSerializer extends Serializer<Timestamp> {
 
     @Override
     public Timestamp read(final Kryo kryo, final Input input, final Class<? extends Timestamp> type) {
-        final long time = input.readLong(false);
+        final long time = input.readLong();
 
         if (time == -1L) {
             return null;
         }
 
-        final int nanos = input.readInt(false);
+        final int nanos = input.readInt();
 
         final Timestamp timestamp = new Timestamp(time);
         timestamp.setNanos(nanos);
@@ -51,11 +51,11 @@ class TimestampSerializer extends Serializer<Timestamp> {
     @Override
     public void write(final Kryo kryo, final Output output, final Timestamp obj) {
         if (obj == null) {
-            output.writeLong(-1L, false);
+            output.writeLong(-1L);
         }
         else {
-            output.writeLong(obj.getTime(), false);
-            output.writeInt(obj.getNanos(), false);
+            output.writeLong(obj.getTime());
+            output.writeInt(obj.getNanos());
         }
     }
 }
