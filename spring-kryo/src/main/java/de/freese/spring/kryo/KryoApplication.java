@@ -30,6 +30,12 @@ public class KryoApplication implements WebMvcConfigurer {
             kryo.setInstantiatorStrategy(new DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
             kryo.setReferences(true); // Avoid Recursion.
             kryo.setOptimizedGenerics(false);
+            // kryo.setReferenceResolver(new MapReferenceResolver() {
+            //     @Override
+            //     public boolean useReferences(final Class type) {
+            //         return super.useReferences(type) && !String.class.equals(type); // For Problems with String References.
+            //     }
+            // });
 
             final boolean registerClasses = false;
 
@@ -49,8 +55,9 @@ public class KryoApplication implements WebMvcConfigurer {
             // Supports different JRE Versions and different order of fields.
             final SerializerFactory.CompatibleFieldSerializerFactory serializerFactory = new SerializerFactory.CompatibleFieldSerializerFactory();
             serializerFactory.getConfig().setExtendedFieldNames(true);
-            // serializerFactory.getConfig().setFieldsAsAccessible(true);
-            // serializerFactory.getConfig().setIgnoreSyntheticFields(true);
+            serializerFactory.getConfig().setFieldsAsAccessible(true);
+            serializerFactory.getConfig().setReadUnknownFieldData(true);
+            // serializerFactory.getConfig().setChunkedEncoding(true);
             kryo.setDefaultSerializer(serializerFactory);
 
             return kryo;
