@@ -87,7 +87,7 @@ public class TodoController {
              Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
              BufferedReader bufferedReader = new BufferedReader(reader)) {
             final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
-            LOGGER.info("message = {}", message);
+            LOGGER.info("id = {}, message = {}", id, message);
         }
     }
 

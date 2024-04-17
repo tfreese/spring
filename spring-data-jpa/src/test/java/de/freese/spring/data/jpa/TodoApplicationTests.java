@@ -21,26 +21,29 @@ import java.util.stream.Collectors;
 
 import jakarta.annotation.Resource;
 
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.io.ManagedHttpClientConnectionFactory;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.io.HttpClientConnectionManager;
+import org.apache.hc.client5.http.io.ManagedHttpClientConnection;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.config.CharCodingConfig;
+import org.apache.hc.core5.http.config.Http1Config;
+import org.apache.hc.core5.http.io.HttpConnectionFactory;
+import org.apache.hc.core5.http.io.entity.HttpEntities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.boot.web.client.RestClientCustomizer;
-import org.springframework.boot.web.client.RestTemplateCustomizer;
-import org.springframework.boot.web.reactive.function.client.WebClientCustomizer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.JdkClientHttpRequestFactory;
-import org.springframework.http.client.reactive.ClientHttpConnector;
-import org.springframework.http.client.reactive.JdkClientHttpConnector;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.test.web.reactive.server.WebTestClientConfigurer;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -54,13 +57,13 @@ import de.freese.spring.data.jpa.exception.ApplicationException;
  * <pre>{@code
  * @ExtendWith(SpringExtension.class)
  * @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+ * @Import(WebConfig.class)
  * }</pre>
  *
  * @author Thomas Freese
  */
 @SpringBootTest(properties = "server.port=0", webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@Import(WebConfig.class)
 class TodoApplicationTests {
 
     @LocalServerPort
@@ -77,11 +80,11 @@ class TodoApplicationTests {
         //         .bindToServer()
         //         .baseUrl("http://localhost:" + localServerPort)
         //         .codecs(configurer -> {
-        //             //                  configurer.registerDefaults(true);
+        //             // configurer.registerDefaults(true);
         //             configurer.defaultCodecs().jaxb2Encoder(new Jaxb2XmlEncoder());
         //             configurer.defaultCodecs().jaxb2Decoder(new Jaxb2XmlDecoder());
-        //             //                   configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder());
-        //             //                  configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder());
+        //             // configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder());
+        //             // configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder());
         //         }).build();
     }
 
@@ -134,8 +137,8 @@ class TodoApplicationTests {
                 // .onStatus(status -> status != HttpStatus.OK, clientResponse -> Mono.empty())
                 .onStatus(status -> status != HttpStatus.OK, clientResponse -> clientResponse.bodyToMono(String.class).map(ApplicationException::new))
                 .bodyToFlux(Todo.class)
-                //.exchangeToFlux(response -> response.bodyToFlux(Todo.class))
-                //                .blockOptional().ifPresent(System.out::println)
+                // .exchangeToFlux(response -> response.bodyToFlux(Todo.class))
+                // .blockOptional().ifPresent(System.out::println)
                 .doOnNext(value -> {
                     System.out.println(value);
                     assertNotNull(value);
@@ -237,12 +240,109 @@ class TodoApplicationTests {
                          BufferedReader bufferedReader = new BufferedReader(reader)) {
                         final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
                         assertEquals("From Server: Hello World", message);
+                        System.out.println(message);
                     }
                     catch (IOException ex) {
                         throw new UncheckedIOException(ex);
                     }
                 })
         ;
+    }
+
+    @Test
+    void testStreamsApacheHttp1() throws IOException {
+        final String url = "http://localhost:" + localServerPort + "/api/todo/" + UUID.randomUUID() + "/stream";
+
+        try (CloseableHttpClient httpClient = createApacheHttp1()) {
+            try (HttpEntity httpEntity = HttpEntities.create(outputStream -> {
+                        outputStream.write("From Client: Hello World".getBytes(StandardCharsets.UTF_8));
+                        outputStream.flush();
+                    },
+                    ContentType.APPLICATION_OCTET_STREAM)) {
+
+                final HttpPost httpPost = new HttpPost(url);
+                httpPost.setHeader("Content-Type", "application/octet-stream");
+                httpPost.setEntity(httpEntity);
+
+                httpClient.execute(httpPost, response -> {
+                    final int responseCode = response.getCode();
+                    final String reasonPhrase = response.getReasonPhrase();
+
+                    assertEquals(200, responseCode);
+                    assertEquals("", reasonPhrase);
+
+                    return null;
+                });
+
+                // try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
+                //     final int responseCode = response.getCode();
+                //     final String reasonPhrase = response.getReasonPhrase();
+                //
+                //     assertEquals(200, responseCode);
+                //     assertEquals("", reasonPhrase);
+                // }
+            }
+
+            final HttpGet httpGet = new HttpGet(url);
+            httpGet.setHeader("Accept", "application/octet-stream");
+
+            httpClient.execute(httpGet, response -> {
+                final int responseCode = response.getCode();
+                final String reasonPhrase = response.getReasonPhrase();
+
+                assertEquals(200, responseCode);
+                assertEquals("", reasonPhrase);
+
+                try (InputStream inputStream = response.getEntity().getContent();
+                     Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+                     BufferedReader bufferedReader = new BufferedReader(reader)) {
+
+                    final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
+                    assertEquals("From Server: Hello World", message);
+
+                    System.out.println(message);
+                }
+
+                return null;
+            });
+
+            // try (CloseableHttpResponse response = httpClient.execute(httpGet);
+            //      InputStream inputStream = response.getEntity().getContent();
+            //      Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            //      BufferedReader bufferedReader = new BufferedReader(reader)) {
+            //     final int responseCode = response.getCode();
+            //     final String reasonPhrase = response.getReasonPhrase();
+            //
+            //     assertEquals(200, responseCode);
+            //     assertEquals("", reasonPhrase);
+            //
+            //     final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
+            //     assertEquals("From Server: Hello World", message);
+            // }
+        }
+    }
+
+    private CloseableHttpClient createApacheHttp1() {
+        final int chunkSize = 1_048_576;
+
+        final Http1Config http1Config = Http1Config.custom().setChunkSizeHint(chunkSize).setBufferSize(chunkSize).build();
+        final CharCodingConfig charCodingConfig = CharCodingConfig.custom().setCharset(StandardCharsets.UTF_8).build();
+
+        final HttpConnectionFactory<ManagedHttpClientConnection> connectionSocketFactory = new ManagedHttpClientConnectionFactory(http1Config, charCodingConfig, null);
+
+        // final SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(SSLContext.getDefault(), HttpsURLConnection.getDefaultHostnameVerifier());
+
+        final HttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
+                .setConnectionFactory(connectionSocketFactory)
+                // .setSSLSocketFactory(sslConnectionSocketFactory)
+                // .setMaxConnPerRoute(5)
+                // .setMaxConnTotal(20)
+                .build();
+
+        return HttpClientBuilder.create()
+                .setConnectionManager(connectionManager)
+                .evictExpiredConnections()
+                .build();
     }
 
     private void testCreateTodo() {
@@ -262,38 +362,5 @@ class TodoApplicationTests {
                     System.out.println(value);
                     assertNotNull(value);
                 });
-    }
-}
-
-@Configuration
-class WebConfig {
-    @Bean
-    public ClientHttpConnector clientHttpConnector() {
-        return new JdkClientHttpConnector();
-    }
-
-    @Bean
-    public ClientHttpRequestFactory clientHttpRequestFactory() {
-        return new JdkClientHttpRequestFactory();
-    }
-
-    @Bean
-    RestClientCustomizer restClientCustomizer(final ClientHttpRequestFactory clientHttpRequestFactory) {
-        return restClientBuilder -> restClientBuilder.requestFactory(clientHttpRequestFactory);
-    }
-
-    @Bean
-    RestTemplateCustomizer restTemplateCustomizer(final ClientHttpRequestFactory clientHttpRequestFactory) {
-        return restTemplate -> restTemplate.setRequestFactory(clientHttpRequestFactory);
-    }
-
-    @Bean
-    WebClientCustomizer webClientCustomizer(final ClientHttpConnector clientHttpConnector) {
-        return webClientBuilder -> webClientBuilder.clientConnector(clientHttpConnector);
-    }
-
-    @Bean
-    WebTestClientConfigurer webTestClientConfigurer(final ClientHttpConnector clientHttpConnector) {
-        return (builder, httpHandlerBuilder, connector) -> builder.clientConnector(clientHttpConnector);
     }
 }
