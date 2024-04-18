@@ -54,7 +54,6 @@ public class Application {
 
     @Bean
     public IntegrationFlow orders() {
-        //@formatter:off
         return f -> f
                 .split(Order.class, Order::getItems)
                 .channel(c -> c.executor(Executors.newCachedThreadPool()))
@@ -88,7 +87,6 @@ public class Application {
                 //             System.out.println("Result: " + obj.toString());
                 //             })
                 ;
-        //@formatter:on
     }
 
     @Bean(name = PollerMetadata.DEFAULT_POLLER)

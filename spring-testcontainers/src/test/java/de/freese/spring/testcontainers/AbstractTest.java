@@ -59,7 +59,6 @@ abstract class AbstractTest {
     //    @Sql(scripts = "classpath:db-schema.sql")
     @Test
     void testGetAll() {
-        // @formatter:off
         final List<Person> personsToSave = IntStream.rangeClosed(1, 3)
                 .mapToObj(i -> {
                     final Person person = new Person();
@@ -67,9 +66,7 @@ abstract class AbstractTest {
 
                     return person;
                 })
-                .toList()
-                ;
-        // @formatter:on
+                .toList();
 
         personService.saveAll(personsToSave);
 
@@ -108,7 +105,6 @@ abstract class AbstractTest {
     //    @Sql(scripts = "classpath:db-schema.sql")
     @Test
     void testSaveAllWithException() {
-        // @formatter:off
         final List<Person> personsToSave = IntStream.rangeClosed(1, 3)
                 .mapToObj(i -> {
                     final Person person = new Person();
@@ -116,9 +112,7 @@ abstract class AbstractTest {
 
                     return person;
                 })
-                .toList()
-                ;
-        // @formatter:on
+                .toList();
 
         final Exception exception = assertThrows(RuntimeException.class, () -> personService.saveAllWithException(personsToSave));
 

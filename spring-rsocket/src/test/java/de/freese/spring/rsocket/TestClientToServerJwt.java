@@ -50,16 +50,13 @@ class TestClientToServerJwt implements TestClientToServer {
             // Empty
         });
 
-        // @formatter:off
         final JWTClaimsSet jwtClaims = new JWTClaimsSet.Builder()
                 .issuer("test-app")
                 .subject("user")
                 .claim("password", "pass")
                 .expirationTime(new Date(System.currentTimeMillis() + 3_600_000))
                 .jwtID(UUID.randomUUID().toString())
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         final JWEEncrypter encrypter = new PasswordBasedEncrypter("my-password", 8, 1000);
         final JWEHeader jweHeader = new JWEHeader(JWEAlgorithm.PBES2_HS512_A256KW, EncryptionMethod.A256CBC_HS512);
@@ -73,12 +70,10 @@ class TestClientToServerJwt implements TestClientToServer {
 
         // .setupMetadata(token, BearerTokenMetadata.BEARER_AUTHENTICATION_MIME_TYPE)
 
-        // @formatter:off
         requester = builder
                 .setupMetadata(credentials, mimeType)
                 .tcp(host, port)
-                ;
-        // @formatter:on
+        ;
     }
 
     @Override

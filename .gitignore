@@ -1,8 +1,16 @@
-!.idea/
+# Exclude the folder itself
+#.idea
 
+# Negate Default
+!.idea
+
+# Exclude all files & subfolders
 .idea/*
+
 !.idea/codeStyles/
+!.idea/fileTemplates/
 !.idea/inspectionProfiles/
 !.idea/scopes/
+!.idea/icon.svg
 
 .activeMQ/

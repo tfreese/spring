@@ -22,19 +22,16 @@ public class MicroServiceApplication extends SpringBootServletInitializer {
     }
 
     private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder) {
-        //@formatter:off
         return builder
-            .sources(MicroServiceApplication.class)
-            .bannerMode(Banner.Mode.OFF)
-            .headless(true)
-            .registerShutdownHook(true);
-        //@formatter:on
+                .sources(MicroServiceApplication.class)
+                .bannerMode(Banner.Mode.OFF)
+                .headless(true)
+                .registerShutdownHook(true);
         // .listeners(new ApplicationPidFileWriter("spring-boot-web.pid"))
         // .web(false)
     }
 
-    // static
-    // {
+    // static {
     // System.setProperty("server.port", Integer.toString(65501));
     // }
 

@@ -49,12 +49,10 @@ public final class LoadBalancerApplication {
             // CommandGroupKey = ThreadPool-Name
             // super(HystrixCommandGroupKey.Factory.asKey("sysDate" + level));
 
-            // @formatter:off
             super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("hystrix"))
                     .andCommandKey(HystrixCommandKey.Factory.asKey("test-sysdate"))
                     .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("test-sysdate"))
                     .andCommandPropertiesDefaults(HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(500)));
-            // @formatter:on
 
             this.uris = Objects.requireNonNull(uris, "uris required");
             this.request = Objects.requireNonNull(request, "request required");

@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="*.properties" pattern="file:*.properties" />
+</component>

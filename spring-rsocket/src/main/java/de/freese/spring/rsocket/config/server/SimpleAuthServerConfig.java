@@ -20,20 +20,18 @@ import org.springframework.security.rsocket.core.PayloadSocketAcceptorIntercepto
 public class SimpleAuthServerConfig extends AbstractServerConfig {
     @Bean
     PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security) {
-        //@formatter:off
         security.authorizePayload(authorize ->
-            authorize
-                    // User muss ROLE_SETUP haben, um Verbindung zum Server herzustellen.
-                    //.setup().hasRole("SETUP")
-                    // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
-                    //.route("greet/*").hasRole("ADMIN")
-                    //.route("greet/*").authenticated()
-                    .anyRequest().authenticated()
-                    .anyExchange().authenticated()
-        )
-        .simpleAuthentication(Customizer.withDefaults())
+                        authorize
+                                // User muss ROLE_SETUP haben, um Verbindung zum Server herzustellen.
+                                //.setup().hasRole("SETUP")
+                                // User muss ROLE_ADMIN haben für das Absetzen der Requests auf die End-Punkte.
+                                //.route("greet/*").hasRole("ADMIN")
+                                //.route("greet/*").authenticated()
+                                .anyRequest().authenticated()
+                                .anyExchange().authenticated()
+                )
+                .simpleAuthentication(Customizer.withDefaults())
         ;
-        //@formatter:on
 
         return security.build();
     }

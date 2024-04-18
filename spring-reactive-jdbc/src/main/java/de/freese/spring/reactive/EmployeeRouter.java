@@ -18,7 +18,6 @@ public class EmployeeRouter {
      */
     @Bean
     public RouterFunction<ServerResponse> route(final EmployeeHandler handler) {
-        // @formatter:off
         return RouterFunctions
                 .route(RequestPredicates.GET("/employee/ln/{ln}/fn/{fn}")
                         .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::getEmployee)
@@ -33,6 +32,5 @@ public class EmployeeRouter {
                 // .andRoute(RequestPredicates.PUT("/employee")
                 //      .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::createNewEmployee)
                 ;
-        // @formatter:on
     }
 }

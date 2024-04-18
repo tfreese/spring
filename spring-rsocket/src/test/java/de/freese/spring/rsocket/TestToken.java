@@ -35,16 +35,13 @@ class TestToken {
         // jwtProcessor.setJWTClaimsSetVerifier((claims, context) -> {
         // });
 
-        // @formatter:off
         final JWTClaimsSet jwtClaims = new JWTClaimsSet.Builder()
                 //.issuer("test-app")
                 .subject("user")
                 .claim("password", "pass")
                 .expirationTime(Date.from(LocalDateTime.now().plusMinutes(60).atZone(ZoneId.systemDefault()).toInstant()))
                 //.jwtID(UUID.randomUUID().toString())
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         final PlainJWT plainJWT = new PlainJWT(jwtClaims);
         System.out.println(plainJWT.serialize());

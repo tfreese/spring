@@ -166,7 +166,6 @@ public abstract class AbstractClientReflectionController<T> {
     protected T lookupProxyRestTemplate(final Class<T> fassadeType) {
         final Object proxyObject = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
 
-            // @formatter:off
             final RestTemplate restTemplate = new RestTemplateBuilder()
                     .rootUri(this.rootUri)
                     .interceptors((request, body, execution) -> {
@@ -176,9 +175,7 @@ public abstract class AbstractClientReflectionController<T> {
                         return execution.execute(request, body);
                     })
                     .additionalMessageConverters(new KryoHttpMessageConverter(getKryoPool()), new MappingJackson2HttpMessageConverter())
-                    .build()
-                    ;
-            // @formatter:on
+                    .build();
 
             // final String url = "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName();
             final String url = "/reflection/" + fassadeType.getSimpleName() + "/rt/" + method.getName();

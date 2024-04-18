@@ -63,10 +63,7 @@ public class HystrixApplication {
         // install with ConfigurationManager so that finalConfig becomes the source of dynamic properties
         ConfigurationManager.install(finalConfig);
 
-        // @formatter:off
-        try (ConfigurableApplicationContext context = new SpringApplicationBuilder(HystrixApplication.class).run(args))
-        // @formatter:on
-        {
+        try (ConfigurableApplicationContext context = new SpringApplicationBuilder(HystrixApplication.class).run(args)) {
             final HystrixApplication application = context.getBean(HystrixApplication.class);
             final RestTemplate restTemplate = context.getBean(RestTemplate.class);
 

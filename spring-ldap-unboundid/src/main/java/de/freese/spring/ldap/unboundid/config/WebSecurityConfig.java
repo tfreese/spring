@@ -34,15 +34,13 @@ public class WebSecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(final HttpSecurity httpSecurity) throws Exception {
-        // @formatter:off
         httpSecurity
                 .authorizeHttpRequests(customizer -> customizer
-                                .anyRequest()
-                                .fullyAuthenticated()
+                        .anyRequest()
+                        .fullyAuthenticated()
                 )
                 .formLogin(Customizer.withDefaults())
         ;
-        // @formatter:on
 
         return httpSecurity.build();
     }

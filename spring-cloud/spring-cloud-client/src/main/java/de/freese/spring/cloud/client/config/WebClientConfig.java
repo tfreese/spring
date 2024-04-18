@@ -29,39 +29,33 @@ public class WebClientConfig {
     @Bean
     @Primary
     WebClient.Builder webClientBuilder() {
-        // @formatter:off
         final HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000)
                 .doOnConnected(connection ->
                         connection
                                 .addHandlerLast(new ReadTimeoutHandler(2, TimeUnit.SECONDS))
                                 .addHandlerLast(new WriteTimeoutHandler(2, TimeUnit.SECONDS))
-                )
-                ;
+                );
 
         return WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 ;
-        // @formatter:on
     }
 
     @Bean
     @LoadBalanced
     WebClient.Builder webClientBuilderLoadBalanced() {
-        // @formatter:off
         final HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000)
                 .doOnConnected(connection ->
                         connection
                                 .addHandlerLast(new ReadTimeoutHandler(2, TimeUnit.SECONDS))
                                 .addHandlerLast(new WriteTimeoutHandler(2, TimeUnit.SECONDS))
-                )
-                ;
+                );
 
         return WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 ;
-        // @formatter:on
     }
 
     //    /**
@@ -71,8 +65,7 @@ public class WebClientConfig {
     //    @Bean
     //    ReactorLoadBalancer<ServiceInstance> randomLoadBalancer(Environment environment
     //      , LoadBalancerClientFactory loadBalancerClientFactory
-    //      , ServiceInstanceListSupplier serviceInstanceListSupplier)
-    //    {
+    //      , ServiceInstanceListSupplier serviceInstanceListSupplier) {
     //        //        final String name = environment.getProperty(LoadBalancerClientFactory.PROPERTY_NAME);
     //        final String name = serviceInstanceListSupplier.getServiceId();
     //
@@ -85,8 +78,7 @@ public class WebClientConfig {
     //     * @see de.codecentric.boot.admin.client.config.SpringBootAdminClientAutoConfiguration.ReactiveRegistrationClientConfig
     //     */
     //    @Bean
-    //    public RegistrationClient registrationClient(ClientProperties client)
-    //    {
+    //    public RegistrationClient registrationClient(ClientProperties client) {
     //        return new ReactiveRegistrationClient(WebClient.builder().build(), client.getReadTimeout());
     //    }
 }

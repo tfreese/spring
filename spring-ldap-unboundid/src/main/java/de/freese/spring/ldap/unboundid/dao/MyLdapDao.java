@@ -132,7 +132,6 @@ public class MyLdapDao {
     public List<String> searchGroup(final String groupName) {
         final Name base = LdapNameBuilder.newInstance().add("ou", "groups").build();
 
-        // @formatter:off
         final LdapQuery query = LdapQueryBuilder.query()
                 .base(base)
                 .searchScope(SearchScope.SUBTREE)
@@ -141,9 +140,7 @@ public class MyLdapDao {
                 .attributes("member")
                 .where("objectclass").is("groupOfNames")
                 .and("cn").isPresent()
-                .and("cn").is(groupName)
-                ;
-        // @formatter:on
+                .and("cn").is(groupName);
 
         final List<String[]> result = getLdapTemplate().search(query, new GroupMemberDirContextMapper());
 
@@ -156,7 +153,6 @@ public class MyLdapDao {
     public List<String> searchPeopleByUid(final String userId, final String attributeId) {
         final Name base = LdapNameBuilder.newInstance().add("ou", "people").build();
 
-        // @formatter:off
         final LdapQuery query = LdapQueryBuilder.query()
                 .base(base)
                 .searchScope(SearchScope.SUBTREE)
@@ -168,7 +164,6 @@ public class MyLdapDao {
                 .and("uid").like(userId)
                 //.and("sn").not().is(lastName)
                 ;
-        // @formatter:on
 
         return getLdapTemplate().search(query, new PersonAttributeMapper(attributeId));
     }

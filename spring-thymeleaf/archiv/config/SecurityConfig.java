@@ -80,11 +80,9 @@ public class SecurityConfig {
 
         @Override
         public void configure(final WebSecurity web) throws Exception {
-            // @formatter:off
             web
-                .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
-            // @formatter:on
+                    .ignoring()
+                    .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
         }
 
         @Resource
@@ -97,18 +95,16 @@ public class SecurityConfig {
 
         @Override
         protected void configure(final HttpSecurity http) throws Exception {
-            // @formatter:off
             http
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")// Alle HTTP Methoden zulässig.
-                .antMatchers("/", "/auth").permitAll()
-                .anyRequest().authenticated()
-            .and()
-                .httpBasic()
-            .and()
-                .csrf().disable(); // Wird bei REST nicht benötigt.
-            // @formatter:on
+                    .authorizeRequests()
+                    .antMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
+                    .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")// Alle HTTP Methoden zulässig.
+                    .antMatchers("/", "/auth").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                    .httpBasic()
+                    .and()
+                    .csrf().disable(); // Wird bei REST nicht benötigt.
         }
     }
 
@@ -162,19 +158,17 @@ public class SecurityConfig {
 
         @Override
         protected void configure(final HttpSecurity http) throws Exception {
-            // @formatter:off
             http
-                .addFilterBefore(webSealFilter(), RequestHeaderAuthenticationFilter.class)
-                .authenticationProvider(preauthAuthProvider())
-                .authorizeRequests()
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET,"/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")// Alle HTTP Methoden zulässig.
-                .antMatchers("/", "/auth").permitAll()
-                .anyRequest().authenticated()
-            .and()
-                .csrf().disable(); // Wird bei REST nicht benötigt.
-            // @formatter:on
+                    .addFilterBefore(webSealFilter(), RequestHeaderAuthenticationFilter.class)
+                    .authenticationProvider(preauthAuthProvider())
+                    .authorizeRequests()
+                    //                .antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
+                    .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")// Alle HTTP Methoden zulässig.
+                    .antMatchers("/", "/auth").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                    .csrf().disable(); // Wird bei REST nicht benötigt.
         }
     }
 
@@ -183,14 +177,11 @@ public class SecurityConfig {
     }
 
     // @Resource
-    // public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception
-    // {
-    //        // @formatter:off
-//        auth.inMemoryAuthentication()
-//            .withUser("admin").password("admin1").roles("ADMIN","USER")
-//            .and()
-//            .withUser("user").password("user1").roles("USER");
-//        // @formatter:on
+    // public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
+    //        auth.inMemoryAuthentication()
+    //            .withUser("admin").password("admin1").roles("ADMIN","USER")
+    //            .and()
+    //            .withUser("user").password("user1").roles("USER");
     //
     // // auth.userDetailsService(userDetailsService());
     //

@@ -49,32 +49,30 @@ public class GatewayApplication {
     RouteLocator myRoutes(final RouteLocatorBuilder builder, final UriConfiguration uriConfiguration) {
         final String httpUri = uriConfiguration.getHttpbin();
 
-        // @formatter:off
         return builder.routes()
                 .route(p -> p.path("/get")
                         .filters(f -> f.addRequestHeader("Hello", "World"))
                         .customize(asyncBuilder -> asyncBuilder.id("addrequestheader_route"))
                         .uri(httpUri)
-                      )
+                )
                 .route(p -> p.host("*.circuitbreaker.com")
                         .filters(f ->
                                 f.circuitBreaker(config -> config.setName("mycmd")
-                                .setFallbackUri("forward:/fallback"))
+                                        .setFallbackUri("forward:/fallback"))
                         )
                         .customize(asyncBuilder -> asyncBuilder.id("circuitbreaker_route"))
                         .uri(httpUri)
-                      )
+                )
                 .route(p -> p.path("/hello/**")
                         .filters(f -> f.rewritePath("/hello(?<segment>/?.*)", "/${segment}"))
                         .customize(asyncBuilder -> asyncBuilder.id("rewritepath_route"))
                         .uri("http://localhost:8081")
-                      )
+                )
                 .route(p -> p.path("/lb/**")
-                      .filters(f -> f.rewritePath("/lb", "/"))
-                      .customize(asyncBuilder -> asyncBuilder.id("loadbalancer_route"))
-                      .uri("lb://CLOUD-HELLO-SERVICE") // Kommt von Eureka
-                    )
+                        .filters(f -> f.rewritePath("/lb", "/"))
+                        .customize(asyncBuilder -> asyncBuilder.id("loadbalancer_route"))
+                        .uri("lb://CLOUD-HELLO-SERVICE") // Kommt von Eureka
+                )
                 .build();
-        // @formatter:on
     }
 }

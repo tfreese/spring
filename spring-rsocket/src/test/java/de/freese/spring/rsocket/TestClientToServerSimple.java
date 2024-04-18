@@ -44,12 +44,10 @@ class TestClientToServerSimple implements TestClientToServer {
         final UsernamePasswordMetadata credentials = new UsernamePasswordMetadata("user", "pass");
         final MimeType mimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
 
-        // @formatter:off
         requester = builder
                 .setupMetadata(credentials, mimeType)
                 .tcp(host, port)
-                ;
-        // @formatter:on
+        ;
     }
 
     @Override

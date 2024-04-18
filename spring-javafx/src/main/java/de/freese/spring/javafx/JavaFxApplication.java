@@ -52,13 +52,11 @@ public class JavaFxApplication extends Application {
             ac.addApplicationListener((ApplicationListener<ContextClosedEvent>) (event -> LOGGER.info("Closing ApplicationContext")));
         };
 
-        // @formatter:off
         this.applicationContext = new SpringApplicationBuilder()
                 .sources(JavaFxApplicationLauncher.class)
                 .initializers(initializer)
                 //.registerShutdownHook(true)
                 .run(getParameters().getRaw().toArray(new String[0]));
-        // @formatter:on
     }
 
     @Override

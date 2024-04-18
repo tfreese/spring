@@ -55,12 +55,10 @@ public class ClientConfigSsl {
             }
         };
 
-        // @formatter:off
         final RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
                 .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
-                .build()
-                ;
+                .build();
 
         return HttpClients.custom()
                 .setDefaultRequestConfig(requestConfig)
@@ -69,7 +67,6 @@ public class ClientConfigSsl {
                 .setUserAgent("My secured Java App")
                 .build()
                 ;
-        // @formatter:on
     }
 
     /**
@@ -106,13 +103,10 @@ public class ClientConfigSsl {
 
     @Bean
     public PoolingHttpClientConnectionManager poolingConnectionManager(final SslBundles sslBundles) {
-        // @formatter:off
         final Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", new PlainConnectionSocketFactory())
                 .register("https", new SSLConnectionSocketFactory(sslBundles.getBundle("web-client").createSslContext(), new NoopHostnameVerifier()))
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         final ConnectionConfig connectionConfig = ConnectionConfig.custom().setConnectTimeout(3000, TimeUnit.MILLISECONDS).build();
 
@@ -147,26 +141,21 @@ public class ClientConfigSsl {
 
         final HttpAsyncClientBuilder clientBuilder = HttpAsyncClients.custom();
 
-        // @formatter:off
         final RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
                 .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         clientBuilder.setDefaultRequestConfig(requestConfig);
         final CloseableHttpAsyncClient client = clientBuilder.build();
         final ClientHttpConnector connector = new HttpComponentsClientHttpConnector(client);
 
-        // @formatter:off
         return webClientBuilder -> webClientBuilder
                 .defaultHeader("user-agent", "web-client")
                 //.exchangeStrategies(strategies)
                 .clientConnector(connector)
                 .apply(webClientSsl.fromBundle("web-client")) // SSL as last !!!
                 ;
-        // @formatter:on
     }
 
     // @Bean
@@ -182,7 +171,6 @@ public class ClientConfigSsl {
     //     final char[] certPassword = "password".toCharArray();
     //     final char[] trustStorePassword = "password".toCharArray();
     //
-    //     // @formatter:off
     //     return SSLContextBuilder.create()
     //             .setKeyStoreType("PKCS12")
     //             .setProtocol("TLSv1.3")
@@ -191,7 +179,6 @@ public class ClientConfigSsl {
     //             .loadTrustMaterial(ResourceUtils.getFile("classpath:client_truststore.p12"), trustStorePassword, trustStrategy)
     //             .build()
     //             ;
-    //     // @formatter:on
     // }
 
     // /**
@@ -200,8 +187,7 @@ public class ClientConfigSsl {
     // * @throws Exception Falls was schief geht.
     // */
     // @SuppressWarnings("resource")
-    // public HttpComponentsClientHttpRequestFactory createHttpComponentsClientHttpRequestFactory(final SslBundles sslBundles) throws Exception
-    // {
+    // public HttpComponentsClientHttpRequestFactory createHttpComponentsClientHttpRequestFactory(final SslBundles sslBundles) throws Exception {
     // final SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslBundles.getBundle("web-server").createSslContext(), new NoopHostnameVerifier());
     //
     // final CloseableHttpClient client = HttpClients.custom().setSSLSocketFactory(sslsf).build();

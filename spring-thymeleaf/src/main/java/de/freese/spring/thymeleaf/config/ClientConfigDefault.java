@@ -51,12 +51,10 @@ public class ClientConfigDefault {
             }
         };
 
-        // @formatter:off
         final RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
                 .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
-                .build()
-                ;
+                .build();
 
         return HttpClients.custom()
                 .setDefaultRequestConfig(requestConfig)
@@ -65,18 +63,14 @@ public class ClientConfigDefault {
                 .setUserAgent("My Java App")
                 .build()
                 ;
-        // @formatter:on
     }
 
     @Bean
     public PoolingHttpClientConnectionManager poolingConnectionManager() {
-        // @formatter:off
         final Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", new PlainConnectionSocketFactory())
                 .register("https", new SSLConnectionSocketFactory(SSLContexts.createDefault(), new NoopHostnameVerifier()))
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         final ConnectionConfig connectionConfig = ConnectionConfig.custom().setConnectTimeout(3000, TimeUnit.MILLISECONDS).build();
 
@@ -105,13 +99,10 @@ public class ClientConfigDefault {
 
         final HttpAsyncClientBuilder clientBuilder = HttpAsyncClients.custom();
 
-        // @formatter:off
         final RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
                 .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         clientBuilder.setDefaultRequestConfig(requestConfig);
         final CloseableHttpAsyncClient client = clientBuilder.build();

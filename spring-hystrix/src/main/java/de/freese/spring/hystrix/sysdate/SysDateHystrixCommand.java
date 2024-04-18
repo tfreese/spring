@@ -37,12 +37,10 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
         // CommandGroupKey = ThreadPool-Name
         // super(HystrixCommandGroupKey.Factory.asKey("sysDate" + level));
 
-        // @formatter:off
         super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("test"))
                 .andCommandKey(HystrixCommandKey.Factory.asKey("sysDate"))
                 .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("sysDate" + level))
                 .andCommandPropertiesDefaults(HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(300)));
-        // @formatter:on
 
         this.level = level;
     }

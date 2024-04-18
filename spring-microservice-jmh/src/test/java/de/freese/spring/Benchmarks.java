@@ -15,16 +15,13 @@ public final class Benchmarks {
 
         // Der Builder überschreibt die Klassen-Annotationen.
         // Benötigt befüllte target\classes\META-INF\BenchmarkList -> Rebuild vor der Ausführung notwendig.
-        // @formatter:off
         final Options options = new OptionsBuilder()
                 .include(MicroServiceBenchmark.class.getSimpleName())
                 //.addProfiler(GCProfiler.class)
                 //.addProfiler(HotspotMemoryProfiler.class)
                 .resultFormat(ResultFormatType.CSV)
                 .result("/dev/null")
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         new Runner(options).run();
     }

@@ -55,27 +55,22 @@ class RSocketClientToServerDeniedConnectionTest {
         final UsernamePasswordMetadata credentials = new UsernamePasswordMetadata("fake", "pass");
         final MimeType mimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());
 
-        // @formatter:off
         requester = builder
                 .setupMetadata(credentials, mimeType)
                 .tcp(host, port)
-                ;
-        // @formatter:on
+        ;
     }
 
     @Test
     void testConnectionIsRefused() {
-        // @formatter:off
         final Mono<Void> result = requester
                 .route("fire-and-forget")
                 .data(new MessageRequest("TEST - fire-and-forget"))
-                .retrieveMono(Void.class)
-                ;
+                .retrieveMono(Void.class);
 
         StepVerifier
                 .create(result)
                 .verifyErrorMessage("Invalid Credentials")
-                ;
-        // @formatter:on
+        ;
     }
 }

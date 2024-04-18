@@ -27,13 +27,11 @@ class TestPasswordEncoder {
     //    }
 
     static Stream<Arguments> createPasswordEncoder() {
-        // @formatter:off
         return Stream.of(
                 Arguments.of("BCrypt", new BCryptPasswordEncoder(10, new SecureRandom())),
                 Arguments.of("Pbkdf2_SHA1", new Pbkdf2PasswordEncoder("mySecret", 16, 310000, SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA1)),
                 Arguments.of("Pbkdf2_SHA512", new Pbkdf2PasswordEncoder("mySecret", 16, 310000, SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512))
-                );
-        // @formatter:on
+        );
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
@@ -42,8 +40,7 @@ class TestPasswordEncoder {
     void testPasswordEncoder(final String name, final PasswordEncoder passwordEncoder) {
         final String password = "gehaim";
 
-        //        if (passwordEncoder instanceof Pbkdf2PasswordEncoder pe)
-        //        {
+        //        if (passwordEncoder instanceof Pbkdf2PasswordEncoder pe) {
         //            pe.setEncodeHashAsBase64(true);
         //        }
 

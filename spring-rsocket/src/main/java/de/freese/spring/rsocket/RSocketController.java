@@ -39,7 +39,6 @@ public class RSocketController {
         LOGGER.info("Received channel request (stream) at {}", LocalDateTime.now());
         LOGGER.info("Channel initiated by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 
-        // @formatter:off
         return requests
                 // Indizierung
                 .index()
@@ -52,7 +51,6 @@ public class RSocketController {
                 // Flux-Events der Responses loggen.
                 .log()
                 ;
-        // @formatter:on
     }
 
     @MessageMapping("error")
@@ -105,7 +103,6 @@ public class RSocketController {
         LOGGER.info("Received stream request: {}", request);
         LOGGER.info("Stream initiated by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 
-        // @formatter:off
         return Flux
                 // Jede Sekunde ein neues Element erzeugen.
                 .interval(Duration.ofSeconds(1))
@@ -118,6 +115,5 @@ public class RSocketController {
                 // Flux-Events loggen.
                 .log()
                 ;
-        // @formatter:on
     }
 }

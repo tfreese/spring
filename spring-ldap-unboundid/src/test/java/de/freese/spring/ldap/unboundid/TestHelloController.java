@@ -26,27 +26,21 @@ class TestHelloController {
 
     @Test
     void testRootWhenAuthenticatedThenSaysHelloUser() throws Exception {
-        // @formatter:off
         this.mvc.perform(MockMvcRequestBuilders.get("/")
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("user", "password")))
                 .andExpect(MockMvcResultMatchers.content().string("Hello, user !"));
-        // @formatter:on
     }
 
     @Test
     void testRootWhenUnauthenticatedThen401() throws Exception {
-        // @formatter:off
         this.mvc.perform(MockMvcRequestBuilders.get("/"))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
-        // @formatter:on
     }
 
     @Test
     void testTokenWhenBadCredentialsThen401() throws Exception {
-        // @formatter:off
         this.mvc.perform(MockMvcRequestBuilders.get("/")
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("user", "password_")))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
-        // @formatter:on
     }
 }

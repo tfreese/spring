@@ -1,14 +1,12 @@
     /**
-     * Komplet mauelle Konfiguration ohne Spring-Properties.
+     * Komplett manuelle Konfiguration ohne Spring-Properties.
      *
      * @return {@link Jackson2ObjectMapperBuilder}
      */
     @Bean
-    public Jackson2ObjectMapperBuilder jacksonBuilder()
-    {
+    public Jackson2ObjectMapperBuilder jacksonBuilder() {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
 
-        // @formatter:off
         builder
             .createXmlMapper(false)
             .dateFormat(new SimpleDateFormat("yyyy-MM-dd"))
@@ -22,7 +20,6 @@
             .locale(Locale.GERMANY)
             // .modules(modules)
             .timeZone("Europe/Berlin");
-        // @formatter:on
 
         return builder;
     }
@@ -37,8 +34,7 @@
      */
     @Bean
     @Primary
-    public ObjectMapper jacksonObjectMapper(final Jackson2ObjectMapperBuilder builder)
-    {
+    public ObjectMapper jacksonObjectMapper(final Jackson2ObjectMapperBuilder builder) {
         ObjectMapper objectMapper = builder.createXmlMapper(false).build();
 
 		// Diese Module sind bereits in spring-boot-starter-json enthalten (Release 2.X).
@@ -67,8 +63,7 @@
 
     @Bean
     @Primary
-    public ObjectMapper serializingObjectMapper()
-    {
+    public ObjectMapper serializingObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer());
@@ -77,21 +72,16 @@
         return objectMapper;
     }
 
-    public class LocalDateSerializer extends JsonSerializer<LocalDate>
-    {
+    public class LocalDateSerializer extends JsonSerializer<LocalDate> {
         @Override
-        public void serialize(final LocalDate value, final JsonGenerator gen, final SerializerProvider serializers) throws IOException
-        {
+        public void serialize(final LocalDate value, final JsonGenerator gen, final SerializerProvider serializers) throws IOException {
             gen.writeString(value.format(FORMATTER));
         }
     }
 
-    public class LocalDateDeserializer extends JsonDeserializer<LocalDate>
-    {
+    public class LocalDateDeserializer extends JsonDeserializer<LocalDate> {
         @Override
-        public LocalDate deserialize(final JsonParser p, final DeserializationContext ctxt) throws IOException
-        {
+        public LocalDate deserialize(final JsonParser p, final DeserializationContext ctxt) throws IOException {
             return LocalDate.parse(p.getValueAsString(), FORMATTER);
         }
     }
-   

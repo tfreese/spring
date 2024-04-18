@@ -17,10 +17,8 @@
 // */
 //// @Repository
 //// @Profile("r2dbc")
-// public class EmployeeRepositoryR2dbcClient implements EmployeeRepository
-//{
-//    private static final BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) ->
-//    {
+// public class EmployeeRepositoryR2dbcClient implements EmployeeRepository {
+//    private static final BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) -> {
 //        Department department = new Department();
 //        department.setId(row.get("department_id", Long.class));
 //        department.setName(row.get("department_name", String.class));
@@ -28,8 +26,7 @@
 //        return department;
 //    };
 //
-//    private static final BiFunction<Row, RowMetadata, Employee> EMPLOYEE_ROWMAPPER = (row, rowMetadata) ->
-//    {
+//    private static final BiFunction<Row, RowMetadata, Employee> EMPLOYEE_ROWMAPPER = (row, rowMetadata) -> {
 //        Employee employee = new Employee();
 //        employee.setId(row.get("employee_id", Long.class));
 //        employee.setLastName(row.get("employee_lastname", String.class));
@@ -43,8 +40,7 @@
 //
 //    // private final R2dbcEntityTemplate r2dbcTemplate;
 //
-//    public EmployeeRepositoryR2dbcClient(final ConnectionFactory connectionFactory)
-//    {
+//    public EmployeeRepositoryR2dbcClient(final ConnectionFactory connectionFactory) {
 //        super();
 //
 //        this.r2dbc = new R2dbc(Objects.requireNonNull(connectionFactory, "connectionFactory required"));
@@ -52,8 +48,7 @@
 //    }
 //
 //    @Override
-//    public Mono<Employee> createNewEmployee(final Employee newEmployee)
-//    {
+//    public Mono<Employee> createNewEmployee(final Employee newEmployee) {
 //        // this.r2dbc.withHandle(handle -> handle.select("SELECT department_id from department where department_name = ?", newEmployee.getDepartment())
 //        // .mapResult(result -> result.map((row, rowMetadata) -> row.get("department_id", Integer.class)))).subscribe(System.out::println);
 //        // // Ergebnis ist 1 -> wie erwartet.
@@ -62,7 +57,6 @@
 //        // newEmployee.getFirstName(), newEmployee.getLastName(), 1)).subscribe(System.out::println);
 //        // // Ergebnis ist 1 -> Erwartet wird 4. -> execute liefert nur die affectedRows !!!
 //
-//        // @formatter:off
 //        return this.r2dbc
 //                .withHandle(handle ->
 //                    handle
@@ -92,13 +86,10 @@
 //                })
 //        //)
 //        ;
-//        // @formatter:on
 //    }
 //
 //    @Override
-//    public Mono<Long> deleteEmployee(final long id)
-//    {
-//        // @formatter:off
+//    public Mono<Long> deleteEmployee(final long id) {
 //        return this.r2dbc.inTransaction(handle ->
 //            handle
 //                .execute("DELETE FROM employee WHERE employee_id = ?", id)
@@ -106,43 +97,35 @@
 //        .single()
 //        .map(i -> (long) i)
 //        ;
-//        // @formatter:on
 //    }
 //
 //    @Override
-//    public Flux<Department> getAllDepartments()
-//    {
-//        // @formatter:off
+//    public Flux<Department> getAllDepartments() {
 //        return this.r2dbc.withHandle(handle ->
 //            handle
 //                .select("select * from department")
 //                .mapRow(DEPARTMENT_ROWMAPPER)
 //        )
 //        ;
-//        // @formatter:on
 //    }
 //
 //    @Override
-//    public Flux<Employee> getAllEmployees()
-//    {
+//    public Flux<Employee> getAllEmployees() {
 //        String sql = """
 //                select e.*, d.department_name from employee e
 //                INNER JOIN department d ON e.department_id = d.department_id
 //                """;
 //
-//        // @formatter:off
 //        return this.r2dbc.withHandle(handle ->
 //            handle
 //                .select(sql)
 //                .mapRow(EMPLOYEE_ROWMAPPER)
 //        )
 //        ;
-//        // @formatter:on
 //    }
 //
 //    @Override
-//    public Mono<Employee> getEmployee(final String lastName, final String firstName)
-//    {
+//    public Mono<Employee> getEmployee(final String lastName, final String firstName) {
 //        String sql = """
 //                select e.*, d.department_name from employee e
 //                INNER JOIN department d ON e.department_id = d.department_id
@@ -151,7 +134,6 @@
 //                and e.employee_firstname = ?
 //                """;
 //
-//        // @formatter:off
 //        return this.r2dbc.withHandle(handle ->
 //            handle
 //                .select(sql, lastName, firstName)
@@ -159,6 +141,5 @@
 //       )
 //       .single()
 //       ;
-//        // @formatter:on
 //    }
 //}

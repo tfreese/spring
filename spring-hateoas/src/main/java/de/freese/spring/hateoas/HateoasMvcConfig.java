@@ -23,14 +23,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class HateoasMvcConfig implements WebMvcConfigurer {
     @Override
     public void extendMessageConverters(final List<HttpMessageConverter<?>> converters) {
-        // @formatter:off
         final Optional<MappingJackson2HttpMessageConverter> converterOptional = converters.stream()
                 //.peek(c -> System.out.println(c.getClass().getSimpleName()))
                 .filter(MappingJackson2HttpMessageConverter.class::isInstance)
                 .map(MappingJackson2HttpMessageConverter.class::cast)
-                .findFirst()
-                ;
-        // @formatter:on
+                .findFirst();
 
         if (converterOptional.isPresent()) {
             final MappingJackson2HttpMessageConverter converter = converterOptional.get();
@@ -43,20 +40,16 @@ public class HateoasMvcConfig implements WebMvcConfigurer {
 
     @Bean
     HalFormsConfiguration halFormsConfiguration() {
-        // @formatter:off
         return new HalFormsConfiguration()
                 .withPattern(LocalDate.class, "yyyy-MM-dd")
                 .withPattern(LocalDateTime.class, "yyyy-MM-dd HH:mm:ss")
                 .withPattern(Date.class, "yyyy-MM-dd HH:mm:ss")
                 ;
-        // @formatter:on
     }
 
     // @Override
-    // public void configureMessageConverters(final List<HttpMessageConverter<?>> converters)
-    // {
-    // for (HttpMessageConverter<?> httpMessageConverter : converters)
-    // {
+    // public void configureMessageConverters(final List<HttpMessageConverter<?>> converters)  {
+    // for (HttpMessageConverter<?> httpMessageConverter : converters) {
     // System.out.println(httpMessageConverter.getClass().getSimpleName());
     // }
     //
@@ -68,8 +61,7 @@ public class HateoasMvcConfig implements WebMvcConfigurer {
     // }
 
     // @Bean
-    // public ObjectMapper objectMapper()
-    // {
+    // public ObjectMapper objectMapper() {
     // final ObjectMapper mapper = new ObjectMapper();
     // mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     // mapper.configure(SerializationFeature.INDENT_OUTPUT, true);

@@ -28,7 +28,6 @@ public class PrimarySecondaryCommand extends HystrixCommand<String> {
         private final int id;
 
         private PrimaryCommand(final int id) {
-            // @formatter:off
             super(Setter
                     .withGroupKey(HystrixCommandGroupKey.Factory.asKey("test"))
                     .andCommandKey(HystrixCommandKey.Factory.asKey("PrimaryCommand"))
@@ -36,7 +35,6 @@ public class PrimarySecondaryCommand extends HystrixCommand<String> {
                     .andCommandPropertiesDefaults(
                             // we default to a 600ms timeout for primary
                             HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(600)));
-            // @formatter:on
 
             this.id = id;
         }
@@ -59,14 +57,12 @@ public class PrimarySecondaryCommand extends HystrixCommand<String> {
         private final int id;
 
         private SecondaryCommand(final int id) {
-            // @formatter:off
             super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("test"))
                     .andCommandKey(HystrixCommandKey.Factory.asKey("SecondaryCommand"))
                     .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("SecondaryCommand"))
                     .andCommandPropertiesDefaults(
                             // we default to a 100ms timeout for secondary
                             HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(100)));
-            // @formatter:on
 
             this.id = id;
         }
@@ -83,14 +79,12 @@ public class PrimarySecondaryCommand extends HystrixCommand<String> {
     private final int id;
 
     public PrimarySecondaryCommand(final int id) {
-        // @formatter:off
         super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("test"))
                 .andCommandKey(HystrixCommandKey.Factory.asKey("PrimarySecondaryCommand"))
                 .andCommandPropertiesDefaults(
-                // we want to default to semaphore-isolation since this wraps
-                // 2 others commands that are already thread isolated
-                HystrixCommandProperties.Setter().withExecutionIsolationStrategy(ExecutionIsolationStrategy.SEMAPHORE)));
-        // @formatter:on
+                        // we want to default to semaphore-isolation since this wraps
+                        // 2 others commands that are already thread isolated
+                        HystrixCommandProperties.Setter().withExecutionIsolationStrategy(ExecutionIsolationStrategy.SEMAPHORE)));
 
         this.id = id;
     }

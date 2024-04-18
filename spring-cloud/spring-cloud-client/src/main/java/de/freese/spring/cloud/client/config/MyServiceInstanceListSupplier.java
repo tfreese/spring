@@ -24,13 +24,11 @@ class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier {
 
     @Override
     public Flux<List<ServiceInstance>> get() {
-        // @formatter:off
         return Flux.just(List.of(
                 new DefaultServiceInstance(serviceId + "-1", serviceId, "127.0.0.1", 8081, false),
                 new DefaultServiceInstance(serviceId + "-2", serviceId, "127.0.0.1", 8082, false),
                 new DefaultServiceInstance(serviceId + "-3", serviceId, "127.0.0.1", 8083, false)
         ));
-        // @formatter:on
     }
 
     @Override

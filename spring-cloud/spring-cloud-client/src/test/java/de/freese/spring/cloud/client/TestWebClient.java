@@ -51,29 +51,23 @@ class TestWebClient {
         SERVER.enqueue(new MockResponse().setResponseCode(500).setBody("{failure}"));
         SERVER.enqueue(new MockResponse().setResponseCode(200).setBody("{success}"));
 
-        // @formatter:off
         final ExchangeFilterFunction retryFilterFunction = (request, next) -> next.exchange(request)
                 .flatMap(clientResponse -> Mono.just(clientResponse)
-                .filter(response -> clientResponse.statusCode().isError())
-                .flatMap(response -> clientResponse.createException())
-                .flatMap(Mono::error)
-                .thenReturn(clientResponse))
+                        .filter(response -> clientResponse.statusCode().isError())
+                        .flatMap(response -> clientResponse.createException())
+                        .flatMap(Mono::error)
+                        .thenReturn(clientResponse))
                 .retryWhen(Retry.backoff(3, Duration.ofSeconds(1))
                         .doBeforeRetry(signal -> LOGGER.info("Retrying request: {}", signal))
-                )
-                ;
-        // @formatter:on
+                );
 
         final WebClient webClient = createWebClientBuilder().filter(retryFilterFunction).baseUrl(SERVER.url("/test").toString()).build();
 
-        // @formatter:off
         final Mono<String> responseMono1 = webClient
                 .get()
                 .uri("/api")
                 .retrieve()
-                .bodyToMono(String.class)
-                ;
-        // @formatter:on
+                .bodyToMono(String.class);
 
         StepVerifier.create(responseMono1).expectNextCount(1).verifyComplete();
     }
@@ -87,7 +81,6 @@ class TestWebClient {
 
         final WebClient webClient = createWebClientBuilder().baseUrl(SERVER.url("/test").toString()).build();
 
-        // @formatter:off
         final Mono<String> responseMono = webClient
                 .get()
                 .uri("/api")
@@ -95,30 +88,25 @@ class TestWebClient {
                 .bodyToMono(String.class)
                 .retryWhen(Retry.backoff(3, Duration.ofSeconds(1))
                         .doBeforeRetry(signal -> LOGGER.info("Retrying request: {}", signal))
-                )
-                ;
-        // @formatter:on
+                );
 
         StepVerifier.create(responseMono).expectNextCount(1).verifyComplete();
     }
 
     private WebClient.Builder createWebClientBuilder() {
-        // @formatter:off
         final HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000)
                 .doOnConnected(connection ->
                         connection
                                 .addHandlerLast(new ReadTimeoutHandler(2L, TimeUnit.SECONDS))
                                 .addHandlerLast(new WriteTimeoutHandler(2L, TimeUnit.SECONDS))
-                )
-                ;
+                );
 
         return WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 //.filter(logRequest())
                 //.filter(logResponse())
                 ;
-        // @formatter:on
     }
 
     private ExchangeFilterFunction logRequest() {
