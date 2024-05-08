@@ -1,6 +1,6 @@
 // Execute Tasks in SubModule: gradle MODUL:clean build
 plugins {
-    id "de.freese.gradle.plugin.conventions" version "$version_myConventionPlugin" apply false
+    id "de.freese.gradle.conventions" version "$version_myConventionPlugin" apply false
     id "io.spring.dependency-management" version "$version_springDependencyManagement" apply false
     id "org.openjfx.javafxplugin" version "$version_javafxPlugin" apply false
     id "org.springframework.boot" version "$version_springBoot" apply false
@@ -8,8 +8,8 @@ plugins {
 
 subprojects {
     apply plugin: "base"
+    apply plugin: "de.freese.gradle.conventions"
     apply plugin: "io.spring.dependency-management"
-    apply plugin: "de.freese.gradle.plugin.conventions"
 
     dependencyManagement {
         imports {
