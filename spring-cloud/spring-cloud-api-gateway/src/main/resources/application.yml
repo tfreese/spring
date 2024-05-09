@@ -12,7 +12,7 @@ eureka:
             enabled: true
         register-with-eureka: false
         serviceUrl:
-            defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+            defaultZone: \${EUREKA_SERVER:http://localhost:8761/eureka}
     instance:
         preferIpAddress: true
 
@@ -51,7 +51,7 @@ spring:
         admin:
             client:
                 enabled: true
-                url: ${ADMIN_SERVER:http://localhost:9000}
+                url: \${ADMIN_SERVER:http://localhost:9000}
     cloud:
         loadbalancer:
             health-check:

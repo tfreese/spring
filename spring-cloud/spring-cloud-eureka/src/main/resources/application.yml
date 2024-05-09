@@ -39,4 +39,4 @@ spring:
         admin:
             client:
                 enabled: true
-                url: ${ADMIN_SERVER:http://localhost:9000}
+                url: \${ADMIN_SERVER:http://localhost:9000}

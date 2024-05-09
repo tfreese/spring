@@ -12,11 +12,11 @@ eureka:
             enabled: true
         registerWithEureka: true
         serviceUrl:
-            defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+            defaultZone: \${EUREKA_SERVER:http://localhost:8761/eureka}
     instance:
         #appname: hello-service
-        #instanceId: hello-service:${server.address}:${server.port}
-        #instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+        #instanceId: hello-service:\${server.address}:\${server.port}
+        #instanceId: \${spring.application.name}:\${vcap.application.instance_id:\${spring.application.instance_id:\${random.value}}}
         preferIpAddress: true
 
 info:
@@ -55,7 +55,7 @@ spring:
         admin:
             client:
                 enabled: true
-                url: ${ADMIN_SERVER:http://localhost:9000}
+                url: \${ADMIN_SERVER:http://localhost:9000}
 
 ---
 
