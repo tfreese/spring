@@ -16,8 +16,11 @@ debug: false
 
 logging:
     config: classpath:logback.xml
-    #level:
-    #de.freese.spring.thymeleaf: DEBUG
+#    level:
+#        root: INFO
+#        de.freese.spring.thymeleaf: DEBUG
+#    file:
+#        name: logs/todo.log
 
 spring:
     autoconfigure:

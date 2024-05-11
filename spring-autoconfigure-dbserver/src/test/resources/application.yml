@@ -5,6 +5,14 @@
 
 debug: false
 
+logging:
+    #    config: classpath:logback.xml
+    level:
+        root: OFF
+#        de.freese.spring.thymeleaf: DEBUG
+#    file:
+#        name: logs/todo.log
+
 # ${random.int[10000,65000]}
 
 spring:

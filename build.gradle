@@ -34,7 +34,7 @@ subprojects {
                     exclude group: "ch.qos.logback", name: "logback-classic"
                 }
                 entry("qpid-bdbstore") {
-                    // Wird in keinem Repository gefunden.
+                    // Not found in any Repository.
                     exclude group: "com.sleepycat", name: "je"
                 }
             }

@@ -34,13 +34,12 @@ public class TestH2Config {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Server serverH2(@Value("${h2.port}") final int port, @Value("${h2.path}") final String path) throws SQLException {
-        // while (!server.isRunning(true))
-        // {
+        // while (!server.isRunning(true)) {
         // TimeUnit.MILLISECONDS.sleep(100);
         // }
 
         // , "-trace", "-tcpAllowOthers"
-        return Server.createTcpServer("-tcp", "-tcpPort", Integer.toString(port), "-tcpDaemon", "-trace", "-ifNotExists", "-baseDir", path);
+        return Server.createTcpServer("-tcp", "-tcpPort", Integer.toString(port), "-tcpDaemon", "-ifNotExists", "-baseDir", path);
     }
 
     @Bean
