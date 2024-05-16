@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Temporal;
@@ -16,6 +15,7 @@ import jakarta.persistence.TemporalType;
 import jakarta.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.UuidGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -34,7 +34,7 @@ public abstract class AbstractBaseEntity implements Serializable {
     private LocalDateTime createdDate;
 
     @Id
-    @GeneratedValue
+    @UuidGenerator
     private UUID id;
 
     @JsonIgnore

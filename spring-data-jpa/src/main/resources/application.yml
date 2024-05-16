@@ -21,10 +21,10 @@ spring:
         serialization:
             indent-output: true
     jpa:
-        #database-platform: org.hibernate.dialect.H2Dialect
-        database-platform: org.hibernate.dialect.HSQLDialect
+        database-platform: org.hibernate.dialect.H2Dialect
+        # database-platform: org.hibernate.dialect.HSQLDialect
         open-in-view: false
-        show-sql: true
+        #show-sql: true
         hibernate:
             ddl-auto: create-drop
     lifecycle:
@@ -45,5 +45,8 @@ logging:
         root: INFO
         org.springframework.web: INFO
         org.hibernate: ERROR
+        org.hibernate.SQL: DEBUG
+        org.hibernate.orm.jdbc.bind: TRACE
+        org.hibernate.orm.jdbc.extract: TRACE
 #    file:
 #        name: logs/todo.log

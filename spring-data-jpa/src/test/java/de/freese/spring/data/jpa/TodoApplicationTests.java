@@ -43,6 +43,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
@@ -52,22 +53,27 @@ import org.springframework.web.reactive.function.client.WebClient;
 import de.freese.spring.data.jpa.domain.Status;
 import de.freese.spring.data.jpa.domain.Todo;
 import de.freese.spring.data.jpa.exception.ApplicationException;
+import de.freese.spring.data.jpa.infrastructure.MyHibernateRepository;
 
 /**
  * <pre>{@code
  * @ExtendWith(SpringExtension.class)
  * @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
  * @Import(WebConfig.class)
+ * properties = "server.port=0",
  * }</pre>
  *
  * @author Thomas Freese
  */
-@SpringBootTest(properties = "server.port=0", webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 class TodoApplicationTests {
 
     @LocalServerPort
     private int localServerPort;
+    @Resource
+    private MyHibernateRepository myHibernateRepository;
     @Resource
     private RestClient.Builder restClientBuilder;
     @Resource
@@ -171,6 +177,13 @@ class TodoApplicationTests {
                     // assertFalse(list.isEmpty());
                 })
         ;
+    }
+
+    @Test
+    void testMyHibernateRepository() {
+        assertNotNull(myHibernateRepository);
+        assertNotNull(myHibernateRepository.getEntityManagerFactory());
+        assertNotNull(myHibernateRepository.getSessionFactory());
     }
 
     @Test

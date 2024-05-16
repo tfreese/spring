@@ -3,6 +3,7 @@ package de.freese.spring.data.jpa;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * <a href="https://codaholic.com/spring-boot-guide/">spring-boot-guide</a><br>
@@ -19,6 +20,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
+@EnableTransactionManagement
 public class TodoApplication {
     public static void main(final String[] args) {
         SpringApplication.run(TodoApplication.class, args);

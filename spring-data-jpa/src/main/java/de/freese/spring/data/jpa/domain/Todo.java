@@ -91,4 +91,17 @@ public class Todo extends AbstractBaseEntity {
     public void setTaskStatus(final Status taskStatus) {
         this.taskStatus = taskStatus;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", startTime=").append(startTime);
+        sb.append(", endTime=").append(endTime);
+        sb.append(", taskStatus=").append(taskStatus);
+        sb.append(']');
+
+        return sb.toString();
+    }
 }
