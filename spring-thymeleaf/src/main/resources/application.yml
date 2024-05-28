@@ -150,7 +150,7 @@ spring:
             jks:
                 web-server:
                     key:
-                        alias: "server"
+                        alias: "myServer"
                         password: "password"
                     keystore:
                         location: "classpath:server_keystore.p12"
@@ -162,7 +162,7 @@ spring:
                         type: "PKCS12"
                 web-client:
                     key:
-                        alias: "client"
+                        alias: "myClient"
                         password: "password"
                     keystore:
                         location: "classpath:client_keystore.p12"

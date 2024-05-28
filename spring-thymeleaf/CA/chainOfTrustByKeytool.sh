@@ -28,14 +28,14 @@ mkdir "keytool";
 
 echo;
 echo "####################################################################################################";
-echo "Create a self signed key pair root CA Certificate.";
+echo "Create a self signed CA Certificate.";
 echo "####################################################################################################";
 keytool -genkey -v \
   -storetype PKCS12 \
-  -keystore keytool/root_ca_1.p12 \
+  -keystore keytool/ca.p12 \
   -storepass "$PW" \
-  -alias root_ca_1 \
-  -dname "CN=root_ca_1,$DNAME" \
+  -alias ca \
+  -dname "CN=ca,$DNAME" \
   -keyalg RSA \
   -keysize 4096 \
   -validity 36500 \
@@ -44,13 +44,13 @@ keytool -genkey -v \
 
 echo;
 echo "####################################################################################################";
-echo "Export of the CA public Certificate to use it in TrustStores.";
+echo "Export of the CA Certificate to use it in TrustStores.";
 echo "####################################################################################################";
 keytool -export -v \
-  -keystore keytool/root_ca_1.p12 \
+  -keystore keytool/ca.p12 \
   -storepass "$PW" \
-  -alias root_ca_1 \
-  -file keytool/root_ca_1.crt \
+  -alias ca \
+  -file keytool/ca.crt \
   -rfc;
 
 echo;
@@ -61,8 +61,8 @@ keytool -genkey -v \
   -storetype PKCS12 \
   -keystore keytool/server_keystore.p12 \
   -storepass "$PW" \
-  -alias server \
-  -dname "CN=server,$DNAME" \
+  -alias myServer \
+  -dname "CN=myServer,$DNAME" \
   -keyalg RSA \
   -keysize 4096 \
   -validity 36500;
@@ -71,8 +71,8 @@ keytool -genkey -v \
   -storetype PKCS12 \
   -keystore keytool/client_keystore.p12 \
   -storepass "$PW" \
-  -alias client \
-  -dname "CN=client,$DNAME" \
+  -alias myClient \
+  -dname "CN=myClient,$DNAME" \
   -keyalg RSA \
   -keysize 4096 \
   -validity 36500;
@@ -84,24 +84,24 @@ echo "##########################################################################
 keytool -certreq -v \
   -keystore keytool/server_keystore.p12 \
   -storepass "$PW" \
-  -alias server \
+  -alias myServer \
   -file keytool/server.csr;
 
 keytool -certreq -v \
   -keystore keytool/client_keystore.p12 \
   -storepass "$PW" \
-  -alias client \
+  -alias myClient \
   -file keytool/client.csr;
 
 echo;
 echo "####################################################################################################";
-echo "Signing the Certificates and the CSRs with the ROOT CA Certificate.";
+echo "Signing the CSRs with the CA Certificate.";
 echo "KeyEncipherment for RSA: DHE or ECDHE.";
 echo "####################################################################################################";
 keytool -gencert -v \
-  -keystore keytool/root_ca_1.p12 \
+  -keystore keytool/ca.p12 \
   -storepass "$PW" \
-  -alias root_ca_1 \
+  -alias ca \
   -infile keytool/server.csr \
   -outfile keytool/server.crt \
   -ext KeyUsage:critical="digitalSignature,keyEncipherment" \
@@ -110,9 +110,9 @@ keytool -gencert -v \
   -rfc;
 
 keytool -gencert -v \
-  -keystore keytool/root_ca_1.p12 \
+  -keystore keytool/ca.p12 \
   -storepass "$PW" \
-  -alias root_ca_1 \
+  -alias ca \
   -infile keytool/client.csr \
   -outfile keytool/client.crt \
   -ext KeyUsage:critical="digitalSignature,keyEncipherment" \
@@ -122,20 +122,20 @@ keytool -gencert -v \
 
 echo;
 echo "####################################################################################################";
-echo "Import public Certificates into the TrustStores.";
+echo "Import Certificates into the TrustStores.";
 echo "####################################################################################################";
 keytool -import -v \
   -keystore keytool/server_truststore.p12 \
   -storepass "$PW" \
-  -alias root_ca_1 \
-  -file keytool/root_ca_1.crt << EOF
+  -alias ca \
+  -file keytool/ca.crt << EOF
 ja
 EOF
 
 keytool -import -v \
   -keystore keytool/server_truststore.p12 \
   -storepass "$PW" \
-  -alias client \
+  -alias myClient \
   -file keytool/client.crt << EOF
 ja
 EOF
@@ -143,15 +143,15 @@ EOF
 keytool -import -v \
   -keystore keytool/client_truststore.p12 \
   -storepass "$PW" \
-  -alias root_ca_1 \
-  -file keytool/root_ca_1.crt << EOF
+  -alias ca \
+  -file keytool/ca.crt << EOF
 ja
 EOF
 
 keytool -import -v \
   -keystore keytool/client_truststore.p12 \
   -storepass "$PW" \
-  -alias server \
+  -alias myServer \
   -file keytool/server.crt << EOF
 ja
 EOF
@@ -164,8 +164,8 @@ echo "##########################################################################
 keytool -import -v \
   -keystore keytool/server_keystore.p12 \
   -storepass "$PW" \
-  -alias root_ca_1 \
-  -file keytool/root_ca_1.crt << EOF
+  -alias ca \
+  -file keytool/ca.crt << EOF
 ja
 EOF
 
@@ -173,15 +173,17 @@ EOF
 keytool -import -v \
   -keystore keytool/server_keystore.p12 \
   -storepass "$PW" \
-  -alias server \
-  -file keytool/server.crt;
+  -alias myServer \
+  -file keytool/server.crt << EOF
+ja
+EOF
 
 # Root CA Public Certificate
 keytool -import -v \
   -keystore keytool/client_keystore.p12 \
   -storepass "$PW" \
-  -alias root_ca_1 \
-  -file keytool/root_ca_1.crt << EOF
+  -alias ca \
+  -file keytool/ca.crt << EOF
 ja
 EOF
 
@@ -189,8 +191,10 @@ EOF
 keytool -import -v \
   -keystore keytool/client_keystore.p12 \
   -storepass "$PW" \
-  -alias client \
-  -file keytool/client.crt;
+  -alias myClient \
+  -file keytool/client.crt << EOF
+ja
+EOF
 
 echo;
 echo "####################################################################################################";
