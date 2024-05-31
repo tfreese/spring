@@ -20,7 +20,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
 /**
- * Sendet das shutdown-Signal.
+ * Send the shutdown-Signal.
  *
  * @author Thomas Freese
  */
@@ -38,11 +38,11 @@ final class Shutdown {
             return;
         }
 
-        LOGGER.info("execute {}", uri);
+        LOGGER.info("execute: {}", uri);
 
         String response = null;
 
-        // curl -X POST localhost:8088/spring-boot-web/actuator/shutdown
+        // curl -X POST localhost:8088/spring-web/actuator/shutdown
         try (HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).followRedirects(HttpClient.Redirect.NEVER).proxy(ProxySelector.getDefault())
                 .connectTimeout(Duration.ofSeconds(3))
                 //.executor(executorServiceHttpClient)
@@ -54,21 +54,21 @@ final class Shutdown {
         }
 
         // REST-Template
-        //       final HttpHeaders headers = new HttpHeaders();
-        //       headers.setContentType(MediaType.APPLICATION_JSON);
-        //       final HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        // final HttpHeaders headers = new HttpHeaders();
+        // headers.setContentType(MediaType.APPLICATION_JSON);
+        // final HttpEntity<String> entity = new HttpEntity<>(null, headers);
         //
-        //        response = new RestTemplate().postForEntity(shutdownUri, entity, String.class).getBody();
+        // response = new RestTemplate().postForEntity(shutdownUri, entity, String.class).getBody();
         //
         // PLAIN
-        //        final HttpURLConnection connection = (HttpURLConnection) shutdownUri.toURL().openConnection();
-        //        connection.setRequestMethod("POST");
+        // final HttpURLConnection connection = (HttpURLConnection) shutdownUri.toURL().openConnection();
+        // connection.setRequestMethod("POST");
         //
-        //        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
-        //            response = br.lines().collect(Collectors.joining(System.lineSeparator()));
-        //        }
+        // try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+        //     response = br.lines().collect(Collectors.joining(System.lineSeparator()));
+        // }
         //
-        //        connection.disconnect();
+        // connection.disconnect();
 
         LOGGER.info(response);
     }

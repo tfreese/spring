@@ -1,19 +1,28 @@
 package de.freese.spring.web;
 
-import java.awt.geom.Point2D;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Map;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.faces.view.ViewScoped;
 
-import org.primefaces.model.charts.ChartData;
-import org.primefaces.model.charts.line.LineChartDataSet;
-import org.primefaces.model.charts.line.LineChartModel;
-import org.primefaces.model.charts.line.LineChartOptions;
-import org.primefaces.model.charts.optionconfig.title.Title;
 import org.springframework.stereotype.Component;
+import software.xdev.chartjs.model.charts.LineChart;
+import software.xdev.chartjs.model.color.Color;
+import software.xdev.chartjs.model.data.LineData;
+import software.xdev.chartjs.model.dataset.LineDataset;
+import software.xdev.chartjs.model.options.Legend;
+import software.xdev.chartjs.model.options.LineOptions;
+import software.xdev.chartjs.model.options.Plugins;
+import software.xdev.chartjs.model.options.Title;
+import software.xdev.chartjs.model.options.elements.Fill;
+import software.xdev.chartjs.model.options.scales.LinearScale;
+import software.xdev.chartjs.model.options.scales.Scale;
+import software.xdev.chartjs.model.options.scales.ScaleTitle;
+import software.xdev.chartjs.model.options.scales.Scales;
+import software.xdev.chartjs.model.options.ticks.LinearTicks;
 
 /**
  * @author Thomas Freese
@@ -26,43 +35,62 @@ public class LineChartBean implements Serializable {
 
     @Resource
     private transient DataService dataService;
-    private LineChartModel lineChartModel;
+    
+    private String lineChart;
 
-    public LineChartModel getLineChartModel() {
-        return lineChartModel;
+    public String getLineChart() {
+        return lineChart;
     }
 
     @PostConstruct
     public void init() {
-        final LineChartDataSet chartDataSet = new LineChartDataSet();
-        chartDataSet.setLabel("My First Dataset");
-        chartDataSet.setFill(false);
-        chartDataSet.setBorderColor("rgb(75, 192, 192)");
-        chartDataSet.setTension(0.0D);
-        chartDataSet.setData(this.dataService.getPoints().stream().map(Point2D.Double::getY).map(Object.class::cast).toList());
-
-        // x-Achse funktioniert bis jetzt nur mit Strings.
-        final ChartData chartData = new ChartData();
-        chartData.addChartDataSet(chartDataSet);
-        chartData.setLabels(this.dataService.getPoints().stream().map(Point2D.Double::getX).map(x -> Double.toString(x)).toList());
-        //        chartData.setLabels(List.of("January", "February", "March", "April", "May", "June", "July"));
-        //        chartData.setLabels(List.of(1, 2, 3, 4, 5, 6));
-
-        final LineChartOptions options = new LineChartOptions();
-        options.setMaintainAspectRatio(false);
-
         final Title title = new Title();
         title.setDisplay(true);
-        title.setText("Line Chart");
-        options.setTitle(title);
+        title.setText("Line Chart Title");
 
-        final Title subtitle = new Title();
-        subtitle.setDisplay(true);
-        subtitle.setText("Line Chart Subtitle");
-        options.setSubtitle(subtitle);
+        final Legend legend = new Legend();
+        legend.setDisplay(true);
+        legend.setPosition(Legend.Position.RIGHT);
 
-        this.lineChartModel = new LineChartModel();
-        this.lineChartModel.setOptions(options);
-        this.lineChartModel.setData(chartData);
+        final Scales scales = new Scales();
+
+        // X-Achse
+        final ScaleTitle xTitle = new ScaleTitle();
+        xTitle.setText("Data");
+
+        final Scale<LinearTicks, LinearScale> xScale = new LinearScale();
+        xScale.setTitle(xTitle);
+
+        // Y-Achse
+        final LinearTicks ticks = new LinearTicks();
+        ticks.setBeginAtZero(true);
+
+        final Scale<LinearTicks, LinearScale> yScale = new LinearScale();
+        yScale.setTicks(ticks);
+
+        // Achsen registrieren
+        scales.addScale(Scales.ScaleAxis.X, xScale);
+        scales.addScale(Scales.ScaleAxis.Y, yScale);
+
+        final Map<Number, Number> chartData = this.dataService.getLineChartData();
+
+        this.lineChart = new LineChart()
+                .setData(new LineData()
+                        .addDataset(new LineDataset()
+                                .setLabel("My First Dataset")
+                                .setData(chartData.values())
+                                .setBorderColor(Color.random())
+                                .setLineTension(0.5F)
+                                .setFill(new Fill<>(false)))
+                        .setLabels(chartData.keySet().stream().map(Number::toString).toList()))
+                .setOptions(new LineOptions()
+                        .setMaintainAspectRatio(false)
+                        .setResponsive(true)
+                        .setScales(scales)
+                        .setPlugins(new Plugins()
+                                .setTitle(title)
+                                .setLegend(legend))
+                )
+                .toJson();
     }
 }

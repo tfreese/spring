@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DataService {
-    public Map<Number, Double> getLineChartData() {
+    public Map<Number, Number> getLineChartData() {
         return getPoints().stream().collect(Collectors.toMap(Point2D.Double::getX, Point2D.Double::getY, (a, b) -> b, LinkedHashMap::new));
     }
 

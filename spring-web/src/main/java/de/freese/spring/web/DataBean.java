@@ -41,7 +41,7 @@ public class DataBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss");
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         this.localDateTimeFormatted = dateTimeFormatter.format(getLocalDateTime());
     }
 }

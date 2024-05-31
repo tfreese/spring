@@ -49,6 +49,8 @@ subprojects {
             dependency("org.primefaces.themes:all-themes:$version_primefacesThemes")
             dependency("org.springdoc:springdoc-openapi-ui:$version_springDoc")
 
+            dependency("software.xdev:chartjs-java-model:$version_chartjs")
+
             dependencySet(group: "org.springframework.cloud", version: "$version_springCloudNetflix") {
                 entry "spring-cloud-starter-netflix-ribbon"
                 entry "spring-cloud-starter-netflix-hystrix"

@@ -17,12 +17,14 @@
     <meta http-equiv="Expires" content="0"/>
 </h:head>
 
-<body style="margin-left:50px">
+<body style="margin-left:5rem; margin-right:5rem">
 <h2>#{msg.ueberschrift}</h2>
 <h:outputText value="#{msg.hello} #{dataBean.localDateTimeFormatted}"/>
 <br/>
+
 <h:outputText value="#{msg.hello} #{dataBean.localDateTime}"/>
 <br/>
+
 <p:dataTable var="point" value="#{dataBean.points}">
     <p:column headerText="X" style="border: 1px solid black">
         <h:outputText value="#{point.x}"/>
@@ -33,7 +35,8 @@
     </p:column>
 </p:dataTable>
 <br/>
-<p:lineChart model="#{lineChartBean.lineChartModel}" style="width:400px;height:400px"/>
+
+<p:chart value="#{lineChartBean.lineChart}" style="width:400px;height:400px"/>
 </body>
 
 </html>

@@ -9,7 +9,7 @@ logging:
         root: INFO
         org.springframework.core.LocalVariableTableParameterNameDiscoverer: OFF
 
-# Ist spring-boot-starter-parent die Parent-POM, wird als Resource-Delimiter @ verwendet.
+# Is spring-boot-starter-parent the Parent-POM, Resource-Delimiter is @.
 info:
     app:
         name: ${project.artifactId}
@@ -20,18 +20,26 @@ server:
     port: 8088
     servlet:
         context-path: /${project.artifactId}
+    shutdown: "graceful"
 
-#<form action="http://localhost:9123/web/actuator/shutdown" method="post" id="form_shutdown">
+spring:
+    output:
+        ansi:
+            enabled: always
+
+#<form action="http://localhost:8088/spring-web/actuator/shutdown" method="post" id="form_shutdown">
 #<form action="shutdown" method="post" id="form_shutdown">
 #   <button type="submit">System shutdown</button>
 #</form>
 # curl -X POST HOST:PORT/shutdown
-# shutdown explizit aktivieren
-# view-source:http://localhost:9123/web/actuator/info
-# view-source:http://localhost:9123/web/actuator/health
-# view-source:http://localhost:9123/web/actuator/metrics
+# view-source:http://localhost:8088/spring-web/actuator/info
+# view-source:http://localhost:8088/spring-web/actuator/health
+# view-source:http://localhost:8088/spring-web/actuator/metrics
 management:
+    #    server:
+    #        port: 8089
     endpoints:
+        enabled-by-default: true
         web:
             base-path: /actuator
             exposure:
@@ -60,10 +68,7 @@ spring:
     config:
         activate:
             on-profile: shutdown
-    output:
-        ansi:
-            enabled: always
-            
+
 logging:
     level:
         org.springframework.beans.factory.config.YamlPropertiesFactoryBean: INFO
