@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 public class WebAppConfig {
     @Bean
     public ServletRegistrationBean<FacesServlet> facesServletRegistration(final ServletContext servletContext) {
+        // servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
         // servletContext.setInitParameter("jakarta.faces.CONFIG_FILES", "/WEB-INF/faces-config.xml");
         servletContext.setInitParameter("jakarta.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
         servletContext.setInitParameter("jakarta.faces.PROJECT_STAGE", "Development");
@@ -33,6 +34,14 @@ public class WebAppConfig {
 
         return servletRegistrationBean;
     }
+
+    /**
+     * Not necessary with joinfaces.
+     */
+    // @Bean
+    // public ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener() {
+    //     return new ServletListenerRegistrationBean<>(new ConfigureListener());
+    // }
 
     // @Bean
     // public ServletRegistrationBean<DefaultServlet> httpServletRegistration() {

@@ -39,6 +39,10 @@ subprojects {
                 }
             }
 
+            dependencySet(group: "org.apache.tomcat", version: dependencyManagement.importedProperties["tomcat.version"]) {
+                entry "tomcat-embed-jasper"
+            }
+
             dependency("org.joinfaces:primefaces-spring-boot-starter:$version_joinfaces")
 
             dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {
@@ -46,6 +50,8 @@ subprojects {
                 entry "jmh-generator-annprocess"
             }
 
+            // dependency("org.primefaces:primefaces:jakarta:$version_primefaces")
+            // dependency("org.primefaces.extensions:primefaces-extensions:$version_primefaces")
             dependency("org.primefaces.themes:all-themes:$version_primefacesThemes")
             dependency("org.springdoc:springdoc-openapi-ui:$version_springDoc")
 

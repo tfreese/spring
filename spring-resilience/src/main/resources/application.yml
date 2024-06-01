@@ -10,16 +10,16 @@ info:
         version: ${project.version}
 
 management:
+    endpoints:
+        enabled-by-default: true
+        web:
+            exposure:
+                include: "*"
     endpoint:
         health:
             show-details: ALWAYS
         prometheus:
             enabled: true
-    endpoints:
-        enabled-by-default: true
-        web:
-            exposure:
-                include: '*'
     prometheus:
         metrics:
             export:

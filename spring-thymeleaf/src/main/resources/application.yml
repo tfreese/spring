@@ -112,31 +112,28 @@ info:
 management:
     endpoints:
         enabled-by-default: false
-        metrics:
-            enabled: true
         web:
             base-path: /actuator
             exposure:
-                include: "*"
-                #include: info, health, metrics, shutdown
+                #include: "*"
+                include: info, health, metrics, shutdown
     endpoint:
         health:
             enabled: true
             show-details: always
         info:
             enabled: true
-            defaults:
-                enabled: true
-            env:
-                enabled: true
         metrics:
             enabled: true
-            enable:
-                all: true
-            export:
-                simple:
-                    enabled: true
         shutdown:
+            enabled: true
+    info:
+        defaults:
+            enabled: true
+        env:
+            enabled: true
+    health:
+        defaults:
             enabled: true
 
 ---
