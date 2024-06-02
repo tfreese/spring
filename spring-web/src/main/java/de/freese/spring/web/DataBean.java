@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  */
 @Component  // siehe faces-config.xml: el-resolver
 @ViewScoped
-public class DataBean implements Serializable {
+public final class DataBean implements Serializable {
     @Serial
     private static final long serialVersionUID = 3966368804680062710L;
 

@@ -8,20 +8,21 @@ description = "Demo für spring-boot-web mit JSF"
 dependencies {
     implementation("org.joinfaces:primefaces-spring-boot-starter")
 
-    // // implementation("jakarta.faces:jakarta.faces-api:4.0.1") // provided
-    // // implementation("jakarta.platform:jakarta.jakartaee-api") // provided
-    // // implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
-    // implementation("org.primefaces:primefaces:$version_primefaces:jakarta")
-    // implementation("org.primefaces.extensions:primefaces-extensions:$version_primefaces")
+    // runtimeOnly("org.apache.myfaces.core:myfaces-impl:4.0.2")
+    // runtimeOnly("org.apache.tomcat.embed:tomcat-embed-jasper")
     // implementation("org.glassfish:jakarta.faces:4.0.7")
-    // implementation("org.jboss.weld.servlet:weld-servlet-core:5.1.2.Final")
-    // implementation("jakarta.enterprise:jakarta.enterprise.cdi-api:4.1.0")
+    // implementation("org.primefaces:primefaces:$version_primefaces:jakarta")
+    // runtimeOnly("org.primefaces.extensions:primefaces-extensions:$version_primefaces:jakarta")
+    // runtimeOnly("org.jboss.weld.servlet:weld-servlet-core:5.1.2.Final")
+    // // runtimeOnly("org.jboss.weld.servlet:weld-servlet-shaded:5.1.2.Final")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("software.xdev:chartjs-java-model")
 
     runtimeOnly("org.primefaces.themes:all-themes")
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"

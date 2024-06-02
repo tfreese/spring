@@ -29,13 +29,13 @@ import software.xdev.chartjs.model.options.ticks.LinearTicks;
  */
 @Component  // siehe faces-config.xml: el-resolver
 @ViewScoped
-public class LineChartBean implements Serializable {
+public final class LineChartBean implements Serializable {
     @Serial
     private static final long serialVersionUID = 7763047176024276034L;
 
     @Resource
     private transient DataService dataService;
-    
+
     private String lineChart;
 
     public String getLineChart() {

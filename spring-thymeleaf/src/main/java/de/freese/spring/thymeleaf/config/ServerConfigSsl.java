@@ -32,7 +32,7 @@ public class ServerConfigSsl {
 
     @Bean
     public ServletWebServerFactory servletContainer() {
-        final TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
+        final TomcatServletWebServerFactory tomcatServletWebServerFactory = new TomcatServletWebServerFactory() {
             @Override
             protected TomcatWebServer getTomcatWebServer(final Tomcat tomcat) {
                 // Enable JNDI.
@@ -92,9 +92,9 @@ public class ServerConfigSsl {
             }
         };
 
-        tomcat.addAdditionalTomcatConnectors(servletRedirectConnector());
+        tomcatServletWebServerFactory.addAdditionalTomcatConnectors(servletRedirectConnector());
 
-        return tomcat;
+        return tomcatServletWebServerFactory;
     }
 
     /**
