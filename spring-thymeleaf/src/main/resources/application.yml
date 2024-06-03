@@ -63,10 +63,6 @@ spring:
         #cache: false
     thymeleaf:
         cache: false
-    servlet:
-        encoding:
-            enabled: true
-            charset: UTF-8
     web:
         locale: de_DE
 
@@ -84,6 +80,9 @@ server:
     servlet:
         #context-path: /${project.artifactId}
         #context-path: /thymeleaf
+        encoding:
+            enabled: true
+            charset: UTF-8
         session:
             timeout: 30
     ssl:

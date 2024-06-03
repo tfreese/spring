@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  * @author Thomas Freese
  */
 @Component
-@Profile("!test")
+@Profile({"!test & !shutdown"})
 @Order(1)
 public class OpenBrowserRunner implements CommandLineRunner {
     public static final Logger LOGGER = LoggerFactory.getLogger(OpenBrowserRunner.class);

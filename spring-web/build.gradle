@@ -8,6 +8,12 @@ description = "Demo für spring-boot-web mit JSF"
 dependencies {
     implementation("org.joinfaces:primefaces-spring-boot-starter")
 
+    // Error WeldServletLifecycle.initialize
+    // if (deployment.getBeanDeploymentArchives().isEmpty()) {
+    //     // Skip initialization - there is no bean archive in the deployment
+    //     CommonLogger.LOG.initSkippedNoBeanArchiveFound();
+    //     return false;
+    // }
     // runtimeOnly("org.apache.myfaces.core:myfaces-impl:4.0.2")
     // runtimeOnly("org.apache.tomcat.embed:tomcat-embed-jasper")
     // implementation("org.glassfish:jakarta.faces:4.0.7")
@@ -29,11 +35,17 @@ dependencies {
 springBoot {
     mainClass = "de.freese.spring.web.SpringBootWebApplication"
 }
+// tasks.named("bootJar") {
+//     layered {
+//         enabled = false
+//     }
+// }
 
 sourceSets {
     main {
         resources {
-            srcDirs += ["${projectDir}/src/main/webapp"]
+            srcDir(layout.projectDirectory.dir("src").dir("main").dir("webapp"))
+            // srcDirs += ["${projectDir}/src/main/webapp"]
             // srcDir "src/main/webapp"
         }
     }

@@ -17,9 +17,15 @@ info:
         version: ${project.version}
 
 server:
+    error:
+        whitelabel:
+            enabled: true
     port: 8088
     servlet:
         context-path: /${project.artifactId}
+        encoding:
+            enabled: true
+            charset: UTF-8
     shutdown: "graceful"
 
 spring:
