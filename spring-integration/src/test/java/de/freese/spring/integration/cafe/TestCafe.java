@@ -12,6 +12,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import de.freese.spring.integration.cafe.config.ApplicationConfig;
+import de.freese.spring.integration.cafe.dsl.ApplicationDsl;
+
 /**
  * <a href="https://github.com/spring-projects/spring-integration-samples">spring-integration-samples</a><br>
  * <a href="https://github.com/spring-projects/spring-integration-samples/tree/master/applications/cafe/cafe-si">cafe-si</a>
@@ -36,7 +39,7 @@ class TestCafe {
                 .registerShutdownHook(true)
                 .web(WebApplicationType.NONE)
                 .bannerMode(Banner.Mode.OFF)
-                .sources(de.freese.spring.integration.cafe.config.Application.class)
+                .sources(ApplicationConfig.class)
                 .build()
                 .run()) {
             testCafe(context);
@@ -63,14 +66,14 @@ class TestCafe {
 
     @Test
     void testCafeDsl() throws Exception {
-        // ConfigurableApplicationContext context = SpringApplication.run(Application.class);
+        // ConfigurableApplicationContext context = SpringApplication.run(ApplicationConfig.class);
 
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder()
                 .headless(true)
                 .registerShutdownHook(true)
                 .web(WebApplicationType.NONE)
                 .bannerMode(Banner.Mode.OFF)
-                .sources(de.freese.spring.integration.cafe.dsl.Application.class)
+                .sources(ApplicationDsl.class)
                 .build()
                 .run()) {
             testCafe(context);

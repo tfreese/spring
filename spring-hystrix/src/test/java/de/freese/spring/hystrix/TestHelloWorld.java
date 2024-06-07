@@ -98,7 +98,7 @@ class TestHelloWorld {
     }
 
     @Test
-    void testObservable() throws Exception {
+    void testObservable() {
         final Observable<String> oWorld = new CommandHelloWorld("World").observe();
         final Observable<String> oBob = new CommandHelloWorld("Bob").observe();
 

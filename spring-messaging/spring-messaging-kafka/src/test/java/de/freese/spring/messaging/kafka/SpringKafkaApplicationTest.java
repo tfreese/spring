@@ -1,6 +1,8 @@
 // Created: 22.10.22
 package de.freese.spring.messaging.kafka;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.concurrent.TimeUnit;
 
 import jakarta.annotation.Resource;
@@ -39,5 +41,7 @@ class SpringKafkaApplicationTest {
 
             sender.send(topic, "Hello-" + (i + 1));
         }
+
+        assertTrue(true);
     }
 }

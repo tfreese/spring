@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +31,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import de.freese.spring.thymeleaf.ThymeleafApplication;
 import de.freese.spring.thymeleaf.ThymeleafController;
 
 /**
@@ -37,11 +38,15 @@ import de.freese.spring.thymeleaf.ThymeleafController;
  */
 @ThymeleafController
 public class HomeThymeleafController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HomeThymeleafController.class);
+
     @Value("${app.message.welcome}")
     private final String message = "Hello World";
+
     @Resource
     @Qualifier("authenticationManagerWeb")
     private AuthenticationManager authenticationManager;
+
     @Resource
     private UserDetailsService userDetailsService;
 
@@ -71,7 +76,7 @@ public class HomeThymeleafController {
             req.login(user, pass);
         }
         catch (ServletException sex) {
-            ThymeleafApplication.LOGGER.error("Error while login ", sex);
+            LOGGER.error("Error while login ", sex);
 
             throw new RuntimeException(sex);
         }
@@ -91,7 +96,7 @@ public class HomeThymeleafController {
         final HttpSession session = req.getSession(true);
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
 
-        ThymeleafApplication.LOGGER.info("User logged in. username={}, token={}", userDetails.getUsername(), token);
+        LOGGER.info("User logged in. username={}, token={}", userDetails.getUsername(), token);
 
         // return "forward:/user";
         return "redirect:/user";

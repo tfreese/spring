@@ -96,12 +96,24 @@ public class LoadBalancer implements LoadBalancerPing {
                             workingServers.add(server);
                         }
                     }
-                    catch (InterruptedException | ExecutionException ex) {
+                    catch (InterruptedException ex) {
+                        LOGGER.error(ex.getMessage());
+
+                        // Restore interrupted state.
+                        Thread.currentThread().interrupt();
+                    }
+                    catch (ExecutionException ex) {
                         LOGGER.error(ex.getMessage());
                     }
                 }
             }
-            catch (InterruptedException | ExecutionException ex) {
+            catch (InterruptedException ex) {
+                LOGGER.error(ex.getMessage());
+
+                // Restore interrupted state.
+                Thread.currentThread().interrupt();
+            }
+            catch (ExecutionException ex) {
                 LOGGER.error(ex.getMessage());
             }
 
@@ -125,7 +137,13 @@ public class LoadBalancer implements LoadBalancerPing {
                         workingServers.add(server);
                     }
                 }
-                catch (InterruptedException | ExecutionException ex) {
+                catch (InterruptedException ex) {
+                    LOGGER.error(ex.getMessage());
+
+                    // Restore interrupted state.
+                    Thread.currentThread().interrupt();
+                }
+                catch (ExecutionException ex) {
                     LOGGER.error(ex.getMessage());
                 }
             }

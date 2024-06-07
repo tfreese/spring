@@ -4,8 +4,6 @@ import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -38,7 +36,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @EnableScheduling
 @EnableAsync
 public class ThymeleafApplication extends SpringBootServletInitializer {
-    public static final Logger LOGGER = LoggerFactory.getLogger(ThymeleafApplication.class);
 
     public static HttpServletRequest getCurrentRequest() {
         final RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();

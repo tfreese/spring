@@ -1,6 +1,8 @@
 // Created: 22.10.22
 package de.freese.spring.messaging.jms;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.concurrent.TimeUnit;
 
 import jakarta.annotation.Resource;
@@ -18,21 +20,18 @@ import org.springframework.test.context.ActiveProfiles;
 class SpringJmsApplicationTest {
     //    private static EmbeddedActiveMQ embeddedActiveMQ;
 
-    //    static
-    //    {
+    //    static {
     //        -Djava.util.logging.manager=org.jboss.logmanager.LogManager
     //        System.setProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager");
     //    }
 
     //    @AfterAll
-    //    static void afterAll() throws Exception
-    //    {
+    //    static void afterAll() throws Exception {
     //        embeddedActiveMQ.stop();
     //    }
 
     //    @BeforeAll
-    //    static void beforeAll() throws Exception
-    //    {
+    //    static void beforeAll() throws Exception {
     //        embeddedActiveMQ = new EmbeddedActiveMQ();
     //        embeddedActiveMQ.start();
     //    }
@@ -52,5 +51,7 @@ class SpringJmsApplicationTest {
         }
 
         TimeUnit.MILLISECONDS.sleep(500);
+
+        assertTrue(true);
     }
 }

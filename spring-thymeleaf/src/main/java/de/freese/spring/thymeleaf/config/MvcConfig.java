@@ -45,8 +45,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import de.freese.spring.thymeleaf.ThymeleafApplication;
-
 /**
  * @author Thomas Freese
  */
@@ -141,7 +139,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return (ex, method, params) -> ThymeleafApplication.LOGGER.error(ex.getMessage());
+        return (ex, method, params) -> LOGGER.error(ex.getMessage());
     }
 
     /**
@@ -222,7 +220,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
     @ConditionalOnMissingBean({AsyncTaskExecutor.class, TaskExecutor.class})
     // public AsyncTaskExecutor springTaskExecutor(@Qualifier("executorService") final ExecutorService executorService)
     public AsyncTaskExecutor springTaskExecutor() {
-        ThymeleafApplication.LOGGER.info("no TaskExecutor exist, create a ConcurrentTaskExecutor");
+        LOGGER.info("no TaskExecutor exist, create a ConcurrentTaskExecutor");
 
         return new ConcurrentTaskExecutor(executorService().getObject());
         // return new ConcurrentTaskExecutor(executorService);
@@ -234,7 +232,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
     @Bean("taskScheduler")
     @ConditionalOnMissingBean(TaskScheduler.class)
     public TaskScheduler springTaskScheduler(@Qualifier("executorService") final ExecutorService executorService, final ScheduledExecutorService scheduledExecutorService) {
-        ThymeleafApplication.LOGGER.info("no TaskScheduler exist, create a ConcurrentTaskScheduler");
+        LOGGER.info("no TaskScheduler exist, create a ConcurrentTaskScheduler");
 
         return new ConcurrentTaskScheduler(executorService, scheduledExecutorService);
     }

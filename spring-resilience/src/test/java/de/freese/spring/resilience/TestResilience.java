@@ -32,7 +32,7 @@ class TestResilience {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestResilience.class);
 
     @Test
-    void testDecorators() throws Exception {
+    void testDecorators() {
         final Object data = new Object();
 
         final Callable<Object> failingCode = () -> {
@@ -85,7 +85,7 @@ class TestResilience {
     }
 
     @Test
-    void testRateLimiter() throws Exception {
+    void testRateLimiter() {
         // 10 Requests/Second
         final RateLimiterConfig config = RateLimiterConfig.custom().limitForPeriod(10).limitRefreshPeriod(Duration.ofSeconds(1)).build();
         // .timeoutDuration(Duration.ofSeconds(1))
@@ -112,7 +112,7 @@ class TestResilience {
     }
 
     @Test
-    void testRetry() throws Exception {
+    void testRetry() {
         final Object data = new Object();
 
         final Callable<Object> failingCode = () -> {

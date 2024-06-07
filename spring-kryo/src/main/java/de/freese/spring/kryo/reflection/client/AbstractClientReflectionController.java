@@ -203,7 +203,6 @@ public abstract class AbstractClientReflectionController<T> {
                     paramTypes[i] = arg.getClass();
                 }
 
-                // TODO Streams berücksichtigen !!!
                 return restTemplate.postForObject(url, paramTypesAndArgs, Object.class);
             }
             catch (Exception ex) {

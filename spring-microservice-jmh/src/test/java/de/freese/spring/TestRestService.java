@@ -84,7 +84,7 @@ class TestRestService {
     }
 
     @Test
-    void testRestTemplate() throws Exception {
+    void testRestTemplate() {
         // Tfinal estRestTemplate restTemplate = new TestRestTemplate(this.restTemplateBuilder.rootUri("http://localhost:" + this.port));
         final RestTemplate restTemplate = this.restTemplateBuilder.rootUri("http://localhost:" + this.port).build();
 
@@ -97,7 +97,7 @@ class TestRestService {
     }
 
     @Test
-    void testWebClient() throws Exception {
+    void testWebClient() {
         final WebClient webClient = this.webClientBuilder.baseUrl("http://localhost:" + this.port).build();
 
         // String response = webClient.get().uri("/").retrieve().bodyToMono(String.class).block();

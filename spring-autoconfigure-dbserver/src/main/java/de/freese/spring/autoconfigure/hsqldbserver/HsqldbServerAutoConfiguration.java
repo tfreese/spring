@@ -70,7 +70,7 @@ public class HsqldbServerAutoConfiguration {
 
     @Bean(initMethod = "start", destroyMethod = "shutdown")
     // @Scope(ConfigurableBeanFactory#SCOPE_SINGLETON)
-    public Server hsqldbServer() throws Exception {
+    public Server hsqldbServer() {
         final int port = this.hsqldbServerProperties.getPort();
         final boolean noSystemExit = this.hsqldbServerProperties.isNoSystemExit();
         final boolean silent = this.hsqldbServerProperties.isSilent();

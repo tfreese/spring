@@ -4,12 +4,16 @@ plugins {
     id "io.spring.dependency-management" version "$version_springDependencyManagement" apply false
     id "org.openjfx.javafxplugin" version "$version_javafxPlugin" apply false
     id "org.springframework.boot" version "$version_springBoot" apply false
+    id "name.remal.sonarlint" version "$version_nameRemalSonarlint" apply false
+    id "de.freese.gradle.sonarlint-conventions" version "$version_myConventionPlugin" apply false
 }
 
 subprojects {
     apply plugin: "base"
     apply plugin: "de.freese.gradle.conventions"
     apply plugin: "io.spring.dependency-management"
+    // apply plugin: "name.remal.sonarlint"
+    // apply plugin: "de.freese.gradle.sonarlint-conventions"
 
     dependencyManagement {
         imports {

@@ -32,7 +32,7 @@ import de.freese.spring.integration.cafe.xml.XmlWaiter;
  */
 @SpringBootApplication
 // @EnableIntegration
-public class Application {
+public class ApplicationConfig {
     /**
      * @author Thomas Freese
      */

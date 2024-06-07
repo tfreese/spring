@@ -36,7 +36,7 @@ class GatewayTest {
     }
 
     @Test
-    void testContextLoads() throws Exception {
+    void testContextLoads() {
         assertTrue(true);
     }
 
@@ -80,7 +80,7 @@ class GatewayTest {
      * Funktioniert nur zusammen mit spring-eureka und spring-microservice.
      */
     @Test
-    @Disabled
+    @Disabled("not working")
     void testHelloLbManuell() {
         this.webClient
                 .get().uri("/lbman")

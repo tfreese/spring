@@ -27,8 +27,8 @@ import de.freese.spring.integration.cafe.OrderItem;
  */
 @SpringBootApplication
 // @EnableIntegration
-public class Application {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+public class ApplicationDsl {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationDsl.class);
 
     /**
      * @author Thomas Freese
@@ -43,6 +43,10 @@ public class Application {
     private static void sleep(final long millis) {
         try {
             TimeUnit.MILLISECONDS.sleep(millis);
+        }
+        catch (InterruptedException ex) {
+            // Restore interrupted state.
+            Thread.currentThread().interrupt();
         }
         catch (Exception ex) {
             // Empty
