@@ -18,11 +18,10 @@ import software.xdev.chartjs.model.options.LineOptions;
 import software.xdev.chartjs.model.options.Plugins;
 import software.xdev.chartjs.model.options.Title;
 import software.xdev.chartjs.model.options.elements.Fill;
-import software.xdev.chartjs.model.options.scales.LinearScale;
-import software.xdev.chartjs.model.options.scales.Scale;
-import software.xdev.chartjs.model.options.scales.ScaleTitle;
-import software.xdev.chartjs.model.options.scales.Scales;
-import software.xdev.chartjs.model.options.ticks.LinearTicks;
+import software.xdev.chartjs.model.options.scale.Scales;
+import software.xdev.chartjs.model.options.scale.cartesian.AbstractCartesianScaleOptions;
+import software.xdev.chartjs.model.options.scale.cartesian.linear.LinearScaleOptions;
+import software.xdev.chartjs.model.options.scale.cartesian.linear.LinearTickOptions;
 
 /**
  * @author Thomas Freese
@@ -55,17 +54,17 @@ public final class LineChartBean implements Serializable {
         final Scales scales = new Scales();
 
         // X-Achse
-        final ScaleTitle xTitle = new ScaleTitle();
+        final AbstractCartesianScaleOptions.Title xTitle = new AbstractCartesianScaleOptions.Title();
         xTitle.setText("Data");
 
-        final Scale<LinearTicks, LinearScale> xScale = new LinearScale();
+        final LinearScaleOptions xScale = new LinearScaleOptions();
         xScale.setTitle(xTitle);
 
         // Y-Achse
-        final LinearTicks ticks = new LinearTicks();
-        ticks.setBeginAtZero(true);
+        final LinearTickOptions ticks = new LinearTickOptions();
+        // ticks.setBeginAtZero(true);
 
-        final Scale<LinearTicks, LinearScale> yScale = new LinearScale();
+        final LinearScaleOptions yScale = new LinearScaleOptions();
         yScale.setTicks(ticks);
 
         // Achsen registrieren

@@ -25,6 +25,9 @@
 <h:outputText value="#{msg.hello} #{dataBean.localDateTime}"/>
 <br/>
 
+<h:outputText value="Jndi-Value: #{dataBean.jndiValue}"/>
+<br/>
+
 <p:dataTable var="point" value="#{dataBean.points}">
     <p:column headerText="X" style="border: 1px solid black">
         <h:outputText value="#{point.x}"/>

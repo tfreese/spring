@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.faces.view.ViewScoped;
@@ -26,6 +29,10 @@ public final class DataBean implements Serializable {
     private transient DataService dataService;
 
     private String localDateTimeFormatted;
+
+    public String getJndiValue() throws NamingException {
+        return InitialContext.doLookup("java:comp/env/test");
+    }
 
     public LocalDateTime getLocalDateTime() {
         return dataService.getLocalDateTime();
