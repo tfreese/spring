@@ -1,4 +1,4 @@
-// Created: ${DATE}
+// Created: ${DAY}.${MONTH}.${YEAR}
 #parse("File Header.java")
 
 /**

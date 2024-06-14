@@ -1,4 +1,4 @@
-// Created: ${DATE}
+// Created: ${DAY}.${MONTH}.${YEAR}
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
 #parse("File Header.java")
 
