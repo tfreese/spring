@@ -20,28 +20,9 @@ springBoot {
 ext.artifactId = project.name
 
 processResources {
-    // All Files
-    // expand(project.properties)
-
-    // filesNotMatching(...)
-    // filesMatching("**/*.properties", "a.txt", "z.txt")
     filesMatching("application.yml") {
         filteringCharset = "UTF-8"
 
-        // If Problems escape Placeholder: \${...}
         expand(project.properties)
     }
-
-    // duplicatesStrategy = "include"
-    // with copySpec {
-    //     from "src/main/resources"
-    //     include "**/application*.yml"
-    //     project.properties.findAll().each {
-    //         prop ->
-    //             if (prop.value != null) {
-    //                 filter(ReplaceTokens, tokens: [(prop.key): prop.value])
-    //                 filter(ReplaceTokens, tokens: [('project.' + prop.key): prop.value])
-    //             }
-    //     }
-    // }
 }

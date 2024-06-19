@@ -27,15 +27,9 @@ springBoot {
 ext.artifactId = project.name
 
 processResources {
-    // All Files
-    // expand(project.properties)
-
-    // filesNotMatching(...)
-    // filesMatching("**/*.properties", "a.txt", "z.txt")
     filesMatching("application.yml") {
         filteringCharset = "UTF-8"
 
-        // If Problems escape Placeholder: \${...}
         expand(project.properties)
     }
 }

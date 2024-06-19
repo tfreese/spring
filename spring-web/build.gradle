@@ -58,8 +58,8 @@ processResources {
     // All Files
     // expand(project.properties)
 
-    // filesNotMatching(...)
-    // filesMatching("**/*.properties", "a.txt", "z.txt")
+    // filesNotMatching(...) {
+    // filesMatching("**/*.properties", "a.txt", "z.txt") {
     filesMatching("application.yml") {
         filteringCharset = "UTF-8"
 
@@ -74,6 +74,9 @@ processResources {
         // filter{ it.replaceAll("@project.description@", project.description)}
         // filter{ it.replaceAll("@project.artifactId@", project.name)}
         // filter{ it.replaceAll("@project.version@", project.version)}
+
+        // // Keeps Windows Line-Endings.
+        // filter(org.apache.tools.ant.filters.FixCrLfFilter.class, eol: org.apache.tools.ant.filters.FixCrLfFilter.CrLf.newInstance("crlf"))
     }
 }
 
