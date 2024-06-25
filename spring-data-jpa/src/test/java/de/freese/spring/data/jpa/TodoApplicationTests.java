@@ -4,20 +4,17 @@ package de.freese.spring.data.jpa;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import jakarta.annotation.Resource;
 
@@ -43,6 +40,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.client.HttpClientErrorException;
@@ -231,6 +229,7 @@ class TodoApplicationTests {
 
     @Test
     void testStreams() {
+        // restClient.post().uri("...").body(outputStream->{});
         webTestClient.post()
                 .uri("/api/todo/" + UUID.randomUUID() + "/stream")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
@@ -241,6 +240,7 @@ class TodoApplicationTests {
                 .isOk()
         ;
 
+        // restClient.get().uri("...").retrieve().body(InputStreamResource.class);
         webTestClient.get()
                 .uri("/api/todo/" + UUID.randomUUID() + "/stream")
                 .accept(MediaType.APPLICATION_OCTET_STREAM).exchange()
@@ -248,10 +248,12 @@ class TodoApplicationTests {
                 .isOk()
                 .expectBody(InputStreamResource.class)
                 .value(inputStreamResource -> {
-                    try (InputStream inputStream = inputStreamResource.getInputStream();
-                         Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-                         BufferedReader bufferedReader = new BufferedReader(reader)) {
-                        final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
+                    try (InputStream inputStream = inputStreamResource.getInputStream()
+                         // Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+                         // BufferedReader bufferedReader = new BufferedReader(reader)
+                    ) {
+                        // final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
+                        final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
                         assertEquals("From Server: Hello World", message);
                         System.out.println(message);
                     }
@@ -263,10 +265,10 @@ class TodoApplicationTests {
     }
 
     @Test
-    void testStreamsApacheHttp1() throws IOException {
+    void testStreamsApacheHttp() throws IOException {
         final String url = "http://localhost:" + localServerPort + "/api/todo/" + UUID.randomUUID() + "/stream";
 
-        try (CloseableHttpClient httpClient = createApacheHttp1()) {
+        try (CloseableHttpClient httpClient = createApacheHttp()) {
             try (HttpEntity httpEntity = HttpEntities.create(outputStream -> {
                         outputStream.write("From Client: Hello World".getBytes(StandardCharsets.UTF_8));
                         outputStream.flush();
@@ -306,11 +308,13 @@ class TodoApplicationTests {
                 assertEquals(200, responseCode);
                 assertEquals("", reasonPhrase);
 
-                try (InputStream inputStream = response.getEntity().getContent();
-                     Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-                     BufferedReader bufferedReader = new BufferedReader(reader)) {
+                try (InputStream inputStream = response.getEntity().getContent()
+                     // Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+                     // BufferedReader bufferedReader = new BufferedReader(reader)
+                ) {
 
-                    final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
+                    // final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
+                    final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
                     assertEquals("From Server: Hello World", message);
 
                     System.out.println(message);
@@ -321,21 +325,95 @@ class TodoApplicationTests {
 
             // try (CloseableHttpResponse response = httpClient.execute(httpGet);
             //      InputStream inputStream = response.getEntity().getContent();
-            //      Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-            //      BufferedReader bufferedReader = new BufferedReader(reader)) {
             //     final int responseCode = response.getCode();
             //     final String reasonPhrase = response.getReasonPhrase();
             //
             //     assertEquals(200, responseCode);
             //     assertEquals("", reasonPhrase);
             //
-            //     final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
+            //     final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             //     assertEquals("From Server: Hello World", message);
             // }
         }
     }
 
-    private CloseableHttpClient createApacheHttp1() {
+    @Test
+    void testStreamsRestClient() throws IOException {
+        final RestClient restClient = restClientBuilder.baseUrl("http://localhost:" + localServerPort).build();
+
+        final ResponseEntity<String> responseEntityString = restClient.post()
+                .uri("/api/todo/" + UUID.randomUUID() + "/stream")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(outputStream -> {
+                    outputStream.write("From Client: Hello World".getBytes(StandardCharsets.UTF_8));
+                    outputStream.flush();
+                })
+                .retrieve()
+                .toEntity(String.class);
+
+        assertEquals(200, responseEntityString.getStatusCode().value());
+        assertNull(responseEntityString.getBody());
+
+        final String message = restClient.get()
+                .uri("/api/todo/" + UUID.randomUUID() + "/stream")
+                .accept(MediaType.APPLICATION_OCTET_STREAM)
+                .exchange((request, response) -> {
+                    return new String(response.getBody().readAllBytes(), StandardCharsets.UTF_8);
+                    // if (response.getStatusCode().equals(HttpStatus.OK)) {
+                    //     return deserialize(response.getBody());
+                    // }
+                    // else {
+                    //     throw new BusinessException();
+                    // }
+                });
+        assertNotNull(message);
+        assertEquals("From Server: Hello World", message);
+
+        // final byte[] bytes = restClient.get()
+        //         .uri("/api/todo/" + UUID.randomUUID() + "/stream")
+        //         .accept(MediaType.APPLICATION_OCTET_STREAM)
+        //         .exchange((request, response) -> response.getBody()).readAllBytes();
+        // assertNotNull(bytes);
+        // assertEquals("From Server: Hello World", new String(bytes, StandardCharsets.UTF_8));
+
+        // java.io.IOException: closed
+        // final InputStream inputStream = restClient.get()
+        //         .uri("/api/todo/" + UUID.randomUUID() + "/stream")
+        //         .accept(MediaType.APPLICATION_OCTET_STREAM)
+        //         .exchange((request, response) -> response.getBody());
+        // assertNotNull(inputStream);
+        //
+        // try (inputStream) {
+        //     assertEquals("From Server: Hello World", new String(inputStream.readAllBytes(), StandardCharsets.UTF_8));
+        // }
+
+        // java.io.IOException: closed
+        // final InputStreamResource inputStreamResource = restClient.get()
+        //         .uri("/api/todo/" + UUID.randomUUID() + "/stream")
+        //         .accept(MediaType.APPLICATION_OCTET_STREAM)
+        //         .retrieve()
+        //         .body(InputStreamResource.class);
+        // assertNotNull(inputStreamResource);
+        //
+        // try (InputStream inputStream = inputStreamResource.getInputStream()) {
+        //     assertEquals("From Server: Hello World", new String(inputStream.readAllBytes(), StandardCharsets.UTF_8));
+        // }
+
+        // java.io.IOException: closed
+        // final ResponseEntity<InputStreamResource> responseEntityStream = restClient.get()
+        //         .uri("/api/todo/" + UUID.randomUUID() + "/stream")
+        //         .retrieve()
+        //         .toEntity(InputStreamResource.class);
+        //
+        // assertEquals(200, responseEntityStream.getStatusCode().value());
+        // assertNotNull(responseEntityStream.getBody());
+        //
+        // try (InputStream inputStream = responseEntityStream.getBody().getInputStream()) {
+        //     assertEquals("From Server: Hello World", new String(inputStream.readAllBytes(), StandardCharsets.UTF_8));
+        // }
+    }
+
+    private CloseableHttpClient createApacheHttp() {
         final int chunkSize = 1_048_576;
 
         final Http1Config http1Config = Http1Config.custom().setChunkSizeHint(chunkSize).setBufferSize(chunkSize).build();
