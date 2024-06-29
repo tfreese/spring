@@ -248,10 +248,9 @@ class TodoApplicationTests {
                 .isOk()
                 .expectBody(InputStreamResource.class)
                 .value(inputStreamResource -> {
-                    try (InputStream inputStream = inputStreamResource.getInputStream()
-                         // Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-                         // BufferedReader bufferedReader = new BufferedReader(reader)
-                    ) {
+                    // Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+                    // BufferedReader bufferedReader = new BufferedReader(reader)
+                    try (InputStream inputStream = inputStreamResource.getInputStream()) {
                         // final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
                         final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
                         assertEquals("From Server: Hello World", message);
@@ -308,10 +307,9 @@ class TodoApplicationTests {
                 assertEquals(200, responseCode);
                 assertEquals("", reasonPhrase);
 
-                try (InputStream inputStream = response.getEntity().getContent()
-                     // Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-                     // BufferedReader bufferedReader = new BufferedReader(reader)
-                ) {
+                // Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+                // BufferedReader bufferedReader = new BufferedReader(reader)
+                try (InputStream inputStream = response.getEntity().getContent()) {
 
                     // final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
                     final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);

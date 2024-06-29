@@ -11,8 +11,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class ClientManuell {
     public static void main(final String[] args) {
-        new SpringApplicationBuilder(ClientManuell.class)
-                .run("--spring.profiles.active=manuell")
-        ;
+        new SpringApplicationBuilder(ClientManuell.class).run("--spring.profiles.active=manuell");
     }
 }
