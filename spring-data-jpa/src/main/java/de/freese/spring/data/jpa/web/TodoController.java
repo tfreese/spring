@@ -79,7 +79,7 @@ public class TodoController {
      * public void test(@PathVariable("id") final UUID id,  final InputStream inputStream) throws IOException {}
      * }</pre>
      */
-    @PostMapping(value = "/{id}/stream", consumes = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    @PostMapping(value = "/{id}/stream", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public void testStream(@PathVariable("id") final UUID id, @RequestBody final InputStreamResource inputStreamResource) throws IOException {
         LOGGER.info("id = {}", id);
 
@@ -105,7 +105,7 @@ public class TodoController {
      *
      * StreamingResponseBody, InputStreamResource working booth.
      */
-    @GetMapping(value = "/{id}/stream", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    @GetMapping(value = "/{id}/stream", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public StreamingResponseBody testStream(@PathVariable("id") final UUID id) {
         LOGGER.info("id = {}", id);
 

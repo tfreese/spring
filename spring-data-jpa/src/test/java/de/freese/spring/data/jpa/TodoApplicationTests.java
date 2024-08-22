@@ -14,7 +14,9 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import jakarta.annotation.Resource;
 
@@ -45,8 +47,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 import de.freese.spring.data.jpa.domain.Status;
 import de.freese.spring.data.jpa.domain.Todo;
@@ -119,6 +123,10 @@ class TodoApplicationTests {
                 })
         ;
 
+        final List<Todo> todos = createTodoClient().getAllTodos();
+        assertNotNull(todos);
+        assertFalse(todos.isEmpty());
+
         // final Function<ClientResponse, Mono<ClientResponse>> exceptionFilterFunction = clientResponse -> {
         //     final HttpStatus statusCode = HttpStatus.resolve(clientResponse.statusCode().value());
         //
@@ -188,6 +196,17 @@ class TodoApplicationTests {
     void testNotFoundRestClient() {
         final RestClient restClient = restClientBuilder.baseUrl("http://localhost:" + localServerPort).build();
 
+        final Consumer<HttpClientErrorException> exceptionTester = exception -> {
+            assertNotNull(exception);
+            assertEquals(HttpStatus.NOT_FOUND.value(), exception.getStatusCode().value());
+
+            // final ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
+            final String problemDetail = exception.getResponseBodyAs(String.class);
+            System.out.println(problemDetail);
+            assertNotNull(problemDetail);
+            assertTrue(problemDetail.contains("Todo not found by ID:"));
+        };
+
         final HttpClientErrorException exception = assertThrows(HttpClientErrorException.NotFound.class,
                 () -> restClient.get()
                         .uri("/api/todo/" + UUID.randomUUID())
@@ -200,15 +219,11 @@ class TodoApplicationTests {
                         //     }
                         // })
                         .body(Todo.class));
+        exceptionTester.accept(exception);
 
-        assertNotNull(exception);
-        assertEquals(HttpStatus.NOT_FOUND.value(), exception.getStatusCode().value());
-
-        // final ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
-        final String problemDetail = exception.getResponseBodyAs(String.class);
-        System.out.println(problemDetail);
-        assertNotNull(problemDetail);
-        assertTrue(problemDetail.contains("Todo not found by ID:"));
+        final HttpClientErrorException exception2 = assertThrows(HttpClientErrorException.NotFound.class,
+                () -> createTodoClient().getTodoById(UUID.randomUUID()));
+        exceptionTester.accept(exception2);
     }
 
     @Test
@@ -228,7 +243,7 @@ class TodoApplicationTests {
     }
 
     @Test
-    void testStreams() {
+    void testStreams() throws IOException {
         // restClient.post().uri("...").body(outputStream->{});
         webTestClient.post()
                 .uri("/api/todo/" + UUID.randomUUID() + "/stream")
@@ -243,7 +258,8 @@ class TodoApplicationTests {
         // restClient.get().uri("...").retrieve().body(InputStreamResource.class);
         webTestClient.get()
                 .uri("/api/todo/" + UUID.randomUUID() + "/stream")
-                .accept(MediaType.APPLICATION_OCTET_STREAM).exchange()
+                .accept(MediaType.APPLICATION_OCTET_STREAM)
+                .exchange()
                 .expectStatus()
                 .isOk()
                 .expectBody(InputStreamResource.class)
@@ -261,6 +277,28 @@ class TodoApplicationTests {
                     }
                 })
         ;
+
+        final TodoClient todoClient = createTodoClient();
+
+        try (InputStream inputStream = new ByteArrayInputStream("From Client: Hello World".getBytes(StandardCharsets.UTF_8))) {
+            final ResponseEntity<Void> responseEntity = todoClient.putStream(UUID.randomUUID(), new InputStreamResource(inputStream));
+
+            assertNotNull(responseEntity);
+            assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        }
+
+        // ByteArrayResource NOT InputStreamResource !!!
+        final ResponseEntity<org.springframework.core.io.Resource> responseEntity = todoClient.getStream(UUID.randomUUID());
+        assertNotNull(responseEntity);
+        assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+
+        final org.springframework.core.io.Resource resource = responseEntity.getBody();
+
+        try (InputStream inputStream = resource.getInputStream()) {
+            final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+            assertEquals("From Server: Hello World", message);
+            System.out.println(message);
+        }
     }
 
     @Test
@@ -434,6 +472,14 @@ class TodoApplicationTests {
                 .build();
     }
 
+    private TodoClient createTodoClient() {
+        final RestClient restClient = restClientBuilder.baseUrl("http://localhost:" + localServerPort).build();
+        final RestClientAdapter clientAdapter = RestClientAdapter.create(restClient);
+        final HttpServiceProxyFactory proxyFactory = HttpServiceProxyFactory.builderFor(clientAdapter).build();
+
+        return proxyFactory.createClient(TodoClient.class);
+    }
+
     private void testCreateTodo() {
         final Todo todo = new Todo();
         todo.setName("Test");
@@ -451,5 +497,14 @@ class TodoApplicationTests {
                     System.out.println(value);
                     assertNotNull(value);
                 });
+
+        final TodoClient todoClient = createTodoClient();
+
+        final Todo todoResponse = todoClient.createTodo(todo);
+        assertNotNull(todoResponse);
+        assertEquals(todo.getName(), todoResponse.getName());
+        assertEquals(todo.getStartTime(), todoResponse.getStartTime());
+        assertEquals(todo.getEndTime(), todoResponse.getEndTime());
+        assertEquals(todo.getTaskStatus(), todoResponse.getTaskStatus());
     }
 }
