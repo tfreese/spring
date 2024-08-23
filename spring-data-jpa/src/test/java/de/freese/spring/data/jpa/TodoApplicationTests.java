@@ -288,11 +288,15 @@ class TodoApplicationTests {
         }
 
         // ByteArrayResource NOT InputStreamResource !!!
+        // final InputStreamResource inputStreamResource = todoClient.getStream(UUID.randomUUID());
+        // assertNotNull(inputStreamResource);
+
         final ResponseEntity<org.springframework.core.io.Resource> responseEntity = todoClient.getStream(UUID.randomUUID());
         assertNotNull(responseEntity);
         assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
 
         final org.springframework.core.io.Resource resource = responseEntity.getBody();
+        // final org.springframework.core.io.Resource resource = inputStreamResource;
 
         try (InputStream inputStream = resource.getInputStream()) {
             final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -348,7 +352,6 @@ class TodoApplicationTests {
                 // Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
                 // BufferedReader bufferedReader = new BufferedReader(reader)
                 try (InputStream inputStream = response.getEntity().getContent()) {
-
                     // final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
                     final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
                     assertEquals("From Server: Hello World", message);
@@ -374,7 +377,7 @@ class TodoApplicationTests {
     }
 
     @Test
-    void testStreamsRestClient() throws IOException {
+    void testStreamsRestClient() {
         final RestClient restClient = restClientBuilder.baseUrl("http://localhost:" + localServerPort).build();
 
         final ResponseEntity<String> responseEntityString = restClient.post()

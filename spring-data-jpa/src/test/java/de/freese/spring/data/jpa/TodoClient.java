@@ -22,18 +22,18 @@ import de.freese.spring.data.jpa.domain.Todo;
 public interface TodoClient {
 
     @PostExchange(contentType = MediaType.APPLICATION_JSON_VALUE)
-    Todo createTodo(final @RequestBody Todo todo);
+    Todo createTodo(@RequestBody Todo todo);
 
     @GetExchange(accept = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     List<Todo> getAllTodos();
 
     @GetExchange(value = "/{id}/stream", accept = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    ResponseEntity<Resource> getStream(@PathVariable("id") final UUID id);
+    ResponseEntity<Resource> getStream(@PathVariable("id") UUID id);
     // InputStreamResource getStream(@PathVariable("id") final UUID id);
 
     @GetExchange("/{id}")
-    Todo getTodoById(final @PathVariable UUID id);
+    Todo getTodoById(@PathVariable UUID id);
 
     @PostExchange(value = "/{id}/stream", contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    ResponseEntity<Void> putStream(@PathVariable("id") final UUID id, @RequestBody final Resource resource);
+    ResponseEntity<Void> putStream(@PathVariable("id") UUID id, @RequestBody Resource resource);
 }
