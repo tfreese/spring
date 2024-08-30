@@ -17,8 +17,8 @@ dependencies {
     // runtimeOnly("org.apache.myfaces.core:myfaces-impl:4.0.2")
     // runtimeOnly("org.apache.tomcat.embed:tomcat-embed-jasper")
     // implementation("org.glassfish:jakarta.faces:4.0.7")
-    // implementation("org.primefaces:primefaces:$version_primefaces:jakarta")
-    // runtimeOnly("org.primefaces.extensions:primefaces-extensions:$version_primefaces:jakarta")
+    // implementation("org.primefaces:primefaces::jakarta")
+    // runtimeOnly("org.primefaces.extensions:primefaces-extensions::jakarta")
     // runtimeOnly("org.jboss.weld.servlet:weld-servlet-core:5.1.2.Final")
     // // runtimeOnly("org.jboss.weld.servlet:weld-servlet-shaded:5.1.2.Final")
 

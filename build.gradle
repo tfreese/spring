@@ -54,8 +54,8 @@ subprojects {
                 entry "jmh-generator-annprocess"
             }
 
-            // dependency("org.primefaces:primefaces:$version_primefaces:jakarta")
-            // dependency("org.primefaces.extensions:primefaces-extensions:$version_primefaces:jakarta")
+            // dependency("org.primefaces:primefaces:$version_primefaces")
+            // dependency("org.primefaces.extensions:primefaces-extensions:$version_primefaces")
             dependency("org.primefaces.themes:all-themes:$version_primefacesThemes")
             dependency("org.springdoc:springdoc-openapi-ui:$version_springDoc")
 
