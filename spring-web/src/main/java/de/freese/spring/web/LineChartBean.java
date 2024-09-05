@@ -10,7 +10,7 @@ import jakarta.faces.view.ViewScoped;
 
 import org.springframework.stereotype.Component;
 import software.xdev.chartjs.model.charts.LineChart;
-import software.xdev.chartjs.model.color.Color;
+import software.xdev.chartjs.model.color.RGBAColor;
 import software.xdev.chartjs.model.data.LineData;
 import software.xdev.chartjs.model.dataset.LineDataset;
 import software.xdev.chartjs.model.options.Legend;
@@ -78,9 +78,10 @@ public final class LineChartBean implements Serializable {
                         .addDataset(new LineDataset()
                                 .setLabel("My First Dataset")
                                 .setData(chartData.values())
-                                .setBorderColor(Color.random())
+                                .setBorderColor(new RGBAColor(RGBAColor.random(), 1D))
                                 .setLineTension(0.5F)
-                                .setFill(new Fill<>(false)))
+                                .setFill(new Fill<>(false))
+                        )
                         .setLabels(chartData.keySet().stream().map(Number::toString).toList()))
                 .setOptions(new LineOptions()
                         .setMaintainAspectRatio(false)
