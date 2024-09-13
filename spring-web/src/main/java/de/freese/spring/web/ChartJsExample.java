@@ -19,11 +19,11 @@ import software.xdev.chartjs.model.options.BarOptions;
  */
 public final class ChartJsExample {
     public static void main(final String[] args) {
-        final BarData data = new BarData();
-        data.addLabels("A", "B", "C");
-        data.addDataset(new BarDataset()
-                .setLabel("Dataset1")
-                .setData(1, 3, 2));
+        final BarData data = new BarData()
+                .addLabels("A", "B", "C")
+                .addDataset(new BarDataset()
+                        .setLabel("Dataset1")
+                        .setData(1, 3, 2));
 
         createAndOpenTestFile(new BarChart()
                 .setData(data)

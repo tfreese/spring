@@ -45,8 +45,6 @@ sourceSets {
     main {
         resources {
             srcDir(layout.projectDirectory.dir("src").dir("main").dir("webapp"))
-            // srcDirs += ["${projectDir}/src/main/webapp"]
-            // srcDir "src/main/webapp"
         }
     }
 }
