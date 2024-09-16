@@ -64,7 +64,7 @@ public class WebAppConfig implements WebMvcConfigurer {
         // final ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>(new FacesServlet(), "/faces");
         final ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>();
         servletRegistrationBean.setServlet(new FacesServlet());
-        servletRegistrationBean.setUrlMappings(Set.of("*.xhtml", "*.jsf", "*.html"));
+        servletRegistrationBean.setUrlMappings(Set.of("*.xhtml", "*.jsf"));
         servletRegistrationBean.setLoadOnStartup(1);
         servletRegistrationBean.setName("Faces Servlet");
 

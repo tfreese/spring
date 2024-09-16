@@ -36,6 +36,7 @@ public class OpenBrowserRunner implements CommandLineRunner {
         final int port = Optional.ofNullable(environment.getProperty("local.server.port", int.class)).orElse(environment.getProperty("server.port", int.class, 0));
         final String contextPath = Optional.ofNullable(environment.getProperty("server.servlet.context-path")).orElse("");
 
+        // final String url = "%s://%s:%d%s/static/index.html".formatted(sslEnabled ? "https" : "http", host, port, contextPath);
         final String url = "%s://%s:%d%s/demo.xhtml".formatted(sslEnabled ? "https" : "http", host, port, contextPath);
 
         final URI uri = URI.create(url);
