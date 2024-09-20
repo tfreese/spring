@@ -21,8 +21,7 @@ abstract class AbstractClientConfig {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     // @Bean
-    // ReactorResourceFactory reactorResourceFactory()
-    // {
+    // ReactorResourceFactory reactorResourceFactory() {
     // LOGGER.info("reactorResourceFactory");
     //
     // final ReactorResourceFactory factory = new ReactorResourceFactory();
@@ -75,8 +74,7 @@ abstract class AbstractClientConfig {
     // * Optional
     // */
     // @Bean
-    // RSocketStrategies rSocketStrategies()
-    // {
+    // RSocketStrategies rSocketStrategies() {
     //        return RSocketStrategies.builder()
     // //                .decoder(new Jackson2JsonDecoder())
     // //                .encoder(new Jackson2JsonEncoder())

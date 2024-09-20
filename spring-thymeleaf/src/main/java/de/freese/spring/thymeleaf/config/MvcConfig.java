@@ -52,6 +52,58 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
     private static final Logger LOGGER = LoggerFactory.getLogger(MvcConfig.class);
 
+    // @Bean
+    // Jackson2JsonEncoder jackson2JsonEncoder(ObjectMapper objectMapper){
+    //     return new Jackson2JsonEncoder(objectMapper);
+    // }
+    //
+    // @Bean
+    // Jackson2JsonDecoder jackson2JsonDecoder(ObjectMapper objectMapper){
+    //     return new Jackson2JsonDecoder(objectMapper);
+    // }
+    //
+    // @Bean
+    // WebFluxConfigurer webFluxConfigurer(Jackson2JsonEncoder encoder, Jackson2JsonDecoder decoder){
+    //     return new WebFluxConfigurer() {
+    //         @Override
+    //         public void configureHttpMessageCodecs(ServerCodecConfigurer configurer) {
+    //             configurer.defaultCodecs().jackson2JsonEncoder(encoder);
+    //             configurer.defaultCodecs().jackson2JsonDecoder(decoder);
+    //         }
+    //     };
+    // }
+
+    // Configured in application.yml
+    // /**
+    //  * <a href="https://www.baeldung.com/spring-boot-customize-jackson-objectmapper">spring-boot-customize-jackson-objectmapper</a>
+    //  */
+    // @Bean
+    // @Primary
+    // public ObjectMapper objectMapper() {
+    //     final JavaTimeModule javaTimeModule = new JavaTimeModule();
+    //     // module.addSerializer(LOCAL_DATETIME_SERIALIZER);
+    //
+    //     final ObjectMapper jsonMapper = new ObjectMapper()
+    //             .enable(SerializationFeature.INDENT_OUTPUT)
+    //             .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
+    //             .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+    //             .registerModule(javaTimeModule)
+    //             // .setVisibility(PropertyAccessor.FIELD, Visibility.NONE)
+    //             // .setVisibility(PropertyAccessor.SETTER, Visibility.PUBLIC_ONLY)
+    //             // .setVisibility(PropertyAccessor.GETTER, Visibility.PUBLIC_ONLY)
+    //             ;
+    //
+    //     jsonMapper.setLocale(Locale.GERMANY);
+    //
+    //     final TimeZone timeZone = TimeZone.getTimeZone("Europe/Berlin");
+    //     jsonMapper.setTimeZone(timeZone);
+    //
+    //     // SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    //     // df.setTimeZone(timeZone);
+    //     // jsonMapper.setDateFormat(df);
+    //     return jsonMapper;
+    // }
+
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
