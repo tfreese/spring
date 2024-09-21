@@ -55,6 +55,11 @@ public interface JdbcDialect {
     }
 
     /**
+     * //@see org.springframework.data.relational.core.dialect.Dialect
+     */
+    String getLimitClause(long limit, long offset);
+
+    /**
      * As Standalone-Query: select current value for SEQUENCE
      */
     default String getSelectSequenceCurrentValString(final String name) {
@@ -81,4 +86,6 @@ public interface JdbcDialect {
     default String getSequenceNextValString(final String name) {
         return "next value for %s".formatted(name);
     }
+
+    String getValidationQuery();
 }
