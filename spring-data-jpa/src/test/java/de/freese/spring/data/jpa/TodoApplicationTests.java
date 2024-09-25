@@ -460,11 +460,13 @@ class TodoApplicationTests {
 
         final HttpConnectionFactory<ManagedHttpClientConnection> connectionSocketFactory = new ManagedHttpClientConnectionFactory(http1Config, charCodingConfig, null);
 
-        // final SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(SSLContext.getDefault(), HttpsURLConnection.getDefaultHostnameVerifier());
+        //// final SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(SSLContext.getDefault(), HttpsURLConnection.getDefaultHostnameVerifier());
+        // TlsSocketStrategy tlsSocketStrategy = new DefaultClientTlsStrategy(SSLContext.getDefault(), HttpsURLConnection.getDefaultHostnameVerifier());
 
         final HttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
                 .setConnectionFactory(connectionSocketFactory)
                 // .setSSLSocketFactory(sslConnectionSocketFactory)
+                // .setTlsSocketStrategy(tlsSocketStrategy)
                 // .setMaxConnPerRoute(5)
                 // .setMaxConnTotal(20)
                 .build();
