@@ -7,9 +7,9 @@ debug: false
 
 info:
     app:
-        description: ${project.description}
-        name: ${project.artifactId}
-        version: ${project.version}
+        description: ${project_description}
+        name: ${project_artifactId}
+        version: ${project_version}
 
 logging:
     #  config: classpath:logback.xml

@@ -24,9 +24,21 @@ springBoot {
 ext.artifactId = project.name
 
 processResources {
-    filesMatching("application.properties") {
-        filteringCharset = "UTF-8"
+    // Workaround wegen ConfigCache.
+    def map = [
+            "project_artifactId": project.artifactId
+    ]
 
-        expand(project.properties)
+    filesMatching(["application*.yml", "application*.yaml", "application*.properties"]) {
+        filteringCharset = "UTF-8"
+        // expand(project.properties)
+        expand(map)
     }
+    // filesMatching(["application*.yml", "application*.yaml", "application*.properties"]) {
+    //     filter(ReplaceTokens,
+    //             tokens: ["project_artifactId": project.artifactId],
+    //             beginToken: "@",
+    //             endToken: "@"
+    //     )
+    // }
 }
