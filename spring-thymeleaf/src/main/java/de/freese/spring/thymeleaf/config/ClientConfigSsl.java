@@ -3,24 +3,17 @@ package de.freese.spring.thymeleaf.config;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.hc.client5.http.ConnectionKeepAliveStrategy;
 import org.apache.hc.client5.http.classic.HttpClient;
-import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
-import org.apache.hc.client5.http.impl.DefaultConnectionKeepAliveStrategy;
 import org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient;
 import org.apache.hc.client5.http.impl.async.HttpAsyncClientBuilder;
-import org.apache.hc.client5.http.impl.async.HttpAsyncClients;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.ManagedHttpClientConnectionFactory;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
-import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
-import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
 import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
-import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
-import org.apache.hc.core5.http.HttpResponse;
-import org.apache.hc.core5.http.config.Registry;
-import org.apache.hc.core5.http.config.RegistryBuilder;
-import org.apache.hc.core5.http.protocol.HttpContext;
+import org.apache.hc.client5.http.ssl.TlsSocketStrategy;
 import org.apache.hc.core5.util.TimeValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,24 +39,9 @@ public class ClientConfigSsl {
 
     @Bean
     public HttpClient httpClient(final PoolingHttpClientConnectionManager poolingConnectionManager) {
-        final ConnectionKeepAliveStrategy connectionKeepAliveStrategy = new DefaultConnectionKeepAliveStrategy() {
-            @Override
-            public TimeValue getKeepAliveDuration(final HttpResponse response, final HttpContext context) {
-                final TimeValue duration = super.getKeepAliveDuration(response, context);
-
-                return duration.getDuration() == -1L ? TimeValue.ofMilliseconds(20) : duration;
-            }
-        };
-
-        final RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
-                .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
-                .build();
-
         return HttpClients.custom()
-                .setDefaultRequestConfig(requestConfig)
                 .setConnectionManager(poolingConnectionManager)
-                .setKeepAliveStrategy(connectionKeepAliveStrategy)
+                .evictExpiredConnections()
                 .setUserAgent("My secured Java App")
                 .build()
                 ;
@@ -103,18 +81,12 @@ public class ClientConfigSsl {
 
     @Bean
     public PoolingHttpClientConnectionManager poolingConnectionManager(final SslBundles sslBundles) {
-        final Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
-                .register("http", new PlainConnectionSocketFactory())
-                .register("https", new SSLConnectionSocketFactory(sslBundles.getBundle("web-client").createSslContext(), new NoopHostnameVerifier()))
+        final TlsSocketStrategy tlsSocketStrategy = new DefaultClientTlsStrategy(sslBundles.getBundle("web-client").createSslContext(), new NoopHostnameVerifier());
+
+        return PoolingHttpClientConnectionManagerBuilder.create()
+                .setConnectionFactory(new ManagedHttpClientConnectionFactory())
+                .setTlsSocketStrategy(tlsSocketStrategy)
                 .build();
-
-        final ConnectionConfig connectionConfig = ConnectionConfig.custom().setConnectTimeout(3000, TimeUnit.MILLISECONDS).build();
-
-        final PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
-        poolingConnectionManager.setDefaultConnectionConfig(connectionConfig);
-        poolingConnectionManager.setMaxTotal(50);
-
-        return poolingConnectionManager;
     }
 
     @Bean
@@ -139,15 +111,13 @@ public class ClientConfigSsl {
         // HttpClient httpClient = HttpClient.create().secure(sslContextSpec -> sslContextSpec.sslContext(sslContext));
         // this.webClientBuilder.baseUrl(rootUri).clientConnector(new ReactorClientHttpConnector(httpClient))
 
-        final HttpAsyncClientBuilder clientBuilder = HttpAsyncClients.custom();
-
-        final RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
-                .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
+        final CloseableHttpAsyncClient client = HttpAsyncClientBuilder.create()
+                .setDefaultRequestConfig(RequestConfig.custom()
+                        .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
+                        .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
+                        .build()
+                )
                 .build();
-
-        clientBuilder.setDefaultRequestConfig(requestConfig);
-        final CloseableHttpAsyncClient client = clientBuilder.build();
         final ClientHttpConnector connector = new HttpComponentsClientHttpConnector(client);
 
         return webClientBuilder -> webClientBuilder
