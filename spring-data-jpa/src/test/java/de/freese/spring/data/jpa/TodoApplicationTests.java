@@ -407,60 +407,9 @@ class TodoApplicationTests {
         final String message = restClient.get()
                 .uri("/api/todo/" + UUID.randomUUID() + "/stream")
                 .accept(MediaType.APPLICATION_OCTET_STREAM)
-                .exchange((request, response) -> {
-                    return new String(response.getBody().readAllBytes(), StandardCharsets.UTF_8);
-                    // if (response.getStatusCode().equals(HttpStatus.OK)) {
-                    //     return deserialize(response.getBody());
-                    // }
-                    // else {
-                    //     throw new BusinessException();
-                    // }
-                });
+                .exchange((request, response) -> new String(response.getBody().readAllBytes(), StandardCharsets.UTF_8));
         assertNotNull(message);
         assertEquals("From Server: Hello World", message);
-
-        // final byte[] bytes = restClient.get()
-        //         .uri("/api/todo/" + UUID.randomUUID() + "/stream")
-        //         .accept(MediaType.APPLICATION_OCTET_STREAM)
-        //         .exchange((request, response) -> response.getBody()).readAllBytes();
-        // assertNotNull(bytes);
-        // assertEquals("From Server: Hello World", new String(bytes, StandardCharsets.UTF_8));
-
-        // java.io.IOException: closed
-        // final InputStream inputStream = restClient.get()
-        //         .uri("/api/todo/" + UUID.randomUUID() + "/stream")
-        //         .accept(MediaType.APPLICATION_OCTET_STREAM)
-        //         .exchange((request, response) -> response.getBody());
-        // assertNotNull(inputStream);
-        //
-        // try (inputStream) {
-        //     assertEquals("From Server: Hello World", new String(inputStream.readAllBytes(), StandardCharsets.UTF_8));
-        // }
-
-        // java.io.IOException: closed
-        // final InputStreamResource inputStreamResource = restClient.get()
-        //         .uri("/api/todo/" + UUID.randomUUID() + "/stream")
-        //         .accept(MediaType.APPLICATION_OCTET_STREAM)
-        //         .retrieve()
-        //         .body(InputStreamResource.class);
-        // assertNotNull(inputStreamResource);
-        //
-        // try (InputStream inputStream = inputStreamResource.getInputStream()) {
-        //     assertEquals("From Server: Hello World", new String(inputStream.readAllBytes(), StandardCharsets.UTF_8));
-        // }
-
-        // java.io.IOException: closed
-        // final ResponseEntity<InputStreamResource> responseEntityStream = restClient.get()
-        //         .uri("/api/todo/" + UUID.randomUUID() + "/stream")
-        //         .retrieve()
-        //         .toEntity(InputStreamResource.class);
-        //
-        // assertEquals(200, responseEntityStream.getStatusCode().value());
-        // assertNotNull(responseEntityStream.getBody());
-        //
-        // try (InputStream inputStream = responseEntityStream.getBody().getInputStream()) {
-        //     assertEquals("From Server: Hello World", new String(inputStream.readAllBytes(), StandardCharsets.UTF_8));
-        // }
     }
 
     private CloseableHttpClient createApacheHttp() {
