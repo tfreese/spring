@@ -93,7 +93,7 @@ final class Shutdown {
         return parseShutdownUri(properties);
     }
 
-    private static URI parseApplicationYaml() throws Exception {
+    private static URI parseApplicationYaml() {
         final Resource resource = new ClassPathResource("application.yml");
 
         Properties properties = null;

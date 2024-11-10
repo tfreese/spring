@@ -95,7 +95,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String> {
     }
 
     @Override
-    protected String run() throws Exception {
+    protected String run() {
         C_LOGGER.info("run");
 
         if (USE_PRIMARY.get()) {

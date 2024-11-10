@@ -38,7 +38,7 @@ public class ClientRunner implements ApplicationRunner {
     private WebClient.Builder webClientBuilderLoadBalanced;
 
     @Override
-    public void run(final ApplicationArguments args) throws Exception {
+    public void run(final ApplicationArguments args) {
         // Die Erzeugung im Konstruktor funktioniert nicht, da dort die WebClient.Builder noch nicht fertig konfiguriert sind.
         final WebClient webClient = webClientBuilder.build();
         final WebClient webClientLoadBalanced = webClientBuilderLoadBalanced.clone().baseUrl("http://CLOUD-HELLO-SERVICE").build();

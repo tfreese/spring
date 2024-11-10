@@ -1,6 +1,7 @@
 // Created: 01.03.2017
 package de.freese.spring.hystrix.sysdate;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.netflix.config.ConcurrentCompositeConfiguration;
@@ -41,7 +42,7 @@ public final class SysdateApplication {
         // Server3.main(new String[0]);
 
         final RestTemplate restTemplate = new RestTemplateBuilder().build();
-        final String[] urls = new String[]{"http://localhost:8081/service/sysdate/", "http://localhost:8082/service/sysdate/", "http://localhost:8083/service/sysdate/"};
+        final List<String> urls = List.of("http://localhost:8081/service/sysdate/", "http://localhost:8082/service/sysdate/", "http://localhost:8083/service/sysdate/");
         // System.out.println(restTemplate.getForObject("http://localhost:8081/service/sysdate/", String.class));
 
         while (true) {

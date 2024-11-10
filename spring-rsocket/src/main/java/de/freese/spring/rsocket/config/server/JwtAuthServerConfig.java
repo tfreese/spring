@@ -131,7 +131,7 @@ public class JwtAuthServerConfig extends AbstractServerConfig {
     }
 
     @Bean
-    ReactiveJwtDecoder reactiveJwtDecoder() throws Exception {
+    ReactiveJwtDecoder reactiveJwtDecoder() {
         // final Mac mac = Mac.getInstance("HmacSHA256");
         // final SecretKeySpec secretKey = new SecretKeySpec("my-secret".getBytes(), mac.getAlgorithm());
         //

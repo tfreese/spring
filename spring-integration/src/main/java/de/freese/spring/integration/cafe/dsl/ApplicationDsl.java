@@ -21,7 +21,9 @@ import de.freese.spring.integration.cafe.Order;
 import de.freese.spring.integration.cafe.OrderItem;
 
 /**
+ * <a href="
  * https://github.com/spring-projects/spring-integration-samples/blob/master/dsl/cafe-dsl/src/main/java/org/springframework/integration/samples/dsl/cafe/lambda/Application.java
+ * ">spring-integration-samples</a>
  *
  * @author Thomas Freese
  */

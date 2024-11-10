@@ -16,11 +16,15 @@ import com.nimbusds.jwt.EncryptedJWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.PlainJWT;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
 class TestToken {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestToken.class);
+
     @Test
     void createToken() throws Exception {
         // final Mac mac = Mac.getInstance("HmacSHA256");
@@ -44,7 +48,7 @@ class TestToken {
                 .build();
 
         final PlainJWT plainJWT = new PlainJWT(jwtClaims);
-        System.out.println(plainJWT.serialize());
+        LOGGER.info(plainJWT.serialize());
 
         // final JWSSigner jwsSigner = new MACSigner(secretKey);
         // final JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256);
@@ -56,7 +60,7 @@ class TestToken {
         final JWEHeader jweHeader = new JWEHeader(JWEAlgorithm.PBES2_HS512_A256KW, EncryptionMethod.A256CBC_HS512);
         final EncryptedJWT encryptedJWT = new EncryptedJWT(jweHeader, jwtClaims);
         encryptedJWT.encrypt(encrypter);
-        System.out.println(encryptedJWT.serialize());
+        LOGGER.info(encryptedJWT.serialize());
 
         assertTrue(true);
     }

@@ -79,7 +79,7 @@ public class MyLdapDao {
      */
     private static final class PersonCommonNameContextMapper implements ContextMapper<String> {
         @Override
-        public String mapFromContext(final Object ctx) throws NamingException {
+        public String mapFromContext(final Object ctx) {
             final DirContextAdapter context = (DirContextAdapter) ctx;
 
             // return context.getStringAttribute("entryDN");

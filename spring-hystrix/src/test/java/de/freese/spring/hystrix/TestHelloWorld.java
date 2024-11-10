@@ -9,6 +9,8 @@ import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rx.Observable;
 import rx.Observer;
 
@@ -20,6 +22,8 @@ import rx.Observer;
  * @author Thomas Freese
  */
 class TestHelloWorld {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestHelloWorld.class);
+
     private static HystrixRequestContext context;
 
     @AfterAll
@@ -116,17 +120,17 @@ class TestHelloWorld {
 
             @Override
             public void onError(final Throwable e) {
-                System.out.println("onError: " + e.getLocalizedMessage());
+                LOGGER.info("onError: {}", e.getLocalizedMessage());
             }
 
             @Override
             public void onNext(final String v) {
-                System.out.println("onNext: " + v);
+                LOGGER.info("onNext: {}", v);
             }
         });
 
         // non-blocking
-        oBob.subscribe(v -> System.out.println("onNext: " + v));
+        oBob.subscribe(v -> LOGGER.info("onNext: {}", v));
     }
 
     @Test

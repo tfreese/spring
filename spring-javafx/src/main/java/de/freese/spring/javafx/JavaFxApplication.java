@@ -43,7 +43,7 @@ public class JavaFxApplication extends Application {
     private ConfigurableApplicationContext applicationContext;
 
     @Override
-    public void init() throws Exception {
+    public void init() {
         final ApplicationContextInitializer<GenericApplicationContext> initializer = ac -> {
             ac.registerBean(Application.class, () -> JavaFxApplication.this);
             ac.registerBean(Parameters.class, this::getParameters);
@@ -60,12 +60,12 @@ public class JavaFxApplication extends Application {
     }
 
     @Override
-    public void start(final Stage primaryStage) throws Exception {
+    public void start(final Stage primaryStage) {
         this.applicationContext.publishEvent(new StageReadyEvent(primaryStage));
     }
 
     @Override
-    public void stop() throws Exception {
+    public void stop() {
         this.applicationContext.close();
         Platform.exit();
     }

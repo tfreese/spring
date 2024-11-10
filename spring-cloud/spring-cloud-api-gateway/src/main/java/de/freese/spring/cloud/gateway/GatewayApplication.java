@@ -39,7 +39,7 @@ public class GatewayApplication {
 
     @RequestMapping("/fallback")
     public Mono<String> fallback() {
-        return Mono.just("fallback").map(r -> r + "\n");
+        return Mono.just("fallback").map(r -> r + System.lineSeparator());
     }
 
     /**

@@ -24,7 +24,7 @@ public class ResilienceApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(final String... args) throws Exception {
+    public void run(final String... args) {
         final Runtime runtime = Runtime.getRuntime();
 
         final NumberFormat format = NumberFormat.getInstance();
@@ -44,6 +44,6 @@ public class ResilienceApplication implements CommandLineRunner {
         LOGGER.info("Allocated memory: {}", format.format(allocatedMemory / divider) + unit);
         LOGGER.info("Max memory: {}", format.format(maxMemory / divider) + unit);
         LOGGER.info("Total free memory: {}", format.format((freeMemory + (maxMemory - allocatedMemory)) / divider) + unit);
-        LOGGER.info("=================================================================\n");
+        LOGGER.info("=================================================================");
     }
 }

@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import jakarta.annotation.Resource;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -19,10 +21,12 @@ import org.springframework.test.web.servlet.MockMvc;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = MicroServiceApplication.class, properties = {})
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = MicroServiceApplication.class)
 @AutoConfigureMockMvc
 @ActiveProfiles({"test"})
 class TestRestController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestRestController.class);
+
     @Resource
     private MockMvc mockMvc;
 
@@ -38,7 +42,7 @@ class TestRestController {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(containsString("Hello from")))
-                .andDo(result -> System.out.println(result.getResponse().getContentAsString()))
+                .andDo(result -> LOGGER.info(result.getResponse().getContentAsString()))
         ;
     }
 

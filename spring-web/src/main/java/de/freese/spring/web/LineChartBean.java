@@ -51,12 +51,12 @@ public final class LineChartBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        // X-Achse
+        // x-Achse
         final LinearScaleOptions xScale = new LinearScaleOptions()
                 .setTitle(new AbstractCartesianScaleOptions.Title()
                         .setText("Data"));
 
-        // Y-Achse
+        // y-Achse
         final LinearScaleOptions yScale = new LinearScaleOptions()
                 .setBeginAtZero(true);
 

@@ -11,7 +11,7 @@ import org.springframework.hateoas.RepresentationModel;
 /**
  * @author Thomas Freese
  */
-@JsonIgnoreProperties(ignoreUnknown = false)
+@JsonIgnoreProperties
 public class GreetingRepresentationModel extends RepresentationModel<GreetingRepresentationModel> {
     // @JsonUnwrapped
     // private final GreetingPojo pojo;

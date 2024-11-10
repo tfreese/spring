@@ -19,7 +19,7 @@ import reactor.core.publisher.Hooks;
 public class RSocketServerApplication {
     public static void main(final String[] args) {
         // Fehlermeldung, wenn Client die Verbindung schliesst.
-        // Nur einmalig definieren, sonst gib es mehrere Logs-Meldungen !!!
+        // Nur einmalig definieren, sonst gib es mehrere Logs-Meldungen!
         // Hooks.onErrorDropped(th -> LOGGER.warn(th.getMessage()));
         Hooks.onErrorDropped(th -> {
             // Empty

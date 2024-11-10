@@ -111,7 +111,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
         // Parsen von HTTPS-Headern vor der Verarbeitung des Requests.
         registry.addInterceptor(new HandlerInterceptor() {
             @Override
-            public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
+            public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
                 // System.out.println("HandlerInterceptor: " + Thread.currentThread().getName());
 
                 LOGGER.info("Request: {}", LocalDateTime.now());

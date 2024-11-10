@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
@@ -43,8 +42,8 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
      */
     private static final class NoOpResponseErrorHandler extends DefaultResponseErrorHandler {
         @Override
-        public void handleError(final ClientHttpResponse response) throws IOException {
-            // Das Auslesen des Responses ist nur einmal möglich !
+        public void handleError(final ClientHttpResponse response) {
+            // Den Response auszulesen ist nur einmal möglich!
             // Das für bei den Tests zu Fehlern.
 
             // RestClientResponseException exception =

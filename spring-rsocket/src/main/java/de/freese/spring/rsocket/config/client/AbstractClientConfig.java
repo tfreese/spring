@@ -81,7 +81,7 @@ abstract class AbstractClientConfig {
     //                .decoder(new Jackson2CborDecoder())
     //                .encoder(new Jackson2CborEncoder())
     // //                .dataBufferFactory(new DefaultDataBufferFactory(true))
-    //                // .routeMatcher(new PathPatternRouteMatcher() // Nur für Client
+    //                // .routeMatcher(new PathPatternRouteMatcher()) // Nur für Client
     //                .build()
     //                ;
     // }

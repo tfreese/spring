@@ -26,7 +26,9 @@ import de.freese.spring.integration.cafe.xml.XmlBarista;
 import de.freese.spring.integration.cafe.xml.XmlWaiter;
 
 /**
+ * <a href="
  * https://github.com/spring-projects/spring-integration-samples/blob/master/dsl/cafe-dsl/src/main/java/org/springframework/integration/samples/dsl/cafe/lambda/Application.java
+ * ">spring-integration-samples</a>
  *
  * @author Thomas Freese
  */

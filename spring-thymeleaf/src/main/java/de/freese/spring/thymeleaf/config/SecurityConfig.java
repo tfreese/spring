@@ -130,7 +130,7 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .failureUrl("/login?error=1")
                         .loginProcessingUrl("/authenticate") // Führt den Login durch
-                        .defaultSuccessUrl("/web/person/personList") // Aufruf bei erfolgreichem Login)
+                        .defaultSuccessUrl("/web/person/personList") // Aufruf bei erfolgreichem Login
                 )
                 .logout(customizer -> customizer
                         .permitAll()
@@ -160,7 +160,7 @@ public class SecurityConfig {
 
     // @Bean
     // Mit @Bean funktionieren die REST-Services nicht mehr !
-    GenericFilterBean myTokenFilter(final AuthenticationManager authenticationManager) throws Exception {
+    GenericFilterBean myTokenFilter(final AuthenticationManager authenticationManager) {
         // final RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
         // filter.setPrincipalRequestHeader("my-token");
         // filter.setExceptionIfHeaderMissing(false); // Damit keine konkrete Fehlermeldung ausgegeben wird.
@@ -204,7 +204,7 @@ public class SecurityConfig {
      * .withUser("user").password("{noop}user1").roles("USER");<br>
      */
     @Bean
-    UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache) throws Exception {
+    UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder, final UserCache userCache) {
         final InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
         userDetailsManager.createUser(User.withUsername("admin").passwordEncoder(passwordEncoder::encode).password("pw").roles("ADMIN", "USER").build());
         userDetailsManager.createUser(User.withUsername("user").passwordEncoder(passwordEncoder::encode).password("pw").roles("USER").build());

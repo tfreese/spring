@@ -29,34 +29,34 @@ class TestLdapDao {
     private MyLdapDao ldapDao;
 
     @Test
-    void testContextLoads() throws Exception {
+    void testContextLoads() {
         assertTrue(true);
     }
 
     @Test
-    void testCreate() throws Exception {
+    void testCreate() {
         this.ldapDao.create("myid", "pass", "A", "B");
 
         final List<String> result = this.ldapDao.searchPeopleByUid("myid");
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals("A B", result.get(0));
+        assertEquals("A B", result.getFirst());
     }
 
     @Test
-    void testModify() throws Exception {
+    void testModify() {
         this.ldapDao.modify("myid", "pass", "X", "Y");
 
         final List<String> result = this.ldapDao.searchPeopleByUid("myid");
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals("X Y", result.get(0));
+        assertEquals("X Y", result.getFirst());
     }
 
     @Test
-    void testSearchGroup() throws Exception {
+    void testSearchGroup() {
         final List<String> result = this.ldapDao.searchGroup("user");
 
         assertNotNull(result);
@@ -66,11 +66,11 @@ class TestLdapDao {
     }
 
     @Test
-    void testSearchPeople() throws Exception {
+    void testSearchPeople() {
         final List<String> result = this.ldapDao.searchPeopleByUid("u*");
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals("Dianne Emu", result.get(0));
+        assertEquals("Dianne Emu", result.getFirst());
     }
 }

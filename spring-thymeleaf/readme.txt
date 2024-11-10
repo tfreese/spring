@@ -6,7 +6,7 @@
 # https://www.novatec-gmbh.de/en/blog/spring-boot-applications-tls-http2/
 
 Certificate for Root CA
-Before you start please create the following sub directories first:
+Before you start please create the following subdirectories first:
 
 root-ca  (You will store all artifacts required for setting up a certificate authority here)
 server (You will store all artifacts required for your signed server certificate here)
@@ -59,11 +59,11 @@ keytool -importcert -noprompt -keystore ./server/server.jks -storepass secret -a
 
 This imports the certificate for the root ca and updates the existing (unsigned) server certificate with the signed one.
 
-Finally we have a java key store containing the full chain of certificates ready to be used in our spring boot application.
+Finally, we have a java key store containing the full chain of certificates is ready to be used in our spring boot application.
 
 Import Root CA Certificate into web browser
 Let’s continue with enabling trust in your web browser for our private certificate authority.
-We will use the chrome browser here to demonstrate this. Just open the settings in chrome, expand the “Advanced” section and then go to “Manage certificates“.
+We will use the Chrome browser here to demonstrate this. Just open the settings in chrome, expand the “Advanced” section and then go to "Manage certificates".
 Here you import the root ca certificate from file ./root-ca/ca.pem into the browser as new authority.
 
 

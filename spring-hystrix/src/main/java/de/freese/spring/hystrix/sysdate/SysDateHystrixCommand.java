@@ -1,12 +1,13 @@
 // Created: 01.03.2017
 package de.freese.spring.hystrix.sysdate;
 
+import java.util.List;
+
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandKey;
 import com.netflix.hystrix.HystrixCommandProperties;
 import com.netflix.hystrix.HystrixThreadPoolKey;
-import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
@@ -24,7 +25,7 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
     private final int level;
 
     private RestTemplate restTemplate;
-    private String[] urls;
+    private List<String> urls;
 
     public SysDateHystrixCommand() {
         this(1);
@@ -49,29 +50,28 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
         this.restTemplate = restTemplate;
     }
 
-    public void setURLs(final String... urls) {
-        this.urls = urls;
+    public void setURLs(final List<String> urls) {
+        this.urls = List.copyOf(urls);
     }
 
     // /**
     // * Wird für Request Caching benötigt.
     // */
     // @Override
-    // protected String getCacheKey()
-    // {
+    // protected String getCacheKey() {
     // return String.valueOf(myRequestValue);
     // }
 
     @Override
     protected String getFallback() {
-        if (this.urls.length == 1) {
+        if (urls.size() == 1) {
             // Keine weiteren URLs mehr vorhanden.
             return null;
         }
 
         LOGGER.info("");
 
-        final String[] fallbackURLs = (String[]) ArrayUtils.remove(this.urls, 0);
+        final List<String> fallbackURLs = urls.subList(1, urls.size());
 
         final SysDateHystrixCommand cmd = new SysDateHystrixCommand(this.level + 1);
         cmd.setRestTemplate(this.restTemplate);
@@ -81,8 +81,8 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
     }
 
     @Override
-    protected String run() throws Exception {
-        final String result = this.restTemplate.getForObject(this.urls[0], String.class);
+    protected String run() {
+        final String result = this.restTemplate.getForObject(urls.getFirst(), String.class);
 
         LOGGER.info("level={}: {}", this.level, result);
 

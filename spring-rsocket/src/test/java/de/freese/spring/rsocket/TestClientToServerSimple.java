@@ -35,7 +35,7 @@ class TestClientToServerSimple implements TestClientToServer {
     public static void beforeAll(@Autowired final RSocketRequester.Builder builder, @Autowired final RSocketStrategies strategies,
                                  @Value("${spring.rsocket.server.address}") final String host, @LocalRSocketServerPort final int port) {
         // Fehlermeldung, wenn Client die Verbindung schliesst.
-        // Nur einmalig definieren, sonst gib es mehrere Logs-Meldungen !!!
+        // Nur einmalig definieren, sonst gib es mehrere Logs-Meldungen!
         // Hooks.onErrorDropped(th -> LOGGER.warn(th.getMessage()));
         Hooks.onErrorDropped(th -> {
             // Empty

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author Thomas Freese
  */
-@JsonIgnoreProperties(ignoreUnknown = false)
+@JsonIgnoreProperties
 // @JsonRootName("greeting")
 // @XmlRootElement
 // @Relation(value = "greeting", collectionRelation = "greetings")

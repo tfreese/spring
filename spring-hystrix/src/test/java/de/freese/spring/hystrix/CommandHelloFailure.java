@@ -25,7 +25,7 @@ public class CommandHelloFailure extends HystrixCommand<String> {
     }
 
     @Override
-    protected String run() throws Exception {
+    protected String run() {
         throw new RuntimeException("this command always fails");
     }
 }

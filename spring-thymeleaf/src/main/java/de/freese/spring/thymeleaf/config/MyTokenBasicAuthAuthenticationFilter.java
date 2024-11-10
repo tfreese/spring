@@ -166,11 +166,11 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
         return this.ignoreFailure;
     }
 
-    protected void onSuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final Authentication authResult) throws IOException {
+    protected void onSuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final Authentication authResult) {
         // Empty
     }
 
-    protected void onUnsuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException failed) throws IOException {
+    protected void onUnsuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException failed) {
         // Empty
     }
 }

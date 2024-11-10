@@ -206,7 +206,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
 
     @Override
     @Test
-    void testUserWithWrongPass() throws Exception {
+    void testUserWithWrongPass() {
         final IOException ioException = Assertions.assertThrows(IOException.class, () -> {
             try (HttpClient httpClient = createClientBuilder("user", "pass").build()) {
                 final HttpRequest request = HttpRequest.newBuilder()

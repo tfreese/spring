@@ -11,12 +11,12 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
  */
 public class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
     @Override
-    public String marshal(final LocalDateTime localDateTime) throws Exception {
+    public String marshal(final LocalDateTime localDateTime) {
         return localDateTime != null ? DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localDateTime) : null;
     }
 
     @Override
-    public LocalDateTime unmarshal(final String s) throws Exception {
+    public LocalDateTime unmarshal(final String s) {
         return s != null ? DateTimeFormatter.ISO_LOCAL_DATE_TIME.parse(s, LocalDateTime::from) : null;
     }
 }

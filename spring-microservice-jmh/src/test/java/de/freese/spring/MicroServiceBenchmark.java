@@ -30,8 +30,8 @@ import org.springframework.web.reactive.function.client.WebClient;
  */
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS) // Nur für Mode.AverageTime
-@Warmup(iterations = 3, time = 1, timeUnit = TimeUnit.SECONDS)
-@Measurement(iterations = 3, time = 2, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 3, time = 1)
+@Measurement(iterations = 3, time = 2)
 @Fork(value = 1, jvmArgsAppend = {
         // Fork multipliziert die Anzahl der Iterationen
         "-disablesystemassertions"})

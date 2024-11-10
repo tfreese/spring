@@ -47,6 +47,8 @@ import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -82,6 +84,7 @@ import de.freese.spring.data.jpa.infrastructure.MyHibernateRepository;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 class TodoApplicationTests {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TodoApplicationTests.class);
 
     @LocalServerPort
     private int localServerPort;
@@ -117,7 +120,7 @@ class TodoApplicationTests {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(String.class).value(value -> {
-                    System.out.println(value);
+                    LOGGER.info(value);
                     assertNotNull(value);
                 })
         ;
@@ -128,7 +131,7 @@ class TodoApplicationTests {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(Todo.class).value(list -> {
-                    System.out.println(list);
+                    LOGGER.info(list.toString());
                     assertNotNull(list);
                     assertFalse(list.isEmpty());
                 })
@@ -163,7 +166,7 @@ class TodoApplicationTests {
                 // .exchangeToFlux(response -> response.bodyToFlux(Todo.class))
                 // .blockOptional().ifPresent(System.out::println)
                 .doOnNext(value -> {
-                    System.out.println(value);
+                    LOGGER.info(String.valueOf(value));
                     assertNotNull(value);
                 }).blockLast();
     }
@@ -178,7 +181,7 @@ class TodoApplicationTests {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(String.class).value(value -> {
-                    System.out.println(value);
+                    LOGGER.info(value);
                     assertNotNull(value);
                 })
         ;
@@ -189,7 +192,7 @@ class TodoApplicationTests {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(Todo.class).value(list -> {
-                    System.out.println(list);
+                    LOGGER.info(list.toString());
                     assertNotNull(list);
                     // assertFalse(list.isEmpty());
                 })
@@ -213,7 +216,7 @@ class TodoApplicationTests {
 
             // final ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
             final String problemDetail = exception.getResponseBodyAs(String.class);
-            System.out.println(problemDetail);
+            LOGGER.info(problemDetail);
             assertNotNull(problemDetail);
             assertTrue(problemDetail.contains("Todo not found by ID:"));
         };
@@ -246,7 +249,7 @@ class TodoApplicationTests {
                 .expectStatus().isNotFound()
                 // .expectBody(ProblemDetail.class).value(System.out::println)
                 .expectBody(String.class).value(value -> {
-                    System.out.println(value);
+                    LOGGER.info(value);
                     assertNotNull(value);
                     assertTrue(value.contains("Todo not found by ID:"));
                 })
@@ -281,7 +284,7 @@ class TodoApplicationTests {
                         // final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
                         final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
                         assertEquals("From Server: Hello World", message);
-                        System.out.println(message);
+                        LOGGER.info(message);
                     }
                     catch (IOException ex) {
                         throw new UncheckedIOException(ex);
@@ -312,7 +315,7 @@ class TodoApplicationTests {
         try (InputStream inputStream = resource.getInputStream()) {
             final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             assertEquals("From Server: Hello World", message);
-            System.out.println(message);
+            LOGGER.info(message);
         }
     }
 
@@ -367,7 +370,7 @@ class TodoApplicationTests {
                     final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
                     assertEquals("From Server: Hello World", message);
 
-                    System.out.println(message);
+                    LOGGER.info(message);
                 }
 
                 return null;
@@ -484,7 +487,7 @@ class TodoApplicationTests {
                 .body(BodyInserters.fromValue(todo)).exchange()
                 .expectStatus().isCreated()
                 .expectBody(Todo.class).value(value -> {
-                    System.out.println(value);
+                    LOGGER.info(String.valueOf(value));
                     assertNotNull(value);
                 });
 

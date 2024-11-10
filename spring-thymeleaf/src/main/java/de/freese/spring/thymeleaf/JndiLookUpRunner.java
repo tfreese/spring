@@ -24,7 +24,7 @@ public class JndiLookUpRunner implements CommandLineRunner {
     public static final Logger LOGGER = LoggerFactory.getLogger(JndiLookUpRunner.class);
 
     @Override
-    public void run(final String... args) throws Exception {
+    public void run(final String... args) {
         LOGGER.info("JNDI Content");
 
         try {

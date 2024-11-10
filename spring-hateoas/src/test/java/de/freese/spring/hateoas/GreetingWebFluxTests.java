@@ -25,7 +25,7 @@ class GreetingWebFluxTests {
 
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
-    void testDefault() throws Exception {
+    void testDefault() {
         this.webTestClient.get()
                 .uri("/greeter")
                 .accept(MediaType.APPLICATION_JSON)
@@ -41,7 +41,7 @@ class GreetingWebFluxTests {
     }
 
     @Test
-    void testFail() throws Exception {
+    void testFail() {
         this.webTestClient.get()
                 .uri("/greeter/fail")
                 .accept(MediaType.APPLICATION_JSON)
@@ -52,7 +52,7 @@ class GreetingWebFluxTests {
 
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
-    void testPath() throws Exception {
+    void testPath() {
         this.webTestClient.get()
                 .uri("/greeter/path/Test")
                 .accept(MediaType.APPLICATION_JSON)
@@ -68,7 +68,7 @@ class GreetingWebFluxTests {
 
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
-    void testPojo() throws Exception {
+    void testPojo() {
         this.webTestClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/greeter/pojo")
@@ -87,7 +87,7 @@ class GreetingWebFluxTests {
     }
 
     @Test
-    void testSimple() throws Exception {
+    void testSimple() {
         final String response = this.webTestClient.get()
                 .uri("/greeter/simple")
                 .accept(MediaType.APPLICATION_JSON)

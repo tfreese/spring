@@ -30,7 +30,7 @@ public class FailingRestController {
     }
 
     /**
-     * http://localhost:8080/greet?name=tommy
+     * <a href="http://localhost:8080/greet?name=tommy">localhost</a>
      */
     @GetMapping("greet")
     Publisher<String> greet(@RequestParam final String name) {
@@ -40,7 +40,7 @@ public class FailingRestController {
     }
 
     /**
-     * http://localhost:8080/greetFail
+     * <a href="http://localhost:8080/greetFail">localhost</a>
      */
     @GetMapping("greetFail")
     Publisher<String> greetFail() {

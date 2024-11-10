@@ -34,7 +34,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 /**
  * @author Thomas Freese
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = MicroServiceApplication.class, properties = {})
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = MicroServiceApplication.class)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @AutoConfigureMockMvc
 @ActiveProfiles({"test"})
