@@ -6,13 +6,25 @@ plugins {
 
 description = "spring with javafx"
 
+// For JavaFx native-Library Downloads.
+configurations.matching { it.canBeResolved }.configureEach {
+    attributes {
+        attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
+        attribute(OperatingSystemFamily.OPERATING_SYSTEM_ATTRIBUTE, objects.named(OperatingSystemFamily, OperatingSystemFamily.LINUX))
+        attribute(MachineArchitecture.ARCHITECTURE_ATTRIBUTE, objects.named(MachineArchitecture, MachineArchitecture.X86_64))
+    }
+}
+
+javafx {
+    version = "$version_javafx"
+    modules = ["javafx.controls", "javafx.fxml"]
+    configuration = "implementation"
+    // platform = "linux" // linux, windows, mac
+    // sdk = "PATH"
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
-
-    javafx {
-        version = "$version_javafx"
-        modules = ["javafx.controls", "javafx.fxml"]
-    }
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
