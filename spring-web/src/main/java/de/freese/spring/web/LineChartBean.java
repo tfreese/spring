@@ -20,7 +20,7 @@ import software.xdev.chartjs.model.charts.LineChart;
 import software.xdev.chartjs.model.color.RGBAColor;
 import software.xdev.chartjs.model.data.LineData;
 import software.xdev.chartjs.model.dataset.LineDataset;
-import software.xdev.chartjs.model.options.Legend;
+import software.xdev.chartjs.model.options.LegendOptions;
 import software.xdev.chartjs.model.options.LineOptions;
 import software.xdev.chartjs.model.options.Plugins;
 import software.xdev.chartjs.model.options.Title;
@@ -54,7 +54,8 @@ public final class LineChartBean implements Serializable {
         // x-Achse
         final LinearScaleOptions xScale = new LinearScaleOptions()
                 .setTitle(new AbstractCartesianScaleOptions.Title()
-                        .setText("Data"));
+                        .setText("Data")
+                );
 
         // y-Achse
         final LinearScaleOptions yScale = new LinearScaleOptions()
@@ -81,14 +82,18 @@ public final class LineChartBean implements Serializable {
                         .setResponsive(true)
                         .setScales(new Scales()
                                 .addScale(Scales.ScaleAxis.X, xScale)
-                                .addScale(Scales.ScaleAxis.Y, yScale))
+                                .addScale(Scales.ScaleAxis.Y, yScale)
+                        )
                         .setPlugins(new Plugins()
                                 .setTitle(new Title()
                                         .setDisplay(true)
-                                        .setText("Chart Title"))
-                                .setLegend(new Legend()
+                                        .setText("Chart Title")
+                                )
+                                .setLegend(new LegendOptions()
                                         .setDisplay(true)
-                                        .setPosition(Legend.Position.RIGHT)))
+                                        .setPosition("right")
+                                )
+                        )
                 );
 
         final ObjectWriter objectWriter =
