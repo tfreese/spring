@@ -34,13 +34,14 @@ logging:
 
 management:
     endpoints:
-        enabled-by-default: true
+        access:
+            default: NONE
         web:
             exposure:
                 include: "*"
     endpoint:
         health:
-            enabled: true
+            access: READ_ONLY
             show-details: ALWAYS
 
 server:
@@ -56,6 +57,9 @@ spring:
             client:
                 enabled: true
                 url: \${ADMIN_SERVER:http://localhost:9000}
+    cloud:
+        compatibility-verifier:
+            enabled: false
 
 ---
 
@@ -67,7 +71,7 @@ spring:
     boot:
         admin:
             client:
-                enabled: false
+                access: READ_ONLY
     config:
         activate:
             on-profile: test

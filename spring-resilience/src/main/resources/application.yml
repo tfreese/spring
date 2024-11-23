@@ -9,17 +9,24 @@ info:
         name: ${project.artifactId}
         version: ${project.version}
 
+spring:
+    cloud:
+        compatibility-verifier:
+            enabled: false
+
 management:
     endpoints:
-        enabled-by-default: true
+        access:
+            default: NONE
         web:
             exposure:
                 include: "*"
     endpoint:
         health:
+            access: READ_ONLY
             show-details: ALWAYS
         prometheus:
-            enabled: true
+            access: READ_ONLY
     prometheus:
         metrics:
             export:

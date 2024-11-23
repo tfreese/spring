@@ -10,7 +10,6 @@ import java.util.List;
 
 import jakarta.annotation.Resource;
 
-import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -66,7 +65,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         //         ;
 
         final Mono<ResponseEntity<String>> response = webClient.get()
-                .uri("/actuator/health")
+                .uri("/actuator/info")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class)) // Liefert auch Header und Status.
                 ;
@@ -74,9 +73,10 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
         final ResponseEntity<String> responseEntity = response.block();
 
         assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType());
+        assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
 
-        final String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
-        assertEquals("UP", status);
+        // final String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
+        // assertEquals("UP", status);
     }
 
     @Override

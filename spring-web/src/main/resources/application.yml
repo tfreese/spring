@@ -45,7 +45,8 @@ management:
     #    server:
     #        port: 8089
     endpoints:
-        enabled-by-default: false
+        access:
+            default: NONE
         web:
             base-path: /actuator
             exposure:
@@ -53,14 +54,14 @@ management:
                 include: info, health, metrics, shutdown
     endpoint:
         health:
-            enabled: true
+            access: READ_ONLY
             show-details: always
         info:
-            enabled: true
+            access: READ_ONLY
         metrics:
-            enabled: true
+            access: READ_ONLY
         shutdown:
-            enabled: true
+            access: READ_ONLY
     info:
         defaults:
             enabled: true

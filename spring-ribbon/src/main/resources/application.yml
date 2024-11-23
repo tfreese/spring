@@ -12,6 +12,8 @@ spring:
     cloud:
         config:
             enabled: false
+        compatibility-verifier:
+            enabled: false
     main:
         allow-bean-definition-overriding: true
         banner-mode: "OFF"

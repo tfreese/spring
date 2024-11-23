@@ -91,15 +91,15 @@ server:
 
 # =================================================================================================
 # ACTUATOR PROPERTIES
-# view-source:http://localhost:8080/actuator/info
-# view-source:http://localhost:8080/actuator/health
-# view-source:http://localhost:8080/actuator/metrics
+# view-source:https://localhost:8443/actuator/info
+# view-source:https://localhost:8443/actuator/health
+# view-source:https://localhost:8443/actuator/metrics
 #
-#<form action="http://localhost:8088/shutdown" method="post" id="form_shutdown">
+#<form action="http://localhost:8443/shutdown" method="post" id="form_shutdown">
 #<form action="shutdown" method="post" id="form_shutdown">
 # <button type="submit">System shutdown</button>
 #</form>
-# curl -X POST HOST:PORT/shutdown
+# curl -X POST -insecure localhost:8443/shutdown
 #
 
 info:
@@ -110,7 +110,8 @@ info:
 
 management:
     endpoints:
-        enabled-by-default: false
+        access:
+            default: NONE
         web:
             base-path: /actuator
             exposure:
@@ -118,14 +119,14 @@ management:
                 include: info, health, metrics, shutdown
     endpoint:
         health:
-            enabled: true
+            access: READ_ONLY
             show-details: always
         info:
-            enabled: true
+            access: READ_ONLY
         metrics:
-            enabled: true
+            access: READ_ONLY
         shutdown:
-            enabled: true
+            access: UNRESTRICTED
     info:
         defaults:
             enabled: true

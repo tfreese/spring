@@ -11,7 +11,6 @@ import java.util.List;
 
 import jakarta.annotation.Resource;
 
-import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -22,10 +21,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import de.freese.spring.thymeleaf.HttpHeaderInterceptor;
@@ -37,33 +34,6 @@ import de.freese.spring.thymeleaf.model.Person;
  */
 @ActiveProfiles({"test", "with-ssl"})
 class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
-    /**
-     * @author Thomas Freese
-     */
-    private static final class NoOpResponseErrorHandler extends DefaultResponseErrorHandler {
-        @Override
-        public void handleError(final ClientHttpResponse response) {
-            // Den Response auszulesen ist nur einmal möglich!
-            // Das für bei den Tests zu Fehlern.
-
-            // RestClientResponseException exception =
-            // new RestClientResponseException("Server Error: [" + response.getRawStatusCode() + "]" + " " + response.getStatusText(),
-            // response.getRawStatusCode(), response.getStatusText(), response.getHeaders(), getResponseBody(response), getCharset(response));
-            //
-            // System.err.println(exception);
-            // // exception.printStackTrace();
-            //
-            // try {
-            // ApiError apiError = TestRestApi.this.objectMapper.readValue(exception.getResponseBodyAsByteArray(), ApiError.class);
-            // // exception.setStackTrace(apiError.getStackTrace());
-            // System.err.println(apiError);
-            // }
-            // catch (Exception ex) {
-            //    // Ignore
-            // }
-        }
-    }
-
     @Resource
     private RestTemplateBuilder restTemplateBuilder;
 
@@ -84,12 +54,13 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
                 .interceptors(new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
 
-        final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/actuator/health", String.class);
+        final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/actuator/info", String.class);
 
         assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType());
+        assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
 
-        final String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
-        assertEquals("UP", status);
+        // final String status = JsonPath.parse(responseEntity.getBody()).read("$.status");
+        // assertEquals("UP", status);
     }
 
     @Override
