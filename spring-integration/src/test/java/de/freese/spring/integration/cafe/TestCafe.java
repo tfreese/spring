@@ -1,7 +1,9 @@
 // Created: 14.04.2012
 package de.freese.spring.integration.cafe;
 
-import java.util.concurrent.TimeUnit;
+import static org.awaitility.Awaitility.await;
+
+import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.Banner;
@@ -22,8 +24,7 @@ import de.freese.spring.integration.cafe.dsl.ApplicationDsl;
  * @author Thomas Freese
  */
 class TestCafe {
-    // static void main(final String[] args) throws Exception
-    // {
+    // static void main(final String[] args) throws Exception {
     // TestCafe testCafe = new TestCafe();
     //
     // testCafe.testCafeDemoWithXmlSupport();
@@ -91,6 +92,6 @@ class TestCafe {
         }
 
         // Zeit für Arbeit des Spring-Frameworks.
-        TimeUnit.MILLISECONDS.sleep(5000);
+        await().pollDelay(Duration.ofMillis(5000L)).until(() -> true);
     }
 }

@@ -1,9 +1,10 @@
 // Created: 22.10.22
 package de.freese.spring.messaging.kafka;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 import jakarta.annotation.Resource;
 
@@ -35,9 +36,9 @@ class SpringKafkaApplicationTest {
     private String topic;
 
     @Test
-    void testSend() throws Exception {
+    void testSend() {
         for (int i = 0; i < 5; i++) {
-            TimeUnit.MILLISECONDS.sleep(500);
+            await().pollDelay(Duration.ofMillis(500L)).until(() -> true);
 
             sender.send(topic, "Hello-" + (i + 1));
         }

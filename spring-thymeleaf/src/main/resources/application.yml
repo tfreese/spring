@@ -116,11 +116,11 @@ management:
             base-path: /actuator
             exposure:
                 #include: "*"
-                include: info, health, metrics, shutdown
+                include: health, info, metrics, shutdown
     endpoint:
         health:
             access: READ_ONLY
-            show-details: always
+            show-details: ALWAYS
         info:
             access: READ_ONLY
         metrics:

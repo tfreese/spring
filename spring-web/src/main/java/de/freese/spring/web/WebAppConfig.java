@@ -1,6 +1,8 @@
 // Created: 25.10.22
 package de.freese.spring.web;
 
+import java.security.SecureRandom;
+import java.util.Random;
 import java.util.Set;
 
 import jakarta.faces.webapp.FacesServlet;
@@ -26,7 +28,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebAppConfig implements WebMvcConfigurer {
 
     // public class JsfInitializer implements ServletContextInitializer {
-    //
     //     @Override
     //     public void onStartup(ServletContext context) throws ServletException {
     //         EnhancedListener cdiInitializer = new EnhancedListener();
@@ -37,7 +38,7 @@ public class WebAppConfig implements WebMvcConfigurer {
     //     }
     // }
     // @Bean
-    // public ServletContextInitializer facesInitializer() {
+    // ServletContextInitializer facesInitializer() {
     //     return new JsfInitializer();
     // }
 
@@ -49,7 +50,7 @@ public class WebAppConfig implements WebMvcConfigurer {
     }
 
     // @Bean
-    // public ServletRegistrationBean<DefaultServlet> httpServletRegistration() {
+    // ServletRegistrationBean<DefaultServlet> httpServletRegistration() {
     //     final ServletRegistrationBean<DefaultServlet> servletRegistrationBean = new ServletRegistrationBean<>(new DefaultServlet(), "/");
     //     // servletRegistrationBean.setServlet(new DefaultServlet());
     //     servletRegistrationBean.setUrlMappings(Set.of("*.html"));
@@ -60,7 +61,7 @@ public class WebAppConfig implements WebMvcConfigurer {
     // }
 
     @Bean
-    public ServletRegistrationBean<FacesServlet> facesServletRegistration() {
+    ServletRegistrationBean<FacesServlet> facesServletRegistration() {
         // final ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>(new FacesServlet(), "/faces");
         final ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>();
         servletRegistrationBean.setServlet(new FacesServlet());
@@ -71,15 +72,20 @@ public class WebAppConfig implements WebMvcConfigurer {
         return servletRegistrationBean;
     }
 
+    @Bean
+    Random random() {
+        return new SecureRandom();
+    }
+
     /**
      * Not necessary with joinfaces.
      */
     // @Bean
-    // public ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener() {
+    // ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener() {
     //     return new ServletListenerRegistrationBean<>(new ConfigureListener());
     // }
     @Bean
-    public ServletWebServerFactory servletContainer() {
+    ServletWebServerFactory servletContainer() {
         return new TomcatServletWebServerFactory() {
             @Override
             protected TomcatWebServer getTomcatWebServer(final Tomcat tomcat) {
@@ -117,7 +123,7 @@ public class WebAppConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public ServletContextInitializer servletContextInitializer() {
+    ServletContextInitializer servletContextInitializer() {
         return servletContext -> {
             servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
 

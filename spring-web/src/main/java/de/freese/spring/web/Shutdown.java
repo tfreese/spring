@@ -1,8 +1,8 @@
 // Created: 11.08.2016
 package de.freese.spring.web;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.ProxySelector;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -27,11 +27,76 @@ import org.springframework.core.io.Resource;
 final class Shutdown {
     public static final Logger LOGGER = LoggerFactory.getLogger(Shutdown.class);
 
-    public static void main(final String[] args) throws Exception {
-        URI uri = parseApplicationProperties();
+    public static void main(final String[] args) {
+        try {
+            shutdown();
+        }
+        catch (InterruptedException ex) {
+            // Restore interrupted state.
+            Thread.currentThread().interrupt();
+        }
+        catch (Exception ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        }
+    }
+
+    private static URI createShutdownUri(final Properties properties) {
+        final boolean sslEnabled = Optional.ofNullable(properties.getProperty("server.ssl.enabled")).map(Boolean::parseBoolean).orElse(false);
+        final String host = Optional.ofNullable(properties.getProperty("server.address")).orElse("localhost");
+        final int port = Integer.parseInt(Optional.ofNullable(properties.getProperty("local.server.port")).orElse(properties.getProperty("server.port")));
+        final String contextPath = Optional.ofNullable(properties.getProperty("server.servlet.context-path")).orElse("");
+        final String endPointPath = Optional.ofNullable(properties.getProperty("management.endpoints.web.base-path")).orElse("");
+
+        final String url = "%s://%s:%d%s%s/shutdown".formatted(sslEnabled ? "https" : "http", host, port, contextPath, endPointPath);
+
+        return URI.create(url);
+    }
+
+    private static URI parseApplicationProperties() throws IOException {
+        final DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
+        final Resource resource = resourceLoader.getResource("classpath:application.properties");
+        // Resource resource = new FileSystemResource("application.properties");
+
+        final Properties properties = new Properties();
+
+        if (resource.isReadable()) {
+            try (InputStream inputStream = resource.getInputStream()) {
+                properties.load(inputStream);
+            }
+        }
+        else {
+            LOGGER.error("can not read: {}", resource.getFilename());
+            return null;
+        }
+
+        return createShutdownUri(properties);
+    }
+
+    private static URI parseApplicationYaml() {
+        final Resource resource = new ClassPathResource("application.yml");
+
+        Properties properties = null;
+
+        if (resource.isReadable()) {
+            System.setProperty("spring.profiles.active", "shutdown");
+
+            final YamlPropertiesFactoryBean yamlFactory = new YamlPropertiesFactoryBean();
+            yamlFactory.setResources(resource);
+            properties = Objects.requireNonNull(yamlFactory.getObject());
+        }
+        else {
+            LOGGER.error("can not read: {}", resource.getFilename());
+            return null;
+        }
+
+        return createShutdownUri(properties);
+    }
+
+    private static void shutdown() throws IOException, InterruptedException {
+        URI uri = parseApplicationYaml();
 
         if (uri == null) {
-            uri = parseApplicationYaml();
+            uri = parseApplicationProperties();
         }
 
         if (uri == null) {
@@ -43,9 +108,9 @@ final class Shutdown {
         String response = null;
 
         // curl -X POST localhost:8088/spring-web/actuator/shutdown
-        try (HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).followRedirects(HttpClient.Redirect.NEVER).proxy(ProxySelector.getDefault())
+        try (HttpClient httpClient = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_2)
                 .connectTimeout(Duration.ofSeconds(3))
-                //.executor(executorServiceHttpClient)
                 .build()) {
             final HttpRequest request = HttpRequest.newBuilder().uri(uri).POST(HttpRequest.BodyPublishers.noBody()).header("user-agent", "Java").build();
 
@@ -71,58 +136,6 @@ final class Shutdown {
         // connection.disconnect();
 
         LOGGER.info(response);
-    }
-
-    private static URI parseApplicationProperties() throws Exception {
-        final DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
-        final Resource resource = resourceLoader.getResource("classpath:application.properties");
-        // Resource resource = new FileSystemResource("application.properties");
-
-        final Properties properties = new Properties();
-
-        if (resource.isReadable()) {
-            try (InputStream inputStream = resource.getInputStream()) {
-                properties.load(inputStream);
-            }
-        }
-        else {
-            LOGGER.error("can not read: {}", resource.getFilename());
-            return null;
-        }
-
-        return parseShutdownUri(properties);
-    }
-
-    private static URI parseApplicationYaml() {
-        final Resource resource = new ClassPathResource("application.yml");
-
-        Properties properties = null;
-
-        if (resource.isReadable()) {
-            System.setProperty("spring.profiles.active", "shutdown");
-
-            final YamlPropertiesFactoryBean yamlFactory = new YamlPropertiesFactoryBean();
-            yamlFactory.setResources(resource);
-            properties = Objects.requireNonNull(yamlFactory.getObject());
-        }
-        else {
-            LOGGER.error("can not read: {}", resource.getFilename());
-            return null;
-        }
-
-        return parseShutdownUri(properties);
-    }
-
-    private static URI parseShutdownUri(final Properties properties) {
-        final boolean sslEnabled = Optional.ofNullable(properties.getProperty("server.ssl.enabled")).map(Boolean::parseBoolean).orElse(false);
-        final String host = Optional.ofNullable(properties.getProperty("server.address")).orElse("localhost");
-        final int port = Integer.parseInt(Optional.ofNullable(properties.getProperty("local.server.port")).orElse(properties.getProperty("server.port")));
-        final String contextPath = Optional.ofNullable(properties.getProperty("server.servlet.context-path")).orElse("");
-        final String endPointPath = Optional.ofNullable(properties.getProperty("management.endpoints.web.base-path")).orElse("");
-
-        final String url = "%s://%s:%d%s%s/shutdown".formatted(sslEnabled ? "https" : "http", host, port, contextPath, endPointPath);
-
-        return URI.create(url);
     }
 
     private Shutdown() {

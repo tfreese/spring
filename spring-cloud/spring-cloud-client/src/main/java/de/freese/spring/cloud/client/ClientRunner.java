@@ -2,6 +2,7 @@
 package de.freese.spring.cloud.client;
 
 import java.time.Duration;
+import java.util.Optional;
 
 import jakarta.annotation.Resource;
 
@@ -57,7 +58,7 @@ public class ClientRunner implements ApplicationRunner {
         }
     }
 
-    private String call(final WebClient webClient, final String uri) {
+    private Optional<String> call(final WebClient webClient, final String uri) {
         // return webClient
         //         .get()
         //         .uri(uri)
@@ -80,7 +81,7 @@ public class ClientRunner implements ApplicationRunner {
                     LOGGER.error(throwable.getMessage());
                     return Mono.just("fallback");
                 })
-                .block()
+                .blockOptional()
                 //.subscribe(response -> LOGGER.info("call: {}", response.strip()) )
                 ;
     }
@@ -99,20 +100,20 @@ public class ClientRunner implements ApplicationRunner {
                 .onErrorResume(throwable -> Mono.empty())
                 .block();
 
-        final String response = call(webClient, url);
+        final Optional<String> response = call(webClient, url);
 
-        LOGGER.info("runServiceDiscovery: {}", response.strip());
+        LOGGER.info("runServiceDiscovery: {}", response.map(String::strip).orElse(null));
     }
 
     private void runWebClientWithLoadBalancedFunction(final WebClient webClient) {
-        final String response = call(webClient, "/");
+        final Optional<String> response = call(webClient, "/");
 
-        LOGGER.info("runWebClientWithLoadBalancedFunction: {}", response.strip());
+        LOGGER.info("runWebClientWithLoadBalancedFunction: {}", response.map(String::strip).orElse(null));
     }
 
     private void runWebClientWithLoadBalancer(final WebClient webClient) {
-        final String response = call(webClient, "/");
+        final Optional<String> response = call(webClient, "/");
 
-        LOGGER.info("runWebClientWithLoadBalancer: {}", response.strip());
+        LOGGER.info("runWebClientWithLoadBalancer: {}", response.map(String::strip).orElse(null));
     }
 }

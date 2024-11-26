@@ -31,7 +31,7 @@ server:
 spring:
     output:
         ansi:
-            enabled: always
+            enabled: ALWAYS
 
 #<form action="http://localhost:8088/spring-web/actuator/shutdown" method="post" id="form_shutdown">
 #<form action="shutdown" method="post" id="form_shutdown">
@@ -51,17 +51,17 @@ management:
             base-path: /actuator
             exposure:
                 #include: "*"
-                include: info, health, metrics, shutdown
+                include: health, info, metrics, shutdown
     endpoint:
         health:
             access: READ_ONLY
-            show-details: always
+            show-details: ALWAYS
         info:
             access: READ_ONLY
         metrics:
             access: READ_ONLY
         shutdown:
-            access: READ_ONLY
+            access: UNRESTRICTED
     info:
         defaults:
             enabled: true

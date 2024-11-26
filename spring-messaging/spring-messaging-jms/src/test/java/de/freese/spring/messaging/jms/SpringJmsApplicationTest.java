@@ -1,9 +1,10 @@
 // Created: 22.10.22
 package de.freese.spring.messaging.jms;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 import jakarta.annotation.Resource;
 
@@ -36,21 +37,21 @@ class SpringJmsApplicationTest {
     //        embeddedActiveMQ.start();
     //    }
 
-    @Resource
-    private JmsReceiver receiver;
+    // @Resource
+    // private JmsReceiver receiver;
 
     @Resource
     private JmsSender sender;
 
     @Test
-    void testReceive() throws Exception {
+    void testReceive() {
         for (int i = 0; i < 5; i++) {
-            TimeUnit.MILLISECONDS.sleep(500);
+            await().pollDelay(Duration.ofMillis(500L)).until(() -> true);
 
             sender.send(new Email("info@example.com", "Hello-" + (i + 1)));
         }
 
-        TimeUnit.MILLISECONDS.sleep(500);
+        await().pollDelay(Duration.ofMillis(500L)).until(() -> true);
 
         assertTrue(true);
     }

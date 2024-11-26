@@ -38,8 +38,8 @@ allprojects {
 subprojects {
     apply plugin: "de.freese.gradle.java.conventions"
     apply plugin: "io.spring.dependency-management"
-    // apply plugin: "name.remal.sonarlint"
-    // apply plugin: "de.freese.gradle.sonarlint-conventions"
+    apply plugin: "name.remal.sonarlint"
+    apply plugin: "de.freese.gradle.sonarlint-conventions"
 
     dependencyManagement {
         imports {

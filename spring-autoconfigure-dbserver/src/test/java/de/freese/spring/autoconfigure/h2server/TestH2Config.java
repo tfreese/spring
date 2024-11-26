@@ -35,7 +35,7 @@ public class TestH2Config {
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Server serverH2(@Value("${h2.port}") final int port, @Value("${h2.path}") final String path) throws SQLException {
         // while (!server.isRunning(true)) {
-        // TimeUnit.MILLISECONDS.sleep(100);
+        //     // await().pollDelay(Duration.ofMillis(100)).until(() -> true);
         // }
 
         // , "-trace", "-tcpAllowOthers"
