@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication
 @EnableTransactionManagement
+@SuppressWarnings("java:S1135")
 public class TodoApplication {
     public static void main(final String[] args) {
         SpringApplication.run(TodoApplication.class, args);

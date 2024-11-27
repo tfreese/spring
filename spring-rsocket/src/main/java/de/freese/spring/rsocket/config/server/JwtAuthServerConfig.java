@@ -47,6 +47,7 @@ import reactor.core.publisher.Mono;
 @EnableRSocketSecurity
 @EnableReactiveMethodSecurity
 @Profile("jwt")
+@SuppressWarnings("java:S6437")
 public class JwtAuthServerConfig extends AbstractServerConfig {
     @Bean
     PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security, final ReactiveAuthenticationManager reactiveAuthenticationManager) {

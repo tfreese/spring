@@ -26,6 +26,7 @@ import org.springframework.security.messaging.handler.invocation.reactive.Authen
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("java:S6437")
 abstract class AbstractServerConfig {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -99,8 +100,7 @@ abstract class AbstractServerConfig {
     }
 
     // @Bean
-    // ReactorResourceFactory reactorResourceFactory()
-    // {
+    // ReactorResourceFactory reactorResourceFactory() {
     // LOGGER.info("reactorResourceFactory");
     //
     // final ReactorResourceFactory factory = new ReactorResourceFactory();
@@ -111,8 +111,7 @@ abstract class AbstractServerConfig {
     // }
 
     // @Bean
-    // RSocketStrategiesCustomizer rSocketStrategiesCustomizer()
-    // {
+    // RSocketStrategiesCustomizer rSocketStrategiesCustomizer() {
     //    return strategies ->
     //        //strategies.dataBufferFactory(null)
     //    ;
@@ -122,8 +121,7 @@ abstract class AbstractServerConfig {
     // * Optional
     // */
     // @Bean
-    // RSocketStrategies rSocketStrategies()
-    // {
+    // RSocketStrategies rSocketStrategies() {
     // LOGGER.info("rSocketStrategies");
     //
     //        return RSocketStrategies.builder()

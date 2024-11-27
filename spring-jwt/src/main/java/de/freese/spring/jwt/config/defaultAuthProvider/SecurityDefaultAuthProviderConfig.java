@@ -34,12 +34,12 @@ public class SecurityDefaultAuthProviderConfig {
     @Bean
     @Primary
     Filter jwtRequestFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint) {
-        final JwtRequestFilter jwtRequestFilter = new JwtRequestFilter(authenticationManager, authenticationEntryPoint);
+        return new JwtRequestFilter(authenticationManager, authenticationEntryPoint);
 
         // BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
         // entryPoint.setRealmName("Tommy");
         // jwtRequestFilter.setAuthenticationEntryPoint(entryPoint);
-
-        return jwtRequestFilter;
+        //
+        // return jwtRequestFilter;
     }
 }

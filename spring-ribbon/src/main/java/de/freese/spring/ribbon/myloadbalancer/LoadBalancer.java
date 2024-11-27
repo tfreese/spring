@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -184,8 +185,8 @@ public class LoadBalancer implements LoadBalancerPing {
      * @param server String[]; z.B. localhost:8080, localhost:8081
      */
     public LoadBalancer(final String... server) {
-        this(null, server);
-        // this(Executors.newSingleThreadScheduledExecutor(), server);
+        // this(null, server);
+        this(Executors.newSingleThreadScheduledExecutor(), server);
     }
 
     /**
@@ -376,7 +377,6 @@ public class LoadBalancer implements LoadBalancerPing {
         // this.scheduledExecutorService.scheduleWithFixedDelay(new Pinger(), 3000L, getPingDelay(), TimeUnit.MILLISECONDS);
         // }
         // else {
-
         if (this.timer != null) {
             this.timer.cancel();
         }

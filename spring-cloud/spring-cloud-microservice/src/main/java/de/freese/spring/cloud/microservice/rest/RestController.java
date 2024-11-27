@@ -22,17 +22,11 @@ public class RestController {
     @Value("${server.port}")
     private final int port = -1;
 
-    /**
-     * http://localhost:PORT
-     */
     @GetMapping("/")
     public String hello() throws UnknownHostException {
         return String.format("{ \"message\": \"Hello from %s:%d\" }", InetAddress.getLocalHost(), this.port);
     }
 
-    /**
-     * http://localhost:PORT/ping/
-     */
     @GetMapping("/ping")
     public String ping() throws UnknownHostException {
         return String.format("{ \"message\": \"Ping from %s:%d\" }", InetAddress.getLocalHost(), this.port);

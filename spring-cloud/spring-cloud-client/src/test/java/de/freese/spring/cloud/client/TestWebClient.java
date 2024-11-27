@@ -44,6 +44,28 @@ class TestWebClient {
         //        SERVER.start(InetAddress.getLoopbackAddress(), 11111);
     }
 
+    ExchangeFilterFunction logRequest() {
+        return (clientRequest, next) -> {
+            LOGGER.info("Request: {} {}", clientRequest.method(), clientRequest.url());
+            LOGGER.info("--- Http Headers: ---");
+            clientRequest.headers().forEach(this::logValues);
+
+            LOGGER.info("--- Http Cookies: ---");
+            clientRequest.cookies().forEach(this::logValues);
+
+            return next.exchange(clientRequest);
+        };
+    }
+
+    ExchangeFilterFunction logResponse() {
+        return ExchangeFilterFunction.ofResponseProcessor(clientResponse -> {
+            LOGGER.info("Response: {}", clientResponse.statusCode());
+            clientResponse.headers().asHttpHeaders().forEach(this::logValues);
+
+            return Mono.just(clientResponse);
+        });
+    }
+
     @Test
     void testRetryForAllEndpoints() {
         SERVER.enqueue(new MockResponse().setResponseCode(500).setBody("{failure}"));
@@ -107,28 +129,6 @@ class TestWebClient {
                 //.filter(logRequest())
                 //.filter(logResponse())
                 ;
-    }
-
-    private ExchangeFilterFunction logRequest() {
-        return (clientRequest, next) -> {
-            LOGGER.info("Request: {} {}", clientRequest.method(), clientRequest.url());
-            LOGGER.info("--- Http Headers: ---");
-            clientRequest.headers().forEach(this::logValues);
-
-            LOGGER.info("--- Http Cookies: ---");
-            clientRequest.cookies().forEach(this::logValues);
-
-            return next.exchange(clientRequest);
-        };
-    }
-
-    private ExchangeFilterFunction logResponse() {
-        return ExchangeFilterFunction.ofResponseProcessor(clientResponse -> {
-            LOGGER.info("Response: {}", clientResponse.statusCode());
-            clientResponse.headers().asHttpHeaders().forEach(this::logValues);
-
-            return Mono.just(clientResponse);
-        });
     }
 
     private void logValues(final String name, final List<String> values) {

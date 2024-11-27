@@ -26,6 +26,7 @@ import de.freese.spring.reactive.model.Employee;
  */
 @Repository
 @Profile("jdbc")
+@SuppressWarnings("java:S2259")
 public class EmployeeRepositoryJdbc implements EmployeeRepository {
     /**
      * @author Thomas Freese

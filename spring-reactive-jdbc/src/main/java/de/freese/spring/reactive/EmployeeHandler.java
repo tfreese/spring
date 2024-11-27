@@ -16,14 +16,14 @@ import de.freese.spring.reactive.model.Employee;
  * @author Thomas Freese
  */
 @Component
+@SuppressWarnings("java:S1172")
 public class EmployeeHandler {
     @Resource
     private EmployeeService service;
 
     // Die REST-Methode 'createNewEmployee' wird im {@link EmployeeRestController} behandelt.
     //
-    // public Mono<ServerResponse> createNewEmployee(final ServerRequest request)
-    // {
+    // public Mono<ServerResponse> createNewEmployee(final ServerRequest request) {
     // final Mono<Employee> employeeMono = request.bodyToMono(Employee.class);
     //
     // final Mono<Employee> employee = this.service.createNewEmployee(employeeMono);

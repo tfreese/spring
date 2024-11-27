@@ -76,8 +76,6 @@ public class HomeThymeleafController {
             req.login(user, pass);
         }
         catch (ServletException sex) {
-            LOGGER.error("Error while login ", sex);
-
             throw new RuntimeException(sex);
         }
     }

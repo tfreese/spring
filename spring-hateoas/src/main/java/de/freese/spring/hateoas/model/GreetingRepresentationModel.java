@@ -26,9 +26,27 @@ public class GreetingRepresentationModel extends RepresentationModel<GreetingRep
         setMessage(message);
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof final GreetingRepresentationModel that)) {
+            return false;
+        }
+        
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        return Objects.equals(message, that.message);
+    }
+
     // @JsonGetter("greeting")
     public String getMessage() {
         return this.message;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), message);
     }
 
     // @JsonSetter("greeting")

@@ -15,6 +15,7 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.scheduling.PollerMetadata;
 
+import de.freese.spring.integration.cafe.Cafe;
 import de.freese.spring.integration.cafe.Delivery;
 import de.freese.spring.integration.cafe.Drink;
 import de.freese.spring.integration.cafe.Order;
@@ -36,7 +37,7 @@ public class ApplicationDsl {
      * @author Thomas Freese
      */
     @MessagingGateway
-    public interface DslCafe extends de.freese.spring.integration.cafe.Cafe {
+    public interface CafeDsl extends Cafe {
         @Override
         @Gateway(requestChannel = "orders.input")
         void placeOrder(Order order);
@@ -95,7 +96,8 @@ public class ApplicationDsl {
                 ;
     }
 
-    @Bean(name = PollerMetadata.DEFAULT_POLLER)
+    @Bean(PollerMetadata.DEFAULT_POLLER)
+    @SuppressWarnings("java:S6830")
     public PollerMetadata poller() {
         return Pollers.fixedDelay(500L).maxMessagesPerPoll(1L).getObject();
     }

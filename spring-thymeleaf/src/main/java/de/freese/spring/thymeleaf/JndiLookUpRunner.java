@@ -8,7 +8,8 @@ import javax.naming.NamingEnumeration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.jndi.JndiObjectFactoryBean;
@@ -20,11 +21,11 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("!test")
 @Order(10)
-public class JndiLookUpRunner implements CommandLineRunner {
+public class JndiLookUpRunner implements ApplicationRunner {
     public static final Logger LOGGER = LoggerFactory.getLogger(JndiLookUpRunner.class);
 
     @Override
-    public void run(final String... args) {
+    public void run(final ApplicationArguments args) throws Exception {
         LOGGER.info("JNDI Content");
 
         try {

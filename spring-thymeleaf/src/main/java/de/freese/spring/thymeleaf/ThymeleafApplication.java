@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.env.Environment;
+import org.springframework.core.env.PropertyResolver;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.Assert;
@@ -48,10 +48,12 @@ public class ThymeleafApplication extends SpringBootServletInitializer {
         return servletRequest;
     }
 
-    public static String getRootUri(final Environment environment) {
-        final int port = Optional.ofNullable(environment.getProperty("local.server.port", Integer.class)).orElse(environment.getProperty("server.port", Integer.class));
-        final Optional<String> contextPath = Optional.ofNullable(environment.getProperty("server.servlet.context-path", String.class));
-        final Optional<Boolean> sslEnabled = Optional.ofNullable(environment.getProperty("server.ssl.enabled", Boolean.class));
+    public static String getRootUri(final PropertyResolver propertyResolver) {
+        final int port = Optional.ofNullable(propertyResolver.getProperty("local.server.port", Integer.class))
+                .or(() -> Optional.ofNullable(propertyResolver.getProperty("server.port", Integer.class)))
+                .orElse(0);
+        final Optional<String> contextPath = Optional.ofNullable(propertyResolver.getProperty("server.servlet.context-path", String.class));
+        final Optional<Boolean> sslEnabled = Optional.ofNullable(propertyResolver.getProperty("server.ssl.enabled", Boolean.class));
 
         final String protocol = sslEnabled.orElse(false) ? "https" : "http";
 

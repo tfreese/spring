@@ -17,6 +17,7 @@ import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.scheduling.PollerMetadata;
 import org.springframework.messaging.MessageChannel;
 
+import de.freese.spring.integration.cafe.Cafe;
 import de.freese.spring.integration.cafe.Delivery;
 import de.freese.spring.integration.cafe.DeliveryLogger;
 import de.freese.spring.integration.cafe.Drink;
@@ -39,7 +40,7 @@ public class ApplicationConfig {
      * @author Thomas Freese
      */
     @MessagingGateway
-    public interface Cafe extends de.freese.spring.integration.cafe.Cafe {
+    public interface CafeConfig extends Cafe {
         @Override
         @Gateway(requestChannel = "channelOrders")
         void placeOrder(Order order);
@@ -80,7 +81,8 @@ public class ApplicationConfig {
         return new DeliveryLogger();
     }
 
-    @Bean(name = PollerMetadata.DEFAULT_POLLER)
+    @Bean(PollerMetadata.DEFAULT_POLLER)
+    @SuppressWarnings("java:S6830")
     public PollerMetadata poller() {
         return Pollers.fixedDelay(500L).maxMessagesPerPoll(1L).getObject();
     }

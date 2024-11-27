@@ -54,6 +54,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
+@SuppressWarnings("java:S6437")
 public class SecurityConfig {
     private final RsaKeyProperties rsaKeyProperties;
 
@@ -137,7 +138,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable)
+                //.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
@@ -154,6 +155,7 @@ public class SecurityConfig {
      */
     @Order(Ordered.HIGHEST_PRECEDENCE)
     @Bean
+    @SuppressWarnings("java:S4502")
     SecurityFilterChain securityFilterChainToken(final HttpSecurity http) throws Exception {
         return http
                 .securityMatcher(new AntPathRequestMatcher("/token"))

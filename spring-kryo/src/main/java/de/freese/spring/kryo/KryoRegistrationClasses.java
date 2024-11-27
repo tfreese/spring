@@ -1,6 +1,5 @@
 package de.freese.spring.kryo;
 
-import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,7 +12,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.serializers.DefaultSerializers;
 
-@SuppressWarnings("ALL")
+// @SuppressWarnings("ALL")
 public final class KryoRegistrationClasses {
     private static final class KryoRegistrationClassesHolder {
         private static final KryoRegistrationClasses INSTANCE = new KryoRegistrationClasses();
@@ -27,68 +26,11 @@ public final class KryoRegistrationClasses {
         return KryoRegistrationClassesHolder.INSTANCE;
     }
 
-    private final Map<Class<?>, Serializer<?>> serializers = new HashMap<>();
-
-    private Set<Class<?>> registrationClasses;
-
-    private KryoRegistrationClasses() {
-        super();
-
-        serializers.put(java.sql.Timestamp.class, new TimestampSerializer());
-        serializers.put(java.util.UUID.class, new DefaultSerializers.UUIDSerializer());
-
-        // de.javakaffee Serializer's does not work anymore.
-        // serializers.put(java.util.EnumMap.class, new de.javakaffee.kryoserializers.EnumMapSerializer());
-        // serializers.put(Date.class, new de.javakaffee.kryoserializers.DateSerializer(Date.class));
-        // serializers.put(GregorianCalendar.class, new de.javakaffee.kryoserializers.GregorianCalendarSerializer());
-    }
-
-    /**
-     * Without Class-Registration only add the defined Serializer.
-     */
-    public synchronized void registerClasses(final Kryo kryo, final boolean registerClasses) throws ClassNotFoundException, IOException {
-        if (!registerClasses) {
-            serializers.forEach(kryo::addDefaultSerializer);
-
-            return;
-        }
-
-        if (registrationClasses == null) {
-            Set<Class<?>> clazzes = HashSet.newHashSet(512);
-            // clazzes.addAll(ReflectionUtils.getClasses("…"));
-
-            /// spring-context
-            // ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
-            // provider.addIncludeFilter(new RegexPatternTypeFilter(Pattern.compile(".*")));
-            // provider.findCandidateComponents("de.freese").forEach(beanDef -> System.out.println(beanDef.getBeanClassName()));
-
-            clazzes.addAll(getAppClasses());
-            clazzes.addAll(getRuntimeClasses());
-
-            // Array-Varianten der Klassen auch registrieren.
-            clazzes = extendWithArrayVariants(clazzes);
-
-            // Sortierung ist zwingend notwendig, da für jede Klasse die Registration-ID im Client und Server identisch sein muss.
-            registrationClasses = clazzes.stream().sorted(Comparator.comparing(Class::getName)).collect(Collectors.toCollection(LinkedHashSet::new));
-        }
-
-        registrationClasses.forEach(clazz -> {
-            final Serializer<?> serializer = serializers.get(clazz);
-
-            if (serializer == null) {
-                kryo.register(clazz, kryo.getNextRegistrationId());
-            }
-            else {
-                kryo.register(clazz, serializer, kryo.getNextRegistrationId());
-            }
-        });
-    }
-
     /**
      * For every Class add the Array-Variant.<br>
      * Integer -> Integer[]
      */
-    private Set<Class<?>> extendWithArrayVariants(final Set<Class<?>> clazzes) {
+    private static Set<Class<?>> extendWithArrayVariants(final Set<Class<?>> clazzes) {
         final Set<Class<?>> set = HashSet.newHashSet(clazzes.size() * 2);
 
         for (Class<?> clazz : clazzes) {
@@ -106,7 +48,7 @@ public final class KryoRegistrationClasses {
      * All other Classes of the Application.<br>
      * Alphabetc by Classname !
      */
-    private Set<Class<?>> getAppClasses() {
+    private static Set<Class<?>> getAppClasses() {
         return Set.of();
     }
 
@@ -114,7 +56,7 @@ public final class KryoRegistrationClasses {
      * All other Classes of the Runtime.<br>
      * Alphabetc by Classname !
      */
-    private Set<Class<?>> getRuntimeClasses() {
+    private static Set<Class<?>> getRuntimeClasses() {
         return Set.of(
                 java.util.ArrayList.class,
                 java.util.Arrays.asList().getClass(), // java.util.Arrays.ArrayList
@@ -176,5 +118,61 @@ public final class KryoRegistrationClasses {
                 // org.apache.commons.lang3.tuple.Triple.class
                 java.util.UUID.class
         );
+    }
+
+    private final Map<Class<?>, Serializer<?>> serializers = new HashMap<>();
+    private Set<Class<?>> registrationClasses;
+
+    private KryoRegistrationClasses() {
+        super();
+
+        serializers.put(java.sql.Timestamp.class, new TimestampSerializer());
+        serializers.put(java.util.UUID.class, new DefaultSerializers.UUIDSerializer());
+
+        // de.javakaffee Serializer's does not work anymore.
+        // serializers.put(java.util.EnumMap.class, new de.javakaffee.kryoserializers.EnumMapSerializer());
+        // serializers.put(Date.class, new de.javakaffee.kryoserializers.DateSerializer(Date.class));
+        // serializers.put(GregorianCalendar.class, new de.javakaffee.kryoserializers.GregorianCalendarSerializer());
+    }
+
+    /**
+     * Without Class-Registration only add the defined Serializer.
+     */
+    public synchronized void registerClasses(final Kryo kryo, final boolean registerClasses) {
+        if (!registerClasses) {
+            serializers.forEach(kryo::addDefaultSerializer);
+
+            return;
+        }
+
+        if (registrationClasses == null) {
+            Set<Class<?>> clazzes = HashSet.newHashSet(512);
+            // clazzes.addAll(ReflectionUtils.getClasses("…"));
+
+            /// spring-context
+            // ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+            // provider.addIncludeFilter(new RegexPatternTypeFilter(Pattern.compile(".*")));
+            // provider.findCandidateComponents("de.freese").forEach(beanDef -> System.out.println(beanDef.getBeanClassName()));
+
+            clazzes.addAll(getAppClasses());
+            clazzes.addAll(getRuntimeClasses());
+
+            // Array-Varianten der Klassen auch registrieren.
+            clazzes = extendWithArrayVariants(clazzes);
+
+            // Sortierung ist zwingend notwendig, da für jede Klasse die Registration-ID im Client und Server identisch sein muss.
+            registrationClasses = clazzes.stream().sorted(Comparator.comparing(Class::getName)).collect(Collectors.toCollection(LinkedHashSet::new));
+        }
+
+        registrationClasses.forEach(clazz -> {
+            final Serializer<?> serializer = serializers.get(clazz);
+
+            if (serializer == null) {
+                kryo.register(clazz, kryo.getNextRegistrationId());
+            }
+            else {
+                kryo.register(clazz, serializer, kryo.getNextRegistrationId());
+            }
+        });
     }
 }

@@ -85,7 +85,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         problemDetail.setTitle(ex.getMessage());
         problemDetail.setDetail(getDetail(ex).toString());
         problemDetail.setStatus(httpStatus);
-        // problemDetail.setType(URI.create(webRequest.getContextPath()));
+        // problemDetail.setType(URI.create(request.getContextPath()));
 
         return new ResponseEntity<>(problemDetail, httpStatus);
     }

@@ -12,6 +12,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserCache;
@@ -37,6 +38,7 @@ import org.springframework.web.filter.GenericFilterBean;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
+@SuppressWarnings("java:S6437")
 public class SecurityConfig {
     @Bean
     AuthenticationEntryPoint authenticationEntryPoint() {
@@ -140,10 +142,11 @@ public class SecurityConfig {
                         // .logoutUrl("/logout")
                         .logoutSuccessUrl("/index?logout")
                 )
-                .csrf(customizer -> customizer
-                        // .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .disable()
-                )
+                // .csrf(customizer -> customizer
+                //         // .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                //         .disable()
+                // )
+                .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(Customizer.withDefaults())
                 // .sessionManagement(customizer -> customizer
                 //         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // REST-Services brauchen keine Session.

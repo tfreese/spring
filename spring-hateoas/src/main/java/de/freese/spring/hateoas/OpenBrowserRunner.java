@@ -9,10 +9,11 @@ import jakarta.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
+import org.springframework.core.env.PropertyResolver;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,13 +22,15 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("!test")
 @Order(1)
-public class OpenBrowserRunner implements CommandLineRunner {
+public class OpenBrowserRunner implements ApplicationRunner {
     public static final Logger LOGGER = LoggerFactory.getLogger(OpenBrowserRunner.class);
 
-    public static String getRootUri(final Environment environment) {
-        final int port = Optional.ofNullable(environment.getProperty("local.server.port", Integer.class)).orElse(environment.getProperty("server.port", Integer.class));
-        final Optional<String> contextPath = Optional.ofNullable(environment.getProperty("server.servlet.context-path", String.class));
-        final Optional<Boolean> sslEnabled = Optional.ofNullable(environment.getProperty("server.ssl.enabled", Boolean.class));
+    public static String getRootUri(final PropertyResolver propertyResolver) {
+        final int port = Optional.ofNullable(propertyResolver.getProperty("local.server.port", Integer.class))
+                .or(() -> Optional.ofNullable(propertyResolver.getProperty("server.port", Integer.class)))
+                .orElse(0);
+        final Optional<String> contextPath = Optional.ofNullable(propertyResolver.getProperty("server.servlet.context-path", String.class));
+        final Optional<Boolean> sslEnabled = Optional.ofNullable(propertyResolver.getProperty("server.ssl.enabled", Boolean.class));
 
         final String protocol = sslEnabled.orElse(false) ? "https" : "http";
 
@@ -37,14 +40,39 @@ public class OpenBrowserRunner implements CommandLineRunner {
         return rootUri;
     }
 
+    /**
+     * google-chrome-stable --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media %U
+     */
+    private static void openLinuxChrome(final String url) throws Exception {
+        Runtime.getRuntime().exec(new String[]{"google-chrome-stable", url});
+    }
+
+    /**
+     * chromium %U --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media
+     */
+    private static void openLinuxChromium(final String url) throws Exception {
+        Runtime.getRuntime().exec(new String[]{"chromium", url});
+    }
+
+    private static void openLinuxFirefox(final String url) throws Exception {
+        Runtime.getRuntime().exec(new String[]{"firefox", "-new-tab", url});
+    }
+
+    /**
+     * Firefox: view-source:URI
+     */
+    private static void openWindowsFirefox(final String url) throws Exception {
+        Runtime.getRuntime().exec(new String[]{"C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", url});
+    }
+
     @Resource
-    private Environment environment;
+    private PropertyResolver propertyResolver;
 
     @Override
-    public void run(final String... args) throws Exception {
+    public void run(final ApplicationArguments args) throws Exception {
         LOGGER.info("");
 
-        final String rootUri = getRootUri(this.environment);
+        final String rootUri = getRootUri(propertyResolver);
         final URI uri = URI.create(rootUri);
 
         try {
@@ -70,30 +98,5 @@ public class OpenBrowserRunner implements CommandLineRunner {
                 }
             }
         }
-    }
-
-    /**
-     * google-chrome-stable --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media %U
-     */
-    private void openLinuxChrome(final String url) throws Exception {
-        Runtime.getRuntime().exec(new String[]{"google-chrome-stable", url});
-    }
-
-    /**
-     * chromium %U --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media
-     */
-    private void openLinuxChromium(final String url) throws Exception {
-        Runtime.getRuntime().exec(new String[]{"chromium", url});
-    }
-
-    private void openLinuxFirefox(final String url) throws Exception {
-        Runtime.getRuntime().exec(new String[]{"firefox", "-new-tab", url});
-    }
-
-    /**
-     * Firefox: view-source:URI
-     */
-    private void openWindowsFirefox(final String url) throws Exception {
-        Runtime.getRuntime().exec(new String[]{"C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", url});
     }
 }

@@ -1,6 +1,5 @@
 package de.freese.spring.kryo;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.esotericsoftware.kryo.Kryo;
@@ -42,12 +41,7 @@ public class KryoApplication implements WebMvcConfigurer {
             kryo.setRegistrationRequired(registerClasses);
             kryo.setWarnUnregisteredClasses(registerClasses);
 
-            try {
-                KryoRegistrationClasses.getInstance().registerClasses(kryo, registerClasses);
-            }
-            catch (ClassNotFoundException | IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            KryoRegistrationClasses.getInstance().registerClasses(kryo, registerClasses);
 
             // UnmodifiableCollectionsSerializer.registerSerializers(kryo);
             // SynchronizedCollectionsSerializer.registerSerializers(kryo);

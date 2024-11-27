@@ -83,6 +83,7 @@ import de.freese.spring.data.jpa.infrastructure.MyHibernateRepository;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@SuppressWarnings("java:S1135")
 class TodoApplicationTests {
     private static final Logger LOGGER = LoggerFactory.getLogger(TodoApplicationTests.class);
 

@@ -38,6 +38,21 @@ public class MyLdapDao {
      *
      * @author Thomas Freese
      */
+    static final class PersonCommonNameContextMapper implements ContextMapper<String> {
+        @Override
+        public String mapFromContext(final Object ctx) {
+            final DirContextAdapter context = (DirContextAdapter) ctx;
+
+            // return context.getStringAttribute("entryDN");
+            return context.getStringAttribute("cn");
+        }
+    }
+
+    /**
+     * cn
+     *
+     * @author Thomas Freese
+     */
     private static final class GroupMemberDirContextMapper extends AbstractContextMapper<String[]> {
         @Override
         protected String[] doMapFromContext(final DirContextOperations ctx) {
@@ -72,22 +87,7 @@ public class MyLdapDao {
         }
     }
 
-    /**
-     * cn
-     *
-     * @author Thomas Freese
-     */
-    private static final class PersonCommonNameContextMapper implements ContextMapper<String> {
-        @Override
-        public String mapFromContext(final Object ctx) {
-            final DirContextAdapter context = (DirContextAdapter) ctx;
-
-            // return context.getStringAttribute("entryDN");
-            return context.getStringAttribute("cn");
-        }
-    }
-
-    private static Logger getLogger() {
+    static Logger getLogger() {
         return LOGGER;
     }
 

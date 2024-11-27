@@ -76,6 +76,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
+    @SuppressWarnings("S2068")
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
         final String header = request.getHeader("my-token");
 

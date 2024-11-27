@@ -44,6 +44,7 @@ public class WebClientConfig {
 
     @Bean
     @LoadBalanced
+    @SuppressWarnings("java:S4144")
     WebClient.Builder webClientBuilderLoadBalanced() {
         final HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000)

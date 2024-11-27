@@ -22,6 +22,7 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity
+@SuppressWarnings("java:S6437")
 public class WebSecurityConfig {
     @Bean
     AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao) {

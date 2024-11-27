@@ -17,6 +17,17 @@ import org.springframework.http.client.support.HttpRequestWrapper;
  * @author Thomas Freese
  */
 public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
+    private static ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
+        final HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request) {
+            @Override
+            public URI getURI() {
+                return newUri;
+            }
+        };
+
+        return execution.execute(requestWrapper, body);
+    }
+    
     private final LoadBalancer loadBalancer;
     private final int retries;
 
@@ -70,16 +81,5 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
         }
 
         return null;
-    }
-
-    private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
-        final HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request) {
-            @Override
-            public URI getURI() {
-                return newUri;
-            }
-        };
-
-        return execution.execute(requestWrapper, body);
     }
 }
