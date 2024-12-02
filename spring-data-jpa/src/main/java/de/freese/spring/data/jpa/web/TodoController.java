@@ -103,7 +103,7 @@ public class TodoController {
      *         }).build();
      * }     * }</pre>
      *
-     * StreamingResponseBody, InputStreamResource working booth.
+     * StreamingResponseBody, InputStreamResource working booth alone and with ResponseEntity.
      */
     @GetMapping(value = "/{id}/stream", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public StreamingResponseBody testStream(@PathVariable("id") final UUID id) {
