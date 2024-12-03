@@ -16,7 +16,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 
@@ -28,31 +27,24 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 public class LoadBalancerPingUrl implements LoadBalancerPing {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancerPingUrl.class);
 
+    private final ClientHttpRequestFactory httpRequestFactory;
     private final HttpMessageConverter<String> messageConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
 
     private String expectedContent;
-    private volatile ClientHttpRequestFactory httpRequestFactory;
     private boolean isSecure;
     private String pingAppendString = "";
+
+    public LoadBalancerPingUrl(final ClientHttpRequestFactory httpRequestFactory) {
+        super();
+
+        this.httpRequestFactory = Objects.requireNonNull(httpRequestFactory, "httpRequestFactory required");
+    }
 
     /**
      * Welcher Content muss der Ping liefern ?
      */
     public String getExpectedContent() {
         return this.expectedContent;
-    }
-
-    public ClientHttpRequestFactory getHttpRequestFactory() {
-        if (this.httpRequestFactory == null) {
-            synchronized (this) {
-                // DoubleCheckLock
-                if (this.httpRequestFactory == null) {
-                    this.httpRequestFactory = new SimpleClientHttpRequestFactory();
-                }
-            }
-        }
-
-        return this.httpRequestFactory;
     }
 
     /**
@@ -80,7 +72,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
         uriStr += getPingAppendString();
 
         try {
-            final ClientHttpRequest request = getHttpRequestFactory().createRequest(URI.create(uriStr), HttpMethod.GET);
+            final ClientHttpRequest request = httpRequestFactory.createRequest(URI.create(uriStr), HttpMethod.GET);
 
             String content = null;
 
@@ -127,10 +119,6 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
      */
     public void setExpectedContent(final String expectedContent) {
         this.expectedContent = expectedContent;
-    }
-
-    public void setHttpRequestFactory(final ClientHttpRequestFactory httpRequestFactory) {
-        this.httpRequestFactory = Objects.requireNonNull(httpRequestFactory, "httpRequestFactory required");
     }
 
     /**

@@ -89,10 +89,10 @@ abstract class AbstractServerConfig {
             }
         });
 
-        final DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("noop", encoders);
+        return new DelegatingPasswordEncoder("noop", encoders);
         // passwordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
-
-        return passwordEncoder;
+        //
+        // return passwordEncoder;
     }
 
     protected Logger getLogger() {

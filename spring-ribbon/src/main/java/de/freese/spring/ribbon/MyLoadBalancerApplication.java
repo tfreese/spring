@@ -63,10 +63,9 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
         final String serverList = env.getProperty("loadbalancer.servers");
         final String[] servers = serverList.split(",");
 
-        final LoadBalancerPingUrl ping = new LoadBalancerPingUrl();
+        final LoadBalancerPingUrl ping = new LoadBalancerPingUrl(restTemplate.getRequestFactory());
         ping.setPingAppendString("/service/ping"); // /netflix/service/actuator/health
         ping.setExpectedContent("true"); // UP
-        ping.setHttpRequestFactory(restTemplate.getRequestFactory());
         // ping.setHttpRequestFactory(new Netty4ClientHttpRequestFactory());
 
         // final LoadBalancerPing ping = new LoadBalancerPingNoOp();
