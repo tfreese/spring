@@ -27,7 +27,7 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
 
         return execution.execute(requestWrapper, body);
     }
-    
+
     private final LoadBalancer loadBalancer;
     private final int retries;
 
@@ -69,14 +69,10 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
         }
 
         if (lastException != null) {
-            if (lastException instanceof IOException ex) {
-                throw ex;
-            }
-            else if (lastException instanceof RuntimeException ex) {
-                throw ex;
-            }
-            else {
-                throw new IOException(lastException);
+            switch (lastException) {
+                case IOException ex -> throw ex;
+                case RuntimeException ex -> throw ex;
+                default -> throw new IOException(lastException);
             }
         }
 

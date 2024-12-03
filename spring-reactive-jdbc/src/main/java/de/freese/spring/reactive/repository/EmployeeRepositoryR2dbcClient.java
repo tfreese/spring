@@ -11,16 +11,14 @@ package de.freese.spring.reactive.repository;
 // import io.r2dbc.spi.RowMetadata;
 // import reactor.core.publisher.Flux;
 // import reactor.core.publisher.Mono;
-//
-// /**
-// * @author Thomas Freese
-// */
 
-/// / @Repository
-/// / @Profile("r2dbc")
-public class EmployeeRepositoryR2dbcClient
-        // implements EmployeeRepository {
-{
+/**
+ * @author Thomas Freese
+ */
+// @Repository
+// @Profile("r2dbc")
+// implements EmployeeRepository
+public class EmployeeRepositoryR2dbcClient {
     //    private static final BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) -> {
     //        Department department = new Department();
     //        department.setId(row.get("department_id", Long.class));
