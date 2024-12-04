@@ -76,7 +76,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    @SuppressWarnings("S2068")
+    @SuppressWarnings("java:S2068")
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
         final String header = request.getHeader("my-token");
 
@@ -132,12 +132,10 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
     }
 
     protected boolean isAuthenticationIsRequired(final String username) {
-        // Only reauthenticate if username doesn't match SecurityContextHolder and user
-        // isn't authenticated (see SEC-53)
+        // Only re-authenticate if username doesn't match SecurityContextHolder and user isn't authenticated (see SEC-53)
         final Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
 
-        // Limit username comparison to providers which use usernames (ie
-        // UsernamePasswordAuthenticationToken)
+        // Limit username comparison to providers which use usernames (ie UsernamePasswordAuthenticationToken)
         // (see SEC-348)
         if (existingAuth == null || !existingAuth.isAuthenticated() || existingAuth instanceof UsernamePasswordAuthenticationToken && !existingAuth.getName().equals(username)) {
             return true;
@@ -147,19 +145,13 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
             return true;
         }
 
-        // Handle unusual condition where an AnonymousAuthenticationToken is already
-        // present
-        // This shouldn't happen very often, as BasicProcessingFilter is meant to be
-        // earlier in the filter
-        // chain than AnonymousAuthenticationFilter. Nevertheless, presence of both an
-        // AnonymousAuthenticationToken
-        // together with a BASIC authentication request header should indicate
-        // reauthentication using the
-        // BASIC protocol is desirable. This behaviour is also consistent with that
-        // provided by form and digest,
-        // both of which force re-authentication if the respective header is detected (and
-        // in doing so replace
-        // any existing AnonymousAuthenticationToken). See SEC-610.
+        // Handle unusual condition where an AnonymousAuthenticationToken is already present.
+        // This shouldn't happen very often, as BasicProcessingFilter is meant to be earlier in the filter chain than AnonymousAuthenticationFilter.
+        // Nevertheless, presence of both an AnonymousAuthenticationToken together with a BASIC authentication request header should indicate
+        // re-authentication using the BASIC protocol is desirable.
+        // This behaviour is also consistent with that provided by form and digest,
+        // both of which force re-authentication if the respective header is detected (and in doing so replace any existing AnonymousAuthenticationToken).
+        // See SEC-610.
         return existingAuth instanceof AnonymousAuthenticationToken;
     }
 

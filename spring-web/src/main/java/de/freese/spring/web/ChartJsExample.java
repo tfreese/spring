@@ -2,11 +2,16 @@
 package de.freese.spring.web;
 
 import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Set;
 
 import software.xdev.chartjs.model.charts.BarChart;
 import software.xdev.chartjs.model.charts.Chart;
@@ -35,7 +40,30 @@ public final class ChartJsExample {
 
     private static void createAndOpenTestFile(final Chart<?, ?, ?> chart) {
         try {
-            final Path tmp = Files.createTempFile("chart_test_", ".html");
+            final Path tmpFile;
+
+            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                final File file = Files.createTempFile("chart_test_", ".html").toFile();
+
+                if (!file.setReadable(true, true)) {
+                    throw new IllegalStateException("can not make file readable");
+                }
+
+                if (!file.setWritable(true, true)) {
+                    throw new IllegalStateException("can not make file writable");
+                }
+
+                if (!file.setExecutable(true, true)) {
+                    throw new IllegalStateException("can not make file executable");
+                }
+
+                tmpFile = file.toPath();
+            }
+            else {
+                final FileAttribute<Set<PosixFilePermission>> attribute = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"));
+                final Path tmpDir = Files.createTempDirectory("java_", attribute);
+                tmpFile = Files.createTempFile(tmpDir, "chart_test_", ".html", attribute);
+            }
 
             final String html = """
                     <!DOCTYPE html>
@@ -53,9 +81,9 @@ public final class ChartJsExample {
                     </html>
                     """.formatted(chart.toJson());
 
-            Files.writeString(tmp, html, StandardCharsets.UTF_8);
+            Files.writeString(tmpFile, html, StandardCharsets.UTF_8);
 
-            Desktop.getDesktop().browse(tmp.toUri());
+            Desktop.getDesktop().browse(tmpFile.toUri());
         }
         catch (final IOException ex) {
             throw new UncheckedIOException(ex);

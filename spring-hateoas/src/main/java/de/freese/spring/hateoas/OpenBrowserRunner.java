@@ -44,18 +44,18 @@ public class OpenBrowserRunner implements ApplicationRunner {
      * google-chrome-stable --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media %U
      */
     private static void openLinuxChrome(final String url) throws Exception {
-        Runtime.getRuntime().exec(new String[]{"google-chrome-stable", url});
+        Runtime.getRuntime().exec(new String[]{"/usr/bin/google-chrome-stable", url});
     }
 
     /**
      * chromium %U --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media
      */
     private static void openLinuxChromium(final String url) throws Exception {
-        Runtime.getRuntime().exec(new String[]{"chromium", url});
+        Runtime.getRuntime().exec(new String[]{"/usr/bin/chromium", url});
     }
 
     private static void openLinuxFirefox(final String url) throws Exception {
-        Runtime.getRuntime().exec(new String[]{"firefox", "-new-tab", url});
+        Runtime.getRuntime().exec(new String[]{"/usr/bin/firefox", "-new-tab", url});
     }
 
     /**
