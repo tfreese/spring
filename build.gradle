@@ -9,23 +9,6 @@ plugins {
 allprojects {
     apply plugin: "base"
 
-    clean {
-        doFirst {
-            def dirs = ["bin", "logs", "out", "target"]
-
-            dirs.each(dir -> {
-                Directory directory = layout.projectDirectory.dir(dir)
-
-                if (directory.getAsFile().exists()) {
-                    // println("delete: " + directory)
-                    logger.lifecycle("delete: {}", directory)
-                    // delete fileTree(directory).include("**/*")
-                    delete directory
-                }
-            })
-        }
-    }
-
     ant.lifecycleLogLevel = "INFO"
 
     // repositories {

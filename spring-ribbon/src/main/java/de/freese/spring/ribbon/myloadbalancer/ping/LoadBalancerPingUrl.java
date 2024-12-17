@@ -44,7 +44,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
      * Welcher Content muss der Ping liefern ?
      */
     public String getExpectedContent() {
-        return this.expectedContent;
+        return expectedContent;
     }
 
     /**
@@ -52,7 +52,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
      * Beispiel: /service/ping
      */
     public String getPingAppendString() {
-        return this.pingAppendString;
+        return pingAppendString;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
 
         String uriStr = "";
 
-        if (this.isSecure) {
+        if (isSecure) {
             uriStr = "https://";
         }
         else {
@@ -79,7 +79,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
             try (ClientHttpResponse response = request.execute()) {
                 isAlive = response.getStatusCode().value() == 200; // 200; HttpStatus.OK.value()
 
-                content = this.messageConverter.read(String.class, response);
+                content = messageConverter.read(String.class, response);
             }
 
             // HttpURLConnection connection = (HttpURLConnection) new URL(urlStr).openConnection();
@@ -88,12 +88,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
             // isAlive = connection.getResponseCode() == 200; // 200; HttpStatus.OK.value()
             // connection.disconnect();
             if (getExpectedContent() != null) {
-                if (content == null) {
-                    isAlive = false;
-                }
-                else {
-                    isAlive = checkAliveByContent(getExpectedContent(), content);
-                }
+                isAlive = checkAliveByContent(getExpectedContent(), content);
             }
 
             return isAlive;

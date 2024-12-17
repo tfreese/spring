@@ -1,8 +1,6 @@
 // Created: 21.01.2018
 package de.freese.spring.thymeleaf.config;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
 
 /**
@@ -10,26 +8,31 @@ import org.springframework.security.web.authentication.preauth.RequestHeaderAuth
  *
  * @author Thomas Freese
  */
-public class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthenticationFilter {
-    public MyTokenRequestHeaderAuthenticationFilter() {
+public final class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthenticationFilter {
+    public static RequestHeaderAuthenticationFilter of(final String principalRequestHeader) {
+        final MyTokenRequestHeaderAuthenticationFilter filter = new MyTokenRequestHeaderAuthenticationFilter();
+        filter.setPrincipalRequestHeader(principalRequestHeader);
+
+        filter.setExceptionIfHeaderMissing(false); // Damit keine Fehlermeldung ausgegeben wird.
+        filter.setCheckForPrincipalChanges(true);
+        filter.setInvalidateSessionOnPrincipalChange(true);
+
+        return filter;
+    }
+
+    private MyTokenRequestHeaderAuthenticationFilter() {
         super();
-
-        setPrincipalRequestHeader("my-token");
-
-        setExceptionIfHeaderMissing(false); // Damit keine Fehlermeldung ausgegeben wird.
-        setCheckForPrincipalChanges(true);
-        setInvalidateSessionOnPrincipalChange(true);
     }
 
-    @Override
-    protected Object getPreAuthenticatedCredentials(final HttpServletRequest request) {
-        // Decode Credentials
-        return super.getPreAuthenticatedCredentials(request);
-    }
+    // @Override
+    // protected Object getPreAuthenticatedCredentials(final HttpServletRequest request) {
+    //     // Decode Credentials
+    //     return super.getPreAuthenticatedCredentials(request);
+    // }
 
-    @Override
-    protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
-        // Decode Principal
-        return super.getPreAuthenticatedPrincipal(request);
-    }
+    // @Override
+    // protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
+    //     // Decode Principal
+    //     return super.getPreAuthenticatedPrincipal(request);
+    // }
 }

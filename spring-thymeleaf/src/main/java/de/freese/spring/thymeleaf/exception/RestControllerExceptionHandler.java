@@ -1,6 +1,7 @@
 // Created: 03.09.2018
 package de.freese.spring.thymeleaf.exception;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import jakarta.servlet.RequestDispatcher;
@@ -74,6 +75,41 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         return getStatus(httpServletRequest);
     }
 
+    private static StringBuilder getDetail(final Throwable ex) {
+        //        StringWriter sw = new StringWriter();
+        //
+        //        try (PrintWriter pw = new PrintWriter(sw, false)) {
+        //            pw.println(ex);
+        //            ex.printStackTrace(pw);
+        //        }
+        //
+        //        return sw.toString();
+
+        final StringBuilder sb = new StringBuilder();
+        sb.append(ex.getClass().getSimpleName()).append(": ").append(ex.getMessage());
+
+        // Keep last N Elements.
+        final int keepLastNStaceTraceElements = 4;
+
+        final StackTraceElement[] stackTraceOrigin = ex.getStackTrace();
+        StackTraceElement[] stackTrace = stackTraceOrigin;
+
+        if (stackTraceOrigin.length > keepLastNStaceTraceElements) {
+            stackTrace = new StackTraceElement[keepLastNStaceTraceElements];
+            System.arraycopy(stackTraceOrigin, 0, stackTrace, 0, keepLastNStaceTraceElements);
+        }
+
+        for (StackTraceElement stackTraceElement : stackTrace) {
+            sb.append("\tat ").append(stackTraceElement);
+        }
+
+        if (stackTraceOrigin.length > keepLastNStaceTraceElements) {
+            sb.append("\t...");
+        }
+
+        return sb;
+    }
+
     public RestControllerExceptionHandler() {
         super();
     }
@@ -127,44 +163,12 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException ex, final WebRequest request) {
-        final String message = String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(),
-                ex.getRequiredType().getSimpleName());
+        final String message = "The parameter '%s' of value '%s' could not be converted to type '%s'".formatted(
+                ex.getName(),
+                ex.getValue(),
+                Optional.ofNullable(ex.getRequiredType()).map(Class::getSimpleName).orElse("unknown")
+        );
 
         return buildResponseEntity(ex, request, message, HttpStatus.BAD_REQUEST);
-    }
-
-    private StringBuilder getDetail(final Throwable ex) {
-        //        StringWriter sw = new StringWriter();
-        //
-        //        try (PrintWriter pw = new PrintWriter(sw, false)) {
-        //            pw.println(ex);
-        //            ex.printStackTrace(pw);
-        //        }
-        //
-        //        return sw.toString();
-
-        final StringBuilder sb = new StringBuilder();
-        sb.append(ex.getClass().getSimpleName()).append(": ").append(ex.getMessage());
-
-        // Keep last N Elements.
-        final int keepLastNStaceTraceElements = 4;
-
-        final StackTraceElement[] stackTraceOrigin = ex.getStackTrace();
-        StackTraceElement[] stackTrace = stackTraceOrigin;
-
-        if (stackTraceOrigin.length > keepLastNStaceTraceElements) {
-            stackTrace = new StackTraceElement[keepLastNStaceTraceElements];
-            System.arraycopy(stackTraceOrigin, 0, stackTrace, 0, keepLastNStaceTraceElements);
-        }
-
-        for (StackTraceElement stackTraceElement : stackTrace) {
-            sb.append("\tat ").append(stackTraceElement);
-        }
-
-        if (stackTraceOrigin.length > keepLastNStaceTraceElements) {
-            sb.append("\t...");
-        }
-
-        return sb;
     }
 }

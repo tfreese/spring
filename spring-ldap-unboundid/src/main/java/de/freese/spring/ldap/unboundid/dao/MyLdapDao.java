@@ -12,7 +12,6 @@ import javax.naming.directory.Attributes;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.ContextSource;
@@ -93,7 +92,10 @@ public class MyLdapDao {
 
     private final LdapTemplate ldapTemplate;
 
-    public MyLdapDao(final ContextSource contextSource, final @Value("${spring.ldap.base-dn}") String baseDn) {
+    /**
+     * final @Value("${spring.ldap.base-dn}") String baseDn
+     */
+    public MyLdapDao(final ContextSource contextSource) {
         super();
 
         this.ldapTemplate = new LdapTemplate(Objects.requireNonNull(contextSource, "contextSource required"));

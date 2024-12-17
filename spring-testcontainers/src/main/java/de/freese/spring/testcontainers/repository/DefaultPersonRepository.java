@@ -1,6 +1,7 @@
 package de.freese.spring.testcontainers.repository;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.sql.DataSource;
 
@@ -21,13 +22,13 @@ public class DefaultPersonRepository implements PersonRepository {
     public DefaultPersonRepository(final DataSource dataSource, final JdbcDialect jdbcDialect) {
         super();
 
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.jdbcDialect = jdbcDialect;
+        this.jdbcTemplate = new JdbcTemplate(Objects.requireNonNull(dataSource, "dataSource required"));
+        this.jdbcDialect = Objects.requireNonNull(jdbcDialect, "jdbcDialect required");
     }
 
     @Override
     public List<Person> getAllOrderedById() {
-        return this.jdbcTemplate.query("select * from person order by id asc", (resultSet, rowNum) -> {
+        return jdbcTemplate.query("select * from person order by id asc", (resultSet, rowNum) -> {
             final Person person = new Person();
             person.setId(resultSet.getLong("ID"));
             person.setName(resultSet.getString("NAME"));
@@ -38,15 +39,19 @@ public class DefaultPersonRepository implements PersonRepository {
 
     @Override
     public void save(final Person person) {
-        final long id = this.jdbcTemplate.queryForObject(jdbcDialect.getSelectSequenceNextValString("person_seq"), Long.class);
+        final String sqlSequence = jdbcDialect.getSelectSequenceNextValString("person_seq");
+        final Long id = jdbcTemplate.queryForObject(sqlSequence, Long.class);
 
-        this.jdbcTemplate.update("insert into person (id, name) values (? , ?)", id, person.getName());
+        Objects.requireNonNull(id, "id required");
+
+        jdbcTemplate.update("insert into person (id, name) values (? , ?)", id, person.getName());
     }
 
     @Override
     public void saveAll(final List<Person> persons) {
-        final String sql = "insert into person (id, name) values (%s , ?)".formatted(jdbcDialect.getSequenceNextValString("person_seq"));
+        final String sqlSequence = jdbcDialect.getSequenceNextValString("person_seq");
+        final String sql = "insert into person (id, name) values (%s , ?)".formatted(sqlSequence);
 
-        this.jdbcTemplate.batchUpdate(sql, persons, 10, (ps, person) -> ps.setString(1, person.getName()));
+        jdbcTemplate.batchUpdate(sql, persons, 10, (ps, person) -> ps.setString(1, person.getName()));
     }
 }

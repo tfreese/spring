@@ -170,7 +170,7 @@ public class SecurityConfig {
         // filter.setCheckForPrincipalChanges(true);
         // filter.setInvalidateSessionOnPrincipalChange(true);
 
-        final MyTokenRequestHeaderAuthenticationFilter filter = new MyTokenRequestHeaderAuthenticationFilter();
+        final RequestHeaderAuthenticationFilter filter = MyTokenRequestHeaderAuthenticationFilter.of("my-token");
         filter.setAuthenticationManager(authenticationManager);
 
         // final MyTokenBasicAuthAuthenticationFilter filter = new MyTokenBasicAuthAuthenticationFilter(authenticationManager);

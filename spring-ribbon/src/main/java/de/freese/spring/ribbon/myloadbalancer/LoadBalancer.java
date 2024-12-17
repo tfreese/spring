@@ -14,9 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -177,34 +175,19 @@ public class LoadBalancer implements LoadBalancerPing {
 
     private LoadBalancerStrategy strategy = new LoadBalancerStrategyRoundRobin();
 
-    // private final ScheduledExecutorService scheduledExecutorService;
-
     private Timer timer;
 
     /**
      * @param server String[]; z.B. localhost:8080, localhost:8081
      */
     public LoadBalancer(final String... server) {
-        // this(null, server);
-        this(Executors.newSingleThreadScheduledExecutor(), server);
-    }
-
-    /**
-     * @param scheduledExecutorService {@link ScheduledExecutorService}; Ohne diesen Service wird für das Pinkgen ein {@link javax.swing.Timer} verwendet.
-     * @param server String[]; z.B. localhost:8080, localhost:8081
-     */
-    private LoadBalancer(final ScheduledExecutorService scheduledExecutorService, final String... server) {
         super();
 
         Objects.requireNonNull(server, "server required");
 
-        for (String s : server) {
-            addServer(s);
-        }
+        Collections.addAll(allServer, server);
 
-        this.aliveServer.addAll(this.allServer);
-
-        // this.scheduledExecutorService = scheduledExecutorService;
+        aliveServer.addAll(allServer);
 
         setupPingTask();
 
@@ -217,8 +200,8 @@ public class LoadBalancer implements LoadBalancerPing {
      * Beispiel: "localhost:8082"
      */
     public void addServer(final String server) {
-        if (!this.allServer.contains(server)) {
-            this.allServer.add(server);
+        if (!allServer.contains(server)) {
+            allServer.add(server);
         }
     }
 
@@ -235,10 +218,10 @@ public class LoadBalancer implements LoadBalancerPing {
      * @param key String, wird noch nicht berücksichtigt
      */
     public String chooseServer(final String key) {
-        this.lock.lock();
+        lock.lock();
 
         try {
-            final String server = this.strategy.chooseServer(this.aliveServer, key);
+            final String server = strategy.chooseServer(aliveServer, key);
 
             if (server == null) {
                 throw new RuntimeException("no active server available");
@@ -247,23 +230,23 @@ public class LoadBalancer implements LoadBalancerPing {
             return server;
         }
         finally {
-            this.lock.unlock();
+            lock.unlock();
         }
     }
 
     public List<String> getAliveServer() {
-        this.lock.lock();
+        lock.lock();
 
         try {
-            return Collections.unmodifiableList(this.aliveServer);
+            return Collections.unmodifiableList(aliveServer);
         }
         finally {
-            this.lock.unlock();
+            lock.unlock();
         }
     }
 
     public List<String> getAllServer() {
-        return Collections.unmodifiableList(this.allServer);
+        return Collections.unmodifiableList(allServer);
     }
 
     /**
@@ -271,7 +254,7 @@ public class LoadBalancer implements LoadBalancerPing {
      * Default: 15 Sekunden = 15000 Millisekunden
      */
     public long getPingDelay() {
-        return this.pingDelay;
+        return pingDelay;
     }
 
     @Override
@@ -281,7 +264,7 @@ public class LoadBalancer implements LoadBalancerPing {
         }
 
         try {
-            return this.ping.isAlive(server);
+            return ping.isAlive(server);
         }
         catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -345,12 +328,12 @@ public class LoadBalancer implements LoadBalancerPing {
      * Beenden des Pingers.
      */
     public void shutdown() {
-        if (this.timer != null) {
-            this.timer.cancel();
+        if (timer != null) {
+            timer.cancel();
         }
 
         // if (this.scheduledExecutorService != null) {
-        // this.scheduledExecutorService.shutdown();
+        // scheduledExecutorService.shutdown();
         // }
     }
 
@@ -358,14 +341,14 @@ public class LoadBalancer implements LoadBalancerPing {
      * Aktualisiert die Liste der ansprechbaren Server.
      */
     protected void refreshAliveServer(final List<String> workingServers) {
-        this.lock.lock();
+        lock.lock();
 
         try {
-            this.aliveServer.clear();
-            this.aliveServer.addAll(workingServers);
+            aliveServer.clear();
+            aliveServer.addAll(workingServers);
         }
         finally {
-            this.lock.unlock();
+            lock.unlock();
         }
     }
 
@@ -373,16 +356,16 @@ public class LoadBalancer implements LoadBalancerPing {
      * Startet den Ping-Task.
      */
     protected void setupPingTask() {
-        // if (this.scheduledExecutorService != null) {
-        // this.scheduledExecutorService.scheduleWithFixedDelay(new Pinger(), 3000L, getPingDelay(), TimeUnit.MILLISECONDS);
+        // if (scheduledExecutorService != null) {
+        // scheduledExecutorService.scheduleWithFixedDelay(new Pinger(), 3000L, getPingDelay(), TimeUnit.MILLISECONDS);
         // }
         // else {
-        if (this.timer != null) {
-            this.timer.cancel();
+        if (timer != null) {
+            timer.cancel();
         }
 
-        this.timer = new Timer(getClass().getSimpleName());
-        this.timer.schedule(new Pinger(), 3000L, getPingDelay());
+        timer = new Timer(getClass().getSimpleName());
+        timer.schedule(new Pinger(), 3000L, getPingDelay());
         // }
     }
 }

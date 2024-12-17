@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -37,7 +37,7 @@ public class GatewayApplication {
         SpringApplication.run(GatewayApplication.class, args);
     }
 
-    @RequestMapping("/fallback")
+    @GetMapping("/fallback")
     public Mono<String> fallback() {
         return Mono.just("fallback").map(r -> r + System.lineSeparator());
     }

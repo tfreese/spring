@@ -24,6 +24,33 @@ import org.springframework.stereotype.Component;
 public class JndiLookUpRunner implements ApplicationRunner {
     public static final Logger LOGGER = LoggerFactory.getLogger(JndiLookUpRunner.class);
 
+    private static void iterate(final Context context) {
+        try {
+            final NamingEnumeration<NameClassPair> enumeration = context.list("");
+            // final NamingEnumeration<NameClassPair> enumeration = context.list("java:comp/env");
+
+            while (enumeration.hasMoreElements()) {
+                final NameClassPair nameClassPair = enumeration.nextElement();
+                LOGGER.info("{}", nameClassPair);
+            }
+
+            enumeration.close();
+        }
+        catch (Exception ex) {
+            LOGGER.error(ex.getLocalizedMessage());
+        }
+    }
+
+    private static void lookup(final Context context) {
+        try {
+            final Object object = context.lookup("test");
+            LOGGER.info("{}", object);
+        }
+        catch (Exception ex) {
+            LOGGER.error(ex.getLocalizedMessage());
+        }
+    }
+
     @Override
     public void run(final ApplicationArguments args) throws Exception {
         LOGGER.info("JNDI Content");
@@ -35,39 +62,16 @@ public class JndiLookUpRunner implements ApplicationRunner {
             // System.setProperty(javax.naming.Context.URL_PKG_PREFIXES, "org.apache.naming");
             // System.setProperty(javax.naming.Context.INITIAL_CONTEXT_FACTORY, "org.apache.naming.java.javaURLContextFactory");
 
+            // final Context context = (javax.naming.Context) initialContext.lookup("java:comp/env");
             final Context context = new InitialContext();
 
-            try {
-                // final Context context = (javax.naming.Context) initialContext.lookup("java:comp/env");
-
-                final NamingEnumeration<NameClassPair> enumeration = context.list("");
-                // final NamingEnumeration<NameClassPair> enumeration = context.list("java:comp/env");
-
-                while (enumeration.hasMoreElements()) {
-                    final NameClassPair nameClassPair = enumeration.nextElement();
-                    LOGGER.info("{}", nameClassPair);
-                }
-
-                enumeration.close();
-            }
-            catch (Exception ex) {
-                LOGGER.error(ex.getLocalizedMessage());
-            }
-
-            Object object = null;
-
-            try {
-                object = context.lookup("test");
-                LOGGER.info("{}", object);
-            }
-            catch (Exception ex) {
-                LOGGER.error(ex.getLocalizedMessage());
-            }
+            iterate(context);
+            lookup(context);
 
             final JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
             bean.setJndiName("java:/comp/env/test");
             bean.afterPropertiesSet();
-            object = bean.getObject();
+            final Object object = bean.getObject();
 
             LOGGER.info("{}", object);
 
