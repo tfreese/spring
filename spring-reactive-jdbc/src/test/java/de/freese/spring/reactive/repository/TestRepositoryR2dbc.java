@@ -26,8 +26,8 @@ class TestRepositoryR2dbc implements TestRepository {
 
     @Override
     public void doAfterEach() {
-        this.databaseClient.sql("DROP TABLE IF EXISTS employee").fetch().rowsUpdated().block();
-        this.databaseClient.sql("DROP TABLE IF EXISTS department").fetch().rowsUpdated().block();
+        databaseClient.sql("DROP TABLE IF EXISTS employee").fetch().rowsUpdated().block();
+        databaseClient.sql("DROP TABLE IF EXISTS department").fetch().rowsUpdated().block();
     }
 
     @Override
@@ -35,30 +35,30 @@ class TestRepositoryR2dbc implements TestRepository {
         final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("sql/schema.sql"));
         populator.addScript(new ClassPathResource("sql/data.sql"));
-        populator.populate(this.connectionFactory).block();
+        populator.populate(connectionFactory).block();
 
         // ConnectionFactoryInitializer initializer = new ConnectionFactoryInitializer();
-        // initializer.setConnectionFactory(this.connectionFactory);
+        // initializer.setConnectionFactory(connectionFactory);
         // initializer.setDatabasePopulator(populator);
         // initializer.afterPropertiesSet();
     }
 
     @Override
     public EmployeeRepository getRepository() {
-        return this.repository;
+        return repository;
     }
 
     @Override
     @Test
     public void testCreateNewEmployee() {
-        // nur zum Debuggen
+        // // For Debug.
         TestRepository.super.testCreateNewEmployee();
     }
 
     @Override
     @Test
     public void testGetEmployee() {
-        // nur zum Debuggen
+        // // For Debug.
         TestRepository.super.testGetEmployee();
     }
 }

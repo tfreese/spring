@@ -22,8 +22,8 @@ class TestRepositoryJdbc implements TestRepository {
 
     @Override
     public void doAfterEach() {
-        this.jdbcTemplate.execute("DROP TABLE IF EXISTS employee");
-        this.jdbcTemplate.execute("DROP TABLE IF EXISTS department");
+        jdbcTemplate.execute("DROP TABLE IF EXISTS employee");
+        jdbcTemplate.execute("DROP TABLE IF EXISTS department");
     }
 
     @Override
@@ -31,24 +31,23 @@ class TestRepositoryJdbc implements TestRepository {
         final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("sql/schema.sql"));
         populator.addScript(new ClassPathResource("sql/data.sql"));
-        populator.execute(this.jdbcTemplate.getDataSource());
+        populator.execute(jdbcTemplate.getDataSource());
     }
 
     // @Override
-    // public JdbcTemplate getJdbcTemplate()
-    // {
-    // return this.jdbcTemplate;
+    // public JdbcTemplate getJdbcTemplate() {
+    // return jdbcTemplate;
     // }
 
     @Override
     public EmployeeRepository getRepository() {
-        return this.repository;
+        return repository;
     }
 
     @Override
     @Test
     public void testGetEmployee() {
-        // nur zum Debuggen
+        // For Debug.
         TestRepository.super.testGetEmployee();
     }
 }
