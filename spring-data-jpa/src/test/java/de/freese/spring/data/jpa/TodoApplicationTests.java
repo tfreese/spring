@@ -279,6 +279,7 @@ class TodoApplicationTests {
                 .isOk()
                 .expectBody(InputStreamResource.class)
                 .value(inputStreamResource -> {
+                    // inputStreamResource.getContentAsString(StandardCharsets.UTF_8);
                     // Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
                     // BufferedReader bufferedReader = new BufferedReader(reader)
                     try (InputStream inputStream = inputStreamResource.getInputStream()) {
