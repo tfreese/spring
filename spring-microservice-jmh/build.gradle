@@ -33,7 +33,7 @@ ext.artifactId = project.name
 processResources {
     def map = [
             "project_description": project.description,
-            "project_artifactId" : project.artifactId,
+            "project_artifactId" : project.name,
             "project_version"    : project.version
     ]
 
@@ -41,5 +41,10 @@ processResources {
         // filteringCharset = "UTF-8"
         // expand(project.properties)
         expand(map)
+
+        // expand("project_description": project.description,
+        //         "project_artifactId": project.name,
+        //         "project_version": project.version
+        // )
     }
 }

@@ -33,9 +33,16 @@ springBoot {
 ext.artifactId = project.name
 
 processResources {
+    def map = [
+            "project_description": project.description,
+            "project_artifactId" : project.name,
+            "project_version"    : project.version
+    ]
+
     filesMatching("application.yml") {
         filteringCharset = "UTF-8"
 
-        expand(project.properties)
+        // expand(project.properties)
+        expand(map)
     }
 }

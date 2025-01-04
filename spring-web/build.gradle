@@ -53,6 +53,13 @@ sourceSets {
 ext.artifactId = project.name
 
 processResources {
+    def map = project.properties
+    // def map = [
+    //         "project_description": project.description,
+    //         "project_artifactId" : project.name,
+    //         "project_version"    : project.version
+    // ]
+
     // All Files
     // expand(project.properties)
 
@@ -62,7 +69,7 @@ processResources {
         filteringCharset = "UTF-8"
 
         // If Problems escape Placeholder: \${...}
-        expand(project.properties)
+        expand(map)
 
         // expand ("@project.description@": project.description,
         //		"@project.artifactId@": project.name,
