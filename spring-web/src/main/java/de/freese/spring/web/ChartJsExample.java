@@ -58,9 +58,21 @@ public final class ChartJsExample {
                 }
 
                 tmpFile = file.toPath();
+
+                // Files.setAttribute(tmpFile, "dos:readonly", false);
             }
             else {
-                final FileAttribute<Set<PosixFilePermission>> attribute = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"));
+                // final Set<PosixFilePermission> permissions = new HashSet<>();
+                // permissions.add(PosixFilePermission.OWNER_READ);
+                // permissions.add(PosixFilePermission.OWNER_WRITE);
+                // permissions.add(PosixFilePermission.OWNER_EXECUTE);
+                // permissions.add(PosixFilePermission.GROUP_READ);
+                //
+                // 0755 = "rwxr-xr-x"
+                //
+                final Set<PosixFilePermission> permissions = PosixFilePermissions.fromString("rwx------");
+
+                final FileAttribute<Set<PosixFilePermission>> attribute = PosixFilePermissions.asFileAttribute(permissions);
                 final Path tmpDir = Files.createTempDirectory("java_", attribute);
                 tmpFile = Files.createTempFile(tmpDir, "chart_test_", ".html", attribute);
             }
