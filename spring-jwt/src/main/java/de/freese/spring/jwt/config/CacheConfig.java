@@ -18,7 +18,7 @@ public class CacheConfig {
     CacheManager cacheManager() {
         final ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
         cacheManager.setAllowNullValues(false);
-        // cacheManager.setCacheNames(List.of("userCache")); // Fest verdrahtete Cache-Namen, damit wäre er nicht mehr dynamisch.
+        // cacheManager.setCacheNames(List.of("userCache")); // Disable dynamic creation of Caches.
 
         return cacheManager;
     }
