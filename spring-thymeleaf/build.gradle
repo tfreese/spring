@@ -25,7 +25,7 @@ dependencies {
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
     // Optional, for bootstrap
-    // runtimeOnly("org.webjars:bootstrap:4.6.0")
+    // runtimeOnly("org.webjars:bootstrap:5.3.3")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")

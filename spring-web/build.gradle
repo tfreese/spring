@@ -25,7 +25,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("software.xdev:chartjs-java-model")
 
-    runtimeOnly("org.primefaces.themes:all-themes")
+    runtimeOnly("org.primefaces:primefaces-themes")
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
