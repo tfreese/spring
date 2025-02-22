@@ -77,6 +77,10 @@ subprojects {
     }
 
     pluginManager.withPlugin("java") {
+        configurations {
+            mockitoAgent
+        }
+
         dependencies {
             // implementation(platform("de.freese:maven-bom:$version_mavenBom"))
 
@@ -85,6 +89,21 @@ subprojects {
             testImplementation("org.awaitility:awaitility")
             testImplementation("org.junit.jupiter:junit-jupiter")
             testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+            testImplementation("org.mockito:mockito-junit-jupiter")
+            mockitoAgent("org.mockito:mockito-core") {
+                transitive = false
+            }
+        }
+
+        // tasks.withType<Test> {
+        //     jvmArgs("-XX:+EnableDynamicAgentLoading")
+        // }
+        test {
+            doFirst {
+                jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
+                // jvmArgs += "-XX:+EnableDynamicAgentLoading"
+            }
         }
     }
 }
