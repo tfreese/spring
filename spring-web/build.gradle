@@ -53,18 +53,18 @@ sourceSets {
 ext.artifactId = project.name
 
 processResources {
-    def map = project.properties
-    // def map = [
-    //         "project_description": project.description,
-    //         "project_artifactId" : project.name,
-    //         "project_version"    : project.version
-    // ]
+    // def map = project.properties
+    def map = [
+            "project_description": project.description,
+            "project_artifactId" : project.name,
+            "project_version"    : project.version
+    ]
 
     // All Files
     // expand(project.properties)
 
     // filesNotMatching(...) {
-    // filesMatching("**/*.properties", "a.txt", "z.txt") {
+    // filesMatching(["**/*.properties", "a.txt", "z.txt"]) {
     filesMatching("application.yml") {
         filteringCharset = "UTF-8"
 
@@ -82,6 +82,12 @@ processResources {
 
         // // Keeps Windows Line-Endings.
         // filter(org.apache.tools.ant.filters.FixCrLfFilter.class, eol: org.apache.tools.ant.filters.FixCrLfFilter.CrLf.newInstance("crlf"))
+
+        // filter(ReplaceTokens,
+        //         tokens: ["project_artifactId": project.artifactId],
+        //         beginToken: "@",
+        //         endToken: "@"
+        // )
     }
 }
 

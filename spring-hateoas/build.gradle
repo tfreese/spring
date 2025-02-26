@@ -26,19 +26,13 @@ ext.artifactId = project.name
 processResources {
     // Workaround wegen ConfigCache.
     def map = [
-            "project_artifactId": project.artifactId
+            "project_artifactId": project.name
     ]
 
     filesMatching(["application*.yml", "application*.yaml", "application*.properties"]) {
         filteringCharset = "UTF-8"
-        // expand(project.properties)
+
         expand(map)
     }
-    // filesMatching(["application*.yml", "application*.yaml", "application*.properties"]) {
-    //     filter(ReplaceTokens,
-    //             tokens: ["project_artifactId": project.artifactId],
-    //             beginToken: "@",
-    //             endToken: "@"
-    //     )
-    // }
+
 }

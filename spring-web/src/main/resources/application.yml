@@ -12,9 +12,9 @@ logging:
 # Is spring-boot-starter-parent the Parent-POM, Resource-Delimiter is @.
 info:
     app:
-        name: ${project.artifactId}
-        description: ${project.description}
-        version: ${project.version}
+        name: ${project_artifactId}
+        description: ${project_description}
+        version: ${project_version}
 
 server:
     error:
@@ -22,7 +22,7 @@ server:
             enabled: true
     port: 8088
     servlet:
-        context-path: /${project.artifactId}
+        context-path: /${project_artifactId}
         encoding:
             enabled: true
             charset: UTF-8

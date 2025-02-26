@@ -78,7 +78,7 @@ server:
         enabled: true
     port: 9090
     servlet:
-        #context-path: /${project.artifactId}
+        #context-path: /${project_artifactId}
         #context-path: /thymeleaf
         encoding:
             enabled: true
@@ -104,9 +104,9 @@ server:
 
 info:
     app:
-        name: ${project.artifactId}
-        description: ${project.description}
-        version: ${project.version}
+        name: ${project_artifactId}
+        description: ${project_description}
+        version: ${project_version}
 
 management:
     endpoints:

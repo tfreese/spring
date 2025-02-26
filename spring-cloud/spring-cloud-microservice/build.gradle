@@ -36,7 +36,6 @@ processResources {
     filesMatching("application.yml") {
         filteringCharset = "UTF-8"
 
-        // expand(project.properties)
         expand(map)
     }
 }

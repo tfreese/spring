@@ -7,7 +7,7 @@ plugins {
 description = "spring with javafx"
 
 // For JavaFx native-Library Downloads.
-configurations.matching { it.canBeResolved }.configureEach {
+configurations.matching { it.canBeResolved && it.name.contains("downloadSources") }.configureEach {
     attributes {
         attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
         attribute(OperatingSystemFamily.OPERATING_SYSTEM_ATTRIBUTE, objects.named(OperatingSystemFamily, OperatingSystemFamily.LINUX))

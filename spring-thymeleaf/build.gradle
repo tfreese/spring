@@ -61,23 +61,15 @@ springBoot {
 ext.artifactId = project.name
 
 processResources {
-    def map = project.properties
-    // def map = [
-    //         "project_description": project.description,
-    //         "project_artifactId" : project.name,
-    //         "project_version"    : project.version
-    // ]
+    def map = [
+            "project_description": project.description,
+            "project_artifactId" : project.name,
+            "project_version"    : project.version
+    ]
 
-    // All Files
-    // expand(project.properties)
-
-    // filesNotMatching(...)
-    // filesMatching("**/*.properties", "a.txt", "z.txt")
-    filesMatching("application.yml") {
+    filesMatching(["application.yml", "bootstrap.yml"]) {
         filteringCharset = "UTF-8"
 
-        // If Problems escape Placeholder: \${...}
-        // expand(project.properties)
         expand(map)
     }
 }

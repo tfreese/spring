@@ -100,8 +100,10 @@ subprojects {
         //     jvmArgs("-XX:+EnableDynamicAgentLoading")
         // }
         test {
+            String mockitoFiles = configurations.mockitoAgent.asPath
+
             doFirst {
-                jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
+                jvmArgs += "-javaagent:" + mockitoFiles
                 // jvmArgs += "-XX:+EnableDynamicAgentLoading"
             }
         }
