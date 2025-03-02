@@ -39,7 +39,7 @@ processResources {
             "project_version"    : project.version
     ]
 
-    filesMatching("application.yml") {
+    filesMatching(["application.yml", "bootstrap.yml"]) {
         filteringCharset = "UTF-8"
 
         expand(map)

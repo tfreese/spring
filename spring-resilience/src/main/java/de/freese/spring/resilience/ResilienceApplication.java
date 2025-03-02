@@ -5,7 +5,8 @@ import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -16,7 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
-public class ResilienceApplication implements CommandLineRunner {
+public class ResilienceApplication implements ApplicationRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResilienceApplication.class);
 
     public static void main(final String[] args) {
@@ -24,7 +25,7 @@ public class ResilienceApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(final String... args) {
+    public void run(final ApplicationArguments args) throws Exception {
         final Runtime runtime = Runtime.getRuntime();
 
         final NumberFormat format = NumberFormat.getInstance();
@@ -38,7 +39,7 @@ public class ResilienceApplication implements CommandLineRunner {
         LOGGER.info("========================== System Info ==========================");
         LOGGER.info("System: {}/{} {}", System.getProperty("os.name"), System.getProperty("os.arch"), System.getProperty("os.version"));
         LOGGER.info("User-Dir: {}", System.getProperty("user.dir"));
-        LOGGER.info("Programm-Args: {}", Arrays.toString(args));
+        LOGGER.info("Programm-Args: {}", Arrays.asList(args.getSourceArgs()));
         LOGGER.info("CPU Cores: {}", runtime.availableProcessors());
         LOGGER.info("Free memory: {}", format.format(freeMemory / divider) + unit);
         LOGGER.info("Allocated memory: {}", format.format(allocatedMemory / divider) + unit);

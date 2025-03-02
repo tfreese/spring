@@ -7,14 +7,16 @@ rule_files:
 # - "first_rules.yml"
 # - "second_rules.yml"
 
-# The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+# The job name is added as a label `job=<job_name>` to any time series scraped from this config.
 scrape_configs:
-    #    -   job_name: 'prometheus'
-    #        static_configs:
-    #            -   targets: [ '127.0.0.1:9090' ]
 
-    -   job_name: 'spring-resilience'
-        metrics_path: '/actuator/prometheus'
+    # Here it's Prometheus itself.
+    # -   job_name: "prometheus"
+    #     static_configs:
+    #         -   targets: [ "127.0.0.1:9090" ]
+
+    -   job_name: "spring-resilience"
+        metrics_path: "/actuator/prometheus"
         scrape_interval: 5s
         static_configs:
-            -   targets: [ '192.168.155.100:8080' ]
+            -   targets: [ "192.168.155.100:8080" ]

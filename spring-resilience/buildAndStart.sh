@@ -10,7 +10,7 @@ bashtrap()
 	exit 1;
 }
 
-gradle clean build;
+gradle build;
 
 docker-compose build;
 docker-compose up;

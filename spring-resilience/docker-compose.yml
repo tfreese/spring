@@ -67,7 +67,7 @@ services:
                     memory: 128M
                 reservations:
                     #cpus: "0.0001"
-                    memory: 32M
+                    memory: 64M
 
     # docker run -d --name=grafana -p 3000:3000 grafana/grafana
     # docker start/stop grafana
@@ -98,4 +98,4 @@ services:
                     memory: 128M
                 reservations:
                     #cpus: "0.0001"
-                    memory: 32M
+                    memory: 64M
