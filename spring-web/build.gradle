@@ -66,7 +66,7 @@ processResources {
     // filesNotMatching(...) {
     // filesMatching(["**/*.properties", "a.txt", "z.txt"]) {
     filesMatching("application.yml") {
-        filteringCharset = "UTF-8"
+        // filteringCharset = "UTF-8"
 
         // If Problems escape Placeholder: \${...}
         expand(map)
