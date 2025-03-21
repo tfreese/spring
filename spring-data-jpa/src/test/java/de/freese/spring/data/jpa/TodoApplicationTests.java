@@ -44,7 +44,6 @@ import org.apache.hc.core5.http.io.entity.HttpEntities;
 import org.apache.hc.core5.http.protocol.HttpContext;
 import org.apache.hc.core5.pool.PoolReusePolicy;
 import org.apache.hc.core5.util.TimeValue;
-import org.apache.hc.core5.util.Timeout;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -420,27 +419,45 @@ class TodoApplicationTests {
     private CloseableHttpClient createApacheHttp() {
         final int chunkSize = 1_048_576;
 
-        final Http1Config http1Config = Http1Config.custom().setChunkSizeHint(chunkSize).setBufferSize(chunkSize).build();
-        final CharCodingConfig charCodingConfig = CharCodingConfig.custom().setCharset(StandardCharsets.UTF_8).build();
+        final Http1Config http1Config = Http1Config.custom()
+                .setChunkSizeHint(chunkSize)
+                .setBufferSize(chunkSize)
+                .build();
+        final CharCodingConfig charCodingConfig = CharCodingConfig.custom()
+                .setCharset(StandardCharsets.UTF_8).
+                build();
 
-        final HttpConnectionFactory<ManagedHttpClientConnection> connectionSocketFactory = new ManagedHttpClientConnectionFactory(http1Config, charCodingConfig, null);
+        final HttpConnectionFactory<ManagedHttpClientConnection> connectionSocketFactory = ManagedHttpClientConnectionFactory.builder()
+                .http1Config(http1Config)
+                .charCodingConfig(charCodingConfig)
+                .build();
 
-        //// final SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(SSLContext.getDefault(), HttpsURLConnection.getDefaultHostnameVerifier());
-        // final TlsSocketStrategy tlsSocketStrategy = new DefaultClientTlsStrategy(SSLContext.getDefault(), HttpsURLConnection.getDefaultHostnameVerifier());
-        // final TlsSocketStrategy tlsSocketStrategy = new DefaultClientTlsStrategy(SSLContexts.createDefault(), new NoopHostnameVerifier());
+        // new NoopHostnameVerifier()
+        //
+        // Since 5.4 deprecated.
+        // final SSLConnectionSocketFactory sslConnectionSocketFactory = SSLConnectionSocketFactoryBuilder.create()
+        //         .setSslContext(SSLContext.getDefault())
+        //         .setHostnameVerifier(HttpsURLConnection.getDefaultHostnameVerifier())
+        //         .build();
+        //
+        // Since 5.4.
+        // final TlsSocketStrategy tlsSocketStrategy = ClientTlsStrategyBuilder.create()
+        //         .setSslContext(SSLContext.getDefault())
+        //         .setHostnameVerifier(HttpsURLConnection.getDefaultHostnameVerifier())
+        //         .build();
 
         final HttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
                 .setConnectionFactory(connectionSocketFactory)
                 .setDefaultConnectionConfig(ConnectionConfig.custom()
-                        .setConnectTimeout(Timeout.ofMinutes(1))
-                        .setSocketTimeout(Timeout.ofMinutes(1))
-                        .setTimeToLive(TimeValue.ofMinutes(10))
+                        .setConnectTimeout(60, TimeUnit.SECONDS)
+                        .setSocketTimeout(60, TimeUnit.SECONDS)
+                        .setTimeToLive(10, TimeUnit.MINUTES)
                         .build())
                 .setDefaultSocketConfig(SocketConfig.custom()
-                        .setSoTimeout(Timeout.ofMinutes(1))
+                        .setSoTimeout(120, TimeUnit.SECONDS)
                         .build())
-                // .setSSLSocketFactory(sslConnectionSocketFactory)
-                // .setTlsSocketStrategy(tlsSocketStrategy)
+                // .setSSLSocketFactory(sslConnectionSocketFactory) // Since 5.4 deprecated.
+                // .setTlsSocketStrategy(tlsSocketStrategy) // Since 5.4.
                 // .setMaxConnPerRoute(5)
                 .setMaxConnTotal(20)
                 .setConnPoolPolicy(PoolReusePolicy.FIFO)
@@ -458,8 +475,8 @@ class TodoApplicationTests {
         return HttpClientBuilder.create()
                 .setConnectionManager(connectionManager)
                 .setDefaultRequestConfig(RequestConfig.custom()
-                        .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
-                        .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
+                        .setConnectionRequestTimeout(3, TimeUnit.SECONDS)
+                        .setResponseTimeout(3, TimeUnit.SECONDS)
                         .build())
                 .setKeepAliveStrategy(connectionKeepAliveStrategy)
                 .evictExpiredConnections()
