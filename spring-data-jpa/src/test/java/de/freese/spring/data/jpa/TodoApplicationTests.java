@@ -22,25 +22,28 @@ import java.util.function.Consumer;
 import jakarta.annotation.Resource;
 
 import org.apache.hc.client5.http.ConnectionKeepAliveStrategy;
-import org.apache.hc.client5.http.classic.methods.HttpGet;
-import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.DefaultConnectionKeepAliveStrategy;
+import org.apache.hc.client5.http.impl.DefaultHttpRequestRetryStrategy;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.io.ManagedHttpClientConnectionFactory;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.io.HttpClientConnectionManager;
 import org.apache.hc.client5.http.io.ManagedHttpClientConnection;
+import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.config.CharCodingConfig;
 import org.apache.hc.core5.http.config.Http1Config;
 import org.apache.hc.core5.http.io.HttpConnectionFactory;
 import org.apache.hc.core5.http.io.SocketConfig;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.HttpEntities;
+import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.protocol.HttpContext;
 import org.apache.hc.core5.pool.PoolReusePolicy;
 import org.apache.hc.core5.util.TimeValue;
@@ -331,11 +334,13 @@ class TodoApplicationTests {
                     },
                     ContentType.APPLICATION_OCTET_STREAM)) {
 
-                final HttpPost httpPost = new HttpPost(url);
-                httpPost.setHeader("Content-Type", "application/octet-stream");
-                httpPost.setEntity(httpEntity);
+                final ClassicHttpRequest httpRequest = ClassicRequestBuilder
+                        .post(url)
+                        .setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_OCTET_STREAM.getMimeType())
+                        .setEntity(httpEntity)
+                        .build();
 
-                httpClient.execute(httpPost, response -> {
+                httpClient.execute(httpRequest, response -> {
                     final int responseCode = response.getCode();
                     final String reasonPhrase = response.getReasonPhrase();
 
@@ -354,25 +359,33 @@ class TodoApplicationTests {
                 // }
             }
 
-            final HttpGet httpGet = new HttpGet(url);
-            httpGet.setHeader("Accept", "application/octet-stream");
+            final ClassicHttpRequest httpRequest = ClassicRequestBuilder
+                    .get(url)
+                    .setHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_OCTET_STREAM.getMimeType())
+                    .build();
 
-            httpClient.execute(httpGet, response -> {
+            // BasicHttpClientResponseHandler
+            httpClient.execute(httpRequest, response -> {
                 final int responseCode = response.getCode();
                 final String reasonPhrase = response.getReasonPhrase();
 
                 assertEquals(200, responseCode);
                 assertEquals("", reasonPhrase);
 
+                final String message = EntityUtils.toString(response.getEntity());
+                assertEquals("From Server: Hello World", message);
+
+                LOGGER.info(message);
+
                 // Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
                 // BufferedReader bufferedReader = new BufferedReader(reader)
-                try (InputStream inputStream = response.getEntity().getContent()) {
-                    // final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
-                    final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-                    assertEquals("From Server: Hello World", message);
-
-                    LOGGER.info(message);
-                }
+                // try (InputStream inputStream = response.getEntity().getContent()) {
+                //     // final String message = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
+                //     final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                //     assertEquals("From Server: Hello World", message);
+                //
+                //     LOGGER.info(message);
+                // }
 
                 return null;
             });
@@ -481,6 +494,7 @@ class TodoApplicationTests {
                 .setKeepAliveStrategy(connectionKeepAliveStrategy)
                 .evictExpiredConnections()
                 .setUserAgent("My Java App")
+                .setRetryStrategy(new DefaultHttpRequestRetryStrategy(2, TimeValue.ofSeconds(3)))
                 .build();
     }
 
