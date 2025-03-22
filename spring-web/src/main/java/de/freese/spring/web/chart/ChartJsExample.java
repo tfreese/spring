@@ -1,5 +1,5 @@
 // Created: 14.06.2024
-package de.freese.spring.web;
+package de.freese.spring.web.chart;
 
 import java.awt.Desktop;
 import java.io.File;

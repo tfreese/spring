@@ -1,4 +1,4 @@
-package de.freese.spring.web;
+package de.freese.spring.web.chart;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

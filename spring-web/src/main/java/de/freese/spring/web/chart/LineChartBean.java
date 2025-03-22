@@ -1,4 +1,4 @@
-package de.freese.spring.web;
+package de.freese.spring.web.chart;
 
 import java.io.Serial;
 import java.io.Serializable;
