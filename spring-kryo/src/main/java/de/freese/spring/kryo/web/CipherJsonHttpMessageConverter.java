@@ -45,12 +45,12 @@ public class CipherJsonHttpMessageConverter extends AbstractHttpMessageConverter
     }
 
     private InputStream decrypt(final InputStream inputStream) {
-        // do your decryption here
+        // Do your decryption here.
         return inputStream;
     }
 
     private byte[] encrypt(final byte[] bytesToEncrypt) {
-        // do your encryption here
+        // Do your encryption here.
         return bytesToEncrypt;
     }
 }

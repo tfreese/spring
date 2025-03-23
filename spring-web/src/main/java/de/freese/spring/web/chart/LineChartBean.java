@@ -32,6 +32,7 @@ import software.xdev.chartjs.model.options.scale.cartesian.linear.LinearScaleOpt
 /**
  * @author Thomas Freese
  */
+// @Named
 @Component  // siehe faces-config.xml: el-resolver
 @ViewScoped
 public final class LineChartBean implements Serializable {

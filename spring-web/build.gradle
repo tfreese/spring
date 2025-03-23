@@ -6,7 +6,13 @@ plugins {
 description = "Demo für spring-boot-web mit JSF"
 
 dependencies {
-    implementation("org.joinfaces:primefaces-spring-boot-starter")
+    implementation("org.joinfaces:primefaces-spring-boot-starter") {
+        // exclude(group: "com.fasterxml.jackson.core", module: "*")
+        // exclude(group: "com.fasterxml.jackson.datatype", module: "*")
+        // exclude(group: "com.fasterxml.jackson.module", module: "*")
+        // exclude(group: "io.micrometer", module: "*")
+        // exclude(group: "org.springframework.boot", module: "spring-boot-starter-json")
+    }
 
     // Error WeldServletLifecycle.initialize
     // if (deployment.getBeanDeploymentArchives().isEmpty()) {
@@ -14,13 +20,8 @@ dependencies {
     //     CommonLogger.LOG.initSkippedNoBeanArchiveFound();
     //     return false;
     // }
-    // runtimeOnly("org.apache.myfaces.core:myfaces-impl:4.0.2")
-    // runtimeOnly("org.apache.tomcat.embed:tomcat-embed-jasper")
-    // implementation("org.glassfish:jakarta.faces:4.0.7")
+
     // implementation("org.primefaces:primefaces::jakarta")
-    // runtimeOnly("org.primefaces.extensions:primefaces-extensions::jakarta")
-    // runtimeOnly("org.jboss.weld.servlet:weld-servlet-core:5.1.2.Final")
-    // // runtimeOnly("org.jboss.weld.servlet:weld-servlet-shaded:5.1.2.Final")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("software.xdev:chartjs-java-model")
@@ -97,7 +98,7 @@ tasks.register("copyLibs", Copy) {
 
     println("build " + project.name)
 
-    into layout.buildDirectory
+    into(layout.buildDirectory)
 
     into("libs") {
         from(configurations.runtimeClasspath)

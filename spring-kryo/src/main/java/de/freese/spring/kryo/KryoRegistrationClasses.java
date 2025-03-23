@@ -46,15 +46,17 @@ public final class KryoRegistrationClasses {
 
     /**
      * All other Classes of the Application.<br>
-     * Alphabetc by Classname !
+     * Alphabetic by Class name!
      */
     private static Set<Class<?>> getAppClasses() {
+        // Module: base-core
+        // return de.freese.base.utils.ClassUtils.getClasses("de.my.package");
         return Set.of();
     }
 
     /**
      * All other Classes of the Runtime.<br>
-     * Alphabetc by Classname !
+     * Alphabetic by Class name!
      */
     private static Set<Class<?>> getRuntimeClasses() {
         return Set.of(
@@ -147,7 +149,7 @@ public final class KryoRegistrationClasses {
 
         if (registrationClasses == null) {
             Set<Class<?>> clazzes = HashSet.newHashSet(512);
-            // clazzes.addAll(ReflectionUtils.getClasses("…"));
+            // clazzes.addAll(ReflectionUtils.getClasses("..."));
 
             /// spring-context
             // ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
@@ -157,10 +159,10 @@ public final class KryoRegistrationClasses {
             clazzes.addAll(getAppClasses());
             clazzes.addAll(getRuntimeClasses());
 
-            // Array-Varianten der Klassen auch registrieren.
+            // Register Array-Variants of the classes.
             clazzes = extendWithArrayVariants(clazzes);
 
-            // Sortierung ist zwingend notwendig, da für jede Klasse die Registration-ID im Client und Server identisch sein muss.
+            // Sorting is mandatory, each Class must have the same Registration-ID on Client and Server.
             registrationClasses = clazzes.stream().sorted(Comparator.comparing(Class::getName)).collect(Collectors.toCollection(LinkedHashSet::new));
         }
 

@@ -10,35 +10,35 @@ pluginManagement {
 // Without rootProject.name the Name of the Projekt-Directory is used.
 // rootProject.name = "spring"
 
-include 'kubernetes:api'
-include "kubernetes:backend"
-include "spring-atomicos"
-include "spring-autoconfigure-dbserver"
-include "spring-cloud:spring-cloud-api-gateway"
-include "spring-cloud:spring-cloud-boot-admin"
-include "spring-cloud:spring-cloud-client"
-include "spring-cloud:spring-cloud-eureka"
-include "spring-cloud:spring-cloud-microservice"
+include("kubernetes:api")
+include("kubernetes:backend")
+include("spring-atomicos")
+include("spring-autoconfigure-dbserver")
+include("spring-cloud:spring-cloud-api-gateway")
+include("spring-cloud:spring-cloud-boot-admin")
+include("spring-cloud:spring-cloud-client")
+include("spring-cloud:spring-cloud-eureka")
+include("spring-cloud:spring-cloud-microservice")
 // file("${rootDir}/spring-cloud").eachDirMatch(~/spring-cloud-.*/) {
-//    include "spring-cloud:${it.name}"
+//    include("spring-cloud:${it.name}")
 //}
-include "spring-data-jpa"
-include "spring-hateoas"
-include "spring-hystrix"
-include "spring-integration"
-include "spring-javafx"
-include "spring-jwt"
-include "spring-kryo"
-include "spring-ldap-unboundid"
-include "spring-messaging:spring-messaging-amqp-qpid"
-include "spring-messaging:spring-messaging-jms"
-include "spring-messaging:spring-messaging-kafka"
-include "spring-microservice-jmh"
-include "spring-openapi"
-include "spring-reactive-jdbc"
-include "spring-resilience"
-include "spring-ribbon"
-include "spring-rsocket"
-include "spring-testcontainers"
-include "spring-thymeleaf"
-include "spring-web"
+include("spring-data-jpa")
+include("spring-hateoas")
+include("spring-hystrix")
+include("spring-integration")
+include("spring-javafx")
+include("spring-jwt")
+include("spring-kryo")
+include("spring-ldap-unboundid")
+include("spring-messaging:spring-messaging-amqp-qpid")
+include("spring-messaging:spring-messaging-jms")
+include("spring-messaging:spring-messaging-kafka")
+include("spring-microservice-jmh")
+include("spring-openapi")
+include("spring-reactive-jdbc")
+include("spring-resilience")
+include("spring-ribbon")
+include("spring-rsocket")
+include("spring-testcontainers")
+include("spring-thymeleaf")
+include("spring-web")

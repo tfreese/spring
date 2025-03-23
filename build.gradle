@@ -36,29 +36,27 @@ subprojects {
 
 //            dependency("de.javakaffee:kryo-serializers:$version_kryoSerializers")
 
-            // dependency("javax:javaee-web-api:$version_javaee")
             dependency("jakarta.platform:jakarta.jakartaee-api:$version_jakartaApi")
 
             dependencySet(group: "org.apache.qpid", version: "$version_qpid") {
                 entry("qpid-broker") {
-                    exclude group: "ch.qos.logback", name: "logback-core"
-                    exclude group: "ch.qos.logback", name: "logback-classic"
+                    exclude(group: "ch.qos.logback", name: "logback-core")
+                    exclude(group: "ch.qos.logback", name: "logback-classic")
                 }
                 entry("qpid-bdbstore") {
-                    // Not found in any Repository.
-                    exclude group: "com.sleepycat", name: "je"
+                    exclude(group: "com.sleepycat", name: "je")
                 }
             }
 
-            dependencySet(group: "org.apache.tomcat", version: dependencyManagement.importedProperties["tomcat.version"]) {
-                entry "tomcat-embed-jasper"
-            }
+            // dependencySet(group: "org.apache.tomcat", version: dependencyManagement.importedProperties["tomcat.version"]) {
+            //     entry("tomcat-embed-jasper")
+            // }
 
             dependency("org.joinfaces:primefaces-spring-boot-starter:$version_joinfaces")
 
             dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {
-                entry "jmh-core"
-                entry "jmh-generator-annprocess"
+                entry("jmh-core")
+                entry("jmh-generator-annprocess")
             }
 
             dependency("org.primefaces:primefaces:$version_primefaces")
@@ -69,9 +67,9 @@ subprojects {
             dependency("software.xdev:chartjs-java-model:$version_chartjsJavaModel")
 
             dependencySet(group: "org.springframework.cloud", version: "$version_springCloudNetflix") {
-                entry "spring-cloud-starter-netflix-ribbon"
-                entry "spring-cloud-starter-netflix-hystrix"
-                entry "spring-cloud-starter-netflix-hystrix-dashboard"
+                entry("spring-cloud-starter-netflix-ribbon")
+                entry("spring-cloud-starter-netflix-hystrix")
+                entry("spring-cloud-starter-netflix-hystrix-dashboard")
             }
         }
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.SerializerFactory;
 import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy;
+import com.esotericsoftware.kryo.util.MapReferenceResolver;
 import com.esotericsoftware.kryo.util.Pool;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,12 +30,12 @@ public class KryoApplication implements WebMvcConfigurer {
             kryo.setInstantiatorStrategy(new DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
             kryo.setReferences(true); // Avoid Recursion.
             kryo.setOptimizedGenerics(false);
-            // kryo.setReferenceResolver(new MapReferenceResolver() {
-            //     @Override
-            //     public boolean useReferences(final Class type) {
-            //         return super.useReferences(type) && !String.class.equals(type); // For Problems with String References.
-            //     }
-            // });
+            kryo.setReferenceResolver(new MapReferenceResolver() {
+                @Override
+                public boolean useReferences(final Class type) {
+                    return super.useReferences(type) && !String.class.equals(type); // For Problems with String References.
+                }
+            });
 
             final boolean registerClasses = false;
 

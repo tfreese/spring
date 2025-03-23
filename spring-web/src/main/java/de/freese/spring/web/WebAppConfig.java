@@ -134,14 +134,13 @@ public class WebAppConfig implements WebMvcConfigurer {
             servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", Boolean.TRUE.toString());
             servletContext.setInitParameter("primefaces.THEME", "arya");
 
-            // servletContext.setInitParameter("org.jboss.weld.environment.servlet.archive.isolation", Boolean.TRUE.toString());
-            // servletContext.setInitParameter("org.jboss.weld.environment.container.class", "org.jboss.weld.environment.tomcat.TomcatContainer");
-
             servletContext.addListener("org.jboss.weld.environment.servlet.Listener"); // CDI first
             servletContext.addListener("com.sun.faces.config.ConfigureListener");
 
-            // org.joinfaces.servlet.ServletContainerInitializerRegistrationBean
-            // new EnhancedListener().onStartup(null, servletContext);
+            // servletContext.addListener("org.springframework.web.context.request.RequestContextListener");
+
+            // Creates a new Spring-Context.
+            // servletContext.addListener("org.springframework.web.context.ContextLoaderListener");
         };
     }
 }

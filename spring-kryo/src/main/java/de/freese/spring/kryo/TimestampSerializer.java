@@ -21,8 +21,7 @@ class TimestampSerializer extends Serializer<Timestamp> {
     //
     //    @Override
     //    public Timestamp copy(final Kryo kryo, final Timestamp original) {
-    //        if (original == null)
-    //        {
+    //        if (original == null) {
     //            return null;
     //        }
     //
