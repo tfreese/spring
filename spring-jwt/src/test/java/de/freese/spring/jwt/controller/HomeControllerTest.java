@@ -26,19 +26,19 @@ class HomeControllerTest {
 
     @Test
     void testAdmin() throws Exception {
-        MvcResult result = this.mvc.perform(post("/token").with(httpBasic("admin", "adminpw"))).andExpect(status().isOk()).andReturn();
+        MvcResult result = mvc.perform(post("/token").with(httpBasic("admin", "adminpw"))).andExpect(status().isOk()).andReturn();
         assertThat(result.getResponse().getContentAsString()).isNotEmpty();
 
         final String token = result.getResponse().getContentAsString();
 
-        result = this.mvc.perform(get("/admin").with(request -> {
+        result = mvc.perform(get("/admin").with(request -> {
             request.addHeader("Authorization", "Bearer " + token);
             return request;
         })).andExpect(status().isOk()).andReturn();
 
         assertThat(result.getResponse().getContentAsString()).isNotEmpty();
 
-        result = this.mvc.perform(get("/user").with(request -> {
+        result = mvc.perform(get("/user").with(request -> {
             request.addHeader("Authorization", "Bearer " + token);
             return request;
         })).andExpect(status().isOk()).andReturn();
@@ -48,35 +48,35 @@ class HomeControllerTest {
 
     @Test
     void testAdminWithBasicStatusIsUnauthorized() throws Exception {
-        this.mvc.perform(get("/").with(httpBasic("admin", "adminpw"))).andExpect(status().isUnauthorized());
+        mvc.perform(get("/").with(httpBasic("admin", "adminpw"))).andExpect(status().isUnauthorized());
     }
 
     @Test
     void testTokenWhenAnonymousThenStatusIsUnauthorized() throws Exception {
-        this.mvc.perform(post("/token")).andExpect(status().isUnauthorized());
+        mvc.perform(post("/token")).andExpect(status().isUnauthorized());
     }
 
     @Test
     void testTokenWithBasicThenGetToken() throws Exception {
-        final MvcResult result = this.mvc.perform(post("/token").with(httpBasic("admin", "adminpw"))).andExpect(status().isOk()).andReturn();
+        final MvcResult result = mvc.perform(post("/token").with(httpBasic("admin", "adminpw"))).andExpect(status().isOk()).andReturn();
 
         assertThat(result.getResponse().getContentAsString()).isNotEmpty();
     }
 
     @Test
     void testUser() throws Exception {
-        MvcResult result = this.mvc.perform(post("/token").with(httpBasic("user", "userpw"))).andExpect(status().isOk()).andReturn();
+        MvcResult result = mvc.perform(post("/token").with(httpBasic("user", "userpw"))).andExpect(status().isOk()).andReturn();
 
         assertThat(result.getResponse().getContentAsString()).isNotEmpty();
 
         final String token = result.getResponse().getContentAsString();
 
-        this.mvc.perform(get("/admin").with(request -> {
+        mvc.perform(get("/admin").with(request -> {
             request.addHeader("Authorization", "Bearer " + token);
             return request;
         })).andExpect(status().isForbidden());
 
-        result = this.mvc.perform(get("/user").with(request -> {
+        result = mvc.perform(get("/user").with(request -> {
             request.addHeader("Authorization", "Bearer " + token);
             return request;
         })).andExpect(status().isOk()).andReturn();
@@ -86,12 +86,12 @@ class HomeControllerTest {
 
     @Test
     void testWhenUnauthenticatedThenUnauthorized() throws Exception {
-        this.mvc.perform(get("/")).andExpect(status().isUnauthorized());
+        mvc.perform(get("/")).andExpect(status().isUnauthorized());
     }
 
     @Test
     @WithMockUser
     void testWithMockUserStatusIsOK() throws Exception {
-        this.mvc.perform(get("/")).andExpect(status().isOk());
+        mvc.perform(get("/")).andExpect(status().isOk());
     }
 }

@@ -52,10 +52,10 @@ class JwtRequestFilter extends OncePerRequestFilter {
             final String bearerToken = bearerTokenResolver.resolve(request);
 
             final AbstractAuthenticationToken authenticationToken = new BearerTokenAuthenticationToken(bearerToken);
-            authenticationToken.setDetails(this.authenticationDetailsSource.buildDetails(request));
+            authenticationToken.setDetails(authenticationDetailsSource.buildDetails(request));
 
             if (isAuthenticationIsRequired(authenticationToken.getName())) {
-                final Authentication authResult = this.authenticationManager.authenticate(authenticationToken);
+                final Authentication authResult = authenticationManager.authenticate(authenticationToken);
 
                 SecurityContextHolder.getContext().setAuthentication(authResult);
                 // SecurityContext context = SecurityContextHolder.createEmptyContext();
@@ -68,8 +68,8 @@ class JwtRequestFilter extends OncePerRequestFilter {
 
             LOGGER.error("Authentication request failed: {}", ex.getMessage());
 
-            // // Deswegen würden Tests der Logins über den RestController nicht mehr funktionieren !
-            this.authenticationEntryPoint.commence(request, response, ex);
+            // Deswegen würden Tests der Logins über den RestController nicht mehr funktionieren !
+            authenticationEntryPoint.commence(request, response, ex);
 
             return;
         }
@@ -81,8 +81,8 @@ class JwtRequestFilter extends OncePerRequestFilter {
     protected void initFilterBean() throws ServletException {
         super.initFilterBean();
 
-        Objects.requireNonNull(this.authenticationManager, "authenticationManager required");
-        Objects.requireNonNull(this.authenticationEntryPoint, "authenticationEntryPoint required");
+        Objects.requireNonNull(authenticationManager, "authenticationManager required");
+        Objects.requireNonNull(authenticationEntryPoint, "authenticationEntryPoint required");
     }
 
     private boolean isAuthenticationIsRequired(final String username) {

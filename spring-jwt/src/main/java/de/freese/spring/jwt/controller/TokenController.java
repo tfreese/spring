@@ -25,7 +25,7 @@ public class TokenController {
         this.tokenService = Objects.requireNonNull(tokenService, "tokenService required");
     }
 
-    @PostMapping("/token")
+    @PostMapping("token")
     public String token(final Authentication authentication, @AuthenticationPrincipal final UserDetails user) {
         LOGGER.info("Token requested for Authentication: '{}'", authentication);
         LOGGER.info("Token requested for User: {}", user);

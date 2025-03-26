@@ -15,14 +15,14 @@ public class HomeController {
         return "Hello, " + principal.getName();
     }
 
-    @GetMapping("/admin")
+    @GetMapping("admin")
     // @PreAuthorize("hasAuthority('ADMIN')")
     @Secured("ADMIN")
     public String secureForAdmin() {
         return "This is available for Admins!";
     }
 
-    @GetMapping("/user")
+    @GetMapping("user")
     @PreAuthorize("hasAuthority('USER')")
     // @Secured("USER")
     public String secureForUser() {
