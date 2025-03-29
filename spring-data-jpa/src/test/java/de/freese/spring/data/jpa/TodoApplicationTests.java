@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -344,7 +345,7 @@ class TodoApplicationTests {
                     final int responseCode = response.getCode();
                     final String reasonPhrase = response.getReasonPhrase();
 
-                    assertEquals(200, responseCode);
+                    assertEquals(HttpURLConnection.HTTP_OK, responseCode);
                     assertEquals("", reasonPhrase);
 
                     return null;
@@ -369,7 +370,7 @@ class TodoApplicationTests {
                 final int responseCode = response.getCode();
                 final String reasonPhrase = response.getReasonPhrase();
 
-                assertEquals(200, responseCode);
+                assertEquals(HttpURLConnection.HTTP_OK, responseCode);
                 assertEquals("", reasonPhrase);
 
                 final String message = EntityUtils.toString(response.getEntity());
