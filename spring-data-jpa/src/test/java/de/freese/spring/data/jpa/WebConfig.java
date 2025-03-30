@@ -11,15 +11,20 @@ import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.JdkClientHttpConnector;
 import org.springframework.test.web.reactive.server.WebTestClientConfigurer;
 
+/**
+ * HttpClientAutoConfiguration
+ */
 @Configuration
 public class WebConfig {
     @Bean
     ClientHttpConnector clientHttpConnector() {
+        // return new HttpComponentsClientHttpConnector(HttpAsyncClients.createDefault());
         return new JdkClientHttpConnector();
     }
 
     @Bean
     ClientHttpRequestFactory clientHttpRequestFactory() {
+        // return new HttpComponentsClientHttpRequestFactory(HttpClients.createDefault());
         return new JdkClientHttpRequestFactory();
     }
 
