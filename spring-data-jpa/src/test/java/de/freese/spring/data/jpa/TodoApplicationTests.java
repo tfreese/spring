@@ -455,10 +455,7 @@ class TodoApplicationTests {
         //         .build();
         //
         // Since 5.4.
-        // final TlsSocketStrategy tlsSocketStrategy = ClientTlsStrategyBuilder.create()
-        //         .setSslContext(SSLContext.getDefault())
-        //         .setHostnameVerifier(HttpsURLConnection.getDefaultHostnameVerifier())
-        //         .build();
+        // final TlsSocketStrategy tlsSocketStrategy = new DefaultClientTlsStrategy(SSLContext.getDefault(), HttpsURLConnection.getDefaultHostnameVerifier());
 
         final HttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
                 .setConnectionFactory(connectionSocketFactory)
