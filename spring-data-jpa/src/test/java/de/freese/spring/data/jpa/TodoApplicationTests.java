@@ -25,6 +25,7 @@ import jakarta.annotation.Resource;
 import org.apache.hc.client5.http.ConnectionKeepAliveStrategy;
 import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.config.TlsConfig;
 import org.apache.hc.client5.http.impl.DefaultConnectionKeepAliveStrategy;
 import org.apache.hc.client5.http.impl.DefaultHttpRequestRetryStrategy;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -46,6 +47,8 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.HttpEntities;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.protocol.HttpContext;
+import org.apache.hc.core5.http.ssl.TLS;
+import org.apache.hc.core5.http2.HttpVersionPolicy;
 import org.apache.hc.core5.pool.PoolReusePolicy;
 import org.apache.hc.core5.util.TimeValue;
 import org.junit.jupiter.api.BeforeEach;
@@ -324,6 +327,9 @@ class TodoApplicationTests {
         }
     }
 
+    /**
+     * <a href=https://github.com/apache/httpcomponents-client/blob/5.4.x/httpclient5/src/test/java/org/apache/hc/client5/http/examples/ClientConfiguration.java>config</a>
+     */
     @Test
     void testStreamsApacheHttp() throws IOException {
         final String url = "http://localhost:" + localServerPort + "/api/todo/" + UUID.randomUUID() + "/stream";
@@ -347,17 +353,10 @@ class TodoApplicationTests {
 
                     assertEquals(HttpURLConnection.HTTP_OK, responseCode);
                     assertEquals("", reasonPhrase);
+                    assertEquals("", EntityUtils.toString(response.getEntity()));
 
                     return null;
                 });
-
-                // try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-                //     final int responseCode = response.getCode();
-                //     final String reasonPhrase = response.getReasonPhrase();
-                //
-                //     assertEquals(200, responseCode);
-                //     assertEquals("", reasonPhrase);
-                // }
             }
 
             final ClassicHttpRequest httpRequest = ClassicRequestBuilder
@@ -370,13 +369,9 @@ class TodoApplicationTests {
                 final int responseCode = response.getCode();
                 final String reasonPhrase = response.getReasonPhrase();
 
-                assertEquals(HttpURLConnection.HTTP_OK, responseCode);
+                assertEquals(org.apache.hc.core5.http.HttpStatus.SC_OK, responseCode);
                 assertEquals("", reasonPhrase);
-
-                final String message = EntityUtils.toString(response.getEntity());
-                assertEquals("From Server: Hello World", message);
-
-                LOGGER.info(message);
+                assertEquals("From Server: Hello World", EntityUtils.toString(response.getEntity()));
 
                 // Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
                 // BufferedReader bufferedReader = new BufferedReader(reader)
@@ -390,18 +385,6 @@ class TodoApplicationTests {
 
                 return null;
             });
-
-            // try (CloseableHttpResponse response = httpClient.execute(httpGet);
-            //      InputStream inputStream = response.getEntity().getContent();
-            //     final int responseCode = response.getCode();
-            //     final String reasonPhrase = response.getReasonPhrase();
-            //
-            //     assertEquals(200, responseCode);
-            //     assertEquals("", reasonPhrase);
-            //
-            //     final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-            //     assertEquals("From Server: Hello World", message);
-            // }
         }
     }
 
@@ -437,6 +420,7 @@ class TodoApplicationTests {
                 .setChunkSizeHint(chunkSize)
                 .setBufferSize(chunkSize)
                 .build();
+
         final CharCodingConfig charCodingConfig = CharCodingConfig.custom()
                 .setCharset(StandardCharsets.UTF_8).
                 build();
@@ -447,28 +431,24 @@ class TodoApplicationTests {
                 .build();
 
         // new NoopHostnameVerifier()
-        //
-        // Since 5.4 deprecated.
-        // final SSLConnectionSocketFactory sslConnectionSocketFactory = SSLConnectionSocketFactoryBuilder.create()
-        //         .setSslContext(SSLContext.getDefault())
-        //         .setHostnameVerifier(HttpsURLConnection.getDefaultHostnameVerifier())
-        //         .build();
-        //
-        // Since 5.4.
         // final TlsSocketStrategy tlsSocketStrategy = new DefaultClientTlsStrategy(SSLContext.getDefault(), HttpsURLConnection.getDefaultHostnameVerifier());
 
         final HttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
                 .setConnectionFactory(connectionSocketFactory)
                 .setDefaultConnectionConfig(ConnectionConfig.custom()
-                        .setConnectTimeout(60, TimeUnit.SECONDS)
+                        .setConnectTimeout(60L, TimeUnit.SECONDS)
                         .setSocketTimeout(60, TimeUnit.SECONDS)
-                        .setTimeToLive(10, TimeUnit.MINUTES)
+                        .setTimeToLive(10L, TimeUnit.MINUTES)
                         .build())
                 .setDefaultSocketConfig(SocketConfig.custom()
                         .setSoTimeout(120, TimeUnit.SECONDS)
                         .build())
-                // .setSSLSocketFactory(sslConnectionSocketFactory) // Since 5.4 deprecated.
-                // .setTlsSocketStrategy(tlsSocketStrategy) // Since 5.4.
+                // .setTlsSocketStrategy(tlsSocketStrategy)
+                .setDefaultTlsConfig(TlsConfig.custom()
+                        .setVersionPolicy(HttpVersionPolicy.NEGOTIATE)
+                        .setHandshakeTimeout(1L, TimeUnit.MINUTES)
+                        .setSupportedProtocols(TLS.V_1_3)
+                        .build())
                 // .setMaxConnPerRoute(5)
                 .setMaxConnTotal(20)
                 .setConnPoolPolicy(PoolReusePolicy.FIFO)
