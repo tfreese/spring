@@ -413,6 +413,9 @@ class TodoApplicationTests {
         assertEquals("From Server: Hello World", message);
     }
 
+    /**
+     * <a href=https://github.com/apache/httpcomponents-client/blob/5.4.x/httpclient5/src/test/java/org/apache/hc/client5/http/examples/ClientConfiguration.java>config</a>
+     */
     private CloseableHttpClient createApacheHttp() {
         final int chunkSize = 1_048_576;
 
@@ -459,7 +462,7 @@ class TodoApplicationTests {
             public TimeValue getKeepAliveDuration(final HttpResponse response, final HttpContext context) {
                 final TimeValue duration = super.getKeepAliveDuration(response, context);
 
-                return duration.getDuration() == -1L ? TimeValue.ofMilliseconds(20) : duration;
+                return duration.getDuration() == -1L ? TimeValue.ofMinutes(2) : duration;
             }
         };
 
