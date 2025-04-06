@@ -457,6 +457,10 @@ class TodoApplicationTests {
                 .setConnPoolPolicy(PoolReusePolicy.FIFO)
                 .build();
 
+        // if (connectionManager instanceof PoolingHttpClientConnectionManager phccm) {
+        //     return Optional.of(phccm.getTotalStats());
+        // }
+
         final ConnectionKeepAliveStrategy connectionKeepAliveStrategy = new DefaultConnectionKeepAliveStrategy() {
             @Override
             public TimeValue getKeepAliveDuration(final HttpResponse response, final HttpContext context) {
