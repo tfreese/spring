@@ -77,7 +77,9 @@ public class TodoController {
      * Jakarta:<br>
      * <pre>{@code
      * public void test(@PathVariable("id") final UUID id,  final InputStream inputStream) throws IOException {}
-     * }</pre>
+     * }</pre><br>
+     *
+     * AtRequestBody final byte[] payload
      */
     @PostMapping(value = "/{id}/stream", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public void testStream(@PathVariable("id") final UUID id, @RequestBody final InputStreamResource inputStreamResource) throws IOException {
@@ -103,7 +105,8 @@ public class TodoController {
      *         }).build();
      * }     * }</pre>
      *
-     * StreamingResponseBody, InputStreamResource working booth alone and with ResponseEntity.
+     * StreamingResponseBody, InputStreamResource working booth alone and with ResponseEntity.<br>
+     * ResponseEntity<byte[]>
      */
     @GetMapping(value = "/{id}/stream", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public StreamingResponseBody testStream(@PathVariable("id") final UUID id) {
@@ -115,6 +118,15 @@ public class TodoController {
                 outputStream.flush();
             }
         };
+
+        // return ResponseEntity.ok()
+        //         .contentType(MediaType.APPLICATION_OCTET_STREAM)
+        //         .body(outputStream -> {
+        //             try (InputStream inputStream = new ByteArrayInputStream("From Server: Hello World".getBytes(StandardCharsets.UTF_8))) {
+        //                 inputStream.transferTo(outputStream);
+        //                 outputStream.flush();
+        //             }
+        //         });
 
         // return new InputStreamResource(new ByteArrayInputStream("From Server: Hello World".getBytes(StandardCharsets.UTF_8)));
     }

@@ -165,9 +165,9 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
     @ConditionalOnMissingBean({Executor.class, ExecutorService.class})
     @Primary
     public ThreadPoolExecutorFactoryBean executorService() {
-        final int coreSize = Math.max(2, Runtime.getRuntime().availableProcessors());
+        final int coreSize = Math.max(2, Runtime.getRuntime().availableProcessors() / 4);
         final int maxSize = coreSize * 2;
-        final int queueSize = maxSize * 2;
+        final int queueSize = maxSize * 4;
         final int keepAliveSeconds = 60;
 
         final ThreadPoolExecutorFactoryBean bean = new ThreadPoolExecutorFactoryBean();
@@ -253,7 +253,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
     @Bean
     @ConditionalOnMissingBean(ScheduledExecutorService.class)
     public ScheduledExecutorFactoryBean scheduledExecutorService() {
-        final int poolSize = Math.max(2, Runtime.getRuntime().availableProcessors() / 2);
+        final int poolSize = Math.max(2, Runtime.getRuntime().availableProcessors() / 4);
 
         final ScheduledExecutorFactoryBean bean = new ScheduledExecutorFactoryBean();
         bean.setPoolSize(poolSize);

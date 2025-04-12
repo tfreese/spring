@@ -36,7 +36,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Override
     @Test
     void testHealthEndpoint() throws Exception {
-        this.mockMvc.perform(get("/actuator/info")
+        mockMvc.perform(get("/actuator/info")
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -54,7 +54,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Override
     @Test
     void testPost() throws Exception {
-        this.mockMvc.perform(post("/rest/person/personAdd")
+        mockMvc.perform(post("/rest/person/personAdd")
                         .with(httpBasic("admin", "pw"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"firstName\":\"Thomas\", \"lastName\":\"Freese\"}"))
@@ -64,7 +64,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
 
         final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
-        this.mockMvc.perform(get("/rest/person/personList")
+        mockMvc.perform(get("/rest/person/personList")
                         .with(httpBasic("user", "pw"))
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -92,7 +92,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Override
     @Test
     void testPostWithWrongRole() throws Exception {
-        this.mockMvc.perform(post("/rest/person/personAdd")
+        mockMvc.perform(post("/rest/person/personAdd")
                         .with(httpBasic("user", "pw"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"firstName\":\"Thomas\",\"lastName\":\"Freese\"}"))
@@ -110,7 +110,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     void testUserWithLoginJSON() throws Exception {
         final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
-        this.mockMvc.perform(get("/rest/person/personList")
+        mockMvc.perform(get("/rest/person/personList")
                         .with(httpBasic("user", "pw"))
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -138,7 +138,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         final ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
         final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
-        this.mockMvc.perform(get("/rest/person/personList")
+        mockMvc.perform(get("/rest/person/personList")
                         .with(httpBasic("admin", "pw"))
                         .accept(MediaType.APPLICATION_XML))
                 .andExpect(status().isOk())
@@ -160,7 +160,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     void testUserWithPreAuthJSON() throws Exception {
         final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
-        this.mockMvc.perform(get("/rest/person/personList")
+        mockMvc.perform(get("/rest/person/personList")
                         .header("my-token", "user")
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -183,7 +183,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         final ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
         final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
-        this.mockMvc.perform(get("/rest/person/personList")
+        mockMvc.perform(get("/rest/person/personList")
                         .header("my-token", "admin")
                         .accept(MediaType.APPLICATION_XML))
                 .andExpect(status().isOk())
@@ -203,7 +203,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithWrongPass() throws Exception {
-        this.mockMvc.perform(get("/rest/person/personList")
+        mockMvc.perform(get("/rest/person/personList")
                         .with(httpBasic("user", "pass")))
                 .andExpect(status().isUnauthorized())
         ;
@@ -217,7 +217,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithWrongRole() throws Exception {
-        this.mockMvc.perform(get("/rest/person/personList")
+        mockMvc.perform(get("/rest/person/personList")
                         .with(httpBasic("invalid", "pw")))
                 .andExpect(status().isForbidden())
         ;
@@ -226,7 +226,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithoutLogin() throws Exception {
-        this.mockMvc.perform(get("/rest/person/personList"))
+        mockMvc.perform(get("/rest/person/personList"))
                 .andExpect(status().isUnauthorized());
     }
 }
