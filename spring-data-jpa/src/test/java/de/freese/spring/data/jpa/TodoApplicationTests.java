@@ -425,8 +425,8 @@ class TodoApplicationTests {
                 .build();
 
         final CharCodingConfig charCodingConfig = CharCodingConfig.custom()
-                .setCharset(StandardCharsets.UTF_8).
-                build();
+                .setCharset(StandardCharsets.UTF_8)
+                .build();
 
         final HttpConnectionFactory<ManagedHttpClientConnection> connectionSocketFactory = ManagedHttpClientConnectionFactory.builder()
                 .http1Config(http1Config)

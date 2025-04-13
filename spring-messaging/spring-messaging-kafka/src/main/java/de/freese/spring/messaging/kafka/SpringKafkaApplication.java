@@ -17,14 +17,12 @@ public class SpringKafkaApplication {
     }
 
     //    @Bean
-    //    public KafkaTemplate<String, String> kafkaTemplate(ProducerFactory<String, String> producerFactory)
-    //    {
+    //    public KafkaTemplate<String, String> kafkaTemplate(ProducerFactory<String, String> producerFactory) {
     //        return new KafkaTemplate<>(producerFactory);
     //    }
     //
     //    @Bean
-    //    public ProducerFactory<String, String> producerFactory()
-    //    {
+    //    public ProducerFactory<String, String> producerFactory() {
     //        Map<String, Object> config = new HashMap<>();
     //
     //        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");

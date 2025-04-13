@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.io.Serial;
 import java.time.LocalDateTime;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +20,7 @@ public class DemoServlet extends HttpServlet {
     private static final long serialVersionUID = 891637777095320320L;
 
     @Override
-    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
 
         try (PrintWriter writer = resp.getWriter()) {

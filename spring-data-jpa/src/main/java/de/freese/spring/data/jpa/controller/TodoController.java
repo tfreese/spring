@@ -1,5 +1,5 @@
 // Created: 16.08.23
-package de.freese.spring.data.jpa.web;
+package de.freese.spring.data.jpa.controller;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -76,7 +76,7 @@ public class TodoController {
     /**
      * Jakarta:<br>
      * <pre>{@code
-     * public void test(@PathVariable("id") final UUID id,  final InputStream inputStream) throws IOException {}
+     * public void test(@PathVariable("id") final UUID id, final InputStream inputStream) throws IOException {}
      * }</pre><br>
      *
      * AtRequestBody final byte[] payload
@@ -103,10 +103,11 @@ public class TodoController {
      *                 outputStream.flush();
      *             }
      *         }).build();
-     * }     * }</pre>
+     * }
+     * // ResponseEntity<byte[]>
+     * }</pre>
      *
      * StreamingResponseBody, InputStreamResource working booth alone and with ResponseEntity.<br>
-     * ResponseEntity<byte[]>
      */
     @GetMapping(value = "/{id}/stream", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public StreamingResponseBody testStream(@PathVariable("id") final UUID id) {
