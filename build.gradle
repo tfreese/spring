@@ -2,10 +2,10 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 // Execute Tasks in SubModule: gradle MODUL:clean build
 plugins {
-    id "de.freese.gradle.java.conventions" version "$version_myJavaConventionPlugin" apply false
-    // id "io.spring.dependency-management" version "$version_springDependencyManagementPlugin" apply false
-    id "org.openjfx.javafxplugin" version "$version_javafxPlugin" apply false
-    id "org.springframework.boot" version "$version_springBoot" apply false
+    id("de.freese.gradle.java.conventions") version("$version_myJavaConventionPlugin") apply(false)
+    // id("io.spring.dependency-management") version("$version_springDependencyManagementPlugin") apply(false)
+    id("org.openjfx.javafxplugin") version("$version_javafxPlugin") apply(false)
+    id("org.springframework.boot") version("$version_springBoot") apply(false)
 }
 
 allprojects {
