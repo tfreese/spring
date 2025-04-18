@@ -3,6 +3,7 @@ package de.freese.spring.thymeleaf.exception;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,6 +31,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 // @RestControllerAdvice
 // @Controller
 public class RestControllerExceptionHandler extends ResponseEntityExceptionHandler {
+    private static final int KEEP_N_STACKTRACES = 10;
+
     protected static Exception getException(final HttpServletRequest request) {
         return (Exception) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
     }
@@ -88,22 +91,15 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         final StringBuilder sb = new StringBuilder();
         sb.append(ex.getClass().getSimpleName()).append(": ").append(ex.getMessage());
 
-        // Keep last N Elements.
-        final int keepLastNStaceTraceElements = 4;
+        // Keep N Elements.
+        final StackTraceElement[] stackTraceElements = ex.getStackTrace();
 
-        final StackTraceElement[] stackTraceOrigin = ex.getStackTrace();
-        StackTraceElement[] stackTrace = stackTraceOrigin;
+        Stream.of(stackTraceElements)
+                .limit(KEEP_N_STACKTRACES)
+                .map(StackTraceElement::toString)
+                .forEach(element -> sb.append("\tat ").append(element));
 
-        if (stackTraceOrigin.length > keepLastNStaceTraceElements) {
-            stackTrace = new StackTraceElement[keepLastNStaceTraceElements];
-            System.arraycopy(stackTraceOrigin, 0, stackTrace, 0, keepLastNStaceTraceElements);
-        }
-
-        for (StackTraceElement stackTraceElement : stackTrace) {
-            sb.append("\tat ").append(stackTraceElement);
-        }
-
-        if (stackTraceOrigin.length > keepLastNStaceTraceElements) {
+        if (KEEP_N_STACKTRACES < stackTraceElements.length) {
             sb.append("\t...");
         }
 

@@ -1,5 +1,5 @@
 plugins {
-    id "java"
+    id("java")
 }
 
 description = "Demo für Test-Container"
@@ -15,7 +15,7 @@ dependencies {
     testImplementation("org.mariadb.jdbc:mariadb-java-client")
     testImplementation("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        // exclude module: "junit-vintage-engine"
+        // exclude(module: "junit-vintage-engine")
     }
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")

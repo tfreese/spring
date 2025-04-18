@@ -1,11 +1,11 @@
 plugins {
-    id 'java'
+    id("java")
 }
 
 description = "Kubernetes API"
 
 dependencies {
-    implementation("io.kubernetes:client-java:20.0.1")
+    implementation("io.kubernetes:client-java:$version_kubernetesClientJava")
 
     runtimeOnly("org.slf4j:slf4j-simple")
 }

@@ -1,13 +1,13 @@
 plugins {
-    id "java"
-    id "org.springframework.boot"
+    id("java")
+    id("org.springframework.boot")
 }
 
 description = "Test Projekt für das Spring-Integration Modul"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-integration") {
-        exclude group: "ch.qos.logback", module: "logback-classic"
+        exclude(group: "ch.qos.logback", module: "logback-classic")
     }
 
     testImplementation("org.slf4j:slf4j-simple")
