@@ -14,43 +14,22 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import jakarta.annotation.Resource;
 
-import org.apache.hc.client5.http.ConnectionKeepAliveStrategy;
-import org.apache.hc.client5.http.config.ConnectionConfig;
-import org.apache.hc.client5.http.config.RequestConfig;
-import org.apache.hc.client5.http.config.TlsConfig;
-import org.apache.hc.client5.http.impl.DefaultConnectionKeepAliveStrategy;
-import org.apache.hc.client5.http.impl.DefaultHttpRequestRetryStrategy;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.apache.hc.client5.http.impl.io.ManagedHttpClientConnectionFactory;
-import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
-import org.apache.hc.client5.http.io.HttpClientConnectionManager;
-import org.apache.hc.client5.http.io.ManagedHttpClientConnection;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpHeaders;
-import org.apache.hc.core5.http.HttpResponse;
-import org.apache.hc.core5.http.config.CharCodingConfig;
-import org.apache.hc.core5.http.config.Http1Config;
-import org.apache.hc.core5.http.io.HttpConnectionFactory;
-import org.apache.hc.core5.http.io.SocketConfig;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.HttpEntities;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
-import org.apache.hc.core5.http.protocol.HttpContext;
-import org.apache.hc.core5.http.ssl.TLS;
-import org.apache.hc.core5.http2.HttpVersionPolicy;
-import org.apache.hc.core5.pool.PoolReusePolicy;
-import org.apache.hc.core5.util.TimeValue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -417,70 +396,7 @@ class TodoApplicationTests {
      * <a href=https://github.com/apache/httpcomponents-client/blob/5.4.x/httpclient5/src/test/java/org/apache/hc/client5/http/examples/ClientConfiguration.java>config</a>
      */
     private CloseableHttpClient createApacheHttp() {
-        final int chunkSize = 1_048_576;
-
-        final Http1Config http1Config = Http1Config.custom()
-                .setChunkSizeHint(chunkSize)
-                .setBufferSize(chunkSize)
-                .build();
-
-        final CharCodingConfig charCodingConfig = CharCodingConfig.custom()
-                .setCharset(StandardCharsets.UTF_8)
-                .build();
-
-        final HttpConnectionFactory<ManagedHttpClientConnection> connectionSocketFactory = ManagedHttpClientConnectionFactory.builder()
-                .http1Config(http1Config)
-                .charCodingConfig(charCodingConfig)
-                .build();
-
-        // new NoopHostnameVerifier()
-        // final TlsSocketStrategy tlsSocketStrategy = new DefaultClientTlsStrategy(SSLContext.getDefault(), HttpsURLConnection.getDefaultHostnameVerifier());
-
-        final HttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
-                .setConnectionFactory(connectionSocketFactory)
-                .setDefaultConnectionConfig(ConnectionConfig.custom()
-                        .setConnectTimeout(60L, TimeUnit.SECONDS)
-                        .setSocketTimeout(60, TimeUnit.SECONDS)
-                        .setTimeToLive(10L, TimeUnit.MINUTES)
-                        .build())
-                .setDefaultSocketConfig(SocketConfig.custom()
-                        .setSoTimeout(120, TimeUnit.SECONDS)
-                        .build())
-                // .setTlsSocketStrategy(tlsSocketStrategy)
-                .setDefaultTlsConfig(TlsConfig.custom()
-                        .setVersionPolicy(HttpVersionPolicy.NEGOTIATE)
-                        .setHandshakeTimeout(1L, TimeUnit.MINUTES)
-                        .setSupportedProtocols(TLS.V_1_3)
-                        .build())
-                // .setMaxConnPerRoute(5)
-                .setMaxConnTotal(20)
-                .setConnPoolPolicy(PoolReusePolicy.FIFO)
-                .build();
-
-        // if (connectionManager instanceof PoolingHttpClientConnectionManager phccm) {
-        //     return Optional.of(phccm.getTotalStats());
-        // }
-
-        final ConnectionKeepAliveStrategy connectionKeepAliveStrategy = new DefaultConnectionKeepAliveStrategy() {
-            @Override
-            public TimeValue getKeepAliveDuration(final HttpResponse response, final HttpContext context) {
-                final TimeValue duration = super.getKeepAliveDuration(response, context);
-
-                return duration.getDuration() == -1L ? TimeValue.ofMinutes(2) : duration;
-            }
-        };
-
-        return HttpClientBuilder.create()
-                .setConnectionManager(connectionManager)
-                .setDefaultRequestConfig(RequestConfig.custom()
-                        .setConnectionRequestTimeout(3, TimeUnit.SECONDS)
-                        .setResponseTimeout(3, TimeUnit.SECONDS)
-                        .build())
-                .setKeepAliveStrategy(connectionKeepAliveStrategy)
-                .evictExpiredConnections()
-                .setUserAgent("My Java App")
-                .setRetryStrategy(new DefaultHttpRequestRetryStrategy(2, TimeValue.ofSeconds(3)))
-                .build();
+        return ApacheHttpClientConfigurer.createCloseableHttpClient(3, Duration.ofSeconds(3), null);
     }
 
     private TodoClient createTodoClient() {
