@@ -12,7 +12,6 @@ dependencies {
     testAnnotationProcessor("org.openjdk.jmh:jmh-generator-annprocess")
 
     testImplementation("org.openjdk.jmh:jmh-core")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"

@@ -15,7 +15,6 @@ dependencies {
 
     testImplementation("io.github.resilience4j:resilience4j-all")
     // testImplementation("io.projectreactor:reactor-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 // The archive name. If the name has not been explicitly set, the pattern for the name is:

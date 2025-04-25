@@ -13,8 +13,6 @@ dependencies {
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
     runtimeOnly("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
     runtimeOnly("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"

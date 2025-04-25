@@ -19,7 +19,6 @@ dependencies {
 
     // runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
 }
 

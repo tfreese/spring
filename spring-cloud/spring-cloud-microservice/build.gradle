@@ -15,7 +15,6 @@ dependencies {
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
     testImplementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"

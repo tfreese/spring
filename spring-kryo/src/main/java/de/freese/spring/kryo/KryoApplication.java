@@ -8,8 +8,8 @@ import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy;
 import com.esotericsoftware.kryo.util.MapReferenceResolver;
 import com.esotericsoftware.kryo.util.Pool;
 import org.objenesis.strategy.StdInstantiatorStrategy;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -60,7 +60,8 @@ public class KryoApplication implements WebMvcConfigurer {
     };
 
     public static void main(final String[] args) {
-        new SpringApplicationBuilder(KryoApplication.class).run(args);
+        SpringApplication.run(KryoApplication.class, args);
+        // new SpringApplicationBuilder(KryoApplication.class).run(args);
     }
 
     @Override

@@ -12,7 +12,6 @@ dependencies {
     implementation("org.springframework.security:spring-security-rsocket")
 
     testImplementation("io.projectreactor:reactor-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 test {

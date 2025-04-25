@@ -1,0 +1,17 @@
+# =================================================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html
+# =================================================================================================
+
+
+# Spring Properties
+debug: false
+
+info:
+    app:
+        name: ${project_artifactId}
+        description: ${project_description}
+        version: ${project_version}
+
+my:
+    variable: child2Value

@@ -1,0 +1,23 @@
+plugins {
+    id("java")
+}
+
+description = "Multiple Spring-Contexts"
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter")
+}
+
+processResources {
+    def map = [
+            "project_description": project.description,
+            "project_artifactId" : project.name,
+            "project_version"    : project.version
+    ]
+
+    filesMatching(["application-*.yml", "bootstrap.yml"]) {
+        // filteringCharset = "UTF-8"
+
+        expand(map)
+    }
+}

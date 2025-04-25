@@ -10,8 +10,6 @@ dependencies {
     // implementation("org.apache.activemq:activemq-broker")
     implementation("org.springframework.boot:spring-boot-starter-json")
     implementation("org.springframework.boot:spring-boot-starter-artemis")
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
