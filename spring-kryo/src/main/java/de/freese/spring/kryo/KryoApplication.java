@@ -32,6 +32,7 @@ public class KryoApplication implements WebMvcConfigurer {
             kryo.setOptimizedGenerics(false);
             kryo.setReferenceResolver(new MapReferenceResolver() {
                 @Override
+                @SuppressWarnings("rawtypes")
                 public boolean useReferences(final Class type) {
                     return super.useReferences(type) && !String.class.equals(type); // For Problems with String References.
                 }
