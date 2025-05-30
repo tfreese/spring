@@ -33,7 +33,7 @@ import software.xdev.chartjs.model.options.scale.cartesian.linear.LinearScaleOpt
  * @author Thomas Freese
  */
 // @Named
-@Component  // siehe faces-config.xml: el-resolver
+@Component  // see faces-config.xml: el-resolver
 @ViewScoped
 public final class LineChartBean implements Serializable {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -52,13 +52,13 @@ public final class LineChartBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        // x-Achse
+        // x-Axis
         final LinearScaleOptions xScale = new LinearScaleOptions()
                 .setTitle(new AbstractCartesianScaleOptions.Title()
                         .setText("Data")
                 );
 
-        // y-Achse
+        // y-Axis
         final LinearScaleOptions yScale = new LinearScaleOptions()
                 .setBeginAtZero(true);
 

@@ -63,7 +63,7 @@ class GreetingMockMvcTests {
         final DocumentContext documentContext = JsonPath.parse(response);
         assertEquals("Hello, World!", documentContext.read("greeting", String.class));
 
-        // Hier greift der Cache nicht.
+        // Cache isn't used here.
         // final JsonPath jsonPathGreeting = JsonPath.compile("greeting");
         // assertEquals("Hello, World!", documentContext.read(jsonPathGreeting, String.class));
         // assertEquals("Hello, World!", JsonPath.compile("greeting").read(response));

@@ -34,7 +34,7 @@ class TestCafe {
     // }
 
     @Test
-    void testCafeConfig() throws Exception {
+    void testCafeConfig() {
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder()
                 .headless(true)
                 .registerShutdownHook(true)
@@ -48,7 +48,7 @@ class TestCafe {
     }
 
     @Test
-    void testCafeDemoWithAnnotationSupport() throws Exception {
+    void testCafeDemoWithAnnotationSupport() {
         try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-annotation.xml")) {
             context.registerShutdownHook();
 
@@ -57,7 +57,7 @@ class TestCafe {
     }
 
     @Test
-    void testCafeDemoWithXmlSupport() throws Exception {
+    void testCafeDemoWithXmlSupport() {
         try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-xml.xml")) {
             context.registerShutdownHook();
 
@@ -66,7 +66,7 @@ class TestCafe {
     }
 
     @Test
-    void testCafeDsl() throws Exception {
+    void testCafeDsl() {
         // ConfigurableApplicationContext context = SpringApplication.run(ApplicationConfig.class);
 
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder()
@@ -81,7 +81,7 @@ class TestCafe {
         }
     }
 
-    private void testCafe(final ApplicationContext context) throws Exception {
+    private void testCafe(final ApplicationContext context) {
         final Cafe cafe = context.getBean(Cafe.class);
 
         for (int i = 1; i < 4; i++) {
@@ -91,7 +91,7 @@ class TestCafe {
             cafe.placeOrder(order);
         }
 
-        // Zeit für Arbeit des Spring-Frameworks.
+        // Some extra Time for shutdown.
         await().pollDelay(Duration.ofMillis(5000L)).until(() -> true);
     }
 }

@@ -8,8 +8,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * Startklasse des Servers.<br>
- *
  * @author Thomas Freese
  */
 @SpringBootApplication
@@ -18,7 +16,7 @@ public class MicroServiceApplication extends SpringBootServletInitializer {
     public static void main(final String[] args) {
         configureApplication(new SpringApplicationBuilder()).run(args);
 
-        //        SpringApplication.run(MicroServiceApplication.class, args);
+        // SpringApplication.run(MicroServiceApplication.class, args);
     }
 
     private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder) {
@@ -35,12 +33,6 @@ public class MicroServiceApplication extends SpringBootServletInitializer {
     // System.setProperty("server.port", Integer.toString(65501));
     // }
 
-    /**
-     * POM:<br>
-     * &lt;packaging>&gt;war&lt;/packaging&gt;<<br>
-     * Tomcat aus spring-boot-starter-web excludieren und explizit auf provided setzen.<br>
-     * Alle anderen J2EE-Jars auf provided setzen.
-     */
     @Override
     protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
         return configureApplication(application);

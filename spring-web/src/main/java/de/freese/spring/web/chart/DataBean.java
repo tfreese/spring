@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author Thomas Freese
  */
-@Component  // siehe faces-config.xml: el-resolver
+@Component  // see faces-config.xml: el-resolver
 @ViewScoped
 public final class DataBean implements Serializable {
     @Serial

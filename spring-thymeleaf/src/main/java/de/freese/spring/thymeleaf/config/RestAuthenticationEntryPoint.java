@@ -13,8 +13,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
 /**
- * BasicAuthenticationEntryPoint liefert die volle HTML-Fehler-Seite, dies ist bei REST nicht gewünscht.<br>
- * Ausserdem wird die FilterChain weiter ausgeführt, wenn keine Credentials vorhanden sind.<br>
+ * BasicAuthenticationEntryPoint creates a complete HTML-Error-Site, this is not desired for REST Communication.<br>
+ * Besides that, the FilterChain is further explained if no Credentials existing.<br>
  *
  * @author Thomas Freese
  */

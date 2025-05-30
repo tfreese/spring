@@ -27,7 +27,7 @@ class TestClientReflection {
 
     @Test
     void testHttpConnection() {
-        final String rootUri = "http://localhost:" + this.localServerPort;
+        final String rootUri = "http://localhost:" + localServerPort;
         final ReflectionControllerApi fassade = new ClientReflectionController(KryoApplication.KRYO_POOL, rootUri, ConnectType.HTTP_CONNECTION);
 
         final LocalDateTime localDateTime = fassade.testKryo();
@@ -37,7 +37,7 @@ class TestClientReflection {
 
     @Test
     void testRestTemplate() {
-        final String rootUri = "http://localhost:" + this.localServerPort;
+        final String rootUri = "http://localhost:" + localServerPort;
         final ReflectionControllerApi fassade = new ClientReflectionController(KryoApplication.KRYO_POOL, rootUri, ConnectType.REST_TEMPLATE);
 
         final LocalDateTime localDateTime = fassade.testKryo();

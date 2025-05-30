@@ -17,14 +17,14 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 /**
  * @author Thomas Freese
  */
-@WebFluxTest(GreetingController.class) // braucht spring-boot-starter-webflux
+@WebFluxTest(GreetingController.class) // need spring-boot-starter-webflux
 @ActiveProfiles("test")
 class GreetingWebFluxTests {
     @Resource
     private WebTestClient webTestClient;
 
     @Test
-    @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
+    @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> must be configured")
     void testDefault() {
         this.webTestClient.get()
                 .uri("/greeter")
@@ -51,7 +51,7 @@ class GreetingWebFluxTests {
     }
 
     @Test
-    @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
+    @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> must be configured")
     void testPath() {
         this.webTestClient.get()
                 .uri("/greeter/path/Test")
@@ -67,7 +67,7 @@ class GreetingWebFluxTests {
     }
 
     @Test
-    @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> muss konfiguriert werden")
+    @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> must be configured")
     void testPojo() {
         this.webTestClient.get()
                 .uri(uriBuilder -> uriBuilder

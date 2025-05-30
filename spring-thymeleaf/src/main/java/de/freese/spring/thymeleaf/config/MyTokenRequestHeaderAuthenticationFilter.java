@@ -13,7 +13,7 @@ public final class MyTokenRequestHeaderAuthenticationFilter extends RequestHeade
         final MyTokenRequestHeaderAuthenticationFilter filter = new MyTokenRequestHeaderAuthenticationFilter();
         filter.setPrincipalRequestHeader(principalRequestHeader);
 
-        filter.setExceptionIfHeaderMissing(false); // Damit keine Fehlermeldung ausgegeben wird.
+        filter.setExceptionIfHeaderMissing(false); // No Exception.
         filter.setCheckForPrincipalChanges(true);
         filter.setInvalidateSessionOnPrincipalChange(true);
 

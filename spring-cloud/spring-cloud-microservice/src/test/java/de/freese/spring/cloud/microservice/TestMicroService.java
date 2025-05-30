@@ -24,8 +24,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = MicroServiceApplication.class)
 @AutoConfigureMockMvc
 @ActiveProfiles({"test"})
-class TestRestController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestRestController.class);
+class TestMicroService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestMicroService.class);
 
     @Resource
     private MockMvc mockMvc;
@@ -35,7 +35,7 @@ class TestRestController {
 
     @Test
     void testHello() throws Exception {
-        this.mockMvc.perform(
+        mockMvc.perform(
                         get("/") // Test-URLs ohne Context-Root angeben
                                 .accept(MediaType.APPLICATION_JSON)
                 )
@@ -50,14 +50,14 @@ class TestRestController {
     void testPing() throws Exception {
         // .andDo(print()).andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
 
-        this.mockMvc.perform(get("/ping")) // Test-URLs ohne Context-Root angeben.
+        mockMvc.perform(get("/ping")) // Test-URLs ohne Context-Root angeben.
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 //          .andDo(MockMvcResultHandlers.print())
                 .andExpect(content().string(containsString("Ping from")))
         ;
 
-        // this.webClient.get().repository("/")
+        // webClient.get().repository("/")
         //         .exchange()
         //         .expectStatus().isOk()
         //         .exp

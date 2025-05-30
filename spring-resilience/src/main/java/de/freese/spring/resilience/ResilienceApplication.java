@@ -25,7 +25,7 @@ public class ResilienceApplication implements ApplicationRunner {
     }
 
     @Override
-    public void run(final ApplicationArguments args) throws Exception {
+    public void run(final ApplicationArguments args) {
         final Runtime runtime = Runtime.getRuntime();
 
         final NumberFormat format = NumberFormat.getInstance();

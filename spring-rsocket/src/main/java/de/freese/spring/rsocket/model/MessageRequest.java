@@ -18,7 +18,7 @@ public class MessageRequest {
     }
 
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
     public void setMessage(final String message) {
@@ -30,7 +30,7 @@ public class MessageRequest {
         final StringBuilder builder = new StringBuilder();
         builder.append(getClass().getSimpleName());
         builder.append("[");
-        builder.append("message=").append(this.message);
+        builder.append("message=").append(message);
         builder.append("]");
 
         return builder.toString();

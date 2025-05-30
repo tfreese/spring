@@ -18,13 +18,13 @@ info:
 
 management:
     endpoints:
-        enabled-by-default: true
+        access: default
         web:
             exposure:
                 include: "*"
     endpoint:
         health:
-            enabled: true
+            access: unrestricted
             show-details: ALWAYS
 
 server:

@@ -24,11 +24,11 @@ public class MessageResponse {
     }
 
     public long getIndex() {
-        return this.index;
+        return index;
     }
 
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
     public void setIndex(final long index) {
@@ -44,8 +44,8 @@ public class MessageResponse {
         final StringBuilder builder = new StringBuilder();
         builder.append(getClass().getSimpleName());
         builder.append("[");
-        builder.append("message=").append(this.message);
-        builder.append(", index=").append(this.index);
+        builder.append("message=").append(message);
+        builder.append(", index=").append(index);
         builder.append("]");
 
         return builder.toString();

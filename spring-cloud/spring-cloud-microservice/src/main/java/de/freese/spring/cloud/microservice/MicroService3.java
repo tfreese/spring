@@ -4,14 +4,12 @@ package de.freese.spring.cloud.microservice;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 /**
- * Startklasse des Servers.<br>
- *
  * @author Thomas Freese
  */
 public final class MicroService3 {
     public static void main(final String[] args) {
         new SpringApplicationBuilder(MicroServiceApplication.class)
-                //.properties("server.port=8083") // Funktioniert nicht, wenn server.port in application.yml enthalten ist.
+                //.properties("server.port=8083") // Doesn't work if server.port configured in application.yml.
                 //.run(args);
                 .run("--server.port=8083");
     }

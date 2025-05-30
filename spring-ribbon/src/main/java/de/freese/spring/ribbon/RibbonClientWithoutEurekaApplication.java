@@ -21,8 +21,7 @@ import org.springframework.web.client.RestTemplate;
  * @author Thomas Freese
  */
 @SpringBootApplication(exclude = GsonAutoConfiguration.class) // GSON hat Fehler verursacht -->
-// (exclude =
-// {
+// (exclude = {
 // EurekaClientAutoConfiguration.class, CommonsClientAutoConfiguration.class
 // })
 // @EnableDiscoveryClient(autoRegister = false)

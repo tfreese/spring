@@ -3,12 +3,12 @@
 <html lang="de" manifest="manifest.appcache" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org"
 >
 
-<head th:replace="/fragments/head :: headFragment">
+<head th:replace="~{fragments/head :: headFragment}">
     <title>TITLE - Wird ersetzt</title>
 </head>
 
 <body>
-<div th:replace="/fragments/header :: headerMenuFragment">HEADER - Wird ersetzt</div>
+<div th:replace="~{fragments/header :: headerMenuFragment}">HEADER - Wird ersetzt</div>
 
 <div id="content_container">
     <div id="content">
@@ -27,6 +27,6 @@
     </div>
 </div>
 
-<div th:replace="/fragments/footer :: footerFragment">FOOTER - Wird ersetzt</div>
+<div th:replace="~{fragments/footer :: footerFragment}">FOOTER - Wird ersetzt</div>
 </body>
 </html>

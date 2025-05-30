@@ -11,6 +11,7 @@ dependencies {
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-json")
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+    // runtimeOnly("org.springframework.boot:spring-boot-starter-web")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"

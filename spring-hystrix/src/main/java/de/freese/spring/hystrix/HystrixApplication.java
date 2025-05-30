@@ -24,7 +24,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Startklasse des Hystrix-Clients.<br>
  * <a href="https://github.com/Netflix/Hystrix/tree/master/hystrix-contrib/hystrix-javanica">hystrix-javanica</a><br>
  *
  * @author Thomas Freese
@@ -33,10 +32,9 @@ import org.springframework.web.client.RestTemplate;
 @EnableHystrix
 @EnableHystrixDashboard
 
-@DefaultProperties(groupKey = "HystrixApplication") // Restliche Konfiguration siehe hystrix.properties
+@DefaultProperties(groupKey = "HystrixApplication") // Other Configuration sees hystrix.properties
 
-// @DefaultProperties(groupKey = "HystrixApplication", commandProperties =
-// {
+// @DefaultProperties(groupKey = "HystrixApplication", commandProperties = {
 // @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"), // HystrixCommands in separaten Threads ausführen
 // @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "300")
 // })
@@ -44,23 +42,23 @@ public class HystrixApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(HystrixApplication.class);
 
     public static void main(final String[] args) throws Exception {
-        // configuration from environment properties
+        // Configuration from environment properties.
         final ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
 
-        // configuration from system properties
+        // Configuration from system properties.
         final ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
 
-        // // configuration from local properties file
+        // Configuration from a local properties file.
         final ConcurrentMapConfiguration configFromPropertiesFile = new ConcurrentMapConfiguration(new PropertiesConfiguration("hystrix.properties"));
 
-        // create a hierarchy of configuration that makes
+        // Create a hierarchy of configuration that makes.
         // 1) system properties override properties file
         final ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
         finalConfig.addConfiguration(configFromEnvironmentProperties, "environmentConfig");
         finalConfig.addConfiguration(configFromSystemProperties, "systemConfig");
         finalConfig.addConfiguration(configFromPropertiesFile, "fileConfig");
 
-        // install with ConfigurationManager so that finalConfig becomes the source of dynamic properties
+        // Install with ConfigurationManager so that finalConfig becomes the source of dynamic properties.
         ConfigurationManager.install(finalConfig);
 
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder(HystrixApplication.class).run(args)) {

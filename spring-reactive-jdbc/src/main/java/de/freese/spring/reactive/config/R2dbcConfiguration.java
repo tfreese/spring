@@ -46,8 +46,7 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
     // * Erspart einem das DatabaseClient.sql(...).fetch().then().as(TransactionalOperator::transactional)
     // */
     // @Bean
-    // TransactionAwareConnectionFactoryProxy transactionAwareConnectionFactoryProxy(final ConnectionFactory connectionFactory)
-    // {
+    // TransactionAwareConnectionFactoryProxy transactionAwareConnectionFactoryProxy(final ConnectionFactory connectionFactory) {
     // return new TransactionAwareConnectionFactoryProxy(connectionFactory);
     // }
 
@@ -55,8 +54,7 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
     // * Wird automatisch erzeugt.
     // */
     // @Bean
-    // TransactionalOperator transactionalOperator(final ReactiveTransactionManager transactionManager)
-    // {
+    // TransactionalOperator transactionalOperator(final ReactiveTransactionManager transactionManager) {
     // return TransactionalOperator.create(transactionManager);
     // }
 
@@ -64,14 +62,12 @@ public class R2dbcConfiguration // extends AbstractR2dbcConfiguration
     // * Wird automatisch erzeugt.
     // */
     // @Bean
-    // ReactiveTransactionManager transactionManager(final ConnectionFactory connectionFactory)
-    // {
+    // ReactiveTransactionManager transactionManager(final ConnectionFactory connectionFactory) {
     // return new R2dbcTransactionManager(connectionFactory);
     // }
 
     // @Bean
-    // public ConnectionFactoryInitializer initializer(final ConnectionFactory connectionFactory)
-    // {
+    // public ConnectionFactoryInitializer initializer(final ConnectionFactory connectionFactory) {
     // final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
     // populator.addScript(new ClassPathResource("sql/schema.sql"));
     // populator.addScript(new ClassPathResource("sql/data.sql"));

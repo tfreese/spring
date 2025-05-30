@@ -45,7 +45,7 @@ import org.springframework.security.oauth2.server.resource.web.access.BearerToke
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.util.Assert;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -158,7 +158,7 @@ public class SecurityConfig {
     @SuppressWarnings("java:S4502")
     SecurityFilterChain securityFilterChainToken(final HttpSecurity http) throws Exception {
         return http
-                .securityMatcher(new AntPathRequestMatcher("/token"))
+                .securityMatcher(PathPatternRequestMatcher.withDefaults().matcher("/token"))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

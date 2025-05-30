@@ -1,17 +1,12 @@
 // Created: 02.09.2018
 package de.freese.spring.thymeleaf.config;
 
-import java.time.LocalDateTime;
-import java.util.Enumeration;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +30,6 @@ import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean;
 import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
 import org.springframework.security.concurrent.DelegatingSecurityContextExecutorService;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
@@ -108,24 +102,24 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
 
-        // Parsen von HTTPS-Headern vor der Verarbeitung des Requests.
-        registry.addInterceptor(new HandlerInterceptor() {
-            @Override
-            public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
-                // System.out.println("HandlerInterceptor: " + Thread.currentThread().getName());
-
-                LOGGER.info("Request: {}", LocalDateTime.now());
-
-                final Enumeration<String> headerNames = request.getHeaderNames();
-
-                while (headerNames.hasMoreElements()) {
-                    final String headerName = headerNames.nextElement();
-                    LOGGER.info("{} = {}", headerName, request.getHeader(headerName));
-                }
-
-                return true;
-            }
-        });
+        // Parse HTTPS-Header before the Request is processed.
+        // registry.addInterceptor(new HandlerInterceptor() {
+        //     @Override
+        //     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
+        //         // System.out.println("HandlerInterceptor: " + Thread.currentThread().getName());
+        //
+        //         LOGGER.info("Request: {}", LocalDateTime.now());
+        //
+        //         final Enumeration<String> headerNames = request.getHeaderNames();
+        //
+        //         while (headerNames.hasMoreElements()) {
+        //             final String headerName = headerNames.nextElement();
+        //             LOGGER.info("{} = {}", headerName, request.getHeader(headerName));
+        //         }
+        //
+        //         return true;
+        //     }
+        // });
     }
 
     @Override
@@ -136,9 +130,9 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
     }
 
     /**
-     * Executer für die Verarbeitung der HTTP-Requests.<br>
-     * Verlagert die asynchrone Ausführung von Server-Requests (Callable, WebAsyncTask) in diesen ThreadPool.<br>
-     * Ansonsten würde für jeden Request immer ein neuer Thread erzeugt, siehe TaskExecutor des RequestMappingHandlerAdapter.<br>
+     * Executer for processing HTTP-Requests.<br>
+     * Delegates the Server-Requests (Callable, WebAsyncTask) in these ThreadPool.<br>
+     * Otherwise a new Thread is created for each Request, see TaskExecutor for RequestMappingHandlerAdapter.<br>
      */
     @Override
     public void configureAsyncSupport(final AsyncSupportConfigurer configurer) {
@@ -146,16 +140,16 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
     }
 
     /**
-     * JSON als Default, alternativ XML über ACCEPT-Header.
+     * JSON as Default, alternativ XML over ACCEPT-Header.
      */
     @Override
     public void configureContentNegotiation(final ContentNegotiationConfigurer configurer) {
         configurer
-                //.favorPathExtension(false) // URL.xml -> Liefert XML; Ersetzen durch strategies(strategies)
-                .favorParameter(false).parameterName("format") // URL?format=xml -> Liefert XML
+                //.favorPathExtension(false) // URL.xml -> Delivers XML; Replace with strategies(strategies)
+                .favorParameter(false).parameterName("format") // URL?format=xml -> Delivers XML
                 .ignoreAcceptHeader(false)
                 .useRegisteredExtensionsOnly(true)
-                //.ignoreUnknownPathExtensions(false) // Ersetzen durch strategies(strategies)
+                //.ignoreUnknownPathExtensions(false) // Replace with strategies(strategies)
                 .defaultContentType(MediaType.APPLICATION_JSON)
                 .mediaType("xml", MediaType.APPLICATION_XML)
                 .mediaType("json", MediaType.APPLICATION_JSON);
@@ -195,7 +189,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
     }
 
     /**
-     * URL-Parameter ändert Sprache: URL/?lang=en<br>
+     * URL-Parameter Changes Sprache: URL/?lang=en<br>
      */
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
@@ -217,9 +211,9 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
         // final AcceptHeaderLocaleResolver acceptHeaderLocaleResolver = new AcceptHeaderLocaleResolver();
         // acceptHeaderLocaleResolver.setDefaultLocale(Locale.GERMAN);
 
-        // Ohne #setDefaultLocale wird im "Accept-Language" Header nachgeschaut.
+        // Without #setDefaultLocale "Accept-Language" Header is used.
         final SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        //        localeResolver.setDefaultLocale(null);
+        // localeResolver.setDefaultLocale(null);
         localeResolver.setDefaultTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
         localeResolver.setDefaultLocaleFunction(request -> {
             final Locale defaultLocale = request.getLocale();
@@ -245,7 +239,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
         // final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("static/i18n/messages");
         messageSource.setDefaultEncoding("UTF-8");
-        // messageSource.setCacheSeconds(60 * 60); // 60 Minuten, -1 = kein Refresh
+        // messageSource.setCacheSeconds(60 * 60); // 60 Minuten, -1 = no Refresh
 
         return messageSource;
     }

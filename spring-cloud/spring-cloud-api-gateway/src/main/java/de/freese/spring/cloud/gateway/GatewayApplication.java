@@ -16,14 +16,13 @@ import reactor.core.publisher.Mono;
  * <br>
  * curl http://localhost:8081/service/sysdate<br>
  * curl http://localhost:8091/get<br>
- * curl http://localhost:8091/sysdate<br>
- * curl http://localhost:8091/sysdatelb<br>
- * curl http://localhost:8091/sysdatelbman<br>
+ * curl http://localhost:8091/hello<br>
+ * curl http://localhost:8091/lb<br>
  * curl --dump-header - --header 'Host: www.circuitbreaker.com' http://localhost:8091/delay/3<br>
  * curl http://localhost:8091/actuator/gateway/routes/loadbalancer_route<br>
  * <br>
- * Nur diese funktionieren über Docker:<br>
- * curl http://localhost:8091/sysdatelb<br>
+ * Only these are working with Docker:<br>
+ * curl http://localhost:8091/lb<br>
  * curl --dump-header - --header 'Host: www.circuitbreaker.com' http://localhost:8091/delay/3<br>
  * <br>
  *
@@ -43,7 +42,7 @@ public class GatewayApplication {
     }
 
     /**
-     * Routes werden in der application.yml konfiguriert
+     * Static Routes are configured in application.yml.
      */
     @Bean
     RouteLocator myRoutes(final RouteLocatorBuilder builder, final UriConfiguration uriConfiguration) {

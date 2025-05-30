@@ -5,8 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Starten über: mvn spring-boot:run
- *
  * @author Thomas Freese
  */
 @SpringBootApplication

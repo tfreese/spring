@@ -43,7 +43,7 @@ public class ServerConfigSsl {
 
             @Override
             protected void postProcessContext(final Context context) {
-                // SSL Context definieren.
+                // Setup SSL Context.
                 final SecurityConstraint securityConstraint = new SecurityConstraint();
                 securityConstraint.setUserConstraint("CONFIDENTIAL");
 
@@ -52,7 +52,7 @@ public class ServerConfigSsl {
                 securityConstraint.addCollection(collection);
                 context.addConstraint(securityConstraint);
 
-                // JNDI-Inhalt
+                // JNDI-Content
                 final ContextEnvironment contextEnvironment = new ContextEnvironment();
                 contextEnvironment.setName("test");
                 contextEnvironment.setType("java.lang.String");
@@ -60,8 +60,8 @@ public class ServerConfigSsl {
                 contextEnvironment.setOverride(false);
                 context.getNamingResources().addEnvironment(contextEnvironment);
 
-                // ContextResource funktioniert nur bei "javax.sql.DataSource" und "javax.mail.Session".
-                // Siehe org.apache.naming.factory.ResourceFactory.
+                // ContextResource works only for "javax.sql.DataSource" und "javax.mail.Session".
+                // See org.apache.naming.factory.ResourceFactory.
                 // final ContextResource resource = new ContextResource();
                 // resource.setName("jdbc/datasource");
                 // // resource.setType("org.hsql.jdbcDriver");
@@ -87,7 +87,7 @@ public class ServerConfigSsl {
                 //
                 // context.getNamingResources().addResourceLink(resourceLink);
 
-                //                this.logger.info(context.getNamingResources());
+                // logger.info(context.getNamingResources());
                 LoggerFactory.getLogger(getClass()).info("{}", context.getNamingResources());
             }
         };

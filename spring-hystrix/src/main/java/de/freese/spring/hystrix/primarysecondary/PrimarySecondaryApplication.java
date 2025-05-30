@@ -20,23 +20,23 @@ public final class PrimarySecondaryApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(PrimarySecondaryApplication.class);
 
     public static void main(final String[] args) throws Exception {
-        // configuration from environment properties
+        // Configuration from environment properties.
         final ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
 
-        // configuration from system properties
+        // Configuration from system properties.
         final ConcurrentMapConfiguration configFromSystemProperties = new ConcurrentMapConfiguration(new SystemConfiguration());
 
-        // // configuration from local properties file
+        // Configuration from a local properties file.
         final ConcurrentMapConfiguration configFromPropertiesFile = new ConcurrentMapConfiguration(new PropertiesConfiguration("hystrix.properties"));
 
-        // create a hierarchy of configuration that makes
+        // Create a hierarchy of configuration that makes.
         // 1) system properties override properties file
         final ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
         finalConfig.addConfiguration(configFromEnvironmentProperties, "environmentConfig");
         finalConfig.addConfiguration(configFromSystemProperties, "systemConfig");
         finalConfig.addConfiguration(configFromPropertiesFile, "fileConfig");
 
-        // install with ConfigurationManager so that finalConfig becomes the source of dynamic properties
+        // Install with ConfigurationManager so that finalConfig becomes the source of dynamic properties.
         ConfigurationManager.install(finalConfig);
 
         try (HystrixRequestContext context = HystrixRequestContext.initializeContext()) {
@@ -46,16 +46,15 @@ public final class PrimarySecondaryApplication {
 
                     final String result = cmd.execute();
 
-                    // Ohne Logs der Commands wird das Ergebnis aus dem Cache geholt, siehe PrimarySecondaryCommand#getCacheKey.
+                    // Without Logs of the Commands the Result is getting from Cache, see PrimarySecondaryCommand#getCacheKey.
                     LOGGER.info(result);
 
-                    // if (cmd.isResponseFromCache())
-                    // {
+                    // if (cmd.isResponseFromCache()) {
                     // break;
                     // }
 
                     if ((j % 5) == 0) {
-                        // Auf Secondary umschalten.
+                        // Switch to Secondary.
                         ConfigurationManager.getConfigInstance().setProperty("primarySecondary.usePrimary", false);
                     }
 

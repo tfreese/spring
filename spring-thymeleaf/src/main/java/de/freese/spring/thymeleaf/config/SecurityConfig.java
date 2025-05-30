@@ -48,22 +48,21 @@ public class SecurityConfig {
     @Bean
     AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderPreAuthenticated, final AuthenticationProvider authenticationProviderDao) {
         final ProviderManager providerManager = new ProviderManager(authenticationProviderPreAuthenticated, authenticationProviderDao);
-        // providerManager.setMessageSource(applicationContext); // Wird automatisch gemacht.
+        // providerManager.setMessageSource(applicationContext); // Done automatically.
         providerManager.setEraseCredentialsAfterAuthentication(true);
 
         return providerManager;
     }
 
     /**
-     * Für Username/Password Login.<br>
+     * For Username/Password Login.<br>
      * UserController.login(String, String)<br>
      */
     @Bean
     AuthenticationProvider authenticationProviderDao(final PasswordEncoder passwordEncoder, final UserDetailsService userDetailsService, final UserCache userCache) {
-        final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        // authenticationProvider.setMessageSource(applicationContext); // Wird automatisch gemacht.
+        final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
+        // authenticationProvider.setMessageSource(applicationContext); // Done automatically.
         authenticationProvider.setPasswordEncoder(passwordEncoder);
-        authenticationProvider.setUserDetailsService(userDetailsService);
 
         // Böse Falle !
         // Der UserCache im AuthenticationProvider behält die UserDetails der User.
@@ -131,8 +130,8 @@ public class SecurityConfig {
                         .permitAll()
                         .loginPage("/login")
                         .failureUrl("/login?error=1")
-                        .loginProcessingUrl("/authenticate") // Führt den Login durch
-                        .defaultSuccessUrl("/web/person/personList") // Aufruf bei erfolgreichem Login
+                        .loginProcessingUrl("/authenticate") // Login Page
+                        .defaultSuccessUrl("/web/person/personList") // After successful Login.
                 )
                 .logout(customizer -> customizer
                         .permitAll()
@@ -149,12 +148,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(Customizer.withDefaults())
                 // .sessionManagement(customizer -> customizer
-                //         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // REST-Services brauchen keine Session.
+                //         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // REST-Services don't need a Session.
                 // )
                 .rememberMe(customizer -> customizer
                         .rememberMeServices(rememberMeServices)
                         .key("remember-me")
-                        .tokenValiditySeconds(10 * 60) // 10 Minuten Gültigkeit
+                        .tokenValiditySeconds(10 * 60) // 10 Minutes valid.
                 )
         ;
 
@@ -162,11 +161,11 @@ public class SecurityConfig {
     }
 
     // @Bean
-    // Mit @Bean funktionieren die REST-Services nicht mehr !
+    // With this @Bean the REST-Services won't work!
     GenericFilterBean myTokenFilter(final AuthenticationManager authenticationManager) {
         // final RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
         // filter.setPrincipalRequestHeader("my-token");
-        // filter.setExceptionIfHeaderMissing(false); // Damit keine konkrete Fehlermeldung ausgegeben wird.
+        // filter.setExceptionIfHeaderMissing(false); // No Exception.
         // filter.setCheckForPrincipalChanges(true);
         // filter.setInvalidateSessionOnPrincipalChange(true);
 
@@ -199,7 +198,7 @@ public class SecurityConfig {
     }
 
     /**
-     * "{noop}PSW"= verhindert Meldungen wie "There is no PasswordEncoder mapped for the id "null""<br>
+     * "{noop}PSW"= avoid Messages like "There is no PasswordEncoder mapped for the id "null""<br>
      * auth<br>
      * .inMemoryAuthentication()<br>
      * .withUser("admin").password("{noop}admin1").roles("ADMIN","USER")<br>
@@ -215,7 +214,7 @@ public class SecurityConfig {
 
         return userDetailsManager;
 
-        // CachingUserDetailsService erzeugen, erzeugt Fehler bei den Tests !
+        // Create CachingUserDetailsService, causes Errors in the Tests!
         // final Constructor<CachingUserDetailsService> constructor = ClassUtils.getConstructorIfAvailable(CachingUserDetailsService.class, UserDetailsService.class);
         //
         // if (constructor == null) {

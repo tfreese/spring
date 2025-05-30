@@ -39,14 +39,12 @@ public class JdbcConfiguration {
     // * Wird automatisch erzeugt.
     // */
     // @Bean
-    // TransactionManager transactionManager(final DataSource dataSource)
-    // {
+    // TransactionManager transactionManager(final DataSource dataSource) {
     // return new DataSourceTransactionManager(dataSource);
     // }
 
     // @Bean
-    // DataSourceInitializer initializer(final DataSource dataSource)
-    // {
+    // DataSourceInitializer initializer(final DataSource dataSource) {
     // final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
     // populator.addScript(new ClassPathResource("sql/schema.sql"));
     // populator.addScript(new ClassPathResource("sql/data.sql"));

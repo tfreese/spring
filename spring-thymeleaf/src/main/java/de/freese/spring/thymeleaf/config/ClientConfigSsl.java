@@ -48,17 +48,17 @@ public class ClientConfigSsl {
     }
 
     /**
-     * Scheduled Methoden dürfen keine Parameter haben !
+     * Scheduled Methods must have no Parameters!
      */
     @Bean
     public Runnable idleConnectionMonitor(final PoolingHttpClientConnectionManager poolingConnectionManager) {
         return new Runnable() {
             @Override
-            @Scheduled(initialDelay = 10 * 1000, fixedDelay = 10 * 1000) // Alle 10 Sekunden
+            @Scheduled(initialDelay = 10 * 1000, fixedDelay = 10 * 1000) // 10 Seconds
             // initialDelayString = #{ T(java.lang.Math).random() * 10 }
-            // @Scheduled(cron = "0 0 * * * MON-FRI") // Jede Stunde von Montag - Freitag
-            // @Scheduled(cron = "4,9,14,19,24,29,34,39,44,49,55,59 * * * *") // Alle 5 Minuten
-            // @Scheduled(cron = "0 */15 * * * MON-FRI") // Alle 15 Minuten
+            // @Scheduled(cron = "0 0 * * * MON-FRI") // Every Hour from Monday - Friday
+            // @Scheduled(cron = "4,9,14,19,24,29,34,39,44,49,55,59 * * * *") // Every 5 Minutes
+            // @Scheduled(cron = "0 */15 * * * MON-FRI") // Every 15 Minutes
             // @Async("executorService")
             public void run() {
                 try {

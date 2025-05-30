@@ -11,8 +11,7 @@ import reactor.core.publisher.Hooks;
  * @author Thomas Freese
  */
 @SpringBootApplication
-// (scanBasePackages =
-// {
+// (scanBasePackages = {
 // "de.freese.spring.rsocket"
 // })
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
