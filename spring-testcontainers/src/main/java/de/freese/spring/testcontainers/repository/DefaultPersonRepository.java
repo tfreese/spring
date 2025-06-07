@@ -22,7 +22,7 @@ public class DefaultPersonRepository implements PersonRepository {
     public DefaultPersonRepository(final DataSource dataSource, final JdbcDialect jdbcDialect) {
         super();
 
-        this.jdbcTemplate = new JdbcTemplate(Objects.requireNonNull(dataSource, "dataSource required"));
+        jdbcTemplate = new JdbcTemplate(Objects.requireNonNull(dataSource, "dataSource required"));
         this.jdbcDialect = Objects.requireNonNull(jdbcDialect, "jdbcDialect required");
     }
 

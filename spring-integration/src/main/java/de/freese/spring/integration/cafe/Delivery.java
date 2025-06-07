@@ -17,14 +17,14 @@ public class Delivery {
         }
 
         this.deliveredDrinks = deliveredDrinks;
-        this.orderNumber = deliveredDrinks.getFirst().getOrderNumber();
+        orderNumber = deliveredDrinks.getFirst().getOrderNumber();
     }
 
     public List<Drink> getDeliveredDrinks() {
-        return this.deliveredDrinks;
+        return deliveredDrinks;
     }
 
     public int getOrderNumber() {
-        return this.orderNumber;
+        return orderNumber;
     }
 }

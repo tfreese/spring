@@ -36,13 +36,13 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     void beforeTest() {
         final String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
 
-        this.webClientBuilder.baseUrl(rootUri);
+        webClientBuilder.baseUrl(rootUri);
     }
 
     @Override
     @Test
     void testHealthEndpoint() {
-        final WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = webClientBuilder.build();
 
         // final RequestHeadersSpec<?> request = webClient.get()
         //         .repository("/actuator/health")
@@ -82,7 +82,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testPost() {
-        final WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = webClientBuilder.build();
         final Person newPerson = new Person("Thomas", "Freese");
 
         final Mono<ResponseEntity<String>> response = webClient.mutate()
@@ -120,7 +120,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testPostWithWrongRole() {
-        final WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = webClientBuilder.build();
         final Person newPerson = new Person("Thomas", "Freese");
 
         final Mono<ResponseEntity<String>> response = webClient.mutate()
@@ -145,7 +145,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithLoginJSON() {
-        final WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = webClientBuilder.build();
 
         final Flux<Person> personFlux = webClient.mutate()
                 .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
@@ -164,7 +164,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 
     @Override
     void testUserWithLoginXML() {
-        final WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = webClientBuilder.build();
 
         final Flux<Person> personFlux = webClient.mutate()
                 .filter(ExchangeFilterFunctions.basicAuthentication("user", "pw"))
@@ -186,7 +186,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithPreAuthJSON() {
-        final WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = webClientBuilder.build();
 
         final Flux<Person> personFlux = webClient
                 .get()
@@ -205,7 +205,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
 
     @Override
     void testUserWithPreAuthXML() {
-        final WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = webClientBuilder.build();
 
         final Flux<Person> personFlux = webClient
                 .get()
@@ -225,7 +225,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithWrongPass() {
-        final WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = webClientBuilder.build();
 
         // final Flux<Person> personFlux = webClient.mutate()
         //         .filter(ExchangeFilterFunctions.basicAuthentication("user", "pass"))
@@ -253,7 +253,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithWrongRole() {
-        final WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = webClientBuilder.build();
 
         final Mono<ResponseEntity<String>> response = webClient.mutate()
                 .filter(ExchangeFilterFunctions.basicAuthentication("invalid", "pw"))
@@ -271,7 +271,7 @@ class TestRestWithWebClientSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithoutLogin() {
-        final WebClient webClient = this.webClientBuilder.build();
+        final WebClient webClient = webClientBuilder.build();
 
         // final Flux<Person> personFlux = webClient.get()
         //         .repository("/rest/person/personList")

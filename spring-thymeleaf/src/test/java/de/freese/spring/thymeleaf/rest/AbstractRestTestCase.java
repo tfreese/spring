@@ -58,18 +58,18 @@ abstract class AbstractRestTestCase {
     abstract void testUserWithoutLogin() throws Exception;
 
     protected Environment getEnvironment() {
-        return this.environment;
+        return environment;
     }
 
     protected int getLocalServerPort() {
-        return this.localServerPort;
+        return localServerPort;
     }
 
     protected ObjectMapper getObjectMapper() {
-        return this.objectMapper;
+        return objectMapper;
     }
 
     protected Jackson2ObjectMapperBuilder getObjectMapperBuilder() {
-        return this.objectMapperBuilder;
+        return objectMapperBuilder;
     }
 }

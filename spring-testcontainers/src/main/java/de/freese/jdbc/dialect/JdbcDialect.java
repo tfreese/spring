@@ -6,8 +6,11 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.springframework.boot.jdbc.DatabaseDriver;
+
 /**
  * @author Thomas Freese
+ * @see DatabaseDriver
  */
 public interface JdbcDialect {
     static JdbcDialect from(final DataSource dataSource) throws SQLException {

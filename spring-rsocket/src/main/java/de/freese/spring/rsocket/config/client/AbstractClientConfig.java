@@ -59,7 +59,7 @@ abstract class AbstractClientConfig {
     protected abstract Encoder<?> createAuthenticationEncoder();
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     // @Bean

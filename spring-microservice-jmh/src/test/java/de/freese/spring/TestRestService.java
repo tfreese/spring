@@ -51,7 +51,7 @@ class TestRestService {
     @Test
     void testBenchmark() throws Exception {
         final Options options = new OptionsBuilder()
-                //.include("\\." + this.getClass().getSimpleName() + "\\.") für Benchmark in dieser Junit-Klasse
+                //.include("\\." + getClass().getSimpleName() + "\\.") für Benchmark in dieser Junit-Klasse
                 //.addProfiler(GCProfiler.class)
                 //.addProfiler(HotspotMemoryProfiler.class)
                 .shouldFailOnError(true)
@@ -74,7 +74,7 @@ class TestRestService {
     void testMockMvc() throws Exception {
         // .andDo(print()).andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
 
-        this.mockMvc.perform(get("/")) // Test-URLs ohne Context-Root angeben.
+        mockMvc.perform(get("/")) // Test-URLs ohne Context-Root angeben.
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 // .andDo(MockMvcResultHandlers.print())
@@ -85,8 +85,8 @@ class TestRestService {
 
     @Test
     void testRestTemplate() {
-        // Tfinal estRestTemplate restTemplate = new TestRestTemplate(this.restTemplateBuilder.rootUri("http://localhost:" + this.port));
-        final RestTemplate restTemplate = this.restTemplateBuilder.rootUri("http://localhost:" + this.port).build();
+        // Tfinal estRestTemplate restTemplate = new TestRestTemplate(restTemplateBuilder.rootUri("http://localhost:" + port));
+        final RestTemplate restTemplate = restTemplateBuilder.rootUri("http://localhost:" + port).build();
 
         // String result = restTemplate.getForObject("/",String.class);
         final ResponseEntity<String> response = restTemplate.getForEntity("/", String.class);
@@ -98,7 +98,7 @@ class TestRestService {
 
     @Test
     void testWebClient() {
-        final WebClient webClient = this.webClientBuilder.baseUrl("http://localhost:" + this.port).build();
+        final WebClient webClient = webClientBuilder.baseUrl("http://localhost:" + port).build();
 
         // String response = webClient.get().uri("/").retrieve().bodyToMono(String.class).block();
         final ResponseEntity<String> response = webClient.get().uri("/").exchangeToMono(clientResponse -> clientResponse.toEntity(String.class)).block();

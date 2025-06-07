@@ -125,6 +125,6 @@ abstract class AbstractTest {
     }
 
     protected DataSource getDataSource() {
-        return this.dataSource;
+        return dataSource;
     }
 }

@@ -40,15 +40,15 @@ public class StageListener implements ApplicationListener<StageReadyEvent> {
     public void onApplicationEvent(final StageReadyEvent event) {
         try {
             final Stage stage = event.getStage();
-            final URL url = this.fxml.getURL();
+            final URL url = fxml.getURL();
 
             final FXMLLoader fxmlLoader = new FXMLLoader(url);
-            fxmlLoader.setControllerFactory(this.applicationContext::getBean);
+            fxmlLoader.setControllerFactory(applicationContext::getBean);
 
             final Parent root = fxmlLoader.load();
             final Scene scene = new Scene(root, 600, 600);
             stage.setScene(scene);
-            stage.setTitle(this.applicationTitle);
+            stage.setTitle(applicationTitle);
             stage.show();
         }
         catch (IOException ex) {

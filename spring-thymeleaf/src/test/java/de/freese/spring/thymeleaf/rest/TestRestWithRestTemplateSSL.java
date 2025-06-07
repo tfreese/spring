@@ -39,10 +39,10 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
 
     @BeforeEach
     void beforeTest() {
-        // final String rootUri = "http://localhost:" + this.localServerPort;
+        // final String rootUri = "http://localhost:" + localServerPort;
         final String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
 
-        this.restTemplateBuilder = this.restTemplateBuilder
+        restTemplateBuilder = restTemplateBuilder
                 .rootUri(rootUri)
                 .errorHandler(new NoOpResponseErrorHandler());
     }
@@ -50,7 +50,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testHealthEndpoint() {
-        final RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = restTemplateBuilder
                 .interceptors(new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
 
@@ -66,7 +66,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testPost() {
-        RestTemplate restTemplate = this.restTemplateBuilder
+        RestTemplate restTemplate = restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("admin", "pw", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .build();
@@ -75,7 +75,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
         final ResponseEntity<ProblemDetail> responseEntity = restTemplate.exchange("/rest/person/personAdd", HttpMethod.POST, httpEntity, ProblemDetail.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
-        restTemplate = this.restTemplateBuilder
+        restTemplate = restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
@@ -95,7 +95,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testPostWithWrongRole() {
-        final RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8), new HttpHeaderInterceptor("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .build();
 
@@ -106,12 +106,12 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithLoginJSON() {
-        final RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8), new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
 
         // final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
-        // persons = this.objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<Person>>()
+        // persons = objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<Person>>()
         // {
         // });
 
@@ -131,13 +131,13 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithLoginXML() {
-        final RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("user", "pw", StandardCharsets.UTF_8),
                         new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"))
                 .build();
 
         // // ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
-        // persons = this.objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<Person>>()
+        // persons = objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<Person>>()
         // {
         // });
 
@@ -157,7 +157,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithPreAuthJSON() {
-        final RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = restTemplateBuilder
                 .interceptors(new HttpHeaderInterceptor("my-token", "user"), new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
 
@@ -173,7 +173,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithPreAuthXML() {
-        final RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = restTemplateBuilder
                 .interceptors(new HttpHeaderInterceptor("my-token", "user"), new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"))
                 .build();
 
@@ -189,7 +189,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithWrongPass() {
-        final RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("user", "pass", StandardCharsets.UTF_8))
                 .build();
 
@@ -201,7 +201,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithWrongRole() {
-        final RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = restTemplateBuilder
                 .interceptors(new BasicAuthenticationInterceptor("invalid", "pw", StandardCharsets.UTF_8))
                 .build();
 
@@ -213,7 +213,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithoutLogin() {
-        final RestTemplate restTemplate = this.restTemplateBuilder
+        final RestTemplate restTemplate = restTemplateBuilder
                 .interceptors(new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE))
                 .build();
 

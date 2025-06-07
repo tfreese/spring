@@ -24,6 +24,6 @@ public class EmployeeRestController {
 
     @PutMapping("employee")
     public Publisher<Employee> createNewEmployee(@RequestBody final Employee newEmployee) {
-        return this.service.createNewEmployee(newEmployee);
+        return service.createNewEmployee(newEmployee);
     }
 }

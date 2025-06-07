@@ -88,7 +88,7 @@ public class SecurityConfig {
         @Resource
         public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
             DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-            daoAuthenticationProvider.setUserDetailsService(this.userDetailsService);
+            daoAuthenticationProvider.setUserDetailsService(userDetailsService);
 
             auth.authenticationProvider(daoAuthenticationProvider);
         }
@@ -137,7 +137,7 @@ public class SecurityConfig {
         @Bean
         public UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> userDetailsServiceWrapper() {
             UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> wrapper = new UserDetailsByNameServiceWrapper<>();
-            wrapper.setUserDetailsService(this.userDetailsService);
+            wrapper.setUserDetailsService(userDetailsService);
 
             return wrapper;
         }

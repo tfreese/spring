@@ -24,6 +24,6 @@ public class JmsSender {
     public void send(final Email email) {
         LOGGER.info("Sending message: {}", email);
 
-        this.jmsTemplate.convertAndSend("mailbox", email);
+        jmsTemplate.convertAndSend("mailbox", email);
     }
 }

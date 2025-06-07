@@ -43,7 +43,7 @@ public class ClientRunner implements ApplicationRunner {
         // Die Erzeugung im Konstruktor funktioniert nicht, da dort die WebClient.Builder noch nicht fertig konfiguriert sind.
         final WebClient webClient = webClientBuilder.build();
         final WebClient webClientLoadBalanced = webClientBuilderLoadBalanced.clone().baseUrl("http://CLOUD-HELLO-SERVICE").build();
-        final WebClient webClientWithLoadBalancedFunction = webClientBuilder.clone().baseUrl("http://CLOUD-HELLO-SERVICE").filter(this.loadBalancedFunction).build();
+        final WebClient webClientWithLoadBalancedFunction = webClientBuilder.clone().baseUrl("http://CLOUD-HELLO-SERVICE").filter(loadBalancedFunction).build();
 
         for (int i = 0; i < 4; i++) {
             runServiceDiscovery(webClient);
@@ -87,7 +87,7 @@ public class ClientRunner implements ApplicationRunner {
     }
 
     private void runServiceDiscovery(final WebClient webClient) {
-        final ReactiveLoadBalancer<ServiceInstance> loadBalancer = this.serviceInstanceFactory.getInstance("CLOUD-HELLO-SERVICE");
+        final ReactiveLoadBalancer<ServiceInstance> loadBalancer = serviceInstanceFactory.getInstance("CLOUD-HELLO-SERVICE");
 
         final String url = Mono.from(loadBalancer.choose())
                 .map(Response::getServer)

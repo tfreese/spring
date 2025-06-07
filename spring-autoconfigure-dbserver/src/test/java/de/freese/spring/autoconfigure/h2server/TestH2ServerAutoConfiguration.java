@@ -30,11 +30,11 @@ class TestH2ServerAutoConfiguration implements TestAutoConfiguration {
 
     @Override
     public DataSource getDataSourceFile() {
-        return this.dataSourceFile;
+        return dataSourceFile;
     }
 
     @Override
     public DataSource getDataSourceMemory() {
-        return this.dataSourceMemory;
+        return dataSourceMemory;
     }
 }

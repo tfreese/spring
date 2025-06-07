@@ -18,7 +18,7 @@ package de.freese.spring.resilience.config;
 //
 //         @Override
 //         public String name(final String name, final Meter.Type type, final String baseUnit) {
-//             return this.appName + "_" + super.name(name, type, baseUnit);
+//             return appName + "_" + super.name(name, type, baseUnit);
 //         }
 //     }
 //

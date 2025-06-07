@@ -37,7 +37,7 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "Access denied"),
             @ApiResponse(responseCode = "404", description = "The user doesn't exist", content = @Content)})
     public String delete(@PathVariable final String username) {
-        this.userMap.remove(username);
+        userMap.remove(username);
 
         return username;
     }
@@ -45,6 +45,6 @@ public class UserController {
     @GetMapping("list")
     @Operation(summary = "List users", description = "List all Users")
     public String list() {
-        return String.join(", ", this.userMap.values());
+        return String.join(", ", userMap.values());
     }
 }

@@ -133,8 +133,8 @@ class TestKryo {
         restTemplate = new RestTemplateBuilder().rootUri("http://localhost:" + localServerPort)
                 .additionalMessageConverters(kryoHttpMessageConverter, new MappingJackson2HttpMessageConverter()).build();
 
-        // restTemplate = this.restTemplateBuilder.rootUri("http://localhost:" + localServerPort)
-        // .additionalMessageConverters(this.kryoHttpMessageConverter).build();
+        // restTemplate = restTemplateBuilder.rootUri("http://localhost:" + localServerPort)
+        // .additionalMessageConverters(kryoHttpMessageConverter).build();
 
         // Throws an UnsupportedMediaTypeException.
 
@@ -145,7 +145,7 @@ class TestKryo {
         //           configurer.customCodecs().register(new KryoDecoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
         //       }).build();
 
-        this.webClientBuilder.baseUrl("http://localhost:" + localServerPort)
+        webClientBuilder.baseUrl("http://localhost:" + localServerPort)
                 //.exchangeStrategies(strategies) // Throws an UnsupportedMediaTypeException.
                 .codecs(configurer -> {
                     // configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper, MediaType.APPLICATION_JSON));
@@ -154,7 +154,7 @@ class TestKryo {
                 })
         ;
 
-        this.httpClientbuilder = HttpClient.newBuilder()
+        httpClientbuilder = HttpClient.newBuilder()
                 .version(Version.HTTP_2)
                 .executor(ForkJoinPool.commonPool())
         ;
@@ -192,7 +192,7 @@ class TestKryo {
     protected void testMockMvc(final String path, final MediaType mediaType) throws Exception {
         // MockMvcBuilders.standaloneSetup(controllers).
         final MockMvc mmvc = mockMvc;
-        // final MockMvc mmvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
+        // final MockMvc mmvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         // String url = "/test";
         final String url = "http://localhost:" + localServerPort + path;
@@ -226,7 +226,7 @@ class TestKryo {
     protected void testRestTemplate(final String path, final MediaType mediaType) {
         // final RestTemplateBuilder builder = new RestTemplateBuilder()
         //         .rootUri("http://localhost:" + localServerPort)
-        //         .messageConverters(this.kryoHttpMessageConverter, new MappingJackson2HttpMessageConverter());
+        //         .messageConverters(kryoHttpMessageConverter, new MappingJackson2HttpMessageConverter());
         //
         // RestTemplate restTemplate = builder.build();
 

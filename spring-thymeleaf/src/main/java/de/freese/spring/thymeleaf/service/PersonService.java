@@ -19,8 +19,8 @@ public class PersonService {
     public PersonService() {
         super();
 
-        this.persons.add(new Person("Bill", "Gates"));
-        this.persons.add(new Person("Steve", "Jobs"));
+        persons.add(new Person("Bill", "Gates"));
+        persons.add(new Person("Steve", "Jobs"));
     }
 
     @Secured("ROLE_ADMIN")
@@ -29,7 +29,7 @@ public class PersonService {
         final String lastName = newPerson.getLastName();
 
         if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty()) {
-            this.persons.add(newPerson);
+            persons.add(newPerson);
         }
         else {
             throw new IllegalArgumentException("Invalid Person Attributes");
@@ -38,6 +38,6 @@ public class PersonService {
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public List<Person> getPersons() {
-        return new ArrayList<>(this.persons);
+        return new ArrayList<>(persons);
     }
 }

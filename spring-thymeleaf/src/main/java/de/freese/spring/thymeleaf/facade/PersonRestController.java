@@ -36,11 +36,11 @@ public class PersonRestController {
 
     @GetMapping("/person/personList")
     public List<Person> personList() {
-        return this.service.getPersons();
+        return service.getPersons();
     }
 
     @PostMapping(path = "/person/personAdd", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void savePerson(@RequestBody final Person newPerson) {
-        this.service.addPerson(newPerson);
+        service.addPerson(newPerson);
     }
 }

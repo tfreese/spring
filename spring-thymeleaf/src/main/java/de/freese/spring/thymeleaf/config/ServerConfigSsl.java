@@ -105,7 +105,7 @@ public class ServerConfigSsl {
         connector.setScheme("http");
         connector.setPort(9090);
         connector.setSecure(false);
-        connector.setRedirectPort(this.serverPort);
+        connector.setRedirectPort(serverPort);
 
         return connector;
     }

@@ -332,7 +332,7 @@ public class LoadBalancer implements LoadBalancerPing {
             timer.cancel();
         }
 
-        // if (this.scheduledExecutorService != null) {
+        // if (scheduledExecutorService != null) {
         // scheduledExecutorService.shutdown();
         // }
     }

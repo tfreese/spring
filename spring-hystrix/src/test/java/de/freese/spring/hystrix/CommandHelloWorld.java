@@ -21,6 +21,6 @@ public class CommandHelloWorld extends HystrixCommand<String> {
 
     @Override
     protected String run() {
-        return "Hello " + this.name + "!";
+        return "Hello " + name + "!";
     }
 }

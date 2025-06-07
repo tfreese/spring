@@ -45,7 +45,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
 
     @BeforeEach
     void beforeTest() {
-        this.rootUri = ThymeleafApplication.getRootUri(getEnvironment());
+        rootUri = ThymeleafApplication.getRootUri(getEnvironment());
     }
 
     @Override
@@ -53,7 +53,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     void testHealthEndpoint() throws Exception {
         try (HttpClient httpClient = createClientBuilder().build()) {
             final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(this.rootUri + "/actuator/info"))
+                    .uri(URI.create(rootUri + "/actuator/info"))
                     .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                     .GET()
                     .build();
@@ -74,7 +74,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
         try (HttpClient httpClient = createClientBuilder("admin", "pw").build()) {
             // POST
             final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(this.rootUri + "/rest/person/personAdd"))
+                    .uri(URI.create(rootUri + "/rest/person/personAdd"))
                     .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                     .POST(BodyPublishers.ofString("{\"firstName\":\"Thomas\",\"lastName\":\"Freese\"}", StandardCharsets.UTF_8))
                     .build();
@@ -86,7 +86,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
         try (HttpClient httpClient = createClientBuilder("user", "pw").build()) {
             // GET
             final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .uri(URI.create(rootUri + "/rest/person/personList"))
                     .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                     .GET()
                     .build();
@@ -106,7 +106,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     void testPostWithWrongRole() throws Exception {
         try (HttpClient httpClient = createClientBuilder("user", "pw").build()) {
             final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(this.rootUri + "/rest/person/personAdd"))
+                    .uri(URI.create(rootUri + "/rest/person/personAdd"))
                     .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                     .POST(BodyPublishers.ofString("{\"firstName\":\"Thomas\",\"lastName\":\"Freese\"}", StandardCharsets.UTF_8))
                     .build();
@@ -122,7 +122,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     void testUserWithLoginJSON() throws Exception {
         try (HttpClient httpClient = createClientBuilder("user", "pw").build()) {
             final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .uri(URI.create(rootUri + "/rest/person/personList"))
                     .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                     .GET()
                     .build();
@@ -144,7 +144,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
 
         try (HttpClient httpClient = createClientBuilder("user", "pw").build()) {
             final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .uri(URI.create(rootUri + "/rest/person/personList"))
                     .header("Accept", MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8")
                     .GET()
                     .build();
@@ -164,7 +164,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     void testUserWithPreAuthJSON() throws Exception {
         try (HttpClient httpClient = createClientBuilder().build()) {
             final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .uri(URI.create(rootUri + "/rest/person/personList"))
                     .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                     .header("my-token", "user")
                     .GET()
@@ -187,7 +187,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
 
         try (HttpClient httpClient = createClientBuilder().build()) {
             final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .uri(URI.create(rootUri + "/rest/person/personList"))
                     .header("Accept", MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8")
                     .header("my-token", "user")
                     .GET()
@@ -209,7 +209,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
         final IOException ioException = Assertions.assertThrows(IOException.class, () -> {
             try (HttpClient httpClient = createClientBuilder("user", "pass").build()) {
                 final HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                        .uri(URI.create(rootUri + "/rest/person/personList"))
                         .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                         .GET()
                         .build();
@@ -235,7 +235,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     void testUserWithWrongRole() throws Exception {
         try (HttpClient httpClient = createClientBuilder("invalid", "pw").build()) {
             final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .uri(URI.create(rootUri + "/rest/person/personList"))
                     .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                     .GET()
                     .build();
@@ -256,7 +256,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     void testUserWithoutLogin() throws Exception {
         try (HttpClient httpClient = createClientBuilder().build()) {
             final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(this.rootUri + "/rest/person/personList"))
+                    .uri(URI.create(rootUri + "/rest/person/personList"))
                     .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                     .GET()
                     .build();
@@ -276,7 +276,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     private HttpClient.Builder createClientBuilder() {
         return HttpClient.newBuilder()
                 .version(Version.HTTP_2)
-                .executor(this.executorService);
+                .executor(executorService);
     }
 
     private HttpClient.Builder createClientBuilder(final String user, final String password) {

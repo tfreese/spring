@@ -96,7 +96,7 @@ abstract class AbstractServerConfig {
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     // @Bean

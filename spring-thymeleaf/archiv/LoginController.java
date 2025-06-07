@@ -93,7 +93,7 @@ public class LoginController {
         // This whole stuff should be inside of a service method...
         String usernameByToken = findUsernameByToken(token);
 
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(usernameByToken);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(usernameByToken);
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
         SecurityContext sc = SecurityContextHolder.getContext();
@@ -116,7 +116,7 @@ public class LoginController {
     @PostMapping("/loginWithUserAndPassword")
     public void loginWithUserAndPassword(final HttpServletRequest req, @RequestParam final String user, @RequestParam final String pass) {
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(user, pass);
-        Authentication auth = this.authenticationManager.authenticate(authReq);
+        Authentication auth = authenticationManager.authenticate(authReq);
 
         SecurityContext sc = SecurityContextHolder.getContext();
         sc.setAuthentication(auth);

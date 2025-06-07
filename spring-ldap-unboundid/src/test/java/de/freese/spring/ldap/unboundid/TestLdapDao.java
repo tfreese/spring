@@ -35,9 +35,9 @@ class TestLdapDao {
 
     @Test
     void testCreate() {
-        this.ldapDao.create("myid", "pass", "A", "B");
+        ldapDao.create("myid", "pass", "A", "B");
 
-        final List<String> result = this.ldapDao.searchPeopleByUid("myid");
+        final List<String> result = ldapDao.searchPeopleByUid("myid");
 
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -46,9 +46,9 @@ class TestLdapDao {
 
     @Test
     void testModify() {
-        this.ldapDao.modify("myid", "pass", "X", "Y");
+        ldapDao.modify("myid", "pass", "X", "Y");
 
-        final List<String> result = this.ldapDao.searchPeopleByUid("myid");
+        final List<String> result = ldapDao.searchPeopleByUid("myid");
 
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -57,7 +57,7 @@ class TestLdapDao {
 
     @Test
     void testSearchGroup() {
-        final List<String> result = this.ldapDao.searchGroup("user");
+        final List<String> result = ldapDao.searchGroup("user");
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -67,7 +67,7 @@ class TestLdapDao {
 
     @Test
     void testSearchPeople() {
-        final List<String> result = this.ldapDao.searchPeopleByUid("u*");
+        final List<String> result = ldapDao.searchPeopleByUid("u*");
 
         assertNotNull(result);
         assertEquals(1, result.size());

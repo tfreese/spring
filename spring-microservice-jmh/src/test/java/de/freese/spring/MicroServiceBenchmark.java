@@ -56,21 +56,21 @@ public class MicroServiceBenchmark {
         public BenchmarkState() {
             super();
 
-            this.context = SpringApplication.run(MicroServiceApplication.class);
+            context = SpringApplication.run(MicroServiceApplication.class);
 
             autowireBean(this);
 
-            this.restTemplate = this.restTemplateBuilder.rootUri("http://localhost:" + this.port).build();
-            this.webClient = this.webClientBuilder.baseUrl("http://localhost:" + this.port).build();
+            restTemplate = restTemplateBuilder.rootUri("http://localhost:" + port).build();
+            webClient = webClientBuilder.baseUrl("http://localhost:" + port).build();
         }
 
         @TearDown
         public void close() {
-            this.context.close();
+            context.close();
         }
 
         private void autowireBean(final Object bean) {
-            final AutowireCapableBeanFactory factory = this.context.getAutowireCapableBeanFactory();
+            final AutowireCapableBeanFactory factory = context.getAutowireCapableBeanFactory();
             factory.autowireBean(bean);
         }
     }

@@ -75,7 +75,7 @@ public class MyLdapDao {
 
         @Override
         public String mapFromAttributes(final Attributes attributes) throws NamingException {
-            final Attribute attribute = attributes.get(this.attributeId);
+            final Attribute attribute = attributes.get(attributeId);
             String value = null;
 
             if (attribute != null) {
@@ -98,7 +98,7 @@ public class MyLdapDao {
     public MyLdapDao(final ContextSource contextSource) {
         super();
 
-        this.ldapTemplate = new LdapTemplate(Objects.requireNonNull(contextSource, "contextSource required"));
+        ldapTemplate = new LdapTemplate(Objects.requireNonNull(contextSource, "contextSource required"));
     }
 
     /**
@@ -175,6 +175,6 @@ public class MyLdapDao {
     }
 
     private LdapTemplate getLdapTemplate() {
-        return this.ldapTemplate;
+        return ldapTemplate;
     }
 }

@@ -26,7 +26,7 @@ public class EmployeeHandler {
     // public Mono<ServerResponse> createNewEmployee(final ServerRequest request) {
     // final Mono<Employee> employeeMono = request.bodyToMono(Employee.class);
     //
-    // final Mono<Employee> employee = this.service.createNewEmployee(employeeMono);
+    // final Mono<Employee> employee = service.createNewEmployee(employeeMono);
     //
     // return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(employee, Employee.class);
     // }
@@ -34,19 +34,19 @@ public class EmployeeHandler {
     public Mono<ServerResponse> deleteEmployee(final ServerRequest request) {
         final long id = Long.parseLong(request.pathVariable("id"));
 
-        final Mono<Long> count = this.service.deleteEmployee(id);
+        final Mono<Long> count = service.deleteEmployee(id);
 
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(count, Integer.class);
     }
 
     public Mono<ServerResponse> getAllDepartments(final ServerRequest request) {
-        final Flux<Department> departments = this.service.getAllDepartments();
+        final Flux<Department> departments = service.getAllDepartments();
 
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(departments, Department.class);
     }
 
     public Mono<ServerResponse> getAllEmployees(final ServerRequest request) {
-        final Flux<Employee> employees = this.service.getAllEmployees();
+        final Flux<Employee> employees = service.getAllEmployees();
 
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(employees, Employee.class);
     }
@@ -55,7 +55,7 @@ public class EmployeeHandler {
         final String lastName = request.pathVariable("ln");
         final String firstName = request.pathVariable("fn");
 
-        final Mono<Employee> employee = this.service.getEmployee(lastName, firstName);
+        final Mono<Employee> employee = service.getEmployee(lastName, firstName);
 
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(employee, Employee.class);
     }

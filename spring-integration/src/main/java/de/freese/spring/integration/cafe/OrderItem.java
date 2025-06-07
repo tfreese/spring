@@ -17,19 +17,19 @@ public class OrderItem {
     }
 
     public DrinkType getDrinkType() {
-        return this.type;
+        return type;
     }
 
     public int getOrderNumber() {
-        return this.order.getNumber();
+        return order.getNumber();
     }
 
     public boolean isIced() {
-        return this.iced;
+        return iced;
     }
 
     @Override
     public String toString() {
-        return ((this.iced) ? "iced " : "hot ") + this.type;
+        return (iced ? "iced " : "hot ") + type;
     }
 }

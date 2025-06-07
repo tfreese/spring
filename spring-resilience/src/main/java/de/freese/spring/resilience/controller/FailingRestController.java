@@ -34,7 +34,7 @@ public class FailingRestController {
      */
     @GetMapping("greet")
     Publisher<String> greet(@RequestParam final String name) {
-        final Mono<String> results = this.service.greet(name);
+        final Mono<String> results = service.greet(name);
 
         return getReactiveCircuitBreaker().run(results, throwable -> Mono.just("fallback (no name): hello world !")).map(r -> r + System.lineSeparator());
     }
@@ -48,6 +48,6 @@ public class FailingRestController {
     }
 
     private ReactiveCircuitBreaker getReactiveCircuitBreaker() {
-        return this.reactiveCircuitBreakerFactory.create("greet");
+        return reactiveCircuitBreakerFactory.create("greet");
     }
 }

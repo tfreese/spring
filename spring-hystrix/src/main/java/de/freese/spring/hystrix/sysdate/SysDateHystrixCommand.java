@@ -73,8 +73,8 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
 
         final List<String> fallbackURLs = urls.subList(1, urls.size());
 
-        final SysDateHystrixCommand cmd = new SysDateHystrixCommand(this.level + 1);
-        cmd.setRestTemplate(this.restTemplate);
+        final SysDateHystrixCommand cmd = new SysDateHystrixCommand(level + 1);
+        cmd.setRestTemplate(restTemplate);
         cmd.setURLs(fallbackURLs);
 
         return cmd.execute();
@@ -82,9 +82,9 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
 
     @Override
     protected String run() {
-        final String result = this.restTemplate.getForObject(urls.getFirst(), String.class);
+        final String result = restTemplate.getForObject(urls.getFirst(), String.class);
 
-        LOGGER.info("level={}: {}", this.level, result);
+        LOGGER.info("level={}: {}", level, result);
 
         return result;
     }

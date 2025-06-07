@@ -17,11 +17,11 @@ public class Drink {
     }
 
     public int getOrderNumber() {
-        return this.orderNumber;
+        return orderNumber;
     }
 
     @Override
     public String toString() {
-        return (this.iced ? "Iced" : "Hot") + " " + this.drinkType.toString();
+        return (iced ? "Iced" : "Hot") + " " + drinkType.toString();
     }
 }

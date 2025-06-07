@@ -66,7 +66,7 @@ public class RibbonClientConfiguration {
 
         @Override
         public boolean isAlive(final Server server) {
-            this.logger.debug("pinging: {}", server);
+            logger.debug("pinging: {}", server);
 
             String uriStr = "";
 
@@ -105,7 +105,7 @@ public class RibbonClientConfiguration {
             }
             catch (IOException ex) {
                 // ex.printStackTrace();
-                this.logger.warn("{}: {}", server, ex.getMessage());
+                logger.warn("{}: {}", server, ex.getMessage());
             }
             // finally {
             // // Release the connection.

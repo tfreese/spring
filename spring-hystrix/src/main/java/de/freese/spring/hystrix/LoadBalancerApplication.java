@@ -66,12 +66,12 @@ public final class LoadBalancerApplication {
 
         @Override
         protected ClientHttpResponse getFallback() {
-            if (this.uris.isEmpty()) {
+            if (uris.isEmpty()) {
                 // Keine weiteren URLs mehr vorhanden.
                 return null;
             }
 
-            final HttpResponseHystrixCommand cmd = new HttpResponseHystrixCommand(this.uris, this.request, this.body, this.execution);
+            final HttpResponseHystrixCommand cmd = new HttpResponseHystrixCommand(uris, request, body, execution);
 
             return cmd.execute();
         }
@@ -79,20 +79,20 @@ public final class LoadBalancerApplication {
         @Override
         protected ClientHttpResponse run() throws Exception {
             // HystrixBadRequestException
-            final URI uri = this.uris.removeFirst();
+            final URI uri = uris.removeFirst();
 
             // System.out.println(repository.getHost());
             // System.out.println(repository.getPath());
             // System.out.println(repository.getFragment());
 
-            final HttpRequestWrapper requestWrapper = new HttpRequestWrapper(this.request) {
+            final HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request) {
                 @Override
                 public URI getURI() {
                     return uri;
                 }
             };
 
-            return this.execution.execute(requestWrapper, this.body);
+            return execution.execute(requestWrapper, body);
         }
     }
 
@@ -117,7 +117,7 @@ public final class LoadBalancerApplication {
             final URI originalUri = request.getURI();
 
             final List<URI> uris = new ArrayList<>();
-            final int count = this.server.length;
+            final int count = server.length;
 
             for (int i = 0; i < count; i++) {
                 uris.add(convertURI(originalUri, nextServer()));
@@ -147,11 +147,11 @@ public final class LoadBalancerApplication {
         }
 
         private String nextServer() {
-            final String host = this.server[this.serverIndex];
-            this.serverIndex++;
+            final String host = server[serverIndex];
+            serverIndex++;
 
-            if (this.serverIndex == this.server.length) {
-                this.serverIndex = 0;
+            if (serverIndex == server.length) {
+                serverIndex = 0;
             }
 
             return host;
@@ -177,7 +177,7 @@ public final class LoadBalancerApplication {
         @Override
         public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
             final URI originalUri = request.getURI();
-            final int trys = this.server.length;
+            final int trys = server.length;
 
             IOException lastException = null;
 
@@ -228,11 +228,11 @@ public final class LoadBalancerApplication {
         }
 
         private String nextServer() {
-            final String host = this.server[this.index];
-            this.index++;
+            final String host = server[index];
+            index++;
 
-            if (this.index == this.server.length) {
-                this.index = 0;
+            if (index == server.length) {
+                index = 0;
             }
 
             return host;

@@ -63,18 +63,18 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
     public EmployeeRepositoryJdbc(final DataSource dataSource) {
         super();
 
-        this.jdbcTemplate = new JdbcTemplate(Objects.requireNonNull(dataSource, "dataSource required"));
+        jdbcTemplate = new JdbcTemplate(Objects.requireNonNull(dataSource, "dataSource required"));
     }
 
     @Override
     public Mono<Employee> createNewEmployee(final Employee newEmployee) {
         final String sqlSelect = "SELECT department_id from department where department_name = ?";
-        final long departmentId = this.jdbcTemplate.queryForObject(sqlSelect, Long.class, newEmployee.getDepartment());
+        final long departmentId = jdbcTemplate.queryForObject(sqlSelect, Long.class, newEmployee.getDepartment());
 
         final String sqlInsert = "INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (?, ?, ?)";
         final KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        this.jdbcTemplate.update(connection -> {
+        jdbcTemplate.update(connection -> {
             final PreparedStatement prepStmt = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, newEmployee.getLastName());
             prepStmt.setString(2, newEmployee.getFirstName());
@@ -92,7 +92,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
     public Mono<Long> deleteEmployee(final long id) {
         final String sql = "DELETE FROM employee WHERE employee_id = ?";
 
-        final long affectedRows = this.jdbcTemplate.update(sql, id);
+        final long affectedRows = jdbcTemplate.update(sql, id);
 
         return Mono.just(affectedRows);
     }
@@ -101,7 +101,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
     public Flux<Department> getAllDepartments() {
         final String sql = "select * from department";
 
-        final List<Department> result = this.jdbcTemplate.query(sql, new DepartmentRowMapper());
+        final List<Department> result = jdbcTemplate.query(sql, new DepartmentRowMapper());
 
         return Flux.fromIterable(result);
     }
@@ -114,7 +114,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
                 INNER JOIN department d ON d.department_id = e.department_id
                 """;
 
-        final List<Employee> result = this.jdbcTemplate.query(sql, new EmployeeRowMapper());
+        final List<Employee> result = jdbcTemplate.query(sql, new EmployeeRowMapper());
 
         return Flux.fromIterable(result);
     }
@@ -130,7 +130,7 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
                 and e.employee_firstname = ?
                 """;
 
-        final Employee result = this.jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), lastName, firstName);
+        final Employee result = jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), lastName, firstName);
 
         return Mono.just(result);
     }

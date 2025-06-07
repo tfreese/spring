@@ -17,11 +17,11 @@
 
     <!--
         <Resource name="jdbc/DefaultDB"
-              driverClassName="org.apache.derby.jdbc.ClientDriver"
+              driverClassName="org.h2.Driver"
               type="javax.sql.DataSource"
               username="demo"
               password="demo"
-              url="jdbc:derby://localhost:1527/DemoDB;create=true"/>
+              url="jdbc:h2:mem:defaultDb;DB_CLOSE_DELAY=-1"/>
 
      -->
 </Context>

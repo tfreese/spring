@@ -35,7 +35,7 @@ public class RunnerSendMessages implements CommandLineRunner {
         for (int i = 0; i < 5; i++) {
             TimeUnit.MILLISECONDS.sleep(500);
 
-            this.sender.send(new Email("info@example.com", "Hello-" + (i + 1)));
+            sender.send(new Email("info@example.com", "Hello-" + (i + 1)));
         }
 
         TimeUnit.MILLISECONDS.sleep(500);

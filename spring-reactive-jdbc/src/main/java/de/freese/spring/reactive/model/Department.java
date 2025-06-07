@@ -8,11 +8,11 @@ public class Department {
     private String name;
 
     public long getId() {
-        return this.id;
+        return id;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setId(final long id) {

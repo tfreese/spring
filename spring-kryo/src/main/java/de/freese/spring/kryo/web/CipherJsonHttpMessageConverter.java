@@ -31,7 +31,7 @@ public class CipherJsonHttpMessageConverter extends AbstractHttpMessageConverter
 
     @Override
     protected Object readInternal(final Class<? extends Object> clazz, final HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
-        return this.objectMapper.readValue(decrypt(inputMessage.getBody()), clazz);
+        return objectMapper.readValue(decrypt(inputMessage.getBody()), clazz);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CipherJsonHttpMessageConverter extends AbstractHttpMessageConverter
 
     @Override
     protected void writeInternal(final Object t, final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-        outputMessage.getBody().write(encrypt(this.objectMapper.writeValueAsBytes(t)));
+        outputMessage.getBody().write(encrypt(objectMapper.writeValueAsBytes(t)));
     }
 
     private InputStream decrypt(final InputStream inputStream) {

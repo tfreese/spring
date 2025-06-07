@@ -26,7 +26,7 @@ public class GreetingPojo {
     }
 
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
     public void setMessage(final String message) {

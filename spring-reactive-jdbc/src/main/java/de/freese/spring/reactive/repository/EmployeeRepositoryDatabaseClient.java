@@ -45,7 +45,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
     public EmployeeRepositoryDatabaseClient(final ConnectionFactory connectionFactory) {
         super();
 
-        this.databaseClient = DatabaseClient.builder()
+        databaseClient = DatabaseClient.builder()
                 .connectionFactory(Objects.requireNonNull(connectionFactory, "connectionFactory required"))
                 .namedParameters(true)
                 .build()
@@ -59,7 +59,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
 
         // final AtomicInteger departmentId = new AtomicInteger(-1);
         //
-        // this.databaseClient.sql("SELECT department_id from department where department_name = :name")
+        // databaseClient.sql("SELECT department_id from department where department_name = :name")
         //         .bind("name", newEmployee.getDepartment())
         //         .map((row, rowMetadata) -> row.get("department_id", Integer.class))
         //         .one()
@@ -67,7 +67,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
         //         .subscribe(departmentId::set)
         // ;
         //
-        // return this.databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
+        // return databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
         //         .filter((statement, executeFunction) -> statement.returnGeneratedValues("employee_id").execute())
         //         .bind("lastName", newEmployee.getLastName())
         //         .bind("firstName", newEmployee.getFirstName())
@@ -81,13 +81,13 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
         //         })
         //         ;
 
-        return this.databaseClient.sql("SELECT department_id from department where department_name = :name")
+        return databaseClient.sql("SELECT department_id from department where department_name = :name")
                 .bind("name", newEmployee.getDepartment())
                 //.map((row, rowMetadata) -> row.get("department_id", Long.class))
                 .map(row -> row.get("department_id", Long.class))
                 .one()
                 .flatMap(depId ->
-                        this.databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
+                        databaseClient.sql("INSERT INTO employee (employee_lastname, employee_firstname, department_id) VALUES (:lastName, :firstName, :depId)")
                                 .filter((statement, executeFunction) -> statement.returnGeneratedValues("employee_id").execute())
                                 .bind("lastName", newEmployee.getLastName())
                                 .bind("firstName", newEmployee.getFirstName())
@@ -104,12 +104,12 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
 
     @Override
     public Mono<Long> deleteEmployee(final long id) {
-        return this.databaseClient.sql("DELETE FROM employee WHERE employee_id = :id").bind("id", id).fetch().rowsUpdated();
+        return databaseClient.sql("DELETE FROM employee WHERE employee_id = :id").bind("id", id).fetch().rowsUpdated();
     }
 
     @Override
     public Flux<Department> getAllDepartments() {
-        return this.databaseClient.sql("select * from department")
+        return databaseClient.sql("select * from department")
                 //.filter((statement, executeFunction) -> statement.fetchSize(10).execute())
                 .map(DEPARTMENT_ROWMAPPER)
                 .all()
@@ -124,7 +124,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
                 INNER JOIN department d ON d.department_id = e.department_id
                 """;
 
-        return this.databaseClient.sql(sql)
+        return databaseClient.sql(sql)
                 //.filter((statement, executeFunction) -> statement.fetchSize(10).execute())
                 .map(EMPLOYEE_ROWMAPPER)
                 .all()
@@ -142,7 +142,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
                 and e.employee_firstname = :firstName
                 """;
 
-        return this.databaseClient.sql(sql)
+        return databaseClient.sql(sql)
                 .bind("lastName", lastName)
                 .bind("firstName", firstName)
                 .map(EMPLOYEE_ROWMAPPER)
@@ -151,7 +151,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
     }
 
     public Flux<Long> saveAll(final List<Department> data) {
-        return this.databaseClient.inConnectionMany(connection -> {
+        return databaseClient.inConnectionMany(connection -> {
             //            connection.createBatch()
             final var statement = connection.createStatement("INSERT INTO department (department_name) VALUES (:name)").returnGeneratedValues("department_id");
 

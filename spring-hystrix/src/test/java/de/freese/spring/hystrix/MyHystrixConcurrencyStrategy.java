@@ -29,12 +29,12 @@ public class MyHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {
     public ThreadPoolExecutor getThreadPool(final HystrixThreadPoolKey threadPoolKey, final HystrixProperty<Integer> corePoolSize, final HystrixProperty<Integer> maximumPoolSize,
                                             final HystrixProperty<Integer> keepAliveTime, final TimeUnit unit, final BlockingQueue<Runnable> workQueue) {
         // return super.getThreadPool(threadPoolKey, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
-        return this.executor;
+        return executor;
     }
 
     @Override
     public ThreadPoolExecutor getThreadPool(final HystrixThreadPoolKey threadPoolKey, final HystrixThreadPoolProperties threadPoolProperties) {
         // return super.getThreadPool(threadPoolKey, threadPoolProperties);
-        return this.executor;
+        return executor;
     }
 }

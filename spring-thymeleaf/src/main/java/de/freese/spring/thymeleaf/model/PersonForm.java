@@ -9,11 +9,11 @@ public class PersonForm {
     private String lastName;
 
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 
     public void setFirstName(final String firstName) {

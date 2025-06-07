@@ -32,7 +32,7 @@ public class CreateDatabase implements ApplicationRunner {
     public void run(final ApplicationArguments args) throws Exception {
         LOGGER.info("create person database");
 
-        try (Connection connection = this.dataSourcePerson.getConnection();
+        try (Connection connection = dataSourcePerson.getConnection();
              Statement statement = connection.createStatement()) {
             final String sql = """
                     create table PERSON (
@@ -46,7 +46,7 @@ public class CreateDatabase implements ApplicationRunner {
 
         LOGGER.info("create address database");
 
-        try (Connection connection = this.dataSourceAddress.getConnection();
+        try (Connection connection = dataSourceAddress.getConnection();
              Statement statement = connection.createStatement()) {
             final String sql = """
                     create table ADDRESS (

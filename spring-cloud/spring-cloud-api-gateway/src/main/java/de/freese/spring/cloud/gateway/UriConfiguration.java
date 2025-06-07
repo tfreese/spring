@@ -11,7 +11,7 @@ public class UriConfiguration {
     private String httpbin = "http://httpbin.org:80";
 
     public String getHttpbin() {
-        return this.httpbin;
+        return httpbin;
     }
 
     public void setHttpbin(final String httpbin) {

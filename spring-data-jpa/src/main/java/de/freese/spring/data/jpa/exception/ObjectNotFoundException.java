@@ -11,14 +11,14 @@ import java.util.UUID;
 public class ObjectNotFoundException extends ApplicationException {
     @Serial
     private static final long serialVersionUID = 2517834129407627398L;
-    
+
     private final String entityName;
     private final UUID id;
 
     public ObjectNotFoundException(final Class<?> entity, final UUID id) {
         super();
 
-        this.entityName = Objects.requireNonNull(entity, "entity required").getSimpleName();
+        entityName = Objects.requireNonNull(entity, "entity required").getSimpleName();
         this.id = Objects.requireNonNull(id, "id required");
     }
 

@@ -29,66 +29,62 @@ public class ThymeleafControllerExceptionHandler {
 
     @ExceptionHandler(value = AccessDeniedException.class)
     protected String handleAccessDeniedException(final Model model, final AccessDeniedException ex, final WebRequest request) {
-        final ResponseEntity<Object> responseEntity = this.exceptionHandler.handleAccessDeniedException(ex, request);
+        final ResponseEntity<Object> responseEntity = exceptionHandler.handleAccessDeniedException(ex, request);
 
         model.addAttribute("apiError", responseEntity.getBody());
 
-        return this.errorPage;
+        return errorPage;
     }
 
     // @ExceptionHandler(DataIntegrityViolationException.class)
-    // protected String handleDataIntegrityViolation(final Model model, final DataIntegrityViolationException ex, final WebRequest request)
-    // {
+    // protected String handleDataIntegrityViolation(final Model model, final DataIntegrityViolationException ex, final WebRequest request) {
     // ResponseEntity<Object> responseEntity = null;
     //
-    // if (ex.getCause() instanceof ConstraintViolationException)
-    // {
-    // responseEntity = this.exceptionHandler.handleDataIntegrityViolation(ex, request);
+    // if (ex.getCause() instanceof ConstraintViolationException) {
+    // responseEntity = exceptionHandler.handleDataIntegrityViolation(ex, request);
     // }
-    // else
-    // {
-    // responseEntity = this.exceptionHandler.handleGenericException(ex, request);
+    // else {
+    // responseEntity = exceptionHandler.handleGenericException(ex, request);
     // }
     //
     // model.addAttribute("apiError", responseEntity.getBody());
     //
-    // return this.errorPage;
+    // return errorPage;
     // }
 
     // @ExceptionHandler(jakarta.persistence.EntityNotFoundException.class)
-    // protected String handleEntityNotFound(final Model model, final EntityNotFoundException ex, final WebRequest request)
-    // {
-    // final ResponseEntity<Object> responseEntity = this.exceptionHandler.handleEntityNotFound(ex, request);
+    // protected String handleEntityNotFound(final Model model, final EntityNotFoundException ex, final WebRequest request) {
+    // final ResponseEntity<Object> responseEntity = exceptionHandler.handleEntityNotFound(ex, request);
     //
     // model.addAttribute("apiError", responseEntity.getBody());
     //
-    // return this.errorPage;
+    // return errorPage;
     // }
 
     @ExceptionHandler(ConstraintViolationException.class)
     protected String handleConstraintViolation(final Model model, final ConstraintViolationException ex, final WebRequest request) {
-        final ResponseEntity<Object> responseEntity = this.exceptionHandler.handleConstraintViolation(ex, request);
+        final ResponseEntity<Object> responseEntity = exceptionHandler.handleConstraintViolation(ex, request);
 
         model.addAttribute("apiError", responseEntity.getBody());
 
-        return this.errorPage;
+        return errorPage;
     }
 
     @ExceptionHandler(Throwable.class)
     protected String handleGenericException(final Model model, final Throwable ex, final WebRequest request) {
-        final ResponseEntity<Object> responseEntity = this.exceptionHandler.handleGenericException(ex, request);
+        final ResponseEntity<Object> responseEntity = exceptionHandler.handleGenericException(ex, request);
 
         model.addAttribute("apiError", responseEntity.getBody());
 
-        return this.errorPage;
+        return errorPage;
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected String handleMethodArgumentTypeMismatch(final Model model, final MethodArgumentTypeMismatchException ex, final WebRequest request) {
-        final ResponseEntity<Object> responseEntity = this.exceptionHandler.handleMethodArgumentTypeMismatch(ex, request);
+        final ResponseEntity<Object> responseEntity = exceptionHandler.handleMethodArgumentTypeMismatch(ex, request);
 
         model.addAttribute("apiError", responseEntity.getBody());
 
-        return this.errorPage;
+        return errorPage;
     }
 }

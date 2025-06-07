@@ -33,8 +33,8 @@ public class WebClientConfig {
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000)
                 .doOnConnected(connection ->
                         connection
-                                .addHandlerLast(new ReadTimeoutHandler(2, TimeUnit.SECONDS))
-                                .addHandlerLast(new WriteTimeoutHandler(2, TimeUnit.SECONDS))
+                                .addHandlerLast(new ReadTimeoutHandler(3L, TimeUnit.SECONDS))
+                                .addHandlerLast(new WriteTimeoutHandler(3L, TimeUnit.SECONDS))
                 );
 
         return WebClient.builder()
@@ -50,8 +50,8 @@ public class WebClientConfig {
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000)
                 .doOnConnected(connection ->
                         connection
-                                .addHandlerLast(new ReadTimeoutHandler(2, TimeUnit.SECONDS))
-                                .addHandlerLast(new WriteTimeoutHandler(2, TimeUnit.SECONDS))
+                                .addHandlerLast(new ReadTimeoutHandler(3L, TimeUnit.SECONDS))
+                                .addHandlerLast(new WriteTimeoutHandler(3L, TimeUnit.SECONDS))
                 );
 
         return WebClient.builder()

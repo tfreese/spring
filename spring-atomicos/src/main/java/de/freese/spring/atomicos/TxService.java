@@ -39,7 +39,7 @@ public class TxService {
                     values
                     (?, ?)
                 """;
-        try (Connection connection = this.dataSourcePerson.getConnection();
+        try (Connection connection = dataSourcePerson.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sqlPerson)) {
             preparedStatement.setLong(1, id);
             preparedStatement.setString(2, personName);
@@ -54,7 +54,7 @@ public class TxService {
                     (?, ?)
                 """;
 
-        try (Connection connection = this.dataSourceAddress.getConnection();
+        try (Connection connection = dataSourceAddress.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sqlAddress)) {
             preparedStatement.setLong(1, id);
             preparedStatement.setString(2, city);
@@ -66,7 +66,7 @@ public class TxService {
     public void selectAll() throws Exception {
         final Map<Long, String> personIdToCity = new HashMap<>();
 
-        try (Connection connectionAddress = this.dataSourceAddress.getConnection();
+        try (Connection connectionAddress = dataSourceAddress.getConnection();
              PreparedStatement preparedStatementAddress = connectionAddress.prepareStatement("select * from ADDRESS");
              ResultSet resultSetAddress = preparedStatementAddress.executeQuery()) {
             while (resultSetAddress.next()) {
@@ -74,7 +74,7 @@ public class TxService {
             }
         }
 
-        try (Connection connectionPerson = this.dataSourcePerson.getConnection();
+        try (Connection connectionPerson = dataSourcePerson.getConnection();
              Statement statementPerson = connectionPerson.createStatement();
              ResultSet resultSetPerson = statementPerson.executeQuery("select * from PERSON")) {
             while (resultSetPerson.next()) {

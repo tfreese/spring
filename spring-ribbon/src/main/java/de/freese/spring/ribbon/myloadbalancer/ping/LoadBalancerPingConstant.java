@@ -12,11 +12,11 @@ public class LoadBalancerPingConstant implements LoadBalancerPing {
 
     @Override
     public boolean isAlive(final String server) {
-        return this.constant;
+        return constant;
     }
 
     public boolean isConstant() {
-        return this.constant;
+        return constant;
     }
 
     public void setConstant(final boolean constant) {

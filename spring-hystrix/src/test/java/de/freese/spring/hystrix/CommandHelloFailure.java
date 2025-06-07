@@ -21,7 +21,7 @@ public class CommandHelloFailure extends HystrixCommand<String> {
 
     @Override
     protected String getFallback() {
-        return "Hello Failure " + this.name + "!";
+        return "Hello Failure " + name + "!";
     }
 
     @Override

@@ -33,6 +33,6 @@ class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier {
 
     @Override
     public String getServiceId() {
-        return this.serviceId;
+        return serviceId;
     }
 }

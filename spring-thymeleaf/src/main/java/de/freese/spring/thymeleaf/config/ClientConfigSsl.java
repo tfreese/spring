@@ -100,8 +100,8 @@ public class ClientConfigSsl {
     public WebClientCustomizer webClientCustomizer(final WebClientSsl webClientSsl) {
         // ExchangeStrategies strategies = ExchangeStrategies.builder()
         //         .codecs(configurer -> {
-        //             configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
-        //             configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(this.objectMapper, MediaType.APPLICATION_JSON));
+        //             configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper, MediaType.APPLICATION_JSON));
+        //             configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(objectMapper, MediaType.APPLICATION_JSON));
         //
         //         }).build();
 
@@ -109,7 +109,7 @@ public class ClientConfigSsl {
 
         // ClientHttpConnector httpConnector = new ReactorClientHttpConnector(opt -> opt.sslContext(sslContext));
         // HttpClient httpClient = HttpClient.create().secure(sslContextSpec -> sslContextSpec.sslContext(sslContext));
-        // this.webClientBuilder.baseUrl(rootUri).clientConnector(new ReactorClientHttpConnector(httpClient))
+        // webClientBuilder.baseUrl(rootUri).clientConnector(new ReactorClientHttpConnector(httpClient))
 
         final CloseableHttpAsyncClient client = HttpAsyncClientBuilder.create()
                 .setDefaultRequestConfig(RequestConfig.custom()
@@ -166,7 +166,7 @@ public class ClientConfigSsl {
     // httpRequestFactory.setReadTimeout(3000);
     // httpRequestFactory.setConnectTimeout(3000);
     //
-    // // this.restTemplateBuilder = this.restTemplateBuilder.requestFactory(() -> httpRequestFactory);
+    // // restTemplateBuilder = this.restTemplateBuilder.requestFactory(() -> httpRequestFactory);
     //
     // return httpRequestFactory;
     // }

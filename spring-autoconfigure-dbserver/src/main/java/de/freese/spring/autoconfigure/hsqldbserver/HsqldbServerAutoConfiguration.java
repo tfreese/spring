@@ -71,11 +71,11 @@ public class HsqldbServerAutoConfiguration {
     @Bean(initMethod = "start", destroyMethod = "shutdown")
     // @Scope(ConfigurableBeanFactory#SCOPE_SINGLETON)
     public Server hsqldbServer() {
-        final int port = this.hsqldbServerProperties.getPort();
-        final boolean noSystemExit = this.hsqldbServerProperties.isNoSystemExit();
-        final boolean silent = this.hsqldbServerProperties.isSilent();
-        final boolean trace = this.hsqldbServerProperties.isTrace();
-        final List<DB> dbs = this.hsqldbServerProperties.getDb();
+        final int port = hsqldbServerProperties.getPort();
+        final boolean noSystemExit = hsqldbServerProperties.isNoSystemExit();
+        final boolean silent = hsqldbServerProperties.isSilent();
+        final boolean trace = hsqldbServerProperties.isTrace();
+        final List<DB> dbs = hsqldbServerProperties.getDb();
 
         if (LOGGER.isInfoEnabled()) {
             final StringBuilder sb = new StringBuilder();

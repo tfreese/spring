@@ -22,9 +22,9 @@ public class XmlBarista {
 
     public Drink prepareColdDrink(final OrderItem orderItem) {
         try {
-            TimeUnit.MILLISECONDS.sleep(this.coldDrinkDelay);
+            TimeUnit.MILLISECONDS.sleep(coldDrinkDelay);
 
-            this.logger.info("{} prepared cold drink #{} for order #{}: {}", Thread.currentThread().getName(), this.coldDrinkCounter.incrementAndGet(), orderItem.getOrderNumber(),
+            logger.info("{} prepared cold drink #{} for order #{}: {}", Thread.currentThread().getName(), coldDrinkCounter.incrementAndGet(), orderItem.getOrderNumber(),
                     orderItem);
 
             return new Drink(orderItem.getOrderNumber(), orderItem.getDrinkType(), orderItem.isIced());
@@ -37,9 +37,9 @@ public class XmlBarista {
 
     public Drink prepareHotDrink(final OrderItem orderItem) {
         try {
-            TimeUnit.MILLISECONDS.sleep(this.hotDrinkDelay);
+            TimeUnit.MILLISECONDS.sleep(hotDrinkDelay);
 
-            this.logger.info("{} prepared hot drink #{} for order #{}: {}", Thread.currentThread().getName(), this.hotDrinkCounter.incrementAndGet(), orderItem.getOrderNumber(),
+            logger.info("{} prepared hot drink #{} for order #{}: {}", Thread.currentThread().getName(), hotDrinkCounter.incrementAndGet(), orderItem.getOrderNumber(),
                     orderItem);
 
             return new Drink(orderItem.getOrderNumber(), orderItem.getDrinkType(), orderItem.isIced());

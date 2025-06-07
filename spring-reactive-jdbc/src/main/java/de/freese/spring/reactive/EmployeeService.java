@@ -21,23 +21,23 @@ public class EmployeeService {
 
     @Transactional
     public Mono<Employee> createNewEmployee(final Employee newEmployee) {
-        return this.repository.createNewEmployee(newEmployee);
+        return repository.createNewEmployee(newEmployee);
     }
 
     @Transactional
     public Mono<Long> deleteEmployee(final long id) {
-        return this.repository.deleteEmployee(id);
+        return repository.deleteEmployee(id);
     }
 
     public Flux<Department> getAllDepartments() {
-        return this.repository.getAllDepartments();
+        return repository.getAllDepartments();
     }
 
     public Flux<Employee> getAllEmployees() {
-        return this.repository.getAllEmployees();
+        return repository.getAllEmployees();
     }
 
     public Mono<Employee> getEmployee(final String lastName, final String firstName) {
-        return this.repository.getEmployee(lastName, firstName);
+        return repository.getEmployee(lastName, firstName);
     }
 }

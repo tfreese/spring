@@ -56,19 +56,19 @@ public abstract class AbstractClientReflectionController<T> {
         this.kryoPool = Objects.requireNonNull(kryoPool, "kryoPool required");
         this.rootUri = Objects.requireNonNull(rootUri, "rootUri required");
 
-        this.fassadeType = (Class<T>) ((ParameterizedType) (getClass().getGenericSuperclass())).getActualTypeArguments()[0];
+        fassadeType = (Class<T>) ((ParameterizedType) (getClass().getGenericSuperclass())).getActualTypeArguments()[0];
     }
 
     protected Class<T> getFassadeType() {
-        return this.fassadeType;
+        return fassadeType;
     }
 
     protected Pool<Kryo> getKryoPool() {
-        return this.kryoPool;
+        return kryoPool;
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected T lookupProxyHttpConnection() {
@@ -78,7 +78,7 @@ public abstract class AbstractClientReflectionController<T> {
     protected T lookupProxyHttpConnection(final Class<T> fassadeType) {
         final Object proxyObject = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
 
-            final URI uri = URI.create(this.rootUri + "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName());
+            final URI uri = URI.create(rootUri + "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName());
             final HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
 
             final Kryo kryo = getKryoPool().obtain();
@@ -167,7 +167,7 @@ public abstract class AbstractClientReflectionController<T> {
         final Object proxyObject = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
 
             final RestTemplate restTemplate = new RestTemplateBuilder()
-                    .rootUri(this.rootUri)
+                    .rootUri(rootUri)
                     .interceptors((request, body, execution) -> {
                         final HttpHeaders headers = request.getHeaders();
                         headers.setAccept(Arrays.asList(KryoHttpMessageConverter.APPLICATION_KRYO));
@@ -231,7 +231,7 @@ public abstract class AbstractClientReflectionController<T> {
 
             @Override
             public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
-                // this.invocationTime = System.currentTimeMillis();
+                // invocationTime = System.currentTimeMillis();
 
                 return invoke(fassadeType, method, args);
             }
@@ -250,11 +250,11 @@ public abstract class AbstractClientReflectionController<T> {
                     // if (((cause instanceof ConnectException) || (cause instanceof IOException) || (cause instanceof SocketException)
                     // || (cause instanceof IllegalAccessException)))
                     // {
-                    // && ((System.currentTimeMillis() - this.invocationTime) < timeout)
-                    if (this.invocationCount < maxTrys) {
-                        getLogger().warn("Retry: ({}/{}) {}.{}", this.invocationCount, maxTrys, fassadeType.getSimpleName(), method.getName());
+                    // && ((System.currentTimeMillis() - invocationTime) < timeout)
+                    if (invocationCount < maxTrys) {
+                        getLogger().warn("Retry: ({}/{}) {}.{}", invocationCount, maxTrys, fassadeType.getSimpleName(), method.getName());
 
-                        this.invocationCount++;
+                        invocationCount++;
                         TimeUnit.MILLISECONDS.sleep(retryDelay);
 
                         return invoke(fassadeType, method, args);

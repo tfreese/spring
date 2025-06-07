@@ -66,7 +66,7 @@ public final class LineChartBean implements Serializable {
         xScale.setType(null);
         yScale.setType(null);
 
-        final Map<LocalDateTime, Double> chartData = this.dataService.getData();
+        final Map<LocalDateTime, Double> chartData = dataService.getData();
 
         final LineChart lineChart = new LineChart()
                 .setData(new LineData()
@@ -106,7 +106,7 @@ public final class LineChartBean implements Serializable {
                         .setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.NONE)
                         .setVisibility(PropertyAccessor.CREATOR, JsonAutoDetect.Visibility.NONE)
                         .writerWithDefaultPrettyPrinter();
-        // .forType(this.getClass());
+        // .forType(getClass());
 
         lineChart.setDefaultObjectWriter(objectWriter);
 

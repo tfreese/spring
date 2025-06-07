@@ -29,7 +29,7 @@ class GreetingMockMvcTests {
 
     @Test
     void testDefault() throws Exception {
-        this.mockMvc.perform(get("/greeter"))
+        mockMvc.perform(get("/greeter"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("greeting").value("Hello, World!"))
@@ -42,7 +42,7 @@ class GreetingMockMvcTests {
 
     @Test
     void testFail() throws Exception {
-        this.mockMvc.perform(get("/greeter/fail"))
+        mockMvc.perform(get("/greeter/fail"))
                 //.andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isBadRequest())
         ;
@@ -50,7 +50,7 @@ class GreetingMockMvcTests {
 
     @Test
     void testJsonPath() throws Exception {
-        final String response = this.mockMvc.perform(get("/greeter/simple"))
+        final String response = mockMvc.perform(get("/greeter/simple"))
                 //.andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andReturn()
@@ -71,7 +71,7 @@ class GreetingMockMvcTests {
 
     @Test
     void testPath() throws Exception {
-        this.mockMvc.perform(get("/greeter/path/Test"))
+        mockMvc.perform(get("/greeter/path/Test"))
                 //.andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("greeting").value("Hello, Test!"))
@@ -83,7 +83,7 @@ class GreetingMockMvcTests {
 
     @Test
     void testPojo() throws Exception {
-        this.mockMvc.perform(get("/greeter/pojo").param("name", "Test"))
+        mockMvc.perform(get("/greeter/pojo").param("name", "Test"))
                 //.andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("greeting").value("Hello, Test!"))
@@ -95,13 +95,13 @@ class GreetingMockMvcTests {
 
     @Test
     void testSimple() throws Exception {
-        this.mockMvc.perform(get("/greeter/simple"))
+        mockMvc.perform(get("/greeter/simple"))
                 //.andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("greeting").value("Hello, World!"))
         ;
 
-        this.mockMvc.perform(get("/greeter/simple").param("name", "Test"))
+        mockMvc.perform(get("/greeter/simple").param("name", "Test"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("greeting").value("Hello, Test!"))
         ;

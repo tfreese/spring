@@ -17,14 +17,14 @@ public class Order {
     }
 
     public void addItem(final DrinkType drinkType, final boolean iced) {
-        this.orderItems.add(new OrderItem(this, drinkType, iced));
+        orderItems.add(new OrderItem(this, drinkType, iced));
     }
 
     public List<OrderItem> getItems() {
-        return this.orderItems;
+        return orderItems;
     }
 
     public int getNumber() {
-        return this.number;
+        return number;
     }
 }

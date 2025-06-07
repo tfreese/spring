@@ -48,7 +48,7 @@ public class JdbcConfiguration {
     // final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
     // populator.addScript(new ClassPathResource("sql/schema.sql"));
     // populator.addScript(new ClassPathResource("sql/data.sql"));
-    // // populator.execute(this.dataSource);
+    // // populator.execute(dataSource);
     //
     // final DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
     // dataSourceInitializer.setDataSource(dataSource);

@@ -30,28 +30,28 @@ class TestWebJdbc implements TestWeb {
 
     @Override
     public void doAfterEach() {
-        this.jdbcTemplate.execute("DROP TABLE IF EXISTS employee");
-        this.jdbcTemplate.execute("DROP TABLE IF EXISTS department");
+        jdbcTemplate.execute("DROP TABLE IF EXISTS employee");
+        jdbcTemplate.execute("DROP TABLE IF EXISTS department");
     }
 
     @Override
     public void doBeforeEach() {
-        this.webClient = WebClient.create("http://localhost:" + this.port);
+        webClient = WebClient.create("http://localhost:" + port);
 
         final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("sql/schema.sql"));
         populator.addScript(new ClassPathResource("sql/data.sql"));
-        populator.execute(this.jdbcTemplate.getDataSource());
+        populator.execute(jdbcTemplate.getDataSource());
     }
 
     @Override
     public WebClient getWebClient() {
-        return this.webClient;
+        return webClient;
     }
 
     @Override
     public WebTestClient getWebTestClient() {
-        return this.webTestClient;
+        return webTestClient;
     }
 
     @Override

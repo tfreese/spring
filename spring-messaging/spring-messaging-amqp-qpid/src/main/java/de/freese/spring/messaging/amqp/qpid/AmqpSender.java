@@ -26,6 +26,6 @@ public class AmqpSender {
     public void send(final Email email) {
         LOGGER.info("Sending message: {}", email);
 
-        this.amqpTemplate.convertAndSend(SpringQpidApplication.TOPIC_EXCHANGE_NAME, "foo.bar.baz", email);
+        amqpTemplate.convertAndSend(SpringQpidApplication.TOPIC_EXCHANGE_NAME, "foo.bar.baz", email);
     }
 }

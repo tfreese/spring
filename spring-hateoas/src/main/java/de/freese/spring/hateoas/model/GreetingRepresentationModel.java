@@ -31,7 +31,7 @@ public class GreetingRepresentationModel extends RepresentationModel<GreetingRep
         if (!(o instanceof final GreetingRepresentationModel that)) {
             return false;
         }
-        
+
         if (!super.equals(o)) {
             return false;
         }
@@ -41,7 +41,7 @@ public class GreetingRepresentationModel extends RepresentationModel<GreetingRep
 
     // @JsonGetter("greeting")
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
     @Override

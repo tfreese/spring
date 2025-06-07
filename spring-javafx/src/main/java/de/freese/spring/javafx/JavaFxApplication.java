@@ -52,7 +52,7 @@ public class JavaFxApplication extends Application {
             ac.addApplicationListener((ApplicationListener<ContextClosedEvent>) (event -> LOGGER.info("Closing ApplicationContext")));
         };
 
-        this.applicationContext = new SpringApplicationBuilder()
+        applicationContext = new SpringApplicationBuilder()
                 .sources(JavaFxApplicationLauncher.class)
                 .initializers(initializer)
                 //.registerShutdownHook(true)
@@ -61,12 +61,12 @@ public class JavaFxApplication extends Application {
 
     @Override
     public void start(final Stage primaryStage) {
-        this.applicationContext.publishEvent(new StageReadyEvent(primaryStage));
+        applicationContext.publishEvent(new StageReadyEvent(primaryStage));
     }
 
     @Override
     public void stop() {
-        this.applicationContext.close();
+        applicationContext.close();
         Platform.exit();
     }
 }

@@ -104,7 +104,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
      * true = https; false = http
      */
     public boolean isSecure() {
-        return this.isSecure;
+        return isSecure;
     }
 
     /**

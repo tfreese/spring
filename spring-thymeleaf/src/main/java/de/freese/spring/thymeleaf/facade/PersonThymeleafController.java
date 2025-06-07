@@ -25,7 +25,7 @@ public class PersonThymeleafController {
 
     @GetMapping("/web/person/personList")
     public String personList(final Model model) {
-        final List<Person> persons = this.service.getPersons();
+        final List<Person> persons = service.getPersons();
         model.addAttribute("persons", persons);
 
         return "/person/personList";
@@ -38,7 +38,7 @@ public class PersonThymeleafController {
 
         try {
             final Person newPerson = new Person(firstName, lastName);
-            this.service.addPerson(newPerson);
+            service.addPerson(newPerson);
 
         }
         catch (IllegalArgumentException ex) {

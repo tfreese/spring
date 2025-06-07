@@ -26,7 +26,7 @@ class GatewayTest {
 
     @Test
     void testCircuitbreaker() {
-        this.webClient
+        webClient
                 .get().uri("/delay/1")
                 .header("Host", "www.circuitbreaker.com")
                 .exchange()
@@ -42,7 +42,7 @@ class GatewayTest {
 
     @Test
     void testGet() {
-        this.webClient
+        webClient
                 .get().uri("/get")
                 .exchange()
                 .expectStatus().isOk()
@@ -55,7 +55,7 @@ class GatewayTest {
      */
     @Test
     void testHello() {
-        this.webClient
+        webClient
                 .get().uri("/hello")
                 .exchange()
                 .expectStatus().isOk()
@@ -68,7 +68,7 @@ class GatewayTest {
      */
     @Test
     void testHelloLb() {
-        this.webClient
+        webClient
                 .get().uri("/lb")
                 .exchange()
                 .expectStatus().isOk()
@@ -82,7 +82,7 @@ class GatewayTest {
     @Test
     @Disabled("not working")
     void testHelloLbManuell() {
-        this.webClient
+        webClient
                 .get().uri("/lbman")
                 .exchange()
                 .expectStatus().isOk()

@@ -71,7 +71,7 @@ public class ApplicationDsl {
                                                 .publishSubscribeChannel(c -> c.subscribe(s -> s.handle(m -> sleep(400L)))
                                                         .subscribe(sub -> sub
                                                                 .<OrderItem, String>transform(p -> Thread.currentThread().getName()
-                                                                        + " prepared cold drink #" + this.coldDrinkCounter.incrementAndGet()
+                                                                        + " prepared cold drink #" + coldDrinkCounter.incrementAndGet()
                                                                         + " for order #" + p.getOrderNumber() + ": " + p)
                                                                 .handle(m -> LOGGER.info("{}", m.getPayload())))))
                                 .subFlowMapping(false,
@@ -79,7 +79,7 @@ public class ApplicationDsl {
                                                 .publishSubscribeChannel(c -> c.subscribe(s -> s.handle(m -> sleep(800L)))
                                                         .subscribe(sub -> sub
                                                                 .<OrderItem, String>transform(p -> Thread.currentThread().getName()
-                                                                        + " prepared hot drink #" + this.hotDrinkCounter.incrementAndGet()
+                                                                        + " prepared hot drink #" + hotDrinkCounter.incrementAndGet()
                                                                         + " for order #" + p.getOrderNumber() + ": " + p)
                                                                 .handle(m -> LOGGER.info("{}", m.getPayload())))))
                                 .defaultOutputToParentFlow())

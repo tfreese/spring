@@ -44,21 +44,21 @@ public class EmployeeRepositoryR2dbcClient {
     //    public EmployeeRepositoryR2dbcClient(final ConnectionFactory connectionFactory) {
     //        super();
     //
-    //        this.r2dbc = new R2dbc(Objects.requireNonNull(connectionFactory, "connectionFactory required"));
-    //        // this.r2dbcTemplate = new R2dbcEntityTemplate(Objects.requireNonNull(connectionFactory, "connectionFactory required"));
+    //        r2dbc = new R2dbc(Objects.requireNonNull(connectionFactory, "connectionFactory required"));
+    //        // r2dbcTemplate = new R2dbcEntityTemplate(Objects.requireNonNull(connectionFactory, "connectionFactory required"));
     //    }
     //
     //    @Override
     //    public Mono<Employee> createNewEmployee(final Employee newEmployee) {
-    //        // this.r2dbc.withHandle(handle -> handle.select("SELECT department_id from department where department_name = ?", newEmployee.getDepartment())
+    //        // r2dbc.withHandle(handle -> handle.select("SELECT department_id from department where department_name = ?", newEmployee.getDepartment())
     //        // .mapResult(result -> result.map((row, rowMetadata) -> row.get("department_id", Integer.class)))).subscribe(System.out::println);
     //        // // Ergebnis ist 1 -> wie erwartet.
     //        //
-    //        // this.r2dbc.inTransaction(handle -> handle.execute("INSERT INTO employee (employee_firstname, employee_lastname, department_id) VALUES (?, ?, ?)",
+    //        // r2dbc.inTransaction(handle -> handle.execute("INSERT INTO employee (employee_firstname, employee_lastname, department_id) VALUES (?, ?, ?)",
     //        // newEmployee.getFirstName(), newEmployee.getLastName(), 1)).subscribe(System.out::println);
     //        // // Ergebnis ist 1 -> Erwartet wird 4. -> execute liefert nur die affectedRows !!!
     //
-    //        return this.r2dbc
+    //        return r2dbc
     //                .withHandle(handle ->
     //                    handle
     //                        .select("SELECT department_id from department where department_name = ?", newEmployee.getDepartment())
@@ -68,7 +68,7 @@ public class EmployeeRepositoryR2dbcClient {
     //                .single() // Es wird nur eine ID erwartet.
     ////                .next() // Es wird nur eine ID erwartet.
     //                .flatMapMany(departmentId ->
-    //                    this.r2dbc
+    //                    r2dbc
     //                        .inTransaction(handle ->
     //                            handle
     //                                .createQuery("INSERT INTO employee (employee_firstname, employee_lastname, department_id) VALUES (?, ?, ?)")
@@ -91,7 +91,7 @@ public class EmployeeRepositoryR2dbcClient {
     //
     //    @Override
     //    public Mono<Long> deleteEmployee(final long id) {
-    //        return this.r2dbc.inTransaction(handle ->
+    //        return r2dbc.inTransaction(handle ->
     //            handle
     //                .execute("DELETE FROM employee WHERE employee_id = ?", id)
     //        )
@@ -102,7 +102,7 @@ public class EmployeeRepositoryR2dbcClient {
     //
     //    @Override
     //    public Flux<Department> getAllDepartments() {
-    //        return this.r2dbc.withHandle(handle ->
+    //        return r2dbc.withHandle(handle ->
     //            handle
     //                .select("select * from department")
     //                .mapRow(DEPARTMENT_ROWMAPPER)
@@ -117,7 +117,7 @@ public class EmployeeRepositoryR2dbcClient {
     //                INNER JOIN department d ON e.department_id = d.department_id
     //                """;
     //
-    //        return this.r2dbc.withHandle(handle ->
+    //        return r2dbc.withHandle(handle ->
     //            handle
     //                .select(sql)
     //                .mapRow(EMPLOYEE_ROWMAPPER)
@@ -135,7 +135,7 @@ public class EmployeeRepositoryR2dbcClient {
     //                and e.employee_firstname = ?
     //                """;
     //
-    //        return this.r2dbc.withHandle(handle ->
+    //        return r2dbc.withHandle(handle ->
     //            handle
     //                .select(sql, lastName, firstName)
     //                .mapRow(EMPLOYEE_ROWMAPPER)

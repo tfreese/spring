@@ -20,11 +20,11 @@ public class HsqldbServerProperties {
         private String path;
 
         public String getName() {
-            return this.name;
+            return name;
         }
 
         public String getPath() {
-            return this.path;
+            return path;
         }
 
         public void setName(final String name) {
@@ -38,8 +38,8 @@ public class HsqldbServerProperties {
         @Override
         public String toString() {
             final StringBuilder builder = new StringBuilder();
-            builder.append("DB [name=").append(this.name);
-            builder.append(", path=").append(this.path);
+            builder.append("DB [name=").append(name);
+            builder.append(", path=").append(path);
             builder.append("]");
 
             return builder.toString();
@@ -54,27 +54,27 @@ public class HsqldbServerProperties {
     private boolean trace;
 
     public List<DB> getDb() {
-        return this.db;
+        return db;
     }
 
     public int getPort() {
-        return this.port;
+        return port;
     }
 
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     public boolean isNoSystemExit() {
-        return this.noSystemExit;
+        return noSystemExit;
     }
 
     public boolean isSilent() {
-        return this.silent;
+        return silent;
     }
 
     public boolean isTrace() {
-        return this.trace;
+        return trace;
     }
 
     public void setDb(final List<DB> db) {

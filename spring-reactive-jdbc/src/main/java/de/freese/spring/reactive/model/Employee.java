@@ -41,29 +41,29 @@ public class Employee {
 
         final Employee other = (Employee) obj;
 
-        return this.id == other.id && Objects.equals(this.firstName, other.firstName) && Objects.equals(this.lastName, other.lastName) && Objects.equals(this.department,
+        return id == other.id && Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName) && Objects.equals(department,
                 other.department);
     }
 
     public String getDepartment() {
-        return this.department;
+        return department;
     }
 
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
     public long getId() {
-        return this.id;
+        return id;
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.firstName, this.lastName, this.department);
+        return Objects.hash(id, firstName, lastName, department);
     }
 
     public void setDepartment(final String department) {
@@ -86,10 +86,10 @@ public class Employee {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append("Employee [");
-        builder.append("id=").append(this.id);
-        builder.append(", lastName=").append(this.lastName);
-        builder.append(", firstName=").append(this.firstName);
-        builder.append(", department=").append(this.department);
+        builder.append("id=").append(id);
+        builder.append(", lastName=").append(lastName);
+        builder.append(", firstName=").append(firstName);
+        builder.append(", department=").append(department);
         builder.append("]");
 
         return builder.toString();

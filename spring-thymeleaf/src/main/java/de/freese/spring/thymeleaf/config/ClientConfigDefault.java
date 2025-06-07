@@ -58,8 +58,8 @@ public class ClientConfigDefault {
     public WebClientCustomizer webClientCustomizer() {
         // ExchangeStrategies strategies = ExchangeStrategies.builder()
         //         .codecs(configurer -> {
-        //             configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.objectMapper, MediaType.APPLICATION_JSON));
-        //             configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(this.objectMapper, MediaType.APPLICATION_JSON));
+        //             configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper, MediaType.APPLICATION_JSON));
+        //             configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(objectMapper, MediaType.APPLICATION_JSON));
         //
         //         }).build();
 

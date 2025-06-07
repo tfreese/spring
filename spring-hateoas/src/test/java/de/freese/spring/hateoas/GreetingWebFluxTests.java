@@ -26,7 +26,7 @@ class GreetingWebFluxTests {
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> must be configured")
     void testDefault() {
-        this.webTestClient.get()
+        webTestClient.get()
                 .uri("/greeter")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
@@ -42,7 +42,7 @@ class GreetingWebFluxTests {
 
     @Test
     void testFail() {
-        this.webTestClient.get()
+        webTestClient.get()
                 .uri("/greeter/fail")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
@@ -53,7 +53,7 @@ class GreetingWebFluxTests {
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> must be configured")
     void testPath() {
-        this.webTestClient.get()
+        webTestClient.get()
                 .uri("/greeter/path/Test")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
@@ -69,7 +69,7 @@ class GreetingWebFluxTests {
     @Test
     @Disabled("No Encoder for org.springframework.hateoas.EntityModel -> must be configured")
     void testPojo() {
-        this.webTestClient.get()
+        webTestClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/greeter/pojo")
                         .queryParam("name", "Test")
@@ -88,7 +88,7 @@ class GreetingWebFluxTests {
 
     @Test
     void testSimple() {
-        final String response = this.webTestClient.get()
+        final String response = webTestClient.get()
                 .uri("/greeter/simple")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
@@ -100,7 +100,7 @@ class GreetingWebFluxTests {
         final DocumentContext documentContext = JsonPath.parse(response);
         assertEquals("Hello, World!", documentContext.read("greeting", String.class));
 
-        this.webTestClient.get()
+        webTestClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/greeter/simple")
                         .queryParam("name", "Test")

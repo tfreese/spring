@@ -105,6 +105,6 @@ public abstract class AbstractRestReflectionController {
     }
 
     protected Pool<Kryo> getKryoPool() {
-        return this.kryoPool;
+        return kryoPool;
     }
 }

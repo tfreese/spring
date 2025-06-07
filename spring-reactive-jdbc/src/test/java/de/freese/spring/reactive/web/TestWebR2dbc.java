@@ -37,28 +37,28 @@ class TestWebR2dbc implements TestWeb {
 
     @Override
     public void doAfterEach() {
-        this.databaseClient.sql("DROP TABLE IF EXISTS employee").fetch().rowsUpdated().block();
-        this.databaseClient.sql("DROP TABLE IF EXISTS department").fetch().rowsUpdated().block();
+        databaseClient.sql("DROP TABLE IF EXISTS employee").fetch().rowsUpdated().block();
+        databaseClient.sql("DROP TABLE IF EXISTS department").fetch().rowsUpdated().block();
     }
 
     @Override
     public void doBeforeEach() {
-        this.webClient = WebClient.create("http://localhost:" + this.port);
+        webClient = WebClient.create("http://localhost:" + port);
 
         final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("sql/schema.sql"));
         populator.addScript(new ClassPathResource("sql/data.sql"));
-        populator.populate(this.connectionFactory).block();
+        populator.populate(connectionFactory).block();
     }
 
     @Override
     public WebClient getWebClient() {
-        return this.webClient;
+        return webClient;
     }
 
     @Override
     public WebTestClient getWebTestClient() {
-        return this.webTestClient;
+        return webTestClient;
     }
 
     @Override

@@ -41,7 +41,7 @@ public class FailingService {
 
     private String getHost() {
         try {
-            return InetAddress.getLocalHost() + "@" + this.port;
+            return InetAddress.getLocalHost() + "@" + port;
         }
         catch (UnknownHostException ex) {
             LOGGER.error(ex.getMessage(), ex);

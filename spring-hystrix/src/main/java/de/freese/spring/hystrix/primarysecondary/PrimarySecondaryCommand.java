@@ -44,7 +44,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String> {
             P_LOGGER.info("run");
 
             // perform expensive 'primary' service call
-            return "responseFromPrimary-" + this.id;
+            return "responseFromPrimary-" + id;
         }
     }
 
@@ -72,7 +72,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String> {
             S_LOGGER.info("run");
 
             // perform fast 'secondary' service call
-            return "responseFromSecondary-" + this.id;
+            return "responseFromSecondary-" + id;
         }
     }
 
@@ -91,7 +91,7 @@ public class PrimarySecondaryCommand extends HystrixCommand<String> {
 
     @Override
     protected String getCacheKey() {
-        return String.valueOf(this.id);
+        return String.valueOf(id);
     }
 
     @Override
@@ -99,9 +99,9 @@ public class PrimarySecondaryCommand extends HystrixCommand<String> {
         C_LOGGER.info("run");
 
         if (USE_PRIMARY.get()) {
-            return new PrimaryCommand(this.id).execute();
+            return new PrimaryCommand(id).execute();
         }
 
-        return new SecondaryCommand(this.id).execute();
+        return new SecondaryCommand(id).execute();
     }
 }

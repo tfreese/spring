@@ -111,7 +111,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     }
 
     protected ResponseEntity<Object> buildResponseEntity(final Throwable ex, final WebRequest request, final String message, final HttpStatus httpStatus) {
-        this.logger.error(ex.getLocalizedMessage());
+        logger.error(ex.getLocalizedMessage());
 
         final ProblemDetail problemDetail = ProblemDetail.forStatus(httpStatus);
         problemDetail.setTitle(ex.getMessage());

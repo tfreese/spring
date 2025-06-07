@@ -32,6 +32,6 @@ public class UiController // implements javafx.fxml.Initializable
 
     @FXML
     public void initialize() {
-        this.button.setOnAction(event -> this.label.setText(this.hostServices.getDocumentBase()));
+        button.setOnAction(event -> label.setText(hostServices.getDocumentBase()));
     }
 }

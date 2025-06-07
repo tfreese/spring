@@ -18,15 +18,15 @@ public class ClientReflectionController extends AbstractClientReflectionControll
         super(kryoPool, rootUri);
 
         if (ConnectType.HTTP_CONNECTION.equals(connectType)) {
-            this.proxy = lookupProxyRetry(lookupProxyHttpConnection());
+            proxy = lookupProxyRetry(lookupProxyHttpConnection());
         }
         else {
-            this.proxy = lookupProxyRestTemplate(getFassadeType());
+            proxy = lookupProxyRestTemplate(getFassadeType());
         }
     }
 
     @Override
     public LocalDateTime testKryo() {
-        return this.proxy.testKryo();
+        return proxy.testKryo();
     }
 }

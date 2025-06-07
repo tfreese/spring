@@ -36,7 +36,7 @@ public abstract class AbstractKryoCodecSupport {
     }
 
     protected Pool<Kryo> getKryoPool() {
-        return this.kryoPool;
+        return kryoPool;
     }
 
     protected boolean supportsMimeType(final MimeType mimeType) {

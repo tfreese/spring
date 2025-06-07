@@ -23,6 +23,8 @@ class TestDerby extends AbstractTest {
         @Bean
         DynamicPropertyRegistrar dynamicPropertyRegistrar() {
             return registry -> {
+                System.setProperty("derby.stream.error.file", "build/derby.log");
+
                 final String id = UUID.randomUUID().toString();
 
                 registry.add("spring.datasource.driver-class-name", DatabaseDriver.DERBY::getDriverClassName);

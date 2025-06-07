@@ -60,7 +60,7 @@ public class HomeThymeleafController {
     public String index(final Model model, final Principal principal)
     // public String index(final Map<String, Object> model)
     {
-        model.addAttribute("message", this.message);
+        model.addAttribute("message", message);
 
         // return principal != null ? "/login" : "/index";
         return "/index";
@@ -85,7 +85,7 @@ public class HomeThymeleafController {
      */
     @PostMapping("/loginWithToken")
     protected String loginWithToken(final HttpServletRequest req, @RequestParam final String token) {
-        final UserDetails userDetails = this.userDetailsService.loadUserByUsername(token);
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(token);
         final UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
         final SecurityContext sc = SecurityContextHolder.getContext();
@@ -103,7 +103,7 @@ public class HomeThymeleafController {
     @PostMapping("/loginWithUserAndPassword")
     protected void loginWithUserAndPassword(final HttpServletRequest req, @RequestParam final String user, @RequestParam final String pass) {
         final UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(user, pass);
-        final Authentication auth = this.authenticationManager.authenticate(authReq);
+        final Authentication auth = authenticationManager.authenticate(authReq);
 
         final SecurityContext sc = SecurityContextHolder.getContext();
         sc.setAuthentication(auth);

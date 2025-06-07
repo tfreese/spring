@@ -47,7 +47,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
         super();
 
         this.authenticationManager = Objects.requireNonNull(authenticationManager, "authenticationManager required");
-        this.ignoreFailure = true;
+        ignoreFailure = true;
     }
 
     public MyTokenBasicAuthAuthenticationFilter(final AuthenticationManager authenticationManager, final AuthenticationEntryPoint authenticationEntryPoint) {
@@ -96,15 +96,15 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
             if (isAuthenticationIsRequired(username)) {
                 // AbstractAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
                 final AbstractAuthenticationToken authRequest = new PreAuthenticatedAuthenticationToken(username, password);
-                authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
-                final Authentication authResult = this.authenticationManager.authenticate(authRequest);
+                authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
+                final Authentication authResult = authenticationManager.authenticate(authRequest);
                 // Authentication authResult = new PreAuthenticatedAuthenticationToken(username, null, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
 
                 LOGGER.debug("Authentication success: {}", authResult);
 
                 SecurityContextHolder.getContext().setAuthentication(authResult);
 
-                this.rememberMeServices.loginSuccess(request, response, authResult);
+                rememberMeServices.loginSuccess(request, response, authResult);
 
                 onSuccessfulAuthentication(request, response, authResult);
             }
@@ -114,7 +114,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
 
             LOGGER.debug("Authentication request for failed: {}", failed.getMessage());
 
-            this.rememberMeServices.loginFail(request, response);
+            rememberMeServices.loginFail(request, response);
 
             onUnsuccessfulAuthentication(request, response, failed);
 
@@ -122,7 +122,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
             }
             else {
-                this.authenticationEntryPoint.commence(request, response, failed);
+                authenticationEntryPoint.commence(request, response, failed);
             }
 
             return;
@@ -156,7 +156,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
     }
 
     protected boolean isIgnoreFailure() {
-        return this.ignoreFailure;
+        return ignoreFailure;
     }
 
     protected void onSuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final Authentication authResult) {
