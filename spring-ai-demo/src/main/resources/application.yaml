@@ -1,0 +1,23 @@
+spring:
+    application:
+        name: spring-ai-demo
+    config:
+        import: optional:file:.env[.properties]
+    ai:
+        openai:
+            api-key: ${OPENAI_API_KEY}
+            chat:
+                options:
+                    temperature: 0.7
+                    deployment-name: gpt-4o
+            image:
+                options:
+                    model: dall-e-3
+                    size: 1024x1024
+                    style: vivid
+                    quality: standard
+                    response-format: url
+        mcp:
+            client:
+                stdio:
+                    servers-configuration: classpath:mcp-servers.json

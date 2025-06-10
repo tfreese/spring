@@ -1,0 +1,5 @@
+POST http://localhost:8080/chat
+
+Can you create a new README.md file for this project in the /projects/workspace folder with the following content?
+
+# Hello World
