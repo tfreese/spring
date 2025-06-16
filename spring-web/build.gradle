@@ -27,6 +27,7 @@ dependencies {
     implementation("software.xdev:chartjs-java-model")
 
     runtimeOnly("org.primefaces:primefaces-themes")
+    runtimeOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 }
 

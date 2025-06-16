@@ -2,8 +2,12 @@ package de.freese.spring.web.chart;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import jakarta.annotation.PostConstruct;
@@ -28,6 +32,8 @@ import software.xdev.chartjs.model.options.elements.Fill;
 import software.xdev.chartjs.model.options.scale.Scales;
 import software.xdev.chartjs.model.options.scale.cartesian.AbstractCartesianScaleOptions;
 import software.xdev.chartjs.model.options.scale.cartesian.linear.LinearScaleOptions;
+import software.xdev.chartjs.model.options.scale.cartesian.time.TimeScaleOptions;
+import software.xdev.chartjs.model.options.scale.cartesian.time.TimeScaleTickOptions;
 
 /**
  * @author Thomas Freese
@@ -53,34 +59,78 @@ public final class LineChartBean implements Serializable {
     @PostConstruct
     public void init() {
         // x-Axis
-        final LinearScaleOptions xScale = new LinearScaleOptions()
+        // final LinearScaleOptions xScale = new LinearScaleOptions()
+        //         .setTitle(new AbstractCartesianScaleOptions.Title()
+        //                 .setText("Time")
+        //         );
+        final TimeScaleOptions xScale = new TimeScaleOptions()
                 .setTitle(new AbstractCartesianScaleOptions.Title()
-                        .setText("Data")
+                        .setText("Time"))
+                .setTime(new TimeScaleOptions.TimeOptions()
+                        .setParser("YYYY-MM-DD HH:mm:ss") // Date Format in String.
+                        .setDisplayFormats(new TimeScaleOptions.DisplayFormats()
+                                .setSecond("YYYY-MM-DD HH:mm:ss"))
+                        .setUnit("second")
+                )
+                .setTicks(new TimeScaleTickOptions()
+                        // .setSource("data") // Generates ticks from data (including labels from data {x|y} objects).
+                        // .setSource("labels") // Generates ticks from user given labels ONLY.
+                        .setSource("auto")
                 );
 
         // y-Axis
         final LinearScaleOptions yScale = new LinearScaleOptions()
+                .setTitle(new AbstractCartesianScaleOptions.Title()
+                        .setText("Values"))
                 .setBeginAtZero(true);
 
-        // chartjs-java-model:2.3.0 Workaround
-        xScale.setType(null);
-        yScale.setType(null);
+        // For LinearScaleOptions.
+        // xScale.setType(null);
+        // yScale.setType(null);
 
-        final Map<LocalDateTime, Double> chartData = dataService.getData();
+        final List<Map.Entry<LocalDateTime, Double>> chartData = dataService.getData();
+        final List<Long> distances = new ArrayList<>();
+
+        // Average Distance between DataPoints.
+        for (int i = 1; i < chartData.size(); i++) {
+            final Map.Entry<LocalDateTime, Double> entry = chartData.get(i);
+            final Map.Entry<LocalDateTime, Double> lastEntry = chartData.get(i - 1);
+
+            final Duration distance = Duration.between(lastEntry.getKey(), entry.getKey());
+            distances.add(distance.toNanos());
+        }
+
+        final long averageDistance = (long) distances.stream().mapToLong(Long::longValue).map(Math::abs).average().orElse(0D);
+
+        if (averageDistance > 0L) {
+            // Insert Time-Gap with null.
+            for (int i = 1; i < chartData.size(); i++) {
+                final Map.Entry<LocalDateTime, Double> entry = chartData.get(i);
+                final Map.Entry<LocalDateTime, Double> lastEntry = chartData.get(i - 1);
+
+                if (entry.getValue() != null
+                        && lastEntry.getValue() != null
+                        && lastEntry.getKey().isBefore(entry.getKey().minusNanos(averageDistance))) {
+                    chartData.add(i, new AbstractMap.SimpleEntry<>(entry.getKey().minusNanos(averageDistance), null));
+                }
+            }
+        }
 
         final LineChart lineChart = new LineChart()
                 .setData(new LineData()
                         .addDataset(new LineDataset()
                                 .setLabel("My Dataset")
-                                .setData(chartData.values().stream().map(Number.class::cast).toList())
+                                .setData(chartData.stream().map(Map.Entry::getValue).map(Number.class::cast).toList())
                                 .setBorderColor(new RGBAColor(RGBAColor.random(), 1D))
-                                .setLineTension(0.25F)
+                                .setLineTension(0.1F)
+                                // .setSpanGaps(true)
                                 .setFill(new Fill<>(false))
                         )
-                        .setLabels(chartData.keySet().stream().map(DATE_TIME_FORMATTER::format).toList()))
+                        .setLabels(chartData.stream().map(Map.Entry::getKey).map(DATE_TIME_FORMATTER::format).toList()))
                 .setOptions(new LineOptions()
                         .setMaintainAspectRatio(false)
                         .setResponsive(true)
+                        .setSpanGaps(false) // No Data no Line.
                         .setScales(new Scales()
                                 .addScale(Scales.ScaleAxis.X, xScale)
                                 .addScale(Scales.ScaleAxis.Y, yScale)

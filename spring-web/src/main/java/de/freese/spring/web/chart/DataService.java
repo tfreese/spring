@@ -1,7 +1,9 @@
 package de.freese.spring.web.chart;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -17,16 +19,35 @@ public final class DataService {
     @Resource
     private Random random;
 
-    public Map<LocalDateTime, Double> getData() {
-        final Map<LocalDateTime, Double> map = new HashMap<>();
+    public List<Map.Entry<LocalDateTime, Double>> getData() {
 
-        final LocalDateTime localDateTime = getLocalDateTime();
+        final List<Map.Entry<LocalDateTime, Double>> data = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            map.put(localDateTime.plusSeconds(i), random.nextDouble(100D));
-        }
+        LocalDateTime localDateTime = getLocalDateTime();
+        data.add(new AbstractMap.SimpleEntry<>(localDateTime, random.nextDouble(100D)));
 
-        return map;
+        localDateTime = localDateTime.plusSeconds(1L);
+        data.add(new AbstractMap.SimpleEntry<>(localDateTime, random.nextDouble(100D)));
+
+        localDateTime = localDateTime.plusSeconds(1L);
+        localDateTime = localDateTime.plusSeconds(1L);
+
+        localDateTime = localDateTime.plusSeconds(1L);
+        data.add(new AbstractMap.SimpleEntry<>(localDateTime, random.nextDouble(100D)));
+
+        localDateTime = localDateTime.plusSeconds(1L);
+        data.add(new AbstractMap.SimpleEntry<>(localDateTime, random.nextDouble(100D)));
+
+        localDateTime = localDateTime.plusSeconds(1L);
+        localDateTime = localDateTime.plusSeconds(1L);
+
+        localDateTime = localDateTime.plusSeconds(1L);
+        data.add(new AbstractMap.SimpleEntry<>(localDateTime, random.nextDouble(100D)));
+
+        localDateTime = localDateTime.plusSeconds(1L);
+        data.add(new AbstractMap.SimpleEntry<>(localDateTime, random.nextDouble(100D)));
+
+        return data;
     }
 
     public LocalDateTime getLocalDateTime() {

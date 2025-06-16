@@ -3,6 +3,7 @@ package de.freese.spring.web.chart;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.InitialContext;
@@ -25,7 +26,7 @@ public final class DataBean implements Serializable {
     @Resource
     private transient DataService dataService;
 
-    public Map<LocalDateTime, Double> getData() {
+    public List<Map.Entry<LocalDateTime, Double>> getData() {
         return dataService.getData();
     }
 
