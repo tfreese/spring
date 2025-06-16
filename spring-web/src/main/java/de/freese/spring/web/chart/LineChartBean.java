@@ -102,6 +102,14 @@ public final class LineChartBean implements Serializable {
 
         final long averageDistance = (long) distances.stream().mapToLong(Long::longValue).map(Math::abs).average().orElse(0D);
 
+        // Histogram
+        // final Map<Long, Long> histogram = distances.stream()
+        //         .collect(
+        //                 Collectors.groupingBy(
+        //                         Function.identity(),
+        //                         Collectors.counting()
+        //                 ));
+
         if (averageDistance > 0L) {
             // Insert Time-Gap with null.
             for (int i = 1; i < chartData.size(); i++) {
