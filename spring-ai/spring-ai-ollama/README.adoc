@@ -1,0 +1,16 @@
+= Ollama
+
+* OLLAMA runterladen und installieren
+* OLLAMA Models pullen
+- cmd öffnen
+- ollama serve (start)
+- ollama pull mixtral:8x7B (mixtral:latest)
+- ollama pull snowflake-arctic-embed2 (snowflake-arctic-embed2:latest)
+* Bauen und deployen
+* Fragen stellen, Doks laden, etc.
+
+== Links
+
+* http://localhost:8080/ai/chat?message=wann%20ist%20er%20geboren[,window="_blank"]
+* http://localhost:8080/ai/documents/store[,window="_blank"]
+* http://localhost:8080/ai/documents/search?query=thomas[,window="_blank"]

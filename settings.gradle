@@ -12,7 +12,8 @@ pluginManagement {
 
 include("kubernetes:api")
 include("kubernetes:backend")
-include("spring-ai-demo")
+include("spring-ai:spring-ai-demo")
+include("spring-ai:spring-ai-ollama")
 include("spring-atomicos")
 include("spring-autoconfigure-dbserver")
 include("spring-cloud:spring-cloud-api-gateway")

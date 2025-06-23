@@ -1,0 +1,14 @@
+spring:
+    application:
+        name: ai.rag.chat.bot
+    ai:
+        ollama:
+            base-url: http://localhost:11434
+            chat:
+                options:
+                    model: mixtral:8x7B
+                    temperature: 0.5
+            embedding:
+                options:
+                    model: snowflake-arctic-embed2
+                    num-ctx: 8192
