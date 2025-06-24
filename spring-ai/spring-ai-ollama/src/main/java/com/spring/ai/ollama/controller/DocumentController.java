@@ -3,17 +3,23 @@ package com.spring.ai.ollama.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.annotation.Resource;
 
+import com.spring.ai.ollama.config.ChatConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.document.MetadataMode;
 import org.springframework.ai.model.transformer.KeywordMetadataEnricher;
 import org.springframework.ai.reader.tika.TikaDocumentReader;
+import org.springframework.ai.transformer.splitter.TextSplitter;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
+import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.ai.writer.FileDocumentWriter;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -25,8 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/ai/documents")
 public class DocumentController {
+    private static final boolean ENRICH_METADATA = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentController.class);
-
+    private static final String PRIORITY_FOLDER = "private";
     private static final boolean WRITE_DATABASE_TO_FILE = false;
 
     @Resource
@@ -36,8 +43,14 @@ public class DocumentController {
     private VectorStore vectorStore;
 
     @GetMapping("/search")
-    public List<Document> search(@RequestParam(value = "query") final String query) {
-        return vectorStore.similaritySearch(query);
+    public List<Document> search(@RequestParam(value = "query") final String query,
+                                 @RequestParam(value = "filter") final String filter) {
+        return vectorStore.similaritySearch(SearchRequest.builder()
+                .similarityThresholdAll()
+                .topK(ChatConfig.RAG_MAX_SIMILARITY_RESULTS)
+                .filterExpression(filter != null ? filter : "")
+                .query(query)
+                .build());
     }
 
     @GetMapping("/store")
@@ -86,19 +99,48 @@ public class DocumentController {
     }
 
     private List<Document> enrichMetadata(final List<Document> documents) {
+        if (ENRICH_METADATA) {
+            return documents;
+        }
+
         LOGGER.info("Enriching metadata of documents.");
 
-        final List<Document> result = new KeywordMetadataEnricher(chatModel, 5).apply(documents);
+        // final List<Document> result = new KeywordMetadataEnricher(chatModel, 5).apply(documents);
+
+        documents.stream()
+                .parallel()
+                .forEach(doc -> {
+                    if (!Boolean.TRUE.equals(doc.getMetadata().get("priority"))) {
+                        return;
+                    }
+
+                    LOGGER.info("Enriching document: {}", doc.getMetadata().get("fileName"));
+
+                    final PromptTemplate template = new PromptTemplate(String.format(KeywordMetadataEnricher.KEYWORDS_TEMPLATE, 5));
+                    final Prompt prompt = template.create(Map.of(KeywordMetadataEnricher.CONTEXT_STR_PLACEHOLDER, doc.getText()));
+
+                    final String keywords = chatModel.call(prompt).getResult().getOutput().getText();
+                    doc.getMetadata().put("excerpt_keywords", keywords);
+
+                    LOGGER.info("- keywords: {}", keywords);
+                });
 
         LOGGER.info("Enriching done.");
 
-        return result;
+        return documents;
     }
 
     private List<Document> splitDocuments(final List<Document> documents) {
         LOGGER.info("Tokenizing documents.");
 
-        final List<Document> result = new TokenTextSplitter().apply(documents);
+        // final List<Document> result = new TokenTextSplitter().apply(documents);
+        final TextSplitter textSplitter = new TokenTextSplitter();
+
+        final List<Document> result = documents.stream()
+                .parallel()
+                .map(textSplitter::split)
+                .flatMap(List::stream)
+                .toList();
 
         LOGGER.info("Tokenizing done. We now have {} split documents.", result.size());
 
@@ -113,8 +155,20 @@ public class DocumentController {
         final List<Document> documents = new ArrayList<>();
 
         for (org.springframework.core.io.Resource resource : resourcePatternResolver.getResources("classpath*:**/static/doc-input/*.*")) {
-            final TikaDocumentReader tikaDocumentReader = new TikaDocumentReader(resource);
-            documents.addAll(tikaDocumentReader.read());
+            try {
+                LOGGER.info("Loading document: {}", resource.getFilename());
+
+                for (Document document : new TikaDocumentReader(resource).read()) {
+                    document.getMetadata().put("fileName", resource.getFilename());
+                    document.getMetadata().put("priority", resource.getFile().getAbsolutePath().contains(PRIORITY_FOLDER));
+
+                    documents.add(document);
+                }
+            }
+            catch (Exception ex) {
+                final String message = "Could not read file: %s".formatted(resource.getFilename());
+                LOGGER.error(message, ex.getMessage());
+            }
         }
 
         LOGGER.info("Found {} documents.", documents.size());

@@ -13,13 +13,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ChatConfig {
 
+    public static final int RAG_MAX_SIMILARITY_RESULTS = 5;
     // Chat memory configuration
     private static final int MEMORY_MAX_MESSAGES = 100;
-
-    private static final int RAG_MAX_SIMILARITY_RESULTS = 5;
-
     // RAG configuration
-    private static final double RAG_MAX_THRESHOLD = 0.02;
+    private static final double RAG_MAX_THRESHOLD = 0.5;
 
     // Chatbot configuration
     private static final String SYSTEM_PROMPT = """
@@ -33,12 +31,25 @@ public class ChatConfig {
 
         return builder.defaultSystem(SYSTEM_PROMPT)
                 .defaultAdvisors(
-                        MessageChatMemoryAdvisor.builder(chatMemory).build(),
+                        MessageChatMemoryAdvisor.builder(chatMemory)
+                                .order(1)
+                                .build(),
                         QuestionAnswerAdvisor.builder(vectorStore)
+                                .order(2)
+                                .searchRequest(SearchRequest.builder()
+                                        .similarityThresholdAll()
+                                        .topK(RAG_MAX_SIMILARITY_RESULTS)
+                                        .filterExpression("priority == true")
+                                        .build()
+                                )
+                                .build(),
+                        QuestionAnswerAdvisor.builder(vectorStore)
+                                .order(3)
                                 .searchRequest(SearchRequest.builder()
                                         .similarityThreshold(RAG_MAX_THRESHOLD)
                                         .topK(RAG_MAX_SIMILARITY_RESULTS)
-                                        .build())
+                                        .build()
+                                )
                                 .build())
                 .build();
     }
