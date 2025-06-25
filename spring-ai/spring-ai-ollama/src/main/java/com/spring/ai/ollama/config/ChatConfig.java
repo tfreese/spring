@@ -17,7 +17,7 @@ public class ChatConfig {
     // Chat memory configuration
     private static final int MEMORY_MAX_MESSAGES = 100;
     // RAG configuration
-    private static final double RAG_MAX_THRESHOLD = 0.5;
+    private static final double RAG_MAX_THRESHOLD = 0.2;
 
     // Chatbot configuration
     private static final String SYSTEM_PROMPT = """

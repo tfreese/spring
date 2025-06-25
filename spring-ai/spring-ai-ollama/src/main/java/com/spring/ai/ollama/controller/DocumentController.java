@@ -28,6 +28,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * http://localhost:8080/ai/documents/search?query=</br>
+ * http://localhost:8080/ai/documents/store
+ */
 @RestController
 @RequestMapping("/ai/documents")
 public class DocumentController {
@@ -45,10 +49,11 @@ public class DocumentController {
     @GetMapping("/search")
     public List<Document> search(@RequestParam(value = "query") final String query,
                                  @RequestParam(value = "filter") final String filter) {
+
         return vectorStore.similaritySearch(SearchRequest.builder()
                 .similarityThresholdAll()
                 .topK(ChatConfig.RAG_MAX_SIMILARITY_RESULTS)
-                .filterExpression(filter != null ? filter : "")
+                // .filterExpression(filter != null && !filter.isBlank() ? filter : "")
                 .query(query)
                 .build());
     }
@@ -57,7 +62,7 @@ public class DocumentController {
     public String store() throws IOException {
         List<Document> documents = upload();
 
-        documents = cleanupText(documents);
+        // documents = cleanupText(documents);
 
         documents = splitDocuments(documents);
 
@@ -110,9 +115,9 @@ public class DocumentController {
         documents.stream()
                 .parallel()
                 .forEach(doc -> {
-                    if (!Boolean.TRUE.equals(doc.getMetadata().get("priority"))) {
-                        return;
-                    }
+                    // if (!Boolean.TRUE.equals(doc.getMetadata().get("priority"))) {
+                    //     return;
+                    // }
 
                     LOGGER.info("Enriching document: {}", doc.getMetadata().get("fileName"));
 
@@ -154,20 +159,25 @@ public class DocumentController {
 
         final List<Document> documents = new ArrayList<>();
 
-        for (org.springframework.core.io.Resource resource : resourcePatternResolver.getResources("classpath*:**/static/doc-input/*.*")) {
-            try {
-                LOGGER.info("Loading document: {}", resource.getFilename());
+        // file:/more_infos.txt
+        final List<String> locationPatterns = List.of("classpath*:static/doc-input/**/*.*");
 
-                for (Document document : new TikaDocumentReader(resource).read()) {
-                    document.getMetadata().put("fileName", resource.getFilename());
-                    document.getMetadata().put("priority", resource.getFile().getAbsolutePath().contains(PRIORITY_FOLDER));
+        for (String locationPattern : locationPatterns) {
+            for (org.springframework.core.io.Resource resource : resourcePatternResolver.getResources(locationPattern)) {
+                try {
+                    LOGGER.info("Loading document: {}", resource.getFilename());
 
-                    documents.add(document);
+                    for (Document document : new TikaDocumentReader(resource).read()) {
+                        document.getMetadata().put("fileName", resource.getFilename());
+                        document.getMetadata().put("priority", resource.getFile().getAbsolutePath().contains(PRIORITY_FOLDER));
+
+                        documents.add(document);
+                    }
                 }
-            }
-            catch (Exception ex) {
-                final String message = "Could not read file: %s".formatted(resource.getFilename());
-                LOGGER.error(message, ex.getMessage());
+                catch (Exception ex) {
+                    final String message = "Could not read file: %s".formatted(resource.getFilename());
+                    LOGGER.error(message, ex.getMessage());
+                }
             }
         }
 

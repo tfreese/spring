@@ -1,11 +1,15 @@
 = Ollama
 
 * OLLAMA runterladen und installieren
+- tar -xvzf ollama-linux-amd64.tgz;
+
 * OLLAMA Models pullen
 - cmd öffnen
-- ollama serve (start)
+- export OLLAMA_MODELS=/your/desired/path
+- ollama serve
 - ollama pull mixtral:8x7B (mixtral:latest)
 - ollama pull snowflake-arctic-embed2 (snowflake-arctic-embed2:latest)
+
 * Bauen und deployen
 * Fragen stellen, Doks laden, etc.
 

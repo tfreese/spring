@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 
+/**
+ * * http://localhost:8080/ai/chat/?message=<br>
+ */
 @RestController
 @RequestMapping("/ai/chat")
 public class ChatController {
