@@ -1,6 +1,9 @@
+logging:
+    level.org.springframework.jdbc.datasource.init: DEBUG
+
 spring:
     application:
-        name: ai.rag.chat.bot
+        name: spring.ai.chat.bot
     ai:
         ollama:
             base-url: http://localhost:11434
@@ -12,3 +15,58 @@ spring:
                 options:
                     model: snowflake-arctic-embed2
                     num-ctx: 8192
+    #h2:
+    #    console:
+    #        enabled: true
+    #        path: /h2-console
+    #        settings:
+    #            trace: false
+    #            web-allow-others: false
+    datasource:
+        #url: jdbc:h2:file:/tmp/ai/h2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true;AUTO_RECONNECT=TRUE
+        #driverClassName: org.h2.Driver
+        url: jdbc:hsqldb:file:/tmp/ai/hsqldb;create=true;shutdown=true
+        driverClassName: org.hsqldb.jdbc.JDBCDriver
+        username: sa
+        password: password
+
+    sql:
+        init:
+            continue-on-error: true
+            #mode: embedded
+            #mode: always
+            mode: never
+            #schema-locations: "classpath:/org/springframework/ai/chat/memory/repository/jdbc/schema-hsqldb.sql"
+            #data-locations: "classpath: /db/data:sql"
+
+    #jpa:
+    #    database-platform: org.hibernate.dialect.H2Dialect
+    #    show-sql: true
+    #    hibernate:
+    #        ddl-auto: none
+    #    properties:
+    #        hibernate:
+    #            format_sql: true
+
+
+# H2:
+#DB_CLOSE_DELAY = -1:
+#This option ensures the database remains open as long as the Java Virtual Machine (JVM) is running.
+#It prevents it from closing automatically when the last connection is closed.
+#By default, the database closes when the last connection is terminated.
+#The default value is zero.
+#However, it’s essential to shut down the database with a shutdown command to avoid potential memory leaks.
+
+#DB_CLOSE_ON_EXIT = FALSE:
+#By default, H2 closes the database upon JVM shutdown.
+#Setting this option to FALSE keeps the database open even after the JVM shuts down.
+#This might be useful in a case where the database needs to remain open for post-shutdown processes, such as logging shutdown activities.
+
+#AUTO_RECONNECT=TRUE:
+#This enables the database to reconnect when a connection is lost automatically.
+#The default value is FALSE.
+#Enabling this option might be helpful in an environment where network issues can cause disconnections.
+
+#MODE=PostgreSQL:
+#This option sets the H2 database to emulate the behavior of a PostgreSQL database.
+#It provides compatibility modes for different database systems, such as MySQL, ORACLE, etc.

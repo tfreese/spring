@@ -1,14 +1,19 @@
 package com.spring.ai.ollama.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.memory.ChatMemoryRepository;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
+import org.springframework.ai.chat.memory.repository.jdbc.JdbcChatMemoryRepository;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 public class ChatConfig {
@@ -17,7 +22,7 @@ public class ChatConfig {
     // Chat memory configuration
     private static final int MEMORY_MAX_MESSAGES = 100;
     // RAG configuration
-    private static final double RAG_MAX_THRESHOLD = 0.2;
+    private static final double RAG_MAX_THRESHOLD = 0.5;
 
     // Chatbot configuration
     private static final String SYSTEM_PROMPT = """
@@ -26,8 +31,17 @@ public class ChatConfig {
             """;
 
     @Bean
-    ChatClient chatClient(final ChatClient.Builder builder, final VectorStore vectorStore) {
-        final ChatMemory chatMemory = MessageWindowChatMemory.builder().maxMessages(MEMORY_MAX_MESSAGES).build();
+    ChatClient chatClient(final ChatClient.Builder builder, final VectorStore vectorStore, final DataSource dataSource, final PlatformTransactionManager txManager) {
+        final ChatMemoryRepository chatMemoryRepository = JdbcChatMemoryRepository.builder()
+                .dataSource(dataSource)
+                .transactionManager(txManager)
+                .build();
+        // final ChatMemoryRepository chatMemoryRepository = new InMemoryChatMemoryRepository();
+
+        final ChatMemory chatMemory = MessageWindowChatMemory.builder()
+                .maxMessages(MEMORY_MAX_MESSAGES)
+                .chatMemoryRepository(chatMemoryRepository)
+                .build();
 
         return builder.defaultSystem(SYSTEM_PROMPT)
                 .defaultAdvisors(
@@ -51,6 +65,7 @@ public class ChatConfig {
                                         .build()
                                 )
                                 .build())
+                // .defaultTools(new ChatTools())
                 .build();
     }
 }

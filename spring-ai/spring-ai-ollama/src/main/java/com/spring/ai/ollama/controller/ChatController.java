@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 
 /**
- * * http://localhost:8080/ai/chat/?message=<br>
+ * http://localhost:8080/ai/chat/?prompt=<br>
  */
 @RestController
 @RequestMapping("/ai/chat")
@@ -21,10 +21,10 @@ public class ChatController {
     private ChatClient chatClient;
 
     @GetMapping("/")
-    public String chat(@RequestParam(value = "message") final String message) {
+    public String chat(@RequestParam(value = "prompt") final String prompt) {
         return chatClient.prompt()
                 .advisors(advisor -> advisor.param(ChatMemory.CONVERSATION_ID, RequestContextHolder.currentRequestAttributes().getSessionId()))
-                .user(message)
+                .user(prompt)
                 .call()
                 .content();
     }

@@ -5,9 +5,9 @@
 
 * OLLAMA Models pullen
 - cmd öffnen
-- export OLLAMA_MODELS=/your/desired/path
+- export OLLAMA_MODELS=/mnt/ssd850/ollama/models/
 - ollama serve
-- ollama pull mixtral:8x7B (mixtral:latest)
+- ollama pull mixtral:8x7B
 - ollama pull snowflake-arctic-embed2 (snowflake-arctic-embed2:latest)
 
 * Bauen und deployen

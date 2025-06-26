@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * http://localhost:8080/ai/documents/search?query=</br>
+ * http://localhost:8080/ai/documents/search?query=...&filter=</br>
  * http://localhost:8080/ai/documents/store
  */
 @RestController
@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DocumentController {
     private static final boolean ENRICH_METADATA = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentController.class);
-    private static final String PRIORITY_FOLDER = "private";
+    private static final String PRIORITY_FOLDER = "wiki";
     private static final boolean WRITE_DATABASE_TO_FILE = false;
 
     @Resource
@@ -104,7 +104,7 @@ public class DocumentController {
     }
 
     private List<Document> enrichMetadata(final List<Document> documents) {
-        if (ENRICH_METADATA) {
+        if (!ENRICH_METADATA) {
             return documents;
         }
 
@@ -114,6 +114,7 @@ public class DocumentController {
 
         documents.stream()
                 .parallel()
+                .filter(doc -> doc.getText() != null)
                 .forEach(doc -> {
                     // if (!Boolean.TRUE.equals(doc.getMetadata().get("priority"))) {
                     //     return;
@@ -143,6 +144,7 @@ public class DocumentController {
 
         final List<Document> result = documents.stream()
                 .parallel()
+                .filter(doc -> doc.getText() != null)
                 .map(textSplitter::split)
                 .flatMap(List::stream)
                 .toList();
@@ -160,7 +162,8 @@ public class DocumentController {
         final List<Document> documents = new ArrayList<>();
 
         // file:/more_infos.txt
-        final List<String> locationPatterns = List.of("classpath*:static/doc-input/**/*.*");
+        // final List<String> locationPatterns = List.of("classpath*:static/doc-input/**/*.*");
+        final List<String> locationPatterns = List.of("file:../linux-wiki/antora-wiki/wiki/modules/ROOT/pages/**/*.adoc");
 
         for (String locationPattern : locationPatterns) {
             for (org.springframework.core.io.Resource resource : resourcePatternResolver.getResources(locationPattern)) {
