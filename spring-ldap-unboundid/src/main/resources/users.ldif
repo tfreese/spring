@@ -22,7 +22,7 @@ objectclass: inetOrgPerson
 cn: Rod Johnson
 sn: Johnson
 uid: admin
-userPassword: password
+userPassword: {noop}password
 givenName: Rod Johnson
 
 dn: uid=user,ou=people,dc=springframework,dc=org
@@ -33,7 +33,7 @@ objectclass: inetOrgPerson
 cn: Dianne Emu
 sn: Emu
 uid: user
-userPassword: password
+userPassword: {noop}password
 givenName: Dianne Emu
 
 ###############################################################################

@@ -23,12 +23,12 @@ spring:
     #            trace: false
     #            web-allow-others: false
     datasource:
-        #url: jdbc:h2:file:/tmp/ai/h2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true;AUTO_RECONNECT=TRUE
+        #url: jdbc:h2:file:${java.io.tmpdir}/ai/h2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true;AUTO_RECONNECT=TRUE
         #driverClassName: org.h2.Driver
-        url: jdbc:hsqldb:file:/tmp/ai/hsqldb;create=true;shutdown=true
+        url: jdbc:hsqldb:file:${java.io.tmpdir}/ai/hsqldb;create=true;shutdown=true
         driverClassName: org.hsqldb.jdbc.JDBCDriver
-        username: sa
-        password: password
+        username: "sa"
+        password: "password"
 
     sql:
         init:

@@ -55,7 +55,7 @@ public class WebSecurityConfig {
         final Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put("pbkdf2", pbkdf2passwordEncoder);
         encoders.put("bcrypt", new BCryptPasswordEncoder(10));
-        encoders.put("", new PasswordEncoder() {
+        encoders.put("noop", new PasswordEncoder() {
             @Override
             public String encode(final CharSequence rawPassword) {
                 return rawPassword.toString();
@@ -67,6 +67,6 @@ public class WebSecurityConfig {
             }
         });
 
-        return new DelegatingPasswordEncoder("", encoders);
+        return new DelegatingPasswordEncoder("noop", encoders);
     }
 }

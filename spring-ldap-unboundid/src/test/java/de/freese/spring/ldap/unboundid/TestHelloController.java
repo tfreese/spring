@@ -27,7 +27,7 @@ class TestHelloController {
     @Test
     void testRootWhenAuthenticatedThenSaysHelloUser() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/")
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("user", "password")))
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("user", "{noop}password")))
                 .andExpect(MockMvcResultMatchers.content().string("Hello, user !"));
     }
 
@@ -40,7 +40,7 @@ class TestHelloController {
     @Test
     void testTokenWhenBadCredentialsThen401() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/")
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("user", "password_")))
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("user", "{noop}password_")))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
 }
