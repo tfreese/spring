@@ -1,10 +1,11 @@
 package com.spring.ai.ollama.config;
 
+import com.spring.ai.ollama.vetorstore.JdbcVectorStore;
 import org.springframework.ai.embedding.EmbeddingModel;
-import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
 public class DatabaseConfig {
@@ -44,8 +45,13 @@ public class DatabaseConfig {
     //     return new DelegatingPasswordEncoder("noop", encoders);
     // }
 
+    // @Bean
+    // VectorStore vectorStore(final EmbeddingModel embeddingModel) {
+    //     return SimpleVectorStore.builder(embeddingModel).build();
+    // }
+
     @Bean
-    VectorStore vectorStore(final EmbeddingModel embeddingModel) {
-        return SimpleVectorStore.builder(embeddingModel).build();
+    VectorStore vectorStore(final EmbeddingModel embeddingModel, final JdbcTemplate jdbcTemplate) {
+        return JdbcVectorStore.builder(embeddingModel).jdbcTemplate(jdbcTemplate).build();
     }
 }

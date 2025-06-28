@@ -8,6 +8,8 @@ import javax.sql.DataSource;
 import jakarta.annotation.Resource;
 
 import com.spring.ai.ollama.controller.DocumentController;
+import com.spring.ai.ollama.vetorstore.JdbcVectorStore;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,10 +29,21 @@ public class Application {
     @Resource
     private DocumentController documentController;
 
+    @Resource
+    private VectorStore vectorStore;
+
     @Bean
     @DependsOn({"dataSourceInitializer"})
     public CommandLineRunner loadDocuments() {
-        return args -> documentController.store();
+        return args -> {
+            if (vectorStore instanceof JdbcVectorStore jvs) {
+                jvs.loadAll();
+
+                return;
+            }
+
+            documentController.store();
+        };
     }
 
     @Bean
@@ -45,6 +58,7 @@ public class Application {
 
         final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ByteArrayResource(sql.getBytes(StandardCharsets.UTF_8)));
+        populator.addScript(new ClassPathResource("schema-document.sql"));
         // populator.execute(dataSource);
 
         final DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();

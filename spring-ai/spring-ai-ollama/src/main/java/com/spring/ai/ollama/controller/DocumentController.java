@@ -51,7 +51,6 @@ public class DocumentController {
     @GetMapping("/search")
     public List<Document> search(@RequestParam(value = "query") final String query,
                                  @RequestParam(value = "filter") final String filter) {
-
         return vectorStore.similaritySearch(SearchRequest.builder()
                 .similarityThresholdAll()
                 .topK(ChatConfig.RAG_MAX_SIMILARITY_RESULTS)
@@ -63,6 +62,8 @@ public class DocumentController {
     @GetMapping("/store")
     public String store() throws IOException {
         List<Document> documents = loadDocuments();
+
+        // documents.forEach(doc -> LOGGER.info(doc.getFormattedContent()));
 
         // documents = cleanupText(documents);
 
@@ -185,25 +186,6 @@ public class DocumentController {
                     }
                 });
 
-        // for (String locationPattern : locationPatterns) {
-        //     for (org.springframework.core.io.Resource resource : resourcePatternResolver.getResources(locationPattern)) {
-        //         try {
-        //             LOGGER.info("Loading document: {}", resource.getFilename());
-        //
-        //             for (Document document : new TikaDocumentReader(resource).read()) {
-        //                 document.getMetadata().put("fileName", resource.getFilename());
-        //                 document.getMetadata().put("priority", resource.getFile().getAbsolutePath().contains(PRIORITY_FOLDER));
-        //
-        //                 documents.add(document);
-        //             }
-        //         }
-        //         catch (Exception ex) {
-        //             final String message = "Could not read file: %s".formatted(resource.getFilename());
-        //             LOGGER.error(message, ex.getMessage());
-        //         }
-        //     }
-        // }
-
         LOGGER.info("Found {} documents.", documents.size());
 
         return documents;
@@ -218,7 +200,17 @@ public class DocumentController {
         final List<Document> result = documents.stream()
                 .parallel()
                 .filter(doc -> doc.getText() != null)
-                .map(textSplitter::split)
+                .map(doc ->
+                        // Preserve MimeType from Document.
+                        textSplitter.split(doc).stream()
+                                .map(splittedDoc -> Document.builder()
+                                        .id(splittedDoc.getId())
+                                        .media(doc.getMedia())
+                                        .metadata(splittedDoc.getMetadata())
+                                        .text(splittedDoc.getText())
+                                        .build()).
+                                toList()
+                )
                 .flatMap(List::stream)
                 .toList();
 
