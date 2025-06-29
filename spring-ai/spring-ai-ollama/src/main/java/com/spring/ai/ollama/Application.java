@@ -39,7 +39,9 @@ public class Application {
             if (vectorStore instanceof JdbcVectorStore jvs) {
                 jvs.loadAll();
 
-                return;
+                if (jvs.size() > 0) {
+                    return;
+                }
             }
 
             documentController.store();

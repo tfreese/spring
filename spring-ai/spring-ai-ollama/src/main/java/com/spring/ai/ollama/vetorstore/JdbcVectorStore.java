@@ -209,6 +209,9 @@ public final class JdbcVectorStore extends AbstractObservationVectorStore {
                 .toList();
     }
 
+    /**
+     * Returns true, if some Documents were loaded.
+     */
     public void loadAll() {
         final String sql = """
                 select * from
@@ -245,6 +248,10 @@ public final class JdbcVectorStore extends AbstractObservationVectorStore {
         });
 
         LOGGER.info("loaded documents: {}", result.size());
+    }
+
+    public int size() {
+        return store.size();
     }
 
     private Predicate<JdbcVectorStoreContent> doFilterPredicate(final SearchRequest request) {
