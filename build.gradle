@@ -53,6 +53,8 @@ subprojects {
             //     entry("tomcat-embed-jasper")
             // }
 
+            dependency("org.neo4j:neo4j:$version_neo4j")
+
             dependency("org.joinfaces:primefaces-spring-boot-starter:$version_joinfaces")
 
             dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {

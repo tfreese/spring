@@ -14,3 +14,6 @@
 !.idea/icon.svg
 
 .activeMQ/
+
+# From Root Directory
+/neo4j

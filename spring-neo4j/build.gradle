@@ -1,0 +1,25 @@
+plugins {
+    id("java")
+}
+
+description = "Demo meo4j"
+
+dependencies {
+    modules {
+        module("org.springframework.boot:spring-boot-starter-logging") {
+            replacedBy("org.slf4j:slf4j-api", "Use SLF4J instead of Logback")
+        }
+    }
+
+    implementation("org.neo4j:neo4j") {
+        exclude(module: "neo4j-slf4j-provider")
+        exclude(module: "commons-logging")
+    }
+    implementation("org.springframework.boot:spring-boot-starter-data-neo4j")
+
+    implementation("org.slf4j:slf4j-simple")
+
+    runtimeOnly("org.springframework.boot:spring-boot-devtools")
+
+    // testImplementation("org.slf4j:slf4j-simple")
+}
