@@ -1,0 +1,12 @@
+logging:
+    pattern:
+    #console: "%date{HH:mm:ss.SSS} - %5level - [%30.-30thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
+    #console: "%date{HH:mm:ss.SSS} - %5level - [%30.-30thread] - %-40.-40logger{0} - %message%n"
+    level:
+        org.springframework.jdbc.datasource.init: DEBUG
+
+spring:
+    application:
+        name: spring.neo4j
+    neo4j:
+        uri: "bolt://localhost:7687"

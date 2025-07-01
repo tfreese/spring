@@ -14,7 +14,7 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 /**
  * @author Thomas Freese
  */
-@Node
+@Node("PERSON") // Must match MyLabels!
 public class Person {
     private final String name;
 

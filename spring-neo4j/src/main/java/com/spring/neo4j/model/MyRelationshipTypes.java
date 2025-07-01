@@ -6,6 +6,6 @@ import org.neo4j.graphdb.RelationshipType;
 /**
  * @author Thomas Freese
  */
-public enum RelTypes implements RelationshipType {
+public enum MyRelationshipTypes implements RelationshipType {
     KNOWS
 }
