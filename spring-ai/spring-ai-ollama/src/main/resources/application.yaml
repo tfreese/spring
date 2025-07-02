@@ -19,6 +19,10 @@ spring:
                 options:
                     model: snowflake-arctic-embed2
                     num-ctx: 8192
+        vectorstore:
+            neo4j:
+                initialize-schema: true
+                database-name: neo4j
     h2:
         console:
             enabled: true
@@ -33,7 +37,8 @@ spring:
         #driverClassName: org.hsqldb.jdbc.JDBCDriver
         username: "sa"
         password: "password"
-
+    neo4j:
+        uri: "bolt://localhost:7687"
     sql:
         init:
             continue-on-error: true

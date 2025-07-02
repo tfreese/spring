@@ -1,19 +1,16 @@
 package com.spring.ai.ollama.config;
 
-import javax.sql.DataSource;
-
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.ChatMemoryRepository;
+import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
-import org.springframework.ai.chat.memory.repository.jdbc.JdbcChatMemoryRepository;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 public class ChatConfig {
@@ -31,13 +28,7 @@ public class ChatConfig {
             """;
 
     @Bean
-    ChatClient chatClient(final ChatClient.Builder builder, final VectorStore vectorStore, final DataSource dataSource, final PlatformTransactionManager txManager) {
-        final ChatMemoryRepository chatMemoryRepository = JdbcChatMemoryRepository.builder()
-                .dataSource(dataSource)
-                .transactionManager(txManager)
-                .build();
-        // final ChatMemoryRepository chatMemoryRepository = new InMemoryChatMemoryRepository();
-
+    ChatClient chatClient(final ChatClient.Builder builder, final VectorStore vectorStore, final ChatMemoryRepository chatMemoryRepository) {
         final ChatMemory chatMemory = MessageWindowChatMemory.builder()
                 .maxMessages(MEMORY_MAX_MESSAGES)
                 .chatMemoryRepository(chatMemoryRepository)
@@ -68,4 +59,24 @@ public class ChatConfig {
                 // .defaultTools(new ChatTools())
                 .build();
     }
+
+    // @Bean
+    // ChatMemoryRepository chatMemoryRepository(final DataSource dataSource, final PlatformTransactionManager txManager) {
+    //     return JdbcChatMemoryRepository.builder()
+    //             .dataSource(dataSource)
+    //             .transactionManager(txManager)
+    //             .build();
+    // }
+
+    @Bean
+    ChatMemoryRepository chatMemoryRepository() {
+        return new InMemoryChatMemoryRepository();
+    }
+
+    // @Bean
+    // ChatMemoryRepository chatMemoryRepository(final Driver driver) {
+    //     return new Neo4jChatMemoryRepository(Neo4jChatMemoryRepositoryConfig.builder()
+    //             .withDriver(driver)
+    //             .build());
+    // }
 }

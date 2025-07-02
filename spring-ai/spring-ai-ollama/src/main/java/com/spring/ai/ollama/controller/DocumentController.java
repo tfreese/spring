@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/ai/documents")
 public class DocumentController {
-    static final boolean ENRICH_METADATA = true;
+    static final boolean ENRICH_METADATA = false;
     static final String PRIORITY_FOLDER = "wiki";
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentController.class);
     private static final boolean WRITE_DATABASE_TO_FILE = false;
