@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 
 /**
- * http://localhost:8080/ai/chat/?prompt=<br>
+ * <a href="http://localhost:8080/ai/chat/?prompt=wer war eulenspiegel">...</a>chat<br>
  */
 @RestController
 @RequestMapping("/ai/chat")

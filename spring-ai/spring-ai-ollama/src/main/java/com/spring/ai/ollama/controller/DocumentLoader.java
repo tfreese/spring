@@ -34,7 +34,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 public final class DocumentLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentLoader.class);
 
-    private static final Pattern PATTERN_MULTI_LINE_BREAK = Pattern.compile(System.lineSeparator() + "+");
+    private static final Pattern PATTERN_3_LINE_BREAK = Pattern.compile(System.lineSeparator() + "{3,}");
     private static final Pattern PATTERN_MULTI_SPACE = Pattern.compile(" +");
     private static final Pattern PATTERN_MULTI_TAB = Pattern.compile("\t+");
     private static final Pattern PATTERN_NUMBERS_WITH_DOT_AND_SPACE = Pattern.compile("\\d\\. ");
@@ -43,7 +43,7 @@ public final class DocumentLoader {
     private static Document cleanupDocument(final Document document) {
         final String text = Optional.ofNullable(document.getText())
                 // .map(value -> PATTERN_ONLY_ASCII.matcher(value).replaceAll(""))
-                .map(value -> PATTERN_MULTI_LINE_BREAK.matcher(value).replaceAll(System.lineSeparator()))
+                .map(value -> PATTERN_3_LINE_BREAK.matcher(value).replaceAll(System.lineSeparator() + System.lineSeparator()))
                 .map(value -> PATTERN_MULTI_TAB.matcher(value).replaceAll("\t"))
                 .map(value -> PATTERN_MULTI_SPACE.matcher(value).replaceAll(" "))
                 // .replaceAll("\n+", "\n")

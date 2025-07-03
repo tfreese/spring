@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/ai/documents")
 public class DocumentController {
-    static final boolean ENRICH_METADATA = false;
+    static final boolean ENRICH_METADATA = true;
     static final String PRIORITY_FOLDER = "wiki";
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentController.class);
     private static final boolean WRITE_DATABASE_TO_FILE = false;
@@ -51,7 +51,7 @@ public class DocumentController {
     public String store() {
         // file:/more_infos.txt
         // final List<String> locationPatterns = List.of("classpath*:static/doc-input/**/*.*");
-        final List<String> locationPatterns = List.of("file:../linux-wiki/antora-wiki/wiki/modules/ROOT/pages/**/*.adoc");
+        final List<String> locationPatterns = List.of("classpath*:Till_Eulenspiegel.txt");
 
         final List<Document> documents = new DocumentLoader().loadDocuments(chatModel, locationPatterns);
 
