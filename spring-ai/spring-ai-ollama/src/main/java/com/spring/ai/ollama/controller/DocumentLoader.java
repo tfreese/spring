@@ -1,8 +1,8 @@
 // Created: 29.06.2025
 package com.spring.ai.ollama.controller;
 
+import static com.spring.ai.ollama.controller.DocumentController.CLEANUP_TEXT;
 import static com.spring.ai.ollama.controller.DocumentController.ENRICH_METADATA;
-import static com.spring.ai.ollama.controller.DocumentController.PRIORITY_FOLDER;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,6 +41,10 @@ public final class DocumentLoader {
     // private static final Pattern PATTERN_ONLY_ASCII = Pattern.compile("[^\\\\p{ASCII}]");
 
     private static Document cleanupDocument(final Document document) {
+        if (!CLEANUP_TEXT) {
+            return document;
+        }
+
         final String text = Optional.ofNullable(document.getText())
                 // .map(value -> PATTERN_ONLY_ASCII.matcher(value).replaceAll(""))
                 .map(value -> PATTERN_3_LINE_BREAK.matcher(value).replaceAll(System.lineSeparator() + System.lineSeparator()))
@@ -107,7 +111,7 @@ public final class DocumentLoader {
                 .map(document -> {
                     try {
                         document.getMetadata().put("fileName", resource.getFilename());
-                        document.getMetadata().put("priority", resource.getFile().getAbsolutePath().contains(PRIORITY_FOLDER));
+                        document.getMetadata().put("priority", DocumentController.isPriority(resource.getFile().getAbsolutePath()));
                     }
                     catch (Exception ex) {
                         final String message = "Could not read file: %s".formatted(resource.getFilename());

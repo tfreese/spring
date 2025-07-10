@@ -1,7 +1,8 @@
 logging:
     pattern:
         #console: "%date{HH:mm:ss.SSS} - %5level - [%30.-30thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
-        console: "%date{HH:mm:ss.SSS} - %5level - [%30.-30thread] - %-40.-40logger{0} - %message%n"
+        # ANSI with Log4j2: %clr{...}
+        console: "%date{HH:mm:ss.SSS} - %clr(%5level) - [%25.-25thread] - %clr(%-40.-40logger{0}){magenta} - %message%n"
     level:
         org.springframework.jdbc.datasource.init: DEBUG
 
@@ -19,6 +20,26 @@ spring:
                 options:
                     model: snowflake-arctic-embed2
                     num-ctx: 8192
+    output:
+        ansi:
+            enabled: always
+    profiles:
+        active: memory
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: memory
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: database
+    ai:
         vectorstore:
             neo4j:
                 initialize-schema: true
@@ -37,6 +58,7 @@ spring:
         #driverClassName: org.hsqldb.jdbc.JDBCDriver
         username: "sa"
         password: "password"
+
     neo4j:
         uri: "bolt://localhost:7687"
     sql:

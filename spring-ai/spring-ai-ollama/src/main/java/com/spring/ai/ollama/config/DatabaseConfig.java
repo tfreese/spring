@@ -1,16 +1,66 @@
 package com.spring.ai.ollama.config;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ai.embedding.EmbeddingModel;
-import org.springframework.ai.vectorstore.SimpleVectorStore;
-import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.ai.chat.memory.ChatMemoryRepository;
+import org.springframework.ai.chat.memory.repository.jdbc.JdbcChatMemoryRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
+@Profile("database")
 public class DatabaseConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseConfig.class);
+
+    @Bean
+    @DependsOn({"dataSourceInitializer"})
+    ChatMemoryRepository chatMemoryRepository(final DataSource dataSource, final PlatformTransactionManager txManager) {
+        return JdbcChatMemoryRepository.builder()
+                .dataSource(dataSource)
+                .transactionManager(txManager)
+                .build();
+    }
+
+    @Bean
+    DataSourceInitializer dataSourceInitializer(final DataSource dataSource) throws IOException {
+        final Resource resourceJdbcChatMemoryRepository = new ClassPathResource("/org/springframework/ai/chat/memory/repository/jdbc/schema-hsqldb.sql");
+
+        final String sql = resourceJdbcChatMemoryRepository.getContentAsString(StandardCharsets.UTF_8)
+                .replace("CREATE TABLE", "CREATE TABLE IF NOT EXISTS")
+                .replace("CREATE INDEX", "CREATE INDEX IF NOT EXISTS")
+                .replace("ADD CONSTRAINT", "ADD CONSTRAINT IF NOT EXISTS");
+
+        final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ByteArrayResource(sql.getBytes(StandardCharsets.UTF_8)));
+        populator.addScript(new ClassPathResource("schema-document.sql"));
+        // populator.execute(dataSource);
+
+        final DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
+        dataSourceInitializer.setDataSource(dataSource);
+        dataSourceInitializer.setDatabasePopulator(populator);
+
+        return dataSourceInitializer;
+    }
+
+    // @Bean
+    // ChatMemoryRepository chatMemoryRepository(final Driver driver) {
+    //     return new Neo4jChatMemoryRepository(Neo4jChatMemoryRepositoryConfig.builder()
+    //             .withDriver(driver)
+    //             .build());
+    // }
 
     // @Bean
     // public DataSource getDataSource(@Value("${spring.datasource.username}") final String username,
@@ -81,11 +131,6 @@ public class DatabaseConfig {
     // org.neo4j.cypherdsl.core.renderer.Configuration cypherDslConfiguration() {
     //     return org.neo4j.cypherdsl.core.renderer.Configuration.newConfig().withDialect(Dialect.NEO4J_5).build();
     // }
-
-    @Bean
-    VectorStore vectorStore(final EmbeddingModel embeddingModel) {
-        return SimpleVectorStore.builder(embeddingModel).build();
-    }
 
     // @Bean
     // GraphDatabaseService graphDatabaseService(final DatabaseManagementService managementService) {

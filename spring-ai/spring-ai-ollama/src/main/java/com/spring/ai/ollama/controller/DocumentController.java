@@ -1,5 +1,6 @@
 package com.spring.ai.ollama.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.annotation.Resource;
@@ -19,16 +20,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * http://localhost:8080/ai/documents/search?query=...&filter=</br>
- * http://localhost:8080/ai/documents/store
+ * <a href="http://localhost:8080/ai/documents/search?query=...&filter=priority&#61;&#61;true">query</a></br>
+ * <a href="http://localhost:8080/ai/documents/store">store</a>
  */
 @RestController
 @RequestMapping("/ai/documents")
 public class DocumentController {
-    static final boolean ENRICH_METADATA = true;
-    static final String PRIORITY_FOLDER = "wiki";
+    static final boolean CLEANUP_TEXT = false;
+    static final boolean ENRICH_METADATA = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentController.class);
     private static final boolean WRITE_DATABASE_TO_FILE = false;
+
+    static boolean isPriority(final String path) {
+        // return path.contains("wiki");
+        return false;
+    }
 
     @Resource
     private ChatModel chatModel;
@@ -36,9 +42,11 @@ public class DocumentController {
     @Resource
     private VectorStore vectorStore;
 
+    /**
+     * @RequestParam(value = "filter") final String filter
+     */
     @GetMapping("/search")
-    public List<Document> search(@RequestParam(value = "query") final String query,
-                                 @RequestParam(value = "filter") final String filter) {
+    public List<Document> search(@RequestParam(value = "query") final String query) {
         return vectorStore.similaritySearch(SearchRequest.builder()
                 .similarityThresholdAll()
                 .topK(ChatConfig.RAG_MAX_SIMILARITY_RESULTS)
@@ -50,8 +58,9 @@ public class DocumentController {
     @GetMapping("/store")
     public String store() {
         // file:/more_infos.txt
+        final List<String> locationPatterns = new ArrayList<>();
+        locationPatterns.add("classpath:doc-input/**/*.*");
         // final List<String> locationPatterns = List.of("classpath*:static/doc-input/**/*.*");
-        final List<String> locationPatterns = List.of("classpath*:Till_Eulenspiegel.txt");
 
         final List<Document> documents = new DocumentLoader().loadDocuments(chatModel, locationPatterns);
 
