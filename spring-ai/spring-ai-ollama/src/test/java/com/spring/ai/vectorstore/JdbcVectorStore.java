@@ -1,5 +1,5 @@
 // Created: 28.06.2025
-package com.spring.ai.ollama.vetorstore;
+package com.spring.ai.vectorstore;
 
 import static org.springframework.ai.vectorstore.SimpleVectorStore.EmbeddingMath.cosineSimilarity;
 

@@ -16,11 +16,6 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("memory")
 public class MemoryConfig {
-    // @Bean
-    // ChatClientCustomizer chatClientCustomizer() {
-    //     return chatClientBuilder -> chatClientBuilder.defaultTools(new ChatTools());
-    // }
-
     @Bean
     ChatMemoryRepository chatMemoryRepository() {
         return new InMemoryChatMemoryRepository();

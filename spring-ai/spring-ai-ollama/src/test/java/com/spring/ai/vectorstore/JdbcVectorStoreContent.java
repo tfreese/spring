@@ -1,5 +1,5 @@
 // Created: 28.06.2025
-package com.spring.ai.ollama.vetorstore;
+package com.spring.ai.vectorstore;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public class JdbcVectorStoreContent {
         }
 
         return Objects.deepEquals(embedding, that.embedding) && Objects.equals(id, that.id) &&
-               Objects.equals(media, that.media) && Objects.equals(metadata, that.metadata) && Objects.equals(text, that.text);
+                Objects.equals(media, that.media) && Objects.equals(metadata, that.metadata) && Objects.equals(text, that.text);
     }
 
     public float[] getEmbedding() {

@@ -14,7 +14,8 @@ spring:
             base-url: http://localhost:11434
             chat:
                 options:
-                    model: mixtral:8x7B
+                    #model: mixtral:8x7B
+                    model: mistral-nemo:12b
                     temperature: 0.5
             embedding:
                 options:
@@ -24,7 +25,7 @@ spring:
         ansi:
             enabled: always
     profiles:
-        active: memory
+        active: database
 
 ---
 
@@ -39,36 +40,42 @@ spring:
     config:
         activate:
             on-profile: database
-    ai:
-        vectorstore:
-            neo4j:
-                initialize-schema: true
-                database-name: neo4j
-    h2:
-        console:
-            enabled: true
-            path: /h2-console
-            settings:
-                trace: false
-                web-allow-others: false
-    datasource:
-        url: jdbc:h2:file:${java.io.tmpdir}/ai/h2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true;AUTO_RECONNECT=TRUE
-        driverClassName: org.h2.Driver
-        #url: jdbc:hsqldb:file:${java.io.tmpdir}/ai/hsqldb;create=true;shutdown=true
-        #driverClassName: org.hsqldb.jdbc.JDBCDriver
-        username: "sa"
-        password: "password"
+    #ai:
+    # Only wit spring-ai-starter-vector-store-neo4j.
+    #    vectorstore:
+    #        neo4j:
+    #            initialize-schema: true
+    #            database-name: neo4j
+    #h2:
+    #    console:
+    #        enabled: true
+    #        path: /h2-console
+    #        settings:
+    #            trace: false
+    #            web-allow-others: false
+    #datasource:
+    #    url: jdbc:h2:file:${java.io.tmpdir}/ai/h2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true;AUTO_RECONNECT=TRUE
+    #    driverClassName: org.h2.Driver
+    #    #url: jdbc:hsqldb:file:${java.io.tmpdir}/ai/hsqldb;create=true;shutdown=true
+    #    #driverClassName: org.hsqldb.jdbc.JDBCDriver
+    #    username: "sa"
+    #    password: "password"
 
     neo4j:
         uri: "bolt://localhost:7687"
-    sql:
-        init:
-            continue-on-error: true
-            #mode: embedded
-            #mode: always
-            mode: never
-            #schema-locations: "classpath:/org/springframework/ai/chat/memory/repository/jdbc/schema-hsqldb.sql"
-            #data-locations: "classpath: /db/data:sql"
+        #uri: neo4j://localhost:7687
+        #uri: neo4j+s://localhost:7687
+        authentication:
+            username: neo4j
+            password: neo4j
+    #sql:
+    #    init:
+    #        continue-on-error: true
+    #        #mode: embedded
+    #        #mode: always
+    #        mode: never
+    #        #schema-locations: "classpath:/org/springframework/ai/chat/memory/repository/jdbc/schema-hsqldb.sql"
+    #        #data-locations: "classpath: /db/data:sql"
 
     #jpa:
     #    database-platform: org.hibernate.dialect.H2Dialect

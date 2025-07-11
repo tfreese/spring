@@ -59,4 +59,8 @@ public class ChatConfig {
                 .build();
     }
 
+    // @Bean
+    // ChatClientCustomizer chatClientCustomizer() {
+    //     return chatClientBuilder -> chatClientBuilder.defaultTools(new ChatTools());
+    // }
 }

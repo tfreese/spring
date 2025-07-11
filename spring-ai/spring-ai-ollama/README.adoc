@@ -1,17 +1,24 @@
 = Ollama
 
-* OLLAMA runterladen und installieren
-- tar -xvzf ollama-linux-amd64.tgz;
+* Install OLLAMA
 
-* OLLAMA Models pullen
-- cmd öffnen
+** https://github.com/ollama/ollama/blob/main/docs/linux.md[Linux,window="_blank"]
+*** tar -xvzf ollama-linux-amd64.tgz;
+
+** https://github.com/ollama/ollama/blob/main/docs/windows.md[Windows,window="_blank"]
+*** Changing Install Location
+*** OllamaSetup.exe /DIR="d:\some\location"
+
+* Start Ollama
+- ./ollama serve
+
+* Pull OLLAMA Models
 - export OLLAMA_MODELS=/mnt/ssd850/ollama/models/
-- ollama serve
-- ollama pull mixtral:8x7B
-- ollama pull snowflake-arctic-embed2 (snowflake-arctic-embed2:latest)
+- ./ollama pull snowflake-arctic-embed2 (1.2GB, snowflake-arctic-embed2:latest)
+- ./ollama pull mistral-nemo:12b (7.1GB)
+- ./ollama pull mixtral:8x7B (26GB)
+- ./ollama pull mixtral:8x22b (80GB)
 
-* Bauen und deployen
-* Fragen stellen, Doks laden, etc.
 
 == Links
 

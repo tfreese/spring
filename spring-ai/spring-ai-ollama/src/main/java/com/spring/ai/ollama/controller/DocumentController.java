@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/ai/documents")
 public class DocumentController {
     static final boolean CLEANUP_TEXT = false;
-    static final boolean ENRICH_METADATA = false;
+    static final boolean ENRICH_METADATA = true;
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentController.class);
     private static final boolean WRITE_DATABASE_TO_FILE = false;
 
