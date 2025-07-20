@@ -22,8 +22,7 @@
 
 == Links
 
-* http://localhost:8080/ai/chat?message=wann%20ist%20er%20geboren[,window="_blank"]
-* http://localhost:8080/ai/documents/store[,window="_blank"]
-* http://localhost:8080/ai/documents/search?query=thomas[,window="_blank"]
+* https://www.thomasvitale.com/text-classification-with-spring-ai/[text-classification,window="_blank"]
+* https://stalw.art/docs/spamfilter/llm/[stalwart,window="_blank"]
 * https://www.kaggle.com/datasets/akashbommidi/exoplanets-dataset[kaggle,window="_blank"]
 * https://sigma.ai/open-datasets/[sigma,window="_blank"]
