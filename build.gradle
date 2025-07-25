@@ -37,7 +37,9 @@ subprojects {
 
 //            dependency("de.javakaffee:kryo-serializers:$version_kryoSerializers")
 
+            dependency("jakarta.faces:jakarta.faces-api:$version_jakartaFacesApi")
             dependency("jakarta.platform:jakarta.jakartaee-api:$version_jakartaApi")
+            dependency("jakarta.platform:jakarta.jakartaee-web-api:$version_jakartaApi")
 
             dependencySet(group: "org.apache.qpid", version: "$version_qpid") {
                 entry("qpid-broker") {
@@ -53,9 +55,13 @@ subprojects {
             //     entry("tomcat-embed-jasper")
             // }
 
+            dependency("org.glassfish:jakarta.faces:$version_glassfishJakartaFaces")
+
+            dependency("org.jboss.weld.servlet:weld-servlet-core:$version_weld")
+            dependency("org.joinfaces:primefaces-spring-boot-starter:$version_joinfaces")
+
             dependency("org.neo4j:neo4j:$version_neo4j")
 
-            dependency("org.joinfaces:primefaces-spring-boot-starter:$version_joinfaces")
 
             dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {
                 entry("jmh-core")

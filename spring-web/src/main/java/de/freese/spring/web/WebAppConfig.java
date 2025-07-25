@@ -6,11 +6,14 @@ import java.util.Random;
 import java.util.Set;
 
 import jakarta.faces.webapp.FacesServlet;
+import jakarta.servlet.ServletContainerInitializer;
 
+import com.sun.faces.config.FacesInitializer;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.util.descriptor.web.ContextEnvironment;
 import org.apache.tomcat.util.descriptor.web.ContextResourceEnvRef;
+import org.jboss.weld.environment.servlet.EnhancedListener;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
@@ -141,6 +144,13 @@ public class WebAppConfig implements WebMvcConfigurer {
 
             // Creates a new Spring-Context.
             // servletContext.addListener("org.springframework.web.context.ContextLoaderListener");
+
+            // Only with embedded Server, not necessary with joinfaces.
+            final EnhancedListener cdiInitializer = new EnhancedListener();
+            cdiInitializer.onStartup(null, servletContext);
+
+            final ServletContainerInitializer facesInitializer = new FacesInitializer();
+            facesInitializer.onStartup(null, servletContext);
         };
     }
 }

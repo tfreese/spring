@@ -39,6 +39,10 @@
         <!-- <url-pattern>/jsf/*</url-pattern> -->
     </servlet-mapping>
 
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
     <!-- Or as @WebFilter Annotation -->
     <!--
     <security-constraint>
