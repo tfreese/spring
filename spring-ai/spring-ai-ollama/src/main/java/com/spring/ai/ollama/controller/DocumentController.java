@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <a href="http://localhost:8080/ai/documents/search?query=...&filter=priority&#61;&#61;true">query</a></br>
+ * <a href="http://localhost:8080/ai/documents/search?query=...&filter=priority&#61;&#61;true">query</a><br>
  * <a href="http://localhost:8080/ai/documents/store">store</a>
  */
 @RestController
@@ -43,7 +43,9 @@ public class DocumentController {
     private VectorStore vectorStore;
 
     /**
+     * <pre>{@code
      * @RequestParam(value = "filter") final String filter
+     * }</pre>
      */
     @GetMapping("/search")
     public List<Document> search(@RequestParam(value = "query") final String query) {

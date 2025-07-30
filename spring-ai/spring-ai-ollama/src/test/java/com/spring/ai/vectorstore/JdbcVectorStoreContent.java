@@ -26,8 +26,8 @@ public class JdbcVectorStoreContent {
             return false;
         }
 
-        return Objects.deepEquals(embedding, that.embedding) && Objects.equals(id, that.id) &&
-                Objects.equals(media, that.media) && Objects.equals(metadata, that.metadata) && Objects.equals(text, that.text);
+        return Objects.deepEquals(embedding, that.embedding) && Objects.equals(id, that.id)
+                && Objects.equals(media, that.media) && Objects.equals(metadata, that.metadata) && Objects.equals(text, that.text);
     }
 
     public float[] getEmbedding() {
