@@ -17,13 +17,11 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 @Node("PERSON") // Must match MyLabels!
 public class Person {
     private final String name;
-
-    @Relationship(type = "TEAMMATE", direction = Relationship.Direction.INCOMING)
-    public Set<Person> teammates;
-
     @Id
     @GeneratedValue
     private Long id;
+    @Relationship(type = "TEAMMATE", direction = Relationship.Direction.INCOMING)
+    private Set<Person> teammates;
 
     public Person(final String name) {
         super();

@@ -36,7 +36,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * <a href=https://neo4j.com/docs/java-reference/current/java-embedded/hello-world/>hello-world</a>
+ * <a href=https://neo4j.com/docs/java-reference/current/java-embedded/hello-world>hello-world</a>
  *
  * <pre>{@code
  * // Embedded
@@ -63,7 +63,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class Neo4JApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(Neo4JApplication.class);
 
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(Neo4JApplication.class, args);
 
         System.exit(0);
@@ -173,7 +173,7 @@ public class Neo4JApplication {
 
             try (Transaction tx = graphDb.beginTx();
                  // Result result = tx.execute("MATCH (n) RETURN n")) {
-                 final Result result = tx.execute("MATCH (p:PERSON) RETURN distinct p.message AS name, labels(p) ORDER BY name asc")) {
+                 Result result = tx.execute("MATCH (p:PERSON) RETURN distinct p.message AS name, labels(p) ORDER BY name asc")) {
                 LOGGER.info("All Persons by Query:");
 
                 LOGGER.info(result.resultAsString());
