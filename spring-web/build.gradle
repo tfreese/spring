@@ -6,9 +6,16 @@ plugins {
 description = "Demo für spring-boot-web mit JSF"
 
 dependencies {
+    modules {
+        module("org.springframework.boot:spring-boot-starter-logging") {
+            replacedBy("org.springframework.boot:spring-boot-starter-log4j2", "Use Log4j2 instead of Logback")
+        }
+    }
+
+    // With Joinfaces: 77 Dependencies and 41,81MB.
     // implementation("org.joinfaces:primefaces-spring-boot-starter")
 
-    // Without joinfaces.
+    // Without Joinfaces: 73 Dependencies and 45,41MB.
     implementation("org.glassfish:jakarta.faces")
     // implementation("jakarta.platform:jakarta.jakartaee-api")
     // implementation("jakarta.platform:jakarta.jakartaee-web-api")
@@ -26,6 +33,7 @@ dependencies {
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+    runtimeOnly("org.springframework.boot:spring-boot-starter-log4j2")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"

@@ -72,11 +72,12 @@ public class OpenBrowserRunner implements ApplicationRunner {
         }
         catch (Exception ex) {
             try {
-                openLinuxFirefox(uri.toString());
+
+                openLinuxChromium(uri.toString());
             }
             catch (Exception ex2) {
                 try {
-                    openLinuxChromium(uri.toString());
+                    openLinuxFirefox(uri.toString());
                 }
                 catch (Exception ex3) {
                     try {
