@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * <a href="http://localhost:8080/swagger-ui.html">http://localhost:8080/swagger-ui.html</a>
  * <a href="http://localhost:8080/swagger-ui/index.html">http://localhost:8080/swagger-ui/index.html</a>
+ * <a href="http://localhost:8080/swagger-ui.html">http://localhost:8080/swagger-ui.html</a>
  * <a href="http://localhost:8080/api-docs">http://localhost:8080/api-docs</a>
  * <a href="http://localhost:8080/api-docs.yaml">http://localhost:8080/api-docs.yaml</a>
  *
@@ -14,7 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class OpenApiApplication {
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(OpenApiApplication.class, args);
     }
 }

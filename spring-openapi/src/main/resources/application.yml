@@ -16,5 +16,11 @@ server:
 springdoc:
     api-docs:
         path: /api-docs
-    #swagger-ui:
-    #    path: /swagger-ui-custom.html
+    #default-produces-media-type: application/json
+    swagger-ui:
+        #    path: /swagger-ui-custom.html
+        displayRequestDuration: true
+        filter: true
+        operationsSorter: method
+        tagsSorter: alpha
+        tryItOutEnabled: true
