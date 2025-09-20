@@ -21,7 +21,7 @@ public class SpringQpidApplication {
     public static final String QUEUE_NAME = "spring-boot";
     public static final String TOPIC_EXCHANGE_NAME = "spring-boot-exchange";
 
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(SpringQpidApplication.class, args);
     }
 

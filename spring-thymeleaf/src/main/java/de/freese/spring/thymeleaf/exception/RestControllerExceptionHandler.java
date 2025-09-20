@@ -67,7 +67,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         try {
             return HttpStatus.valueOf(statusCode);
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
     }
@@ -146,7 +146,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
                 responseEntity = handleException(e, request);
             }
         }
-        catch (Exception ex2) {
+        catch (Exception _) {
             // Empty
         }
 

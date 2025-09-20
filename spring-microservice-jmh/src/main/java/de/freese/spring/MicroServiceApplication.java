@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 public class MicroServiceApplication {
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(MicroServiceApplication.class, args);
     }
 

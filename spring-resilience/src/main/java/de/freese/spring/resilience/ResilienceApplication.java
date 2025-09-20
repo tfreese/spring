@@ -20,7 +20,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ResilienceApplication implements ApplicationRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResilienceApplication.class);
 
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(ResilienceApplication.class, args);
     }
 

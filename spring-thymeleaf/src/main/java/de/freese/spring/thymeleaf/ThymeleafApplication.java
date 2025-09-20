@@ -60,7 +60,7 @@ public class ThymeleafApplication extends SpringBootServletInitializer {
         return protocol + "://localhost:" + port + contextPath.orElse("");
     }
 
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         // ApplicationContext context = SpringApplication.run(SpringBootThymeleafApplication.class, args);
         configureApplication(new SpringApplicationBuilder()).run(args);
     }

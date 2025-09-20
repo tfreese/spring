@@ -35,7 +35,7 @@ public final class TikaDemo {
     //     entry("tika-parsers-standard-package")
     // }
 
-    public static void main(final String[] args) {
+    static void main() {
         final Path path = Path.of("spring-ai/spring-ai-ollama/README.adoc");
 
         try {

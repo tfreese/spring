@@ -15,7 +15,7 @@ import de.freese.spring.contexts.config.ParentConfig;
  */
 @SpringBootApplication
 public final class MultiContextApplication {
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         // SpringApplication.run(MainApplication.class, args);
 
         // Parent <- Child1 <- Child2 (Chain)

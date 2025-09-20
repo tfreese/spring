@@ -47,11 +47,11 @@ public class ApplicationDsl {
         try {
             TimeUnit.MILLISECONDS.sleep(millis);
         }
-        catch (InterruptedException ex) {
+        catch (InterruptedException _) {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Empty
         }
     }

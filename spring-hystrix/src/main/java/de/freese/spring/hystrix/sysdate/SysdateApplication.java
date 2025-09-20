@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
  * @author Thomas Freese
  */
 public final class SysdateApplication {
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         // Configuration from environment properties.
         final ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
 

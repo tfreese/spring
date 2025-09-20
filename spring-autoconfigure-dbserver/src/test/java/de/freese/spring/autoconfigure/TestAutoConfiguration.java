@@ -52,7 +52,7 @@ public interface TestAutoConfiguration {
 
                 con.commit();
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 con.rollback();
             }
         }

@@ -29,7 +29,8 @@ public class XmlBarista {
 
             return new Drink(orderItem.getOrderNumber(), orderItem.getDrinkType(), orderItem.isIced());
         }
-        catch (InterruptedException ex) {
+        catch (InterruptedException _) {
+            // Restore interrupted state.
             Thread.currentThread().interrupt();
             return null;
         }
@@ -44,7 +45,8 @@ public class XmlBarista {
 
             return new Drink(orderItem.getOrderNumber(), orderItem.getDrinkType(), orderItem.isIced());
         }
-        catch (InterruptedException ex) {
+        catch (InterruptedException _) {
+            // Restore interrupted state.
             Thread.currentThread().interrupt();
             return null;
         }

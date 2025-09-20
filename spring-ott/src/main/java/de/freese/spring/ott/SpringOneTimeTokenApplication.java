@@ -16,7 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public final class SpringOneTimeTokenApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringOneTimeTokenApplication.class);
 
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(SpringOneTimeTokenApplication.class, args);
 
         LOGGER.info("Application started successfully.");

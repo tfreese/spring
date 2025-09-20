@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 public final class PrimarySecondaryApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(PrimarySecondaryApplication.class);
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         // Configuration from environment properties.
         final ConcurrentMapConfiguration configFromEnvironmentProperties = new ConcurrentMapConfiguration(new EnvironmentConfiguration());
 

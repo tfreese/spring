@@ -15,7 +15,7 @@ import de.freese.jdbc.dialect.JdbcDialect;
  */
 @SpringBootApplication
 public class Application {
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(Application.class, args);
     }
 

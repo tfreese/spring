@@ -32,7 +32,7 @@ import reactor.core.publisher.Mono;
 @EnableConfigurationProperties(UriConfiguration.class)
 @RestController
 public class GatewayApplication {
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(GatewayApplication.class, args);
     }
 

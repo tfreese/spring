@@ -13,7 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 @EnableDiscoveryClient
 public class MicroServiceApplication extends SpringBootServletInitializer {
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         configureApplication(new SpringApplicationBuilder()).run(args);
 
         // SpringApplication.run(MicroServiceApplication.class, args);

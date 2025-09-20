@@ -7,7 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  * @author Thomas Freese
  */
 public final class MicroService1 {
-    public static void main(final String[] args) {
+    static void main() {
         new SpringApplicationBuilder(MicroServiceApplication.class)
                 //.properties("server.port=8081") // Doesn't work if server.port configured in application.yml.
                 //.run(args);

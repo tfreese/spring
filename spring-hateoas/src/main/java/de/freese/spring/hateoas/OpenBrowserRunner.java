@@ -77,21 +77,20 @@ public class OpenBrowserRunner implements ApplicationRunner {
 
         try {
             openLinuxChrome(uri.toString());
-
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             try {
                 openLinuxFirefox(uri.toString());
             }
-            catch (Exception ex2) {
+            catch (Exception _) {
                 try {
                     openLinuxChromium(uri.toString());
                 }
-                catch (Exception ex3) {
+                catch (Exception _) {
                     try {
                         openWindowsFirefox(uri.toString());
                     }
-                    catch (Exception ex4) {
+                    catch (Exception _) {
                         // System-Default
                         Desktop.getDesktop().browse(uri);
                     }

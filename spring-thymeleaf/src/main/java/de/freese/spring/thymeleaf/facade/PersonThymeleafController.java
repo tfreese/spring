@@ -41,7 +41,7 @@ public class PersonThymeleafController {
             service.addPerson(newPerson);
 
         }
-        catch (IllegalArgumentException ex) {
+        catch (IllegalArgumentException _) {
             model.addAttribute("errorMessage", "Invalid First- and Lastname !");
 
             return "/person/personAdd";

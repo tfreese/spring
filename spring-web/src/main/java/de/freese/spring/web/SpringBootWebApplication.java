@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class SpringBootWebApplication {
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(SpringBootWebApplication.class, args);
     }
 }

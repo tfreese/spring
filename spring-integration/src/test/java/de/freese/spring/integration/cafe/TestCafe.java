@@ -24,7 +24,7 @@ import de.freese.spring.integration.cafe.dsl.ApplicationDsl;
  * @author Thomas Freese
  */
 class TestCafe {
-    // static void main(final String[] args) throws Exception {
+    // static void main() throws Exception {
     // TestCafe testCafe = new TestCafe();
     //
     // testCafe.testCafeDemoWithXmlSupport();

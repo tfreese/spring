@@ -55,8 +55,8 @@ public class RibbonClientConfiguration {
                     return StandardCharsets.UTF_8.decode(byteBuffer).toString();
                 }
             }
-            catch (IOException iex) {
-                // Empty
+            catch (IOException _) {
+                // Ignore
             }
 
             return null;

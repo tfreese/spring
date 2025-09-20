@@ -14,7 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class LdapApplication {
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(LdapApplication.class, args);
     }
 }

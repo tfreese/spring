@@ -27,11 +27,11 @@ import org.springframework.core.io.Resource;
 final class Shutdown {
     public static final Logger LOGGER = LoggerFactory.getLogger(Shutdown.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         try {
             shutdown();
         }
-        catch (InterruptedException ex) {
+        catch (InterruptedException _) {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }

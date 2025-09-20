@@ -60,7 +60,7 @@ public class KryoApplication implements WebMvcConfigurer {
         }
     };
 
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(KryoApplication.class, args);
         // new SpringApplicationBuilder(KryoApplication.class).run(args);
     }

@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class SpringReactiveJdbcApplication {
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(SpringReactiveJdbcApplication.class, args);
     }
 }

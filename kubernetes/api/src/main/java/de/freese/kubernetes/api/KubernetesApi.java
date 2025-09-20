@@ -10,10 +10,10 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class KubernetesApi {
+public final class KubernetesApi {
     private static final Logger LOGGER = LoggerFactory.getLogger(KubernetesApi.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         try {
             final ApiClient apiClient = Config.defaultClient();
             final CoreV1Api v1Api = new CoreV1Api(apiClient);
@@ -23,5 +23,9 @@ public class KubernetesApi {
         catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
+    }
+
+    private KubernetesApi() {
+        super();
     }
 }

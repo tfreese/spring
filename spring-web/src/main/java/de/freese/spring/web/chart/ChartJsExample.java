@@ -23,7 +23,7 @@ import software.xdev.chartjs.model.options.BarOptions;
  * @author Thomas Freese
  */
 public final class ChartJsExample {
-    public static void main(final String[] args) {
+    static void main() {
         final BarData data = new BarData()
                 .addLabels("A", "B", "C")
                 .addDataset(new BarDataset()

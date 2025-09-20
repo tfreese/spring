@@ -32,7 +32,7 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyLoadBalancerApplication.class);
 
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder(MyLoadBalancerApplication.class)
                 .profiles("my-loadbalancer")
                 .run(args)) {
@@ -59,7 +59,7 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
         catch (InterruptedException ex) {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
-            
+
             LOGGER.error(ex.getMessage(), ex);
         }
         catch (Exception ex) {
