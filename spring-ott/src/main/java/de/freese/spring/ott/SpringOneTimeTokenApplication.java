@@ -21,4 +21,8 @@ public final class SpringOneTimeTokenApplication {
 
         LOGGER.info("Application started successfully.");
     }
+
+    private SpringOneTimeTokenApplication() {
+        super();
+    }
 }

@@ -46,4 +46,8 @@ public final class MultiContextApplication {
         child1Builder.parent(parentContext).run(args);
         child2Builder.parent(parentContext).run(args);
     }
+
+    private MultiContextApplication() {
+        super();
+    }
 }

@@ -9,9 +9,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
-@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class JavaFxApplicationLauncher {
+// @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
+public final class JavaFxApplicationLauncher {
     static void main(final String[] args) {
         Application.launch(JavaFxApplication.class, args);
+    }
+
+    private JavaFxApplicationLauncher() {
+        super();
     }
 }

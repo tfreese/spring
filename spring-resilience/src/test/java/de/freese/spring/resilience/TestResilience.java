@@ -76,7 +76,7 @@ class TestResilience {
                     valueReference.set(value);
                 }
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 // Ignore
             }
         });

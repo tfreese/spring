@@ -8,9 +8,13 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  * @author Thomas Freese
  */
 @SpringBootApplication
-@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class ClientEureka {
+// @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
+public final class ClientEureka {
     static void main() {
         new SpringApplicationBuilder(ClientEureka.class).run("--spring.profiles.active=eureka");
+    }
+
+    private ClientEureka() {
+        super();
     }
 }

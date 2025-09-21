@@ -14,8 +14,8 @@ import reactor.core.publisher.Hooks;
 // (scanBasePackages = {
 // "de.freese.spring.rsocket"
 // })
-@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class RSocketServerApplication {
+// @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
+public final class RSocketServerApplication {
     static void main(final String[] args) {
         // Fehlermeldung, wenn Client die Verbindung schliesst.
         // Nur einmalig definieren, sonst gib es mehrere Logs-Meldungen!
@@ -25,5 +25,9 @@ public class RSocketServerApplication {
         });
 
         SpringApplication.run(RSocketServerApplication.class, args);
+    }
+
+    private RSocketServerApplication() {
+        super();
     }
 }

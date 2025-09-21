@@ -13,10 +13,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 //@Configuration
 public class HelloServiceInstanceListSupplierConfig {
     /**
-     * Alternative zu spring.cloud.discovery.client.simple.instances
+     * Alternative zu spring.cloud.discovery.client.simple.instances.<br>
      */
     @Bean
-    ////@Primary
+    //@Primary
     ServiceInstanceListSupplier serviceInstanceListSupplier(final ConfigurableApplicationContext context, final WebClient.Builder webClientBuilder) {
         return new MyServiceInstanceListSupplier("CLOUD-HELLO-SERVICE");
 

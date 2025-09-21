@@ -15,9 +15,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication// (exclude = R2dbcAutoConfiguration.class)
 @EnableTransactionManagement
-@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class SpringReactiveJdbcApplication {
+// @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
+public final class SpringReactiveJdbcApplication {
     static void main(final String[] args) {
         SpringApplication.run(SpringReactiveJdbcApplication.class, args);
+    }
+
+    private SpringReactiveJdbcApplication() {
+        super();
     }
 }

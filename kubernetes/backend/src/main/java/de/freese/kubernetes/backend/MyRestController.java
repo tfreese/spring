@@ -40,7 +40,7 @@ public class MyRestController {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream(), StandardCharsets.UTF_8))) {
                 hostName = br.readLine();
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 // Ignore
             }
         }

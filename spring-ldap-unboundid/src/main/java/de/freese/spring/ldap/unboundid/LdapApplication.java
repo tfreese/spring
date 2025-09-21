@@ -12,9 +12,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
-@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class LdapApplication {
+// @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
+public final class LdapApplication {
     static void main(final String[] args) {
         SpringApplication.run(LdapApplication.class, args);
+    }
+
+    private LdapApplication() {
+        super();
     }
 }

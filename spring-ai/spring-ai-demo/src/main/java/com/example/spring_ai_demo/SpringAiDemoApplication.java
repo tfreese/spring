@@ -4,8 +4,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringAiDemoApplication {
+public final class SpringAiDemoApplication {
     static void main(final String[] args) {
         SpringApplication.run(SpringAiDemoApplication.class, args);
+    }
+
+    private SpringAiDemoApplication() {
+        super();
     }
 }

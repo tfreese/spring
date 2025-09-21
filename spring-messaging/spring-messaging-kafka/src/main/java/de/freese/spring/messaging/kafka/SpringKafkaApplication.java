@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
-@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class SpringKafkaApplication {
+// @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
+public final class SpringKafkaApplication {
     static void main(final String[] args) {
         // EmbeddedKafkaContextCustomizer
 
@@ -31,4 +31,8 @@ public class SpringKafkaApplication {
     //
     //        return new DefaultKafkaProducerFactory<>(config);
     //    }
+
+    private SpringKafkaApplication() {
+        super();
+    }
 }

@@ -8,9 +8,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Freese
  */
 @SpringBootApplication
-@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class SpringBootWebApplication {
+// @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
+public final class SpringBootWebApplication {
     static void main(final String[] args) {
         SpringApplication.run(SpringBootWebApplication.class, args);
+    }
+
+    private SpringBootWebApplication() {
+        super();
     }
 }
