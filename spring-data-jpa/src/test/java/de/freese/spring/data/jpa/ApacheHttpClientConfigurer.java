@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 import org.apache.hc.client5.http.ConnectionKeepAliveStrategy;
 import org.apache.hc.client5.http.HttpRequestRetryStrategy;
@@ -41,23 +42,36 @@ import org.apache.hc.core5.util.TimeValue;
  * @author Thomas Freese
  */
 public final class ApacheHttpClientConfigurer {
-    public static CloseableHttpClient createCloseableHttpClient(final int maxRetries, final Duration retryInterval, final Consumer<Supplier<PoolStats>> poolStatsSupplierConsumer) {
+    public static CloseableHttpClient createCloseableHttpClient(final int maxRetries,
+                                                                final Duration retryInterval,
+                                                                final Consumer<Supplier<PoolStats>> poolStatsSupplierConsumer) {
+        return createCloseableHttpClient(maxRetries, retryInterval, poolStatsSupplierConsumer, builder -> builder.setUserAgent("My Java App"));
+    }
+
+    public static CloseableHttpClient createCloseableHttpClient(final int maxRetries,
+                                                                final Duration retryInterval,
+                                                                final Consumer<Supplier<PoolStats>> poolStatsSupplierConsumer,
+                                                                final UnaryOperator<HttpClientBuilder> builderConfigurer) {
         final HttpClientConnectionManager connectionManager = ApacheHttpClientConfigurer.createHttpClientConnectionManager(poolStatsSupplierConsumer);
         final RequestConfig requestConfig = ApacheHttpClientConfigurer.createRequestConfig();
         final ConnectionKeepAliveStrategy connectionKeepAliveStrategy = ApacheHttpClientConfigurer.createConnectionKeepAliveStrategy();
         final ConnectionReuseStrategy connectionReuseStrategy = ApacheHttpClientConfigurer.createConnectionReuseStrategy();
         final HttpRequestRetryStrategy httpRequestRetryStrategy = ApacheHttpClientConfigurer.createHttpRequestRetryStrategy(maxRetries, retryInterval);
 
-        return HttpClientBuilder.create()
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create()
                 .setConnectionManager(connectionManager)
                 .setDefaultRequestConfig(requestConfig)
                 .setKeepAliveStrategy(connectionKeepAliveStrategy)
                 .setConnectionReuseStrategy(connectionReuseStrategy)
                 .setRetryStrategy(httpRequestRetryStrategy)
                 .evictExpiredConnections()
-                .evictIdleConnections(TimeValue.ofMinutes(15L))
-                .setUserAgent("My Java App")
-                .build();
+                .evictIdleConnections(TimeValue.ofMinutes(15L));
+
+        if (builderConfigurer != null) {
+            httpClientBuilder = builderConfigurer.apply(httpClientBuilder);
+        }
+
+        return httpClientBuilder.build();
     }
 
     public static ConnectionKeepAliveStrategy createConnectionKeepAliveStrategy() {
