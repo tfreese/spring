@@ -1,0 +1,27 @@
+### Embeddings llama3.2
+// @no-log
+POST http://localhost:11434/api/embed
+
+{
+"model": "llama3.2", "prompt": "The sky is blue because of Rayleigh scattering"
+}
+
+### Embeddings snowflake-arctic-embed2
+// @no-log
+POST http://localhost:11434/api/embed
+
+{
+"model": "snowflake-arctic-embed2", "prompt": "The sky is blue because of Rayleigh scattering"
+}
+
+### Generate Image POST
+POST http://localhost:8082/image
+
+A glass of red wine filled to the brim
+
+>>! ../../.idea/httpRequests/myImage.json
+
+### Generate Image GET
+GET http://localhost:8082/image?prompt=A glass of red wine filled to the brim
+
+>>! ../../.idea/httpRequests/myImage.json
