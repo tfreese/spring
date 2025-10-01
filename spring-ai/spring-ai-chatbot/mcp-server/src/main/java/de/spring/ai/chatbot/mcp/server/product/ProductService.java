@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,7 +28,9 @@ public class ProductService {
     @Tool(name = "add_product",
             description = "Adds a new product to the product table. Requires the product's name and a valid price. Prompt for confirmation before adding the product")
     // public String addProduct(ProductsData productsData) { // This is not working (converting json to object) - Instead use them as individual parameter.
-    public String addProduct(final String name, final ProductType type, final double price) {
+    public String addProduct(@ToolParam(description = "The name of a product") final String name,
+                             @ToolParam(description = "The type of a product") final ProductType type,
+                             @ToolParam(description = "The price of a product") final double price) {
         final ProductData productData = new ProductData(0L, name, type, price);
 
         LOGGER.info("Attempting to add product. Raw input productsData: {}", productData);

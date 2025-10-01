@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,8 @@ public class InventoryService {
     @Tool(name = "add_inventory_item",
             description = "Add a new product to the inventory item, if the product name is provided, then use the get all product tool to find the product id and then add it"
                     + " to the inventory")
-    public String addInventoryItem(final int productId, final int availability) {
+    public String addInventoryItem(@ToolParam(description = "The id of a product") final int productId,
+                                   @ToolParam(description = "The availability of a product") final int availability) {
         final InventoryData inventoryData = new InventoryData(0L, productId, availability);
 
         LOGGER.info("Adding inventory item: {}", inventoryData);
@@ -48,7 +50,8 @@ public class InventoryService {
     }
 
     @Tool(name = "consume_inventory_item", description = "Consume given item from the inventory")
-    public String consumeItem(final int inventoryId, final int quantity) {
+    public String consumeItem(@ToolParam(description = "The id of an inventory item") final int inventoryId,
+                              @ToolParam(description = "The quantity of an inventory item") final int quantity) {
         LOGGER.info("Consuming inventory item");
 
         final InventoryData inventoryData = inventoryRepository.selectById(inventoryId);
@@ -63,8 +66,7 @@ public class InventoryService {
         // Check if inventory will fall below 0 after consumption.
         if (inventoryData.availability() < quantity) {
             // Allow consumption but publish an event to trigger order placement.
-            final LowInventoryEvent event = new LowInventoryEvent(
-                    updatedInventoryData.productId(),
+            final LowInventoryEvent event = new LowInventoryEvent(updatedInventoryData.productId(),
                     updatedInventoryData.id(),
                     updatedInventoryData.availability(),
                     quantity
