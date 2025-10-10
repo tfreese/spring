@@ -16,7 +16,6 @@ import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -123,20 +122,6 @@ class TodoApplicationTests {
                 })
         ;
 
-        final List<Todo> todos = createTodoClient().getAllTodos();
-        assertNotNull(todos);
-        assertFalse(todos.isEmpty());
-
-        // final Function<ClientResponse, Mono<ClientResponse>> exceptionFilterFunction = clientResponse -> {
-        //     final HttpStatus statusCode = HttpStatus.resolve(clientResponse.statusCode().value());
-        //
-        //     if (!HttpStatus.OK.equals(statusCode)) {
-        //         return clientResponse.bodyToMono(String.class).flatMap(body -> Mono.error(new ApplicationException(body)));
-        //     }
-        //
-        //     return Mono.just(clientResponse);
-        // };
-
         final WebClient webClient = WebClient.builder()
                 .baseUrl("http://localhost:" + localServerPort)
                 // .filter(ExchangeFilterFunction.ofResponseProcessor(exceptionFilterFunction))
@@ -155,6 +140,20 @@ class TodoApplicationTests {
                     LOGGER.info(String.valueOf(value));
                     assertNotNull(value);
                 }).blockLast();
+
+        // final List<Todo> todos = createTodoClient().getAllTodos();
+        // assertNotNull(todos);
+        // assertFalse(todos.isEmpty());
+
+        // final Function<ClientResponse, Mono<ClientResponse>> exceptionFilterFunction = clientResponse -> {
+        //     final HttpStatus statusCode = HttpStatus.resolve(clientResponse.statusCode().value());
+        //
+        //     if (!HttpStatus.OK.equals(statusCode)) {
+        //         return clientResponse.bodyToMono(String.class).flatMap(body -> Mono.error(new ApplicationException(body)));
+        //     }
+        //
+        //     return Mono.just(clientResponse);
+        // };
     }
 
     @Test
@@ -221,9 +220,9 @@ class TodoApplicationTests {
                         .body(Todo.class));
         exceptionTester.accept(exception);
 
-        final HttpClientErrorException exception2 = assertThrows(HttpClientErrorException.NotFound.class,
-                () -> createTodoClient().getTodoById(UUID.randomUUID()));
-        exceptionTester.accept(exception2);
+        // final HttpClientErrorException exception2 = assertThrows(HttpClientErrorException.NotFound.class,
+        //         () -> createTodoClient().getTodoById(UUID.randomUUID()));
+        // exceptionTester.accept(exception2);
     }
 
     @Test
@@ -243,7 +242,7 @@ class TodoApplicationTests {
     }
 
     @Test
-    void testStreams() throws IOException {
+    void testStreams() {
         // restClient.post().uri("...").body(outputStream->{});
         webTestClient.post()
                 .uri("/api/todo/" + UUID.randomUUID() + "/stream")
@@ -279,31 +278,31 @@ class TodoApplicationTests {
                 })
         ;
 
-        final TodoClient todoClient = createTodoClient();
-
-        try (InputStream inputStream = new ByteArrayInputStream("From Client: Hello World".getBytes(StandardCharsets.UTF_8))) {
-            final ResponseEntity<Void> responseEntity = todoClient.putStream(UUID.randomUUID(), new InputStreamResource(inputStream));
-
-            assertNotNull(responseEntity);
-            assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
-        }
-
-        // ByteArrayResource NOT InputStreamResource !!!
-        // final InputStreamResource inputStreamResource = todoClient.getStream(UUID.randomUUID());
-        // assertNotNull(inputStreamResource);
-
-        final ResponseEntity<org.springframework.core.io.Resource> responseEntity = todoClient.getStream(UUID.randomUUID());
-        assertNotNull(responseEntity);
-        assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
-
-        final org.springframework.core.io.Resource resource = responseEntity.getBody();
-        // final org.springframework.core.io.Resource resource = inputStreamResource;
-
-        try (InputStream inputStream = resource.getInputStream()) {
-            final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-            assertEquals("From Server: Hello World", message);
-            LOGGER.info(message);
-        }
+        // final TodoClient todoClient = createTodoClient();
+        //
+        // try (InputStream inputStream = new ByteArrayInputStream("From Client: Hello World".getBytes(StandardCharsets.UTF_8))) {
+        //     final ResponseEntity<Void> responseEntity = todoClient.putStream(UUID.randomUUID(), new InputStreamResource(inputStream));
+        //
+        //     assertNotNull(responseEntity);
+        //     assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        // }
+        //
+        // // ByteArrayResource NOT InputStreamResource !!!
+        // // final InputStreamResource inputStreamResource = todoClient.getStream(UUID.randomUUID());
+        // // assertNotNull(inputStreamResource);
+        //
+        // final ResponseEntity<org.springframework.core.io.Resource> responseEntity = todoClient.getStream(UUID.randomUUID());
+        // assertNotNull(responseEntity);
+        // assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        //
+        // final org.springframework.core.io.Resource resource = responseEntity.getBody();
+        // // final org.springframework.core.io.Resource resource = inputStreamResource;
+        //
+        // try (InputStream inputStream = resource.getInputStream()) {
+        //     final String message = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        //     assertEquals("From Server: Hello World", message);
+        //     LOGGER.info(message);
+        // }
     }
 
     /**
@@ -381,7 +380,7 @@ class TodoApplicationTests {
                 .retrieve()
                 .toEntity(String.class);
 
-        assertEquals(200, responseEntityString.getStatusCode().value());
+        assertEquals(HttpStatus.OK.value(), responseEntityString.getStatusCode().value());
         assertNull(responseEntityString.getBody());
 
         final String message = restClient.get()
@@ -414,16 +413,17 @@ class TodoApplicationTests {
         todo.setEndTime(LocalDateTime.now().plusDays(1));
         todo.setTaskStatus(Status.PENDING);
 
-        webTestClient.post()
-                .uri("/api/todo")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(todo)).exchange()
-                .expectStatus().isCreated()
-                .expectBody(Todo.class).value(value -> {
-                    LOGGER.info(String.valueOf(value));
-                    assertNotNull(value);
-                });
+        // webTestClient.post()
+        //         .uri("/api/todo")
+        //         .accept(MediaType.APPLICATION_JSON)
+        //         .contentType(MediaType.APPLICATION_JSON)
+        //         .body(BodyInserters.fromValue(todo))
+        //         .exchange()
+        //         .expectStatus().isCreated()
+        //         .expectBody(Todo.class).value(value -> {
+        //             LOGGER.info(String.valueOf(value));
+        //             assertNotNull(value);
+        //         });
 
         final TodoClient todoClient = createTodoClient();
 

@@ -5,6 +5,16 @@
 debug: false
 
 logging:
+    # config: classpath:logback.xml
+    # file:
+    #   name: logs/todo.log
+    pattern:
+        # yyyy-MM-dd
+        # %replace(%-35.-35logger{0}){' ', '.'}
+        # Logback
+        #console: "%date{HH:mm:ss.SSS} - %clr(%5level){} - [%30.-30thread] - %clr(%-40.-40logger{0}){magenta} - %message%n"
+        # Log4J
+        console: "%date{HH:mm:ss.SSS} - %clr{%5level}{} - [%30.-30thread] - %clr{%-40.-40logger{0}}{magenta} - %message%n"
     level:
         root: INFO
         org.springframework.core.LocalVariableTableParameterNameDiscoverer: OFF
@@ -17,21 +27,32 @@ info:
         version: ${project_version}
 
 server:
-    error:
-        whitelabel:
-            enabled: true
-    port: 8088
+    compression:
+        enabled: false
+    http2:
+        enabled: true
+    port: ${SERVER_PORT:8088}
     servlet:
         context-path: /${project_artifactId}
         encoding:
             enabled: true
             charset: UTF-8
+        session:
+            timeout: 30
     shutdown: "graceful"
+    ssl:
+        enabled: false
+    tomcat:
+        threads:
+            max: 8
+            min-spare: 4
 
 spring:
     output:
         ansi:
+            #enabled: DETECT
             enabled: ALWAYS
+            #enabled: NEVER
 
 #<form action="http://localhost:8088/spring-web/actuator/shutdown" method="post" id="form_shutdown">
 #<form action="shutdown" method="post" id="form_shutdown">

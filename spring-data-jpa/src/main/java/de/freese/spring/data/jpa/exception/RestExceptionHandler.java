@@ -1,6 +1,8 @@
 // Created: 29.01.24
 package de.freese.spring.data.jpa.exception;
 
+import java.net.URI;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +22,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleObjectNotFoundException(final ObjectNotFoundException ex, final WebRequest webRequest) {
         final HttpStatus httpStatus = HttpStatus.NOT_FOUND;
 
-        final ProblemDetail problemDetail = ProblemDetail.forStatus(httpStatus);
+        final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(httpStatus, getDetail(ex).toString());
         problemDetail.setTitle(ex.getMessage());
-        problemDetail.setDetail(getDetail(ex).toString());
-        problemDetail.setStatus(httpStatus);
-        // problemDetail.setType(URI.create(webRequest.getContextPath()));
+        problemDetail.setType(URI.create(webRequest.getContextPath()));
 
         return new ResponseEntity<>(problemDetail, httpStatus);
     }

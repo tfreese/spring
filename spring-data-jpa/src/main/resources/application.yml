@@ -3,12 +3,21 @@
 # https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+# Is spring-boot-starter-parent the Parent-POM, Resource-Delimiter is @.
+info:
+    app:
+        name: ${project_artifactId}
+        description: ${project_description}
+        version: ${project_version}
+        
 spring:
     main:
         banner-mode: off
     output:
         ansi:
-            enabled: always
+            #enabled: DETECT
+            enabled: ALWAYS
+            #enabled: NEVER
     h2:
         console:
             enabled: true
@@ -31,16 +40,37 @@ spring:
         timeout-per-shutdown-phase: 10s
 
 server:
-    #address: ${APP_ADDRESS}
-    port: 9090
     compression:
+        enabled: false
+    http2:
         enabled: true
-    error:
-        include-message: never
+    port: ${SERVER_PORT:9090}
+    servlet:
+        context-path: /${project_artifactId}
+        encoding:
+            enabled: true
+            charset: UTF-8
+        session:
+            timeout: 30
     shutdown: "graceful"
+    ssl:
+        enabled: false
+    tomcat:
+        threads:
+            max: 8
+            min-spare: 4
 
 logging:
-    #    config: classpath:logback.xml
+    # config: classpath:logback.xml
+    # file:
+    #   name: logs/todo.log
+    pattern:
+        # yyyy-MM-dd
+        # %replace(%-35.-35logger{0}){' ', '.'}
+        # Logback
+        console: "%date{HH:mm:ss.SSS} - %clr(%5level){} - [%30.-30thread] - %clr(%-40.-40logger{0}){magenta} - %message%n"
+        # Log4J
+        #console: "%date{HH:mm:ss.SSS} - %clr{%5level}{} - [%30.-30thread] - %clr{%-40.-40logger{0}}{magenta} - %message%n"
     level:
         root: INFO
         org.springframework.web: INFO
@@ -48,5 +78,3 @@ logging:
         org.hibernate.SQL: DEBUG
         org.hibernate.orm.jdbc.bind: TRACE
         org.hibernate.orm.jdbc.extract: TRACE
-#    file:
-#        name: logs/todo.log

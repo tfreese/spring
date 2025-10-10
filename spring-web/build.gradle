@@ -31,7 +31,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("software.xdev:chartjs-java-model")
 
-    runtimeOnly("org.springframework.boot:spring-boot-devtools")
+    // runtimeOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
     runtimeOnly("org.springframework.boot:spring-boot-starter-log4j2")
 }
