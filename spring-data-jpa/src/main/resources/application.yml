@@ -9,7 +9,7 @@ info:
         name: ${project_artifactId}
         description: ${project_description}
         version: ${project_version}
-        
+
 spring:
     main:
         banner-mode: off
@@ -78,3 +78,4 @@ logging:
         org.hibernate.SQL: DEBUG
         org.hibernate.orm.jdbc.bind: TRACE
         org.hibernate.orm.jdbc.extract: TRACE
+        org.apache.hc.client5: INFO

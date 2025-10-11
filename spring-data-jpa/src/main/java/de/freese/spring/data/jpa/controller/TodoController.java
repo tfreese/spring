@@ -49,7 +49,7 @@ public class TodoController {
         this.todoService = todoService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Todo> createTodo(final @RequestBody Todo todo) {
         final Todo createdTodo = todoService.createTodo(todo);
 
@@ -57,7 +57,7 @@ public class TodoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(final @PathVariable UUID id) {
+    public ResponseEntity<Void> deleteTodo(final @PathVariable UUID id) {
         todoService.deleteTodo(id);
 
         return ResponseEntity.noContent().build();
@@ -68,7 +68,7 @@ public class TodoController {
         return todoService.getAllTodos();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Todo getTodoById(final @PathVariable UUID id) {
         return todoService.getTodoById(id);
     }
@@ -132,7 +132,7 @@ public class TodoController {
         // return new InputStreamResource(new ByteArrayInputStream("From Server: Hello World".getBytes(StandardCharsets.UTF_8)));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Todo updateTodo(final @PathVariable UUID id, final @RequestBody Todo todoDetails) {
         return todoService.updateTodo(id, todoDetails);
     }

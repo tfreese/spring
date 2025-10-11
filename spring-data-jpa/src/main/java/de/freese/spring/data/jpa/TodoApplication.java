@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * <a href="https://codaholic.com/spring-boot-guide/">spring-boot-guide</a><br>
- * <a href="https://github.com/codaholichq/todo">codaholichq github</a><br>
  * <br>
  * <pre>
  * curl -X POST localhost:8080/api/todo \
@@ -21,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication
 @EnableTransactionManagement
-// @SuppressWarnings("java:S1135")
+@SuppressWarnings("java:S1135")
 public final class TodoApplication {
     static void main(final String[] args) {
         SpringApplication.run(TodoApplication.class, args);
