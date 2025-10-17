@@ -1,3 +1,5 @@
+# https://github.com/gitattributes/gitattributes/blob/master/Java.gitattributes
+#
 # Normalize line endings to LF.
 *                       text eol=lf
 
@@ -9,6 +11,9 @@ mvnw                    text eol=lf
 # Windows batch files must have CRLF.
 *.{bat,[bB][aA][tT]}    text eol=crlf
 *.{cmd,[cC][mM][dD]}    text eol=crlf
+
+# Exclude files from exporting
+#.gitkeep       export-ignore
 
 # Ensure that line endings for multipart files in spring-web are not modified.
 *.multipart             -text
@@ -31,3 +36,14 @@ mvnw                    text eol=lf
 *.svg                   text
 *.wav                   binary
 *.wma                   binary
+#*.zip                 binary
+*.zip filter=lfs diff=lfs merge=lfs -text
+
+
+# Refresh:
+# rm -rf *
+# git reset –hard
+#
+# or:
+# git ls-files -z | xargs -0 rm
+# git reset –hard
