@@ -28,7 +28,6 @@ import software.xdev.chartjs.model.options.LegendOptions;
 import software.xdev.chartjs.model.options.LineOptions;
 import software.xdev.chartjs.model.options.Plugins;
 import software.xdev.chartjs.model.options.Title;
-import software.xdev.chartjs.model.options.elements.Fill;
 import software.xdev.chartjs.model.options.scale.Scales;
 import software.xdev.chartjs.model.options.scale.cartesian.AbstractCartesianScaleOptions;
 import software.xdev.chartjs.model.options.scale.cartesian.linear.LinearScaleOptions;
@@ -132,7 +131,7 @@ public final class LineChartBean implements Serializable {
                                 .setBorderColor(new RGBAColor(RGBAColor.random(), 1D))
                                 .setLineTension(0.1F)
                                 // .setSpanGaps(true)
-                                .setFill(new Fill<>(false))
+                                .setFill(false)
                         )
                         .setLabels(chartData.stream().map(Map.Entry::getKey).map(DATE_TIME_FORMATTER::format).toList()))
                 .setOptions(new LineOptions()
