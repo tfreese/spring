@@ -14,6 +14,8 @@ import org.springframework.context.annotation.Configuration;
 public class McpClientConfig {
     @Bean
     public SyncMcpToolCallbackProvider myToolCallbackProvider(final List<McpSyncClient> mcpSyncClients) {
-        return new SyncMcpToolCallbackProvider(mcpSyncClients);
+        return SyncMcpToolCallbackProvider.builder()
+                .mcpClients(mcpSyncClients)
+                .build();
     }
 }

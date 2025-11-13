@@ -45,12 +45,13 @@ public class McpToolLister implements CommandLineRunner {
             }
 
             // Use the provider to get ToolCallbacks from the client.
-            final SyncMcpToolCallbackProvider provider = new SyncMcpToolCallbackProvider(List.of(client));
+            final SyncMcpToolCallbackProvider provider = SyncMcpToolCallbackProvider.builder().mcpClients(client).build();
             final List<ToolCallback> toolCallbacks = List.of(provider.getToolCallbacks());
 
             if (toolCallbacks.isEmpty()) {
                 LOGGER.warn("No tools found on this MCP client.");
-            } else {
+            }
+            else {
                 for (ToolCallback toolCallback : toolCallbacks) {
                     final ToolDefinition toolDefinition = toolCallback.getToolDefinition();
 
