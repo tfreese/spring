@@ -12,6 +12,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     testImplementation("io.projectreactor:reactor-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"

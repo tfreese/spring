@@ -20,7 +20,7 @@ import org.openjdk.jmh.infra.Blackhole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -37,19 +37,19 @@ import org.springframework.web.reactive.function.client.WebClient;
         "-disablesystemassertions"})
 @Threads(1)
 public class MicroServiceBenchmark {
-    /**
-     * @author Thomas Freese
-     */
     // @State(Scope.Benchmark) // Einen neuen SpringContext für jeden Benchmark.
     @State(Scope.Group) // Nur einen SpringContext für alle Benchmarks -> @Group("spring").
     public static class BenchmarkState {
         private final ConfigurableApplicationContext context;
         private final RestTemplate restTemplate;
         private final WebClient webClient;
+
         @Value("${server.port}")
         private int port;
+
         @Resource
         private RestTemplateBuilder restTemplateBuilder;
+        
         @Resource
         private WebClient.Builder webClientBuilder;
 

@@ -2,8 +2,8 @@
 package de.freese.spring.hateoas;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.boot.web.client.RestTemplateCustomizer;
+import org.springframework.boot.restclient.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.hateoas.config.HypermediaRestTemplateConfigurer;
 import org.springframework.web.client.RestTemplate;

@@ -8,7 +8,7 @@ import org.testcontainers.junit.jupiter.Container;
 /**
  * @author Thomas Freese
  */
-@Disabled("Postgres löscht die Sequence nicht")
+@Disabled("Postgres doesn't delete the Sequences")
 class TestContainerPostgres extends AbstractTest {
     @Container
     @ServiceConnection // Ersetzt @DynamicPropertySource

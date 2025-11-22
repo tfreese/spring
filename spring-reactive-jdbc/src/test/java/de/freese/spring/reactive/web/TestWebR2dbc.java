@@ -7,7 +7,8 @@ import io.r2dbc.spi.ConnectionFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
 import org.springframework.r2dbc.core.DatabaseClient;
@@ -20,6 +21,7 @@ import org.springframework.web.reactive.function.client.WebClient;
  */
 @ActiveProfiles({"test", "r2dbc"})
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
+@AutoConfigureWebTestClient
 class TestWebR2dbc implements TestWeb {
     @Resource
     private ConnectionFactory connectionFactory;

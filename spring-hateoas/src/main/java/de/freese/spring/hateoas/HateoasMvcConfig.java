@@ -4,17 +4,16 @@ package de.freese.spring.hateoas;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.hateoas.mediatype.hal.forms.HalFormsConfiguration;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverters;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * @author Thomas Freese
@@ -22,20 +21,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class HateoasMvcConfig implements WebMvcConfigurer {
     @Override
-    public void extendMessageConverters(final List<HttpMessageConverter<?>> converters) {
-        final Optional<MappingJackson2HttpMessageConverter> converterOptional = converters.stream()
-                //.peek(c -> System.out.println(c.getClass().getSimpleName()))
-                .filter(MappingJackson2HttpMessageConverter.class::isInstance)
-                .map(MappingJackson2HttpMessageConverter.class::cast)
-                .findFirst();
+    public void configureMessageConverters(final HttpMessageConverters.ServerBuilder builder) {
+        final JsonMapper jsonMapper = JsonMapper.builder()
+                .enable(SerializationFeature.INDENT_OUTPUT)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .build();
 
-        if (converterOptional.isPresent()) {
-            final MappingJackson2HttpMessageConverter converter = converterOptional.get();
+        final JacksonJsonHttpMessageConverter jsonHttpMessageConverter = new JacksonJsonHttpMessageConverter(jsonMapper);
 
-            // converter.setObjectMapper(objectMapper());
-            converter.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-            converter.getObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        }
+        builder.addCustomConverter(jsonHttpMessageConverter);
     }
 
     @Bean

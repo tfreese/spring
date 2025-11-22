@@ -32,7 +32,7 @@ import de.freese.spring.rsocket.model.MessageRequest;
  */
 @SpringBootTest(properties = "spring.rsocket.server.port = 0", webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles({"test", "simple"})
-@Disabled("bleibt hängen")
+@Disabled("hangs")
 class RSocketClientToServerDeniedConnectionTest {
     private static RSocketRequester requester;
 

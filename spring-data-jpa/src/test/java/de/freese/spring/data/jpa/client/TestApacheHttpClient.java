@@ -53,7 +53,7 @@ class TestApacheHttpClient extends AbstractClientTest {
                     .post(getUrl() + "/api/todo")
                     .setHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType())
                     .setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType())
-                    .setEntity(HttpEntities.create(getObjectMapper().writeValueAsString(todo), StandardCharsets.UTF_8))
+                    .setEntity(HttpEntities.create(getJsonMapper().writeValueAsString(todo), StandardCharsets.UTF_8))
                     .build();
 
             httpClient.execute(httpRequest, response -> {

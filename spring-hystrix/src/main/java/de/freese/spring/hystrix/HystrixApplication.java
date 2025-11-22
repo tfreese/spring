@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -126,8 +126,6 @@ public class HystrixApplication {
 
     @Bean
     public RestTemplate restTemplate() {
-        final RestTemplateBuilder builder = new RestTemplateBuilder();
-
-        return builder.build();
+        return new RestTemplateBuilder().build();
     }
 }

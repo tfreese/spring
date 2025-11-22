@@ -14,7 +14,7 @@ import org.springframework.test.context.DynamicPropertyRegistrar;
  * @author Thomas Freese
  */
 //@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD) // Jede Methode mit eigenem Context.
-@Disabled("Derby löscht die Sequence nicht")
+@Disabled("Derby doesn't delete the Sequences")
 @ActiveProfiles("test-derby")
 class TestDerby extends AbstractTest {
     @Configuration

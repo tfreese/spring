@@ -38,6 +38,10 @@ spring:
             ddl-auto: create-drop
     lifecycle:
         timeout-per-shutdown-phase: 10s
+    servlet:
+        encoding:
+            enabled: true
+            charset: UTF-8
 
 server:
     compression:
@@ -47,9 +51,6 @@ server:
     port: ${SERVER_PORT:9090}
     servlet:
         context-path: /${project_artifactId}
-        encoding:
-            enabled: true
-            charset: UTF-8
         session:
             timeout: 30
     shutdown: "graceful"

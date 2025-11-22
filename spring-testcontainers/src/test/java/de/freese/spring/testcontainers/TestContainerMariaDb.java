@@ -1,8 +1,8 @@
 package de.freese.spring.testcontainers;
 
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.mariadb.MariaDBContainer;
 
 /**
  * @author Thomas Freese
@@ -15,7 +15,7 @@ class TestContainerMariaDb extends AbstractTest {
      */
     @Container
     @ServiceConnection // Ersetzt @DynamicPropertySource
-    private static final MariaDBContainer<?> DB_CONTAINER = new MariaDBContainer<>("mariadb:latest");
+    private static final MariaDBContainer DB_CONTAINER = new MariaDBContainer("mariadb:latest");
 
     //    @DynamicPropertySource
     //    static void properties(final DynamicPropertyRegistry registry) {

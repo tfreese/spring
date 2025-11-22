@@ -22,7 +22,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -261,7 +261,8 @@ public final class LoadBalancerApplication {
 
         // final RestTemplate restTemplate = new RestTemplateBuilder()
         // .additionalInterceptors(new LoadBalancerInterceptor("localhost:65501", "localhost:65502", "localhost:65503")).build();
-        final RestTemplate restTemplate = new RestTemplateBuilder().additionalInterceptors(new LoadBalancerHystrixInterceptor("localhost:8081", "localhost:8082", "localhost:8083"))
+        final RestTemplate restTemplate = new RestTemplateBuilder()
+                .additionalInterceptors(new LoadBalancerHystrixInterceptor("localhost:8081", "localhost:8082", "localhost:8083"))
                 .build();
 
         final String url = "http://date-service/service/sysdate";

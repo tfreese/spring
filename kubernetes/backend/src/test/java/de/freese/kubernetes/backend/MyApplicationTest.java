@@ -1,16 +1,17 @@
 package de.freese.kubernetes.backend;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import jakarta.annotation.Resource;
 
-import org.hamcrest.core.StringStartsWith;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.test.web.reactive.server.assertj.WebTestClientResponse;
 
 /**
  * <pre>{@code
@@ -38,7 +39,7 @@ class MyApplicationTest {
     void testRequest() {
         final WebTestClient webClient = WebTestClient.bindToController(new MyRestController(jdbcClient)).build();
 
-        webClient
+        final WebTestClient.ResponseSpec responseSpec = webClient
                 .get()
                 // .uri("/greet")
                 .uri(uriBuilder -> uriBuilder
@@ -47,9 +48,14 @@ class MyApplicationTest {
                         .build())
                 .accept(MediaType.TEXT_PLAIN)
                 .exchange()
-                .expectStatus().isOk()
+                // .expectStatus().isOk()
                 //.expectBody(String.class).isEqualTo("Hello, Spring!")
-                .expectBody(String.class).value(StringStartsWith.startsWith("Hello"))
-        ;
+                // .expectBody(String.class).value(body -> body, StringStartsWith.startsWith("Hello"))
+                ;
+
+        final WebTestClientResponse response = WebTestClientResponse.from(responseSpec);
+        assertThat(response).hasStatusOk();
+        assertThat(response).contentType().isCompatibleWith(MediaType.TEXT_PLAIN);
+        assertThat(response).bodyText().startsWith("Hello");
     }
 }

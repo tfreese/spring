@@ -5,6 +5,7 @@ import jakarta.annotation.Resource;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -16,6 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
  * @author Thomas Freese
  */
 @ActiveProfiles({"test", "jdbc"})
+@AutoConfigureWebTestClient
 class TestWebJdbc implements TestWeb {
     @Resource
     private JdbcTemplate jdbcTemplate;

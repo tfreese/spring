@@ -6,13 +6,13 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * @author Thomas Freese
@@ -20,18 +20,18 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 public class CipherJsonHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
-    public CipherJsonHttpMessageConverter(final ObjectMapper objectMapper) {
+    public CipherJsonHttpMessageConverter(final JsonMapper jsonMapper) {
         super(MediaType.APPLICATION_JSON, new MediaType("application", "*+json", DEFAULT_CHARSET));
 
-        this.objectMapper = objectMapper;
+        this.jsonMapper = jsonMapper;
 
     }
 
     @Override
     protected Object readInternal(final Class<? extends Object> clazz, final HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
-        return objectMapper.readValue(decrypt(inputMessage.getBody()), clazz);
+        return jsonMapper.readValue(decrypt(inputMessage.getBody()), clazz);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CipherJsonHttpMessageConverter extends AbstractHttpMessageConverter
 
     @Override
     protected void writeInternal(final Object t, final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-        outputMessage.getBody().write(encrypt(objectMapper.writeValueAsBytes(t)));
+        outputMessage.getBody().write(encrypt(jsonMapper.writeValueAsBytes(t)));
     }
 
     private InputStream decrypt(final InputStream inputStream) {

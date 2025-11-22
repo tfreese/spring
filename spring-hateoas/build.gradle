@@ -12,6 +12,10 @@ dependencies {
 //        runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
 //        testImplementation("com.jayway.jsonpath:json-path")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-restclient")
+    testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"

@@ -6,17 +6,19 @@ plugins {
 description = "JMH-Benchmark eines MicroService mit spring-boot"
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     testAnnotationProcessor("org.openjdk.jmh:jmh-generator-annprocess")
 
     testImplementation("org.openjdk.jmh:jmh-core")
+    testImplementation("org.springframework.boot:spring-boot-starter-webclient")
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.Benchmarks"
+    mainClass = "de.freese.spring.MicroServiceApplication"
 }
 
 // test {

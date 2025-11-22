@@ -8,10 +8,11 @@ description = "spring with ldap (unboundid)"
 dependencies {
     implementation("com.unboundid:unboundid-ldapsdk")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.springframework.security:spring-security-ldap")
 
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"

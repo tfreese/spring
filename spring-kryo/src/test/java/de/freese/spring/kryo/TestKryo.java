@@ -23,14 +23,13 @@ import java.util.concurrent.atomic.AtomicReference;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -38,7 +37,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.mock.http.client.MockClientHttpResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -48,6 +47,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import tools.jackson.databind.json.JsonMapper;
 
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 import de.freese.spring.kryo.webflux.AbstractKryoCodecSupport;
@@ -75,19 +75,15 @@ class TestKryo {
     }
 
     private HttpClient.Builder httpClientbuilder;
-
+    @Resource
+    private JsonMapper jsonMapper;
     @LocalServerPort
     private int localServerPort;
 
-    @Resource
-    private MockMvc mockMvc;
-
     // @Resource
     // private RestTemplateBuilder restTemplateBuilder;
-
     @Resource
-    private ObjectMapper objectMapper;
-
+    private MockMvc mockMvc;
     private RestTemplate restTemplate;
 
     @Resource
@@ -131,7 +127,7 @@ class TestKryo {
         final KryoHttpMessageConverter kryoHttpMessageConverter = new KryoHttpMessageConverter(KryoApplication.KRYO_POOL);
 
         restTemplate = new RestTemplateBuilder().rootUri("http://localhost:" + localServerPort)
-                .additionalMessageConverters(kryoHttpMessageConverter, new MappingJackson2HttpMessageConverter()).build();
+                .additionalMessageConverters(kryoHttpMessageConverter, new JacksonJsonHttpMessageConverter()).build();
 
         // restTemplate = restTemplateBuilder.rootUri("http://localhost:" + localServerPort)
         // .additionalMessageConverters(kryoHttpMessageConverter).build();

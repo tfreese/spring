@@ -5,12 +5,12 @@ import java.time.LocalDateTime;
 
 import jakarta.annotation.Resource;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
+import tools.jackson.databind.json.JsonMapper;
 
 import de.freese.spring.data.jpa.domain.Status;
 import de.freese.spring.data.jpa.domain.Todo;
@@ -23,12 +23,10 @@ import de.freese.spring.data.jpa.domain.Todo;
 @ActiveProfiles("test")
 abstract class AbstractClientTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
+    @Resource
+    private JsonMapper jsonMapper;
     @LocalServerPort
     private int localServerPort;
-
-    @Resource
-    private ObjectMapper objectMapper;
 
     public Logger getLogger() {
         return logger;
@@ -44,8 +42,8 @@ abstract class AbstractClientTest {
         return todo;
     }
 
-    ObjectMapper getObjectMapper() {
-        return objectMapper;
+    JsonMapper getJsonMapper() {
+        return jsonMapper;
     }
 
     String getUrl() {

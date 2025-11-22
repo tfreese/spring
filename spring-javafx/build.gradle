@@ -29,5 +29,5 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.javafx.MainSpringFxApplication"
+    mainClass = "de.freese.spring.javafx.JavaFxApplicationLauncher"
 }

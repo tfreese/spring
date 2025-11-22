@@ -17,6 +17,7 @@ import jakarta.annotation.Resource;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -27,6 +28,7 @@ import de.freese.spring.data.jpa.domain.Todo;
 /**
  * @author Thomas Freese
  */
+@AutoConfigureWebTestClient
 class TestWebTestClient extends AbstractClientTest {
     @Resource
     private WebTestClient webTestClient;

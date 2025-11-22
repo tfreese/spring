@@ -22,9 +22,9 @@ import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.util.Pool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import de.freese.spring.kryo.reflection.ReflectionControllerApi;
@@ -174,7 +174,7 @@ public abstract class AbstractClientReflectionController<T> {
                         headers.setContentType(KryoHttpMessageConverter.APPLICATION_KRYO);
                         return execution.execute(request, body);
                     })
-                    .additionalMessageConverters(new KryoHttpMessageConverter(getKryoPool()), new MappingJackson2HttpMessageConverter())
+                    .additionalMessageConverters(new KryoHttpMessageConverter(getKryoPool()), new JacksonJsonHttpMessageConverter())
                     .build();
 
             // final String url = "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName();

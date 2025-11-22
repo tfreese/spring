@@ -7,7 +7,7 @@ description = "Ribbon Loadbalancer von spring-boot"
 
 dependencies {
     implementation("org.apache.httpcomponents.client5:httpclient5")
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-ribbon")
 

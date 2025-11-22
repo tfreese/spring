@@ -1,7 +1,5 @@
 package de.freese.spring.kryo;
 
-import java.util.List;
-
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.SerializerFactory;
 import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy;
@@ -11,7 +9,7 @@ import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverters;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
@@ -66,8 +64,8 @@ public class KryoApplication implements WebMvcConfigurer {
     }
 
     @Override
-    public void extendMessageConverters(final List<HttpMessageConverter<?>> converters) {
-        converters.add(new KryoHttpMessageConverter(KRYO_POOL));
+    public void configureMessageConverters(final HttpMessageConverters.ServerBuilder builder) {
+        builder.addCustomConverter(new KryoHttpMessageConverter(KRYO_POOL));
     }
 
     @Bean

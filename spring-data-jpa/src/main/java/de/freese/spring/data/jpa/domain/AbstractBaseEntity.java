@@ -10,8 +10,6 @@ import java.util.UUID;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,7 +28,7 @@ public abstract class AbstractBaseEntity implements Serializable {
     @JsonIgnore
     @CreatedDate
     @Column(name = "created_dt")
-    @Temporal(TemporalType.TIMESTAMP)
+    // @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdDate;
 
     @Id
@@ -40,7 +38,7 @@ public abstract class AbstractBaseEntity implements Serializable {
     @JsonIgnore
     @LastModifiedDate
     @Column(name = "updated_dt")
-    @Temporal(TemporalType.TIMESTAMP)
+    // @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedDate;
 
     @JsonIgnore

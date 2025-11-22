@@ -17,5 +17,5 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "org.spring.messaging.amqp.qpid.SpringQpidApplication"
+    mainClass = "de.freese.spring.messaging.amqp.qpid.SpringQpidApplication"
 }
