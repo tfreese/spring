@@ -9,9 +9,9 @@ import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.boot.tomcat.TomcatWebServer;
+import org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.servlet.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -92,7 +92,7 @@ public class ServerConfigSsl {
             }
         };
 
-        tomcatServletWebServerFactory.addAdditionalTomcatConnectors(servletRedirectConnector());
+        tomcatServletWebServerFactory.addAdditionalConnectors(servletRedirectConnector());
 
         return tomcatServletWebServerFactory;
     }

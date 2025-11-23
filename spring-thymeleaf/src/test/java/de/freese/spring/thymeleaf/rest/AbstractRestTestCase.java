@@ -3,12 +3,12 @@ package de.freese.spring.thymeleaf.rest;
 
 import jakarta.annotation.Resource;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.core.env.Environment;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.dataformat.xml.XmlMapper;
 
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 
@@ -20,13 +20,15 @@ import de.freese.spring.thymeleaf.ThymeleafApplication;
 abstract class AbstractRestTestCase {
     @Resource
     private Environment environment;
+
+    @Resource
+    private JsonMapper jsonMapper;
+
     @LocalServerPort
     private int localServerPort;
 
     @Resource
-    private ObjectMapper objectMapper;
-    @Resource
-    private Jackson2ObjectMapperBuilder objectMapperBuilder;
+    private XmlMapper xmlMapper;
 
     abstract void testHealthEndpoint() throws Exception;
 
@@ -61,15 +63,15 @@ abstract class AbstractRestTestCase {
         return environment;
     }
 
+    protected JsonMapper getJsonMapper() {
+        return jsonMapper;
+    }
+
     protected int getLocalServerPort() {
         return localServerPort;
     }
 
-    protected ObjectMapper getObjectMapper() {
-        return objectMapper;
-    }
-
-    protected Jackson2ObjectMapperBuilder getObjectMapperBuilder() {
-        return objectMapperBuilder;
+    protected XmlMapper getXmlMapper() {
+        return xmlMapper;
     }
 }

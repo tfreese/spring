@@ -16,12 +16,12 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import jakarta.annotation.Resource;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.dataformat.xml.XmlMapper;
 
 import de.freese.spring.thymeleaf.model.Person;
 
@@ -70,7 +70,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(result -> {
-                    final List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
+                    final List<Person> list = getJsonMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
                     });
                     reference.set(list);
                 })
@@ -116,7 +116,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(result -> {
-                    final List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
+                    final List<Person> list = getJsonMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
                     });
                     reference.set(list);
                 })
@@ -135,7 +135,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithLoginXML() throws Exception {
-        final ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
+        final XmlMapper xmlMapper = getXmlMapper();
         final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
         mockMvc.perform(get("/rest/person/personList")
@@ -144,7 +144,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"))
                 .andDo(result -> {
-                    final List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
+                    final List<Person> list = xmlMapper.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
                     });
                     reference.set(list);
                 })
@@ -166,7 +166,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(result -> {
-                    final List<Person> list = getObjectMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
+                    final List<Person> list = getJsonMapper().readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
                     });
                     reference.set(list);
                 })
@@ -180,7 +180,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithPreAuthXML() throws Exception {
-        final ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
+        final XmlMapper xmlMapper = getXmlMapper();
         final AtomicReference<List<Person>> reference = new AtomicReference<>(null);
 
         mockMvc.perform(get("/rest/person/personList")
@@ -189,7 +189,7 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"))
                 .andDo(result -> {
-                    final List<Person> list = objectMapperXML.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
+                    final List<Person> list = xmlMapper.readValue(result.getResponse().getContentAsByteArray(), new TypeReference<>() {
                     });
                     reference.set(list);
                 })

@@ -6,7 +6,7 @@ plugins {
 description = "Spring Boot Web Thymeleaf mit Security Beispiel"
 
 dependencies {
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+    implementation("tools.jackson.dataformat:jackson-dataformat-xml")
 
     implementation("org.apache.httpcomponents.client5:httpclient5")
     implementation("org.apache.httpcomponents.core5:httpcore5-reactive")
@@ -14,8 +14,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+    implementation("org.springframework.boot:spring-boot-starter-restclient")
+    implementation("org.springframework.boot:spring-boot-starter-webclient")
 
     // hot swapping, disable cache for template, enable live reload
     // implementation("org.springframework.boot:spring-boot-devtools")
@@ -28,6 +31,8 @@ dependencies {
     // runtimeOnly("org.webjars:bootstrap:5.3.3")
 
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
 }
 
 test {

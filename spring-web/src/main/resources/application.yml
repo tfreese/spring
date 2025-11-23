@@ -34,9 +34,6 @@ server:
     port: ${SERVER_PORT:8088}
     servlet:
         context-path: /${project_artifactId}
-        encoding:
-            enabled: true
-            charset: UTF-8
         session:
             timeout: 30
     shutdown: "graceful"
@@ -53,6 +50,10 @@ spring:
             #enabled: DETECT
             enabled: ALWAYS
             #enabled: NEVER
+    servlet:
+        encoding:
+            enabled: true
+            charset: UTF-8
 
 #<form action="http://localhost:8088/spring-web/actuator/shutdown" method="post" id="form_shutdown">
 #<form action="shutdown" method="post" id="form_shutdown">

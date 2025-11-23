@@ -47,6 +47,10 @@ spring:
         WRITE_DATES_AS_TIMESTAMPS: false
         WRITE_DATES_WITH_ZONE_ID: false
         time-zone: Europe/Berlin
+    servlet:
+        encoding:
+            enabled: true
+            charset: UTF-8
     main:
         banner-mode: CONSOLE
         web-application-type: SERVLET
@@ -64,6 +68,10 @@ spring:
     thymeleaf:
         cache: false
     web:
+        web:
+            error:
+                whitelabel:
+                    enabled: true
         locale: de_DE
 
 # =================================================================================================
@@ -71,18 +79,12 @@ spring:
 server:
     compression:
         enabled: false
-    error:
-        whitelabel:
-            enabled: true
     http2:
         enabled: true
     port: 9090
     servlet:
         #context-path: /${project_artifactId}
         #context-path: /thymeleaf
-        encoding:
-            enabled: true
-            charset: UTF-8
         session:
             timeout: 30
     ssl:

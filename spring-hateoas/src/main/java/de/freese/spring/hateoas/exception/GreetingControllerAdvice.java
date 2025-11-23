@@ -16,12 +16,10 @@ public class GreetingControllerAdvice {
     // @ExceptionHandler(GreetingException.class)
     // // @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     // @ResponseStatus(HttpStatus.BAD_REQUEST)
-    // public VndErrors greetingExceptionHandler(final GreetingException ex)
-    // {
+    // public VndErrors greetingExceptionHandler(final GreetingException ex) {
     // final StringWriter sw = new StringWriter();
     //
-    // try (PrintWriter pw = new PrintWriter(sw))
-    // {
+    // try (PrintWriter pw = new PrintWriter(sw)) {
     // ex.printStackTrace(pw);
     // }
     //
@@ -33,8 +31,7 @@ public class GreetingControllerAdvice {
     // @ExceptionHandler(GreetingException.class)
     // // @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     // @ResponseStatus(HttpStatus.BAD_REQUEST)
-    // public GreetingException greetingExceptionHandler(final GreetingException ex)
-    // {
+    // public GreetingException greetingExceptionHandler(final GreetingException ex) {
     // return ex;
     // }
 

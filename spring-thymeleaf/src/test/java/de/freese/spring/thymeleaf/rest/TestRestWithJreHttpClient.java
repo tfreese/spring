@@ -22,14 +22,14 @@ import java.util.concurrent.ExecutorService;
 
 import jakarta.annotation.Resource;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.dataformat.xml.XmlMapper;
 
 import de.freese.spring.thymeleaf.ThymeleafApplication;
 import de.freese.spring.thymeleaf.model.Person;
@@ -93,7 +93,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-            final List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>() {
+            final List<Person> persons = getJsonMapper().readValue(response.body(), new TypeReference<>() {
             });
 
             assertNotNull(persons);
@@ -129,7 +129,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-            final List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>() {
+            final List<Person> persons = getJsonMapper().readValue(response.body(), new TypeReference<>() {
             });
 
             assertNotNull(persons);
@@ -140,7 +140,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithLoginXML() throws Exception {
-        final ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
+        final XmlMapper xmlMapper = getXmlMapper();
 
         try (HttpClient httpClient = createClientBuilder("user", "pw").build()) {
             final HttpRequest request = HttpRequest.newBuilder()
@@ -151,7 +151,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-            final List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<>() {
+            final List<Person> persons = xmlMapper.readValue(response.body(), new TypeReference<>() {
             });
 
             assertNotNull(persons);
@@ -172,7 +172,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-            final List<Person> persons = getObjectMapper().readValue(response.body(), new TypeReference<>() {
+            final List<Person> persons = getJsonMapper().readValue(response.body(), new TypeReference<>() {
             });
 
             assertNotNull(persons);
@@ -183,7 +183,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithPreAuthXML() throws Exception {
-        final ObjectMapper objectMapperXML = getObjectMapperBuilder().createXmlMapper(true).build();
+        final XmlMapper xmlMapper = getXmlMapper();
 
         try (HttpClient httpClient = createClientBuilder().build()) {
             final HttpRequest request = HttpRequest.newBuilder()
@@ -195,7 +195,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
 
-            final List<Person> persons = objectMapperXML.readValue(response.body(), new TypeReference<>() {
+            final List<Person> persons = xmlMapper.readValue(response.body(), new TypeReference<>() {
             });
 
             assertNotNull(persons);
