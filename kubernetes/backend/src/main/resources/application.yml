@@ -20,9 +20,8 @@ management:
             show-details: ALWAYS
 
 server:
-    http2:
-        enabled: true
     port: 8090
+    shutdown: graceful
 
 spring:
     datasource:

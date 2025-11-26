@@ -29,8 +29,7 @@ management:
 
 server:
     port: 8761
-    #servlet:
-    #context-path: /eureka
+    shutdown: graceful
 
 spring:
     application:

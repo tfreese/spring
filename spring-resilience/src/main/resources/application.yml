@@ -33,6 +33,5 @@ management:
                 enabled: true
 
 server:
-    http2:
-        enabled: true
-    port: 8080      
+    port: 8080
+    shutdown: graceful

@@ -24,9 +24,8 @@ management:
             show-details: ALWAYS
 
 server:
-    http2:
-        enabled: true
     port: 8080
+    shutdown: graceful
 
 ---
 

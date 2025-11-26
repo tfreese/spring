@@ -28,7 +28,9 @@ info:
 
 server:
     compression:
-        enabled: false
+        enabled: true
+        min-response-size: 2048
+        mime-types: application/javascript, application/json, application/x-yaml, application/xml, text/css, text/csv, text/html, text/javascript, text/plain
     http2:
         enabled: true
     port: ${SERVER_PORT:8088}

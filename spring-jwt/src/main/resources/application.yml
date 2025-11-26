@@ -3,6 +3,7 @@ rsa:
     public-key: classpath:certs/public.pem
 
 server:
+    port: 8080
     shutdown: "graceful"
 
 spring:
