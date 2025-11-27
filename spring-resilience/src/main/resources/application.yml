@@ -34,4 +34,3 @@ management:
 
 server:
     port: 8080
-    shutdown: graceful

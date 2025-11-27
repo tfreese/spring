@@ -13,7 +13,6 @@ info:
 
 server:
     port: 8082
-    shutdown: graceful
 
 spring:
     config:

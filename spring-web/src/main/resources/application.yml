@@ -38,7 +38,7 @@ server:
         context-path: /${project_artifactId}
         session:
             timeout: 30
-    shutdown: "graceful"
+    shutdown: graceful
     ssl:
         enabled: false
     tomcat:
@@ -52,6 +52,8 @@ spring:
             #enabled: DETECT
             enabled: ALWAYS
             #enabled: NEVER
+    lifecycle:
+        timeout-per-shutdown-phase: 30s
     servlet:
         encoding:
             enabled: true

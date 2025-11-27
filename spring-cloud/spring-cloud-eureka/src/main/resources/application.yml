@@ -29,7 +29,6 @@ management:
 
 server:
     port: 8761
-    shutdown: graceful
 
 spring:
     application:

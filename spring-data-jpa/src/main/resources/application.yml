@@ -47,7 +47,6 @@ server:
     port: ${SERVER_PORT:9090}
     servlet:
         context-path: /${project_artifactId}
-    shutdown: "graceful"
 
 logging:
     # config: classpath:logback.xml

@@ -35,7 +35,6 @@ spring:
 
 server:
     port: 9000
-    shutdown: graceful
 
 #management:
 #  security:

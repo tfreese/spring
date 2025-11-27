@@ -13,7 +13,6 @@ info:
 
 server:
     port: 8081
-    shutdown: graceful
 
 spring:
     ai:

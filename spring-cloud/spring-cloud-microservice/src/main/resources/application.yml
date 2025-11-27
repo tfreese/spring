@@ -46,7 +46,6 @@ management:
 
 server:
     port: 8888
-    shutdown: graceful
 
 spring:
     application:

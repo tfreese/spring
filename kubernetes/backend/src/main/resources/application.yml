@@ -21,7 +21,6 @@ management:
 
 server:
     port: 8090
-    shutdown: graceful
 
 spring:
     datasource:

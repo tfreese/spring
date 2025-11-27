@@ -15,7 +15,6 @@ logging:
 
 server:
     port: 8081
-    shutdown: graceful
 
 spring:
     jmx:
