@@ -2,8 +2,8 @@ package de.freese.spring.testcontainers;
 
 import org.junit.jupiter.api.Disabled;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 
 /**
  * @author Thomas Freese
@@ -12,7 +12,7 @@ import org.testcontainers.junit.jupiter.Container;
 class TestContainerPostgres extends AbstractTest {
     @Container
     @ServiceConnection // Ersetzt @DynamicPropertySource
-    private static final PostgreSQLContainer<?> DB_CONTAINER = new PostgreSQLContainer<>("postgres:latest");
+    private static final PostgreSQLContainer DB_CONTAINER = new PostgreSQLContainer("postgres:latest");
 
     //    @DynamicPropertySource
     //    static void properties(final DynamicPropertyRegistry registry) {

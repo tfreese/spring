@@ -12,6 +12,7 @@ package de.freese.spring.reactive.repository;
 // import reactor.core.publisher.Flux;
 // import reactor.core.publisher.Mono;
 
+import java.util.Objects;
 import java.util.function.BiFunction;
 
 import io.r2dbc.spi.ConnectionFactory;
@@ -31,7 +32,7 @@ import de.freese.spring.reactive.model.Employee;
 //
 public class EmployeeRepositoryR2dbcClient implements EmployeeRepository {
     private static final BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) -> {
-        Department department = new Department();
+        final Department department = new Department();
         department.setId(row.get("department_id", Long.class));
         department.setName(row.get("department_name", String.class));
 
@@ -39,7 +40,7 @@ public class EmployeeRepositoryR2dbcClient implements EmployeeRepository {
     };
 
     private static final BiFunction<Row, RowMetadata, Employee> EMPLOYEE_ROWMAPPER = (row, rowMetadata) -> {
-        Employee employee = new Employee();
+        final Employee employee = new Employee();
         employee.setId(row.get("employee_id", Long.class));
         employee.setLastName(row.get("employee_lastname", String.class));
         employee.setFirstName(row.get("employee_firstname", String.class));
@@ -55,8 +56,10 @@ public class EmployeeRepositoryR2dbcClient implements EmployeeRepository {
     public EmployeeRepositoryR2dbcClient(final ConnectionFactory connectionFactory) {
         super();
 
-        // r2dbc = new R2dbc(Objects.requireNonNull(connectionFactory, "connectionFactory required"));
-        // r2dbcTemplate = new R2dbcEntityTemplate(Objects.requireNonNull(connectionFactory, "connectionFactory required"));
+        Objects.requireNonNull(connectionFactory, "connectionFactory required");
+
+        // r2dbc = new R2dbc(connectionFactory);
+        // r2dbcTemplate = new R2dbcEntityTemplate(connectionFactory);
     }
 
     @Override
@@ -160,7 +163,7 @@ public class EmployeeRepositoryR2dbcClient implements EmployeeRepository {
         //         )
         //         .single()
         //         ;
-        
+
         return Mono.empty();
     }
 }

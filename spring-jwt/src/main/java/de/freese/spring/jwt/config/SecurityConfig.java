@@ -54,7 +54,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
-@SuppressWarnings("java:S6437")
+@SuppressWarnings("java:S6437") // Revoke and change this password, as it is compromised.
 public class SecurityConfig {
     private final RsaKeyProperties rsaKeyProperties;
 
@@ -136,7 +136,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(final HttpSecurity http) {
         return http
                 //.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
@@ -156,7 +156,7 @@ public class SecurityConfig {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     @Bean
     @SuppressWarnings("java:S4502")
-    SecurityFilterChain securityFilterChainToken(final HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChainToken(final HttpSecurity http) {
         return http
                 .securityMatcher(PathPatternRequestMatcher.withDefaults().matcher("/token"))
                 .csrf(AbstractHttpConfigurer::disable)

@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -20,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author Thomas Freese
  */
-@SpringBootApplication(exclude = GsonAutoConfiguration.class)
+@SpringBootApplication//(exclude = GsonAutoConfiguration.class)
 // @EnableEurekaClient
 @EnableDiscoveryClient
 @RibbonClient(name = "date-service", configuration = RibbonClientConfiguration.class)

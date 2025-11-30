@@ -2,6 +2,7 @@
 package de.freese.spring.thymeleaf.config;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -180,7 +181,9 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
 
     @Override
     public Executor getAsyncExecutor() {
-        return new DelegatingSecurityContextExecutorService(executorService().getObject());
+        final ExecutorService executorService = Objects.requireNonNull(executorService().getObject(), "executorService required");
+
+        return new DelegatingSecurityContextExecutorService(executorService);
     }
 
     @Override

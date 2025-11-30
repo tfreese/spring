@@ -38,7 +38,7 @@ import org.springframework.web.filter.GenericFilterBean;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
-@SuppressWarnings("java:S6437")
+@SuppressWarnings("java:S6437") // Revoke and change this password, as it is compromised.
 public class SecurityConfig {
     @Bean
     AuthenticationEntryPoint authenticationEntryPoint() {
@@ -100,7 +100,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(final HttpSecurity httpSecurity, final PreAuthenticatedAuthenticationProvider myTokenPreauthAuthProvider,
                                     final AuthenticationEntryPoint authenticationEntryPoint, final RememberMeServices rememberMeServices,
-                                    final AuthenticationManager authenticationManager) throws Exception {
+                                    final AuthenticationManager authenticationManager) {
         // Beispiel: https://developer.okta.com/blog/2018/07/30/10-ways-to-secure-spring-boot
         // http.requiresChannel().anyRequest().requiresSecure();
         //

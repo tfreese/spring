@@ -24,7 +24,7 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity
-@SuppressWarnings("java:S6437")
+@SuppressWarnings("java:S6437") // Revoke and change this password, as it is compromised.
 public class SecurityConfiguration {
     /**
      * See {@link JdbcOneTimeTokenService}.
@@ -53,7 +53,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(final HttpSecurity http) {
         return http
                 .authorizeHttpRequests(
                         auth -> auth

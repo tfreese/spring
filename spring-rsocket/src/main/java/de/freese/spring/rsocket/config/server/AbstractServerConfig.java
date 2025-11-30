@@ -26,7 +26,7 @@ import org.springframework.security.messaging.handler.invocation.reactive.Authen
 /**
  * @author Thomas Freese
  */
-@SuppressWarnings("java:S6437")
+@SuppressWarnings("java:S6437") // Revoke and change this password, as it is compromised.
 abstract class AbstractServerConfig {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -65,7 +65,7 @@ abstract class AbstractServerConfig {
 
     // @Bean
     // RSocketServerFactory rSocketServerFactory() {
-    // // TODO RSocketServer manuell erstellen und konfigurieren.
+    // // Create and configure RSocketServer.
     //        return socketAcceptor -> null;
     // }
 

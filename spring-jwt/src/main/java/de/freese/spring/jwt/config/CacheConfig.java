@@ -1,6 +1,8 @@
 // Created: 30.10.2018
 package de.freese.spring.jwt.config;
 
+import java.util.Objects;
+
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
@@ -26,6 +28,8 @@ public class CacheConfig {
     @Bean
     UserCache userCache(final CacheManager cacheManager) {
         final Cache cache = cacheManager.getCache("userCache");
+
+        Objects.requireNonNull(cache, "cache required");
 
         return new SpringCacheBasedUserCache(cache);
     }

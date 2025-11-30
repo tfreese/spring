@@ -22,7 +22,7 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity
-@SuppressWarnings("java:S6437")
+@SuppressWarnings("java:S6437") // Revoke and change this password, as it is compromised.
 public class WebSecurityConfig {
     @Bean
     AuthenticationManager authenticationManager(final AuthenticationProvider authenticationProviderDao) {

@@ -54,8 +54,11 @@ class MyApplicationTest {
                 ;
 
         final WebTestClientResponse response = WebTestClientResponse.from(responseSpec);
-        assertThat(response).hasStatusOk();
-        assertThat(response).contentType().isCompatibleWith(MediaType.TEXT_PLAIN);
-        assertThat(response).bodyText().startsWith("Hello");
+        assertThat(response)
+                .hasStatusOk()
+                // .contentType().isCompatibleWith(MediaType.TEXT_PLAIN);
+                .hasContentTypeCompatibleWith(MediaType.TEXT_PLAIN)
+                // .hasBodyTextEqualTo("Hello")
+                .bodyText().startsWith("Hello");
     }
 }

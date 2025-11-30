@@ -47,7 +47,7 @@ import reactor.core.publisher.Mono;
 @EnableRSocketSecurity
 @EnableReactiveMethodSecurity
 @Profile("jwt")
-@SuppressWarnings("java:S6437")
+@SuppressWarnings("java:S6437") // Revoke and change this password, as it is compromised.
 public class JwtAuthServerConfig extends AbstractServerConfig {
     @Bean
     PayloadSocketAcceptorInterceptor authentication(final RSocketSecurity security, final ReactiveAuthenticationManager reactiveAuthenticationManager) {
@@ -72,7 +72,7 @@ public class JwtAuthServerConfig extends AbstractServerConfig {
         // final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         // jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
         //
-        // // TODO Eigener AuthenticationConverter um aus dem Token die UserDetails zu laden und ein JwtAuthenticationToken zu erstellen.
+        // // Custom AuthenticationConverter to load the UserDetails by the Token and create a JwtAuthenticationToken.
         // final JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter();
         // authenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         //
