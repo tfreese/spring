@@ -23,8 +23,10 @@ import de.freese.spring.data.jpa.domain.Todo;
 @ActiveProfiles("test")
 abstract class AbstractClientTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Resource
     private JsonMapper jsonMapper;
+    
     @LocalServerPort
     private int localServerPort;
 
