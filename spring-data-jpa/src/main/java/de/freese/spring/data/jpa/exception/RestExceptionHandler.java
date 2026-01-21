@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -50,8 +51,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private JsonMapper jsonMapper;
 
     @Override
-    protected @Nullable ResponseEntity<Object> handleExceptionInternal(final Exception exception, @Nullable Object body, final HttpHeaders headers, final HttpStatusCode statusCode,
-                                                                       final WebRequest request) {
+    protected @Nullable ResponseEntity<Object> handleExceptionInternal(final Exception exception, @Nullable Object body, final HttpHeaders headers,
+                                                                       final HttpStatusCode statusCode, final WebRequest request) {
         if (request instanceof ServletWebRequest servletWebRequest) {
             final HttpServletResponse response = servletWebRequest.getResponse();
 
@@ -69,7 +70,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         }
 
         if (statusCode.equals(HttpStatus.INTERNAL_SERVER_ERROR) && body == null) {
-            request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, exception, WebRequest.SCOPE_REQUEST);
+            request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, exception, RequestAttributes.SCOPE_REQUEST);
         }
 
         // Start Additional Code.

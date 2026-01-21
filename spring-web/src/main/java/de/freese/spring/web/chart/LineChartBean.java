@@ -14,11 +14,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.faces.view.ViewScoped;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.stereotype.Component;
 import software.xdev.chartjs.model.charts.LineChart;
 import software.xdev.chartjs.model.color.RGBAColor;
@@ -154,20 +149,24 @@ public final class LineChartBean implements Serializable {
                         )
                 );
 
-        final ObjectWriter objectWriter =
-                new ObjectMapper()
-                        .setDefaultPropertyInclusion(JsonInclude.Include.NON_EMPTY)
-                        .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)
-                        .setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE)
-                        .setVisibility(PropertyAccessor.IS_GETTER, JsonAutoDetect.Visibility.NONE)
-                        .setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.NONE)
-                        .setVisibility(PropertyAccessor.CREATOR, JsonAutoDetect.Visibility.NONE)
-                        .writerWithDefaultPrettyPrinter();
-        // .forType(getClass());
-
-        lineChart.setDefaultObjectWriter(objectWriter);
+        // final ObjectWriter objectWriter = JsonMapper.builder()
+        //         .changeDefaultPropertyInclusion(v -> v
+        //                 .withValueInclusion(JsonInclude.Include.NON_EMPTY))
+        //         .changeDefaultVisibility(vc -> vc
+        //                 .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+        //                 .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+        //                 .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE)
+        //                 .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+        //                 .withCreatorVisibility(JsonAutoDetect.Visibility.NONE))
+        //         .build()
+        //         .writer()
+        //         .forType(LineChart.class);
+        //
+        // lineChart.setDefaultObjectWriter(objectWriter);
 
         lineChartJson = lineChart.toJson();
+
+        // lineChartJson = jsonMapper.writeValueAsString(lineChart);
 
         System.out.println(lineChartJson);
     }
