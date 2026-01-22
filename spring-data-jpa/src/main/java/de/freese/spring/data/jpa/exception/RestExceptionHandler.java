@@ -51,8 +51,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private JsonMapper jsonMapper;
 
     @Override
-    protected @Nullable ResponseEntity<Object> handleExceptionInternal(final Exception exception, @Nullable Object body, final HttpHeaders headers,
-                                                                       final HttpStatusCode statusCode, final WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(final Exception exception, @Nullable Object body, final HttpHeaders headers,
+                                                             final HttpStatusCode statusCode, final WebRequest request) {
         if (request instanceof ServletWebRequest servletWebRequest) {
             final HttpServletResponse response = servletWebRequest.getResponse();
 

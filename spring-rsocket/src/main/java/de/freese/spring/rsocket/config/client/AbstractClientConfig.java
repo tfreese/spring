@@ -17,7 +17,7 @@ import reactor.util.retry.Retry;
 /**
  * @author Thomas Freese
  */
-abstract class AbstractClientConfig {
+abstract class AbstractClientConfig<T extends Encoder<?>> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     // @Bean
@@ -42,7 +42,7 @@ abstract class AbstractClientConfig {
                 .rsocketStrategies(strategies)
                 .rsocketStrategies(builder ->
                         builder
-                                .encoder(createAuthenticationEncoder()) // Für Security benötigt
+                                .encoder(createAuthenticationEncoder()) // Need Security.
                 )
                 .rsocketConnector(connector ->
                         connector
@@ -56,7 +56,7 @@ abstract class AbstractClientConfig {
                 ;
     }
 
-    protected abstract Encoder<?> createAuthenticationEncoder();
+    protected abstract T createAuthenticationEncoder();
 
     protected Logger getLogger() {
         return logger;
@@ -81,7 +81,7 @@ abstract class AbstractClientConfig {
     //                .decoder(new Jackson2CborDecoder())
     //                .encoder(new Jackson2CborEncoder())
     // //                .dataBufferFactory(new DefaultDataBufferFactory(true))
-    //                // .routeMatcher(new PathPatternRouteMatcher()) // Nur für Client
+    //                // .routeMatcher(new PathPatternRouteMatcher()) // Only for Client.
     //                .build()
     //                ;
     // }
