@@ -25,7 +25,7 @@ subprojects {
     dependencyManagement {
         imports {
             mavenBom("de.codecentric:spring-boot-admin-dependencies:$version_springBootAdmin")
-            // mavenBom("org.springframework.ai:spring-ai-bom:$version_springAi")
+            mavenBom("org.springframework.ai:spring-ai-bom:$version_springAi")
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:$version_springCloud")
             mavenBom(SpringBootPlugin.BOM_COORDINATES)
             // mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")

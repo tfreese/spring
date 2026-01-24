@@ -69,7 +69,7 @@ spring:
     application:
         name: mcp-client
     main:
-        banner-mode: off
+        banner-mode: CONSOLE
     output:
         ansi:
             enabled: always

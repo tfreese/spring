@@ -3,7 +3,6 @@ logging:
         console: "%date{HH:mm:ss.SSS} - %clr(%5level) - [%30.-30thread] - %clr(%-40.-40logger{0}){magenta} - %message%n"
     level:
         org.springframework.ai.vectorstore.SimpleVectorStore: WARN
-        org.springframework.ai.mcp: TRACE
 
 info:
     app:
@@ -23,7 +22,7 @@ spring:
     application:
         name: mcp-server
     main:
-        banner-mode: off
+        banner-mode: CONSOLE
     output:
         ansi:
             enabled: always
