@@ -16,7 +16,7 @@ import de.freese.spring.data.jpa.infrastructure.MyHibernateRepository;
 
 /**
  * Bootstrapping Hibernate.<br>
- * Doe not work with {@link JpaRepository}, use custom Repositories like {@link MyHibernateRepository}.
+ * Does not work with {@link JpaRepository}, use custom Repositories like {@link MyHibernateRepository}.
  *
  * @author Thomas Freese
  */

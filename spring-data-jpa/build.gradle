@@ -13,7 +13,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
 
     runtimeOnly("tools.jackson.dataformat:jackson-dataformat-xml")
-    runtimeOnly("com.h2database:h2")
+
+    runtimeOnly("org.springframework.boot:spring-boot-h2console")
+    // runtimeOnly("com.h2database:h2")
+    
     // runtimeOnly("org.glassfish.jaxb:jaxb-runtime") // Implementation of jakarta.json.bind:jakarta.json.bind-api
     // runtimeOnly("org.hsqldb:hsqldb")
 

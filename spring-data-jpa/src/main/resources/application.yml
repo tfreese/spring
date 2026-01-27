@@ -18,12 +18,16 @@ spring:
             #enabled: DETECT
             enabled: ALWAYS
             #enabled: NEVER
+    # http://localhost:9090/spring-data-jpa/h2-console
     h2:
         console:
             enabled: true
+            path: /h2-console
     datasource:
         url: jdbc:h2:mem:springDataJpa;;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true
         driverClassName: org.h2.Driver
+        user: sa
+        password:
     #        url: jdbc:hsqldb:mem:springDataJpa;shutdown=false
     #        driverClassName: org.hsqldb.jdbc.JDBCDriver
     jackson:
