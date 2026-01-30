@@ -30,7 +30,7 @@ public class RSocketController {
 
     @PreAuthorize("hasRole('USER')")
     @MessageMapping("channel")
-    Flux<MessageResponse> channel(final Flux<MessageRequest> requests, @AuthenticationPrincipal final UserDetails user) {
+    Flux<MessageResponse> channel(final Flux<Duration> requests, @AuthenticationPrincipal final UserDetails user) {
         // ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication).subscribe(authentication -> {
         // LOGGER.info("{}", authentication);
         // LOGGER.info("Channel initiated by '{}' in the role '{}'", authentication.getPrincipal(), authentication.getAuthorities());
@@ -47,7 +47,7 @@ public class RSocketController {
                 // Pro Element 1 Sekunde warten.
                 .delayElements(Duration.ofSeconds(1))
                 // Response-Objekt erzeugen.
-                .map(objects -> new MessageResponse(objects.getT2().getMessage(), objects.getT1()))
+                .map(objects -> new MessageResponse(objects.getT1(), "Hello " + objects.getT2()))
                 // Flux-Events der Responses loggen.
                 .log()
                 ;
@@ -60,8 +60,7 @@ public class RSocketController {
 
     @MessageExceptionHandler
     Mono<MessageResponse> errorHandler(final Throwable th) {
-        final MessageResponse response = new MessageResponse();
-        response.setMessage(th.getClass().getSimpleName() + ": " + th.getMessage());
+        final MessageResponse response = new MessageResponse(0L, th.getClass().getSimpleName() + ": " + th.getMessage());
 
         return Mono.just(response);
     }
@@ -80,7 +79,7 @@ public class RSocketController {
     Mono<MessageResponse> parameter(@DestinationVariable final String name) {
         LOGGER.info("Received parameter request: {}", name);
 
-        return Mono.just(new MessageResponse(name));
+        return Mono.just(new MessageResponse(0L, name));
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -89,7 +88,7 @@ public class RSocketController {
         LOGGER.info("Received request-response request: {}", request);
         LOGGER.info("Request-response initiated by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 
-        return Mono.just(new MessageResponse(request.getMessage()));
+        return Mono.just(new MessageResponse(0L, "Hello " + request.message()));
     }
 
     @PreDestroy
@@ -111,7 +110,7 @@ public class RSocketController {
                 // Indizierung
                 .index()
                 // Response-Objekt erzeugen.
-                .map(objects -> new MessageResponse(request.getMessage(), objects.getT1()))
+                .map(objects -> new MessageResponse(objects.getT1(), "Hello " + request.message()))
                 // Flux-Events loggen.
                 .log()
                 ;

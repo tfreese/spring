@@ -30,10 +30,13 @@ public class ClientRunner implements ApplicationRunner {
 
     @Resource
     private LoadBalancedExchangeFilterFunction loadBalancedFunction;
+    
     @Resource
     private ReactiveLoadBalancer.Factory<ServiceInstance> serviceInstanceFactory;
+
     @Resource
     private WebClient.Builder webClientBuilder;
+
     @Resource
     //    @LoadBalanced
     private WebClient.Builder webClientBuilderLoadBalanced;

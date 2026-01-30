@@ -43,11 +43,11 @@ interface TestClientToServer {
 
         // Verify that the response messages contain the expected data
         StepVerifier.create(result).consumeNextWith(response -> {
-            assertEquals("Hello PT3S", response.getMessage());
-            assertEquals(0, response.getIndex());
+            assertEquals("Hello PT3S", response.message());
+            assertEquals(0, response.index());
         }).consumeNextWith(response -> {
-            assertEquals("Hello PT3S", response.getMessage());
-            assertEquals(1, response.getIndex());
+            assertEquals("Hello PT3S", response.message());
+            assertEquals(1, response.index());
         }).thenCancel().verify();
     }
 
@@ -78,8 +78,8 @@ interface TestClientToServer {
 
         // Verify that the response message contains the expected data
         StepVerifier.create(result).consumeNextWith(response -> {
-            assertEquals("Hello " + request.getMessage(), response.getMessage());
-            assertEquals(0, response.getIndex());
+            assertEquals("Hello " + request.message(), response.message());
+            assertEquals(0, response.index());
         }).verifyComplete();
     }
 
@@ -92,11 +92,11 @@ interface TestClientToServer {
 
         // Verify that the response messages contain the expected data
         StepVerifier.create(result).consumeNextWith(response -> {
-            assertEquals("Hello " + request.getMessage(), response.getMessage());
-            assertEquals(0, response.getIndex());
+            assertEquals("Hello " + request.message(), response.message());
+            assertEquals(0, response.index());
         }).expectNextCount(1).consumeNextWith(response -> {
-            assertEquals("Hello " + request.getMessage(), response.getMessage());
-            assertEquals(2, response.getIndex());
+            assertEquals("Hello " + request.message(), response.message());
+            assertEquals(2, response.index());
         }).thenCancel().verify();
     }
 }

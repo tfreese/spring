@@ -15,8 +15,16 @@ spring:
                 ttl: 10s
             retry:
                 enabled: true
-                max-retries-on-next-service-instance: 2
-                max-retries-on-same-service-instance: 2
+                max-retries-on-same-service-instance: 1
+                max-retries-on-next-service-instance: 1
+
+                # Prefer next Instance after Error.
+                avoid-previous-instance: true
+
+                # Default: Only GET is retried
+                retry-on-all-operations: false
+                # retryable-status-codes: 500,502,503
+
             ribbon:
                 enabled: false
     main:

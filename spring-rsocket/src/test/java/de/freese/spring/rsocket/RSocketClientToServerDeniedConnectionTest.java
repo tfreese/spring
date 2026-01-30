@@ -4,7 +4,6 @@ package de.freese.spring.rsocket;
 import java.util.Optional;
 
 import io.rsocket.RSocket;
-import io.rsocket.core.RSocketClient;
 import io.rsocket.metadata.WellKnownMimeType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -38,7 +37,7 @@ class RSocketClientToServerDeniedConnectionTest {
 
     @AfterAll
     static void afterAll() {
-        Optional.ofNullable(requester.rsocketClient()).ifPresent(RSocketClient::dispose);
+        requester.rsocketClient().dispose();
         Optional.ofNullable(requester.rsocket()).ifPresent(RSocket::dispose);
     }
 

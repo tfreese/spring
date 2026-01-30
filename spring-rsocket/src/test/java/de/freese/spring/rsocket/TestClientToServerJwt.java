@@ -12,7 +12,6 @@ import com.nimbusds.jose.crypto.PasswordBasedEncrypter;
 import com.nimbusds.jwt.EncryptedJWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import io.rsocket.RSocket;
-import io.rsocket.core.RSocketClient;
 import io.rsocket.metadata.WellKnownMimeType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -36,7 +35,7 @@ class TestClientToServerJwt implements TestClientToServer {
 
     @AfterAll
     static void afterAll() {
-        Optional.ofNullable(requester.rsocketClient()).ifPresent(RSocketClient::dispose);
+        requester.rsocketClient().dispose();
         Optional.ofNullable(requester.rsocket()).ifPresent(RSocket::dispose);
     }
 
