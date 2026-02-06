@@ -1,0 +1,9 @@
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Copy this file to your HOME-Directory and configure the missing Parameter.
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+AI_API_KEY=
+
+CLIENT_ID=
+CLIENT_SECRET=
+CLIENT_URL=https://...

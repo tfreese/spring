@@ -1,0 +1,50 @@
+plugins {
+    id("org.springframework.boot").version("$version_springBoot").apply(false)
+}
+
+allprojects {
+    apply(plugin: "base")
+}
+
+subprojects {
+    apply(plugin: "io.spring.dependency-management")
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")
+            mavenBom("org.springframework.ai:spring-ai-bom:$version_springAi")
+        }
+    }
+
+    pluginManager.withPlugin("java") {
+        java {
+            toolchain {
+                languageVersion = JavaLanguageVersion.of(25)
+            }
+        }
+
+        dependencies {
+            // implementation(platform("org.springframework.ai:spring-ai-bom:$version_springAi"))
+
+            testImplementation("org.junit.jupiter:junit-jupiter")
+            testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+        }
+
+        tasks.withType(JavaCompile).configureEach {
+            options.encoding = "UTF-8"
+            options.debug = true
+        }
+
+        tasks.withType(Test).configureEach {
+            enabled = true
+
+            useJUnitPlatform()
+        }
+
+        // Avoid Message: "Task 'prepareKotlinBuildScriptModel' not found in project"
+        // Happens, if in IntelliJ the Kotlin-Plugin is deactivated.
+        if (tasks.findByName("prepareKotlinBuildScriptModel") == null) {
+            tasks.register("prepareKotlinBuildScriptModel")
+        }
+    }
+}

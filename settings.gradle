@@ -12,8 +12,8 @@ pluginManagement {
 
 include("kubernetes:api")
 include("kubernetes:backend")
-include("spring-ai:spring-ai-chatbot:mcp-client")
-include("spring-ai:spring-ai-chatbot:mcp-server")
+include("spring-ai:ai-server")
+include("spring-ai:mcp-server")
 include("spring-atomicos")
 include("spring-autoconfigure-dbserver")
 include("spring-cloud:spring-cloud-api-gateway")
@@ -47,3 +47,10 @@ include("spring-rsocket")
 include("spring-testcontainers")
 include("spring-thymeleaf")
 include("spring-web")
+
+
+println("")
+println("Gradle Version: ${GradleVersion.current().version}")
+println("Java Version: ${JavaVersion.current().toString()}")
+println("MaxWorkerCount: ${gradle.getStartParameter().getMaxWorkerCount()}")
+println("")

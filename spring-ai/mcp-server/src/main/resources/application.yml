@@ -1,0 +1,59 @@
+logging:
+    pattern:
+        console: "%date{HH:mm:ss.SSS} - %clr(%5level) - [%30.-30thread] - %clr(%-40.-40logger{0}){magenta} - %message%n"
+    level:
+        org.springframework.ai.mcp: INFO
+
+info:
+    app:
+        description: ${project_description}
+        name: ${project_artifactId}
+        version: ${project_version}
+
+server:
+    port: 8082
+    servlet:
+        context-path: /
+    shutdown: graceful
+
+spring:
+    ai:
+        mcp:
+            server:
+                enabled: true
+                protocol: SSE
+                type: SYNC  # or ASYNC
+                name: my-mcp-server
+                version: ${project_version}
+    application:
+        name: mcp-server
+    main:
+        banner-mode: console
+    output:
+        ansi:
+            enabled: ALWAYS
+
+# POST http://localhost:8082/actuator/shutdown
+management:
+    endpoints:
+        access:
+            default: NONE
+        web:
+            exposure:
+                include: info,health,shutdown
+    endpoint:
+        health:
+            access: READ_ONLY
+            show-details: ALWAYS
+        info:
+            access: READ_ONLY
+        shutdown:
+            access: unrestricted
+    info:
+        defaults:
+            enabled: true
+        env:
+            enabled: true
+    health:
+        defaults:
+            enabled: true

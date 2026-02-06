@@ -1,0 +1,33 @@
+plugins {
+    id("java")
+}
+
+description = "spring-ai MCP-Server example"
+
+dependencies {
+    // implementation("org.springframework.ai:spring-ai-starter-mcp-server-webflux")
+    implementation("org.springframework.ai:spring-ai-starter-mcp-server-webmvc")
+
+    // runtimeOnly("org.springframework.boot:spring-boot-devtools")
+    runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+test {
+    enabled = true
+}
+
+processResources {
+    def map = [
+            "project_description": description,
+            "project_artifactId" : name,
+            "project_version"    : version
+    ]
+
+    filesMatching("application.yml") {
+        // filteringCharset = "UTF-8"
+
+        expand(map)
+    }
+}

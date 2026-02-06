@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Ai-Demo</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+</head>
+
+<body style="background-color: lightgray">
+<h1>Ai-Demo</h1>
+
+<h2>Documents:</h2>
+<ol>
+    <li><a href="http://localhost:8081/docs/load" target="_blank">Load VectorStore</a></li>
+    <li><a href="http://localhost:8081/docs/embedding" target="_blank">Embedding Documents</a></li>
+    <li><a href="http://localhost:8081/docs/save" target="_blank">Save VectorStore</a></li>
+    <li><a href="http://localhost:8081/docs/search?query=eulenspiegel" target="_blank">Search in Documents</a></li>
+    <li><a href="http://localhost:8081/docs/chat?prompt=Wie spät ist es" target="_blank">Chat: Wie spät ist es</a></li>
+    <li><a href="http://localhost:8081/docs/chat?prompt=Wer war Till Eulenspiegel" target="_blank">Chat: Wer war Till Eulenspiegel</a></li>
+    <li><a href="http://localhost:8081/docs/chat?prompt=Welche Streiche machte Till Eulenspiegel" target="_blank">Chat: Welche Streiche machte Till Eulenspiegel</a></li>
+    <li><a href="http://localhost:8081/docs/chat/history" target="_blank">Chat History</a></li>
+</ol>
+
+<h2>Product Store:</h2>
+<ol>
+    <li><a href="http://localhost:8081/productStore/chat?prompt=Wie spät ist es" target="_blank">Chat: Wie spät ist es</a></li>
+    <li><a href="http://localhost:8081/productStore/chat?prompt=Wie spät ist es in New York" target="_blank">Chat: Wie spät ist es in New York</a></li>
+    <li><a href="http://localhost:8081/productStore/chat?prompt=Welcher Tag ist morgen" target="_blank">Chat: Welcher Tag ist morgen</a></li>
+    <li><a href="http://localhost:8081/productStore/chat?prompt=Wie ist dein Name" target="_blank">Chat: Wie ist dein Name</a></li>
+    <li><a href="http://localhost:8081/productStore/chat?prompt=Füge Pudding als Dessert für 1€ dem ProductStore hinzu. Ja ich will es hinzufügen." target="_blank">
+        Chat: Füge Pudding als Dessert für 1€ dem ProductStore hinzu. Ja ich will es hinzufügen.</a></li>
+    <li><a href="http://localhost:8081/productStore/chat?prompt=Füge vegetarisches Tofu für -10€ dem ProductStore hinzu. Frage mich nicht, ob ich es will." target="_blank">
+        Chat: Füge vegetarisches Tofu für -10€ dem ProductStore hinzu. Frage mich nicht, ob ich es will.</a></li>
+    <li><a href="http://localhost:8081/productStore/chat?prompt=Welche Produkte gibt es" target="_blank">Chat: Welche Produkte gibt es</a></li>
+    <li><a href="http://localhost:8081/productStore/chat?prompt=Welche Fleisch-Produkte gibt es" target="_blank">Chat: Welche Fleisch-Produkte gibt es</a></li>
+</ol>
+
+<h2>Text -> SQL</h2>
+<ol>
+    <li><a href="http://localhost:8081/db/toSql?prompt=Wieviele Bestellungen gab es seit dem 2025-01-15" target="_blank">Wieviele Bestellungen gab es seit dem 2025-01-15</a></li>
+    <li><a href="http://localhost:8081/db/toSql?prompt=Welche 2 Produkt-Codes wurden am meisten bestellt" target="_blank">Welche 2 Produkt-Codes wurden am meisten bestellt</a></li>
+    <li><a href="http://localhost:8081/db/toSql?prompt=Welcher Kunde hat am meisten bestellt" target="_blank">Welcher Kunde hat am meisten bestellt</a></li>
+    <li><a href="http://localhost:8081/db/toSql?prompt=Wie heisst der Kunde der am meisten bestellt hat und was waren seine Bestellungen" target="_blank">Wie heisst der Kunde der
+        am meisten bestellt hat und was waren seine Bestellungen</a></li>
+    <li><a href="http://localhost:8081/db/toSql?prompt=Zeige mir alle Bestellungen vom Kunden Hans Meier" target="_blank">Zeige mir alle Bestellungen vom Kunden Hans Meier</a></li>
+    <li><a href="http://localhost:8081/db/toSql?prompt=Zeige mir alle Kundendetails" target="_blank">Zeige mir alle Kundendetails</a></li>
+    <li><a href="http://localhost:8081/db/toSql?prompt=Lösche die Mails von allen Kunden" target="_blank">Lösche die Mails von allen Kunden</a></li>
+</ol>
+
+<h2>Text -> SQL -> Database -> Answer</h2>
+<ol>
+    <li><a href="http://localhost:8081/db/chat?prompt=Wieviele Bestellungen gab es seit dem 2025-01-15" target="_blank">Wieviele Bestellungen gab es seit dem 2025-01-15</a></li>
+    <li><a href="http://localhost:8081/db/chat?prompt=Welche 2 Produkt-Codes wurden am meisten bestellt" target="_blank">Welche 2 Produkt-Codes wurden am meisten bestellt</a></li>
+    <li><a href="http://localhost:8081/db/chat?prompt=Welcher Kunde hat am meisten bestellt" target="_blank">Welcher Kunde hat am meisten bestellt</a></li>
+    <li><a href="http://localhost:8081/db/chat?prompt=Wie heisst der Kunde der am meisten bestellt hat und was waren seine Bestellungen" target="_blank">Wie heisst der Kunde der
+        am meisten bestellt hat und was waren seine Bestellungen</a></li>
+    <li><a href="http://localhost:8081/db/chat?prompt=Zeige mir alle Bestellungen vom Kunden Hans Meier" target="_blank">Zeige mir alle Bestellungen vom Kunden Hans Meier</a></li>
+    <li><a href="http://localhost:8081/db/chat?prompt=Zeige mir alle Kundendetails" target="_blank">Zeige mir alle Kundendetails</a></li>
+    <li><a href="http://localhost:8081/db/chat?prompt=Lösche die Mails von allen Kunden" target="_blank">Lösche die Mails von allen Kunden</a></li>
+</ol>
+
+<h2>Image:</h2>
+<ol>
+    <li><a href="http://localhost:8081/image?prompt=Create a picture with a cute kitten playing chess" target="_blank">Create a picture with a cute kitten playing chess</a></li>
+    <li><a href="http://localhost:8081/image?prompt=Create a picture with a Jedi Knight riding on a red dragon" target="_blank">Create a picture with a Jedi Knight riding on a
+        red dragon</a></li>
+    <li><a href="http://localhost:8081/image/chat?prompt=Erkläre kurz die deutsche Gewaltenteilung" target="_blank"> Erkläre kurz die deutsche Gewaltenteilung</a></li>
+    <li><a href="http://localhost:8081/image/chat?prompt=Erkläre kurz die deutsche Gewaltenteilung und erzeuge eine Grafik dazu" target="_blank">
+        Erkläre kurz die deutsche Gewaltenteilung und erzeuge eine Grafik dazu</a></li>
+</ol>
+
+<h2>System:</h2>
+<ol>
+    <li><a href="http://localhost:8081/h2-console" target="_blank">H2-Console</a></li>
+    <li><a href="http://localhost:8081/shutdown" target="_blank">Shutdown</a></li>
+</ol>
+
+</body>
+
+</html>

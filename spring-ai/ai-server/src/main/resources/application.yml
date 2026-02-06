@@ -1,0 +1,155 @@
+logging:
+    pattern:
+        console: "%date{HH:mm:ss.SSS} - %clr(%5level) - [%30.-30thread] - %clr(%-40.-40logger{0}){magenta} - %message%n"
+    level:
+        org.springframework: INFO
+        org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor: DEBUG
+        de.spring.ai: DEBUG
+
+server:
+    port: 8081
+    servlet:
+        context-path: /
+    shutdown: graceful
+
+spring:
+    config:
+        import: "file:${user.home}/.spring_env[.properties]"
+    output:
+        ansi:
+            #enabled: DETECT
+            enabled: ALWAYS
+            #enabled: NEVER
+    ai:
+        mcp:
+            client:
+                request-timeout: 60s
+                #stdio:
+                #    servers-configuration: classpath:mcp-servers.json
+                sse:
+                    connections:
+                        my-mcp-server:
+                            url: http://localhost:8082
+                        #other-server:
+                        #    url: http://localhost:8083
+                        #    sse-endpoint: /custom-sse
+                toolcallback:
+                    enabled: true
+                # SYNC or ASYNC if you want to use reactive programming for tool calls.
+                type: SYNC
+        #        ollama:
+        #            base-url: http://localhost:11434
+        #            chat:
+        #                options:
+        #                    model: llama3.2
+        #                    temperature: 0.75
+        #                    topK: 40
+        #                    topP: 0.8
+        #                    #maxTokens: 1024
+        openai:
+            api-key: ${AI_API_KEY}
+            base-url: "https://..."
+            chat:
+                options:
+                    # Input/1M Token: $0.17
+                    # Output/1M Token: $0.66
+                    model: gpt-4o-mini
+
+                    # Input/1M Token: $0.40
+                    # Output/1M Token: $1.60
+                    #model: gpt-4.1-mini
+
+                    # Input/1M Token: $2.00
+                    # Output/1M Token: $8.00
+                    #model: gpt-4.1
+
+                    # Input/1M Token: $3.00
+                    # Output/1M Token: $15.00
+                    #model: claude-sonnet-4
+
+                    # Temperature controls the randomness or "creativity" of the model's response.
+                    # Low (0.0 - 0.5): The model sticks to the most statistically likely words, producing deterministic, focused, and reliable output.
+                    # Medium (0.5 - 1.0): Strikes a balance, allowing for some variation while remaining coherent, good for general tasks like coding or business writing.
+                    # High (1.0+): Explores less probable words, leading to diverse, creative, and sometimes unexpected or nonsensical results, great for brainstorming or fiction.
+                    # No support in gpt-5.x
+                    temperature: 0.75
+
+                    # Not supported by all Models.
+                    #temperature: 1
+
+                    # Not supported by all Models.
+                    # Limits token selection to the K most likely next tokens.
+                    # Higher values (40-50) introduce more diversity.
+                    # topK: 40
+
+                    # (nucleus sampling): Dynamically selects from the smallest set of tokens whose cumulative probability exceeds P.
+                    # Values like 0.8-0.95 are common.
+                    topP: 0.8
+
+                    # The maxTokens parameter limits how many tokens (word pieces) the model can generate in its response.
+                    #maxTokens: 1024
+            embedding:
+                options:
+                    # 1M Token: $0.13
+                    model: text-embedding-3-large
+
+                    # Numbers in Embedding-Vector.
+                    # Common: 1024
+                    # Max. 3072
+                    dimensions: 3072
+            image:
+                options:
+                    # Input/1M Token: $5.00
+                    # Output/1M Token: $40.00
+                    model: gpt-image-1
+
+                    # Input/1M Token: $2.00
+                    # Output/1M Token: $0.00
+                    #model: gpt-image-1-mini
+
+                    # Output format depends on the Model.
+                    # Default for gpt-image-1: PNG
+
+                    # Depends on the Model.
+                    # auto
+                    # 1536x1024
+                    # 1024x1536
+                    # 1024x1024
+                    # 512x512
+                    size: 1024x1024
+
+                    # Not supported by all Models.
+                    # vivid: hyper-realistic and dramatic images
+                    # natural: more natural and less hyper-realistic images
+                    #style: natural
+
+                    # Depends on the Model.
+                    # auto
+                    # low
+                    # medium
+                    # high
+                    # standard
+                    # hd
+                    quality: medium
+
+                    # Not supported by all Models.
+                    # url: The generated image will be accessible via a URL of 60-minute validity.
+                    # b64_json: Receive the image as a Base64-encoded string.
+                    #response-format: b64_json
+
+    datasource:
+        url: jdbc:h2:mem:demo;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+        driver-class-name: org.h2.Driver
+        username: sa
+        password:
+    profiles:
+        active: memory
+    sql:
+        init:
+            mode: ALWAYS
+    h2:
+        console:
+            enabled: true
+            path: /h2-console
+            #settings.trace: false
+            #settings.web-allow-others: false

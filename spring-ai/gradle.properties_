@@ -1,0 +1,27 @@
+group = de.spring.ai
+version = 0.0.1-SNAPSHOT
+
+###################################################################################################
+
+org.gradle.jvmargs = -Xms1024m -Xmx2048m -Djava.security.egd=file:/dev/./urandom -Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 --sun-misc-unsafe-memory-access=allow --enable-native-access=ALL-UNNAMED
+file.encoding = UTF-8
+
+org.gradle.configuration-cache = true
+org.gradle.configuration-cache.problems = WARN
+
+# all, fail, none, summary
+org.gradle.warning.mode = all
+
+###################################################################################################
+# Overwrite spring-boot-dependencies
+#
+#G:A io.netty:netty-bom
+#netty.version = 4.2.7.Final
+
+###################################################################################################
+
+#G:A org.springframework.ai:spring-ai-bom
+version_springAi = 2.0.0-M2
+
+#G:A org.springframework.boot:spring-boot-dependencies
+version_springBoot = 4.0.2

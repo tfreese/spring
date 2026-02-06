@@ -1,0 +1,41 @@
+// Variables
+@CLIENT_ID =
+@CLIENT_SECRET =
+@AI_API_KEY =
+@ACCESS_TOKEN =
+
+### Get Access Token
+// @no-log
+POST https://...
+ACCEPT: application/json
+Content-Type: application/x-www-form-urlencoded
+
+grant_type = client_credentials &
+client_id = {{CLIENT_ID}} &
+client_secret = {{CLIENT_SECRET}}
+
+### Embeddings text-embedding-3-large
+// @no-log
+POST https://.../v1/embeddings
+ACCEPT: application/json
+AUTHORIZATION: Bearer {{ACCESS_TOKEN}}
+X-LLM-API-CLIENT-ID: Bearer {{AI_API_KEY}}
+
+{
+"model": "text-embedding-3-large", "dimensions":1024, "input": "It's darker inside at night than outside."
+}
+
+### Chat gpt-4o-mini
+// @no-log
+POST https://.../v1/chat/completions
+ACCEPT: application/json
+AUTHORIZATION: Bearer {{ACCESS_TOKEN}}
+X-LLM-API-CLIENT-ID: Bearer {{AI_API_KEY}}
+
+{
+"model": "gpt-4o-mini", "temperature":0.75, "top_p":0.8, "messages":[{"content":"Who are you?", "role":"user"}]
+}
+
+### History
+// @no-log
+GET http://localhost:8081/documents/history

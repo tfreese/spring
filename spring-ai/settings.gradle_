@@ -1,0 +1,27 @@
+// Can not be configured by a Conventions-Plugin.
+pluginManagement {
+    repositories {
+        mavenLocal()
+        maven { url = uri("https://...") }
+    }
+}
+
+// rootProject.name = "ai-demo"
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    repositories {
+        mavenLocal()
+        maven { url = uri("https://...") }
+    }
+}
+
+include("ai-server")
+include("mcp-server")
+
+println("")
+println("Gradle Version: ${GradleVersion.current().version}")
+println("Java Version: ${JavaVersion.current().toString()}")
+println("MaxWorkerCount: ${gradle.getStartParameter().getMaxWorkerCount()}")
+println("")
