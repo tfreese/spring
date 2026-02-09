@@ -9,20 +9,22 @@
 # SHUTDOWN COMPACT;
 
 # 2060 MB
-#FROM openjdk:21
+#FROM openjdk:25
 
 # 226 MB
-#FROM openjdk:21-jdk-slim
+#FROM openjdk:25-jdk-slim
 
 # 97 MB
-#FROM eclipse-temurin:21-jre-jammy
+#FROM eclipse-temurin:25-jre-jammy
 
 # 67 MB
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 
-LABEL org.opencontainers.image.authors="commercial@freese-home.de"
+#FROM openjdk:latest
 
-ENV H2_VERSION=2.2.224 \
+LABEL org.opencontainers.image.authors="community@freese-home.de"
+
+ENV H2_VERSION=2.4.240 \
     H2_PORT_TCP=9082 \
     H2_PORT_WEB=8082 \
     VM_PARAMS="-Xms32m -Xmx64m"

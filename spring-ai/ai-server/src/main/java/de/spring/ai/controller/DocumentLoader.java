@@ -18,14 +18,40 @@ import org.springframework.ai.transformer.splitter.TextSplitter;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 /**
  * @author Thomas Freese
  */
 final class DocumentLoader {
+    private static final boolean ENRICH_METADATA = true;
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentLoader.class);
 
-    private static final boolean ENRICH_METADATA = true;
+    /**
+     * <a href="https://docs.spring.io/spring-ai/reference/api/etl-pipeline.html">etl-pipeline</a>
+     *
+     * @see PathMatchingResourcePatternResolver#getResources(String)
+     */
+    static List<Document> loadDocuments(final ChatModel chatModel, final List<String> locationPatterns) {
+        final List<Resource> resources = getDocumentResources(locationPatterns);
+        LOGGER.info("Processing resources: {}", resources.size());
+
+        final TextSplitter textSplitter = TokenTextSplitter.builder().build();
+
+        final List<Document> documents = resources.stream()
+                .filter(Objects::nonNull)
+                .flatMap(document -> readDocumentsFromResource(document).stream())
+                .filter(Objects::nonNull)
+                .flatMap(document -> splitDocument(document, textSplitter).stream())
+                .filter(Objects::nonNull)
+                .flatMap(document -> enrichMetadata(chatModel, document).stream())
+                .filter(Objects::nonNull)
+                .toList();
+
+        LOGGER.info("Processing finished for {} Documents", documents.size());
+
+        return documents;
+    }
 
     private static List<Document> enrichMetadata(final ChatModel chatModel, final Document document) {
         if (!ENRICH_METADATA) {
@@ -53,6 +79,27 @@ final class DocumentLoader {
         return enricher.apply(List.of(document));
     }
 
+    private static List<Resource> getDocumentResources(final List<String> locationPatterns) {
+        final ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+
+        final List<Resource> resources = new ArrayList<>();
+
+        for (String locationPattern : locationPatterns) {
+            LOGGER.info("Loading resources from: {}", locationPattern);
+
+            try {
+                resources.addAll(Arrays.asList(resourcePatternResolver.getResources(locationPattern)));
+            }
+            catch (IOException ex) {
+                LOGGER.error(ex.getMessage(), ex.getMessage());
+            }
+        }
+
+        resources.sort(Comparator.comparing(Resource::getFilename));
+
+        return resources;
+    }
+
     private static List<Document> readDocumentsFromResource(final Resource resource) {
         LOGGER.info("Loading documents from: {}", resource.getFilename());
 
@@ -65,49 +112,7 @@ final class DocumentLoader {
         return textSplitter.split(document);
     }
 
-    /**
-     * <a href="https://docs.spring.io/spring-ai/reference/api/etl-pipeline.html">etl-pipeline</a>
-     *
-     * @see PathMatchingResourcePatternResolver#getResources(String)
-     */
-    List<Document> loadDocuments(final ChatModel chatModel, final List<String> locationPatterns) {
-        final List<Resource> resources = getDocumentResources(locationPatterns);
-        LOGGER.info("Processing resources: {}", resources.size());
-
-        final TextSplitter textSplitter = TokenTextSplitter.builder().build();
-
-        final List<Document> documents = resources.stream()
-                .filter(Objects::nonNull)
-                .flatMap(document -> readDocumentsFromResource(document).stream())
-                .filter(Objects::nonNull)
-                .flatMap(document -> splitDocument(document, textSplitter).stream())
-                .filter(Objects::nonNull)
-                .flatMap(document -> enrichMetadata(chatModel, document).stream())
-                .filter(Objects::nonNull)
-                .toList();
-
-        LOGGER.info("Processing finished for {} Documents", documents.size());
-
-        return documents;
-    }
-
-    private List<Resource> getDocumentResources(final List<String> locationPatterns) {
-        final PathMatchingResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
-
-        final List<Resource> resources = new ArrayList<>();
-
-        for (String locationPattern : locationPatterns) {
-            LOGGER.info("Loading resources from: {}", locationPattern);
-
-            try {
-                resources.addAll(Arrays.asList(resourcePatternResolver.getResources(locationPattern)));
-            } catch (IOException ex) {
-                LOGGER.error(ex.getMessage(), ex.getMessage());
-            }
-        }
-
-        resources.sort(Comparator.comparing(Resource::getFilename));
-
-        return resources;
+    private DocumentLoader() {
+        super();
     }
 }

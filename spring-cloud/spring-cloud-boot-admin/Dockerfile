@@ -6,10 +6,10 @@
 
 # --network host: für Internetzugang
 
-#FROM localhost:5083/openjdk:17
+#FROM localhost:5083/openjdk:25
 FROM openjdk:latest
 
-MAINTAINER Thomas Freese <commercial@freese-home.de>
+MAINTAINER Thomas Freese <community@freese-home.de>
 
 ARG JAR_FILE=target/*-jar-with-dependencies.jar
 ENV VM_PARAMS="-Xms64m -Xmx128m"

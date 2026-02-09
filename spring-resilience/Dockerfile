@@ -5,18 +5,18 @@
 # docker start/stop <CONTAINER_NAME>
 
 # 2060 MB
-#FROM openjdk:21
+#FROM openjdk:25
 
 # 226 MB
-#FROM openjdk:21-jdk-slim
+#FROM openjdk:25-jdk-slim
 
 # 97 MB
-#FROM eclipse-temurin:21-jre-jammy
+#FROM eclipse-temurin:25-jre-jammy
 
 # 67 MB
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 
-LABEL org.opencontainers.image.authors="commercial@freese-home.de"
+LABEL org.opencontainers.image.authors="community@freese-home.de"
  
 ARG JAR_FILE=build/libs/*-boot.jar
 ENV VM_PARAMS="-Xms64m -Xmx128m"

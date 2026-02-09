@@ -1,6 +1,6 @@
 package de.spring.ai.controller;
 
-import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,6 +24,7 @@ import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -124,7 +125,7 @@ public class DocumentController {
 
         final LocalDateTime start = LocalDateTime.now();
 
-        final List<Document> documents = new DocumentLoader().loadDocuments(chatModel, locationPatterns);
+        final List<Document> documents = DocumentLoader.loadDocuments(chatModel, locationPatterns);
 
         for (int i = 0; i < documents.size(); i++) {
             final Document document = documents.get(i);
@@ -170,26 +171,26 @@ public class DocumentController {
     // @PostConstruct
     @GetMapping("/load")
     @ResponseStatus(HttpStatus.OK)
-    void vectorStoreLoad() {
-        final String file = "document-db.json";
+    void vectorStoreLoad() throws IOException {
+        final Resource resource = new ClassPathResource("document-db.json");
 
-        LOGGER.info("Loading vector store file: {}", file);
+        LOGGER.info("Loading vector store file: {}", resource.getFilePath());
 
         if (vectorStore instanceof final SimpleVectorStore simpleVectorStore) {
-            simpleVectorStore.load(new FileSystemResource(file));
+            simpleVectorStore.load(resource);
         }
     }
 
     // @PreDestroy
     @GetMapping("/save")
     @ResponseStatus(HttpStatus.OK)
-    void vectorStoreSave() {
-        final String file = "document-db.json";
+    void vectorStoreSave() throws IOException {
+        final Resource resource = new FileSystemResource("document-db.json");
 
-        LOGGER.info("Save vector store file: {}", file);
+        LOGGER.info("Save vector store file: {}", resource.getFilePath());
 
         if (vectorStore instanceof final SimpleVectorStore simpleVectorStore) {
-            simpleVectorStore.save(new File(file));
+            simpleVectorStore.save(resource.getFile());
         }
     }
 }
