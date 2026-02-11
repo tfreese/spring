@@ -1,0 +1,54 @@
+plugins {
+    id("java")
+}
+
+description = "JLama example"
+
+dependencies {
+    implementation("com.github.tjake:jlama-core:0.8.4")
+
+    // implementation("org.springframework.ai:spring-ai-model")
+
+    // supports: linux-x86_64, macos-x86_64/aarch_64, windows-x86_64
+    // runtimeOnly("com.github.tjake:jlama-native:0.8.4:windows-x86_64")
+    runtimeOnly("com.github.tjake:jlama-native:0.8.4:linux-x86_64")
+
+    runtimeOnly("org.slf4j:slf4j-simple")
+
+    // testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+tasks.withType(Test).configureEach {
+    enabled = true
+}
+
+def compilerArgs = [
+        "--add-modules", "jdk.incubator.vector",
+        "--enable-preview"
+]
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+    options.debug = true
+    options.compilerArgs.addAll(compilerArgs)
+}
+
+tasks.register("runJLamaMain", JavaExec) {
+    group = "myTasks"
+    description = "Run JLama Demo"
+
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "de.ai.jlama.JLamaMain"
+
+    jvmArgs(compilerArgs)
+}
+
+// tasks.register("runJLamaApi", JavaExec) {
+//     group = "myTasks"
+//     description = "Run JLamaApi Demo"
+//
+//     classpath = sourceSets.main.runtimeClasspath
+//     mainClass = "de.jlama.ai.spring.JLamaApi"
+//
+//     jvmArgs(compilerArgs)
+// }

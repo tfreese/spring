@@ -40,12 +40,9 @@ final class DocumentLoader {
 
         final List<Document> documents = resources.stream()
                 .filter(Objects::nonNull)
-                .flatMap(document -> readDocumentsFromResource(document).stream())
-                .filter(Objects::nonNull)
+                .flatMap(resource -> readDocumentsFromResource(resource).stream())
                 .flatMap(document -> splitDocument(document, textSplitter).stream())
-                .filter(Objects::nonNull)
                 .flatMap(document -> enrichMetadata(chatModel, document).stream())
-                .filter(Objects::nonNull)
                 .toList();
 
         LOGGER.info("Processing finished for {} Documents", documents.size());
@@ -73,7 +70,7 @@ final class DocumentLoader {
                 document.getMetadata().get("total_chunks"));
 
         final KeywordMetadataEnricher enricher = KeywordMetadataEnricher.builder(chatModel)
-                .keywordCount(5)
+                .keywordCount(10)
                 .build();
 
         return enricher.apply(List.of(document));

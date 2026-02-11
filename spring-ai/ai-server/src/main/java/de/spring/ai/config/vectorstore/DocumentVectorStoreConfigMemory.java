@@ -1,5 +1,5 @@
 // Created: 10.07.2025
-package de.spring.ai.config;
+package de.spring.ai.config.vectorstore;
 
 import org.springframework.ai.chat.memory.ChatMemoryRepository;
 import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;

@@ -1,5 +1,5 @@
 // Created: 10.07.2025
-package de.spring.ai.config;
+package de.spring.ai.config.vectorstore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
