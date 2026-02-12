@@ -5,13 +5,12 @@ plugins {
 description = "JLama example"
 
 dependencies {
-    implementation("com.github.tjake:jlama-core:0.8.4")
+    implementation("com.github.tjake:jlama-core")
 
     // implementation("org.springframework.ai:spring-ai-model")
 
     // supports: linux-x86_64, macos-x86_64/aarch_64, windows-x86_64
-    // runtimeOnly("com.github.tjake:jlama-native:0.8.4:windows-x86_64")
-    runtimeOnly("com.github.tjake:jlama-native:0.8.4:linux-x86_64")
+    runtimeOnly("com.github.tjake:jlama-native::linux-x86_64")
 
     runtimeOnly("org.slf4j:slf4j-simple")
 

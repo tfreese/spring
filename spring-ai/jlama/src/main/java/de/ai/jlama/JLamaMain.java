@@ -4,6 +4,9 @@ package de.ai.jlama;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 import com.github.tjake.jlama.model.AbstractModel;
@@ -46,6 +49,8 @@ public final class JLamaMain {
         // final String prompt = "Why are llamas so cute?";
         final String prompt = "Warum sind Lamas so niedlich?";
 
+        final int maxTokens = 3072;
+        final float temperature = 0.75F;
         final UUID session = UUID.randomUUID();
 
         try (AbstractModel model = loadModel(workingDir, modelName)) {
@@ -63,13 +68,13 @@ public final class JLamaMain {
 
             LOGGER.info("Question: {}", prompt);
 
-            final Generator.Response response = model.generate(session, promptContext, 0.75F, 512);
+            final Generator.Response response = model.generate(session, promptContext, temperature, maxTokens);
 
             // final Generator.Response response = model.generateBuilder()
             //         .session(session)
             //         .promptContext(promptContext)
-            //         .ntokens(512)
-            //         .temperature(0.75F)
+            //         .ntokens(maxTokens)
+            //         .temperature(temperature)
             //         .generate();
 
             LOGGER.info("generatedTokens={}, generateTimeMs={}, promptTimeMs={}, promptTokens={}",
@@ -80,7 +85,12 @@ public final class JLamaMain {
             // LOGGER.info(response.responseText);
             LOGGER.info(new String(response.responseText.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
 
-            final float[] embeddings = model.embed("I am some Text", Generator.PoolingType.AVG);
+            final Path path = Paths.get("..", "ai-server", "src", "main", "resources", "doc-input", "Till_Eulenspiegel_1.txt");
+            final String text = Files.readString(path);
+            // final String text = "I am some Text";
+
+            // Max. Text length: 915 or IndexOutOfBoundsException.
+            final float[] embeddings = model.embed(text.substring(0, 915), Generator.PoolingType.AVG);
             LOGGER.info("Embeddings length: {}", embeddings.length);
             LOGGER.info("Embeddings: {}", embeddings);
         }
