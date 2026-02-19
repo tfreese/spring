@@ -12,21 +12,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.esotericsoftware.kryo.util.Pool;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
+import de.freese.spring.kryo.KryoPool;
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 
 /**
  * @author Thomas Freese
  */
 public abstract class AbstractRestReflectionController {
-    private final Pool<Kryo> kryoPool;
+    private final KryoPool kryoPool;
 
-    protected AbstractRestReflectionController(final Pool<Kryo> kryoPool) {
+    protected AbstractRestReflectionController(final KryoPool kryoPool) {
         super();
 
         this.kryoPool = Objects.requireNonNull(kryoPool, "kryoPool required");
@@ -34,7 +34,7 @@ public abstract class AbstractRestReflectionController {
 
     @PostMapping(path = "{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public Object invoke(@PathVariable("method") final String method, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        final Kryo kryo = getKryoPool().obtain();
+        final Kryo kryo = getKryoPool().getKryo();
 
         try (Input inputStream = new Input(request.getInputStream(), 1024 * 1024)) {
             // Parameter-Typen und -Argumente auslesen.
@@ -72,7 +72,7 @@ public abstract class AbstractRestReflectionController {
             throw ex;
         }
         finally {
-            getKryoPool().free(kryo);
+            getKryoPool().returnKryo(kryo);
         }
 
         return null;
@@ -104,7 +104,7 @@ public abstract class AbstractRestReflectionController {
         return newArgs;
     }
 
-    protected Pool<Kryo> getKryoPool() {
+    protected KryoPool getKryoPool() {
         return kryoPool;
     }
 }

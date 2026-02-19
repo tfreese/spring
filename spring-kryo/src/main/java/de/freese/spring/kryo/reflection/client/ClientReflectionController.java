@@ -3,9 +3,7 @@ package de.freese.spring.kryo.reflection.client;
 
 import java.time.LocalDateTime;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.util.Pool;
-
+import de.freese.spring.kryo.KryoPool;
 import de.freese.spring.kryo.reflection.ReflectionControllerApi;
 
 /**
@@ -14,7 +12,7 @@ import de.freese.spring.kryo.reflection.ReflectionControllerApi;
 public class ClientReflectionController extends AbstractClientReflectionController<ReflectionControllerApi> implements ReflectionControllerApi {
     private final ReflectionControllerApi proxy;
 
-    public ClientReflectionController(final Pool<Kryo> kryoPool, final String rootUri, final ConnectType connectType) {
+    public ClientReflectionController(final KryoPool kryoPool, final String rootUri, final ConnectType connectType) {
         super(kryoPool, rootUri);
 
         if (ConnectType.HTTP_CONNECTION.equals(connectType)) {

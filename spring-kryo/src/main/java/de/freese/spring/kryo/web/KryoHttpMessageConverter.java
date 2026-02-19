@@ -9,13 +9,14 @@ import java.util.Objects;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.esotericsoftware.kryo.util.Pool;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+
+import de.freese.spring.kryo.KryoPool;
 
 /**
  * @author Thomas Freese
@@ -36,9 +37,9 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
      */
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 1024;
 
-    private final Pool<Kryo> kryoPool;
+    private final KryoPool kryoPool;
 
-    public KryoHttpMessageConverter(final Pool<Kryo> kryoPool) {
+    public KryoHttpMessageConverter(final KryoPool kryoPool) {
         super(DEFAULT_CHARSET, APPLICATION_KRYO); // DefaultContentType
 
         this.kryoPool = Objects.requireNonNull(kryoPool, "kryoPool required");
@@ -46,7 +47,7 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
 
     @Override
     protected Object readInternal(final Class<? extends Object> clazz, final HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
-        final Kryo kryo = kryoPool.obtain();
+        final Kryo kryo = kryoPool.getKryo();
         Object value = null;
 
         // try (Input input = new ByteBufferInput(inputMessage.getBody(), DEFAULT_BUFFER_SIZE))
@@ -54,7 +55,7 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
             value = kryo.readClassAndObject(input);
         }
         finally {
-            kryoPool.free(kryo);
+            kryoPool.returnKryo(kryo);
         }
 
         return value;
@@ -67,7 +68,7 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
 
     @Override
     protected void writeInternal(final Object t, final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-        final Kryo kryo = kryoPool.obtain();
+        final Kryo kryo = kryoPool.getKryo();
 
         // try (Output output = new ByteBufferOutput(outputMessage.getBody(), DEFAULT_BUFFER_SIZE))
         try (Output output = new Output(outputMessage.getBody(), DEFAULT_BUFFER_SIZE)) {
@@ -75,7 +76,7 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
             output.flush();
         }
         finally {
-            kryoPool.free(kryo);
+            kryoPool.returnKryo(kryo);
         }
     }
 }

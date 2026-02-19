@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.util.Pool;
 import org.reactivestreams.Publisher;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.codec.DecodingException;
@@ -19,11 +18,13 @@ import org.springframework.util.MimeType;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import de.freese.spring.kryo.KryoPool;
+
 /**
  * @author Thomas Freese
  */
 public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessageDecoder<Object> {
-    public KryoDecoder(final Pool<Kryo> kryoPool) {
+    public KryoDecoder(final KryoPool kryoPool) {
         super(kryoPool);
     }
 
@@ -35,7 +36,7 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
 
     @Override
     public Object decode(final DataBuffer buffer, final ResolvableType targetType, final MimeType mimeType, final Map<String, Object> hints) throws DecodingException {
-        final Kryo kryo = getKryoPool().obtain();
+        final Kryo kryo = getKryoPool().getKryo();
         Object value = null;
 
         // try (Input input = new ByteBufferInput(buffer.asInputStream(), DEFAULT_BUFFER_SIZE))
@@ -43,7 +44,7 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
             value = kryo.readClassAndObject(input);
         }
         finally {
-            getKryoPool().free(kryo);
+            getKryoPool().returnKryo(kryo);
         }
 
         return value;

@@ -3,10 +3,10 @@ package de.freese.spring.kryo.reflection;
 
 import java.time.LocalDateTime;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.util.Pool;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import de.freese.spring.kryo.KryoPool;
 
 /**
  * @author Thomas Freese
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("reflection/ReflectionControllerApi")
 public class RestKryoReflectionController extends AbstractRestReflectionController implements ReflectionControllerApi {
-    public RestKryoReflectionController(final Pool<Kryo> kryoPool) {
+    public RestKryoReflectionController(final KryoPool kryoPool) {
         super(kryoPool);
     }
 

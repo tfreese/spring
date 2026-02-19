@@ -75,15 +75,21 @@ class TestKryo {
     }
 
     private HttpClient.Builder httpClientbuilder;
+
     @Resource
     private JsonMapper jsonMapper;
+
+    @Resource
+    private KryoPool kryoPool;
+
     @LocalServerPort
     private int localServerPort;
-
+    
     // @Resource
     // private RestTemplateBuilder restTemplateBuilder;
     @Resource
     private MockMvc mockMvc;
+
     private RestTemplate restTemplate;
 
     @Resource
@@ -124,7 +130,7 @@ class TestKryo {
 
     @PostConstruct
     protected void setup() {
-        final KryoHttpMessageConverter kryoHttpMessageConverter = new KryoHttpMessageConverter(KryoApplication.KRYO_POOL);
+        final KryoHttpMessageConverter kryoHttpMessageConverter = new KryoHttpMessageConverter(kryoPool);
 
         restTemplate = new RestTemplateBuilder().rootUri("http://localhost:" + localServerPort)
                 .additionalMessageConverters(kryoHttpMessageConverter, new JacksonJsonHttpMessageConverter()).build();
@@ -145,8 +151,8 @@ class TestKryo {
                 //.exchangeStrategies(strategies) // Throws an UnsupportedMediaTypeException.
                 .codecs(configurer -> {
                     // configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper, MediaType.APPLICATION_JSON));
-                    configurer.customCodecs().register(new KryoEncoder(KryoApplication.KRYO_POOL));
-                    configurer.customCodecs().register(new KryoDecoder(KryoApplication.KRYO_POOL));
+                    configurer.customCodecs().register(new KryoEncoder(kryoPool));
+                    configurer.customCodecs().register(new KryoDecoder(kryoPool));
                 })
         ;
 

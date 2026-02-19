@@ -3,6 +3,8 @@ package de.freese.spring.kryo;
 
 import java.time.LocalDateTime;
 
+import jakarta.annotation.Resource;
+
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -22,13 +24,16 @@ import de.freese.spring.kryo.reflection.client.ClientReflectionController;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
 class TestClientReflection {
+    @Resource
+    private KryoPool kryoPool;
+
     @LocalServerPort
     private int localServerPort;
 
     @Test
     void testHttpConnection() {
         final String rootUri = "http://localhost:" + localServerPort;
-        final ReflectionControllerApi fassade = new ClientReflectionController(KryoApplication.KRYO_POOL, rootUri, ConnectType.HTTP_CONNECTION);
+        final ReflectionControllerApi fassade = new ClientReflectionController(kryoPool, rootUri, ConnectType.HTTP_CONNECTION);
 
         final LocalDateTime localDateTime = fassade.testKryo();
 
@@ -38,7 +43,7 @@ class TestClientReflection {
     @Test
     void testRestTemplate() {
         final String rootUri = "http://localhost:" + localServerPort;
-        final ReflectionControllerApi fassade = new ClientReflectionController(KryoApplication.KRYO_POOL, rootUri, ConnectType.REST_TEMPLATE);
+        final ReflectionControllerApi fassade = new ClientReflectionController(kryoPool, rootUri, ConnectType.REST_TEMPLATE);
 
         final LocalDateTime localDateTime = fassade.testKryo();
 

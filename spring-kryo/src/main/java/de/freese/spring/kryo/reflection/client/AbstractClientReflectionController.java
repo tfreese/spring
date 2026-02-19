@@ -19,7 +19,6 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.esotericsoftware.kryo.util.Pool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.restclient.RestTemplateBuilder;
@@ -27,6 +26,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import de.freese.spring.kryo.KryoPool;
 import de.freese.spring.kryo.reflection.ReflectionControllerApi;
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 
@@ -45,12 +45,12 @@ public abstract class AbstractClientReflectionController<T> {
     }
 
     private final Class<T> fassadeType;
-    private final Pool<Kryo> kryoPool;
+    private final KryoPool kryoPool;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String rootUri;
 
     @SuppressWarnings("unchecked")
-    protected AbstractClientReflectionController(final Pool<Kryo> kryoPool, final String rootUri) {
+    protected AbstractClientReflectionController(final KryoPool kryoPool, final String rootUri) {
         super();
 
         this.kryoPool = Objects.requireNonNull(kryoPool, "kryoPool required");
@@ -63,7 +63,7 @@ public abstract class AbstractClientReflectionController<T> {
         return fassadeType;
     }
 
-    protected Pool<Kryo> getKryoPool() {
+    protected KryoPool getKryoPool() {
         return kryoPool;
     }
 
@@ -81,7 +81,7 @@ public abstract class AbstractClientReflectionController<T> {
             final URI uri = URI.create(rootUri + "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName());
             final HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
 
-            final Kryo kryo = getKryoPool().obtain();
+            final Kryo kryo = getKryoPool().getKryo();
             final int chunkSize = 1024 * 1024;
             Object result = null;
 
@@ -154,7 +154,7 @@ public abstract class AbstractClientReflectionController<T> {
                 throw ex;
             }
             finally {
-                getKryoPool().free(kryo);
+                getKryoPool().returnKryo(kryo);
             }
 
             return result;

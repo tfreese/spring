@@ -5,11 +5,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.util.Pool;
 import org.springframework.http.MediaType;
 import org.springframework.util.MimeType;
 
+import de.freese.spring.kryo.KryoPool;
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 
 /**
@@ -27,15 +26,15 @@ public abstract class AbstractKryoCodecSupport {
     protected static final List<MediaType> MEDIA_TYPES = Stream.of(APPLICATION_KRYO).map(mimeType -> new MediaType(mimeType.getType(), mimeType.getSubtype())).toList();
     protected static final List<MimeType> MIME_TYPES = List.of(APPLICATION_KRYO);
 
-    private final Pool<Kryo> kryoPool;
+    private final KryoPool kryoPool;
 
-    protected AbstractKryoCodecSupport(final Pool<Kryo> kryoPool) {
+    protected AbstractKryoCodecSupport(final KryoPool kryoPool) {
         super();
 
         this.kryoPool = Objects.requireNonNull(kryoPool, "kryoPool required");
     }
 
-    protected Pool<Kryo> getKryoPool() {
+    protected KryoPool getKryoPool() {
         return kryoPool;
     }
 
