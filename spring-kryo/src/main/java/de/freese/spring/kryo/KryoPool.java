@@ -34,10 +34,10 @@ public class KryoPool {
             kryo.setRegistrationRequired(registerClasses);
             kryo.setWarnUnregisteredClasses(registerClasses);
 
-            KryoRegistrationClasses.registerClasses(kryo, registerClasses);
-
             // UnmodifiableCollectionsSerializer.registerSerializers(kryo);
             // SynchronizedCollectionsSerializer.registerSerializers(kryo);
+
+            KryoRegistration.registerClasses(kryo, registerClasses);
 
             // Supports different JRE Versions and different order of fields.
             final SerializerFactory.CompatibleFieldSerializerFactory serializerFactory = new SerializerFactory.CompatibleFieldSerializerFactory();

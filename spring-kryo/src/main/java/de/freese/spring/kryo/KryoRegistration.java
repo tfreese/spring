@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.serializers.DefaultSerializers;
 
 // @SuppressWarnings("ALL")
-public final class KryoRegistrationClasses {
+public final class KryoRegistration {
     /**
      * Without Class-Registration only add the defined Serializer.
      */
@@ -25,37 +26,22 @@ public final class KryoRegistrationClasses {
         // serializers.put(Date.class, new de.javakaffee.kryoserializers.DateSerializer(Date.class));
         // serializers.put(GregorianCalendar.class, new de.javakaffee.kryoserializers.GregorianCalendarSerializer());
 
-        if (!registerClasses) {
-            serializers.forEach(kryo::addDefaultSerializer);
+        serializers.forEach(kryo::addDefaultSerializer);
 
+        if (!registerClasses) {
             return;
         }
 
-        Set<Class<?>> clazzes = HashSet.newHashSet(512);
-        // clazzes.addAll(ReflectionUtils.getClasses("..."));
+        // int startID = Math.max(10_000, kryo.getNextRegistrationId());
+
+        // registerClasses(kryo, serializers, 10_000, ReflectionUtils.getClasses("..."));
+        registerClasses(kryo, serializers, 20_000, getAppClasses());
+        registerClasses(kryo, serializers, 30_000, getRuntimeClasses());
 
         /// spring-context
         // ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         // provider.addIncludeFilter(new RegexPatternTypeFilter(Pattern.compile(".*")));
         // provider.findCandidateComponents("de.freese").forEach(beanDef -> System.out.println(beanDef.getBeanClassName()));
-
-        clazzes.addAll(getAppClasses());
-        clazzes.addAll(getRuntimeClasses());
-
-        // Register Array-Variants of the classes.
-        clazzes = extendWithArrayVariants(clazzes);
-
-        // Sorting is mandatory, each Class must have the same Registration-ID on Client and Server.
-        clazzes.stream().sorted(Comparator.comparing(Class::getName)).forEach(clazz -> {
-            final Serializer<?> serializer = serializers.get(clazz);
-
-            if (serializer == null) {
-                kryo.register(clazz, kryo.getNextRegistrationId());
-            }
-            else {
-                kryo.register(clazz, serializer, kryo.getNextRegistrationId());
-            }
-        });
     }
 
     /**
@@ -78,7 +64,6 @@ public final class KryoRegistrationClasses {
 
     /**
      * All other Classes of the Application.<br>
-     * Alphabetic by Class name!
      */
     private static Set<Class<?>> getAppClasses() {
         // Module: base-core
@@ -88,7 +73,6 @@ public final class KryoRegistrationClasses {
 
     /**
      * All other Classes of the Runtime.<br>
-     * Alphabetic by Class name!
      */
     private static Set<Class<?>> getRuntimeClasses() {
         return Set.of(
@@ -154,7 +138,25 @@ public final class KryoRegistrationClasses {
         );
     }
 
-    private KryoRegistrationClasses() {
+    private static void registerClasses(final Kryo kryo, final Map<Class<?>, Serializer<?>> serializers, final int startId, final Set<Class<?>> clazzes) {
+        final AtomicInteger registrationID = new AtomicInteger(startId);
+
+        // Sorting is mandatory, each Class must have the same Registration-ID on Client and Server.
+        extendWithArrayVariants(clazzes).stream()
+                .sorted(Comparator.comparing(Class::getName))
+                .forEach(clazz -> {
+                    final Serializer<?> serializer = serializers.get(clazz);
+
+                    if (serializer == null) {
+                        kryo.register(clazz, registrationID.getAndIncrement());
+                    }
+                    else {
+                        kryo.register(clazz, serializer, registrationID.getAndIncrement());
+                    }
+                });
+    }
+
+    private KryoRegistration() {
         super();
     }
 }

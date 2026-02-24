@@ -51,10 +51,11 @@ class TimestampSerializer extends Serializer<Timestamp> {
     public void write(final Kryo kryo, final Output output, final Timestamp obj) {
         if (obj == null) {
             output.writeLong(-1L);
+
+            return;
         }
-        else {
-            output.writeLong(obj.getTime());
-            output.writeInt(obj.getNanos());
-        }
+
+        output.writeLong(obj.getTime());
+        output.writeInt(obj.getNanos());
     }
 }
