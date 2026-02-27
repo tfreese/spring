@@ -1,4 +1,4 @@
-package de.freese.spring.kryo;
+package de.freese.spring.kryo.registration;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -19,6 +19,7 @@ public final class KryoRegistration {
     public static synchronized void registerClasses(final Kryo kryo, final boolean registerClasses) {
         final Map<Class<?>, Serializer<?>> serializers = new HashMap<>();
         serializers.put(java.sql.Timestamp.class, new TimestampSerializer());
+        serializers.put(java.lang.StackTraceElement.class, new StackTraceElementSerializer());
         serializers.put(java.util.UUID.class, new DefaultSerializers.UUIDSerializer());
 
         // de.javakaffee Serializer's does not work anymore.

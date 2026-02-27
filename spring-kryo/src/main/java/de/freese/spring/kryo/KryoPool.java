@@ -8,6 +8,8 @@ import com.esotericsoftware.kryo.util.MapReferenceResolver;
 import com.esotericsoftware.kryo.util.Pool;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 
+import de.freese.spring.kryo.registration.KryoRegistration;
+
 /**
  * @author Thomas Freese
  */

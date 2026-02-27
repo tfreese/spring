@@ -1,4 +1,4 @@
-package de.freese.spring.kryo;
+package de.freese.spring.kryo.registration;
 
 import java.sql.Timestamp;
 

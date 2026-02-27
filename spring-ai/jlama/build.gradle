@@ -9,8 +9,14 @@ dependencies {
 
     // implementation("org.springframework.ai:spring-ai-model")
 
-    // supports: linux-x86_64, macos-x86_64/aarch_64, windows-x86_64
-    runtimeOnly("com.github.tjake:jlama-native::linux-x86_64")
+    // Optional, just for Performance.
+    if (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
+        runtimeOnly("com.github.tjake:jlama-native::linux-x86_64")
+    } else if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+        runtimeOnly("com.github.tjake:jlama-native::windows-x86_64")
+    } else if (org.gradle.internal.os.OperatingSystem.current().isMacOsX()) {
+        runtimeOnly("com.github.tjake:jlama-native::macos-x86_64/aarch_64")
+    }
 
     runtimeOnly("org.slf4j:slf4j-simple")
 
