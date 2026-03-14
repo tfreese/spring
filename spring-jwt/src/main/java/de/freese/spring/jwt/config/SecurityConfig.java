@@ -29,7 +29,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,6 +42,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
@@ -118,8 +118,8 @@ public class SecurityConfig {
         final Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put("pbkdf2", pbkdf2passwordEncoder);
         encoders.put("bcrypt", new BCryptPasswordEncoder(10));
-        // encoders.put("scrypt", new SCryptPasswordEncoder()); // Benötigt BountyCastle
-        // encoders.put("argon2", new Argon2PasswordEncoder()); // Benötigt BountyCastle
+        // encoders.put("scrypt", new SCryptPasswordEncoder()); // Requires BountyCastle
+        // encoders.put("argon2", new Argon2PasswordEncoder()); // Requires BountyCastle
         encoders.put("noop", new PasswordEncoder() {
             @Override
             public String encode(final CharSequence rawPassword) {
@@ -172,10 +172,10 @@ public class SecurityConfig {
     @Bean
     @ConditionalOnBean(DataSource.class)
     UserDetailsService userDetailsServiceJdbc(final PasswordEncoder passwordEncoder, final DataSource dataSource, final UserCache userCache) {
-        final JdbcDaoImpl jdbcDao = new JdbcDaoImpl();
-        jdbcDao.setDataSource(dataSource);
-        jdbcDao.setUsersByUsernameQuery(JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY);
-        jdbcDao.setAuthoritiesByUsernameQuery(JdbcDaoImpl.DEF_AUTHORITIES_BY_USERNAME_QUERY);
+        final JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
+        // userDetailsManager.setUserCache(userCache);
+        // userDetailsManager.setUsersByUsernameQuery(JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY);
+        // userDetailsManager.setAuthoritiesByUsernameQuery(JdbcDaoImpl.DEF_AUTHORITIES_BY_USERNAME_QUERY);
 
         // final CachingUserDetailsService cachingUserDetailsService = new CachingUserDetailsService(jdbcDao);
         // cachingUserDetailsService.setUserCache(userCache);
@@ -186,10 +186,10 @@ public class SecurityConfig {
             UserDetails userDetails = userCache.getUserFromCache(username);
 
             if (userDetails == null) {
-                userDetails = jdbcDao.loadUserByUsername(username);
+                userDetails = userDetailsManager.loadUserByUsername(username);
             }
 
-            Assert.notNull(userDetails, () -> "UserDetailsService " + jdbcDao + " returned null for username " + username + ". This is an interface contract violation");
+            Assert.notNull(userDetails, () -> "UserDetailsService " + userDetailsManager + " returned null for username " + username + ". This is an interface contract violation");
 
             userCache.putUserInCache(userDetails);
 
@@ -205,13 +205,6 @@ public class SecurityConfig {
             //         , userDetails.getAuthorities()
             // );
         };
-
-        // final JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
-        // userDetailsManager.setUserCache(userCache);
-        // userDetailsManager.setUsersByUsernameQuery(JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY);
-        // userDetailsManager.setAuthoritiesByUsernameQuery(JdbcDaoImpl.DEF_AUTHORITIES_BY_USERNAME_QUERY);
-        //
-        // return userDetailsManager;
     }
 
     @Bean

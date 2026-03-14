@@ -5,6 +5,19 @@ plugins {
 
 description = "JWT-Demo"
 
+clean {
+// tasks.named("clean").configure {
+// tasks.withType(Delete).configureEach {
+    Directory directory = layout.projectDirectory.dir("src").dir("main").dir("resources").dir("certs")
+
+    // doFirst {
+    directory.asFileTree.forEach {
+        println("delete: " + it)
+        it.delete()
+    }
+    // }
+}
+
 dependencies {
     // implementation("com.nimbusds:nimbus-jose-jwt")
 
@@ -27,3 +40,14 @@ dependencies {
 springBoot {
     mainClass = "de.freese.spring.jwt.JwtApplication"
 }
+
+tasks.register("createRsaKeys", Exec) {
+    group = "myTasks"
+    description = "Create RSA Keys"
+
+    workingDir(layout.projectDirectory)
+
+    executable("./createKeys.sh")
+    // commandLine("sh", "-c", "./createKeys.sh")
+}
+processResources.dependsOn("createRsaKeys")

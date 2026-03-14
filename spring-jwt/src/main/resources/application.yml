@@ -1,6 +1,6 @@
 rsa:
-    private-key: classpath:certs/private.pem
-    public-key: classpath:certs/public.pem
+    private-key: classpath:certs/private_key.pem
+    public-key: classpath:certs/public_key.pem
 
 server:
     port: 8080
