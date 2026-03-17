@@ -10,12 +10,12 @@ clean {
 // tasks.withType(Delete).configureEach {
     Directory directory = layout.projectDirectory.dir("src").dir("main").dir("resources").dir("certs")
 
-    // doFirst {
-    directory.asFileTree.forEach {
-        println("delete: " + it)
-        it.delete()
+    doLast {
+        directory.asFileTree.forEach {
+            println("delete: " + it)
+            it.delete()
+        }
     }
-    // }
 }
 
 dependencies {
@@ -45,9 +45,14 @@ tasks.register("createRsaKeys", Exec) {
     group = "myTasks"
     description = "Create RSA Keys"
 
+    inputs.file("createKeys.sh")
+    outputs.dir(layout.projectDirectory.dir("src").dir("main").dir("resources").dir("certs"))
+
     workingDir(layout.projectDirectory)
 
+    // doLast {
     executable("./createKeys.sh")
     // commandLine("sh", "-c", "./createKeys.sh")
+    // }
 }
 processResources.dependsOn("createRsaKeys")
