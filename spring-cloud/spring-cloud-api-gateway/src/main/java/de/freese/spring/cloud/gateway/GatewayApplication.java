@@ -50,7 +50,10 @@ public class GatewayApplication {
 
         return builder.routes()
                 .route(p -> p.path("/get")
-                        .filters(f -> f.addRequestHeader("Hello", "World"))
+                        .filters(f -> f
+                                .addRequestHeader("Hello", "World")
+                                .addRequestHeadersIfNotPresent("myHeader1:myValue1,myHeader2:myValue2")
+                        )
                         .customize(asyncBuilder -> asyncBuilder.id("addrequestheader_route"))
                         .uri(httpUri)
                 )
