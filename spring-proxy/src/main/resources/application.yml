@@ -7,12 +7,12 @@ logging:
         root: INFO
         org.springframework: INFO
 
-server:
-    port: 7070
-
-spring:
-    cloud:
-        gateway:
-            server:
-                webflux:
-                    enabled: true
+#server:
+#    port: 7070
+#
+#spring:
+#    cloud:
+#        gateway:
+#            server:
+#                webflux:
+#                    enabled: true

@@ -1,19 +1,21 @@
 // Created: 25.03.2026
-package dep.spring.proxy;
+package de.spring.proxy;
 
 import java.io.Serial;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.eclipse.jetty.client.api.Request;
-import org.eclipse.jetty.proxy.ProxyServlet;
+import org.eclipse.jetty.client.Request;
+import org.eclipse.jetty.ee11.proxy.ProxyServlet;
+import org.eclipse.jetty.ee11.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee11.servlet.ServletHolder;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * localhost:7070
+ *
  * @author Thomas Freese
  */
 public final class ProxyApplication {
@@ -32,7 +34,7 @@ public final class ProxyApplication {
         final int listenPort = 7070;
         final int targetPort = 8080;
 
-        final ProxyServlet proxy = new ProxyServlet.Transparent() {
+        final ProxyServlet proxyServlet = new ProxyServlet.Transparent() {
             @Serial
             private static final long serialVersionUID = 6120051423772765324L;
 
@@ -40,12 +42,22 @@ public final class ProxyApplication {
             protected void addProxyHeaders(final HttpServletRequest clientRequest, final Request proxyRequest) {
                 super.addProxyHeaders(clientRequest, proxyRequest);
 
+                LOGGER.debug("addProxyHeaders: {}", proxyRequest.getURI());
+
                 // Add Header for Target.
                 proxyRequest.headers(headers -> headers.put("myHeader", "myValue"));
             }
+
+            // @Override
+            // protected Logger createLogger() {
+            //     return LOGGER;
+            // }
         };
 
-        final ServletHolder holder = new ServletHolder(proxy);
+        // The Servlet name is required to configure Logging.
+        // See AbstractProxyServlet.createLogger.
+        // See simplelogger.properties.
+        final ServletHolder holder = new ServletHolder("proxyServlet", proxyServlet);
 
         // Forward to other local Port.
         // holder.setInitParameter("proxyTo", "http://localhost:" + targetPort);
@@ -56,11 +68,10 @@ public final class ProxyApplication {
 
         final Server server = new Server(listenPort);
 
-        // final ServletContextHandler servletContextHandler = new ServletContextHandler("/");
-        final ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/");
+        final ServletContextHandler servletContextHandler = new ServletContextHandler("/");
         servletContextHandler.addServlet(holder, "/*");
 
-        // server.setHandler(servletContextHandler);
+        server.setHandler(servletContextHandler);
         server.start();
 
         LOGGER.info("Reverse proxy started: http://localhost:{} -> http://localhost:{}", listenPort, targetPort);
