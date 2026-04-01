@@ -6,14 +6,10 @@ import java.util.Random;
 import java.util.Set;
 
 import jakarta.faces.webapp.FacesServlet;
-import jakarta.servlet.ServletContainerInitializer;
 
-import com.sun.faces.config.FacesInitializer;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.util.descriptor.web.ContextEnvironment;
-import org.apache.tomcat.util.descriptor.web.ContextResourceEnvRef;
-import org.jboss.weld.environment.servlet.EnhancedListener;
 import org.springframework.boot.tomcat.TomcatWebServer;
 import org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.servlet.ServletWebServerFactory;
@@ -67,10 +63,10 @@ public class WebAppConfig implements WebMvcConfigurer {
     ServletRegistrationBean<FacesServlet> facesServletRegistration() {
         // final ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>(new FacesServlet(), "/faces");
         final ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>();
-        servletRegistrationBean.setServlet(new FacesServlet());
-        servletRegistrationBean.setUrlMappings(Set.of("*.xhtml", "*.jsf"));
-        servletRegistrationBean.setLoadOnStartup(1);
         servletRegistrationBean.setName("Faces Servlet");
+        servletRegistrationBean.setServlet(new FacesServlet());
+        servletRegistrationBean.setUrlMappings(Set.of("*.jsf")); // "*.xhtml"
+        servletRegistrationBean.setLoadOnStartup(1);
 
         return servletRegistrationBean;
     }
@@ -81,7 +77,7 @@ public class WebAppConfig implements WebMvcConfigurer {
     }
 
     /**
-     * Not necessary with joinfaces.
+     * Not necessary with Joinfaces.
      */
     // @Bean
     // ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener() {
@@ -100,7 +96,7 @@ public class WebAppConfig implements WebMvcConfigurer {
 
             @Override
             protected void postProcessContext(final Context context) {
-                // // SSL Context definieren.
+                // // Define SSL Context.
                 // final SecurityConstraint securityConstraint = new SecurityConstraint();
                 // securityConstraint.setUserConstraint("CONFIDENTIAL");
                 //
@@ -109,7 +105,7 @@ public class WebAppConfig implements WebMvcConfigurer {
                 // securityConstraint.addCollection(collection);
                 // context.addConstraint(securityConstraint);
 
-                // JNDI-Inhalt
+                // JNDI-Content
                 final ContextEnvironment contextEnvironment = new ContextEnvironment();
                 contextEnvironment.setName("test");
                 contextEnvironment.setType("java.lang.String");
@@ -117,10 +113,10 @@ public class WebAppConfig implements WebMvcConfigurer {
                 contextEnvironment.setOverride(false);
                 context.getNamingResources().addEnvironment(contextEnvironment);
 
-                final ContextResourceEnvRef envRef = new ContextResourceEnvRef();
-                envRef.setName("BeanManager");
-                envRef.setType("jakarta.enterprise.inject.spi.BeanManager");
-                context.getNamingResources().addResourceEnvRef(envRef);
+                // final ContextResourceEnvRef envRef = new ContextResourceEnvRef();
+                // envRef.setName("BeanManager");
+                // envRef.setType("jakarta.enterprise.inject.spi.BeanManager");
+                // context.getNamingResources().addResourceEnvRef(envRef);
             }
         };
     }
@@ -140,17 +136,15 @@ public class WebAppConfig implements WebMvcConfigurer {
             servletContext.addListener("org.jboss.weld.environment.servlet.Listener"); // CDI first
             servletContext.addListener("com.sun.faces.config.ConfigureListener");
 
-            // servletContext.addListener("org.springframework.web.context.request.RequestContextListener");
-
             // Creates a new Spring-Context.
             // servletContext.addListener("org.springframework.web.context.ContextLoaderListener");
 
-            // Only with embedded Server, not necessary with joinfaces.
-            final EnhancedListener cdiInitializer = new EnhancedListener();
-            cdiInitializer.onStartup(null, servletContext);
-
-            final ServletContainerInitializer facesInitializer = new FacesInitializer();
-            facesInitializer.onStartup(null, servletContext);
+            // Only with embedded Server, not necessary with Joinfaces.
+            // final EnhancedListener cdiInitializer = new EnhancedListener();
+            // cdiInitializer.onStartup(null, servletContext);
+            //
+            // final ServletContainerInitializer facesInitializer = new FacesInitializer();
+            // facesInitializer.onStartup(null, servletContext);
         };
     }
 }

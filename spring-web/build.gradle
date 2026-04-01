@@ -13,20 +13,16 @@ dependencies {
     }
 
     // With Joinfaces: 77 Dependencies and 41,81MB.
-    // implementation("org.joinfaces:primefaces-spring-boot-starter")
+    implementation("org.joinfaces:primefaces-spring-boot-starter")
 
     // Without Joinfaces: 73 Dependencies and 45,41MB.
-    implementation("org.glassfish:jakarta.faces")
-    // implementation("jakarta.platform:jakarta.jakartaee-api")
-    // implementation("jakarta.platform:jakarta.jakartaee-web-api")
-    implementation("jakarta.faces:jakarta.faces-api")
-    // implementation("org.jboss.weld.servlet:weld-servlet-shaded") // CDI
-    implementation("org.jboss.weld.servlet:weld-servlet-core") // CDI
-    runtimeOnly("org.apache.tomcat.embed:tomcat-embed-jasper")
-    runtimeOnly("org.primefaces:primefaces::jakarta")
-    runtimeOnly("org.primefaces:primefaces-themes")
-    runtimeOnly("org.primefaces.extensions:primefaces-extensions::jakarta")
-
+    // implementation("org.glassfish:jakarta.faces")
+    // implementation("jakarta.faces:jakarta.faces-api")
+    // implementation("org.jboss.weld.servlet:weld-servlet-core") // CDI
+    // runtimeOnly("org.apache.tomcat.embed:tomcat-embed-jasper")
+    // runtimeOnly("org.primefaces:primefaces::jakarta")
+    // runtimeOnly("org.primefaces:primefaces-themes")
+    // runtimeOnly("org.primefaces.extensions:primefaces-extensions::jakarta")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("software.xdev:chartjs-java-model")

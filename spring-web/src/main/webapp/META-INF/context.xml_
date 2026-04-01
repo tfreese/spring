@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Configuration for Tomcat -->
+
+<!-- Configuration for Tomcat. -->
 <Context path="/spring-web">
 
-    <!-- Not necessary with joinfaces. -->
-    <Resource name="BeanManager"
-              auth="Container"
-              type="jakarta.enterprise.inject.spi.BeanManager"
-              factory="org.jboss.weld.resources.ManagerObjectFactory" />
+    <!-- Not necessary with Joinfaces. -->
+    <!-- <Resource name="BeanManager" -->
+    <!--           auth="Container" -->
+    <!--           type="jakarta.enterprise.inject.spi.BeanManager" -->
+    <!--           factory="org.jboss.weld.resources.ManagerObjectFactory" /> -->
 
     <!--
     <Resource name="jdbc/DefaultDB"

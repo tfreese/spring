@@ -63,7 +63,7 @@ public class OpenBrowserRunner implements ApplicationRunner {
         final String contextPath = Optional.ofNullable(propertyResolver.getProperty("server.servlet.context-path")).orElse("");
 
         // final String url = "%s://%s:%d%s/static/index.html".formatted(sslEnabled ? "https" : "http", host, port, contextPath);
-        final String url = "%s://%s:%d%s/demo.xhtml".formatted(sslEnabled ? "https" : "http", host, port, contextPath);
+        final String url = "%s://%s:%d%s/demo.jsf".formatted(sslEnabled ? "https" : "http", host, port, contextPath);
 
         final URI uri = URI.create(url);
 
