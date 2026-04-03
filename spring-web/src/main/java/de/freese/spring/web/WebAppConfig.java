@@ -17,7 +17,6 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -41,12 +40,12 @@ public class WebAppConfig implements WebMvcConfigurer {
     //     return new JsfInitializer();
     // }
 
-    @Override
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        // if (!registry.hasMappingForPattern("/**")) {
-        //     registry.addResourceHandler("/**").addResourceLocations("classpath:/xhtml/");
-        // }
-    }
+    // @Override
+    // public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+    //     // if (!registry.hasMappingForPattern("/**")) {
+    //     //     registry.addResourceHandler("/**").addResourceLocations("classpath:/xhtml/");
+    //     // }
+    // }
 
     // @Bean
     // ServletRegistrationBean<DefaultServlet> httpServletRegistration() {
@@ -133,8 +132,8 @@ public class WebAppConfig implements WebMvcConfigurer {
             servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", Boolean.TRUE.toString());
             servletContext.setInitParameter("primefaces.THEME", "arya");
 
-            servletContext.addListener("org.jboss.weld.environment.servlet.Listener"); // CDI first
-            servletContext.addListener("com.sun.faces.config.ConfigureListener");
+            // servletContext.addListener("org.jboss.weld.environment.servlet.Listener"); // CDI first
+            // servletContext.addListener("com.sun.faces.config.ConfigureListener");
 
             // Creates a new Spring-Context.
             // servletContext.addListener("org.springframework.web.context.ContextLoaderListener");

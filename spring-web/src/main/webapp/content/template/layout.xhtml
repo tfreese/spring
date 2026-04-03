@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <title><ui:insert name="title"></ui:insert></title>
+    <!--    <meta charset="UTF-8"/>-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta content="no-cache, no-store, must-revalidate, max_age=0" http-equiv="Cache-Control"/>
+    <meta content="no-cache" http-equiv="Pragma"/>
+    <meta content="-1" http-equiv="Expires"/>
+
+    <link rel="shortcut icon" href="#{resource[uiConfig.getImgResourcesPath('app_logo.gif')]}"/>
+
+    <ui:insert name="head"></ui:insert>
+
+</h:head>
+
+<f:view contentType="text/html" id="#{facesViewId}" locale="#{localeController.locale}">
+
+    <ui:insert name="faces-metadata">
+        <f:metadata></f:metadata>
+    </ui:insert>
+
+    <h:body>
+        <ui:insert name="css-main">
+            <h:outputStylesheet name="#{uiConfig.getCssPath('layout.css')}"/>
+        </ui:insert>
+        <ui:insert name="css"></ui:insert>
+
+        <div id="page" class="flex flex-column page">
+            <ui:insert name="header">
+                <ui:decorate template="header.xhtml"></ui:decorate>
+            </ui:insert>
+
+            <ui:insert name="top-bar">
+                <ui:decorate template="top-bar.xhtml"></ui:decorate>
+            </ui:insert>
+
+            <ui:insert name="content">
+                <ui:decorate template="content.xhtml"></ui:decorate>
+            </ui:insert>
+
+            <ui:insert name="footer">
+                <ui:decorate template="footer.xhtml"></ui:decorate>
+            </ui:insert>
+        </div>
+
+        <ui:insert name="dialogs"></ui:insert>
+
+    </h:body>
+</f:view>
+
+</html>

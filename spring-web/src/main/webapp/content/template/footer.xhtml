@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html">
+
+    <!--    <div id="footer" class="flex justify-content-end flex-wrap p-2 footer">-->
+    <div id="footer" class="flex justify-content-center flex-wrap p-2 footer">
+        <!-- Optional anzeigen. -->
+        <!--        <ui:fragment rendered="false">-->
+        <!--            Die modernere Variante, Navigation innerhalb der Anwendung. -->
+        <!--            <h:link outcome="/content/clients/info/privacy-policy" target="_blank" styleClass="flex align-items-center justify-content-center"-->
+        <!--                    value="#{text['application.datenschutzhinweise']}"/>-->
+        <!--            <span class="flex align-items-center justify-content-center pr-3 pl-3">|</span>-->
+        <!--        </ui:fragment>-->
+
+        <!-- Die ältere Variante, Navigation ausserhalb der Anwendung. -->
+        <!--        <h:outputLink value="#{uiConfig.getImprintUrl()}" target="_blank" styleClass="flex align-items-center justify-content-center">-->
+        <!--            #{text['application.impressum']}-->
+        <!--        </h:outputLink>-->
+
+        <h:outputText class="text-center" value="Copyright © Thomas Freese" title="Hi!"/>
+    </div>
+
+</ui:composition>

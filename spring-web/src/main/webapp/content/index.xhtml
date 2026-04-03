@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                template="template/layout.xhtml">
+
+    <ui:define name="title">JSF-Demo</ui:define>
+    <ui:define name="head"></ui:define>
+
+    <!--Create alias for Controller. -->
+    <ui:param name="userController" value="#{indexController}"/>
+
+    <!--    <ui:param name="facesViewId" value="clientsStartPageView"/>-->
+
+    <ui:define name="faces-metadata">
+        <f:metadata>
+            <f:viewParam name="param1" value="#{indexController.param1}"/>
+
+            <f:viewAction action="#{indexController.initParams}"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="css">
+        <h:outputStylesheet name="#{uiConfig.getCssPath('demo.css')}"/>
+    </ui:define>
+
+    <!-- Top bar: left content -->
+    <ui:define name="top-bar-left-content">
+        <span class="flex align-items-center justify-content-center top-bar-title">JSF-Demo</span>
+
+        <h:link outcome="/content/config" target="_blank" styleClass="flex align-items-center justify-content-center top-bar-title"
+                value="#{text['application.configure']}" rendered="#{indexController.isUserWebAdmin()}">
+            <i class="pi pi-cog mr-1"/>
+        </h:link>
+    </ui:define>
+
+    <!-- Content area: page content-->
+    <ui:define name="content-area">
+        <div class="flex flex-grow-1 justify-content-top flex-column">
+            <p:growl id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:growl>
+
+            <div class="start-content-div flex flex-column flex-grow-1 h-full align-items-center">
+                <!--                <h:outputText class="user flex align-items-center justify-content-center" value="#{text['hello.world']}" title="Hi!"/>-->
+                <h:outputText class="user flex align-items-center justify-content-center" value="Hello World" title="Hi!"/>
+            </div>
+
+            <!--            <div class="start-content-div flex flex-column flex-grow-1 h-full align-items-center">-->
+            <!--                <p:outputPanel id="clients-panel" styleClass="flex p-3 w-6 start-app-panel justify-content-center">-->
+            <!--                    <div class="grid">-->
+
+            <!--                        <ui:repeat var="app" value="#{clientsStartController.apps}">-->
+            <!--                            <div class="col-4 start-app-column">-->
+            <!--                                <p:commandButton styleClass="ui-button-outlined start-app-button flex flex-column justify-content-around align-items-center"-->
+            <!--                                                 icon="pi #{app.icon()}" value="#{app.name()} #{app.stage().name()}"-->
+            <!--                                                 actionListener="#{clientsStartController.startApp(app)}" update="startAppPanel" oncomplete="startApp()"/>-->
+            <!--                            </div>-->
+            <!--                        </ui:repeat>-->
+
+            <!--                        <div class="col-12">-->
+            <!--                            <p:button styleClass="ui-button-outlined start-app-citrix-button flex flex-column justify-content-around align-items-center h-full"-->
+            <!--                                      icon="pi pi-desktop"-->
+            <!--                                      href="#{clientsStartController.getCitrixUrl()}"-->
+            <!--                                      value="Citrix" target="blank"-->
+            <!--                                      rendered="#{clientsStartController.showCitrixApp}"/>-->
+            <!--                        </div>-->
+
+            <!--                    </div>-->
+            <!--                </p:outputPanel>-->
+            <!--            </div>-->
+        </div>
+
+        <!-- JSF kann keine Messages bei externen Redirects anzeigen. -->
+        <!-- Deshalb der Umweg ueber die URL-Variable und den JavaScript Redirect. -->
+        <!-- Sonst wuerden die ELSTAR-Events bei Admins und Client-Start Nachrichten verschluckt werden. -->
+        <h:panelGroup id="startAppPanel" style="display: none">
+            <h:outputScript>
+                function startApp() {
+                window.open('#{indexController.redirectAppUrl}', '_blank');
+                }
+            </h:outputScript>
+        </h:panelGroup>
+
+    </ui:define>
+
+    <!-- Dialogs at end of page -->
+    <ui:define name="dialogs"></ui:define>
+
+</ui:composition>

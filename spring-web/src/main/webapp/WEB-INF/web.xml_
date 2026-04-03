@@ -28,13 +28,17 @@
         <param-value>arya</param-value>
     </context-param>
 
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
     <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-name>FacesServlet</servlet-name>
         <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-name>FacesServlet</servlet-name>
         <url-pattern>*.jsf</url-pattern>
         <!-- <url-pattern>/jsf/*</url-pattern> -->
     </servlet-mapping>
@@ -56,7 +60,7 @@
     </security-constraint>
     <filter>
         <filter-name>LoginFilter</filter-name>
-        <filter-class>de.freese.liberty.login.AuthFilter</filter-class>
+        <filter-class>de.jsf.LoginFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>

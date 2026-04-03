@@ -17,7 +17,7 @@
 >
 
 <h:head>
-    <title>JSF Demo</title>
+    <title>JSF-Demo</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -32,18 +32,18 @@
 <h:outputText value="#{msg.hello} #{dataBean.localDateTime}"/>
 <br/>
 
-<h:outputText value="#{dataBean.localDateTime}">
+<h:outputText value="#{demoController.localDateTime}">
     <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" type="localDateTime"/>
 </h:outputText>
 <br/>
 
-<h:outputText value="Jndi-Value: #{dataBean.jndiValue}"/>
+<h:outputText value="Jndi-Value: #{demoController.jndiValue}"/>
 <br/>
 
 <p:chart value="#{lineChartBean.lineChartJson}" style="width:60rem; height:20rem"/>
 <br/>
 
-<p:dataTable var="entry" value="#{dataBean.data}" style="width:25rem">
+<p:dataTable var="entry" value="#{demoController.data}" style="width:25rem">
     <p:column headerText="X" style="border: 1px solid black">
         <h:outputText value="#{entry.key}">
             <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" type="localDateTime"/>

@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core">
+
+    <h:form id="topBarForm">
+        <p:defaultCommand target="doNothingButton"/>
+        <p:commandButton id="doNothingButton" value="DoNothingOnEnterKey" styleClass="hidden" type="button"/>
+
+        <div class="slider-bar"/>
+
+        <div id="topBar" class="flex top-bar">
+            <div id="topBarLeft" class="flex flex-grow-1 align-content-center">
+                <ui:insert name="top-bar-left-content"></ui:insert>
+            </div>
+
+            <div id="topBarRight" class="flex flex-shrink-1 align-content-center">
+                <img src="#{resource[uiConfig.getImgResourcesPath('confidential.svg')]}" alt="Confidential" class="confidential"/>
+
+                <h:outputText class="user flex align-items-center justify-content-center" rendered="#{userController != null and userController.user != null}"
+                              value="#{userController.user.nachname}, #{userController.user.vorname} (#{userController.user.abteilung})" title="#{userController.user.umsUserId}"/>
+
+                <p:commandButton value="#{text['login.logout']}" styleClass="logout flex align-items-center justify-content-center" action="#{userController.logout()}"
+                                 rendered="#{userController != null and userController.user != null}" process="@this"/>
+            </div>
+        </div>
+
+        <div id="sliderBar" class="flex flex-grow-1 slider-bar">
+            <p:ajaxStatus id="ajaxStatusPanel" styleClass="w-full">
+                <f:facet name="start">
+                    <div class="slider">
+                        <div class="slider-line slider-dec"></div>
+                    </div>
+                </f:facet>
+            </p:ajaxStatus>
+        </div>
+
+        <p:sticky target="ajaxStatusPanel"/>
+
+    </h:form>
+
+</ui:composition>

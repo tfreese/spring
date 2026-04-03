@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="jakarta.faces.facelets">
+
+    <h:form id="contentAreaForm" class="flex flex-grow-1">
+        <ui:insert name="default-command-button">
+            <p:defaultCommand target="defaultButton"/>
+            <p:commandButton id="defaultButton" value="DoNothingOnEnterKey" styleClass="hidden" type="button"/>
+        </ui:insert>
+
+        <div id="contentArea" class="content-area flex justify-content-center flex-row flex-wrap">
+            <ui:insert name="content-area"></ui:insert>
+        </div>
+
+    </h:form>
+
+</ui:composition>
