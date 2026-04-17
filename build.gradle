@@ -32,7 +32,7 @@ subprojects {
         }
 
         dependencies {
-            dependency("com.atomikos:transactions-spring-boot3-starter:$version_atomicosSpringBootStarter")
+            dependency("com.atomikos:transactions-spring-boot4-starter:$version_atomicosSpringBootStarter")
             dependency("com.esotericsoftware:kryo:$version_kryo")
 
             dependencySet(group: "com.github.tjake", version: "$version_jlama") {
