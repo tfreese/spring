@@ -15,7 +15,8 @@ dependencies {
     runtimeOnly("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
     runtimeOnly("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
-    testImplementation("com.squareup.okhttp3:mockwebserver:5.3.2")
+    testImplementation("com.squareup.okhttp3:mockwebserver3:$version_mockWebServer")
+    testImplementation("com.squareup.okhttp3:okhttp-jvm:$version_mockWebServer")
     testImplementation("io.projectreactor:reactor-test")
 }
 

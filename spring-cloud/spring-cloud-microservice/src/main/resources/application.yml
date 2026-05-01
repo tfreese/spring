@@ -86,8 +86,8 @@ spring:
         serialization:
             INDENT_OUTPUT: true
             WRAP_ROOT_VALUE: false
-            WRITE_DATES_AS_TIMESTAMPS: false
-            WRITE_DATES_WITH_ZONE_ID: false
+            #WRITE_DATES_AS_TIMESTAMPS: false
+            #WRITE_DATES_WITH_ZONE_ID: false
         time-zone: Europe/Berlin
     main:
         banner-mode: "OFF"

@@ -62,7 +62,7 @@ public class DatabaseController {
                 .user(prompt)
                 .advisors(databaseMetadataAdvisor)
                 .toolNames("runSqlQuery")
-                .options(ChatOptions.builder().model("gpt-4.1").build()) // Overwrite Default, better Results as gpt-4o-mini.
+                .options(ChatOptions.builder().model("gpt-4.1")) // Overwrite Default, better Results as gpt-4o-mini.
                 .call()
                 .chatResponse();
 
@@ -117,7 +117,7 @@ public class DatabaseController {
         //         .advisors(new SimpleLoggerAdvisor())
         //         .call()
         //         .content();
-        
+
         final ChatResponse chatResponse = chatClient.prompt(promptTemplate.create(Map.of("schema", databaseMetadataAdvisor.getSchema())))
                 .user(prompt)
                 .advisors(new SimpleLoggerAdvisor())
