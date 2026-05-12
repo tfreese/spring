@@ -40,7 +40,7 @@ class TestApacheHttpClient extends AbstractClientTest {
     //
     // @BeforeAll
     // static void beforeAll() {
-    //     httpClient = ApacheHttpClientConfigurer.createCloseableHttpClient(3, Duration.ofSeconds(3), null);
+    //     httpClient = new ApacheHttpClientBuilder().maxRetries(3).retryInterval(Duration.ofSeconds(3)).build();
     // }
 
     @Test
