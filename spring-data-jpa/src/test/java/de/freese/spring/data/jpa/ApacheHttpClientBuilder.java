@@ -44,7 +44,7 @@ import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
 
 /**
- * <a href=https://github.com/apache/httpcomponents-client/blob/5.4.x/httpclient5/src/test/java/org/apache/hc/client5/http/examples/ClientConfiguration.java>config</a>
+ * <a href= * <a href=https://github.com/apache/httpcomponents-client/blob/master/httpclient5/src/test/java/org/apache/hc/client5/http/examples/ClientConfiguration.java>config</a>>config</a>
  *
  * @author Thomas Freese
  */
@@ -69,6 +69,7 @@ public final class ApacheHttpClientBuilder {
     private HostnameVerifier hostnameVerifier;
     private int maxConnTotal;
     private int maxRetries;
+    private AtomicReference<Supplier<PoolStats>> poolStatsReference;
     private Duration readTimeout;
     private Duration retryInterval;
     private SSLContext sslContext;
@@ -85,8 +86,6 @@ public final class ApacheHttpClientBuilder {
     }
 
     public CloseableHttpClient build() {
-        final AtomicReference<Supplier<PoolStats>> poolStatsReference = new AtomicReference<>(null);
-
         final HttpClientConnectionManager connectionManager = createHttpClientConnectionManager(poolStatsReference);
         final RequestConfig requestConfig = createRequestConfig();
         final ConnectionKeepAliveStrategy connectionKeepAliveStrategy = createConnectionKeepAliveStrategy();
@@ -95,18 +94,23 @@ public final class ApacheHttpClientBuilder {
 
         // final HttpHost targetHost = new HttpHost("https", "example.com", 443);
         //
-        // // Send 1st Request without Auth, if got 401, send Auth with 2nd Request (1 Round-Trip).
-        // final BasicCredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        // credentialsProvider.setCredentials(new AuthScope(targetHost), new BearerToken(token));
+        // 1st Request sends without Auth-Data, if 401 the 2nd Request is sent with Auth-Data (1 extra Round-Trip).
+        // final CredentialsProvider credentialsProvider = CredentialsProviderBuilder.create()
+        //         .add(new HttpHost("https", host, 443), new UsernamePasswordCredentials(user, token))
+        //         // .add(new HttpHost("https", host, 443) , new BearerToken(token)
+        //         .build();
         //
         // // Preemptive Auth: Send Auth for every Request.
         // final AuthCache authCache = new BasicAuthCache();
         // authCache.put(targetHost, new BearerScheme());
         //
-        // // HttpClientContext is not Thread-Safe, create it for every Request!
-        // // Use in CloseableHttpClient.execute(ClassicHttpRequest, HttpContext, HttpClientResponseHandler) Method.
-        // final HttpClientContext clientContext = HttpClientContext.create();
-        // clientContext.setAuthCache(authCache);
+        // ClientContext is not Thread-Safe, using new one for each Request.
+        // final HttpClientContext clientContext = ContextBuilder.create()
+        //         .useCredentialsProvider(credentialsProvider)
+        //         // .preemptiveAuth(targetHost, new BearerScheme())
+        //         // .preemptiveBasicAuth(targetHost, new UsernamePasswordCredentials(user, token()))
+        //         .useAuthCache(authCache)
+        //         .build();
 
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create()
                 .setConnectionManager(connectionManager)
@@ -182,6 +186,12 @@ public final class ApacheHttpClientBuilder {
         }
 
         this.maxRetries = maxRetries;
+
+        return this;
+    }
+
+    public ApacheHttpClientBuilder poolStatsReference(final AtomicReference<Supplier<PoolStats>> poolStatsReference) {
+        this.poolStatsReference = poolStatsReference;
 
         return this;
     }
