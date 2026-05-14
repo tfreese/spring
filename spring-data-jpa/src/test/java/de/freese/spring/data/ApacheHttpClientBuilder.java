@@ -1,4 +1,4 @@
-package de.freese.spring.data.jpa;
+package de.freese.spring.data;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;

@@ -16,6 +16,8 @@ import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.HttpComponentsClientHttpConnector;
 import org.springframework.test.web.reactive.server.WebTestClientConfigurer;
 
+import de.freese.spring.data.ApacheHttpClientBuilder;
+
 /**
  * HttpClientAutoConfiguration
  */
