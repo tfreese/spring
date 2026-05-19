@@ -117,14 +117,9 @@ public final class ApacheHttpClientBuilder {
                 .setDefaultRequestConfig(requestConfig)
                 .setKeepAliveStrategy(connectionKeepAliveStrategy)
                 .setConnectionReuseStrategy(connectionReuseStrategy)
-                .setRetryStrategy(httpRequestRetryStrategy)
-                .evictExpiredConnections()
-                .evictIdleConnections(TimeValue.of(Objects.requireNonNullElse(evictIdleConnections, DEFAULT_EVICT_IDLE)))
-                .setUserAgent("Java Application Client");
+                .setRetryStrategy(httpRequestRetryStrategy);
 
-        if (builderConfigurer != null) {
-            httpClientBuilder = builderConfigurer.apply(httpClientBuilder);
-        }
+        httpClientBuilder = configHttpClientBuilder(httpClientBuilder);
 
         // poolStatsReference.get()
         return httpClientBuilder.build();
@@ -218,6 +213,20 @@ public final class ApacheHttpClientBuilder {
         this.timeToLive = timeToLive;
 
         return this;
+    }
+
+    protected HttpClientBuilder configHttpClientBuilder(final HttpClientBuilder httpClientBuilder) {
+        httpClientBuilder
+                .evictExpiredConnections()
+                .evictIdleConnections(TimeValue.of(Objects.requireNonNullElse(evictIdleConnections, DEFAULT_EVICT_IDLE)))
+                .setUserAgent("Java Application Client")
+        ;
+
+        if (builderConfigurer != null) {
+            builderConfigurer.apply(httpClientBuilder);
+        }
+
+        return httpClientBuilder;
     }
 
     private ConnectionKeepAliveStrategy createConnectionKeepAliveStrategy() {
