@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 public final class UiConfig implements Serializable {
     // private static final String DEFAULT_THEME = "otherTheme";
     private static final String DEFAULT_THEME = "default";
+    
     @Serial
     private static final long serialVersionUID = -7320013833103016092L;
 

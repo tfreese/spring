@@ -52,7 +52,7 @@ public class JndiLookUpRunner implements ApplicationRunner {
     }
 
     @Override
-    public void run(final ApplicationArguments args) throws Exception {
+    public void run(final ApplicationArguments args) {
         LOGGER.info("JNDI Content");
 
         try {

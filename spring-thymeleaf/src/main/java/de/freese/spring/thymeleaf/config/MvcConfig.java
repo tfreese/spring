@@ -221,11 +221,7 @@ public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {
         localeResolver.setDefaultLocaleFunction(request -> {
             final Locale defaultLocale = request.getLocale();
 
-            if (defaultLocale == null) {
-                return Locale.ENGLISH;
-            }
-
-            return defaultLocale;
+            return Objects.requireNonNullElse(defaultLocale, Locale.ENGLISH);
         });
 
         return localeResolver;

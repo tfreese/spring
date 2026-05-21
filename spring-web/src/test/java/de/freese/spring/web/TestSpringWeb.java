@@ -33,7 +33,7 @@ class TestSpringWeb {
         httpClientBuilder = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
                 .followRedirects(HttpClient.Redirect.NEVER)
-                .connectTimeout(Duration.ofSeconds(3));
+                .connectTimeout(Duration.ofSeconds(3L));
     }
 
     @Value("${server.servlet.context-path}")
@@ -54,7 +54,7 @@ class TestSpringWeb {
                     .uri(URI.create("http://localhost:" + localServerPort + contextPath + "/actuator/metrics"))
                     .GET()
                     //.header("Accept", "application/json")
-                    .timeout(Duration.ofSeconds(3))
+                    .timeout(Duration.ofSeconds(3L))
                     .build();
 
             final HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());

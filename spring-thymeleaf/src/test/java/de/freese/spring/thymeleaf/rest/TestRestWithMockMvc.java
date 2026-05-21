@@ -79,7 +79,6 @@ class TestRestWithMockMvc extends AbstractRestTestCase {
         final List<Person> persons = reference.get();
         assertNotNull(persons);
         assertTrue(persons.size() >= 3);
-
         assertEquals("Thomas", persons.getLast().getFirstName());
         assertEquals("Freese", persons.getLast().getLastName());
     }

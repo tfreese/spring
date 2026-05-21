@@ -59,7 +59,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
                     .build();
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-
+            assertNotNull(response);
             assertEquals(MediaType.APPLICATION_JSON_VALUE, response.headers().firstValue("Content-Type").orElse(null));
             assertEquals(HttpStatus.OK.value(), response.statusCode());
 
@@ -80,6 +80,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
                     .build();
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            assertNotNull(response);
             assertEquals(HttpStatus.OK.value(), response.statusCode());
         }
 
@@ -92,10 +93,10 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
                     .build();
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            assertNotNull(response);
 
             final List<Person> persons = getJsonMapper().readValue(response.body(), new TypeReference<>() {
             });
-
             assertNotNull(persons);
             assertTrue(persons.size() >= 2);
         }
@@ -112,7 +113,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
                     .build();
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-
+            assertNotNull(response);
             assertEquals(HttpStatus.FORBIDDEN.value(), response.statusCode());
         }
     }
@@ -128,10 +129,10 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
                     .build();
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            assertNotNull(response);
 
             final List<Person> persons = getJsonMapper().readValue(response.body(), new TypeReference<>() {
             });
-
             assertNotNull(persons);
             assertTrue(persons.size() >= 2);
         }
@@ -150,10 +151,10 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
                     .build();
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            assertNotNull(response);
 
             final List<Person> persons = xmlMapper.readValue(response.body(), new TypeReference<>() {
             });
-
             assertNotNull(persons);
             assertTrue(persons.size() >= 2);
         }
@@ -171,10 +172,10 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
                     .build();
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            assertNotNull(response);
 
             final List<Person> persons = getJsonMapper().readValue(response.body(), new TypeReference<>() {
             });
-
             assertNotNull(persons);
             assertTrue(persons.size() >= 2);
         }
@@ -194,10 +195,10 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
                     .build();
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+            assertNotNull(response);
 
             final List<Person> persons = xmlMapper.readValue(response.body(), new TypeReference<>() {
             });
-
             assertNotNull(persons);
             assertTrue(persons.size() >= 2);
         }
@@ -241,7 +242,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
                     .build();
 
             final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-
+            assertNotNull(response);
             assertEquals(HttpStatus.FORBIDDEN.value(), response.statusCode());
         }
     }
@@ -263,6 +264,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
 
             try {
                 final HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+                assertNotNull(response);
                 assertEquals(HttpStatus.UNAUTHORIZED.value(), response.statusCode());
                 // Assertions.fail("sollte nicht erfolgreich sein");
             }

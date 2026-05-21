@@ -47,7 +47,7 @@ class TestRestService {
 
     @Resource
     private RestTemplateBuilder restTemplateBuilder;
-    
+
     @Resource
     private WebClient.Builder webClientBuilder;
 
@@ -59,9 +59,9 @@ class TestRestService {
                 //.addProfiler(HotspotMemoryProfiler.class)
                 .shouldFailOnError(true)
                 .warmupIterations(0)
-                .warmupTime(TimeValue.milliseconds(100))
+                .warmupTime(TimeValue.milliseconds(100L))
                 .measurementIterations(1)
-                .measurementTime(TimeValue.milliseconds(200))
+                .measurementTime(TimeValue.milliseconds(200L))
                 .forks(1)
                 //                .threads(1)
                 .jvmArgs("-Dserver.port=11111")

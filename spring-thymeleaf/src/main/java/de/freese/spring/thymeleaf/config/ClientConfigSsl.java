@@ -113,8 +113,8 @@ public class ClientConfigSsl {
 
         final CloseableHttpAsyncClient client = HttpAsyncClientBuilder.create()
                 .setDefaultRequestConfig(RequestConfig.custom()
-                        .setConnectionRequestTimeout(3000, TimeUnit.MILLISECONDS)
-                        .setResponseTimeout(3000, TimeUnit.MILLISECONDS)
+                        .setConnectionRequestTimeout(3000L, TimeUnit.MILLISECONDS)
+                        .setResponseTimeout(3000L, TimeUnit.MILLISECONDS)
                         .build()
                 )
                 .build();

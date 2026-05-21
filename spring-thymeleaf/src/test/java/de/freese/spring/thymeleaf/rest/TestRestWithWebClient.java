@@ -77,7 +77,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
                 ;
 
         final ResponseEntity<String> responseEntity = response.block();
-
+        assertNotNull(responseEntity);
         assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType());
         assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
 
@@ -104,6 +104,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
 
         // ResponseEntity<ApiError> responseEntity = response.block();
         final ResponseEntity<String> responseEntity = response.block();
+        assertNotNull(responseEntity);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         final Flux<Person> personFlux = webClient.mutate()
@@ -116,10 +117,8 @@ class TestRestWithWebClient extends AbstractRestTestCase {
                 .bodyToFlux(Person.class);
 
         final List<Person> persons = personFlux.collectList().block();
-
         assertNotNull(persons);
         assertTrue(persons.size() >= 3);
-
         assertEquals("Thomas", persons.getLast().getFirstName());
         assertEquals("Freese", persons.getLast().getLastName());
     }
@@ -147,6 +146,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
 
         // assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCode());
         // assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
+        assertNotNull(responseEntity);
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
@@ -165,7 +165,6 @@ class TestRestWithWebClient extends AbstractRestTestCase {
                 .bodyToFlux(Person.class);
 
         final List<Person> persons = personFlux.collectList().block();
-
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
     }
@@ -186,7 +185,6 @@ class TestRestWithWebClient extends AbstractRestTestCase {
                 .bodyToFlux(Person.class);
 
         final List<Person> persons = personFlux.collectList().block();
-
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
     }
@@ -206,7 +204,6 @@ class TestRestWithWebClient extends AbstractRestTestCase {
                 .bodyToFlux(Person.class);
 
         final List<Person> persons = personFlux.collectList().block();
-
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
     }
@@ -225,7 +222,6 @@ class TestRestWithWebClient extends AbstractRestTestCase {
                 .bodyToFlux(Person.class);
 
         final List<Person> persons = personFlux.collectList().block();
-
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
     }
@@ -254,7 +250,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
                 .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class));
 
         final ResponseEntity<String> responseEntity = response.block();
-
+        assertNotNull(responseEntity);
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
@@ -272,7 +268,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
                 .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class));
 
         final ResponseEntity<String> responseEntity = response.block();
-
+        assertNotNull(responseEntity);
         assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
     }
 
@@ -296,7 +292,7 @@ class TestRestWithWebClient extends AbstractRestTestCase {
                 .exchangeToMono(clientResponse -> clientResponse.toEntity(String.class));
 
         final ResponseEntity<String> responseEntity = response.block();
-
+        assertNotNull(responseEntity);
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 }

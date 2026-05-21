@@ -58,7 +58,7 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
         // headers.setContentType(MediaType.APPLICATION_JSON);
 
         final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/actuator/info", String.class);
-
+        assertNotNull(responseEntity);
         assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType());
         assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
 
@@ -76,6 +76,7 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
 
         final HttpEntity<Person> httpEntity = new HttpEntity<>(new Person("Thomas", "Freese"));
         final ResponseEntity<ProblemDetail> responseEntity = restTemplate.exchange("/rest/person/personAdd", HttpMethod.POST, httpEntity, ProblemDetail.class);
+        assertNotNull(responseEntity);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         restTemplate = restTemplateBuilder
@@ -86,10 +87,8 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
         assertNotNull(personArray);
 
         final List<Person> persons = Arrays.asList(personArray);
-
         assertNotNull(persons);
         assertTrue(persons.size() >= 3);
-
         assertEquals("Thomas", persons.getLast().getFirstName());
         assertEquals("Freese", persons.getLast().getLastName());
     }
@@ -102,6 +101,7 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
                 .build();
 
         final ProblemDetail error = restTemplate.postForObject("/rest/person/personAdd", new Person("Thomas", "Freese"), ProblemDetail.class);
+        assertNotNull(error);
         assertEquals(HttpStatus.FORBIDDEN.value(), error.getStatus());
     }
 
@@ -124,8 +124,9 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
 
         final ResponseEntity<List<Person>> responseEntity = restTemplate.exchange("/rest/person/personList", HttpMethod.GET, null, new ParameterizedTypeReference<>() {
         });
-        final List<Person> persons = responseEntity.getBody();
+        assertNotNull(responseEntity);
 
+        final List<Person> persons = responseEntity.getBody();
         // assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getAccept());
         // assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
         assertNotNull(persons);
@@ -149,8 +150,9 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
 
         final ResponseEntity<List<Person>> responseEntity = restTemplate.exchange("/rest/person/personList", HttpMethod.GET, null, new ParameterizedTypeReference<>() {
         });
-        final List<Person> persons = responseEntity.getBody();
+        assertNotNull(responseEntity);
 
+        final List<Person> persons = responseEntity.getBody();
         // assertEquals(MediaType.APPLICATION_JSON_VALUE, responseEntity.getHeaders().getAccept());
         // assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
         assertNotNull(persons);
@@ -168,7 +170,6 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
         assertNotNull(personArray);
 
         final List<Person> persons = Arrays.asList(personArray);
-
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
     }
@@ -184,7 +185,6 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
         assertNotNull(personArray);
 
         final List<Person> persons = Arrays.asList(personArray);
-
         assertNotNull(persons);
         assertTrue(persons.size() >= 2);
     }
@@ -197,7 +197,7 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
                 .build();
 
         final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
-
+        assertNotNull(responseEntity);
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
@@ -209,7 +209,7 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
                 .build();
 
         final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
-
+        assertNotNull(responseEntity);
         assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
     }
 
@@ -221,7 +221,7 @@ class TestRestWithRestTemplate extends AbstractRestTestCase {
                 .build();
 
         final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
-
+        assertNotNull(responseEntity);
         // assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
 
         // Eigentlich UNAUTHORIZED erwartet -> RememberMeServices ?

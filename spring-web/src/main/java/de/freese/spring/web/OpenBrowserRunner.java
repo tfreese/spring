@@ -29,25 +29,33 @@ public class OpenBrowserRunner implements ApplicationRunner {
      * google-chrome-stable --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media %U
      */
     private static void openLinuxChrome(final String url) throws Exception {
-        Runtime.getRuntime().exec(new String[]{"/usr/bin/google-chrome-stable", url});
+        try (Process process = Runtime.getRuntime().exec(new String[]{"/usr/bin/google-chrome-stable", url})) {
+            process.waitFor();
+        }
     }
 
     /**
      * chromium %U --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media
      */
     private static void openLinuxChromium(final String url) throws Exception {
-        Runtime.getRuntime().exec(new String[]{"/usr/bin/chromium", url});
+        try (Process process = Runtime.getRuntime().exec(new String[]{"/usr/bin/chromium", url})) {
+            process.waitFor();
+        }
     }
 
     private static void openLinuxFirefox(final String url) throws Exception {
-        Runtime.getRuntime().exec(new String[]{"/usr/bin/firefox", "-new-tab", url});
+        try (Process process = Runtime.getRuntime().exec(new String[]{"/usr/bin/firefox", "-new-tab", url})) {
+            process.waitFor();
+        }
     }
 
     /**
      * Firefox: view-source:URI
      */
     private static void openWindowsFirefox(final String url) throws Exception {
-        Runtime.getRuntime().exec(new String[]{"C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", url});
+        try (Process process = Runtime.getRuntime().exec(new String[]{"C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", url})) {
+            process.waitFor();
+        }
     }
 
     @Resource
