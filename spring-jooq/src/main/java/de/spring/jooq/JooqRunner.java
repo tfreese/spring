@@ -2,14 +2,13 @@
 package de.spring.jooq;
 
 import java.math.BigDecimal;
-
-import jakarta.annotation.Resource;
+import java.util.Objects;
 
 import de.spring.jooq.model.Sequences;
 import de.spring.jooq.model.Tables;
 import de.spring.jooq.model.tables.records.CustomerRecord;
-import org.jooq.CSVFormat;
 import org.jooq.DSLContext;
+import org.jooq.ExecuteType;
 import org.jooq.Result;
 import org.jooq.SelectWhereStep;
 import org.jooq.impl.DSL;
@@ -28,15 +27,25 @@ import org.springframework.stereotype.Component;
 public class JooqRunner implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(JooqRunner.class);
 
-    @Resource
-    private DSLContext dslContext;
+    private final DSLContext dslContext;
+
+    public JooqRunner(final DSLContext dslContext) {
+        super();
+
+        this.dslContext = Objects.requireNonNull(dslContext, "dslContext required");
+    }
 
     @Override
-    public void run(final String... args) throws Exception {
+    public void run(final String... args) {
         LOGGER.info("Running JooqRunner...");
 
-        insert();
-        queries();
+        try {
+            insert();
+            queries();
+        }
+        catch (Exception ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        }
     }
 
     private void insert() {
@@ -88,8 +97,8 @@ public class JooqRunner implements CommandLineRunner {
         LOGGER.info("SQL: {}", selectWhereStep.getSQL());
 
         final Result<CustomerRecord> result = selectWhereStep.fetch();
-        // LOGGER.info("{}", result.formatCSV());
-        result.formatCSV(System.out, new CSVFormat().quote(CSVFormat.Quote.ALWAYS));
+        LOGGER.info("{}", result.formatCSV());
+        // result.formatCSV(System.out, new CSVFormat().quote(CSVFormat.Quote.ALWAYS));
 
         result.forEach(rec -> LOGGER.info("CustomerRecord: {}", rec));
 
@@ -99,5 +108,17 @@ public class JooqRunner implements CommandLineRunner {
                 .orderBy(Tables.CUSTOMER.NAME.asc().nullsFirst(), Tables.ORDERS.ORDER_DATE.desc().nullsFirst())
                 .fetch()
                 .forEach(r -> LOGGER.info("{} | {}", r.get(Tables.CUSTOMER.NAME), r.get(Tables.ORDERS.ORDER_DATE)));
+
+        LOGGER.info("----------");
+        LOGGER.info("STATISTICS");
+        LOGGER.info("----------");
+
+        for (ExecuteType executeType : ExecuteType.values()) {
+            final String statistic = String.format("%-8s: %d executions", executeType.name(), StatisticsListener.getOrDefault(executeType, 0));
+            LOGGER.info(statistic);
+        }
+
+        // Should raise DeleteOrUpdateWithoutWhereListener.DeleteOrUpdateWithoutWhereException.
+        dslContext.deleteFrom(Tables.ORDER_ITEM).execute();
     }
 }

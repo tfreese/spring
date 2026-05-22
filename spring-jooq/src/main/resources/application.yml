@@ -3,6 +3,12 @@ logging:
         console: "%date{HH:mm:ss.SSS} - %clr(%5level) - [%30.-30thread] - %clr(%-40.-40logger{0}){magenta} - %message%n"
     level:
         org.springframework: INFO
+        org.jooq.tools.LoggerListener: DEBUG
+
+        # DefaultRenderContext
+        # -Dorg.jooq.no-logo = true
+        # -Dorg.jooq.no-tips = true
+        org.jooq.Constants: OFF
 
 #server:
 #    port: 8081
@@ -21,6 +27,8 @@ spring:
         driver-class-name: org.h2.Driver
         username: sa
         password:
+    main:
+        banner-mode: OFF
     #    profiles:
     #        active: memory
     sql:

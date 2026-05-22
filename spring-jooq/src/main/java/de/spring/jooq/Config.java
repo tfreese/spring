@@ -1,6 +1,9 @@
 // Created: 25.02.2026
 package de.spring.jooq;
 
+import org.jooq.SQLDialect;
+import org.jooq.conf.RenderKeywordCase;
+import org.jooq.conf.RenderNameCase;
 import org.jooq.conf.RenderQuotedNames;
 import org.springframework.boot.jooq.autoconfigure.DefaultConfigurationCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -20,9 +23,15 @@ public class Config {
 
     @Bean
     public DefaultConfigurationCustomizer jooqDefaultConfigurationCustomizer() {
-        return config -> config.settings()
-                .withRenderSchema(false)
-                .withRenderQuotedNames(RenderQuotedNames.NEVER)
-                ;
+        return config -> {
+            config.setSQLDialect(SQLDialect.H2);
+            config.setExecuteListener(new StatisticsListener(), new DeleteOrUpdateWithoutWhereListener());
+            config.settings()
+                    .withRenderSchema(false)
+                    .withRenderKeywordCase(RenderKeywordCase.LOWER)
+                    .withRenderNameCase(RenderNameCase.UPPER)
+                    .withRenderQuotedNames(RenderQuotedNames.NEVER)
+                    .withExecuteLogging(true); // LoggerListener
+        };
     }
 }
