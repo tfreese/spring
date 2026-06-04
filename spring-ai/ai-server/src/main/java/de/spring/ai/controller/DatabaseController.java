@@ -61,7 +61,7 @@ public class DatabaseController {
         final ChatResponse chatResponse = chatClient.prompt()
                 .user(prompt)
                 .advisors(databaseMetadataAdvisor)
-                .toolNames("runSqlQuery")
+                .tools("runSqlQuery")
                 .options(ChatOptions.builder().model("gpt-4.1")) // Overwrite Default, better Results as gpt-4o-mini.
                 .call()
                 .chatResponse();

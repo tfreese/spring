@@ -41,7 +41,7 @@ public class ProduktStoreController {
                 .clone()
                 .defaultSystem(systemPrompt)
                 .defaultTools(new DateTimeTools())
-                .defaultToolCallbacks(toolCallbackProvider)
+                .defaultTools(toolCallbackProvider)
                 // .defaultToolCallbacks(new FilteringToolCallbackProvider(toolCallbackProvider, Set.of("addProduct"))) // Or use MyMcpToolFilter.
                 .defaultAdvisors(new SimpleLoggerAdvisor())
                 .build();
