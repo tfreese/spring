@@ -8,7 +8,7 @@ dependencies {
     implementation("org.springframework.ai:spring-ai-starter-mcp-client-webflux")
 
     // For Documents
-    implementation("org.springframework.ai:spring-ai-advisors-vector-store")
+    implementation("org.springframework.ai:spring-ai-vector-store-advisor")
     implementation("org.springframework.ai:spring-ai-tika-document-reader")
 
     // implementation("org.springframework.ai:spring-ai-starter-model-ollama")
