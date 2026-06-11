@@ -43,7 +43,7 @@ public class GeneratorRunner implements CommandLineRunner {
     public void run(final String... args) throws Exception {
         LOGGER.info("Running GeneratorRunner...");
 
-        // generateModel();
+        generateModel();
     }
 
     private void generateModel() throws Exception {

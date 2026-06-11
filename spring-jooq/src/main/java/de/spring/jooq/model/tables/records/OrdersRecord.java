@@ -121,6 +121,6 @@ public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> {
         setOrderNo(orderNo);
         setOrderDate(orderDate);
         setStatus(status);
-        resetChangedOnNotNull();
+        resetTouchedOnNotNull();
     }
 }

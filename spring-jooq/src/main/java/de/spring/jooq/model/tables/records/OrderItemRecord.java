@@ -136,6 +136,6 @@ public class OrderItemRecord extends UpdatableRecordImpl<OrderItemRecord> {
         setProductCode(productCode);
         setQuantity(quantity);
         setUnitPrice(unitPrice);
-        resetChangedOnNotNull();
+        resetTouchedOnNotNull();
     }
 }

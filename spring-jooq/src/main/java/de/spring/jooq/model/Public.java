@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.jooq.Sequence;
 import org.jooq.Table;
+import org.jooq.impl.DSL;
 import org.jooq.impl.SchemaImpl;
 
 
@@ -48,7 +49,7 @@ public class Public extends SchemaImpl {
      * No further instances allowed
      */
     private Public() {
-        super("PUBLIC", null);
+        super(DSL.name("PUBLIC"), null, DSL.comment(""));
     }
 
     @Override

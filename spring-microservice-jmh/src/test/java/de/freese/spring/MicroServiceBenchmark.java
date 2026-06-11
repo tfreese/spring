@@ -49,7 +49,7 @@ public class MicroServiceBenchmark {
 
         @Resource
         private RestTemplateBuilder restTemplateBuilder;
-        
+
         @Resource
         private WebClient.Builder webClientBuilder;
 
@@ -60,7 +60,7 @@ public class MicroServiceBenchmark {
 
             autowireBean(this);
 
-            restTemplate = restTemplateBuilder.rootUri("http://localhost:" + port).build();
+            restTemplate = restTemplateBuilder.baseUri("http://localhost:" + port).build();
             webClient = webClientBuilder.baseUrl("http://localhost:" + port).build();
         }
 

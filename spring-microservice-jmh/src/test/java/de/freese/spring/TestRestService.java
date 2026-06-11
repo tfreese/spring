@@ -89,7 +89,7 @@ class TestRestService {
     @Test
     void testRestTemplate() {
         // Tfinal estRestTemplate restTemplate = new TestRestTemplate(restTemplateBuilder.rootUri("http://localhost:" + port));
-        final RestTemplate restTemplate = restTemplateBuilder.rootUri("http://localhost:" + port).build();
+        final RestTemplate restTemplate = restTemplateBuilder.baseUri("http://localhost:" + port).build();
 
         // String result = restTemplate.getForObject("/",String.class);
         final ResponseEntity<String> response = restTemplate.getForEntity("/", String.class);

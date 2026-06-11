@@ -17,10 +17,10 @@ import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
 import org.jooq.SQL;
 import org.jooq.Schema;
-import org.jooq.Select;
 import org.jooq.Stringly;
 import org.jooq.Table;
 import org.jooq.TableField;
+import org.jooq.TableLike;
 import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
@@ -159,7 +159,7 @@ public class Customer extends TableImpl<CustomerRecord> {
      */
     @Override
     public Customer where(Condition condition) {
-        return new Customer(getQualifiedName(), aliased() ? this : null, null, condition);
+        return new Customer(getQualifiedName(), aliased() ? this : null, null, Internal.condition(this, condition));
     }
 
     /**
@@ -226,7 +226,7 @@ public class Customer extends TableImpl<CustomerRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    public Customer whereExists(Select<?> select) {
+    public Customer whereExists(TableLike<?> select) {
         return where(DSL.exists(select));
     }
 
@@ -234,7 +234,7 @@ public class Customer extends TableImpl<CustomerRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    public Customer whereNotExists(Select<?> select) {
+    public Customer whereNotExists(TableLike<?> select) {
         return where(DSL.notExists(select));
     }
 }

@@ -123,6 +123,6 @@ public class CustomerRecord extends UpdatableRecordImpl<CustomerRecord> {
         setName(name);
         setEmail(email);
         setCreatedAt(createdAt);
-        resetChangedOnNotNull();
+        resetTouchedOnNotNull();
     }
 }

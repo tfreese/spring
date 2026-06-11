@@ -27,9 +27,8 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 class TestApacheHttpClient {
+    private static final HttpHost HOST = new HttpHost("https", "httpbin.org", 443);
     private static final Logger LOGGER = LoggerFactory.getLogger(TestApacheHttpClient.class);
-
-    private final HttpHost HOST = new HttpHost("https", "httpbin.org", 443);
 
     /**
      * Usage of CredentialsProvider: 1st Request is send without Auth-Data, if 401 the 2nd Request is sent with Auth-Data (1 extra Round-Trip).
@@ -40,7 +39,7 @@ class TestApacheHttpClient {
                 .add(HOST, "user", "passwd".toCharArray())
                 .build();
 
-        try (final CloseableHttpClient httpclient = HttpClients.custom()
+        try (CloseableHttpClient httpclient = HttpClients.custom()
                 .setDefaultCredentialsProvider(credentialsProvider)
                 .build()) {
 
@@ -72,7 +71,7 @@ class TestApacheHttpClient {
                 .add(HOST, new BearerToken("TOKEN"))
                 .build();
 
-        try (final CloseableHttpClient httpclient = HttpClients.custom()
+        try (CloseableHttpClient httpclient = HttpClients.custom()
                 .setDefaultCredentialsProvider(credentialsProvider)
                 .build()) {
 
@@ -105,7 +104,7 @@ class TestApacheHttpClient {
                 .add(new HttpHost("http", "httpbin.org", 80), new BearerToken("TOKEN")) // Won't work.
                 .build();
 
-        try (final CloseableHttpClient httpclient = HttpClients.custom()
+        try (CloseableHttpClient httpclient = HttpClients.custom()
                 .addRequestInterceptorFirst(new PreemptiveAuthenticationRequestInterceptor(credentialsProvider))
                 .build()) {
 
@@ -138,7 +137,7 @@ class TestApacheHttpClient {
                 .add(new HttpHost("http", "httpbin.org", 80), "user", "passwd".toCharArray()) // Won't work.
                 .build();
 
-        try (final CloseableHttpClient httpclient = HttpClients.custom()
+        try (CloseableHttpClient httpclient = HttpClients.custom()
                 .addRequestInterceptorFirst(new PreemptiveAuthenticationRequestInterceptor(credentialsProvider))
                 .build()) {
 
@@ -179,7 +178,7 @@ class TestApacheHttpClient {
                 .add(HOST, unsupportedCredentialType)
                 .build();
 
-        try (final CloseableHttpClient httpclient = HttpClients.custom()
+        try (CloseableHttpClient httpclient = HttpClients.custom()
                 .addRequestInterceptorFirst(new PreemptiveAuthenticationRequestInterceptor(credentialsProvider))
                 .build()) {
 

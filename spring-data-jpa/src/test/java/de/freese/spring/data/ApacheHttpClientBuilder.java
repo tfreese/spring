@@ -44,7 +44,7 @@ import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
 
 /**
- * <a href= * <a href=https://github.com/apache/httpcomponents-client/blob/master/httpclient5/src/test/java/org/apache/hc/client5/http/examples/ClientConfiguration.java>config</a>>config</a>
+ * <a href=https://github.com/apache/httpcomponents-client/blob/master/httpclient5/src/test/java/org/apache/hc/client5/http/examples/ClientConfiguration.java>config</a>
  *
  * @author Thomas Freese
  */
@@ -215,7 +215,7 @@ public final class ApacheHttpClientBuilder {
         return this;
     }
 
-    protected HttpClientBuilder configHttpClientBuilder(final HttpClientBuilder httpClientBuilder) {
+    private HttpClientBuilder configHttpClientBuilder(final HttpClientBuilder httpClientBuilder) {
         httpClientBuilder
                 .evictExpiredConnections()
                 .evictIdleConnections(TimeValue.of(Objects.requireNonNullElse(evictIdleConnections, DEFAULT_EVICT_IDLE)))
