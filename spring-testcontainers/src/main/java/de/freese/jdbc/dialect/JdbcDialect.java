@@ -30,9 +30,9 @@ public interface JdbcDialect {
         else if (product.contains("hsql")) {
             return new HsqlDbJdbcDialect();
         }
-        else if (product.contains("derby")) {
-            return new DerbyJdbcDialect();
-        }
+        // else if (product.contains("derby")) {
+        //     return new DerbyJdbcDialect();
+        // }
         else if (product.contains("maria")) {
             return new MariaDbJdbcDialect();
         }

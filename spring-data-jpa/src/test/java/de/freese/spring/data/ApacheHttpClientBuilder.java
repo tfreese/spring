@@ -310,6 +310,7 @@ public final class ApacheHttpClientBuilder {
         return RequestConfig.custom()
                 .setConnectionRequestTimeout(Timeout.of(Objects.requireNonNullElse(connectTimeout, DEFAULT_CONNECT_TIMEOUT)))
                 .setResponseTimeout(Timeout.of(Objects.requireNonNullElse(readTimeout, DEFAULT_READ_TIMEOUT)))
+                .setRedirectsEnabled(true)
                 .build();
     }
 }
