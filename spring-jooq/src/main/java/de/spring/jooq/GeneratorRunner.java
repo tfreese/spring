@@ -73,6 +73,8 @@ public class GeneratorRunner implements CommandLineRunner {
                                 .withDefaultCatalog(false)
                                 .withDefaultSchema(false)
                                 .withKeys(false)
+                                .withPojos(false)
+                                .withPojosAsJavaRecordClasses(true)
                                 .withSequences(true))
                         .withTarget(new Target()
                                 .withPackageName("de.spring.jooq.model")
