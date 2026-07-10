@@ -2,10 +2,22 @@ package de.spring.ai.tools.sql;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
+
+import javax.sql.DataSource;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.csv.CSVFormat;
@@ -31,22 +43,78 @@ import tools.jackson.dataformat.csv.CsvWriteFeature;
  */
 public class RunSqlQueryTool implements Function<RunSqlQueryRequest, RunSqlQueryResponse> {
 
+    private static final String ERROR_ONLY_SELECT_ALLOWED = "Only a single SELECT statement is allowed.";
+    private static final String ERROR_QUERY_REQUIRED = "A SQL query is required.";
+    private static final String ERROR_QUERY_TOO_LONG = "The SQL query is too long.";
+    private static final String ERROR_SYSTEM_SCHEMA_ACCESS = "Access to system schemas is not allowed.";
+    private static final String ERROR_UNSAFE_CLAUSE = "The SQL statement contains a forbidden clause or command.";
+    private static final Set<String> FORBIDDEN_SYSTEM_SCHEMA_PREFIXES = Set.of(
+            "INFORMATION_SCHEMA", "PG_CATALOG", "SYS", "SYSIBM", "SYSCAT", "SYSCS", "SYSFUN", "SYSSTAT"
+    );
+    private static final Set<String> FORBIDDEN_TOKENS = Set.of(
+            "ALTER", "ATTACH", "CALL", "COMMENT", "COMMIT", "COPY", "CREATE", "DELETE", "DETACH", "DO", "DROP",
+            "EXEC", "EXECUTE", "EXPLAIN", "GRANT", "INSERT", "MERGE", "REPLACE", "REVOKE", "ROLLBACK", "SAVEPOINT",
+            "SET", "SHOW", "TRUNCATE", "UPDATE", "UPSERT", "USE", "VACUUM"
+    );
     private static final Logger LOGGER = LoggerFactory.getLogger(RunSqlQueryTool.class);
+    private static final int MAX_QUERY_LENGTH = 4_000;
+    private static final int MAX_RESULT_ROWS = 200;
+    private static final int QUERY_TIMEOUT_SECONDS = 5;
 
-    private final JdbcClient jdbcClient;
+    private static String validateQuery(final String query) {
+        if ((query == null) || query.isBlank()) {
+            throw new IllegalArgumentException(ERROR_QUERY_REQUIRED);
+        }
 
-    public RunSqlQueryTool(final JdbcClient jdbcClient) {
+        final String trimmedQuery = query.trim();
+
+        if (trimmedQuery.length() > MAX_QUERY_LENGTH) {
+            throw new IllegalArgumentException(ERROR_QUERY_TOO_LONG);
+        }
+
+        final String[] tokens = query.split("\\s+", -1);
+
+        if ((tokens.length == 0) || !"SELECT".equals(tokens[0])) {
+            throw new IllegalArgumentException(ERROR_ONLY_SELECT_ALLOWED);
+        }
+
+        final String paddedQuery = " " + query + " ";
+
+        if (paddedQuery.contains(" FOR UPDATE ") || paddedQuery.contains(" INTO ")) {
+            throw new IllegalArgumentException(ERROR_UNSAFE_CLAUSE);
+        }
+
+        for (String token : tokens) {
+            if (FORBIDDEN_TOKENS.contains(token)) {
+                throw new IllegalArgumentException(ERROR_UNSAFE_CLAUSE);
+            }
+
+            final String schemaToken = token.contains(".") ? token.substring(0, token.indexOf('.')) : token;
+
+            if (FORBIDDEN_SYSTEM_SCHEMA_PREFIXES.contains(schemaToken)) {
+                throw new IllegalArgumentException(ERROR_SYSTEM_SCHEMA_ACCESS);
+            }
+        }
+
+        return trimmedQuery;
+    }
+
+    private final DataSource dataSource;
+
+    public RunSqlQueryTool(final DataSource dataSource) {
         super();
 
-        this.jdbcClient = jdbcClient;
+        this.dataSource = dataSource;
     }
 
     @Override
     public RunSqlQueryResponse apply(final RunSqlQueryRequest request) {
         try {
-            LOGGER.info("SQL query: {}", request.query());
+            final String validatedQuery = validateQuery(Objects.requireNonNull(request, "request required").query().toUpperCase(Locale.ROOT));
 
-            final List<Map<String, Object>> result = jdbcClient.sql(request.query()).query().listOfRows();
+            LOGGER.info("SQL query: {}", validatedQuery);
+
+            final List<Map<String, Object>> result = executeSelect(validatedQuery);
 
             if (result.isEmpty()) {
                 return new RunSqlQueryResponse(null, null);
@@ -55,9 +123,56 @@ public class RunSqlQueryTool implements Function<RunSqlQueryRequest, RunSqlQuery
             final String resultString = toCsvApache(result);
 
             return new RunSqlQueryResponse(resultString, null);
-        } catch (Exception ex) {
+        }
+        catch (IllegalArgumentException ex) {
+            LOGGER.warn("Rejected SQL query: {}", ex.getMessage());
+
             return new RunSqlQueryResponse(null, ex.getMessage());
         }
+        catch (SQLException ex) {
+            LOGGER.warn("Failed to execute SQL query", ex);
+
+            return new RunSqlQueryResponse(null, "Failed to execute SQL query.");
+        }
+        catch (Exception ex) {
+            LOGGER.warn("Unexpected SQL tool error", ex);
+
+            return new RunSqlQueryResponse(null, "Failed to execute SQL query.");
+        }
+    }
+
+    private List<Map<String, Object>> executeSelect(final String query) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setReadOnly(true);
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setFetchSize(MAX_RESULT_ROWS);
+                preparedStatement.setMaxRows(MAX_RESULT_ROWS);
+                preparedStatement.setQueryTimeout(QUERY_TIMEOUT_SECONDS);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    return mapRows(resultSet);
+                }
+            }
+        }
+    }
+
+    private List<Map<String, Object>> mapRows(final ResultSet resultSet) throws SQLException {
+        final ResultSetMetaData metaData = resultSet.getMetaData();
+        final int columnCount = metaData.getColumnCount();
+        final List<Map<String, Object>> rows = new ArrayList<>();
+
+        while (resultSet.next()) {
+            final Map<String, Object> row = new LinkedHashMap<>();
+
+            for (int index = 1; index <= columnCount; index++) {
+                row.put(metaData.getColumnLabel(index), resultSet.getObject(index));
+            }
+
+            rows.add(row);
+        }
+
+        return rows;
     }
 
     private String toCsvApache(final List<Map<String, Object>> result) throws IOException {
@@ -68,7 +183,7 @@ public class RunSqlQueryTool implements Function<RunSqlQueryRequest, RunSqlQuery
                 .setQuote('"')
                 .setQuoteMode(QuoteMode.ALL)
                 .setDelimiter(',')
-                .setRecordSeparator('\n')
+                .setRecordSeparator(System.lineSeparator())
                 .get();
 
         final StringBuilder stringBuilder = new StringBuilder();
