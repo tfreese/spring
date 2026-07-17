@@ -5,3 +5,5 @@ curl https://azure.com \
     "model": "gpt-4o-mini",
     "messages": [{"role": "user", "content": "Say hello"}]
   }'
+
+  curl -v https://api.openai.com/v1/models -H "Authorization: Bearer ..."

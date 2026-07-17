@@ -17,8 +17,8 @@ spring:
     config:
         # Lade die Datei mit den geheimen Properties aus dem Home-Verzeichnis.
         # Versuche auch die .properties-Erweiterung, damit Spring den Parser erkennt.
-        import: "file:${user.home}/.spring_env[.properties]"
-        #import: "optional:file:${user.home}/.spring_env[.properties]"
+        #import: "file:${user.home}/.spring_env[.properties]"
+        import: "optional:file:${user.home}/.spring_env[.properties]"
     output:
         ansi:
             #enabled: DETECT
@@ -26,13 +26,10 @@ spring:
             #enabled: NEVER
     ai:
         openai:
-            # GitHub Personal Access Token dient hier als API-Key.
             api-key: ${AI_API_KEY}
-            # Die offizielle GitHub Models API-Schnittstelle.
-            base-url: https://azure.com
+            base-url: https://api.openai.com/v1
             chat:
-                # Das gewünschte Modell aus dem GitHub-Katalog.
-                model: GPT-5 mini
+                model: gpt-5-nano
 
                 # Temperature controls the randomness or "creativity" of the model's response.
                 # Low (0.0 - 0.5): The model sticks to the most statistically likely words, producing deterministic, focused, and reliable output.

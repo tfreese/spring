@@ -19,6 +19,7 @@ public class AiController {
         super();
 
         chatClient = chatClientBuilder
+                .defaultSystem("Du bist ein hilfreicher Assistent für Java und Spring.")
                 .defaultAdvisors(new SimpleLoggerAdvisor())
                 .build();
     }
