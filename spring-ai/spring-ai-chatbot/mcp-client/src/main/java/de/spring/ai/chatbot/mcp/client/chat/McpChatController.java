@@ -54,7 +54,7 @@ public class McpChatController {
 
         return chatClient.prompt()
                 .user(prompt)
-                .toolCallbacks(syncMcpToolCallbackProvider)
+                .tools(syncMcpToolCallbackProvider)
                 .call().content();
     }
 }

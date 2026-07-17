@@ -1,0 +1,19 @@
+plugins {
+    id("java")
+    id("org.springframework.boot")
+}
+
+description = "spring-ai example"
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.ai:spring-ai-starter-model-openai")
+}
+
+springBoot {
+    mainClass = "de.spring.ai.simple.GithubCopilotApplication"
+}
+
+bootRun {
+    systemProperty("openai.logging", "body")
+}

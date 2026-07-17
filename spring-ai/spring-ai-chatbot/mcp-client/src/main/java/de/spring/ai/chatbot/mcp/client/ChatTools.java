@@ -1,6 +1,7 @@
 package de.spring.ai.chatbot.mcp.client;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ public final class ChatTools {
     @Tool(name = "current_date_and_time", description = "It returns the current date and time in the user's timezone")
     String getCurrentDateTime() {
         LOGGER.info("Get current Time");
-        
-        return LocalDateTime.now().atZone(LocaleContextHolder.getTimeZone().toZoneId()).toString();
+
+        return LocalDateTime.now(ZoneId.systemDefault()).atZone(LocaleContextHolder.getTimeZone().toZoneId()).toString();
     }
 }

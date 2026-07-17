@@ -30,10 +30,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
  * @author Thomas Freese
  */
 public final class DocumentLoader {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DocumentLoader.class);
-
     private static final boolean CLEAN_TEXT = false;
     private static final boolean ENRICH_METADATA = false;
+    private static final Logger LOGGER = LoggerFactory.getLogger(DocumentLoader.class);
     private static final Pattern PATTERN_MULTI_SPACE = Pattern.compile(" +");
     private static final Pattern PATTERN_MULTI_TAB = Pattern.compile("\t+");
     private static final Pattern PATTERN_NUMBERS_WITH_DOT_AND_SPACE = Pattern.compile("\\d\\. ");
@@ -129,7 +128,8 @@ public final class DocumentLoader {
                         // MetaData 'source'
                         // document.getMetadata().put("fileName", resource.getFilename());
                         document.getMetadata().put("priority", isPriority(resource.getFile().getAbsolutePath()));
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex) {
                         final String message = "Could not read file: %s".formatted(resource.getFilename());
                         LOGGER.error(message, ex.getMessage());
                     }
@@ -165,7 +165,8 @@ public final class DocumentLoader {
 
             try {
                 resources.addAll(Arrays.asList(resourcePatternResolver.getResources(locationPattern)));
-            } catch (IOException ex) {
+            }
+            catch (IOException ex) {
                 LOGGER.error(ex.getMessage(), ex.getMessage());
             }
         }
@@ -180,8 +181,8 @@ public final class DocumentLoader {
                 // .withLeftAlignment(true)
                 .build();
 
-        // final List<Document> result = new TokenTextSplitter().apply(documents);
-        final TextSplitter textSplitter = new TokenTextSplitter();
+        final TextSplitter textSplitter = TokenTextSplitter.builder()
+                .build();
 
         final List<Document> documents = resources.stream()
                 // .parallel()

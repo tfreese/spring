@@ -1,0 +1,58 @@
+logging:
+    pattern:
+        console: "%date{HH:mm:ss.SSS} - %clr(%5level) - [%30.-30thread] - %clr(%-40.-40logger{0}){magenta} - %message%n"
+    level:
+        org.springframework: INFO
+        org.springframework.ai: INFO
+        de.spring.ai: DEBUG
+        org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor: DEBUG
+
+server:
+    port: 8088
+    servlet:
+        context-path: /
+    shutdown: graceful
+
+spring:
+    config:
+        # Lade die Datei mit den geheimen Properties aus dem Home-Verzeichnis.
+        # Versuche auch die .properties-Erweiterung, damit Spring den Parser erkennt.
+        import: "file:${user.home}/.spring_env[.properties]"
+        #import: "optional:file:${user.home}/.spring_env[.properties]"
+    output:
+        ansi:
+            #enabled: DETECT
+            enabled: ALWAYS
+            #enabled: NEVER
+    ai:
+        openai:
+            # GitHub Personal Access Token dient hier als API-Key.
+            api-key: ${AI_API_KEY}
+            # Die offizielle GitHub Models API-Schnittstelle.
+            base-url: https://azure.com
+            chat:
+                # Das gewünschte Modell aus dem GitHub-Katalog.
+                model: GPT-5 mini
+
+                # Temperature controls the randomness or "creativity" of the model's response.
+                # Low (0.0 - 0.5): The model sticks to the most statistically likely words, producing deterministic, focused, and reliable output.
+                # Medium (0.5 - 1.0): Strikes a balance, allowing for some variation while remaining coherent, good for general tasks like coding or business writing.
+                # High (1.0+): Explores less probable words, leading to diverse, creative, and sometimes unexpected or nonsensical results, great for brainstorming or fiction.
+                # No support in gpt-5.x
+                temperature: 0.75
+
+                # Not supported by all Models.
+                #temperature: 1
+
+                # Not supported by all Models.
+                # Limits token selection to the K most likely next tokens.
+                # Higher values (40-50) introduce more diversity.
+                # topK: 40
+
+                # (nucleus sampling): Dynamically selects from the smallest set of tokens whose cumulative probability exceeds P.
+                # Values like 0.8-0.95 are common.
+                topP: 0.8
+
+                # The maxTokens parameter limits how many tokens (word pieces) the model can generate in its response.
+                #maxTokens: 1024
+

@@ -1,0 +1,7 @@
+curl https://azure.com \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer ..." \
+  -d '{
+    "model": "gpt-4o-mini",
+    "messages": [{"role": "user", "content": "Say hello"}]
+  }'

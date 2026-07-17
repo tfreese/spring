@@ -3,6 +3,7 @@ package de.spring.ai.controller;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -88,7 +89,7 @@ public class DocumentController {
     public String chat(@RequestParam(value = "prompt") final String prompt, @RequestParam(value = "id", required = false) final String conversationId) {
         LOGGER.info("Execute Prompt: {}", prompt);
 
-        final LocalDateTime start = LocalDateTime.now();
+        final LocalDateTime start = LocalDateTime.now(ZoneId.systemDefault());
 
         // UUID.randomUUID().toString()
         final String currentConversationId = conversationId == null ? RequestContextHolder.currentRequestAttributes().getSessionId() : conversationId;
@@ -123,7 +124,7 @@ public class DocumentController {
         locationPatterns.add("classpath*:doc-input/**/*.*");
         // locationPatterns.add("file:/FOLDER/**/*.*");
 
-        final LocalDateTime start = LocalDateTime.now();
+        final LocalDateTime start = LocalDateTime.now(ZoneId.systemDefault());
 
         final List<Document> documents = DocumentLoader.loadDocuments(chatModel, locationPatterns);
 

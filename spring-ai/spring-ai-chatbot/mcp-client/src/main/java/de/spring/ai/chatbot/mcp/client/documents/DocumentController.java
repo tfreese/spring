@@ -2,6 +2,7 @@ package de.spring.ai.chatbot.mcp.client.documents;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -103,7 +104,7 @@ public class DocumentController {
     public String chat(@RequestParam(value = "prompt") final String prompt, @RequestParam(value = "id", required = false) final String conversationId) {
         LOGGER.info("Execute Prompt: {}", prompt);
 
-        final LocalDateTime start = LocalDateTime.now();
+        final LocalDateTime start = LocalDateTime.now(ZoneId.systemDefault());
 
         // UUID.randomUUID().toString()
         final String currentConversationId = conversationId == null ? RequestContextHolder.currentRequestAttributes().getSessionId() : conversationId;
@@ -115,7 +116,8 @@ public class DocumentController {
                     .user(prompt)
                     .call()
                     .content();
-        } else {
+        }
+        else {
             content = chatClient.prompt()
                     .advisors(advisor -> advisor.param(ChatMemory.CONVERSATION_ID, currentConversationId))
                     .user(prompt)
@@ -123,7 +125,7 @@ public class DocumentController {
                     .content();
         }
 
-        final Duration duration = Duration.between(start, LocalDateTime.now());
+        final Duration duration = Duration.between(start, LocalDateTime.now(ZoneId.systemDefault()));
         final String durationString = "%02d:%02d.%03d".formatted(duration.toMinutes(), duration.toSecondsPart(), duration.toMillisPart());
 
         if (content != null) {
@@ -187,12 +189,12 @@ public class DocumentController {
         final List<String> locationPatterns = new ArrayList<>();
         locationPatterns.add("classpath*:doc-input/**/*.*");
 
-        final LocalDateTime start = LocalDateTime.now();
+        final LocalDateTime start = LocalDateTime.now(ZoneId.systemDefault());
 
         final List<Document> documents = new DocumentLoader().loadDocuments(chatModel, locationPatterns);
         writeDocuments(documents);
 
-        final Duration duration = Duration.between(start, LocalDateTime.now());
+        final Duration duration = Duration.between(start, LocalDateTime.now(ZoneId.systemDefault()));
         final String durationString = "%02d:%02d.%03d".formatted(duration.toMinutes(), duration.toSecondsPart(), duration.toMillisPart());
 
         return "Documents processed and stored in %s.".formatted(durationString);
@@ -206,7 +208,8 @@ public class DocumentController {
             writer.accept(documents);
             LOGGER.info("Documents stored to file database.");
 
-        } else {
+        }
+        else {
             for (int i = 0; i < documents.size(); i++) {
                 final Document document = documents.get(i);
                 LOGGER.info("{}. Calling EmbeddingModel for document id = {}", documents.size() - i, document.getId());

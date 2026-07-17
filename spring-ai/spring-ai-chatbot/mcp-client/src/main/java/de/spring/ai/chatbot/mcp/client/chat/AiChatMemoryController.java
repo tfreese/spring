@@ -2,6 +2,7 @@ package de.spring.ai.chatbot.mcp.client.chat;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 
@@ -73,7 +74,7 @@ public class AiChatMemoryController {
     public MessageResponse chat(@RequestParam(value = "prompt") final String prompt, @RequestParam(value = "id", required = false) final String conversationId) {
         LOGGER.info("Execute Prompt: {}", prompt);
 
-        final LocalDateTime start = LocalDateTime.now();
+        final LocalDateTime start = LocalDateTime.now(ZoneId.systemDefault());
 
         // The following relates the conversation - ideally should be from the front end
         // when there is only one question in the conversation - then they are part of Default ID in the chat memory.
@@ -88,7 +89,8 @@ public class AiChatMemoryController {
                     .user(prompt)
                     .call()
                     .content();
-        } else {
+        }
+        else {
             content = chatClient.prompt()
                     .advisors(advisor -> advisor.param(ChatMemory.CONVERSATION_ID, currentConversationId))
                     .user(prompt)
@@ -96,7 +98,7 @@ public class AiChatMemoryController {
                     .content();
         }
 
-        final Duration duration = Duration.between(start, LocalDateTime.now());
+        final Duration duration = Duration.between(start, LocalDateTime.now(ZoneId.systemDefault()));
         final String durationString = "%02d:%02d.%03d".formatted(duration.toMinutes(), duration.toSecondsPart(), duration.toMillisPart());
 
         if (content == null || content.isBlank()) {
