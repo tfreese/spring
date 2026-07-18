@@ -14,7 +14,7 @@ server:
 
 spring:
     config:
-        import: "file:${user.home}/.spring_env[.properties]"
+        import: "optional:file:${user.home}/.spring_env[.properties]"
     output:
         ansi:
             #enabled: DETECT

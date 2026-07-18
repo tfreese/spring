@@ -19,7 +19,7 @@ server:
 
 spring:
     config:
-        import: optional:file:.env[.properties]
+        import: "optional:file:${user.home}/.spring_env[.properties]"
     ai:
         mcp:
             client:

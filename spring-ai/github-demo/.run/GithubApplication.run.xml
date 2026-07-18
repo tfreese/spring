@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="GithubCopilotApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+  <configuration default="false" name="GithubApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <envs>
       <env name="OPENAI_LOGGING" value="body" />
     </envs>
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UnknownPolicyInFreeMode" />
-    <module name="spring.spring-ai.github-copilot-demo.main" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="de.spring.ai.simple.GithubCopilotApplication" />
+    <module name="spring.spring-ai.github-demo.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="de.spring.ai.simple.GithubApplication" />
     <option name="VM_PARAMETERS" value="-Dopenai.logging=body" />
     <method v="2">
       <option name="Make" enabled="true" />

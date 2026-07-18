@@ -2,5 +2,14 @@
 # Copy this file to your HOME-Directory and configure the missing Parameter.
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-AI_API_KEY =
+# Github Copilot
+AI_API_KEY = ghp_...
+AI_BASE_URL = https://models.github.ai/inference
 
+# OpenAi
+AI_API_KEY = sk-proj-...
+AI_BASE_URL = https://api.openai.com/v1
+
+#Anthropic
+#AI_API_KEY =
+#AI_BASE_URL = https://api.anthropic.com/v1

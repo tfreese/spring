@@ -8,10 +8,11 @@ description = "spring-ai example"
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.ai:spring-ai-starter-model-openai")
+    // implementation("org.springframework.ai:spring-ai-starter-model-anthropic")
 }
 
 springBoot {
-    mainClass = "de.spring.ai.simple.GithubCopilotApplication"
+    mainClass = "de.spring.ai.simple.GithubApplication"
 }
 
 bootRun {

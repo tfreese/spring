@@ -1,0 +1,40 @@
+curl -v "http://localhost:8088/gitgub?message=Warum%20nutzen%20Programmierer%20Dark%20Mode?"
+
+# List all accessible OpenAi models.
+curl -o - -v https://api.openai.com/v1/models -H "Authorization: Bearer ..."
+
+# https://docs.github.com/de/rest/models
+
+# List all models:
+curl -L \
+  https://models.github.ai/catalog/models
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <YOUR-TOKEN>" \
+  -H "X-GitHub-Api-Version: 2026-03-10"
+
+# Embeddings:
+curl -L -X POST \
+  https://models.github.ai/inference/embeddings \
+  -H "Authorization: Bearer <YOUR-TOKEN>" \
+  -H "Accept: application/vnd.github+json" \
+  -H "X-GitHub-Api-Version: 2026-03-10" \
+  -d '{"model":"openai/text-embedding-3-small","input":["The food was delicious and the waiter was very friendly.","I had a great time at the restaurant."]}'
+
+
+curl -v -L -X POST \
+  https://models.github.ai/inference \
+  -H "Authorization: Bearer <YOUR-TOKEN>" \
+  -H "Accept: application/vnd.github+json" \
+  -H "X-GitHub-Api-Version: 2026-03-10" \
+  -H "Content-Type: application/json" \
+  -d '{"model": "openai/gpt-4o", "messages": [{"role": "user", "content": "Hallo! Antworte mit einem kurzen Testtext."}]}'
+  | jq
+
+curl -L -X POST \
+    https://models.github.ai/inference/chat/completions \
+    -H "Authorization: Bearer <YOUR-TOKEN>" \
+    -H "Accept: application/vnd.github+json" \
+    -H "X-GitHub-Api-Version: 2026-03-10" \
+    -H "Content-Type: application/json" \
+    -d '{"model":"openai/gpt-4.1","messages":[{"role":"user","content":"What is the capital of France?"}]}'
+    | jq

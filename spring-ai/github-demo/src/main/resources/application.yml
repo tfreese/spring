@@ -15,8 +15,6 @@ server:
 
 spring:
     config:
-        # Lade die Datei mit den geheimen Properties aus dem Home-Verzeichnis.
-        # Versuche auch die .properties-Erweiterung, damit Spring den Parser erkennt.
         #import: "file:${user.home}/.spring_env[.properties]"
         import: "optional:file:${user.home}/.spring_env[.properties]"
     output:
@@ -25,11 +23,23 @@ spring:
             enabled: ALWAYS
             #enabled: NEVER
     ai:
+        #anthropic:
+        #    api-key: ${AI_API_KEY}
+        #    base-url: ${AI_BASE_URL}
+        #    chat:
+        #        model: gpt-5-nano
         openai:
             api-key: ${AI_API_KEY}
-            base-url: https://api.openai.com/v1
+
+            # spring-ai hängt hier automatisch ein '/v1' an die base-url an, daher muss hier die URL ohne '/v1' angegeben werden.
+            base-url: ${AI_BASE_URL}
+
             chat:
-                model: gpt-5-nano
+                model: openai/gpt-4o
+
+                headers:
+                    X-GitHub-Api-Version: 2026-03-10
+                    Accept: application/vnd.github+json
 
                 # Temperature controls the randomness or "creativity" of the model's response.
                 # Low (0.0 - 0.5): The model sticks to the most statistically likely words, producing deterministic, focused, and reliable output.
