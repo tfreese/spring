@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -50,12 +51,12 @@ public final class AccessTokenSupplier implements Supplier<String>, Runnable {
                                final String clientSecret,
                                final URI uri,
                                final JsonMapper jsonMapper) {
-        super();
-
         Objects.requireNonNull(clientId, "clientId required");
         Objects.requireNonNull(clientSecret, "clientSecret required");
         Objects.requireNonNull(uri, "uri required");
         Objects.requireNonNull(jsonMapper, "jsonMapper required");
+
+        super();
 
         final HttpClient.Builder httpClientBuilder = HttpClient.newBuilder();
 
@@ -74,7 +75,8 @@ public final class AccessTokenSupplier implements Supplier<String>, Runnable {
 
         retryTemplate = new RetryTemplate(RetryPolicy.builder()
                 .maxRetries(2)
-                .delay(Duration.ofSeconds(1))
+                .delay(Duration.ofSeconds(1L))
+                .multiplier(1.5D)
                 .build());
         retryTemplate.setRetryListener(new RetryListener() {
             @Override
@@ -144,7 +146,7 @@ public final class AccessTokenSupplier implements Supplier<String>, Runnable {
         final int expiresIn = jsonNode.get("expires_in").asInt();
 
         if (expiresIn > 0 && LOGGER.isInfoEnabled()) {
-            final LocalDateTime expiresAt = LocalDateTime.now().plusSeconds(expiresIn);
+            final LocalDateTime expiresAt = LocalDateTime.now(ZoneId.systemDefault()).plusSeconds(expiresIn);
             LOGGER.info("... retrieved new Access-Token, expires at {}", DATETIME_FORMATTER.format(expiresAt));
         }
 

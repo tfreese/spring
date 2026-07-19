@@ -4,6 +4,6 @@
  * @author Thomas Freese
  */
 @NullMarked
-package de.spring.ai.mcp.server;
+package de.spring.ai.chatbot.mcp.server;
 
 import org.jspecify.annotations.NullMarked;

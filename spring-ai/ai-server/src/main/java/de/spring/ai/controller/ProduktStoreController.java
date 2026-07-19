@@ -1,6 +1,7 @@
 package de.spring.ai.controller;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 
 import de.spring.ai.Utils;
@@ -51,7 +52,7 @@ public class ProduktStoreController {
     public String chat(@RequestParam(value = "prompt") final String prompt, @RequestParam(value = "id", required = false) final String conversationId) {
         LOGGER.info("Execute Prompt: {}", prompt);
 
-        final LocalDateTime start = LocalDateTime.now();
+        final LocalDateTime start = LocalDateTime.now(ZoneId.systemDefault());
 
         // String content = chatClient.prompt()
         //         .user(prompt)

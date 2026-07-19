@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.model.transformer.KeywordMetadataEnricher;
+import org.springframework.ai.reader.ExtractedTextFormatter;
 import org.springframework.ai.reader.tika.TikaDocumentReader;
 import org.springframework.ai.transformer.splitter.TextSplitter;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
@@ -27,6 +28,11 @@ final class DocumentLoader {
     private static final boolean ENRICH_METADATA = true;
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentLoader.class);
 
+    static boolean isPriority(final String path) {
+        // return path.contains("lastenhefte");
+        return false;
+    }
+
     /**
      * <a href="https://docs.spring.io/spring-ai/reference/api/etl-pipeline.html">etl-pipeline</a>
      *
@@ -36,11 +42,17 @@ final class DocumentLoader {
         final List<Resource> resources = getDocumentResources(locationPatterns);
         LOGGER.info("Processing resources: {}", resources.size());
 
+        // final ExtractedTextFormatter extractedTextFormatter = ExtractedTextFormatter.defaults();
+        final ExtractedTextFormatter extractedTextFormatter = ExtractedTextFormatter.builder()
+                // .overrideLineSeparator("\n")
+                // .withLeftAlignment(true)
+                .build();
+
         final TextSplitter textSplitter = TokenTextSplitter.builder().build();
 
         final List<Document> documents = resources.stream()
                 .filter(Objects::nonNull)
-                .flatMap(resource -> readDocumentsFromResource(resource).stream())
+                .flatMap(resource -> readDocumentsFromResource(resource, extractedTextFormatter).stream())
                 .flatMap(document -> splitDocument(document, textSplitter).stream())
                 .flatMap(document -> enrichMetadata(chatModel, document).stream())
                 .toList();
@@ -68,6 +80,28 @@ final class DocumentLoader {
                 document.getMetadata().get("source"),
                 document.getMetadata().get("chunk_index"),
                 document.getMetadata().get("total_chunks"));
+
+        // Or use custom templates.
+        // final KeywordMetadataEnricher enricher = KeywordMetadataEnricher.builder(chatModel)
+        //         .keywordsTemplate(YOUR_CUSTOM_TEMPLATE)
+        //         .build();
+        //
+        // final List<Document> result = enricher.apply(documents);
+
+        // final PromptTemplate template = new PromptTemplate(String.format(KeywordMetadataEnricher.KEYWORDS_TEMPLATE, 5));
+        // final Prompt prompt = template.create(Map.of(KeywordMetadataEnricher.CONTEXT_STR_PLACEHOLDER, document.getText()));
+        //
+        // final String keywords = Optional.ofNullable(chatModel.call(prompt).getResult().getOutput().getText())
+        //         .map(value -> value.replace(System.lineSeparator(), " "))
+        //         .map(value -> PATTERN_NUMBERS_WITH_DOT_AND_SPACE.matcher(value).replaceAll(""))
+        //         .map(value -> PATTERN_MULTI_SPACE.matcher(value).replaceAll(" "))
+        //         .orElse(null);
+        //
+        // if (keywords != null) {
+        //     document.getMetadata().put(KeywordMetadataEnricher.EXCERPT_KEYWORDS_METADATA_KEY, keywords);
+        //
+        //     LOGGER.info("Keywords for {}: {}", document.getMetadata().get("fileName"), keywords);
+        // }
 
         final KeywordMetadataEnricher enricher = KeywordMetadataEnricher.builder(chatModel)
                 .keywordCount(10)
@@ -97,16 +131,37 @@ final class DocumentLoader {
         return resources;
     }
 
-    private static List<Document> readDocumentsFromResource(final Resource resource) {
+    private static List<Document> readDocumentsFromResource(final Resource resource, final ExtractedTextFormatter extractedTextFormatter) {
         LOGGER.info("Loading documents from: {}", resource.getFilename());
 
-        return new TikaDocumentReader(resource).read();
+        return new TikaDocumentReader(resource, extractedTextFormatter).read().stream()
+                .map(document -> {
+                    try {
+                        // MetaData 'source'
+                        // document.getMetadata().put("fileName", resource.getFilename());
+                        document.getMetadata().put("priority", isPriority(resource.getFile().getAbsolutePath()));
+                    }
+                    catch (Exception ex) {
+                        final String message = "Could not read file: %s".formatted(resource.getFilename());
+                        LOGGER.error(message, ex.getMessage());
+                    }
+
+                    return document;
+                })
+                .toList();
     }
 
     private static List<Document> splitDocument(final Document document, final TextSplitter textSplitter) {
         LOGGER.info("Splitting document: {}", document.getMetadata().get("source"));
 
-        return textSplitter.split(document);
+        return textSplitter.split(document).stream()
+                .map(splittedDoc -> Document.builder()
+                        .id(splittedDoc.getId())
+                        .media(document.getMedia())
+                        .metadata(splittedDoc.getMetadata())
+                        .text(splittedDoc.getText())
+                        .build())
+                .toList();
     }
 
     private DocumentLoader() {

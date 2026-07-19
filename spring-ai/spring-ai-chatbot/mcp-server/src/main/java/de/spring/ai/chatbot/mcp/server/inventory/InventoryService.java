@@ -1,6 +1,7 @@
 package de.spring.ai.chatbot.mcp.server.inventory;
 
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -11,6 +12,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 /**
+ * <a href="https://dev.to/yuriybezsonov/a-practical-guide-to-building-ai-agents-with-java-and-spring-ai-part-5-add-mcp-4h2o">building-ai-agents</a>
+ *
  * @author Thomas Freese
  */
 @Service
@@ -27,11 +30,11 @@ public class InventoryService {
         this.eventPublisher = Objects.requireNonNull(eventPublisher, "eventPublisher required");
     }
 
-    @Tool(name = "add_inventory_item",
-            description = "Add a new product to the inventory item, if the product name is provided, then use the get all product tool to find the product id and then add it"
-                    + " to the inventory")
-    public String addInventoryItem(@ToolParam(description = "The id of a product") final int productId,
-                                   @ToolParam(description = "The availability of a product") final int availability) {
+    @Tool(description = """
+            Add a new product to the inventory item.
+            If the product name is provided, then use the get all product tool to find the product id and then add it to the inventory.
+            """)
+    String addInventoryItem(@ToolParam(description = "The ID for a product") final int productId, @ToolParam(description = "The amount for a product") final int availability) {
         final InventoryData inventoryData = new InventoryData(0L, productId, availability);
 
         LOGGER.info("Adding inventory item: {}", inventoryData);
@@ -49,9 +52,9 @@ public class InventoryService {
                 """, inventoryDataFinal.id(), inventoryDataFinal.productId(), inventoryDataFinal.availability());
     }
 
-    @Tool(name = "consume_inventory_item", description = "Consume given item from the inventory")
-    public String consumeItem(@ToolParam(description = "The id of an inventory item") final int inventoryId,
-                              @ToolParam(description = "The quantity of an inventory item") final int quantity) {
+    @Tool(description = "Consume given item from the inventory")
+    String consumeItem(@ToolParam(description = "The ID for an inventory item") final int inventoryId,
+                       @ToolParam(description = "The Quantity for an inventory item") final int quantity) {
         LOGGER.info("Consuming inventory item");
 
         final InventoryData inventoryData = inventoryRepository.selectById(inventoryId);
@@ -66,7 +69,8 @@ public class InventoryService {
         // Check if inventory will fall below 0 after consumption.
         if (inventoryData.availability() < quantity) {
             // Allow consumption but publish an event to trigger order placement.
-            final LowInventoryEvent event = new LowInventoryEvent(updatedInventoryData.productId(),
+            final LowInventoryEvent event = new LowInventoryEvent(
+                    updatedInventoryData.productId(),
                     updatedInventoryData.id(),
                     updatedInventoryData.availability(),
                     quantity
@@ -84,23 +88,25 @@ public class InventoryService {
 
         LOGGER.info("Inventory item changed: {}", updatedInventoryData);
 
-        return String.format("""
-                Inventory item id: %d
-                Product Id: %d
-                Inventory Item availability: %d
-                """, updatedInventoryData.id(), updatedInventoryData.productId(), updatedInventoryData.availability());
+        return toJson(updatedInventoryData);
     }
 
-    @Tool(name = "get_all_inventory_items", description = "It returns all the inventory items")
-    public String getAllInventoryItems() {
+    @Tool(description = "It returns all the inventory items")
+    String getAllInventoryItems() {
         LOGGER.info("Load all inventory items");
 
         return inventoryRepository.selectAll().stream()
-                .map(inventoryItem -> """
-                        Inventory item id: %d
-                        Product ID: %d
-                        Inventory Item availability: %d
-                        """.formatted(inventoryItem.id(), inventoryItem.productId(), inventoryItem.availability()))
+                .map(this::toJson)
                 .collect(Collectors.joining("\n"));
+    }
+
+    private String toJson(final InventoryData inventoryData) {
+        final Function<InventoryData, String> inventoryDataStringFunction = pd -> """
+                Inventory item ID: %d,
+                Product ID: %d
+                Inventory Item availability: %d
+                """.formatted(inventoryData.id(), inventoryData.productId(), inventoryData.availability());
+
+        return inventoryDataStringFunction.apply(inventoryData);
     }
 }

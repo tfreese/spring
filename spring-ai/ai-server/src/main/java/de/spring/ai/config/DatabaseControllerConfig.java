@@ -11,7 +11,6 @@ import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.simple.JdbcClient;
 import tools.jackson.databind.json.JsonMapper;
 
 /**
@@ -32,7 +31,7 @@ public class DatabaseControllerConfig {
 
     @Bean
     @Tool(name = "runSqlQuery", description = "Query database using SQL")
-    RunSqlQueryTool runSqlQuery(final JdbcClient jdbcClient) {
-        return new RunSqlQueryTool(jdbcClient);
+    RunSqlQueryTool runSqlQuery(final DataSource dataSource) {
+        return new RunSqlQueryTool(dataSource);
     }
 }

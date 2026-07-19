@@ -7,14 +7,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.function.Function;
 
 import javax.sql.DataSource;
@@ -62,7 +63,7 @@ public class RunSqlQueryTool implements Function<RunSqlQueryRequest, RunSqlQuery
     private static final int QUERY_TIMEOUT_SECONDS = 5;
 
     private static String validateQuery(final String query) {
-        if ((query == null) || query.isBlank()) {
+        if (query == null || query.isBlank()) {
             throw new IllegalArgumentException(ERROR_QUERY_REQUIRED);
         }
 
@@ -74,7 +75,7 @@ public class RunSqlQueryTool implements Function<RunSqlQueryRequest, RunSqlQuery
 
         final String[] tokens = query.split("\\s+", -1);
 
-        if ((tokens.length == 0) || !"SELECT".equals(tokens[0])) {
+        if (tokens.length == 0 || !"SELECT".equals(tokens[0])) {
             throw new IllegalArgumentException(ERROR_ONLY_SELECT_ALLOWED);
         }
 
@@ -241,7 +242,7 @@ public class RunSqlQueryTool implements Function<RunSqlQueryRequest, RunSqlQuery
     private String toJson(final List<Map<String, Object>> result) {
         final JsonMapper jsonMapper = JsonMapper.builder()
                 .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_EMPTY))
-                .defaultTimeZone(Calendar.getInstance().getTimeZone())
+                .defaultTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()))
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
                 .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)

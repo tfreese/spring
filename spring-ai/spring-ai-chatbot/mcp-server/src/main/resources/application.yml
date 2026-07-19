@@ -7,10 +7,9 @@ logging:
 
 info:
     app:
-        description: ${project_description}
-        name: ${project_artifactId}
-        version: ${project_version}
-
+        description: @project_description@
+        name: @project_artifactId@
+        version: @project_version@
 server:
     port: 8081
     servlet:
@@ -21,6 +20,9 @@ spring:
     ai:
         mcp:
             server:
+                enabled: true
+                protocol: SSE
+                type: SYNC  # or ASYNC
                 name: my-mcp-server
                 version: ${project_version}
     application:

@@ -1,8 +1,8 @@
-package de.spring.ai.chatbot.mcp.client.chat;
+package de.spring.ai.controller;
 
 import java.util.Objects;
 
-import de.spring.ai.chatbot.mcp.client.ChatTools;
+import de.spring.ai.tools.DateTimeTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
@@ -29,12 +29,12 @@ public class AiChatController {
     private final ChatClient chatClient;
 
     public AiChatController(final ChatClient.Builder chatClientBuilder,
-                            @Value("classpath:prompts/chat-system.st") final Resource systemPrompt) {
+                            @Value("classpath:prompts/systemprompt_entertaining.st") final Resource systemPrompt) {
         super();
 
         this.chatClient = Objects.requireNonNull(chatClientBuilder, "chatClientBuilder required")
                 .defaultSystem(systemPrompt)
-                .defaultTools(new ChatTools())
+                .defaultTools(new DateTimeTools())
                 // .defaultOptions(chatOptions)
                 .build();
     }

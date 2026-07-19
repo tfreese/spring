@@ -15,12 +15,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class McpServerConfig {
     @Bean
-    public List<ToolCallback> myTools(final ProductService productService, final InventoryService inventoryService) {
+    List<ToolCallback> myTools(final ProductService productService, final InventoryService inventoryService) {
         // return MethodToolCallbackProvider
         //         .builder()
         //         .toolObjects(productService, inventoryService)
         //         .build();
 
-        return List.of(ToolCallbacks.from(productService, inventoryService, new ChatTools()));
+        return List.of(ToolCallbacks.from(productService, inventoryService));
     }
 }

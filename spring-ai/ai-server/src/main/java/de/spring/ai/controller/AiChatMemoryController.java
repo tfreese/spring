@@ -1,4 +1,4 @@
-package de.spring.ai.chatbot.mcp.client.chat;
+package de.spring.ai.controller;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -6,8 +6,7 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 
-import de.spring.ai.chatbot.mcp.client.ChatTools;
-import de.spring.ai.chatbot.mcp.client.config.ChatConfig;
+import de.spring.ai.tools.DateTimeTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
@@ -49,13 +48,13 @@ public class AiChatMemoryController {
 
     public AiChatMemoryController(final ChatClient.Builder chatClientBuilder,
                                   final ChatMemoryRepository chatMemoryRepository,
-                                  @Value("classpath:prompts/chat-system.st") final Resource systemPrompt) {
+                                  @Value("classpath:prompts/systemprompt_entertaining.st") final Resource systemPrompt) {
         super();
 
         this.chatMemoryRepository = Objects.requireNonNull(chatMemoryRepository, "chatMemoryRepository required");
 
         final ChatMemory chatMemory = MessageWindowChatMemory.builder()
-                .maxMessages(ChatConfig.MEMORY_MAX_MESSAGES)
+                .maxMessages(de.spring.ai.config.ChatConfig.MEMORY_MAX_MESSAGES)
                 .chatMemoryRepository(chatMemoryRepository)
                 .build();
 
@@ -64,7 +63,7 @@ public class AiChatMemoryController {
                         .builder(chatMemory)
                         .build())
                 .defaultSystem(systemPrompt)
-                .defaultTools(new ChatTools())
+                .defaultTools(new DateTimeTools())
                 // .defaultOptions(chatOptions)
                 .build();
     }

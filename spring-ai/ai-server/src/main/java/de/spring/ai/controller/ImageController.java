@@ -1,6 +1,7 @@
 package de.spring.ai.controller;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -50,7 +51,7 @@ public class ImageController {
     public String chat(@RequestParam(value = "prompt") final String prompt) {
         LOGGER.info("Execute Prompt: {}", prompt);
 
-        final LocalDateTime start = LocalDateTime.now();
+        final LocalDateTime start = LocalDateTime.now(ZoneId.systemDefault());
 
         final ResponseEntity<ChatResponse, TextAnswer> responseEntity = chatClient.prompt(
                         """
@@ -81,7 +82,8 @@ public class ImageController {
 
         if (textAnswer.generateImage() && textAnswer.imagePrompt() != null && !textAnswer.imagePrompt().isBlank()) {
             image = imageTool.generateImage(textAnswer.imagePrompt());
-        } else {
+        }
+        else {
             image = null;
         }
 
@@ -105,7 +107,7 @@ public class ImageController {
     public String image(@RequestParam(value = "prompt") final String prompt) {
         LOGGER.info("Execute Prompt: {}", prompt);
 
-        final LocalDateTime start = LocalDateTime.now();
+        final LocalDateTime start = LocalDateTime.now(ZoneId.systemDefault());
 
         final String image = imageTool.generateImage(prompt);
 

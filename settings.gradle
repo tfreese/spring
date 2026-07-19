@@ -13,7 +13,6 @@ pluginManagement {
 include("kubernetes:api")
 include("kubernetes:backend")
 include("spring-ai:ai-server")
-include("spring-ai:mcp-server")
 include("spring-ai:jlama")
 include("spring-ai:github-demo")
 include("spring-ai:spring-ai-chatbot:mcp-client")

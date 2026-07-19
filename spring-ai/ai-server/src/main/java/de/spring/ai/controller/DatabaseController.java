@@ -1,6 +1,7 @@
 package de.spring.ai.controller;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -48,7 +49,7 @@ public class DatabaseController {
     public String chat(@RequestParam(value = "prompt") final String prompt) {
         LOGGER.info("Execute Prompt: {}", prompt);
 
-        final LocalDateTime start = LocalDateTime.now();
+        final LocalDateTime start = LocalDateTime.now(ZoneId.systemDefault());
 
         // final String content = chatClient.prompt()
         //         .user(prompt)
@@ -84,7 +85,7 @@ public class DatabaseController {
     public String speechToSql(@RequestParam(value = "prompt") final String prompt) {
         LOGGER.info("Execute Prompt: {}", prompt);
 
-        final LocalDateTime start = LocalDateTime.now();
+        final LocalDateTime start = LocalDateTime.now(ZoneId.systemDefault());
 
         final String systemPrompt = """
                 You are a SQL expert.

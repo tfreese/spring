@@ -7,9 +7,9 @@ logging:
 
 info:
     app:
-        description: ${project_description}
-        name: ${project_artifactId}
-        version: ${project_version}
+        description: @project_description@
+        name: @project_artifactId@
+        version: @project_version@
 
 server:
     port: 8082
@@ -40,24 +40,23 @@ spring:
         ollama:
             base-url: http://localhost:11434
             chat:
-                options:
-                    # model: mixtral:8x7B
-                    # model: mistral-nemo:12b
-                    model: llama3.2
+                # model: mixtral:8x7B
+                # model: mistral-nemo:12b
+                model: llama3.2
 
-                    # Temperature controls the randomness or "creativity" of the model's response.
-                    temperature: 0.5
+                # Temperature controls the randomness or "creativity" of the model's response.
+                temperature: 0.5
 
-                    # Limits token selection to the K most likely next tokens.
-                    # Higher values (e.g., 40-50) introduce more diversity.
-                    topK: 40
+                # Limits token selection to the K most likely next tokens.
+                # Higher values (e.g., 40-50) introduce more diversity.
+                topK: 40
 
-                    # (nucleus sampling): Dynamically selects from the smallest set of tokens whose cumulative probability exceeds P.
-                    # Values like 0.8-0.95 are common.
-                    topP: 0.8
+                # (nucleus sampling): Dynamically selects from the smallest set of tokens whose cumulative probability exceeds P.
+                # Values like 0.8-0.95 are common.
+                topP: 0.8
 
-                    # The maxTokens parameter limits how many tokens (word pieces) the model can generate in its response.
-                    maxTokens: 1024
+                # The maxTokens parameter limits how many tokens (word pieces) the model can generate in its response.
+                maxTokens: 1024
             embedding:
                 options:
                     model: snowflake-arctic-embed2

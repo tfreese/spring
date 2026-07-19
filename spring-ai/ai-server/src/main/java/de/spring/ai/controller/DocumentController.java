@@ -10,6 +10,7 @@ import java.util.Objects;
 
 import de.spring.ai.Utils;
 import de.spring.ai.config.Config;
+import de.spring.ai.tools.DateTimeTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
@@ -31,6 +32,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -38,12 +40,18 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 
 /**
+ * <a href="http://localhost:8082/documents/store">store</a><br>
+ * <a href="http://localhost:8082/documents/search?query=eulenspiegel&filter=priority&#61;false">search</a><br>
+ * <a href="http://localhost:8082/documents?prompt=wer war till eulenspiegel">eulenspiegel</a><br>
+ *
  * @author Thomas Freese
  */
 @RestController
 @RequestMapping("docs")
 public class DocumentController {
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentController.class);
+
+    private static final boolean WRITE_DATABASE_TO_FILE = false;
 
     private final ChatClient chatClient;
     private final ChatMemoryRepository chatMemoryRepository;
@@ -76,16 +84,27 @@ public class DocumentController {
                         QuestionAnswerAdvisor.builder(vectorStore)
                                 .order(2)
                                 .searchRequest(SearchRequest.builder()
+                                        .similarityThresholdAll()
+                                        .topK(Config.RAG_MAX_SIMILARITY_RESULTS)
+                                        .filterExpression("priority == true")
+                                        .build()
+                                )
+                                .build(),
+                        QuestionAnswerAdvisor.builder(vectorStore)
+                                .order(3)
+                                .searchRequest(SearchRequest.builder()
                                         .similarityThreshold(Config.RAG_MAX_THRESHOLD)
                                         .topK(Config.RAG_MAX_SIMILARITY_RESULTS)
                                         .build()
                                 )
                                 .build())
                 .defaultSystem(systemPrompt)
+                .defaultTools(new DateTimeTools())
                 .build();
     }
 
     @GetMapping("/chat")
+    @ResponseStatus(HttpStatus.OK)
     public String chat(@RequestParam(value = "prompt") final String prompt, @RequestParam(value = "id", required = false) final String conversationId) {
         LOGGER.info("Execute Prompt: {}", prompt);
 
@@ -94,13 +113,25 @@ public class DocumentController {
         // UUID.randomUUID().toString()
         final String currentConversationId = conversationId == null ? RequestContextHolder.currentRequestAttributes().getSessionId() : conversationId;
 
-        String content = chatClient.prompt()
-                .advisors(advisor -> advisor.param(ChatMemory.CONVERSATION_ID, currentConversationId))
-                .user(prompt)
-                .call()
-                .content();
+        String content;
 
-        // Do some presentation cosmetics for the content.
+        if (conversationId == null) {
+            content = chatClient.prompt()
+                    .user(prompt)
+                    .call()
+                    .content();
+        }
+        else {
+            content = chatClient.prompt()
+                    .advisors(advisor -> advisor.param(ChatMemory.CONVERSATION_ID, currentConversationId))
+                    .user(prompt)
+                    .call()
+                    .content();
+        }
+
+        final Duration duration = Duration.between(start, LocalDateTime.now(ZoneId.systemDefault()));
+        // final String durationString = "%02d:%02d.%03d".formatted(duration.toMinutes(), duration.toSecondsPart(), duration.toMillisPart());
+
         if (content != null) {
             content = content
                     .replace(".", ".<br>")
@@ -139,7 +170,7 @@ public class DocumentController {
             vectorStore.add(List.of(document));
         }
 
-        final Duration duration = Duration.between(start, LocalDateTime.now());
+        final Duration duration = Duration.between(start, LocalDateTime.now(ZoneId.systemDefault()));
         final String durationString = "%02d:%02d.%03d".formatted(duration.toMinutes(), duration.toSecondsPart(), duration.toMillisPart());
 
         return "Documents processed and stored in %s.".formatted(durationString);
@@ -150,8 +181,8 @@ public class DocumentController {
         return chatMemoryRepository.findConversationIds().stream().flatMap(id -> chatMemoryRepository.findByConversationId(id).stream()).toList();
     }
 
-    @GetMapping("/chat/historyId")
-    public List<Message> historyById(@RequestParam("id") final String id) {
+    @GetMapping("/chat/history/{id}")
+    public List<Message> historyById(@PathVariable("id") final String id) {
         return chatMemoryRepository.findByConversationId(id);
     }
 
@@ -160,11 +191,16 @@ public class DocumentController {
         chatMemoryRepository.findConversationIds().forEach(chatMemoryRepository::deleteByConversationId);
     }
 
+    /**
+     * RequestParam(value = "filter") final String filter
+     */
     @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
     public List<Document> search(@RequestParam(value = "query") final String query) {
         return vectorStore.similaritySearch(SearchRequest.builder()
                 .similarityThresholdAll()
                 .topK(Config.RAG_MAX_SIMILARITY_RESULTS)
+                // .filterExpression(filter != null && !filter.isBlank() ? filter : "")
                 .query(query)
                 .build());
     }

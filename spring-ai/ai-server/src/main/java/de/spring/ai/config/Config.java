@@ -21,13 +21,13 @@ import tools.jackson.databind.json.JsonMapper;
 @Configuration
 public class Config {
     /**
-     * topK - Use first n documents from search result
-     */
-    public static final int RAG_MAX_SIMILARITY_RESULTS = 5;
-    /**
      * Chat memory configuration
      */
     public static final int MEMORY_MAX_MESSAGES = 10;
+    /**
+     * topK - Use first n documents from search result
+     */
+    public static final int RAG_MAX_SIMILARITY_RESULTS = 5;
     /**
      * RAG configuration (0-1)
      */
@@ -37,9 +37,9 @@ public class Config {
 
     @Bean
     AccessTokenSupplier accessTokenSupplier(@Value("${CLIENT_ID:none}") final String clientId,
-                                                @Value("${CLIENT_SECRET:none}") final String clientSecret,
-                                                @Value("${CLIENT_URL:none}") final URI uri,
-                                                final JsonMapper jsonMapper) {
+                                            @Value("${CLIENT_SECRET:none}") final String clientSecret,
+                                            @Value("${CLIENT_URL:none}") final URI uri,
+                                            final JsonMapper jsonMapper) {
         return new AccessTokenSupplier(clientId, clientSecret, uri, jsonMapper);
     }
 
@@ -60,7 +60,6 @@ public class Config {
 
     @Bean
     RestClientCustomizer restClientCustomizer(final AccessTokenSupplier accessTokenSupplier, @Value("${AI_API_KEY:none}") final String aiApiKey) {
-
         final HttpClient httpClient = HttpClient.newBuilder()
                 .build();
 

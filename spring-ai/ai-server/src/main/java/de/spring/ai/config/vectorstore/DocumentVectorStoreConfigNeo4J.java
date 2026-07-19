@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Profile;
  */
 @Configuration
 @Profile("neo4j")
-public class DocumentVectorStoreConfigNeo4J {
+public final class DocumentVectorStoreConfigNeo4J {
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentVectorStoreConfigNeo4J.class);
 
     // @Bean
@@ -124,4 +124,8 @@ public class DocumentVectorStoreConfigNeo4J {
     //             .batchingStrategy(new TokenCountBatchingStrategy())
     //             .build();
     // }
+
+    private DocumentVectorStoreConfigNeo4J() {
+        super();
+    }
 }

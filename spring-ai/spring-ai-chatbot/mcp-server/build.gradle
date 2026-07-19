@@ -5,7 +5,8 @@ plugins {
 description = "AI Chatbot MCP-Server with spring-boot"
 
 dependencies {
-    implementation("org.springframework.ai:spring-ai-starter-mcp-server-webflux")
+    // implementation("org.springframework.ai:spring-ai-starter-mcp-server-webflux")
+    implementation("org.springframework.ai:spring-ai-starter-mcp-server-webmvc")
 
     // runtimeOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
@@ -27,6 +28,11 @@ processResources {
     filesMatching("application.yml") {
         // filteringCharset = "UTF-8"
 
-        expand(map)
+        // expand(map)
+        filter { String line ->
+            line.replace("@project_description@", map["project_description"])
+                    .replace("@project_artifactId@", map["project_artifactId"])
+                    .replace("@project_version@", map["project_version"])
+        }
     }
 }

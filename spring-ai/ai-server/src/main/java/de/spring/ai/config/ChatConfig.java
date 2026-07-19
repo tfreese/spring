@@ -1,4 +1,4 @@
-package de.spring.ai.chatbot.mcp.client.config;
+package de.spring.ai.config;
 
 import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.context.annotation.Bean;
@@ -13,13 +13,11 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("disabled")
 public class ChatConfig {
-    public static final int RAG_MAX_SIMILARITY_RESULTS = 5;
-
     /**
      * Chat memory configuration
      */
     public static final int MEMORY_MAX_MESSAGES = 10;
-
+    public static final int RAG_MAX_SIMILARITY_RESULTS = 5;
     /**
      * RAG configuration (0-1)
      */
