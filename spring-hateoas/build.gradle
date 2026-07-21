@@ -27,14 +27,11 @@ springBoot {
 ext.artifactId = project.name
 
 processResources {
-    // Workaround wegen ConfigCache.
     def map = [
             "project_artifactId": project.name
     ]
 
     filesMatching(["application*.yml", "application*.yaml", "application*.properties"]) {
-        // filteringCharset = "UTF-8"
-
         expand(map)
     }
 }

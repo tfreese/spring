@@ -16,8 +16,6 @@ processResources {
     ]
 
     filesMatching(["application-*.yml", "bootstrap.yml"]) {
-        // filteringCharset = "UTF-8"
-
         expand(map)
     }
 }

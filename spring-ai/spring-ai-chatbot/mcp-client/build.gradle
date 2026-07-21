@@ -49,13 +49,10 @@ processResources {
     ]
 
     filesMatching("application.yml") {
-        // filteringCharset = "UTF-8"
-
-        // expand(map)
-        filter { String line ->
-            line.replace("@project_description@", map["project_description"])
-                    .replace("@project_artifactId@", map["project_artifactId"])
-                    .replace("@project_version@", map["project_version"])
-        }
+        filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [
+                project_artifactId : map["project_artifactId"],
+                project_description: map["project_description"],
+                project_version    : map["project_version"]
+        ])
     }
 }

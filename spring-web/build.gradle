@@ -50,45 +50,15 @@ sourceSets {
     }
 }
 
-// For Placeholder in Resources.
-ext.artifactId = project.name
-
 processResources {
-    // def map = project.properties
     def map = [
             "project_description": project.description,
             "project_artifactId" : project.name,
             "project_version"    : project.version
     ]
 
-    // All Files
-    // expand(project.properties)
-
-    // filesNotMatching(...) {
-    // filesMatching(["**/*.properties", "a.txt", "z.txt"]) {
     filesMatching("application.yml") {
-        // filteringCharset = "UTF-8"
-
-        // If Problems escape Placeholder: \${...}
         expand(map)
-
-        // expand ("@project.description@": project.description,
-        //		"@project.artifactId@": project.name,
-        //		"@project.version@": project.version
-        //)
-
-        // filter{ it.replaceAll("@project.description@", project.description)}
-        // filter{ it.replaceAll("@project.artifactId@", project.name)}
-        // filter{ it.replaceAll("@project.version@", project.version)}
-
-        // // Keeps Windows Line-Endings.
-        // filter(org.apache.tools.ant.filters.FixCrLfFilter.class, eol: org.apache.tools.ant.filters.FixCrLfFilter.CrLf.newInstance("crlf"))
-
-        // filter(ReplaceTokens,
-        //         tokens: ["project_artifactId": project.artifactId],
-        //         beginToken: "@",
-        //         endToken: "@"
-        // )
     }
 }
 

@@ -40,8 +40,6 @@ processResources {
     ]
 
     filesMatching(["application*.yml", "application*.yaml", "application*.properties"]) {
-        // filteringCharset = "UTF-8"
-
         expand(map)
     }
 }

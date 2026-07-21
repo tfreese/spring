@@ -24,7 +24,7 @@ spring:
                 protocol: SSE
                 type: SYNC  # or ASYNC
                 name: my-mcp-server
-                version: ${project_version}
+                version: @project_version@
     application:
         name: mcp-server
     main:
