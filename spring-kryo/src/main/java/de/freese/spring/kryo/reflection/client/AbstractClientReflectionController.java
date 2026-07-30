@@ -167,7 +167,7 @@ public abstract class AbstractClientReflectionController<T> {
         final Object proxyObject = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
 
             final RestTemplate restTemplate = new RestTemplateBuilder()
-                    .rootUri(rootUri)
+                    .baseUri(rootUri)
                     .interceptors((request, body, execution) -> {
                         final HttpHeaders headers = request.getHeaders();
                         headers.setAccept(Arrays.asList(KryoHttpMessageConverter.APPLICATION_KRYO));

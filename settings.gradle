@@ -10,6 +10,15 @@ pluginManagement {
 // Without rootProject.name the Name of the Project-Directory is used.
 // rootProject.name = "spring"
 
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
 include("kubernetes:api")
 include("kubernetes:backend")
 include("spring-ai:ai-server")

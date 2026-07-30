@@ -132,10 +132,10 @@ class TestKryo {
     protected void setup() {
         final KryoHttpMessageConverter kryoHttpMessageConverter = new KryoHttpMessageConverter(kryoPool);
 
-        restTemplate = new RestTemplateBuilder().rootUri("http://localhost:" + localServerPort)
+        restTemplate = new RestTemplateBuilder().baseUri("http://localhost:" + localServerPort)
                 .additionalMessageConverters(kryoHttpMessageConverter, new JacksonJsonHttpMessageConverter()).build();
 
-        // restTemplate = restTemplateBuilder.rootUri("http://localhost:" + localServerPort)
+        // restTemplate = restTemplateBuilder.baseUri("http://localhost:" + localServerPort)
         // .additionalMessageConverters(kryoHttpMessageConverter).build();
 
         // Throws an UnsupportedMediaTypeException.
@@ -227,7 +227,7 @@ class TestKryo {
 
     protected void testRestTemplate(final String path, final MediaType mediaType) {
         // final RestTemplateBuilder builder = new RestTemplateBuilder()
-        //         .rootUri("http://localhost:" + localServerPort)
+        //         .baseUri("http://localhost:" + localServerPort)
         //         .messageConverters(kryoHttpMessageConverter, new MappingJackson2HttpMessageConverter());
         //
         // RestTemplate restTemplate = builder.build();

@@ -26,6 +26,6 @@ public class MicroServiceApplication {
 
     // @Bean
     // RestTemplate restTemplate(final RestTemplateBuilder builder, @Value("${local.server.port}") final int serverPort) {
-    // return builder.rootUri("http://localhost:" + serverPort).setConnectTimeout(Duration.ofMillis(3000)).setReadTimeout(Duration.ofMillis(3000)).build();
+    // return builder.baseUri("http://localhost:" + serverPort).setConnectTimeout(Duration.ofMillis(3000)).setReadTimeout(Duration.ofMillis(3000)).build();
     // }
 }

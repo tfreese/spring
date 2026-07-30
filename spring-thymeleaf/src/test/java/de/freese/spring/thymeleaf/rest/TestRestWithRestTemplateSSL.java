@@ -43,7 +43,7 @@ class TestRestWithRestTemplateSSL extends AbstractRestTestCase {
         final String rootUri = ThymeleafApplication.getRootUri(getEnvironment());
 
         restTemplateBuilder = restTemplateBuilder
-                .rootUri(rootUri)
+                .baseUri(rootUri)
                 .errorHandler(new NoOpResponseErrorHandler());
     }
 
