@@ -14,10 +14,3 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.boot:spring-boot-starter-rsocket-test")
 }
-
-test {
-    filter {
-        // Funktioniert irgendwie nicht mehr.
-        // excludeTestsMatching "de.freese.spring.rsocket.RSocketClientToServerDeniedConnectionTest.testConnectionIsRefused"
-    }
-}

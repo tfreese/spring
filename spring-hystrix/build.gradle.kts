@@ -18,5 +18,5 @@ dependencies {
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 // Inactive, there are multiple main-Classes.
 springBoot {
-    mainClass = "disabled"
+    mainClass.set("disabled")
 }

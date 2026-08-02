@@ -44,23 +44,16 @@ dependencies {
     // testImplementation("org.springframework.boot:spring-boot-starter-web-test")
 }
 
-test {
-    enabled = true
-}
 
-processResources {
-    def map = [
-            "project_description": project.description,
-            "project_artifactId" : project.name,
-            "project_version"    : project.version
-    ]
+tasks.named<ProcessResources>("processResources") {
+    val map = mapOf(
+        "project_description" to (description ?: ""), "project_artifactId" to name, "project_version" to version.toString()
+    )
 
     filesMatching("application.yml") {
-        filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [
-                project_artifactId : map["project_artifactId"],
-                project_description: map["project_description"],
-                project_version    : map["project_version"]
-        ])
+        filter(
+            mapOf("tokens" to map), org.apache.tools.ant.filters.ReplaceTokens::class.java
+        )
     }
 }
 

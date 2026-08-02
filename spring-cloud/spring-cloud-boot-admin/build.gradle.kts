@@ -11,5 +11,5 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.boot.cloud.admin.SpringBootAdminApplication"
+    mainClass.set("de.freese.spring.boot.cloud.admin.SpringBootAdminApplication")
 }

@@ -13,5 +13,5 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.openapi.OpenApiApplication"
+    mainClass.set("de.freese.spring.openapi.OpenApiApplication")
 }

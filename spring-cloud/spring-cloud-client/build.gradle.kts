@@ -15,13 +15,13 @@ dependencies {
     runtimeOnly("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
     runtimeOnly("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
-    testImplementation("com.squareup.okhttp3:mockwebserver3:$version_mockWebServer")
-    testImplementation("com.squareup.okhttp3:okhttp-jvm:$version_mockWebServer")
+    testImplementation("com.squareup.okhttp3:mockwebserver3:" + property("version_mockWebServer"))
+    testImplementation("com.squareup.okhttp3:okhttp-jvm:" + property("version_mockWebServer"))
     testImplementation("io.projectreactor:reactor-test")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 // Deactivated, we have 2 main-Classes.
 springBoot {
-    mainClass = "disabled"
+    mainClass.set("disabled")
 }

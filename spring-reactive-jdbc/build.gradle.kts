@@ -17,7 +17,7 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.reactive.SpringReactiveJdbcApplication"
+    mainClass.set("de.freese.spring.reactive.SpringReactiveJdbcApplication")
 }
 
 //    test.enabled = false

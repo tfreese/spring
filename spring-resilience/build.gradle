@@ -19,15 +19,15 @@ dependencies {
     // implementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 }
 
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+springBoot {
+    mainClass = "de.freese.spring.resilience.ResilienceApplication"
+}
+
 // The archive name. If the name has not been explicitly set, the pattern for the name is:
 // [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
 bootJar {
     archiveFileName = "${archiveBaseName.get()}-boot.${archiveExtension.get()}"
-}
-
-// Start: gradle bootRun --args="--spring.profiles.active=dev"
-springBoot {
-    mainClass = "de.freese.spring.resilience.ResilienceApplication"
 }
 
 // For Placeholder in Resources.

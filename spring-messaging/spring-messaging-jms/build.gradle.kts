@@ -14,5 +14,5 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.messaging.jms.SpringJmsApplication"
+    mainClass.set("de.freese.spring.messaging.jms.SpringJmsApplication")
 }

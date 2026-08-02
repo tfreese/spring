@@ -20,5 +20,5 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.kryo.KryoApplication"
+    mainClass.set("de.freese.spring.kryo.KryoApplication")
 }

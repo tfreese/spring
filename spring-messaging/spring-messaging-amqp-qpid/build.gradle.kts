@@ -6,7 +6,7 @@ plugins {
 description = "Messaging with AMQP by Apache QPID"
 
 configurations.named(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME) {
-    exclude(group: "org.dojotoolkit", module: "dojo")
+    exclude(group = "org.dojotoolkit", module = "dojo")
 }
 
 dependencies {
@@ -17,5 +17,5 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.messaging.amqp.qpid.SpringQpidApplication"
+    mainClass.set("de.freese.spring.messaging.amqp.qpid.SpringQpidApplication")
 }

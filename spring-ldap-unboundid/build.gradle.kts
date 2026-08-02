@@ -17,5 +17,5 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.ldap.unboundid.LdapApplication"
+    mainClass.set("de.freese.spring.ldap.unboundid.LdapApplication")
 }

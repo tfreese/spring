@@ -1,3 +1,5 @@
+import org.gradle.internal.classpath.Instrumented.systemProperty
+
 plugins {
     id("java")
     id("org.springframework.boot")
@@ -12,9 +14,9 @@ dependencies {
 }
 
 springBoot {
-    mainClass = "de.spring.ai.simple.GithubApplication"
+    mainClass.set("de.spring.ai.simple.GithubApplication")
 }
 
-bootRun {
+tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     systemProperty("openai.logging", "body")
 }

@@ -12,8 +12,8 @@ dependencies {
     }
 
     implementation("org.neo4j:neo4j") {
-        exclude(module: "neo4j-slf4j-provider")
-        exclude(module: "commons-logging")
+        exclude(module = "neo4j-slf4j-provider")
+        exclude(module = "commons-logging")
     }
     implementation("org.springframework.boot:spring-boot-starter-data-neo4j")
 

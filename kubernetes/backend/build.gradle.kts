@@ -18,13 +18,15 @@ dependencies {
     // testRuntimeOnly("com.h2database:h2")
 }
 
-// The archive name. If the name has not been explicitly set, the pattern for the name is:
-// [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
-bootJar {
-    archiveFileName = "${archiveBaseName.get()}-boot.${archiveExtension.get()}"
-}
-
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.kubernetes.backend.MyApplication"
+    mainClass.set("de.freese.kubernetes.backend.MyApplication")
 }
+
+// The archive name. If the name has not been explicitly set, the pattern for the name is:
+// [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
+tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    archiveFileName.set("${archiveBaseName.get()}-boot.${archiveExtension.get()}")
+}
+
+
