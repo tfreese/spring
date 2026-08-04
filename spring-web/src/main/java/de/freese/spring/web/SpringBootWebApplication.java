@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * @author Thomas Freese
  */
-@SpringBootApplication(scanBasePackages = {"de.freese.spring.web", "de.jsf"})
+@SpringBootApplication(scanBasePackages = {"de.freese.spring.web", "de.ui"})
 // @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public final class SpringBootWebApplication {
     // extends SpringBootServletInitializer

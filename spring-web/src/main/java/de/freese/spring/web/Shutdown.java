@@ -8,13 +8,17 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.Objects;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.function.UnaryOperator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
+import org.springframework.boot.env.YamlPropertySourceLoader;
+import org.springframework.core.env.PropertySource;
+import org.springframework.core.env.PropertySourcesPropertyResolver;
+import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -40,12 +44,13 @@ final class Shutdown {
         }
     }
 
-    private static URI createShutdownUri(final Properties properties) {
-        final boolean sslEnabled = Optional.ofNullable(properties.getProperty("server.ssl.enabled")).map(Boolean::parseBoolean).orElse(false);
-        final String host = Optional.ofNullable(properties.getProperty("server.address")).orElse("localhost");
-        final int port = Integer.parseInt(Optional.ofNullable(properties.getProperty("local.server.port")).orElse(properties.getProperty("server.port")));
-        final String contextPath = Optional.ofNullable(properties.getProperty("server.servlet.context-path")).orElse("");
-        final String endPointPath = Optional.ofNullable(properties.getProperty("management.endpoints.web.base-path")).orElse("");
+    private static URI createShutdownUri(final UnaryOperator<String> properties) {
+        final boolean sslEnabled = Optional.ofNullable(properties.apply("server.ssl.enabled")).map(Boolean::parseBoolean).orElse(false);
+        final String host = Optional.ofNullable(properties.apply("server.address")).orElse("localhost");
+        final String portProperty = Optional.ofNullable(properties.apply("local.server.port")).orElse(properties.apply("server.port"));
+        final int port = portProperty.contains(":") ? Integer.parseInt(portProperty.replace("}", "").split(":")[1]) : Integer.parseInt(portProperty);
+        final String contextPath = Optional.ofNullable(properties.apply("server.servlet.context-path")).orElse("");
+        final String endPointPath = Optional.ofNullable(properties.apply("management.endpoints.web.base-path")).orElse("");
 
         final String url = "%s://%s:%d%s%s/shutdown".formatted(sslEnabled ? "https" : "http", host, port, contextPath, endPointPath);
 
@@ -57,39 +62,64 @@ final class Shutdown {
         final Resource resource = resourceLoader.getResource("classpath:application.properties");
         // Resource resource = new FileSystemResource("application.properties");
 
-        final Properties properties = new Properties();
-
         if (resource.isReadable()) {
+            final Properties properties = new Properties();
+
             try (InputStream inputStream = resource.getInputStream()) {
                 properties.load(inputStream);
             }
+
+            return createShutdownUri(properties::getProperty);
         }
         else {
             LOGGER.error("can not read: {}", resource.getFilename());
-            return null;
         }
 
-        return createShutdownUri(properties);
+        return null;
     }
 
-    private static URI parseApplicationYaml() {
+    private static URI parseApplicationYaml() throws IOException {
         final Resource resource = new ClassPathResource("application.yml");
-
-        Properties properties = null;
 
         if (resource.isReadable()) {
             System.setProperty("spring.profiles.active", "shutdown");
 
-            final YamlPropertiesFactoryBean yamlFactory = new YamlPropertiesFactoryBean();
-            yamlFactory.setResources(resource);
-            properties = Objects.requireNonNull(yamlFactory.getObject());
+            // 1. YAML einlesen.
+            final YamlPropertySourceLoader loader = new YamlPropertySourceLoader();
+            final List<PropertySource<?>> propertySources = loader.load("applicationYaml", resource);
+
+            // 2. Environment aufbauen.
+            final StandardEnvironment environment = new StandardEnvironment();
+            propertySources.forEach(environment.getPropertySources()::addLast);
+
+            // 3. Resolver für Platzhalter nutzen.
+            final PropertySourcesPropertyResolver resolver = new PropertySourcesPropertyResolver(environment.getPropertySources());
+            resolver.setIgnoreUnresolvableNestedPlaceholders(true);
+
+            // final Set<String> allKeys = new HashSet<>();
+            //
+            // // Iteriere über alle registrierten Quellen im Environment.
+            // for (PropertySource<?> source : environment.getPropertySources()) {
+            //     // Nur Quellen, die ihre Keys "kennen" (EnumerablePropertySource)
+            //     if (source instanceof EnumerablePropertySource) {
+            //         final String[] propertyNames = ((EnumerablePropertySource<?>) source).getPropertyNames();
+            //
+            //         Collections.addAll(allKeys, propertyNames);
+            //     }
+            // }
+
+            // Reines lesen der YAML.
+            // final YamlPropertiesFactoryBean yamlFactory = new YamlPropertiesFactoryBean();
+            // yamlFactory.setResources(resource);
+            // Properties properties = Objects.requireNonNull(yamlFactory.getObject());
+
+            return createShutdownUri(resolver::getProperty);
         }
         else {
             LOGGER.error("can not read: {}", resource.getFilename());
-            return null;
         }
 
-        return createShutdownUri(properties);
+        return null;
     }
 
     private static void shutdown() throws IOException, InterruptedException {
@@ -100,6 +130,7 @@ final class Shutdown {
         }
 
         if (uri == null) {
+            LOGGER.warn("Failed to read application URI.");
             return;
         }
 

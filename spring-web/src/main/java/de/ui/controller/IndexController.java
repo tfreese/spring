@@ -1,11 +1,11 @@
-package de.jsf.controller;
+package de.ui.controller;
 
 import java.io.IOException;
 
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 
-import de.jsf.model.User;
+import de.ui.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

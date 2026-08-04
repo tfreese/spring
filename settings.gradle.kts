@@ -1,3 +1,5 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
 // Can not be configured by Conventions-Plugin.
 pluginManagement {
     repositories {
@@ -8,7 +10,7 @@ pluginManagement {
 }
 
 // Without rootProject.name the Name of the Project-Directory is used.
-// rootProject.name = "spring"
+rootProject.name = "spring"
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -66,5 +68,5 @@ include("spring-web")
 println("")
 println("Gradle Version: ${GradleVersion.current().version}")
 println("Java Version: ${JavaVersion.current().toString()}")
-println("MaxWorkerCount: ${gradle.getStartParameter().getMaxWorkerCount()}")
+println("MaxWorkerCount: ${gradle.startParameter.getMaxWorkerCount()}")
 println("")

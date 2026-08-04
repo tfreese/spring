@@ -3,9 +3,6 @@ package de.freese.spring.web;
 
 import java.security.SecureRandom;
 import java.util.Random;
-import java.util.Set;
-
-import jakarta.faces.webapp.FacesServlet;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
@@ -14,7 +11,6 @@ import org.springframework.boot.tomcat.TomcatWebServer;
 import org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.servlet.ServletWebServerFactory;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -58,18 +54,20 @@ public class WebAppConfig implements WebMvcConfigurer {
     //     return servletRegistrationBean;
     // }
 
-    @Bean
-    ServletRegistrationBean<FacesServlet> facesServletRegistration() {
-        // final ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>(new FacesServlet(), "/faces");
-        final ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>();
-        servletRegistrationBean.setName("Faces Servlet");
-        servletRegistrationBean.setServlet(new FacesServlet());
-        servletRegistrationBean.setUrlMappings(Set.of("*.jsf")); // "*.xhtml"
-        servletRegistrationBean.setLoadOnStartup(1);
-
-        return servletRegistrationBean;
-    }
-
+    /**
+     * FacesServlet wird von JoinFaces automatisch registriert und gemappt - keine manuelle Registrierung noetig.
+     */
+    // @Bean
+    // ServletRegistrationBean<FacesServlet> facesServletRegistration() {
+    //     // final ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>(new FacesServlet(), "/faces");
+    //     final ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>();
+    //     servletRegistrationBean.setName("Faces Servlet");
+    //     servletRegistrationBean.setServlet(new FacesServlet());
+    //     servletRegistrationBean.setUrlMappings(Set.of("*.jsf")); // "*.xhtml"
+    //     servletRegistrationBean.setLoadOnStartup(1);
+    //
+    //     return servletRegistrationBean;
+    // }
     @Bean
     Random random() {
         return new SecureRandom();
@@ -130,7 +128,14 @@ public class WebAppConfig implements WebMvcConfigurer {
             servletContext.setInitParameter("jakarta.faces.PROJECT_STAGE", "Development");
 
             servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", Boolean.TRUE.toString());
+            servletContext.setInitParameter("primefaces.FONT_AWESOME", "true");
+            servletContext.setInitParameter("primefaces.MOVE_SCRIPTS_TO_BOTTOM", "true");
             servletContext.setInitParameter("primefaces.THEME", "arya");
+
+            // FacesServlet wird von JoinFaces automatisch registriert und gemappt - keine manuelle Registrierung nötig.
+            // final ServletRegistration.Dynamic facesServlet = servletContext.addServlet("FacesServlet", FacesServlet.class);
+            // facesServlet.setLoadOnStartup(1);
+            // facesServlet.addMapping("*.xhtml");
 
             // servletContext.addListener("org.jboss.weld.environment.servlet.Listener"); // CDI first
             // servletContext.addListener("com.sun.faces.config.ConfigureListener");

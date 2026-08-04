@@ -1,4 +1,4 @@
-package de.jsf.controller;
+package de.ui.controller;
 
 import java.io.Serial;
 import java.io.Serializable;

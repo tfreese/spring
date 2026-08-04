@@ -1,4 +1,4 @@
-package de.jsf.model;
+package de.ui.model;
 
 /**
  * @author Thomas Freese

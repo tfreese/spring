@@ -1,4 +1,4 @@
-package de.jsf;
+package de.ui;
 
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
