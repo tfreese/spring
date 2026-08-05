@@ -14,17 +14,21 @@ logging:
         # Logback
         #console: "%date{HH:mm:ss.SSS} - %clr(%5level){} - [%30.-30thread] - %clr(%-40.-40logger{0}){magenta} - %message%n"
         # Log4J
-        console: "%date{HH:mm:ss.SSS} - %clr{%5level}{} - [%30.-30thread] - %clr{%-40.-40logger{0}}{magenta} - %message%n"
+        # %notEmpty{[%X{traceId},%X{spanId}] }
+        console: "%date{HH:mm:ss.SSS} - %clr{%5level}{} - [%30.-30thread] - %clr{%-40.-40logger{0}}{magenta} - %message %notEmpty{[%X{traceId}] }%n"
     level:
         root: INFO
         org.springframework.core.LocalVariableTableParameterNameDiscoverer: OFF
+        io.opentelemetry.exporter: DEBUG
+        io.opentelemetry.sdk: DEBUG
+        okhttp3: DEBUG
 
 # Is spring-boot-starter-parent the Parent-POM, Resource-Delimiter is @.
 info:
     app:
-        name: ${project_artifactId}
-        description: ${project_description}
-        version: ${project_version}
+        name: @project_artifactId@
+        description: @project_description@
+        version: @project_version@
 
 server:
     compression:
@@ -33,9 +37,9 @@ server:
         mime-types: application/javascript, application/json, application/x-yaml, application/xml, text/css, text/csv, text/html, text/javascript, text/plain
     http2:
         enabled: true
-    port: \${SERVER_PORT:8088}
+    port: ${SERVER_PORT:8088}
     servlet:
-        context-path: /${project_artifactId}
+        context-path: /@project_artifactId@
         session:
             timeout: 30
     shutdown: graceful
@@ -96,6 +100,27 @@ management:
     health:
         defaults:
             enabled: true
+    tracing:
+        export:
+            enabled: true # Schaltet NUR den Export ab, Tracer + MDC bleiben aktiv: opentelemetry.tracing.export.otlp.endpoint
+        sampling:
+            probability: 1.0 # DEV: 100 %; PROD eher 0.1 (10 %)
+    otlp:
+        metrics:
+            export:
+                enabled: false # Schaltet den Export der Metriken ab.
+        #            otlp:
+        #                enabled: false # Schaltet den Export der Metriken ab.
+        #tracing:
+        #    # Spring hängt automatisch /v1/traces an!
+        #    endpoint: http://localhost:8088
+    opentelemetry:
+        tracing:
+            export:
+                otlp:
+                    #endpoint: http://localhost:8088/v1/traces
+                    endpoint: http://localhost:8088
+                    compression: none
 
 ---
 

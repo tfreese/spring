@@ -27,6 +27,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("software.xdev:chartjs-java-model")
 
+    implementation("org.springframework.boot:spring-boot-starter-opentelemetry")
+// Logging-EndPoint
+    implementation("io.opentelemetry:opentelemetry-exporter-logging-otlp")
+// Eigener EndPoint
+    implementation("io.opentelemetry.proto:opentelemetry-proto:1.7.0-alpha")
+
     // runtimeOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
     runtimeOnly("org.springframework.boot:spring-boot-starter-log4j2")
@@ -34,7 +40,7 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.web.SpringBootWebApplication"
+    mainClass.set("de.freese.spring.web.SpringBootWebApplication")
 }
 // tasks.named("bootJar") {
 //     layered {
@@ -50,20 +56,20 @@ sourceSets {
     }
 }
 
-processResources {
-    def map = [
-            "project_description": project.description,
-            "project_artifactId" : project.name,
-            "project_version"    : project.version
-    ]
+tasks.named<ProcessResources>("processResources") {
+    val map = mapOf(
+        "project_description" to project.description, "project_artifactId" to project.name, "project_version" to project.version
+    )
 
     filesMatching("application.yml") {
-        expand(map)
+        // expand(map)
+        filter(
+            mapOf("tokens" to map), org.apache.tools.ant.filters.ReplaceTokens::class.java
+        )
     }
 }
 
-
-tasks.register("copyLibs", Copy) {
+tasks.register<Copy>("copyLibs") {
     group = "spring-web"
 
     println("build " + project.name)

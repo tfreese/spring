@@ -4,6 +4,8 @@ package de.freese.spring.web;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import io.opentelemetry.exporter.logging.otlp.OtlpJsonLoggingSpanExporter;
+import io.opentelemetry.sdk.trace.export.SpanExporter;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.util.descriptor.web.ContextEnvironment;
@@ -55,8 +57,16 @@ public class WebAppConfig implements WebMvcConfigurer {
     // }
 
     /**
-     * FacesServlet wird von JoinFaces automatisch registriert und gemappt - keine manuelle Registrierung noetig.
+     * Schreibt je ResourceSpans eine JSON-Zeile ins Log.
      */
+    @Bean
+    SpanExporter loggingSpanExporter() {
+        return OtlpJsonLoggingSpanExporter.create();
+    }
+
+    // /**
+    //  * FacesServlet wird von JoinFaces automatisch registriert und gemappt - keine manuelle Registrierung noetig.
+    //  */
     // @Bean
     // ServletRegistrationBean<FacesServlet> facesServletRegistration() {
     //     // final ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<>(new FacesServlet(), "/faces");

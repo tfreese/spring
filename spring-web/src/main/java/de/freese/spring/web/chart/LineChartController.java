@@ -37,9 +37,10 @@ import software.xdev.chartjs.model.options.scale.cartesian.time.TimeScaleTickOpt
 // @Named
 @Component  // see faces-config.xml: el-resolver
 @ViewScoped
-public final class LineChartBean implements Serializable {
+public final class LineChartController implements Serializable {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private static final Logger LOGGER = LoggerFactory.getLogger(LineChartBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LineChartController.class);
+
     @Serial
     private static final long serialVersionUID = 7763047176024276034L;
 
@@ -49,11 +50,15 @@ public final class LineChartBean implements Serializable {
     private String lineChartJson;
 
     public String getLineChartJson() {
+        LOGGER.info("getLineChartJson");
+
         return lineChartJson;
     }
 
     @PostConstruct
     public void init() {
+        LOGGER.info("init");
+
         // x-Axis
         // final LinearScaleOptions xScale = new LinearScaleOptions()
         //         .setTitle(new AbstractCartesianScaleOptions.Title()
