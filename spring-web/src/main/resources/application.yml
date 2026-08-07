@@ -109,17 +109,11 @@ management:
         metrics:
             export:
                 enabled: false # Schaltet den Export der Metriken ab.
-        #            otlp:
-        #                enabled: false # Schaltet den Export der Metriken ab.
-        #tracing:
-        #    # Spring hängt automatisch /v1/traces an!
-        #    endpoint: http://localhost:8088
     opentelemetry:
         tracing:
             export:
                 otlp:
-                    #endpoint: http://localhost:8088/v1/traces
-                    endpoint: http://localhost:8088
+                    endpoint: http://localhost:${SERVER_PORT:8088}/@project_artifactId@/v1/traces
                     compression: none
 
 ---

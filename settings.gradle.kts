@@ -1,11 +1,19 @@
-import org.gradle.api.initialization.resolve.RepositoriesMode
-
 // Can not be configured by Conventions-Plugin.
 pluginManagement {
     repositories {
         mavenLocal()
         mavenCentral()
         gradlePluginPortal()
+    }
+
+    val versionMyJavaConventionPlugin = providers.gradleProperty("version_myJavaConventionPlugin")
+    val versionJavafxPlugin = providers.gradleProperty("version_javafxPlugin")
+    val versionSpringBoot = providers.gradleProperty("version_springBoot")
+
+    plugins {
+        id("de.freese.gradle.conventions").version(versionMyJavaConventionPlugin).apply(false)
+        id("org.openjfx.javafxplugin").version(versionJavafxPlugin).apply(false)
+        id("org.springframework.boot").version(versionSpringBoot).apply(false)
     }
 }
 
@@ -67,6 +75,6 @@ include("spring-web")
 
 println("")
 println("Gradle Version: ${GradleVersion.current().version}")
-println("Java Version: ${JavaVersion.current().toString()}")
-println("MaxWorkerCount: ${gradle.startParameter.getMaxWorkerCount()}")
+println("Java Version: ${JavaVersion.current()}")
+println("MaxWorkerCount: ${gradle.startParameter.maxWorkerCount}")
 println("")

@@ -56,7 +56,7 @@ public abstract class AbstractClientReflectionController<T> {
         this.kryoPool = Objects.requireNonNull(kryoPool, "kryoPool required");
         this.rootUri = Objects.requireNonNull(rootUri, "rootUri required");
 
-        fassadeType = (Class<T>) ((ParameterizedType) (getClass().getGenericSuperclass())).getActualTypeArguments()[0];
+        fassadeType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
     protected Class<T> getFassadeType() {

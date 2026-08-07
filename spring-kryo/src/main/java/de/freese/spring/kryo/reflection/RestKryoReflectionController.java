@@ -2,6 +2,7 @@
 package de.freese.spring.kryo.reflection;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,6 @@ public class RestKryoReflectionController extends AbstractRestReflectionControll
 
     @Override
     public LocalDateTime testKryo() {
-        return LocalDateTime.now();
+        return LocalDateTime.now(ZoneId.systemDefault());
     }
 }

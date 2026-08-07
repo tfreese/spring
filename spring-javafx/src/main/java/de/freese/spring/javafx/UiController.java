@@ -8,12 +8,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 /**
  * @author Thomas Freese
  */
-@Component
+@Controller
 public class UiController // implements javafx.fxml.Initializable
 {
     private final HostServices hostServices;

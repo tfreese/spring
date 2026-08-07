@@ -61,7 +61,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                     logger.warn("Response already committed. Ignoring: " + exception);
                 }
 
-                return null;
+                return ResponseEntity.ofNullable(null);
             }
         }
 

@@ -9,42 +9,36 @@ plugins {
 }
 
 allprojects {
-    apply(plugin: "base")
-
-    ant.lifecycleLogLevel = "INFO"
-
-    // repositories {
-    //
-    // }
+    plugins.apply("base")
 }
 
 subprojects {
-    apply(plugin: "de.freese.gradle.conventions")
-    apply(plugin: "io.spring.dependency-management")
+    plugins.apply("de.freese.gradle.conventions")
+    plugins.apply("io.spring.dependency-management")
 
     dependencyManagement {
         imports {
-            mavenBom("de.codecentric:spring-boot-admin-dependencies:$version_springBootAdmin")
-            mavenBom("org.springframework.ai:spring-ai-bom:$version_springAi")
-            mavenBom("org.springframework.cloud:spring-cloud-dependencies:$version_springCloud")
+            mavenBom("de.codecentric:spring-boot-admin-dependencies:" + property("version_springBootAdmin"))
+            mavenBom("org.springframework.ai:spring-ai-bom:" + property("version_springAi"))
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:" + property("version_springCloud"))
             mavenBom(SpringBootPlugin.BOM_COORDINATES)
-            // mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")
+            // mavenBom("org.springframework.boot:spring-boot-dependencies:"+property("version_springBoot"))
         }
 
         dependencies {
-            dependency("com.atomikos:transactions-spring-boot4-starter:$version_atomicosSpringBootStarter")
-            dependency("com.esotericsoftware:kryo:$version_kryo")
+            dependency("com.atomikos:transactions-spring-boot4-starter:" + property("version_atomicosSpringBootStarter"))
+            dependency("com.esotericsoftware:kryo:" + property("version_kryo"))
 
             dependencySet(group: "com.github.tjake", version: "$version_jlama") {
                 entry("jlama-core")
                 entry("jlama-native")
             }
 
-//            dependency("de.javakaffee:kryo-serializers:$version_kryoSerializers")
+//            dependency("de.javakaffee:kryo-serializers:"+property("version_kryoSerializers"))
 
-            dependency("jakarta.faces:jakarta.faces-api:$version_jakartaFacesApi")
-            dependency("jakarta.platform:jakarta.jakartaee-api:$version_jakartaApi")
-            dependency("jakarta.platform:jakarta.jakartaee-web-api:$version_jakartaApi")
+            dependency("jakarta.faces:jakarta.faces-api:" + property("version_jakartaFacesApi"))
+            dependency("jakarta.platform:jakarta.jakartaee-api:" + property("version_jakartaApi"))
+            dependency("jakarta.platform:jakarta.jakartaee-web-api:" + property("version_jakartaApi"))
 
             dependencySet(group: "org.apache.qpid", version: "$version_qpid") {
                 entry("qpid-broker") {
@@ -60,12 +54,12 @@ subprojects {
             //     entry("tomcat-embed-jasper")
             // }
 
-            dependency("org.glassfish:jakarta.faces:$version_glassfishJakartaFaces")
+            dependency("org.glassfish:jakarta.faces:" + property("version_glassfishJakartaFaces"))
 
-            dependency("org.jboss.weld.servlet:weld-servlet-core:$version_weld")
-            dependency("org.joinfaces:primefaces-spring-boot-starter:$version_joinfaces")
+            dependency("org.jboss.weld.servlet:weld-servlet-core:" + property("version_weld"))
+            dependency("org.joinfaces:primefaces-spring-boot-starter:" + property("version_joinfaces"))
 
-            dependency("org.neo4j:neo4j:$version_neo4j")
+            dependency("org.neo4j:neo4j:" + property("version_neo4j"))
 
 
             dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {
@@ -73,10 +67,10 @@ subprojects {
                 entry("jmh-generator-annprocess")
             }
 
-            dependency("org.primefaces:primefaces:$version_primefaces")
-            dependency("org.primefaces.extensions:primefaces-extensions:$version_primefacesExtensions")
-            dependency("org.primefaces:primefaces-themes:$version_primefacesThemes")
-            dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:$version_springDoc")
+            dependency("org.primefaces:primefaces:" + property("version_primefaces"))
+            dependency("org.primefaces.extensions:primefaces-extensions:" + property("version_primefacesExtensions"))
+            dependency("org.primefaces:primefaces-themes:" + property("version_primefacesThemes"))
+            dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:" + property("version_springDoc"))
 
             dependencySet(group: "org.springframework.cloud", version: "$version_springCloudNetflix") {
                 entry("spring-cloud-starter-netflix-ribbon")
@@ -84,7 +78,7 @@ subprojects {
                 entry("spring-cloud-starter-netflix-hystrix-dashboard")
             }
 
-            dependency("software.xdev:chartjs-java-model:$version_chartjsJavaModel")
+            dependency("software.xdev:chartjs-java-model:" + property("version_chartjsJavaModel"))
         }
     }
 
@@ -110,54 +104,12 @@ subprojects {
             }
         }
 
-        // test {
-        // tasks.named("test")
         tasks.withType(Test).configureEach {
-            enabled = true
-            ignoreFailures = false
-            useJUnitPlatform()
-
             String mockitoFiles = configurations.mockitoAgent.asPath
 
             doFirst {
                 jvmArgs += "-javaagent:" + mockitoFiles
-                // jvmArgs += "-XX:+EnableDynamicAgentLoading"
             }
         }
     }
 }
-
-// For Composite Build.
-tasks.register("cleanAll", GradleBuild) {
-    tasks = ["clean"]
-}
-tasks.register("buildAll", GradleBuild) {
-    tasks = ["build"]
-}
-
-// project("kubernetes") {
-//    apply plugin: "org.springframework.boot"
-//    description = "Folder project"
-//    // All SubProjects have Plugin 'org.springframework.boot' that requires a mainClass.
-//    springBoot {
-//        mainClass = "disabled"
-//    }
-//}
-//
-// project("spring-cloud") {
-//    apply plugin: "org.springframework.boot"
-//    description = "Folder project"
-//    // All SubProjects have Plugin 'org.springframework.boot' that requires a mainClass.
-//    springBoot {
-//        mainClass = "disabled"
-//    }
-//}
-//
-// project("spring-messaging") {
-//    apply plugin: "org.springframework.boot"
-//    description = "Folder project"
-//    // All SubProjects have Plugin 'org.springframework.boot' that requires a mainClass.
-//    springBoot {
-//        mainClass = "disabled"
-//    }
-//}

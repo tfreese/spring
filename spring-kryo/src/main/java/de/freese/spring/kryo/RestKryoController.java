@@ -2,6 +2,7 @@
 package de.freese.spring.kryo;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ public class RestKryoController {
      */
     @GetMapping(path = "json", produces = MediaType.APPLICATION_JSON_VALUE)
     public LocalDateTime testJson() {
-        return LocalDateTime.now();
+        return LocalDateTime.now(ZoneId.systemDefault());
     }
 
     /**
@@ -29,6 +30,6 @@ public class RestKryoController {
      */
     @GetMapping(path = "kryo", produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
     public LocalDateTime testKryo() {
-        return LocalDateTime.now();
+        return LocalDateTime.now(ZoneId.systemDefault());
     }
 }
