@@ -1,0 +1,59 @@
+plugins {
+    id("java")
+}
+
+description = "JLama example"
+
+dependencies {
+    implementation("com.github.tjake:jlama-core")
+
+    // implementation("org.springframework.ai:spring-ai-model")
+
+    // Optional, just for Performance.
+    if (org.gradle.internal.os.OperatingSystem.current().isLinux)
+    {
+        runtimeOnly("com.github.tjake:jlama-native::linux-x86_64")
+    }
+    else if (org.gradle.internal.os.OperatingSystem.current().isWindows)
+    {
+        runtimeOnly("com.github.tjake:jlama-native::windows-x86_64")
+    }
+    else if (org.gradle.internal.os.OperatingSystem.current().isMacOsX)
+    {
+        runtimeOnly("com.github.tjake:jlama-native::macos-x86_64/aarch_64")
+    }
+
+    runtimeOnly("org.slf4j:slf4j-simple")
+
+    // testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+val compilerArgs = listOf(
+    "--add-modules", "jdk.incubator.vector", "--enable-preview"
+)
+
+tasks.withType<JavaCompile>().configureEach {
+    options.encoding = "UTF-8"
+    options.isDebug = true
+    options.compilerArgs.addAll(compilerArgs)
+}
+
+tasks.register<JavaExec>("runJLamaMain") {
+    group = "myTasks"
+    description = "Run JLama Demo"
+
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("de.ai.jlama.JLamaMain")
+
+    jvmArgs(compilerArgs)
+}
+
+// tasks.register("runJLamaApi", JavaExec) {
+//     group = "myTasks"
+//     description = "Run JLamaApi Demo"
+//
+//     classpath = sourceSets.main.runtimeClasspath
+//     mainClass = "de.jlama.ai.spring.JLamaApi"
+//
+//     jvmArgs(compilerArgs)
+// }

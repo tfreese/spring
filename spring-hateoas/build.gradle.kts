@@ -20,18 +20,17 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.hateoas.HateoasApplication"
+    mainClass.set("de.freese.spring.hateoas.HateoasApplication")
 }
 
-// For Placeholder in Resources.
-ext.artifactId = project.name
+tasks.named<ProcessResources>("processResources") {
+    val map = mapOf(
+        "project_description" to (description ?: ""), "project_artifactId" to name, "project_version" to version.toString()
+    )
 
-processResources {
-    def map = [
-            "project_artifactId": project.name
-    ]
-
-    filesMatching(["application*.yml", "application*.yaml", "application*.properties"]) {
-        expand(map)
+    filesMatching(listOf("application*.yml", "application*.yaml", "application*.properties")) {
+        filter(
+            mapOf("tokens" to map), org.apache.tools.ant.filters.ReplaceTokens::class.java
+        )
     }
 }

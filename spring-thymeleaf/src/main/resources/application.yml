@@ -95,9 +95,9 @@ server:
 
 info:
     app:
-        name: ${project_artifactId}
-        description: ${project_description}
-        version: ${project_version}
+        name: @project_artifactId@
+        description: @project_description@
+        version: @project_version@
 
 management:
     endpoints:

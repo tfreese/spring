@@ -6,9 +6,9 @@
 # Is spring-boot-starter-parent the Parent-POM, Resource-Delimiter is @.
 info:
     app:
-        name: ${project_artifactId}
-        description: ${project_description}
-        version: ${project_version}
+        name: @project_artifactId@
+        description: @project_description@
+        version: @project_version@
 
 spring:
     main:
@@ -50,7 +50,7 @@ spring:
 server:
     port: \${SERVER_PORT:9090}
     servlet:
-        context-path: /${project_artifactId}
+        context-path: /@project_artifactId@
 
 logging:
     # config: classpath:logback.xml

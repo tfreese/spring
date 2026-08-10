@@ -16,7 +16,7 @@ dependencies {
 
     runtimeOnly("org.springframework.boot:spring-boot-h2console")
     // runtimeOnly("com.h2database:h2")
-    
+
     // runtimeOnly("org.glassfish.jaxb:jaxb-runtime") // Implementation of jakarta.json.bind:jakarta.json.bind-api
     // runtimeOnly("org.hsqldb:hsqldb")
 
@@ -26,14 +26,14 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-webtestclient")
 }
 
-processResources {
-    def map = [
-            "project_description": project.description,
-            "project_artifactId" : project.name,
-            "project_version"    : project.version
-    ]
+tasks.named<ProcessResources>("processResources") {
+    val map = mapOf(
+        "project_description" to (description ?: ""), "project_artifactId" to name, "project_version" to version.toString()
+    )
 
     filesMatching("application.yml") {
-        expand(map)
+        filter(
+            mapOf("tokens" to map), org.apache.tools.ant.filters.ReplaceTokens::class.java
+        )
     }
 }

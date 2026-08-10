@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serial;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,7 +25,7 @@ public class DemoServlet extends HttpServlet {
         resp.setContentType("text/html");
 
         try (PrintWriter writer = resp.getWriter()) {
-            writer.append("<b>").append(LocalDateTime.now().toString()).append("</b>");
+            writer.append("<b>").append(LocalDateTime.now(ZoneId.systemDefault()).toString()).append("</b>");
         }
     }
 }
