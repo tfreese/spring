@@ -12,15 +12,15 @@ eureka:
             enabled: true
         register-with-eureka: false
         serviceUrl:
-            defaultZone: \${EUREKA_SERVER:http://localhost:8761/eureka}
+            defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
     instance:
         preferIpAddress: true
 
 info:
     app:
-        description: ${project_description}
-        name: ${project_artifactId}
-        version: ${project_version}
+        description: @project_description@
+        name: @project_artifactId@
+        version: @project_version@
 
 logging:
     level:
@@ -51,7 +51,7 @@ spring:
         admin:
             client:
                 enabled: true
-                url: \${ADMIN_SERVER:http://localhost:9000}
+                url: ${ADMIN_SERVER:http://localhost:9000}
     cloud:
         loadbalancer:
             health-check:

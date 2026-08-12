@@ -12,9 +12,9 @@ eureka:
 
 info:
     app:
-        description: ${project_description}
-        name: ${project_artifactId}
-        version: ${project_version}
+        description: @project_description@
+        name: @project_artifactId@
+        version: @project_version@
 
 management:
     endpoints:
@@ -37,4 +37,4 @@ spring:
         admin:
             client:
                 enabled: true
-                url: \${ADMIN_SERVER:http://localhost:9000}
+                url: ${ADMIN_SERVER:http://localhost:9000}

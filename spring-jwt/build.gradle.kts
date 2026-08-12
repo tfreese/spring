@@ -5,18 +5,9 @@ plugins {
 
 description = "JWT-Demo"
 
-clean {
-// tasks.named("clean").configure {
-// tasks.withType(Delete).configureEach {
-    Directory directory = layout.projectDirectory.dir("src").dir("main").dir("resources").dir("certs")
-
-    doLast {
-        directory.asFileTree.forEach {
-            println("delete: " + it)
-            it.delete()
-        }
-    }
-}
+// tasks.named<Delete>("clean") {
+//     delete(layout.projectDirectory.dir("src").dir("main").dir("resources").dir("certs"))
+// }
 
 dependencies {
     // implementation("com.nimbusds:nimbus-jose-jwt")
@@ -38,21 +29,22 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.jwt.JwtApplication"
+    mainClass.set("de.freese.spring.jwt.JwtApplication")
 }
 
-tasks.register("createRsaKeys", Exec) {
+tasks.register<Exec>("createRsaKeys") {
     group = "myTasks"
     description = "Create RSA Keys"
 
+    val certDir = layout.buildDirectory.dir("resources").get().dir("main").dir("certs")
+
     inputs.file("createKeys.sh")
-    outputs.dir(layout.projectDirectory.dir("src").dir("main").dir("resources").dir("certs"))
+    outputs.dir(certDir)
 
     workingDir(layout.projectDirectory)
 
-    // doLast {
     executable("./createKeys.sh")
+    args(certDir)
     // commandLine("sh", "-c", "./createKeys.sh")
-    // }
 }
-processResources.dependsOn("createRsaKeys")
+tasks.named<ProcessResources>("processResources").get().dependsOn("createRsaKeys")

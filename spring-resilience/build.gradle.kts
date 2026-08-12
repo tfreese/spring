@@ -21,28 +21,23 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.resilience.ResilienceApplication"
+    mainClass.set("de.freese.spring.resilience.ResilienceApplication")
 }
 
 // The archive name. If the name has not been explicitly set, the pattern for the name is:
 // [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
-bootJar {
-    archiveFileName = "${archiveBaseName.get()}-boot.${archiveExtension.get()}"
+tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    archiveFileName.set("${archiveBaseName.get()}-boot.${archiveExtension.get()}")
 }
 
-// For Placeholder in Resources.
-ext.artifactId = project.name
+tasks.named<ProcessResources>("processResources") {
+    val map = mapOf(
+        "project_description" to (project.description ?: ""), "project_artifactId" to project.name, "project_version" to project.version.toString()
+    )
 
-processResources {
-    def map = [
-            "project_description": project.description,
-            "project_artifactId" : project.name,
-            "project_version"    : project.version
-    ]
-
-    filesMatching(["application.yml", "bootstrap.yml"]) {
-        // filteringCharset = "UTF-8"
-
-        expand(map)
+    filesMatching(listOf("application.yml", "bootstrap.yml")) {
+        filter(
+            mapOf("tokens" to map), org.apache.tools.ant.filters.ReplaceTokens::class.java
+        )
     }
 }

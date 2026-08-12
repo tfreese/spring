@@ -21,22 +21,17 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.spring.cloud.microservice.MicroServiceApplication"
+    mainClass.set("de.freese.spring.cloud.microservice.MicroServiceApplication")
 }
 
-// For Placeholder in Resources.
-ext.artifactId = project.name
-
-processResources {
-    def map = [
-            "project_description": project.description,
-            "project_artifactId" : project.name,
-            "project_version"    : project.version
-    ]
+tasks.named<ProcessResources>("processResources") {
+    val map = mapOf(
+        "project_description" to (project.description ?: ""), "project_artifactId" to project.name, "project_version" to project.version.toString()
+    )
 
     filesMatching("application.yml") {
-        // filteringCharset = "UTF-8"
-
-        expand(map)
+        filter(
+            mapOf("tokens" to map), org.apache.tools.ant.filters.ReplaceTokens::class.java
+        )
     }
 }
