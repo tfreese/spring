@@ -11,7 +11,7 @@ FROM openjdk:latest
  
 MAINTAINER Thomas Freese <community@freese-home.de>
  
-ARG JAR_FILE=target/*-jar-with-dependencies.jar
+ARG JAR_FILE=build/libs/spring-cloud-microservice-*.jar
 ENV VM_PARAMS="-Xms64m -Xmx128m"
 
 COPY ${JAR_FILE} /app/app.jar

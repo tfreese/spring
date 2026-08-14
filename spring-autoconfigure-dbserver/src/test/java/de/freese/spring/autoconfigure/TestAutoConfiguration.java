@@ -64,14 +64,12 @@ public interface TestAutoConfiguration {
         try (Connection con = dataSource.getConnection();
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery("select * from PERSON")) {
+
             final boolean hasNext = rs.next();
 
             if (hasNext) {
-                do {
-                    assertEquals(7L, rs.getLong("ID"));
-                    assertEquals("Test", rs.getString("NAME"));
-                }
-                while (rs.next());
+                assertEquals(7L, rs.getLong("ID"));
+                assertEquals("Test", rs.getString("NAME"));
             }
             else {
                 fail("no data");

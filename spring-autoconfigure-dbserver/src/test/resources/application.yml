@@ -21,7 +21,7 @@ spring:
 
 h2:
     port: 12345
-    path: ${user.dir}/target/h2
+    path: ${user.dir}/build/h2
 
 hsqldb:
     server:
@@ -32,7 +32,7 @@ hsqldb:
         trace: false
         db:
             -   name: file-db
-                path: file:target/hsqldb/file.db
+                path: file:build/hsqldb/file.db
             -   name: memory-db
                 path: mem:mem.db
 
