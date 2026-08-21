@@ -10,16 +10,13 @@ dependencies {
     // implementation("org.springframework.ai:spring-ai-model")
 
     // Optional, just for Performance.
-    if (org.gradle.internal.os.OperatingSystem.current().isLinux)
-    {
+    if (org.gradle.internal.os.OperatingSystem.current().isLinux) {
         runtimeOnly("com.github.tjake:jlama-native::linux-x86_64")
     }
-    else if (org.gradle.internal.os.OperatingSystem.current().isWindows)
-    {
+    else if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
         runtimeOnly("com.github.tjake:jlama-native::windows-x86_64")
     }
-    else if (org.gradle.internal.os.OperatingSystem.current().isMacOsX)
-    {
+    else if (org.gradle.internal.os.OperatingSystem.current().isMacOsX) {
         runtimeOnly("com.github.tjake:jlama-native::macos-x86_64/aarch_64")
     }
 
