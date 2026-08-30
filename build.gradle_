@@ -105,11 +105,7 @@ subprojects {
         }
 
         tasks.withType(Test).configureEach {
-            String mockitoFiles = configurations.mockitoAgent.asPath
-
-            doFirst {
-                jvmArgs += "-javaagent:" + mockitoFiles
-            }
+            jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
         }
     }
 }

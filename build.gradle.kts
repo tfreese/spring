@@ -94,18 +94,13 @@ subprojects {
             add("testRuntimeOnly", "org.junit.platform:junit-platform-launcher")
 
             add("testImplementation", "org.mockito:mockito-junit-jupiter")
-            // add("mockitoAgent", "org.mockito:mockito-core") {
             mockitoAgent("org.mockito:mockito-core") {
                 isTransitive = false
             }
         }
 
         tasks.withType<Test>().configureEach {
-            val mockitoFiles = mockitoAgent.asPath
-
-            doFirst {
-                jvmArgs.add("-javaagent:${mockitoFiles}")
-            }
+            jvmArgs.add("-javaagent:${mockitoAgent.asPath}")
         }
     }
 }
