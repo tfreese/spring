@@ -50,7 +50,7 @@ abstract class AbstractTest {
     }
 
     @BeforeEach
-    void beforeEach() throws Exception {
+    void beforeEach() {
         final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("db-schema.sql"));
         populator.execute(getDataSource());
@@ -75,13 +75,13 @@ abstract class AbstractTest {
         assertNotNull(persons);
         assertEquals(3, persons.size());
 
-        assertEquals(1, persons.getFirst().getId());
+        assertEquals(1L, persons.getFirst().getId());
         assertEquals("Name-1", persons.getFirst().getName());
 
-        assertEquals(2, persons.get(1).getId());
+        assertEquals(2L, persons.get(1).getId());
         assertEquals("Name-2", persons.get(1).getName());
 
-        assertEquals(3, persons.get(2).getId());
+        assertEquals(3L, persons.get(2).getId());
         assertEquals("Name-3", persons.get(2).getName());
     }
 
@@ -98,7 +98,7 @@ abstract class AbstractTest {
         assertNotNull(persons);
         assertEquals(1, persons.size());
 
-        assertEquals(1, persons.getFirst().getId());
+        assertEquals(1L, persons.getFirst().getId());
         assertEquals("Name", persons.getFirst().getName());
     }
 

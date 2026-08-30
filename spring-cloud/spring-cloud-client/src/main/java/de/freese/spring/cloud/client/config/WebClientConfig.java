@@ -1,4 +1,3 @@
-// Created: 10.10.2021
 package de.freese.spring.cloud.client.config;
 
 import java.util.concurrent.TimeUnit;
@@ -18,6 +17,7 @@ import reactor.netty.http.client.HttpClient;
 
 /**
  * @author Thomas Freese
+ * @since 10.10.2021
  */
 @Configuration
 @LoadBalancerClients(@LoadBalancerClient(name = "CLOUD-HELLO-SERVICE"/*, configuration = HelloServiceInstanceListSupplierConfig.class)*/))

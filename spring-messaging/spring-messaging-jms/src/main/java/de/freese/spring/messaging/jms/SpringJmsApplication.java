@@ -1,4 +1,3 @@
-// Created: 31.01.2019
 package de.freese.spring.messaging.jms;
 
 import org.springframework.boot.SpringApplication;
@@ -11,6 +10,7 @@ import org.springframework.jms.support.converter.MessageType;
 
 /**
  * @author Thomas Freese
+ * @since 31.01.2019
  */
 @SpringBootApplication
 @EnableJms

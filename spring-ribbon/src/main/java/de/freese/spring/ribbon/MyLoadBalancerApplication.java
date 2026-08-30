@@ -1,4 +1,3 @@
-// Created: 14.02.2017
 package de.freese.spring.ribbon;
 
 import java.net.URI;
@@ -27,6 +26,7 @@ import de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategyRound
  * Demo mit eigenem LoadBalancer.
  *
  * @author Thomas Freese
+ * @since 14.02.2017
  */
 public class MyLoadBalancerApplication // implements RestTemplateCustomizer
 {
@@ -53,16 +53,16 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
                     break;
                 }
 
-                TimeUnit.MILLISECONDS.sleep(3000);
+                TimeUnit.MILLISECONDS.sleep(3000L);
             }
         }
-        catch (InterruptedException ex) {
+        catch (final InterruptedException ex) {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
 
             LOGGER.error(ex.getMessage(), ex);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 

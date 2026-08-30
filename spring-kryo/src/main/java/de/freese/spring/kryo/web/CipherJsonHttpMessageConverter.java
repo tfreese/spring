@@ -1,4 +1,3 @@
-// Created: 15.10.2019
 package de.freese.spring.kryo.web;
 
 import java.io.IOException;
@@ -16,6 +15,7 @@ import tools.jackson.databind.json.JsonMapper;
 
 /**
  * @author Thomas Freese
+ * @since 15.10.2019
  */
 public class CipherJsonHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;

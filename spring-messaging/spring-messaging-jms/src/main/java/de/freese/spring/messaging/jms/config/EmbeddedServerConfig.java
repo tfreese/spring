@@ -1,4 +1,3 @@
-// Created: 22.10.22
 package de.freese.spring.messaging.jms.config;
 
 import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
@@ -8,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Thomas Freese
+ * @since 22.10.2022
  */
 @Configuration
 //@Profile("!test")

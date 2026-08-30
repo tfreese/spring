@@ -1,4 +1,3 @@
-// Created: 14.04.2012
 package de.freese.spring.integration.cafe;
 
 import static org.awaitility.Awaitility.await;
@@ -22,6 +21,7 @@ import de.freese.spring.integration.cafe.dsl.ApplicationDsl;
  * <a href="https://github.com/spring-projects/spring-integration-samples/tree/master/applications/cafe/cafe-si">cafe-si</a>
  *
  * @author Thomas Freese
+ * @since 14.04.2012
  */
 class TestCafe {
     // static void main() throws Exception {

@@ -1,4 +1,3 @@
-// Created: 21.03.2018
 package de.freese.spring.ribbon.myloadbalancer.ping;
 
 /**
@@ -6,6 +5,7 @@ package de.freese.spring.ribbon.myloadbalancer.ping;
  * Geklaut von com.netflix.loadbalancer.IPing (spring-cloud-starter-netflix-ribbon).
  *
  * @author Thomas Freese
+ * @since 21.03.2018
  */
 @FunctionalInterface
 public interface LoadBalancerPing {

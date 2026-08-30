@@ -1,4 +1,3 @@
-// Created: 29.06.2025
 package de.spring.ai.controller;
 
 import java.io.IOException;
@@ -23,6 +22,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2025
  */
 final class DocumentLoader {
     private static final boolean ENRICH_METADATA = true;

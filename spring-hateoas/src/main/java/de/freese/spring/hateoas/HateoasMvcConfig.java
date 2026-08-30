@@ -1,4 +1,3 @@
-// Created: 01.12.2021
 package de.freese.spring.hateoas;
 
 import java.time.LocalDate;
@@ -17,6 +16,7 @@ import tools.jackson.databind.json.JsonMapper;
 
 /**
  * @author Thomas Freese
+ * @since 01.12.2021
  */
 @Configuration
 public class HateoasMvcConfig implements WebMvcConfigurer {

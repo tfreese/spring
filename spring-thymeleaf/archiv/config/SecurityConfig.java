@@ -1,6 +1,3 @@
-// Created: 19.01.2018
-package de.freese.spring.security.rest.config;
-
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Bean;
@@ -61,6 +58,7 @@ import org.springframework.security.web.authentication.preauth.RequestHeaderAuth
  * http://www.learningthegoodstuff.com/2014/12/spring-security-pre-authentication-and.html<br>
  *
  * @author Thomas Freese
+ * @since 19.01.2018
  */
 @Configuration
 @EnableWebSecurity

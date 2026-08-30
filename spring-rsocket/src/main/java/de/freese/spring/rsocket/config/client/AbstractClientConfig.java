@@ -1,4 +1,3 @@
-// Created: 02.09.2021
 package de.freese.spring.rsocket.config.client;
 
 import java.time.Duration;
@@ -16,6 +15,7 @@ import reactor.util.retry.Retry;
 
 /**
  * @author Thomas Freese
+ * @since 02.09.2021
  */
 abstract class AbstractClientConfig<T extends Encoder<?>> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -47,9 +47,9 @@ abstract class AbstractClientConfig<T extends Encoder<?>> {
                 .rsocketConnector(connector ->
                         connector
                                 .payloadDecoder(PayloadDecoder.ZERO_COPY)
-                                .keepAlive(Duration.ofSeconds(30), Duration.ofSeconds(60))
+                                .keepAlive(Duration.ofSeconds(30L), Duration.ofSeconds(60L))
                                 .resume(new Resume())
-                                .reconnect(Retry.fixedDelay(3, Duration.ofSeconds(1)))
+                                .reconnect(Retry.fixedDelay(3L, Duration.ofSeconds(1L)))
                                 .fragment(1492)
                 )
                 //.transport(TcpClientTransport.create(TcpClient.create().host("localhost").port(7000).runOn(LoopResources.create("client", 4, true))))

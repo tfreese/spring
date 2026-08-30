@@ -1,4 +1,3 @@
-// Created: 01.04.2013
 package de.freese.spring.integration.cafe;
 
 import org.slf4j.Logger;
@@ -6,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 01.04.2013
  */
 public class DeliveryLogger {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeliveryLogger.class);

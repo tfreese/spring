@@ -1,4 +1,3 @@
-// Created: 05.09.2018
 package de.freese.spring.thymeleaf;
 
 import java.lang.annotation.Documented;
@@ -15,6 +14,7 @@ import de.freese.spring.thymeleaf.exception.ThymeleafControllerExceptionHandler;
  * Extra-Annotation für ThymeleafController zum Vereinfachen des ExceptionHandlings ({@link ThymeleafControllerExceptionHandler}).
  *
  * @author Thomas Freese
+ * @since 05.09.2018
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

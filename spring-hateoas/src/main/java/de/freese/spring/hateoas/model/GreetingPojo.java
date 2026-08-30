@@ -1,4 +1,3 @@
-// Created: 04.05.2016
 package de.freese.spring.hateoas.model;
 
 import java.util.Objects;
@@ -9,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Thomas Freese
+ * @since 04.05.2016
  */
 @JsonIgnoreProperties
 // @JsonRootName("greeting")

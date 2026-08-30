@@ -1,4 +1,3 @@
-// Created: 28.04.2022
 package de.freese.spring.atomicos;
 
 import java.sql.Connection;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
+ * @since 28.04.2022
  */
 @Component
 @Order(1)
@@ -25,7 +25,7 @@ public class CreateDatabase implements ApplicationRunner {
 
     @Resource
     private DataSource dataSourceAddress;
-    
+
     @Resource
     private DataSource dataSourcePerson;
 

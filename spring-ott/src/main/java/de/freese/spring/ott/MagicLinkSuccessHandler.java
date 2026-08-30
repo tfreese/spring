@@ -1,4 +1,3 @@
-// Created: 05.04.2025
 package de.freese.spring.ott;
 
 import java.io.IOException;
@@ -7,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.ott.OneTimeToken;
@@ -18,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * @author Thomas Freese
+ * @since 05.04.2025
  */
 @Component
 public final class MagicLinkSuccessHandler implements OneTimeTokenGenerationSuccessHandler {
@@ -28,7 +29,8 @@ public final class MagicLinkSuccessHandler implements OneTimeTokenGenerationSucc
     private final OneTimeTokenGenerationSuccessHandler handler = new RedirectOneTimeTokenGenerationSuccessHandler(REDIRECT_URL);
 
     @Override
-    public void handle(final HttpServletRequest request, final HttpServletResponse response, final OneTimeToken oneTimeToken) throws IOException, ServletException {
+    public void handle(final @NonNull HttpServletRequest request, final @NonNull HttpServletResponse response, final OneTimeToken oneTimeToken)
+            throws IOException, ServletException {
         final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(UrlUtils.buildFullRequestUrl(request))
                 .replacePath(request.getContextPath())
                 .replaceQuery(null)

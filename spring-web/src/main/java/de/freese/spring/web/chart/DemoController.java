@@ -14,13 +14,13 @@ import jakarta.faces.view.ViewScoped;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 /**
  * @author Thomas Freese
  */
 // @Named
-@Component  // see faces-config.xml: el-resolver
+@Controller // see faces-config.xml: el-resolver
 @ViewScoped
 public final class DemoController implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(DemoController.class);
@@ -45,7 +45,7 @@ public final class DemoController implements Serializable {
 
     public LocalDateTime getLocalDateTime() {
         LOGGER.info("getLocalDateTime");
-        
+
         return dataService.getLocalDateTime();
     }
 }

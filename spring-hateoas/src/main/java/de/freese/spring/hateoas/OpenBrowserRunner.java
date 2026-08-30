@@ -1,4 +1,3 @@
-// Created: 12.09.2018
 package de.freese.spring.hateoas;
 
 import java.awt.Desktop;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
+ * @since 12.09.2018
  */
 @Component
 @Profile("!test")

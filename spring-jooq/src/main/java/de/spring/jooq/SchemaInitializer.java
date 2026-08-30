@@ -1,4 +1,3 @@
-// Created: 30.06.2026
 package de.spring.jooq;
 
 import static org.jooq.impl.DSL.constraint;
@@ -21,6 +20,7 @@ import org.jooq.DSLContext;
 
 /**
  * @author Thomas Freese
+ * @since 30.06.2026
  */
 public final class SchemaInitializer {
 

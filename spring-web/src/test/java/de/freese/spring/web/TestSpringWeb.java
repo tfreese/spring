@@ -1,4 +1,3 @@
-// Created: 02 Juni 2024
 package de.freese.spring.web;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 /**
  * @author Thomas Freese
+ * @since 02.06.2024
  */
 @SpringBootTest(properties = "server.port=0", webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = SpringBootWebApplication.class)
 @ActiveProfiles("test")

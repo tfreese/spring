@@ -1,4 +1,3 @@
-// Created: 30.01.2020
 package de.freese.spring.kryo.reflection;
 
 import java.lang.reflect.InvocationTargetException;
@@ -22,6 +21,7 @@ import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 
 /**
  * @author Thomas Freese
+ * @since 30.01.2020
  */
 public abstract class AbstractRestReflectionController {
     private final KryoPool kryoPool;

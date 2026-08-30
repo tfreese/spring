@@ -1,4 +1,3 @@
-// Created: 25.10.22
 package de.freese.spring.web;
 
 import java.security.SecureRandom;
@@ -9,6 +8,8 @@ import io.opentelemetry.sdk.trace.export.SpanExporter;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.util.descriptor.web.ContextEnvironment;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.boot.tomcat.TomcatWebServer;
 import org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.servlet.ServletWebServerFactory;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @author Thomas Freese
+ * @since 25.10.22
  */
 @Configuration
 public class WebAppConfig implements WebMvcConfigurer {
@@ -65,7 +67,7 @@ public class WebAppConfig implements WebMvcConfigurer {
     }
 
     // /**
-    //  * FacesServlet wird von JoinFaces automatisch registriert und gemappt - keine manuelle Registrierung noetig.
+    //  * FacesServlet wird von JoinFaces automatisch registriert und gemappt - keine manuelle Registrierung nötig.
     //  */
     // @Bean
     // ServletRegistrationBean<FacesServlet> facesServletRegistration() {
@@ -84,7 +86,7 @@ public class WebAppConfig implements WebMvcConfigurer {
     }
 
     /**
-     * Not necessary with Joinfaces.
+     * Not necessary with JoinFaces.
      */
     // @Bean
     // ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener() {
@@ -94,7 +96,7 @@ public class WebAppConfig implements WebMvcConfigurer {
     ServletWebServerFactory servletContainer() {
         return new TomcatServletWebServerFactory() {
             @Override
-            protected TomcatWebServer getTomcatWebServer(final Tomcat tomcat) {
+            protected @NullMarked TomcatWebServer getTomcatWebServer(final Tomcat tomcat) {
                 // Enable JNDI.
                 tomcat.enableNaming();
 
@@ -102,7 +104,7 @@ public class WebAppConfig implements WebMvcConfigurer {
             }
 
             @Override
-            protected void postProcessContext(final Context context) {
+            protected void postProcessContext(final @NonNull Context context) {
                 // // Define SSL Context.
                 // final SecurityConstraint securityConstraint = new SecurityConstraint();
                 // securityConstraint.setUserConstraint("CONFIDENTIAL");

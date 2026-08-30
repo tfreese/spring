@@ -1,4 +1,3 @@
-// Created: 04.05.2016
 package de.freese.spring.hateoas;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -21,6 +20,7 @@ import de.freese.spring.hateoas.model.GreetingRepresentationModel;
 
 /**
  * @author Thomas Freese
+ * @since 04.05.2016
  */
 @RestController
 @RequestMapping(path = "/greeter", produces = {MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE})

@@ -1,4 +1,3 @@
-// Created: 21.03.2018
 package de.freese.spring.ribbon.myloadbalancer.strategy;
 
 import java.util.List;
@@ -9,6 +8,7 @@ import java.util.function.BiFunction;
  * Geklaut von com.netflix.loadbalancer.IRule (spring-cloud-starter-netflix-ribbon).
  *
  * @author Thomas Freese
+ * @since 21.03.2018
  */
 @FunctionalInterface
 public interface LoadBalancerStrategy extends BiFunction<List<String>, String, String> {

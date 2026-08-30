@@ -1,9 +1,6 @@
-// Created: 28.04.2022
 package de.freese.spring.atomicos;
 
 import java.util.Properties;
-
-import javax.sql.XADataSource;
 
 import jakarta.transaction.SystemException;
 
@@ -21,6 +18,7 @@ import org.springframework.transaction.jta.JtaTransactionManager;
  * <a href="https://github.com/eugenp/tutorials/tree/master/atomikos">https://github.com/eugenp/tutorials/tree/master/atomikos</a>
  *
  * @author Thomas Freese
+ * @since 28.04.2022
  */
 @Configuration
 @EnableTransactionManagement
@@ -59,10 +57,8 @@ public class Config {
         h2DataSource.setUser("sa");
         h2DataSource.setUser("");
 
-        final XADataSource xaDataSource = h2DataSource;
-
         final AtomikosDataSourceBean dataSource = new AtomikosDataSourceBean();
-        dataSource.setXaDataSource(xaDataSource);
+        dataSource.setXaDataSource(h2DataSource);
         dataSource.setUniqueResourceName("person");
         dataSource.setLocalTransactionMode(true);
         dataSource.setMinPoolSize(2);

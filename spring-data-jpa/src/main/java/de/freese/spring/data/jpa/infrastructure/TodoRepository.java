@@ -1,4 +1,3 @@
-// Created: 16.08.23
 package de.freese.spring.data.jpa.infrastructure;
 
 import java.util.UUID;
@@ -9,6 +8,7 @@ import de.freese.spring.data.jpa.domain.Todo;
 
 /**
  * @author Thomas Freese
+ * @since 16.08.2023
  */
 public interface TodoRepository extends JpaRepository<Todo, UUID> {
 }

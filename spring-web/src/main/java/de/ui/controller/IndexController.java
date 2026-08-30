@@ -9,13 +9,13 @@ import de.ui.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 /**
  * @author Thomas Freese
  */
 // @Named
-@Component
+@Controller
 @ViewScoped
 public class IndexController {
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);

@@ -1,4 +1,3 @@
-// Created: 14.02.2017
 package de.freese.spring.ribbon;
 
 import java.net.URI;
@@ -18,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Thomas Freese
+ * @since 14.02.2017
  */
 @SpringBootApplication//(exclude = GsonAutoConfiguration.class) // GSON hat Fehler verursacht -->
 // (exclude = {
@@ -51,7 +51,7 @@ public class RibbonClientWithoutEurekaApplication {
                     break;
                 }
 
-                TimeUnit.MILLISECONDS.sleep(3000);
+                TimeUnit.MILLISECONDS.sleep(3000L);
             }
         }
 

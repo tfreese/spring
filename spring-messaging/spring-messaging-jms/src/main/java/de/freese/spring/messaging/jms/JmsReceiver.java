@@ -1,4 +1,3 @@
-// Created: 31.01.2019
 package de.freese.spring.messaging.jms;
 
 import org.slf4j.Logger;
@@ -9,6 +8,7 @@ import org.springframework.messaging.handler.annotation.Header;
 
 /**
  * @author Thomas Freese
+ * @since 31.01.2019
  */
 public class JmsReceiver {
     private static final Logger LOGGER = LoggerFactory.getLogger(JmsReceiver.class);

@@ -28,7 +28,8 @@ public final class Shutdown {
             if (LOGGER.isInfoEnabled()) {
                 LOGGER.info("{}", httpResponse.body());
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
 

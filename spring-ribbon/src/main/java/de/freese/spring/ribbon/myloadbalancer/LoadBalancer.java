@@ -1,4 +1,3 @@
-// Created: 21.03.2018
 package de.freese.spring.ribbon.myloadbalancer;
 
 import java.net.URI;
@@ -28,6 +27,7 @@ import de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategyRound
 
 /**
  * @author Thomas Freese
+ * @since 21.03.2018
  */
 @SuppressWarnings("unchecked")
 public class LoadBalancer implements LoadBalancerPing {
@@ -61,7 +61,7 @@ public class LoadBalancer implements LoadBalancerPing {
         List<String> pingSequentiell(final List<String> allServers) {
             final List<String> workingServers = new ArrayList<>();
 
-            for (String server : allServers) {
+            for (final String server : allServers) {
                 final boolean isAlive = isAlive(server);
 
                 if (isAlive) {
@@ -87,7 +87,7 @@ public class LoadBalancer implements LoadBalancerPing {
             try {
                 combinedFuture.get();
 
-                for (CompletableFuture<String> cf : futures) {
+                for (final CompletableFuture<String> cf : futures) {
                     try {
                         final String server = cf.get();
 
@@ -95,24 +95,24 @@ public class LoadBalancer implements LoadBalancerPing {
                             workingServers.add(server);
                         }
                     }
-                    catch (InterruptedException ex) {
+                    catch (final InterruptedException ex) {
                         LOGGER.error(ex.getMessage());
 
                         // Restore interrupted state.
                         Thread.currentThread().interrupt();
                     }
-                    catch (ExecutionException ex) {
+                    catch (final ExecutionException ex) {
                         LOGGER.error(ex.getMessage());
                     }
                 }
             }
-            catch (InterruptedException ex) {
+            catch (final InterruptedException ex) {
                 LOGGER.error(ex.getMessage());
 
                 // Restore interrupted state.
                 Thread.currentThread().interrupt();
             }
-            catch (ExecutionException ex) {
+            catch (final ExecutionException ex) {
                 LOGGER.error(ex.getMessage());
             }
 
@@ -136,13 +136,13 @@ public class LoadBalancer implements LoadBalancerPing {
                         workingServers.add(server);
                     }
                 }
-                catch (InterruptedException ex) {
+                catch (final InterruptedException ex) {
                     LOGGER.error(ex.getMessage());
 
                     // Restore interrupted state.
                     Thread.currentThread().interrupt();
                 }
-                catch (ExecutionException ex) {
+                catch (final ExecutionException ex) {
                     LOGGER.error(ex.getMessage());
                 }
             }
@@ -171,7 +171,7 @@ public class LoadBalancer implements LoadBalancerPing {
     /**
      * Default 15 Sekunden.
      */
-    private long pingDelay = TimeUnit.SECONDS.toMillis(15);
+    private long pingDelay = TimeUnit.SECONDS.toMillis(15L);
 
     private LoadBalancerStrategy strategy = new LoadBalancerStrategyRoundRobin();
 
@@ -181,9 +181,9 @@ public class LoadBalancer implements LoadBalancerPing {
      * @param server String[]; z.B. localhost:8080, localhost:8081
      */
     public LoadBalancer(final String... server) {
-        super();
-
         Objects.requireNonNull(server, "server required");
+
+        super();
 
         Collections.addAll(allServer, server);
 
@@ -266,7 +266,7 @@ public class LoadBalancer implements LoadBalancerPing {
         try {
             return ping.isAlive(server);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -286,7 +286,7 @@ public class LoadBalancer implements LoadBalancerPing {
         try {
             return new URI(url);
         }
-        catch (URISyntaxException ex) {
+        catch (final URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
     }

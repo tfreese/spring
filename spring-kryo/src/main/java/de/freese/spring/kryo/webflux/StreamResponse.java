@@ -1,4 +1,3 @@
-// Created: 07.02.2020
 package de.freese.spring.kryo.webflux;
 
 import java.io.InputStream;
@@ -13,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 /**
  * @author Thomas Freese
+ * @since 07.02.2020
  */
 public final class StreamResponse {
     public static StreamingResponseBody ok(final byte[] data) {

@@ -17,7 +17,7 @@ import org.springframework.ai.chat.metadata.Usage;
  */
 public final class Utils {
     public static String toHtml(final String prompt, final LocalDateTime start, @Nullable final Usage usage, final Consumer<StringBuilder> appendableConsumer) {
-        final Duration duration = Duration.between(start, LocalDateTime.now(ZoneId.systemDefault()));
+        final Duration duration = Duration.between(start.atZone(ZoneId.systemDefault()), LocalDateTime.now(ZoneId.systemDefault()).atZone(ZoneId.systemDefault()));
         final String durationString = "%02d:%02d.%03d [mm:ss:SSS]".formatted(duration.toMinutes(), duration.toSecondsPart(), duration.toMillisPart());
 
         final StringBuilder sb = new StringBuilder();

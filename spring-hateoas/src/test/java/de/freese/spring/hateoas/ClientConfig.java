@@ -1,4 +1,3 @@
-// Created: 29.11.2021
 package de.freese.spring.hateoas;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Thomas Freese
+ * @since 29.11.2021
  */
 // @TestConfiguration
 class ClientConfig {
@@ -40,8 +40,7 @@ class ClientConfig {
     }
 
     // @Bean
-    // WebClientCustomizer webClientCustomizer(final HypermediaWebClientConfigurer configurer)
-    // {
+    // WebClientCustomizer webClientCustomizer(final HypermediaWebClientConfigurer configurer) {
     // return webClientBuilder -> configurer.registerHypermediaTypes(webClientBuilder);
     // }
 }

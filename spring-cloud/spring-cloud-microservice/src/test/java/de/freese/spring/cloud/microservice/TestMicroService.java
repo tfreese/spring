@@ -1,4 +1,3 @@
-// Created: 14.02.2017
 package de.freese.spring.cloud.microservice;
 
 import static org.hamcrest.Matchers.containsString;
@@ -20,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 /**
  * @author Thomas Freese
+ * @since 14.02.2017
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = MicroServiceApplication.class)
 @AutoConfigureMockMvc

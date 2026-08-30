@@ -1,4 +1,3 @@
-// Created: 08.12.2021
 package de.freese.spring.jwt.config;
 
 import java.io.IOException;
@@ -17,6 +16,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
  * Ausserdem wird die FilterChain weiter ausgeführt, wenn keine Credentials vorhanden sind.<br>
  *
  * @author Thomas Freese
+ * @since 08.12.2021
  */
 class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
     @Override

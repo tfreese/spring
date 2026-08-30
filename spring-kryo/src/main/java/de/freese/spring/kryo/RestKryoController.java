@@ -1,4 +1,3 @@
-// Created: 22.05.2018
 package de.freese.spring.kryo;
 
 import java.time.LocalDateTime;
@@ -13,6 +12,7 @@ import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 
 /**
  * @author Thomas Freese
+ * @since 22.05.2018
  */
 @RestController
 @RequestMapping("/")

@@ -1,4 +1,3 @@
-// Created: 08.08.2016
 package de.freese.spring.hateoas;
 
 import java.lang.annotation.ElementType;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * {@link RequestMapping#produces()}.
  *
  * @author Thomas Freese
+ * @since 08.08.2016
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

@@ -1,4 +1,3 @@
-// Created: 05.04.2025
 package de.freese.spring.ott;
 
 import org.slf4j.Logger;
@@ -11,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Use the generated Link: <a href="http://localhost:8080/login/ott?token=a1760fcc-1460-4282-bd4a-73584b9f13d3">generated</a>
  *
  * @author Thomas Freese
+ * @since 05.04.2025
  */
 @SpringBootApplication
 public final class SpringOneTimeTokenApplication {

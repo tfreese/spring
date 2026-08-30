@@ -1,4 +1,3 @@
-// Created: 17.02.2019
 package de.freese.spring.ott;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 /**
  * @author Thomas Freese
+ * @since 17.02.2019
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = SpringOneTimeTokenApplication.class)
 @TestMethodOrder(MethodOrderer.MethodName.class)

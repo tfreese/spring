@@ -1,4 +1,3 @@
-// Created: 28.10.2018
 package de.freese.spring.openapi.controller;
 
 import java.util.HashMap;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Thomas Freese
+ * @since 28.10.2018
  */
 @RestController
 @RequestMapping("users")

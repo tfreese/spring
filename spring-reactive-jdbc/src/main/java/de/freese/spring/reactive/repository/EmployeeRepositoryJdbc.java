@@ -109,9 +109,11 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
     @Override
     public Flux<Employee> getAllEmployees() {
         final String sql = """
-                select e.*, d.department_name
-                from employee e
-                INNER JOIN department d ON d.department_id = e.department_id
+                select
+                    e.*, d.department_name
+                from
+                    employee e
+                    INNER JOIN department d ON d.department_id = e.department_id
                 """;
 
         final List<Employee> result = jdbcTemplate.query(sql, new EmployeeRowMapper());
@@ -122,12 +124,14 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
     @Override
     public Mono<Employee> getEmployee(final String lastName, final String firstName) {
         final String sql = """
-                select e.*, d.department_name
-                from employee e
-                INNER JOIN department d ON d.department_id = e.department_id
+                select
+                    e.*, d.department_name
+                from
+                    employee e
+                    INNER JOIN department d ON d.department_id = e.department_id
                 where
-                e.employee_lastname = ?
-                and e.employee_firstname = ?
+                    e.employee_lastname = ?
+                    and e.employee_firstname = ?
                 """;
 
         final Employee result = jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), lastName, firstName);

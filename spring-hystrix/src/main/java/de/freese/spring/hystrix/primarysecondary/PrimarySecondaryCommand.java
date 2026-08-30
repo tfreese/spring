@@ -1,4 +1,3 @@
-// Created: 01.03.2017
 package de.freese.spring.hystrix.primarysecondary;
 
 import com.netflix.config.DynamicBooleanProperty;
@@ -14,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 01.03.2017
  */
 public class PrimarySecondaryCommand extends HystrixCommand<String> {
     private static final Logger C_LOGGER = LoggerFactory.getLogger(PrimarySecondaryCommand.class);

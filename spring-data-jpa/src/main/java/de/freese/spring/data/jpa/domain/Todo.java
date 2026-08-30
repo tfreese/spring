@@ -1,4 +1,3 @@
-// Created: 16.08.23
 package de.freese.spring.data.jpa.domain;
 
 import java.io.Serial;
@@ -16,6 +15,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * @author Thomas Freese
+ * @since 16.08.2023
  */
 @Entity
 @Table(name = "todo")

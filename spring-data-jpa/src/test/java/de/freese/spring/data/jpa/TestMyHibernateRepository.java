@@ -1,4 +1,3 @@
-// Created: 11.10.2025
 package de.freese.spring.data.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,6 +12,7 @@ import de.freese.spring.data.jpa.infrastructure.MyHibernateRepository;
 
 /**
  * @author Thomas Freese
+ * @since 11.10.2025
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")

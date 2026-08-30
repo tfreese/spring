@@ -1,4 +1,3 @@
-// Created:07.09.2018
 package de.freese.spring.thymeleaf.rest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,6 +35,7 @@ import de.freese.spring.thymeleaf.model.Person;
 
 /**
  * @author Thomas Freese
+ * @since 07.09.2018
  */
 @ActiveProfiles("test")
 class TestRestWithJreHttpClient extends AbstractRestTestCase {
@@ -221,7 +221,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
                     // Assertions.assertEquals(HttpStatus.UNAUTHORIZED, response.statusCode());
                     fail("sollte nicht erfolgreich sein");
                 }
-                catch (Exception ex) {
+                catch (final Exception ex) {
                     assertEquals("too many authentication attempts. Limit: 3", ex.getMessage());
                     throw ex;
                 }
@@ -268,7 +268,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
                 assertEquals(HttpStatus.UNAUTHORIZED.value(), response.statusCode());
                 // Assertions.fail("sollte nicht erfolgreich sein");
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 assertEquals("No authenticator set", ex.getMessage());
                 throw ex;
             }

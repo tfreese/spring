@@ -1,4 +1,3 @@
-// Created: 09.02.2019
 package de.freese.spring.cloud.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,6 +14,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 /***
  * @author Thomas Freese
+ * @since 09.02.2019
  */
 // @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)

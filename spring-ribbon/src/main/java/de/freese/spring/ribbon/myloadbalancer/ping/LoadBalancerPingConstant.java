@@ -1,4 +1,3 @@
-// Created: 22.03.2018
 package de.freese.spring.ribbon.myloadbalancer.ping;
 
 /**
@@ -6,6 +5,7 @@ package de.freese.spring.ribbon.myloadbalancer.ping;
  * Default: true
  *
  * @author Thomas Freese
+ * @since 22.03.2018
  */
 public class LoadBalancerPingConstant implements LoadBalancerPing {
     private boolean constant = true;

@@ -26,7 +26,7 @@ public class FailingService {
     private int port = -1;
 
     public Mono<String> greet(final String name) {
-        final long seconds = random.nextLong(4);
+        final long seconds = random.nextLong(4L);
 
         return Optional.ofNullable(name)
                 .map(s -> {
@@ -43,7 +43,7 @@ public class FailingService {
         try {
             return InetAddress.getLocalHost() + "@" + port;
         }
-        catch (UnknownHostException ex) {
+        catch (final UnknownHostException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 

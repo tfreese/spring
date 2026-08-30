@@ -1,4 +1,3 @@
-// Created: 30.10.2018
 package de.freese.spring.thymeleaf.config;
 
 import java.util.Objects;
@@ -13,6 +12,7 @@ import org.springframework.security.core.userdetails.cache.SpringCacheBasedUserC
 
 /**
  * @author Thomas Freese
+ * @since 30.10.2018
  */
 @Configuration
 public class CacheConfig {

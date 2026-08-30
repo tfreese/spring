@@ -1,4 +1,3 @@
-// Created: 30.01.2020
 package de.freese.spring.kryo;
 
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import de.freese.spring.kryo.reflection.client.ClientReflectionController;
 
 /**
  * @author Thomas Freese
+ * @since 30.01.2020
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = KryoApplication.class)
 @TestMethodOrder(MethodOrderer.MethodName.class)

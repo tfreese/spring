@@ -1,4 +1,3 @@
-// Created: 10.10.2021
 package de.freese.spring.cloud.client;
 
 import java.time.Duration;
@@ -21,6 +20,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * @author Thomas Freese
+ * @since 10.10.2021
  */
 @Component
 //@Order(1)
@@ -30,7 +30,7 @@ public class ClientRunner implements ApplicationRunner {
 
     @Resource
     private LoadBalancedExchangeFilterFunction loadBalancedFunction;
-    
+
     @Resource
     private ReactiveLoadBalancer.Factory<ServiceInstance> serviceInstanceFactory;
 

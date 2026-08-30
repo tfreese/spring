@@ -1,4 +1,3 @@
-// Created: 19.02.2026
 package de.freese.spring.kryo;
 
 import com.esotericsoftware.kryo.Kryo;
@@ -12,6 +11,7 @@ import de.freese.spring.kryo.registration.KryoRegistration;
 
 /**
  * @author Thomas Freese
+ * @since 19.02.2026
  */
 public class KryoPool {
     public static final Pool<Kryo> KRYO_POOL = new Pool<>(true, true) {

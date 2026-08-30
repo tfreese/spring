@@ -1,4 +1,3 @@
-// Created: 22.05.2018
 package de.freese.spring.kryo;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -16,6 +15,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicReference;
@@ -56,6 +56,7 @@ import de.freese.spring.kryo.webflux.KryoEncoder;
 
 /**
  * @author Thomas Freese
+ * @since 22.05.2018
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = KryoApplication.class)
 @AutoConfigureMockMvc
@@ -64,7 +65,7 @@ class TestKryo {
     static void validateLocalDateTime(final LocalDateTime localDateTime) {
         Assertions.assertNotNull(localDateTime);
 
-        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
 
         Assertions.assertEquals(localDateTime.getYear(), now.getYear());
         Assertions.assertEquals(localDateTime.getMonth().getValue(), now.getMonth().getValue());
@@ -84,7 +85,7 @@ class TestKryo {
 
     @LocalServerPort
     private int localServerPort;
-    
+
     // @Resource
     // private RestTemplateBuilder restTemplateBuilder;
     @Resource

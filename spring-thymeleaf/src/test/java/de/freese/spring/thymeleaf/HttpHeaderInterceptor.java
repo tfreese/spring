@@ -1,9 +1,9 @@
-// Created: 16.09.2020
 package de.freese.spring.thymeleaf;
 
 import java.io.IOException;
 import java.util.Objects;
 
+import org.jspecify.annotations.NullMarked;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -11,6 +11,7 @@ import org.springframework.http.client.ClientHttpResponse;
 
 /**
  * @author Thomas Freese
+ * @since 16.09.2020
  */
 public class HttpHeaderInterceptor implements ClientHttpRequestInterceptor {
     private final String name;
@@ -24,7 +25,7 @@ public class HttpHeaderInterceptor implements ClientHttpRequestInterceptor {
     }
 
     @Override
-    public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
+    public @NullMarked ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
         request.getHeaders().add(name, value);
 
         return execution.execute(request, body);

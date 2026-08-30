@@ -1,4 +1,3 @@
-// Created: 09.02.2019
 package de.freese.spring.cloud.gateway;
 
 import org.springframework.boot.SpringApplication;
@@ -27,6 +26,7 @@ import reactor.core.publisher.Mono;
  * <br>
  *
  * @author Thomas Freese
+ * @since 09.02.2019
  */
 @SpringBootApplication
 @EnableConfigurationProperties(UriConfiguration.class)

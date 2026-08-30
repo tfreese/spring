@@ -1,4 +1,3 @@
-// Created: 25.04.2025
 package de.freese.spring.contexts;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,6 +16,7 @@ import de.freese.spring.contexts.config.ParentConfig;
 
 /**
  * @author Thomas Freese
+ * @since 25.04.2025
  */
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @ContextHierarchy({

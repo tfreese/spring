@@ -1,4 +1,3 @@
-// Created: 27.02.2026
 package de.freese.spring.kryo.registration;
 
 import com.esotericsoftware.kryo.Kryo;
@@ -10,6 +9,7 @@ import com.esotericsoftware.kryo.io.Output;
  * Durch unterschiedlichen JVMs im Client und Server könnte die Serialisierung der StackTraceElement Objekte nicht zuverlässig funktionieren.<br>
  *
  * @author Thomas Freese
+ * @since 27.02.2026
  */
 class StackTraceElementSerializer extends Serializer<StackTraceElement> {
     @Override

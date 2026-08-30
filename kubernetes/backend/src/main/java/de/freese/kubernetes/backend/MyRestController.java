@@ -67,7 +67,7 @@ public class MyRestController {
         final String message = "Hello World from %s: ".formatted(getHostName());
 
         return getDbTimestamp()
-                .map(ts -> message + ts.toString())
+                .map(ts -> message + ts)
                 .onErrorReturn(message + LocalTime.now())
                 ;
     }

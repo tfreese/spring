@@ -1,4 +1,3 @@
-// Created: 14.02.2017
 package de.freese.spring;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,6 +32,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * @author Thomas Freese
+ * @since 14.02.2017
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = MicroServiceApplication.class)
 @TestMethodOrder(MethodOrderer.MethodName.class)

@@ -1,4 +1,3 @@
-// Created: 25.02.2026
 package de.spring.jooq;
 
 import org.jooq.codegen.GenerationTool;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
+ * @since 25.02.2026
  */
 @Component
 @Order(1)

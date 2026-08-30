@@ -1,4 +1,3 @@
-// Created: 18.12.22
 package de.freese.spring.messaging.kafka;
 
 import org.springframework.boot.SpringApplication;
@@ -6,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author Thomas Freese
+ * @since 18.12.2022
  */
 @SpringBootApplication
 // @SuppressWarnings("checkstyle:HideUtilityClassConstructor")

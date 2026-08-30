@@ -1,4 +1,3 @@
-// Created: 07.09.2018
 package de.freese.spring.thymeleaf.rest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,6 +25,7 @@ import de.freese.spring.thymeleaf.model.Person;
 
 /**
  * @author Thomas Freese
+ * @since 07.09.2018
  */
 @ActiveProfiles({"test", "with-ssl"})
 class TestRestWithWebClientSSL extends AbstractRestTestCase {

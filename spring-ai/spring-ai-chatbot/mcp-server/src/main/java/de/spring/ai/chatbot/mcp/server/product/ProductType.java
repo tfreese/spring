@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Types of products available in the inventory")
 public enum ProductType {
     ALL,
-    
+
     @Schema(description = "Meat products like chicken, beef, etc.")
     MEAT,
 

@@ -31,7 +31,7 @@ import tools.jackson.databind.json.JsonMapper;
  * The Access-Token is valid for 30 minutes.<br>
  * This class is scheduled to retrieve it every 25 minutes.
  *
- * @author Thomas Freese (D99QAIA)
+ * @author Thomas Freese
  */
 public final class AccessTokenSupplier implements Supplier<String>, Runnable {
     /**

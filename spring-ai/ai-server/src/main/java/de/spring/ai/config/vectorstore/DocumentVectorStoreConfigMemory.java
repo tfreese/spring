@@ -1,4 +1,3 @@
-// Created: 10.07.2025
 package de.spring.ai.config.vectorstore;
 
 import org.springframework.ai.chat.memory.ChatMemoryRepository;
@@ -14,6 +13,7 @@ import org.springframework.context.annotation.Profile;
  * Volatile ChatMemoryRepository and VectorStore.
  *
  * @author Thomas Freese
+ * @since 10.07.2025
  */
 @Configuration
 @Profile("memory")

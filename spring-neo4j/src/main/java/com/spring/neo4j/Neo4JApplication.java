@@ -1,4 +1,3 @@
-// Created: 30.06.2025
 package com.spring.neo4j;
 
 import java.nio.file.Path;
@@ -56,6 +55,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * <a href="https://neo4j.com/docs/cypher-cheat-sheet">cheat sheet</a>
  *
  * @author Thomas Freese
+ * @since 30.06.2025
  */
 @SpringBootApplication
 @EnableNeo4jRepositories
@@ -179,7 +179,7 @@ public class Neo4JApplication {
                 LOGGER.info(result.resultAsString());
 
                 result.forEachRemaining(row -> {
-                            for (String key : result.columns()) {
+                            for (final String key : result.columns()) {
                                 final Object value = row.get(key);
 
                                 if (value instanceof final Node node) {
@@ -210,7 +210,7 @@ public class Neo4JApplication {
 
             // personRepository.deleteAll();
 
-            if (personRepository.count() == 0) {
+            if (personRepository.count() == 0L) {
                 LOGGER.info("Before linking up with Neo4j:");
 
                 team.forEach(person -> LOGGER.info("\t{}", person));

@@ -1,4 +1,3 @@
-// Created: 04.05.2016
 package de.freese.spring.hateoas;
 
 import org.springframework.boot.SpringApplication;
@@ -11,6 +10,7 @@ import org.springframework.hateoas.config.EnableHypermediaSupport;
  * curl http://localhost:9000/greeter<br>
  *
  * @author Thomas Freese
+ * @since 04.05.2016
  */
 @SpringBootApplication
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)

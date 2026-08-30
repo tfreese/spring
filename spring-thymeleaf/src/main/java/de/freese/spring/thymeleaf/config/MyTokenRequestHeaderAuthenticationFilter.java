@@ -1,4 +1,3 @@
-// Created: 21.01.2018
 package de.freese.spring.thymeleaf.config;
 
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
@@ -7,6 +6,7 @@ import org.springframework.security.web.authentication.preauth.RequestHeaderAuth
  * Pre-Authentication<br>
  *
  * @author Thomas Freese
+ * @since 21.01.2018
  */
 public final class MyTokenRequestHeaderAuthenticationFilter extends RequestHeaderAuthenticationFilter {
     public static RequestHeaderAuthenticationFilter of(final String principalRequestHeader) {

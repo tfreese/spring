@@ -1,4 +1,3 @@
-// Created: 01.02.2019
 package de.freese.spring.messaging.jms;
 
 import java.util.Objects;
@@ -9,6 +8,7 @@ import org.springframework.jms.core.JmsTemplate;
 
 /**
  * @author Thomas Freese
+ * @since 01.02.2019
  */
 public class JmsSender {
     private static final Logger LOGGER = LoggerFactory.getLogger(JmsSender.class);

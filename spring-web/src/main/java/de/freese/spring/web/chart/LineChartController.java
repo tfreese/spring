@@ -16,7 +16,7 @@ import jakarta.faces.view.ViewScoped;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import software.xdev.chartjs.model.charts.LineChart;
 import software.xdev.chartjs.model.color.RGBAColor;
 import software.xdev.chartjs.model.data.LineData;
@@ -35,7 +35,7 @@ import software.xdev.chartjs.model.options.scale.cartesian.time.TimeScaleTickOpt
  * @author Thomas Freese
  */
 // @Named
-@Component  // see faces-config.xml: el-resolver
+@Controller // see faces-config.xml: el-resolver
 @ViewScoped
 public final class LineChartController implements Serializable {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

@@ -1,4 +1,3 @@
-// Created: 05.09.2018
 package de.freese.spring.thymeleaf.facade;
 
 import java.security.Principal;
@@ -35,6 +34,7 @@ import de.freese.spring.thymeleaf.ThymeleafController;
 
 /**
  * @author Thomas Freese
+ * @since 05.09.2018
  */
 @ThymeleafController
 public class HomeThymeleafController {
@@ -75,7 +75,7 @@ public class HomeThymeleafController {
         try {
             req.login(user, pass);
         }
-        catch (ServletException sex) {
+        catch (final ServletException sex) {
             throw new RuntimeException(sex);
         }
     }

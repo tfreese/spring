@@ -1,4 +1,3 @@
-// Created: 12.10.2021
 package de.freese.spring.reactive.config;
 
 import java.util.UUID;
@@ -15,6 +14,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 /**
  * @author Thomas Freese
+ * @since 12.10.2021
  */
 @Configuration
 @Profile("jdbc")

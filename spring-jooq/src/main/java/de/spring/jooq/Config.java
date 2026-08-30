@@ -1,4 +1,3 @@
-// Created: 25.02.2026
 package de.spring.jooq;
 
 import org.jooq.SQLDialect;
@@ -11,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Thomas Freese
+ * @since 25.02.2026
  */
 @Configuration
 public class Config {

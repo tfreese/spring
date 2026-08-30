@@ -1,4 +1,3 @@
-// Created: 17.07.2026
 package de.spring.ai.simple;
 
 import org.springframework.boot.SpringApplication;
@@ -6,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author Thomas Freese
+ * @since 17.07.2026
  */
 @SpringBootApplication
 public final class GithubApplication {

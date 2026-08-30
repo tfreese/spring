@@ -1,4 +1,3 @@
-// Created: 10.07.2025
 package de.spring.ai.config.vectorstore;
 
 import org.slf4j.Logger;
@@ -11,6 +10,7 @@ import org.springframework.context.annotation.Profile;
  * <a href="https://neo4j.com/docs/java-reference/current/java-embedded">neo4j-embedded</a>
  *
  * @author Thomas Freese
+ * @since 10.07.2025
  */
 @Configuration
 @Profile("neo4j")

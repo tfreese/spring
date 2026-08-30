@@ -1,4 +1,3 @@
-// Created: 23.06.2019
 package de.freese.spring.reactive.repository;
 
 import jakarta.annotation.Resource;
@@ -11,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 /**
  * @author Thomas Freese
+ * @since 23.06.2019
  */
 @ActiveProfiles({"test", "jdbc"})
 class TestRepositoryJdbc implements TestRepository {

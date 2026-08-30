@@ -1,4 +1,3 @@
-// Created: 12.09.2018
 package de.freese.spring.thymeleaf;
 
 import java.awt.Desktop;
@@ -6,6 +5,7 @@ import java.net.URI;
 
 import jakarta.annotation.Resource;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
+ * @since 12.09.2018
  */
 @Component
 @Profile("!test")
@@ -61,7 +62,7 @@ public class OpenBrowserRunner implements ApplicationRunner {
     private PropertyResolver propertyResolver;
 
     @Override
-    public void run(final ApplicationArguments args) throws Exception {
+    public void run(final @NonNull ApplicationArguments args) throws Exception {
         LOGGER.info("");
 
         final String rootUri = ThymeleafApplication.getRootUri(propertyResolver);

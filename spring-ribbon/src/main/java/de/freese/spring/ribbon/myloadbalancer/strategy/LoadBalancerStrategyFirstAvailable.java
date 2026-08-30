@@ -1,4 +1,3 @@
-// Created: 21.03.2018
 package de.freese.spring.ribbon.myloadbalancer.strategy;
 
 import java.util.List;
@@ -7,6 +6,7 @@ import java.util.List;
  * Liefert den immer ersten "isAlive"-Server.
  *
  * @author Thomas Freese
+ * @since 21.03.2018
  */
 public class LoadBalancerStrategyFirstAvailable implements LoadBalancerStrategy {
     @Override

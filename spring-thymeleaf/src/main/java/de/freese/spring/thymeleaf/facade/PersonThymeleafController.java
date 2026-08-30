@@ -1,4 +1,3 @@
-// Created: 26.08.2018
 package de.freese.spring.thymeleaf.facade;
 
 import java.util.List;
@@ -17,6 +16,7 @@ import de.freese.spring.thymeleaf.service.PersonService;
 
 /**
  * @author Thomas Freese
+ * @since 26.08.2018
  */
 @ThymeleafController
 public class PersonThymeleafController {

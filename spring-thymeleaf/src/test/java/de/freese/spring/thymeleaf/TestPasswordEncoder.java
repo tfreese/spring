@@ -1,4 +1,3 @@
-// Created: 21.01.2018
 package de.freese.spring.thymeleaf;
 
 import java.security.SecureRandom;
@@ -16,6 +15,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.Secret
 
 /**
  * @author Thomas Freese
+ * @since 21.01.2018
  */
 // @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class TestPasswordEncoder {
@@ -28,9 +28,12 @@ class TestPasswordEncoder {
 
     static Stream<Arguments> createPasswordEncoder() {
         return Stream.of(
-                Arguments.of("BCrypt", new BCryptPasswordEncoder(10, new SecureRandom())),
-                Arguments.of("Pbkdf2_SHA1", new Pbkdf2PasswordEncoder("mySecret", 16, 310000, SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA1)),
-                Arguments.of("Pbkdf2_SHA512", new Pbkdf2PasswordEncoder("mySecret", 16, 310000, SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512))
+                Arguments.of("BCrypt",
+                        new BCryptPasswordEncoder(10, new SecureRandom())),
+                Arguments.of("Pbkdf2_SHA1",
+                        new Pbkdf2PasswordEncoder("mySecret", 16, 310_000, SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA1)),
+                Arguments.of("Pbkdf2_SHA512",
+                        new Pbkdf2PasswordEncoder("mySecret", 16, 310_000, SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512))
         );
     }
 
@@ -40,9 +43,9 @@ class TestPasswordEncoder {
     void testPasswordEncoder(final String name, final PasswordEncoder passwordEncoder) {
         final String password = "gehaim";
 
-        //        if (passwordEncoder instanceof Pbkdf2PasswordEncoder pe) {
-        //            pe.setEncodeHashAsBase64(true);
-        //        }
+        // if (passwordEncoder instanceof final Pbkdf2PasswordEncoder pe) {
+        //     pe.setEncodeHashAsBase64(true);
+        // }
 
         final String encoded = passwordEncoder.encode(password);
 

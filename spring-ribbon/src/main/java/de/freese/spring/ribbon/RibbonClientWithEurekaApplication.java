@@ -1,4 +1,3 @@
-// Created: 14.02.2017
 package de.freese.spring.ribbon;
 
 import java.util.concurrent.TimeUnit;
@@ -18,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
  * Benötigt Dependency: spring-cloud-starter-netflix-eureka-client
  *
  * @author Thomas Freese
+ * @since 14.02.2017
  */
 @SpringBootApplication//(exclude = GsonAutoConfiguration.class)
 // @EnableEurekaClient
@@ -44,7 +44,7 @@ public class RibbonClientWithEurekaApplication {
                     break;
                 }
 
-                TimeUnit.MILLISECONDS.sleep(3000);
+                TimeUnit.MILLISECONDS.sleep(3000L);
             }
         }
 

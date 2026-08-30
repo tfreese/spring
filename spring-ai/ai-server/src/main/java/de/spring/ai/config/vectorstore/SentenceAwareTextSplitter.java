@@ -1,4 +1,3 @@
-// Created: 11.02.2026
 package de.spring.ai.config.vectorstore;
 
 import java.text.BreakIterator;
@@ -23,6 +22,7 @@ import org.springframework.ai.transformer.splitter.TokenTextSplitter;
  *
  * @author Thomas Freese
  * @see TokenTextSplitter
+ * @since 11.02.2026
  */
 public final class SentenceAwareTextSplitter extends TextSplitter {
     /**

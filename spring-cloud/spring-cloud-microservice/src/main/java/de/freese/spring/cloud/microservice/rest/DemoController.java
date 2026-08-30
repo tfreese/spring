@@ -1,4 +1,3 @@
-// Created: 14.02.2017
 package de.freese.spring.cloud.microservice.rest;
 
 import java.net.InetAddress;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * curl http://localhost:8081/actuator/health
  *
  * @author Thomas Freese
+ * @since 14.02.2017
  */
 @RestController
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)

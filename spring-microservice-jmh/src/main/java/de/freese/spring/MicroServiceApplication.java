@@ -1,4 +1,3 @@
-// Created: 14.02.2017
 package de.freese.spring;
 
 import org.springframework.boot.SpringApplication;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * curl http://localhost:8081
  *
  * @author Thomas Freese
+ * @since 14.02.2017
  */
 @SpringBootApplication
 @RestController

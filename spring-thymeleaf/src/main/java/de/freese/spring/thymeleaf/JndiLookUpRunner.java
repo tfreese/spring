@@ -1,4 +1,3 @@
-// Created: 12.09.2018
 package de.freese.spring.thymeleaf;
 
 import javax.naming.Context;
@@ -6,6 +5,7 @@ import javax.naming.InitialContext;
 import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
+ * @since 12.09.2018
  */
 @Component
 @Profile("!test")
@@ -36,7 +37,7 @@ public class JndiLookUpRunner implements ApplicationRunner {
 
             enumeration.close();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getLocalizedMessage());
         }
     }
@@ -46,13 +47,13 @@ public class JndiLookUpRunner implements ApplicationRunner {
             final Object object = context.lookup("test");
             LOGGER.info("{}", object);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getLocalizedMessage());
         }
     }
 
     @Override
-    public void run(final ApplicationArguments args) {
+    public void run(final @NonNull ApplicationArguments args) {
         LOGGER.info("JNDI Content");
 
         try {
@@ -77,7 +78,7 @@ public class JndiLookUpRunner implements ApplicationRunner {
 
             context.close();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getLocalizedMessage());
         }
     }

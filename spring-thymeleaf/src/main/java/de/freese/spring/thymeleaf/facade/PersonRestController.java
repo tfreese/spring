@@ -1,4 +1,3 @@
-// Created: 05.09.2018
 package de.freese.spring.thymeleaf.facade;
 
 import java.util.List;
@@ -17,11 +16,11 @@ import de.freese.spring.thymeleaf.service.PersonService;
 
 /**
  * @author Thomas Freese
+ * @since 05.09.2018
  */
 @RestController
 @RequestMapping("rest")
-// @RequestMapping(path = "rest", produces =
-// {
+// @RequestMapping(path = "rest", produces = {
 // MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE
 // })
 public class PersonRestController {

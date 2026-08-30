@@ -1,4 +1,3 @@
-// Created: 01.03.2017
 package de.freese.spring.hystrix.primarysecondary;
 
 import java.util.concurrent.TimeUnit;
@@ -15,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 01.03.2017
  */
 public final class PrimarySecondaryApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(PrimarySecondaryApplication.class);
@@ -58,7 +58,7 @@ public final class PrimarySecondaryApplication {
                         ConfigurationManager.getConfigInstance().setProperty("primarySecondary.usePrimary", false);
                     }
 
-                    TimeUnit.MILLISECONDS.sleep(1000);
+                    TimeUnit.MILLISECONDS.sleep(1000L);
                 }
             }
 

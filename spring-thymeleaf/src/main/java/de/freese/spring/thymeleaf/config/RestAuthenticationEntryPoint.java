@@ -1,4 +1,3 @@
-// Created: 08.12.2021
 package de.freese.spring.thymeleaf.config;
 
 import java.io.IOException;
@@ -8,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
  * Besides that, the FilterChain is further explained if no Credentials existing.<br>
  *
  * @author Thomas Freese
+ * @since 08.12.2021
  */
 class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
     @Override
@@ -27,7 +28,7 @@ class RestAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
     }
 
     @Override
-    public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authEx) throws IOException {
+    public void commence(final @NonNull HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authEx) throws IOException {
         response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

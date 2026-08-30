@@ -1,4 +1,3 @@
-// Created: 22.10.22
 package de.freese.spring.messaging.jms.config;
 
 import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
@@ -13,6 +12,7 @@ import de.freese.spring.messaging.jms.JmsSender;
 
 /**
  * @author Thomas Freese
+ * @since 22.10.2022
  */
 @Configuration
 public class SenderConfig {
@@ -28,7 +28,7 @@ public class SenderConfig {
     public JmsTemplate jmsTemplate(final CachingConnectionFactory cachingConnectionFactory, final MessageConverter jacksonJmsMessageConverter) {
         final JmsTemplate jmsTemplate = new JmsTemplate(cachingConnectionFactory);
         jmsTemplate.setMessageConverter(jacksonJmsMessageConverter);
-        jmsTemplate.setReceiveTimeout(5000);
+        jmsTemplate.setReceiveTimeout(5000L);
 
         return jmsTemplate;
     }

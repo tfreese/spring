@@ -1,4 +1,3 @@
-// Created: 22.10.22
 package de.freese.spring.messaging.jms.config;
 
 import java.util.concurrent.Executor;
@@ -14,6 +13,7 @@ import de.freese.spring.messaging.jms.JmsReceiver;
 
 /**
  * @author Thomas Freese
+ * @since 22.10.2022
  */
 @Configuration
 public class ReceiverConfig {

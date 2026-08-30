@@ -1,4 +1,3 @@
-// Created: 20.10.2021
 package de.freese.spring.autoconfigure;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,6 +18,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 /**
  * @author Thomas Freese
+ * @since 20.10.2021
  */
 @SpringBootTest
 @ActiveProfiles("test")

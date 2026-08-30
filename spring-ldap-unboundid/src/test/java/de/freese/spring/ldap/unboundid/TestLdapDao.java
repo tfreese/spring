@@ -1,4 +1,3 @@
-// Created: 17.02.2019
 package de.freese.spring.ldap.unboundid;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,6 +19,7 @@ import de.freese.spring.ldap.unboundid.dao.MyLdapDao;
 
 /**
  * @author Thomas Freese
+ * @since 17.02.2019
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = LdapApplication.class)
 @TestMethodOrder(MethodOrderer.MethodName.class)

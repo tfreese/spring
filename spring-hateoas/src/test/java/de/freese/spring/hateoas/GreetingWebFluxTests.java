@@ -1,4 +1,3 @@
-// Created: 29.11.2021
 package de.freese.spring.hateoas;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,6 +15,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 /**
  * @author Thomas Freese
+ * @since 29.11.2021
  */
 @WebFluxTest(GreetingController.class) // need spring-boot-starter-webflux
 @ActiveProfiles("test")

@@ -1,4 +1,3 @@
-// Created: 11.02.2026
 package de.spring.ai;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -27,6 +26,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 /**
  * @author Thomas Freese
+ * @since 11.02.2026
  */
 // @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = AiServerApplication.class)
 // @ActiveProfiles("test")

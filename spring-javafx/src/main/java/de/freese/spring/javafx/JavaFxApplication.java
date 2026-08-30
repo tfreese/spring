@@ -1,4 +1,3 @@
-// Created: 09.02.2019
 package de.freese.spring.javafx;
 
 import java.io.Serial;
@@ -20,6 +19,7 @@ import org.springframework.context.support.GenericApplicationContext;
 
 /**
  * @author Thomas Freese
+ * @since 09.02.2019
  */
 public class JavaFxApplication extends Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaFxApplication.class);

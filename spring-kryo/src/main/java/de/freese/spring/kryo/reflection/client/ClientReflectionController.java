@@ -1,4 +1,3 @@
-// Created: 30.01.2020
 package de.freese.spring.kryo.reflection.client;
 
 import java.time.LocalDateTime;
@@ -8,6 +7,7 @@ import de.freese.spring.kryo.reflection.ReflectionControllerApi;
 
 /**
  * @author Thomas Freese
+ * @since 30.01.2020
  */
 public class ClientReflectionController extends AbstractClientReflectionController<ReflectionControllerApi> implements ReflectionControllerApi {
     private final ReflectionControllerApi proxy;

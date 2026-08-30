@@ -1,4 +1,3 @@
-// Created: 23.01.2018
 package de.freese.spring.thymeleaf.web;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
@@ -25,6 +24,7 @@ import de.freese.spring.thymeleaf.ThymeleafApplication;
 
 /**
  * @author Thomas Freese
+ * @since 23.01.2018
  */
 @SpringBootTest(properties = "server.port=0", webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
 @AutoConfigureMockMvc
@@ -82,11 +82,14 @@ class TestWebApp {
 
     @Test
     void testLoginWithPreAuth() throws Exception {
-        mockMvc.perform(get("/web/person/personList").header("my-token", "admin")).andExpect(status().isOk()).andExpect(authenticated().withUsername("admin"));
+        mockMvc.perform(get("/web/person/personList").header("my-token", "admin"))
+                .andExpect(status().isOk()).andExpect(authenticated().withUsername("admin"));
 
-        mockMvc.perform(get("/web/person/personList").header("my-token", "user")).andExpect(status().isOk()).andExpect(authenticated().withUsername("user"));
+        mockMvc.perform(get("/web/person/personList").header("my-token", "user"))
+                .andExpect(status().isOk()).andExpect(authenticated().withUsername("user"));
 
-        mockMvc.perform(get("/web/person/personList").header("my-token", "invalid")).andExpect(status().isOk()).andExpect(authenticated().withUsername("invalid"));
+        mockMvc.perform(get("/web/person/personList").header("my-token", "invalid"))
+                .andExpect(status().isOk()).andExpect(authenticated().withUsername("invalid"));
     }
 
     @Test

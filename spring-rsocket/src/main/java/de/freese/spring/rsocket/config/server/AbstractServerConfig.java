@@ -1,4 +1,3 @@
-// Created: 17.02.2022
 package de.freese.spring.rsocket.config.server;
 
 import java.util.HashMap;
@@ -25,6 +24,7 @@ import org.springframework.security.messaging.handler.invocation.reactive.Authen
 
 /**
  * @author Thomas Freese
+ * @since 17.02.2022
  */
 @SuppressWarnings("java:S6437") // Revoke and change this password, as it is compromised.
 abstract class AbstractServerConfig {

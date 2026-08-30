@@ -1,4 +1,3 @@
-// Created: 02.09.2021
 package de.freese.spring.rsocket.config.client;
 
 import org.springframework.context.annotation.Profile;
@@ -7,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
+ * @since 02.09.2021
  */
 @Component
 @Profile("simple")

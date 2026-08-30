@@ -1,4 +1,3 @@
-// Created: 19.10.2019
 package de.freese.spring.autoconfigure.h2server;
 
 import java.sql.SQLException;
@@ -17,6 +16,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * @author Thomas Freese
+ * @since 19.10.2019
  */
 @SpringBootApplication // Mit Configuration wird die application.yml nicht eingelesen.
 public class TestH2Config {

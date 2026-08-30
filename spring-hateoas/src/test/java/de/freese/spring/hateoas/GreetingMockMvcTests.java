@@ -1,4 +1,3 @@
-// Created: 29.11.2021
 package de.freese.spring.hateoas;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,6 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 /**
  * @author Thomas Freese
+ * @since 29.11.2021
  */
 @SpringBootTest
 @AutoConfigureMockMvc

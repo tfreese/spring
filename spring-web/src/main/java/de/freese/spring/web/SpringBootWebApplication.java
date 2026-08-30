@@ -1,4 +1,3 @@
-// Created: 10.06.2015
 package de.freese.spring.web;
 
 import org.springframework.boot.SpringApplication;
@@ -10,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * <a href="http://localhost:8088/spring-web/content/index.jsf?param1=t">index.jsf</a>
  *
  * @author Thomas Freese
+ * @since 10.06.2015
  */
 @SpringBootApplication(scanBasePackages = {"de.freese.spring.web", "de.ui"})
 // @SuppressWarnings("checkstyle:HideUtilityClassConstructor")

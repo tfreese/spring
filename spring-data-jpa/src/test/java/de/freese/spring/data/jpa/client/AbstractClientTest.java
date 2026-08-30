@@ -1,4 +1,3 @@
-// Created: 11.10.2025
 package de.freese.spring.data.jpa.client;
 
 import java.time.LocalDateTime;
@@ -17,6 +16,7 @@ import de.freese.spring.data.jpa.domain.Todo;
 
 /**
  * @author Thomas Freese
+ * @since 11.10.2025
  */
 // @SpringBootTest(properties = "server.port=0", webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ...)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -26,7 +26,7 @@ abstract class AbstractClientTest {
 
     @Resource
     private JsonMapper jsonMapper;
-    
+
     @LocalServerPort
     private int localServerPort;
 

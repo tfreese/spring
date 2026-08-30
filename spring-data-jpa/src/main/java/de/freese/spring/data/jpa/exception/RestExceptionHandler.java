@@ -1,4 +1,3 @@
-// Created: 29.01.24
 package de.freese.spring.data.jpa.exception;
 
 import java.net.URI;
@@ -8,7 +7,7 @@ import java.util.stream.Stream;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.jspecify.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,6 +26,7 @@ import tools.jackson.databind.json.JsonMapper;
 
 /**
  * @author Thomas Freese
+ * @since 29.01.2024
  */
 @ControllerAdvice
 // @ControllerAdvice(annotations = RestController.class)
@@ -51,9 +51,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private JsonMapper jsonMapper;
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(final Exception exception, @Nullable Object body, final HttpHeaders headers,
-                                                             final HttpStatusCode statusCode, final WebRequest request) {
-        if (request instanceof ServletWebRequest servletWebRequest) {
+    protected ResponseEntity<Object> handleExceptionInternal(final @NonNull Exception exception,
+                                                             final Object body,
+                                                             final @NonNull HttpHeaders headers,
+                                                             final @NonNull HttpStatusCode statusCode,
+                                                             final @NonNull WebRequest request) {
+        if (request instanceof final ServletWebRequest servletWebRequest) {
             final HttpServletResponse response = servletWebRequest.getResponse();
 
             if (response != null && response.isCommitted()) {
@@ -65,16 +68,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             }
         }
 
-        if (body == null && exception instanceof ErrorResponse errorResponse) {
-            body = errorResponse.updateAndGetBody(getMessageSource(), LocaleContextHolder.getLocale());
+        Object bodyNew = null;
+
+        if (body == null && exception instanceof final ErrorResponse errorResponse) {
+            bodyNew = errorResponse.updateAndGetBody(getMessageSource(), LocaleContextHolder.getLocale());
         }
 
-        if (statusCode.equals(HttpStatus.INTERNAL_SERVER_ERROR) && body == null) {
+        if (statusCode.equals(HttpStatus.INTERNAL_SERVER_ERROR) && bodyNew == null) {
             request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, exception, RequestAttributes.SCOPE_REQUEST);
         }
 
         // Start Additional Code.
-        if (body == null) {
+        if (bodyNew == null) {
             final ProblemDetail problemDetail = createProblemDetail(exception, statusCode, jsonMapper);
 
             if (request instanceof final ServletWebRequest servletWebRequest) {
@@ -84,20 +89,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 problemDetail.setInstance(URI.create(request.getContextPath()));
             }
 
-            body = problemDetail;
+            bodyNew = problemDetail;
         }
         // End Additional Code.
 
-        return createResponseEntity(body, headers, statusCode, request);
+        return createResponseEntity(bodyNew, headers, statusCode, request);
     }
 
     @ExceptionHandler(value = ObjectNotFoundException.class)
     protected ResponseEntity<Object> handleObjectNotFoundException(final ObjectNotFoundException exception, final WebRequest webRequest) {
-        return handleExceptionInternal(exception, null, null, HttpStatus.NOT_FOUND, webRequest);
+        return handleExceptionInternal(exception, null, HttpHeaders.EMPTY, HttpStatus.NOT_FOUND, webRequest);
     }
 
     @ExceptionHandler(value = RuntimeException.class)
     protected ResponseEntity<Object> handleRuntimeException(final RuntimeException exception, final WebRequest webRequest) {
-        return handleExceptionInternal(exception, null, null, HttpStatus.INTERNAL_SERVER_ERROR, webRequest);
+        return handleExceptionInternal(exception, null, HttpHeaders.EMPTY, HttpStatus.INTERNAL_SERVER_ERROR, webRequest);
     }
 }

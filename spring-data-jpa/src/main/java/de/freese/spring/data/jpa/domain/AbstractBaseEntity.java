@@ -1,4 +1,3 @@
-// Created: 16.08.23
 package de.freese.spring.data.jpa.domain;
 
 import java.io.Serial;
@@ -19,6 +18,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 /**
  * @author Thomas Freese
+ * @since 16.08.2023
  */
 @MappedSuperclass
 public abstract class AbstractBaseEntity implements Serializable {

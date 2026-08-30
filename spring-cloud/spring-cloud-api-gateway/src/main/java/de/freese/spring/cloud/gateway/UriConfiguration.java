@@ -1,10 +1,10 @@
-// Created: 09.02.2019
 package de.freese.spring.cloud.gateway;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author Thomas Freese
+ * @since 09.02.2019
  */
 @ConfigurationProperties
 public class UriConfiguration {

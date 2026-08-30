@@ -1,4 +1,3 @@
-// Created: 05.03.2018
 package de.freese.spring.ribbon;
 
 import java.io.IOException;
@@ -30,6 +29,7 @@ import org.springframework.context.annotation.Bean;
  * an IPing, which says how periodic pings of a server are performed.<br>
  *
  * @author Thomas Freese
+ * @since 05.03.2018
  */
 public class RibbonClientConfiguration {
     /**
@@ -68,7 +68,7 @@ public class RibbonClientConfiguration {
         public boolean isAlive(final Server server) {
             logger.debug("pinging: {}", server);
 
-            String uriStr = "";
+            String uriStr;
 
             if (isSecure()) {
                 uriStr = "https://";
@@ -103,7 +103,7 @@ public class RibbonClientConfiguration {
                     }
                 }
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 // ex.printStackTrace();
                 logger.warn("{}: {}", server, ex.getMessage());
             }

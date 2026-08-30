@@ -1,4 +1,3 @@
-// Created: 17.12.2016
 package de.freese.spring.hystrix;
 
 import com.netflix.hystrix.HystrixCommand;
@@ -8,6 +7,7 @@ import com.netflix.hystrix.HystrixCommandGroupKey;
  * Sample {@link HystrixCommand} showing a basic fallback implementation.
  *
  * @author Thomas Freese
+ * @since 17.12.2016
  */
 public class CommandHelloFailure extends HystrixCommand<String> {
     private final String name;

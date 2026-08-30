@@ -1,4 +1,3 @@
-// Created: 30.01.2020
 package de.freese.spring.kryo.reflection.client;
 
 import java.io.InputStream;
@@ -34,6 +33,7 @@ import de.freese.spring.kryo.web.KryoHttpMessageConverter;
  * @param <T> Konkreter Klassentyp der Fassade.
  *
  * @author Thomas Freese
+ * @since 30.01.2020
  */
 public abstract class AbstractClientReflectionController<T> {
     /**

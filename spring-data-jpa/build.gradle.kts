@@ -10,6 +10,7 @@ dependencies {
     implementation("jakarta.xml.bind:jakarta.xml.bind-api")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
 
     runtimeOnly("tools.jackson.dataformat:jackson-dataformat-xml")
@@ -28,7 +29,7 @@ dependencies {
 
 tasks.named<ProcessResources>("processResources") {
     val map = mapOf(
-        "project_description" to (description ?: ""), "project_artifactId" to name, "project_version" to version.toString()
+        "project_description" to (project.description ?: ""), "project_artifactId" to project.name, "project_version" to project.version.toString()
     )
 
     filesMatching("application.yml") {

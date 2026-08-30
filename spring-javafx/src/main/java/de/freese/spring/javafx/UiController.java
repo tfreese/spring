@@ -1,4 +1,3 @@
-// Created: 09.02.2019
 package de.freese.spring.javafx;
 
 import java.util.Objects;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Controller;
 
 /**
  * @author Thomas Freese
+ * @since 09.02.2019
  */
 @Controller
 public class UiController // implements javafx.fxml.Initializable

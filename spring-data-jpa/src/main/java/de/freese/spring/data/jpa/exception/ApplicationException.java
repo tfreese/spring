@@ -1,10 +1,10 @@
-// Created: 29.01.24
 package de.freese.spring.data.jpa.exception;
 
 import java.io.Serial;
 
 /**
  * @author Thomas Freese
+ * @since 29.01.2024
  */
 public class ApplicationException extends RuntimeException {
     @Serial

@@ -1,4 +1,3 @@
-// Created: 14.09.2018
 package de.freese.spring.thymeleaf.config;
 
 import java.util.concurrent.TimeUnit;
@@ -31,6 +30,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 /**
  * @author Thomas Freese
+ * @since 14.09.2018
  */
 @Configuration
 @Profile("with-ssl")
@@ -54,7 +54,7 @@ public class ClientConfigSsl {
     public Runnable idleConnectionMonitor(final PoolingHttpClientConnectionManager poolingConnectionManager) {
         return new Runnable() {
             @Override
-            @Scheduled(initialDelay = 10 * 1000, fixedDelay = 10 * 1000) // 10 Seconds
+            @Scheduled(initialDelay = 10L * 1000L, fixedDelay = 10L * 1000L) // 10 Seconds
             // initialDelayString = #{ T(java.lang.Math).random() * 10 }
             // @Scheduled(cron = "0 0 * * * MON-FRI") // Every Hour from Monday - Friday
             // @Scheduled(cron = "4,9,14,19,24,29,34,39,44,49,55,59 * * * *") // Every 5 Minutes
@@ -65,13 +65,13 @@ public class ClientConfigSsl {
                     if (poolingConnectionManager != null) {
                         LOGGER.debug("idleConnectionMonitor - Closing expired and idle connections...");
                         poolingConnectionManager.closeExpired();
-                        poolingConnectionManager.closeIdle(TimeValue.ofSeconds(30));
+                        poolingConnectionManager.closeIdle(TimeValue.ofSeconds(30L));
                     }
                     else {
                         LOGGER.debug("idleConnectionMonitor - Http Client Connection manager is not initialised");
                     }
                 }
-                catch (Exception ex) {
+                catch (final Exception ex) {
                     final String message = String.format("idleConnectionMonitor - Exception occurred. msg = %s", ex.getMessage());
                     LOGGER.error(message, ex);
                 }

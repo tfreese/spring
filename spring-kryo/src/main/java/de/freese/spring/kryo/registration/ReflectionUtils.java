@@ -1,4 +1,3 @@
-// Created: 27.02.2026
 package de.freese.spring.kryo.registration;
 
 import java.io.File;
@@ -18,6 +17,7 @@ import java.util.stream.Stream;
 
 /**
  * @author Thomas Freese
+ * @since 27.02.2026
  */
 public final class ReflectionUtils {
     /**

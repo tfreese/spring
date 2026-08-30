@@ -1,4 +1,3 @@
-// Created: 13.05.2026
 package de.freese.spring.data;
 
 import java.io.IOException;
@@ -28,6 +27,7 @@ import org.slf4j.LoggerFactory;
  * <code>httpClientBuilder.addRequestInterceptorFirst(new PreemptiveAuthenticationRequestInterceptor(credentialsProvider))</code>
  *
  * @author Thomas Freese
+ * @since 13.05.2026
  */
 public final class PreemptiveAuthenticationRequestInterceptor implements HttpRequestInterceptor {
     private static final Logger LOGGER = LoggerFactory.getLogger(PreemptiveAuthenticationRequestInterceptor.class);

@@ -1,4 +1,3 @@
-// Created: 09.04.2021
 package de.freese.spring.resilience;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 09.04.2021
  */
 class TestResilience {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestResilience.class);
@@ -52,12 +52,12 @@ class TestResilience {
         circuitBreaker.getEventPublisher().onError(event -> LOGGER.error(event.toString()));
 
         // final Retry retry = Retry.ofDefaults("backendService");
-        final Retry retry = Retry.of("backendService", RetryConfig.custom().maxAttempts(10).waitDuration(Duration.ofMillis(100)).build());
+        final Retry retry = Retry.of("backendService", RetryConfig.custom().maxAttempts(10).waitDuration(Duration.ofMillis(100L)).build());
         retry.getEventPublisher().onRetry(event -> LOGGER.info(event.toString()));
         retry.getEventPublisher().onSuccess(event -> LOGGER.info(event.toString()));
 
         // final Bulkhead bulkhead = Bulkhead.ofDefaults("backendService");
-        final Bulkhead bulkhead = Bulkhead.of("backendService", BulkheadConfig.custom().maxConcurrentCalls(5).maxWaitDuration(Duration.ofMillis(10)).build());
+        final Bulkhead bulkhead = Bulkhead.of("backendService", BulkheadConfig.custom().maxConcurrentCalls(5).maxWaitDuration(Duration.ofMillis(10L)).build());
         bulkhead.getEventPublisher().onCallRejected(event -> LOGGER.error(event.toString()));
 
         final Callable<Object> decoratedSupplier = Decorators.ofCallable(failingCode)
@@ -87,7 +87,7 @@ class TestResilience {
     @Test
     void testRateLimiter() {
         // 10 Requests/Second
-        final RateLimiterConfig config = RateLimiterConfig.custom().limitForPeriod(10).limitRefreshPeriod(Duration.ofSeconds(1)).build();
+        final RateLimiterConfig config = RateLimiterConfig.custom().limitForPeriod(10).limitRefreshPeriod(Duration.ofSeconds(1L)).build();
         // .timeoutDuration(Duration.ofSeconds(1))
 
         final RateLimiterRegistry rateLimiterRegistry = RateLimiterRegistry.of(config);
@@ -127,7 +127,7 @@ class TestResilience {
             return data;
         };
 
-        final RetryConfig retryConfig = RetryConfig.custom().maxAttempts(10).waitDuration(Duration.ofMillis(100)).build();
+        final RetryConfig retryConfig = RetryConfig.custom().maxAttempts(10).waitDuration(Duration.ofMillis(100L)).build();
         final Retry retry = Retry.of("test-retry", retryConfig);
 
         retry.getEventPublisher().onRetry(event -> LOGGER.info("onRetry: try={}", event.getNumberOfRetryAttempts()));
@@ -140,7 +140,7 @@ class TestResilience {
             final Object value = retry.executeCallable(failingCode);
             assertEquals(data, value);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             assertEquals("test exception", ex.getMessage());
         }
 

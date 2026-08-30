@@ -1,4 +1,3 @@
-// Created: 29.01.2020
 package de.freese.spring.kryo.webflux;
 
 import java.util.List;
@@ -13,6 +12,7 @@ import de.freese.spring.kryo.web.KryoHttpMessageConverter;
 
 /**
  * @author Thomas Freese
+ * @since 29.01.2020
  */
 public abstract class AbstractKryoCodecSupport {
     /**

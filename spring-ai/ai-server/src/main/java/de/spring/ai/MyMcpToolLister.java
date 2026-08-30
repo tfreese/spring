@@ -51,7 +51,8 @@ public class MyMcpToolLister implements CommandLineRunner {
 
             if (toolCallbacks.isEmpty()) {
                 LOGGER.warn("No tools found on this MCP client.");
-            } else {
+            }
+            else {
                 for (ToolCallback toolCallback : toolCallbacks) {
                     final ToolDefinition toolDefinition = toolCallback.getToolDefinition();
 

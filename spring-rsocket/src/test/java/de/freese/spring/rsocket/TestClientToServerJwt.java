@@ -53,7 +53,7 @@ class TestClientToServerJwt implements TestClientToServer {
                 .issuer("test-app")
                 .subject("user")
                 .claim("password", "pass")
-                .expirationTime(new Date(System.currentTimeMillis() + 3_600_000))
+                .expirationTime(new Date(System.currentTimeMillis() + 3_600_000L))
                 .jwtID(UUID.randomUUID().toString())
                 .build();
 

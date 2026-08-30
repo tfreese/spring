@@ -73,7 +73,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         if (webRequest instanceof final ServletWebRequest servletWebRequest) {
             problemDetail.setInstance(URI.create(servletWebRequest.getRequest().getRequestURI()));
-        } else {
+        }
+        else {
             problemDetail.setInstance(URI.create(webRequest.getContextPath()));
         }
 

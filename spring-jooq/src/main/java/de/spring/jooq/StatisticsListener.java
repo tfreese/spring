@@ -1,4 +1,3 @@
-// Created: 22.05.2026
 package de.spring.jooq;
 
 import java.io.Serial;
@@ -13,6 +12,7 @@ import org.jooq.ExecuteType;
  * <a href="https://www.jooq.org/doc/latest/manual/sql-execution/execute-listeners>execute-listeners</a>
  *
  * @author Thomas Freese
+ * @since 22.05.2026
  */
 public final class StatisticsListener implements ExecuteListener {
     private static final Map<ExecuteType, Integer> STATISTICS = new ConcurrentHashMap<>();

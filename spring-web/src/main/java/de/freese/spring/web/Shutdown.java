@@ -1,4 +1,3 @@
-// Created: 11.08.2016
 package de.freese.spring.web;
 
 import java.io.IOException;
@@ -27,6 +26,7 @@ import org.springframework.core.io.Resource;
  * Send the shutdown-Signal.
  *
  * @author Thomas Freese
+ * @since 11.08.2016
  */
 final class Shutdown {
     public static final Logger LOGGER = LoggerFactory.getLogger(Shutdown.class);
@@ -39,7 +39,7 @@ final class Shutdown {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -141,7 +141,7 @@ final class Shutdown {
         // curl -X POST localhost:8088/spring-web/actuator/shutdown
         try (HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
-                .connectTimeout(Duration.ofSeconds(3))
+                .connectTimeout(Duration.ofSeconds(3L))
                 .build()) {
             final HttpRequest request = HttpRequest.newBuilder().uri(uri).POST(HttpRequest.BodyPublishers.noBody()).header("user-agent", "Java").build();
 

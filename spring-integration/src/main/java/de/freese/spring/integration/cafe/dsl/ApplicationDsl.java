@@ -1,4 +1,3 @@
-// Created: 01.02.2018
 package de.freese.spring.integration.cafe.dsl;
 
 import java.util.concurrent.Executors;
@@ -27,6 +26,7 @@ import de.freese.spring.integration.cafe.OrderItem;
  * ">spring-integration-samples</a>
  *
  * @author Thomas Freese
+ * @since 01.02.2018
  */
 @SpringBootApplication
 // @EnableIntegration

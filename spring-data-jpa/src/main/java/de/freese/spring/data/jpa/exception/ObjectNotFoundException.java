@@ -1,4 +1,3 @@
-// Created: 29.01.24
 package de.freese.spring.data.jpa.exception;
 
 import java.io.Serial;
@@ -7,6 +6,7 @@ import java.util.UUID;
 
 /**
  * @author Thomas Freese
+ * @since 29.01.2024
  */
 public class ObjectNotFoundException extends ApplicationException {
     @Serial

@@ -119,9 +119,12 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
     @Override
     public Flux<Employee> getAllEmployees() {
         final String sql = """
-                select e.*, d.department_name
-                from employee e
-                INNER JOIN department d ON d.department_id = e.department_id
+                select
+                    e.*,
+                     d.department_name
+                from
+                    employee e
+                    INNER JOIN department d ON d.department_id = e.department_id
                 """;
 
         return databaseClient.sql(sql)
@@ -134,12 +137,14 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
     @Override
     public Mono<Employee> getEmployee(final String lastName, final String firstName) {
         final String sql = """
-                select e.*, d.department_name
-                from employee e
-                INNER JOIN department d ON d.department_id = e.department_id
+                select
+                    e.*, d.department_name
+                from
+                    employee e
+                    INNER JOIN department d ON d.department_id = e.department_id
                 where
-                e.employee_lastname = :lastName
-                and e.employee_firstname = :firstName
+                    e.employee_lastname = :lastName
+                    and e.employee_firstname = :firstName
                 """;
 
         return databaseClient.sql(sql)
@@ -155,7 +160,7 @@ public class EmployeeRepositoryDatabaseClient implements EmployeeRepository {
             //            connection.createBatch()
             final var statement = connection.createStatement("INSERT INTO department (department_name) VALUES (:name)").returnGeneratedValues("department_id");
 
-            for (var d : data) {
+            for (final var d : data) {
                 statement.bind(0, d.getName()).add();
             }
 

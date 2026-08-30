@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -79,7 +80,7 @@ public class ThymeleafApplication extends SpringBootServletInitializer {
      * Alle anderen J2EE-Jars auf provided setzen.
      */
     @Override
-    protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
+    protected SpringApplicationBuilder configure(final @NonNull SpringApplicationBuilder application) {
         return configureApplication(application);
     }
 }

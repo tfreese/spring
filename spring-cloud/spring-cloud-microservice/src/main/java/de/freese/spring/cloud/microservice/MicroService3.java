@@ -1,10 +1,10 @@
-// Created: 14.02.2017
 package de.freese.spring.cloud.microservice;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 /**
  * @author Thomas Freese
+ * @since 14.02.2017
  */
 public final class MicroService3 {
     static void main() {

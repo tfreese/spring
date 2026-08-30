@@ -1,4 +1,3 @@
-// Created: 28.10.2018
 package de.freese.spring.jwt.exception;
 
 import java.util.Map;
@@ -18,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 /**
  * @author Thomas Freese
+ * @since 28.10.2018
  */
 // @ControllerAdvice(annotations = RestController.class)
 @RestControllerAdvice

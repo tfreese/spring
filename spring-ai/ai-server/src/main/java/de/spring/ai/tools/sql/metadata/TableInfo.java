@@ -14,5 +14,4 @@ public record TableInfo(
         String catalog,
         String schema,
         List<ColumnInfo> columns) {
-
 }

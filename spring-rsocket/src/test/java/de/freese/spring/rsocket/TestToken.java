@@ -1,4 +1,3 @@
-// Created: 17.02.2022
 package de.freese.spring.rsocket;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 17.02.2022
  */
 class TestToken {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestToken.class);
@@ -43,7 +43,7 @@ class TestToken {
                 //.issuer("test-app")
                 .subject("user")
                 .claim("password", "pass")
-                .expirationTime(Date.from(LocalDateTime.now().plusMinutes(60).atZone(ZoneId.systemDefault()).toInstant()))
+                .expirationTime(Date.from(LocalDateTime.now().plusMinutes(60L).atZone(ZoneId.systemDefault()).toInstant()))
                 //.jwtID(UUID.randomUUID().toString())
                 .build();
 

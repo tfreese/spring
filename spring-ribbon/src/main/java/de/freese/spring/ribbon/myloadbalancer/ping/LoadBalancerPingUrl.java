@@ -1,4 +1,3 @@
-// Created: 21.03.2018
 package de.freese.spring.ribbon.myloadbalancer.ping;
 
 import java.io.IOException;
@@ -23,6 +22,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
  * Ping auf eine feste URL des Servers.
  *
  * @author Thomas Freese
+ * @since 21.03.2018
  */
 public class LoadBalancerPingUrl implements LoadBalancerPing {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancerPingUrl.class);
@@ -41,7 +41,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
     }
 
     /**
-     * Welcher Content muss der Ping liefern ?
+     * Welcher Content muss der Ping liefern?
      */
     public String getExpectedContent() {
         return expectedContent;
@@ -93,7 +93,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
 
             return isAlive;
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.warn("{}: {}", uriStr, ex.getMessage());
         }
 
@@ -108,7 +108,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
     }
 
     /**
-     * Welcher Content muss der Ping liefern ?
+     * Welcher Content muss der Ping liefern?
      *
      * @param expectedContent String; optional
      */

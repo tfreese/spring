@@ -1,4 +1,3 @@
-// Created: 13.02.2017
 package de.freese.spring.autoconfigure.hsqldbserver;
 
 import java.util.List;
@@ -55,6 +54,7 @@ import de.freese.spring.autoconfigure.hsqldbserver.HsqldbServerProperties.DB;
  * </pre>
  *
  * @author Thomas Freese
+ * @since 13.02.2017
  */
 @Configuration
 @ConditionalOnClass(Server.class) // Only when HSQLDB is in Classpath.

@@ -7,13 +7,13 @@ import java.util.Locale;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 /**
  * @author Thomas Freese
  */
 // @Named
-@Component
+@Controller
 @SessionScoped
 public class LocaleController implements Serializable {
     private static final Locale WEB_DEFAULT_LOCALE = Locale.GERMANY;

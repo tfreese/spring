@@ -1,4 +1,3 @@
-// Created: 14.02.2017
 package de.freese.spring.hystrix;
 
 import java.util.concurrent.TimeUnit;
@@ -27,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
  * <a href="https://github.com/Netflix/Hystrix/tree/master/hystrix-contrib/hystrix-javanica">hystrix-javanica</a><br>
  *
  * @author Thomas Freese
+ * @since 14.02.2017
  */
 @SpringBootApplication
 @EnableHystrix
@@ -77,7 +77,7 @@ public class HystrixApplication {
                     break;
                 }
 
-                TimeUnit.MILLISECONDS.sleep(2000);
+                TimeUnit.MILLISECONDS.sleep(2000L);
             }
         }
 

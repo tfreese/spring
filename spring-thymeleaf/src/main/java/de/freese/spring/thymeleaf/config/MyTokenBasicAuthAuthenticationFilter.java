@@ -1,4 +1,3 @@
-// Created: 21.01.2018
 package de.freese.spring.thymeleaf.config;
 
 import java.io.IOException;
@@ -9,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -32,6 +32,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * Implementation analog {@link BasicAuthenticationFilter}.
  *
  * @author Thomas Freese
+ * @since 21.01.2018
  */
 public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyTokenBasicAuthAuthenticationFilter.class);
@@ -76,7 +77,8 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(final HttpServletRequest request, final @NonNull HttpServletResponse response, final @NonNull FilterChain filterChain)
+            throws ServletException, IOException {
         final String header = request.getHeader("my-token");
 
         if (header == null || header.isEmpty()) {
@@ -108,7 +110,7 @@ public class MyTokenBasicAuthAuthenticationFilter extends OncePerRequestFilter {
                 onSuccessfulAuthentication(request, response, authResult);
             }
         }
-        catch (AuthenticationException failed) {
+        catch (final AuthenticationException failed) {
             SecurityContextHolder.clearContext();
 
             LOGGER.debug("Authentication request for failed: {}", failed.getMessage());

@@ -1,10 +1,10 @@
-// Created: 21.03.2018
 package de.freese.spring.ribbon.myloadbalancer;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.Objects;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -15,12 +15,13 @@ import org.springframework.http.client.support.HttpRequestWrapper;
  * {@link ClientHttpRequestInterceptor} für den {@link LoadBalancer}.
  *
  * @author Thomas Freese
+ * @since 21.03.2018
  */
 public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
     private static ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
         final HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request) {
             @Override
-            public URI getURI() {
+            public @NonNull URI getURI() {
                 return newUri;
             }
         };
@@ -39,19 +40,19 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
      * @param retries int; Anzahl der Versuche bei fehlerhaften Requests.
      */
     public LoadBalancerInterceptor(final LoadBalancer loadBalancer, final int retries) {
-        super();
-
-        this.loadBalancer = Objects.requireNonNull(loadBalancer, "loadBalancer required");
-
         if (retries <= 0) {
             throw new IllegalArgumentException("retries must be greater than 0");
         }
+
+        super();
+
+        this.loadBalancer = Objects.requireNonNull(loadBalancer, "loadBalancer required");
 
         this.retries = retries;
     }
 
     @Override
-    public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
+    public @NonNull ClientHttpResponse intercept(final HttpRequest request, final byte @NonNull [] body, final @NonNull ClientHttpRequestExecution execution) throws IOException {
         final URI originalUri = request.getURI();
         final String serviceName = originalUri.getHost();
 
@@ -63,19 +64,19 @@ public class LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
 
                 return intercept(newUri, request, body, execution);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 lastException = ex;
             }
         }
 
         if (lastException != null) {
             switch (lastException) {
-                case IOException ex -> throw ex;
-                case RuntimeException ex -> throw ex;
+                case final IOException ex -> throw ex;
+                case final RuntimeException ex -> throw ex;
                 default -> throw new IOException(lastException);
             }
         }
 
-        return null;
+        return execution.execute(request, body);
     }
 }

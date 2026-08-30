@@ -1,10 +1,10 @@
-// Created: 30.01.2020
 package de.freese.spring.kryo.reflection;
 
 import java.time.LocalDateTime;
 
 /**
  * @author Thomas Freese
+ * @since 30.01.2020
  */
 @FunctionalInterface
 public interface ReflectionControllerApi {

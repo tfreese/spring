@@ -1,4 +1,3 @@
-// Created: 13.02.2017
 package de.freese.spring.autoconfigure.hsqldbserver;
 
 import java.util.List;
@@ -9,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * Properties for {@link HsqldbServerAutoConfiguration}.<br>
  *
  * @author Thomas Freese
+ * @since 13.02.2017
  */
 @ConfigurationProperties(prefix = "hsqldb.server")
 public class HsqldbServerProperties {

@@ -1,4 +1,3 @@
-// Created: 12.10.2021
 package de.freese.spring.reactive.config;
 
 import java.util.UUID;
@@ -13,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 
 /**
  * @author Thomas Freese
+ * @since 12.10.2021
  */
 @Configuration
 @Profile("r2dbc")

@@ -1,4 +1,3 @@
-// Created: 16.08.23
 package de.freese.spring.data.jpa;
 
 import org.springframework.boot.SpringApplication;
@@ -17,6 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * </pre>
  *
  * @author Thomas Freese
+ * @since 16.08.2023
  */
 @SpringBootApplication
 @EnableTransactionManagement

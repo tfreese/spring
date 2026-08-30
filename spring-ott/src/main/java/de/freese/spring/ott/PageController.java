@@ -1,4 +1,3 @@
-// Created: 05.04.2025
 package de.freese.spring.ott;
 
 import java.security.Principal;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * @author Thomas Freese
+ * @since 05.04.2025
  */
 @Controller
 public final class PageController {

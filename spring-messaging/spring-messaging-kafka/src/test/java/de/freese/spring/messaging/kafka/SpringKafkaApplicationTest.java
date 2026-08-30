@@ -1,4 +1,3 @@
-// Created: 22.10.22
 package de.freese.spring.messaging.kafka;
 
 import static org.awaitility.Awaitility.await;
@@ -18,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 /**
  * @author Thomas Freese
+ * @since 22.10.2022
  */
 @SpringBootTest
 @ActiveProfiles("test")

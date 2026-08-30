@@ -1,4 +1,3 @@
-// Created: 28.01.2020
 package de.freese.spring.kryo.webflux;
 
 import java.util.List;
@@ -22,6 +21,7 @@ import de.freese.spring.kryo.KryoPool;
 
 /**
  * @author Thomas Freese
+ * @since 28.01.2020
  */
 public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessageDecoder<Object> {
     public KryoDecoder(final KryoPool kryoPool) {

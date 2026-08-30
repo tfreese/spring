@@ -6,5 +6,4 @@ package de.spring.ai.tools.sql;
  * @author Thomas Freese
  */
 public record RunSqlQueryRequest(String query) {
-
 }

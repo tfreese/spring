@@ -1,4 +1,3 @@
-// Created: 19.12.22
 package org.apache.qpid.server.logging.logback;
 
 import ch.qos.logback.classic.LoggerContext;
@@ -15,6 +14,7 @@ import ch.qos.logback.core.spi.ContextAwareBase;
  * </code>
  *
  * @author Thomas Freese
+ * @since 19.12.2022
  */
 public class NoopConfigurator extends ContextAwareBase implements Configurator {
     public NoopConfigurator() {

@@ -1,4 +1,3 @@
-// Created: 30.06.2025
 package com.spring.neo4j.logging;
 
 import java.util.Objects;
@@ -8,6 +7,7 @@ import org.slf4j.Logger;
 
 /**
  * @author Thomas Freese
+ * @since 30.06.2025
  */
 public record Slf4jLog(Logger logger) implements Log {
     public Slf4jLog(final Logger logger) {

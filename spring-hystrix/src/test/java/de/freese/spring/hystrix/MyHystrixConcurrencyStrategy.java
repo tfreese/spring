@@ -1,4 +1,3 @@
-// Created: 17.12.2016
 package de.freese.spring.hystrix;
 
 import java.util.Objects;
@@ -15,6 +14,7 @@ import com.netflix.hystrix.strategy.properties.HystrixProperty;
  * Was eigentlich bei Hystrix NICHT sein soll, nur einen ThreadPool für alles !
  *
  * @author Thomas Freese
+ * @since 17.12.2016
  */
 public class MyHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {
     private final ThreadPoolExecutor executor;

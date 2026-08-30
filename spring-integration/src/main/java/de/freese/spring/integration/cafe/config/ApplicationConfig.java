@@ -1,4 +1,3 @@
-// Created: 01.02.2018
 package de.freese.spring.integration.cafe.config;
 
 import java.util.List;
@@ -32,6 +31,7 @@ import de.freese.spring.integration.cafe.xml.XmlWaiter;
  * ">spring-integration-samples</a>
  *
  * @author Thomas Freese
+ * @since 01.02.2018
  */
 @SpringBootApplication
 // @EnableIntegration

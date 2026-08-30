@@ -1,4 +1,3 @@
-// Created: 12.03.2020
 package de.freese.spring.rsocket.config.server;
 
 import org.springframework.context.annotation.Bean;
@@ -12,6 +11,7 @@ import org.springframework.security.rsocket.core.PayloadSocketAcceptorIntercepto
 
 /**
  * @author Thomas Freese
+ * @since 12.03.2020
  */
 @Configuration
 @EnableRSocketSecurity

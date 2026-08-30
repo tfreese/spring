@@ -1,4 +1,3 @@
-// Created: 14.09.2018
 package de.freese.spring.thymeleaf.config;
 
 import java.util.concurrent.TimeUnit;
@@ -24,6 +23,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author Thomas Freese
+ * @since 14.09.2018
  */
 @Configuration
 @EnableScheduling

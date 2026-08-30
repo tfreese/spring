@@ -1,4 +1,3 @@
-// Created: 28.04.2022
 package de.freese.spring.atomicos;
 
 import org.slf4j.Logger;
@@ -10,6 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * @author Thomas Freese
+ * @since 28.04.2022
  */
 @SpringBootApplication
 public final class AtomicosApplication {

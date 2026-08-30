@@ -84,14 +84,11 @@ public class Employee {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("Employee [");
-        builder.append("id=").append(id);
-        builder.append(", lastName=").append(lastName);
-        builder.append(", firstName=").append(firstName);
-        builder.append(", department=").append(department);
-        builder.append("]");
-
-        return builder.toString();
+        return "Employee ["
+                + "id=" + id
+                + ", lastName=" + lastName
+                + ", firstName=" + firstName
+                + ", department=" + department
+                + "]";
     }
 }

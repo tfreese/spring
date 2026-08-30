@@ -17,9 +17,6 @@ pluginManagement {
     }
 }
 
-// Without rootProject.name the Name of the Project-Directory is used.
-rootProject.name = "spring"
-
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 
@@ -28,6 +25,9 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
+// Without rootProject.name the Name of the Project-Directory is used.
+rootProject.name = "spring"
 
 include("kubernetes:api")
 include("kubernetes:backend")

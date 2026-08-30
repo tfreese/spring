@@ -1,4 +1,3 @@
-// Created: 03.09.2018
 package de.freese.spring.thymeleaf.exception;
 
 import java.util.Optional;
@@ -24,6 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 /**
  * @author Thomas Freese
+ * @since 03.09.2018
  */
 // @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice(annotations = RestController.class)
@@ -142,7 +142,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         ResponseEntity<Object> responseEntity = null;
 
         try {
-            if (ex instanceof Exception e) {
+            if (ex instanceof final Exception e) {
                 responseEntity = handleException(e, request);
             }
         }

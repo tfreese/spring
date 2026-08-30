@@ -1,4 +1,3 @@
-// Created: 22.08.2024
 package de.freese.spring.data.jpa.client;
 
 import java.util.List;
@@ -18,6 +17,7 @@ import de.freese.spring.data.jpa.domain.Todo;
 
 /**
  * @author Thomas Freese
+ * @since 22.08.2024
  */
 @HttpExchange(url = "/api/todo", accept = MediaType.APPLICATION_JSON_VALUE)
 interface TodoClient {

@@ -1,4 +1,3 @@
-// Created: 14.02.2017
 package de.freese.spring.cloud.microservice;
 
 import org.springframework.boot.Banner;
@@ -9,6 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @author Thomas Freese
+ * @since 14.02.2017
  */
 @SpringBootApplication
 @EnableDiscoveryClient

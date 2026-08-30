@@ -29,7 +29,6 @@ import de.freese.spring.reactive.model.Employee;
  */
 // @Repository
 // @Profile("r2dbc")
-//
 public class EmployeeRepositoryR2dbcClient implements EmployeeRepository {
     private static final BiFunction<Row, RowMetadata, Department> DEPARTMENT_ROWMAPPER = (row, rowMetadata) -> {
         final Department department = new Department();

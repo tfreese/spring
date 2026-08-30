@@ -1,4 +1,3 @@
-// Created: 25.09.2018
 package de.freese.spring.jwt.config.defaultAuthProvider;
 
 import jakarta.servlet.Filter;
@@ -18,6 +17,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
  * Siehe {@link DaoAuthenticationProvider}.<br>
  *
  * @author Thomas Freese
+ * @since 25.09.2018
  */
 @Configuration
 @Profile("defaultAuthProvider")

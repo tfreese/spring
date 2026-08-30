@@ -1,4 +1,3 @@
-// Created: 01.02.2019
 package de.freese.spring.messaging.amqp.qpid;
 
 import java.util.Objects;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
+ * @since 01.02.2019
  */
 @Component
 public class AmqpSender {

@@ -1,4 +1,3 @@
-// Created: 22.05.2018
 package de.freese.spring.kryo.reflection;
 
 import java.time.LocalDateTime;
@@ -11,6 +10,7 @@ import de.freese.spring.kryo.KryoPool;
 
 /**
  * @author Thomas Freese
+ * @since 22.05.2018
  */
 @RestController
 @RequestMapping("reflection/ReflectionControllerApi")

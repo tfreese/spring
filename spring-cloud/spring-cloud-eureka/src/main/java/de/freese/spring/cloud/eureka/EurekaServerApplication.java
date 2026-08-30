@@ -1,4 +1,3 @@
-// Created: 14.02.2017
 package de.freese.spring.cloud.eureka;
 
 import org.springframework.boot.SpringApplication;
@@ -7,6 +6,7 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 /**
  * @author Thomas Freese
+ * @since 14.02.2017
  */
 @SpringBootApplication
 @EnableEurekaServer

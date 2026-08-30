@@ -1,4 +1,3 @@
-// Created: 17.07.2026
 package de.spring.ai.simple;
 
 import java.util.Objects;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Thomas Freese
+ * @since 17.07.2026
  */
 @RestController
 public class GithubController {

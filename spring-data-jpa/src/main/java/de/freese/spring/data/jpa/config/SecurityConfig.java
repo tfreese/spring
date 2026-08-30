@@ -1,8 +1,8 @@
-// Created: 27.01.2026
 package de.freese.spring.data.jpa.config;
 
 /**
  * @author Thomas Freese
+ * @since 27.01.2026
  */
 public class SecurityConfig {
     // /**

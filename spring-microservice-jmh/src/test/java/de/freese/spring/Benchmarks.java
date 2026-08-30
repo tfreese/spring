@@ -1,4 +1,3 @@
-// Created: 30.04.2020
 package de.freese.spring;
 
 import org.openjdk.jmh.results.format.ResultFormatType;
@@ -8,6 +7,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 /**
  * @author Thomas Freese
+ * @since 30.04.2020
  */
 public final class Benchmarks {
     static void main() throws Exception {

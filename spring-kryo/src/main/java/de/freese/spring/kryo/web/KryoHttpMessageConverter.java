@@ -1,4 +1,3 @@
-// Created: 22.05.2018
 package de.freese.spring.kryo.web;
 
 import java.io.IOException;
@@ -20,6 +19,7 @@ import de.freese.spring.kryo.KryoPool;
 
 /**
  * @author Thomas Freese
+ * @since 22.05.2018
  */
 public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
     /**

@@ -1,8 +1,8 @@
-// Created: 26.08.2018
 package de.freese.spring.thymeleaf.model;
 
 /**
  * @author Thomas Freese
+ * @since 26.08.2018
  */
 public class PersonForm {
     private String firstName;

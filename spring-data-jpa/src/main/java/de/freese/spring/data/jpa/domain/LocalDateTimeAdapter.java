@@ -1,4 +1,3 @@
-// Created: 29.01.24
 package de.freese.spring.data.jpa.domain;
 
 import java.time.LocalDateTime;
@@ -8,6 +7,7 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * @author Thomas Freese
+ * @since 29.01.2024
  */
 public class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
     @Override

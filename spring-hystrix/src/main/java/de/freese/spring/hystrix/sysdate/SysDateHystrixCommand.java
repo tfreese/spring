@@ -1,4 +1,3 @@
-// Created: 01.03.2017
 package de.freese.spring.hystrix.sysdate;
 
 import java.util.List;
@@ -18,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
  * <a href="https://github.com/Netflix/Hystrix/wiki/How-To-Use#Common-Patterns-FallbackCacheViaNetwork">Hystrix</a><br>
  *
  * @author Thomas Freese
+ * @since 01.03.2017
  */
 public class SysDateHystrixCommand extends HystrixCommand<String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(SysDateHystrixCommand.class);

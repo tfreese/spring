@@ -1,4 +1,3 @@
-// Created: 24.06.2019
 package de.freese.spring.reactive.repository;
 
 import org.junit.jupiter.api.AfterEach;
@@ -13,6 +12,7 @@ import de.freese.spring.reactive.model.Employee;
 
 /**
  * @author Thomas Freese
+ * @since 24.06.2019
  */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -45,22 +45,22 @@ public interface TestRepository {
 
         getRepository().getAllEmployees()
                 .as(StepVerifier::create)
-                .expectNextCount(4)
+                .expectNextCount(4L)
                 .verifyComplete()
         ;
     }
 
     @Test
     default void testDeleteEmployee() {
-        getRepository().deleteEmployee(1)
+        getRepository().deleteEmployee(1L)
                 .as(StepVerifier::create)
-                .expectNextMatches(count -> count == 1)
+                .expectNextMatches(count -> count == 1L)
                 .verifyComplete()
         ;
 
         getRepository().getAllEmployees()
                 .as(StepVerifier::create)
-                .expectNextCount(2)
+                .expectNextCount(2L)
                 .verifyComplete()
         ;
     }
@@ -69,7 +69,7 @@ public interface TestRepository {
     default void testGetAllDepartments() {
         getRepository().getAllDepartments()
                 .as(StepVerifier::create)
-                .expectNextCount(3)
+                .expectNextCount(3L)
                 .verifyComplete()
         ;
     }

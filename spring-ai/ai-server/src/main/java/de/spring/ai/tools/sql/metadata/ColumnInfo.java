@@ -9,5 +9,4 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public record ColumnInfo(String name,
                          String dataType,
                          String description) {
-
 }

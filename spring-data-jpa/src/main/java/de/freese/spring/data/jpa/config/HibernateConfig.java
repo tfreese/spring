@@ -1,4 +1,3 @@
-// Created: 16 Mai 2024
 package de.freese.spring.data.jpa.config;
 
 import java.util.Properties;
@@ -19,6 +18,7 @@ import de.freese.spring.data.jpa.infrastructure.MyHibernateRepository;
  * Does not work with {@link JpaRepository}, use custom Repositories like {@link MyHibernateRepository}.
  *
  * @author Thomas Freese
+ * @since 16.05.2024
  */
 // @Configuration
 public class HibernateConfig {

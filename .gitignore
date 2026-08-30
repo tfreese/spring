@@ -7,10 +7,6 @@
 # Exclude all files & subfolders
 .idea/*
 
-!.idea/codeStyles/
-!.idea/fileTemplates/
-!.idea/inspectionProfiles/
-!.idea/scopes/
 !.idea/icon.svg
 
 .activeMQ/

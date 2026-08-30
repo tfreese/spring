@@ -1,4 +1,3 @@
-// Created: 05.04.2025
 package de.freese.spring.ott;
 
 import java.util.HashMap;
@@ -21,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * @author Thomas Freese
+ * @since 05.04.2025
  */
 @Configuration
 @EnableWebSecurity

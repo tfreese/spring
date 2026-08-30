@@ -1,4 +1,3 @@
-// Created: 03.02.2019
 package de.freese.spring.messaging.amqp.qpid;
 
 import java.io.File;
@@ -15,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Thomas Freese
+ * @since 03.02.2019
  */
 @Configuration
 public class QpidConfig {
@@ -23,8 +23,7 @@ public class QpidConfig {
     private static final String QPID_WORK_DIR = QPID_HOME_DIR + File.separator + "qpid-work";
 
     // @Bean
-    // public MessageListenerContainer container(final ConnectionFactory connectionFactory)
-    // {
+    // public MessageListenerContainer container(final ConnectionFactory connectionFactory) {
     // final SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
     // container.setConnectionFactory(connectionFactory);
     // container.setQueueNames(SpringQpidApplication.queueName);
@@ -34,8 +33,7 @@ public class QpidConfig {
     // }
 
     // @Bean
-    // public MessageListenerAdapter listenerAdapter(final Receiver receiver)
-    // {
+    // public MessageListenerAdapter listenerAdapter(final Receiver receiver) {
     // return new MessageListenerAdapter(receiver, "receiveMessage");
     // }
 

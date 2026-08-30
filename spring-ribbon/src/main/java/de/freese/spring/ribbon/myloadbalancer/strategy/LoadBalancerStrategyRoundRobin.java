@@ -1,4 +1,3 @@
-// Created: 21.03.2018
 package de.freese.spring.ribbon.myloadbalancer.strategy;
 
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
  * Liefert den nächsten "isAlive"-Server im Round-Robin Verfahren.
  *
  * @author Thomas Freese
+ * @since 21.03.2018
  */
 public class LoadBalancerStrategyRoundRobin implements LoadBalancerStrategy {
     private static final AtomicIntegerFieldUpdater<LoadBalancerStrategyRoundRobin> NEXT_INDEX = AtomicIntegerFieldUpdater.newUpdater(LoadBalancerStrategyRoundRobin.class,

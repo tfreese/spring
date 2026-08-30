@@ -1,4 +1,3 @@
-// Created: 30.06.2025
 package com.spring.neo4j.model;
 
 import java.util.HashSet;
@@ -13,6 +12,7 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 
 /**
  * @author Thomas Freese
+ * @since 30.06.2025
  */
 @Node("PERSON") // Must match MyLabels!
 public class Person {
@@ -46,20 +46,16 @@ public class Person {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", teammates=").append(Optional.ofNullable(teammates)
+        return getClass().getSimpleName() + " ["
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", teammates=" + Optional.ofNullable(teammates)
                 .orElse(Set.of())
                 .stream()
                 .map(Person::getName)
                 .sorted()
-                .collect(Collectors.joining(",", "'", "'")));
-
-        sb.append(']');
-
-        return sb.toString();
+                .collect(Collectors.joining(",", "'", "'"))
+                + ']';
     }
 
     public void worksWith(final Person person) {

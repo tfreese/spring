@@ -1,4 +1,3 @@
-// Created: 21.05.23
 package de.freese.spring.cloud.client;
 
 import java.io.IOException;
@@ -27,6 +26,7 @@ import reactor.util.retry.Retry;
 
 /**
  * @author Thomas Freese
+ * @since 21.05.2023
  */
 @Disabled("Doesn't work anymore.")
 class TestWebClient {
@@ -80,7 +80,7 @@ class TestWebClient {
                         .flatMap(response -> clientResponse.createException())
                         .flatMap(Mono::error)
                         .thenReturn(clientResponse))
-                .retryWhen(Retry.backoff(3, Duration.ofSeconds(1))
+                .retryWhen(Retry.backoff(3L, Duration.ofSeconds(1L))
                         .doBeforeRetry(signal -> LOGGER.info("Retrying request: {}", signal))
                 );
 
@@ -93,7 +93,7 @@ class TestWebClient {
                 .bodyToMono(String.class);
 
         // System.out.println(responseMono1.block());
-        StepVerifier.create(responseMono1).expectNextCount(1).verifyComplete();
+        StepVerifier.create(responseMono1).expectNextCount(1L).verifyComplete();
     }
 
     @Test
@@ -109,11 +109,11 @@ class TestWebClient {
                 .uri("/api")
                 .retrieve()
                 .bodyToMono(String.class)
-                .retryWhen(Retry.backoff(3, Duration.ofSeconds(1))
+                .retryWhen(Retry.backoff(3L, Duration.ofSeconds(1L))
                         .doBeforeRetry(signal -> LOGGER.info("Retrying request: {}", signal))
                 );
 
-        StepVerifier.create(responseMono).expectNextCount(1).verifyComplete();
+        StepVerifier.create(responseMono).expectNextCount(1L).verifyComplete();
     }
 
     private WebClient.Builder createWebClientBuilder() {

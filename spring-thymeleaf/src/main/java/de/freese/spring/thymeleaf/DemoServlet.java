@@ -1,4 +1,3 @@
-// Created: 05.11.2013
 package de.freese.spring.thymeleaf;
 
 import java.io.IOException;
@@ -14,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author Thomas Freese
+ * @since 05.11.2013
  */
 @WebServlet(description = "DemoServlet", name = "demoServlet", urlPatterns = "/demo-servlet", loadOnStartup = 1)
 public class DemoServlet extends HttpServlet {

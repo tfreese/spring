@@ -1,4 +1,3 @@
-// Created: 01.03.2017
 package de.freese.spring.hystrix;
 
 import java.io.IOException;
@@ -32,6 +31,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Thomas Freese
+ * @since 01.03.2017
  */
 public final class LoadBalancerApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadBalancerApplication.class);
@@ -276,7 +276,7 @@ public final class LoadBalancerApplication {
                 break;
             }
 
-            TimeUnit.MILLISECONDS.sleep(1000);
+            TimeUnit.MILLISECONDS.sleep(1000L);
         }
 
         System.exit(0);

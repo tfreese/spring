@@ -1,4 +1,3 @@
-// Created: 03.04.24
 package de.freese.kubernetes.api;
 
 import io.kubernetes.client.openapi.ApiClient;
@@ -9,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 03.04.2024
  */
 public final class KubernetesApi {
     private static final Logger LOGGER = LoggerFactory.getLogger(KubernetesApi.class);

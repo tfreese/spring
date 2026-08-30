@@ -1,4 +1,3 @@
-// Created: 22.05.2026
 package de.spring.jooq;
 
 import java.io.Serial;
@@ -11,6 +10,7 @@ import org.jooq.ExecuteListener;
  * <a href="https://www.jooq.org/doc/latest/manual/sql-execution/execute-listeners>execute-listeners</a>
  *
  * @author Thomas Freese
+ * @since 22.05.2026
  */
 public final class DeleteOrUpdateWithoutWhereListener implements ExecuteListener {
     /**

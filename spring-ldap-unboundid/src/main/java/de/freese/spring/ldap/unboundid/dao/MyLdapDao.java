@@ -1,4 +1,3 @@
-// Created: 18.02.2019
 package de.freese.spring.ldap.unboundid.dao;
 
 import java.util.Arrays;
@@ -10,6 +9,7 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ldap.core.AttributesMapper;
@@ -27,6 +27,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * @author Thomas Freese
+ * @since 18.02.2019
  */
 @Repository
 public class MyLdapDao {
@@ -39,7 +40,7 @@ public class MyLdapDao {
      */
     static final class PersonCommonNameContextMapper implements ContextMapper<String> {
         @Override
-        public String mapFromContext(final Object ctx) {
+        public String mapFromContext(final @NonNull Object ctx) {
             final DirContextAdapter context = (DirContextAdapter) ctx;
 
             // return context.getStringAttribute("entryDN");
@@ -64,11 +65,8 @@ public class MyLdapDao {
      *
      * @author Thomas Freese
      */
-    private static final class PersonAttributeMapper implements AttributesMapper<String> {
-        private final String attributeId;
-
-        PersonAttributeMapper(final String attributeId) {
-            super();
+    private record PersonAttributeMapper(String attributeId) implements AttributesMapper<String> {
+        private PersonAttributeMapper(final String attributeId) {
 
             this.attributeId = Objects.requireNonNull(attributeId, "attributeId required");
         }

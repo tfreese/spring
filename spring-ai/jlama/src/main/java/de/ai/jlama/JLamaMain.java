@@ -1,4 +1,3 @@
-// Created: 11.02.2026
 package de.ai.jlama;
 
 import java.io.File;
@@ -23,6 +22,7 @@ import org.slf4j.LoggerFactory;
  * <a href="https://deepwiki.com/tjake/Jlama">Jlama Wiki</a>
  *
  * @author Thomas Freese
+ * @since 11.02.2026
  */
 public final class JLamaMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(JLamaMain.class);

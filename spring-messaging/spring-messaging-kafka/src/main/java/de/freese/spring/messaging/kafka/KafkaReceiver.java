@@ -1,4 +1,3 @@
-// Created: 19.12.22
 package de.freese.spring.messaging.kafka;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
+ * @since 19.12.2022
  */
 @Component
 public class KafkaReceiver {

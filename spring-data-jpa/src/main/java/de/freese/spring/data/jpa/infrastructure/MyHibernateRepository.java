@@ -1,4 +1,3 @@
-// Created: 16 Mai 2024
 package de.freese.spring.data.jpa.infrastructure;
 
 import java.util.Objects;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * @author Thomas Freese
+ * @since 16.05.2024
  */
 @Repository
 public class MyHibernateRepository {

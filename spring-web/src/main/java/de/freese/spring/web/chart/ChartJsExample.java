@@ -1,4 +1,3 @@
-// Created: 14.06.2024
 package de.freese.spring.web.chart;
 
 import java.awt.Desktop;
@@ -21,6 +20,7 @@ import software.xdev.chartjs.model.options.BarOptions;
 
 /**
  * @author Thomas Freese
+ * @since 14.06.2024
  */
 public final class ChartJsExample {
     static void main() {

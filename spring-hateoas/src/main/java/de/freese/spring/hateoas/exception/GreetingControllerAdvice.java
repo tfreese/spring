@@ -1,4 +1,3 @@
-// Created: 01.12.2017
 package de.freese.spring.hateoas.exception;
 
 import org.springframework.http.HttpStatus;
@@ -10,6 +9,7 @@ import de.freese.spring.hateoas.GreetingController;
 
 /**
  * @author Thomas Freese
+ * @since 01.12.2017
  */
 @RestControllerAdvice(assignableTypes = GreetingController.class)
 public class GreetingControllerAdvice {

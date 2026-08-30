@@ -1,4 +1,3 @@
-// Created: 11.10.2025
 package de.freese.spring.data.jpa.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,6 +39,7 @@ import de.freese.spring.data.jpa.domain.Todo;
 
 /**
  * @author Thomas Freese
+ * @since 11.10.2025
  */
 class TestRestClient extends AbstractClientTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestRestClient.class);

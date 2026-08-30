@@ -10,11 +10,11 @@ public class Delivery {
     private final int orderNumber;
 
     public Delivery(final List<Drink> deliveredDrinks) {
-        super();
-
         if (deliveredDrinks == null || deliveredDrinks.isEmpty()) {
             throw new IllegalArgumentException("deliveredDrinks required");
         }
+
+        super();
 
         this.deliveredDrinks = deliveredDrinks;
         orderNumber = deliveredDrinks.getFirst().getOrderNumber();

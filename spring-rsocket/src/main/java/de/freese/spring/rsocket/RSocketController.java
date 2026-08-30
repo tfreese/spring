@@ -1,8 +1,8 @@
-// Created: 11.03.2020
 package de.freese.spring.rsocket;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import jakarta.annotation.PreDestroy;
 
@@ -23,6 +23,7 @@ import de.freese.spring.rsocket.model.MessageResponse;
 
 /**
  * @author Thomas Freese
+ * @since 11.03.2020
  */
 @Controller
 public class RSocketController {
@@ -36,7 +37,7 @@ public class RSocketController {
         // LOGGER.info("Channel initiated by '{}' in the role '{}'", authentication.getPrincipal(), authentication.getAuthorities());
         // });
 
-        LOGGER.info("Received channel request (stream) at {}", LocalDateTime.now());
+        LOGGER.info("Received channel request (stream) at {}", LocalDateTime.now(ZoneId.systemDefault()));
         LOGGER.info("Channel initiated by '{}' in the role '{}'", user.getUsername(), user.getAuthorities());
 
         return requests
@@ -104,7 +105,7 @@ public class RSocketController {
 
         return Flux
                 // Jede Sekunde ein neues Element erzeugen.
-                .interval(Duration.ofSeconds(1))
+                .interval(Duration.ofSeconds(1L))
                 // Nur die ersten 3 Elemente nehmen.
                 .take(3L)
                 // Indizierung

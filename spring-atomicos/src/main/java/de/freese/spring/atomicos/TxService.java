@@ -1,4 +1,3 @@
-// Created: 28.04.2022
 package de.freese.spring.atomicos;
 
 import java.sql.Connection;
@@ -19,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Thomas Freese
+ * @since 28.04.2022
  */
 @Service
 public class TxService {
@@ -26,7 +26,7 @@ public class TxService {
 
     @Resource
     private DataSource dataSourceAddress;
-    
+
     @Resource
     private DataSource dataSourcePerson;
 

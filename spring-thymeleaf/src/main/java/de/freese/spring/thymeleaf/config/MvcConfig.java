@@ -1,4 +1,3 @@
-// Created: 02.09.2018
 package de.freese.spring.thymeleaf.config;
 
 import java.util.Locale;
@@ -42,6 +41,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 /**
  * @author Thomas Freese
+ * @since 02.09.2018
  */
 @Configuration
 public class MvcConfig implements WebMvcConfigurer, AsyncConfigurer {

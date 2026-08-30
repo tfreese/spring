@@ -1,8 +1,8 @@
-// Created: 26.08.2018
 package de.freese.spring.thymeleaf.model;
 
 /**
  * @author Thomas Freese
+ * @since 26.08.2018
  */
 public class Person {
     private String firstName;
@@ -37,13 +37,8 @@ public class Person {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("Person [firstName=");
-        builder.append(firstName);
-        builder.append(", lastName=");
-        builder.append(lastName);
-        builder.append("]");
-
-        return builder.toString();
+        return "Person [firstName=" + firstName
+                + ", lastName=" + lastName
+                + "]";
     }
 }

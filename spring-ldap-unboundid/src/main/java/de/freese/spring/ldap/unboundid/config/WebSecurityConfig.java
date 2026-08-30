@@ -34,7 +34,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain filterChain(final HttpSecurity httpSecurity) throws Exception {
+    SecurityFilterChain filterChain(final HttpSecurity httpSecurity) {
         httpSecurity
                 .authorizeHttpRequests(customizer -> customizer
                         .anyRequest()

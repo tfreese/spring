@@ -1,8 +1,8 @@
-// Created: 25.04.2025
 package de.freese.spring.contexts.parent;
 
 import java.util.Objects;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
+ * @since 25.04.2025
  */
 @Component
 public class ParentRunner implements ApplicationRunner, ApplicationContextAware {
@@ -30,12 +31,12 @@ public class ParentRunner implements ApplicationRunner, ApplicationContextAware 
     }
 
     @Override
-    public void run(final ApplicationArguments args) {
+    public void run(final @NonNull ApplicationArguments args) {
         LOGGER.info("{} - {} - {}", parentBean, applicationContext.containsBean("child1Bean"), applicationContext.containsBean("child2Bean"));
     }
 
     @Override
-    public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(final @NonNull ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = Objects.requireNonNull(applicationContext, "applicationContext required");
     }
 }

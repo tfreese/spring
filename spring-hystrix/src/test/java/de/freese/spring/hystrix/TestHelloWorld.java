@@ -1,4 +1,3 @@
-// Created: 17.12.2016
 package de.freese.spring.hystrix;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,6 +19,7 @@ import rx.Observer;
  * <a href="https://github.com/Netflix/RxJava/wiki/How-To-Use">RxJava</a><br>
  *
  * @author Thomas Freese
+ * @since 17.12.2016
  */
 class TestHelloWorld {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestHelloWorld.class);

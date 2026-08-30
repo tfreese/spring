@@ -1,4 +1,3 @@
-// Created: 11.03.2020
 package de.freese.spring.rsocket;
 
 import org.springframework.boot.SpringApplication;
@@ -9,6 +8,7 @@ import reactor.core.publisher.Hooks;
  * https:// github.com/benwilcock/spring-rsocket-demo
  **
  * @author Thomas Freese
+ * @since 11.03.2020
  */
 @SpringBootApplication
 // (scanBasePackages = {

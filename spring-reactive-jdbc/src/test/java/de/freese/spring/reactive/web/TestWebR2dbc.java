@@ -1,4 +1,3 @@
-// Created: 21.06.2019
 package de.freese.spring.reactive.web;
 
 import jakarta.annotation.Resource;
@@ -18,6 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * @author Thomas Freese
+ * @since 21.06.2019
  */
 @ActiveProfiles({"test", "r2dbc"})
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)

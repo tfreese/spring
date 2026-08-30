@@ -1,4 +1,3 @@
-// Created: 30.10.2018
 package de.freese.spring.jwt.config.defaultAuthProvider;
 
 import java.io.IOException;
@@ -9,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -30,6 +30,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 /**
  * @author Thomas Freese
  * @see BearerTokenAuthenticationFilter
+ * @since 30.10.2018
  */
 class JwtRequestFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
@@ -47,7 +48,9 @@ class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(final @NonNull HttpServletRequest request,
+                                    final @NonNull HttpServletResponse response,
+                                    final @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
             final String bearerToken = bearerTokenResolver.resolve(request);
 
@@ -63,12 +66,12 @@ class JwtRequestFilter extends OncePerRequestFilter {
                 // SecurityContextHolder.setContext(context);
             }
         }
-        catch (AuthenticationException ex) {
+        catch (final AuthenticationException ex) {
             SecurityContextHolder.clearContext();
 
             LOGGER.error("Authentication request failed: {}", ex.getMessage());
 
-            // Deswegen würden Tests der Logins über den RestController nicht mehr funktionieren !
+            // Deswegen würden Tests der Logins über den RestController nicht mehr funktionieren!
             authenticationEntryPoint.commence(request, response, ex);
 
             return;

@@ -1,4 +1,3 @@
-// Created: 31.01.2019
 package de.freese.spring.messaging.amqp.qpid;
 
 import org.slf4j.Logger;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
+ * @since 31.01.2019
  */
 @Component
 public class AmqpReceiver {
@@ -22,8 +22,7 @@ public class AmqpReceiver {
 
     //    @RabbitListener(queues = SpringQpidApplication.QUEUE_NAME)
     //    @SendTo("returnQueue")
-    //    public Email receiveMessage(final Email email)
-    //    {
+    //    public Email receiveMessage(final Email email) {
     //        System.out.println(Thread.currentThread().getName() + ": Received <" + email + ">");
     //
     //        return email;

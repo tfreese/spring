@@ -1,4 +1,3 @@
-// Created: 11.09.2018
 package de.freese.spring.thymeleaf.config;
 
 import org.apache.catalina.Context;
@@ -7,6 +6,7 @@ import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.util.descriptor.web.ContextEnvironment;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.tomcat.TomcatWebServer;
@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Profile;
 
 /**
  * @author Thomas Freese
+ * @since 11.09.2018
  */
 @Configuration
 @Profile("with-ssl")
@@ -34,7 +35,7 @@ public class ServerConfigSsl {
     public ServletWebServerFactory servletContainer() {
         final TomcatServletWebServerFactory tomcatServletWebServerFactory = new TomcatServletWebServerFactory() {
             @Override
-            protected TomcatWebServer getTomcatWebServer(final Tomcat tomcat) {
+            protected @NonNull TomcatWebServer getTomcatWebServer(final Tomcat tomcat) {
                 // Enable JNDI.
                 tomcat.enableNaming();
 

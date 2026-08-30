@@ -1,10 +1,10 @@
-// Created: 22.03.2018
 package de.freese.spring.ribbon.myloadbalancer.ping;
 
 /**
  * Diese Implementierung liefert immer true.
  *
  * @author Thomas Freese
+ * @since 22.03.2018
  */
 public class LoadBalancerPingNoOp implements LoadBalancerPing {
     @Override

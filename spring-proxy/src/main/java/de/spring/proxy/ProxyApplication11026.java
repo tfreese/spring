@@ -1,4 +1,3 @@
-// // Created: 25.03.2026
 // package dep.spring.proxy;
 //
 // import java.io.Serial;
@@ -15,6 +14,7 @@
 //
 // /**
 //  * @author Thomas Freese
+//  * @since 25.03.2026
 //  */
 // public final class ProxyApplication11026 {
 //     private static final Logger LOGGER = LoggerFactory.getLogger(ProxyApplication11026.class);

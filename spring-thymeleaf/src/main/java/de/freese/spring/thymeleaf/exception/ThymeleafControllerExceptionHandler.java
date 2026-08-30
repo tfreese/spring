@@ -1,4 +1,3 @@
-// Created: 05.09.2018
 package de.freese.spring.thymeleaf.exception;
 
 import jakarta.annotation.Resource;
@@ -17,6 +16,7 @@ import de.freese.spring.thymeleaf.ThymeleafController;
 
 /**
  * @author Thomas Freese
+ * @since 05.09.2018
  */
 @ControllerAdvice(annotations = ThymeleafController.class)
 // @RestControllerAdvice

@@ -1,4 +1,3 @@
-// Created: 02.09.2018
 package de.freese.spring.thymeleaf.config;
 
 import org.springframework.context.annotation.Bean;
@@ -34,6 +33,7 @@ import org.springframework.web.filter.GenericFilterBean;
  * <a href="https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter">spring-security-without-the-websecurityconfigureradapter</a>
  *
  * @author Thomas Freese
+ * @since 02.09.2018
  */
 @Configuration
 @EnableWebSecurity
@@ -64,7 +64,7 @@ public class SecurityConfig {
         // authenticationProvider.setMessageSource(applicationContext); // Done automatically.
         authenticationProvider.setPasswordEncoder(passwordEncoder);
 
-        // Böse Falle !
+        // Böse Falle!
         // Der UserCache im AuthenticationProvider behält die UserDetails der User.
         // Bei diesen werden aber die Passwörter aus Sicherheitsgründen im ProviderManager entfernt.
         // Dadurch ist ein 2. Login dann nicht mehr möglich, es folgt NullPointer wegen UserDetails.getPassword = null

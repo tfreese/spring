@@ -1,4 +1,3 @@
-// Created: 01.03.2017
 package de.freese.spring.hystrix.sysdate;
 
 import java.util.List;
@@ -15,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Thomas Freese
+ * @since 01.03.2017
  */
 public final class SysdateApplication {
     static void main() throws Exception {
@@ -58,7 +58,7 @@ public final class SysdateApplication {
                 break;
             }
 
-            TimeUnit.MILLISECONDS.sleep(1000);
+            TimeUnit.MILLISECONDS.sleep(1000L);
         }
 
         System.exit(0);

@@ -1,4 +1,3 @@
-// Created: 16.08.23
 package de.freese.spring.data.jpa.controller;
 
 import java.io.BufferedReader;
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,6 +36,7 @@ import de.freese.spring.data.jpa.infrastructure.TodoService;
 
 /**
  * @author Thomas Freese
+ * @since 16.08.2023
  */
 @RestController
 @RequestMapping("/api/todo")
@@ -47,7 +46,6 @@ public class TodoController {
     private final JsonMapper jsonMapper;
     private final TodoService todoService;
 
-    @Autowired
     public TodoController(final TodoService todoService, final JsonMapper jsonMapper) {
         super();
 
@@ -79,7 +77,7 @@ public class TodoController {
         try {
             throw new RuntimeException("something went wrong");
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             final ProblemDetail problemDetail = RestExceptionHandler.createProblemDetail(ex, HttpStatus.INTERNAL_SERVER_ERROR, jsonMapper);

@@ -1,10 +1,10 @@
-// Created: 01.12.2017
 package de.freese.spring.hateoas.exception;
 
 import java.io.Serial;
 
 /**
  * @author Thomas Freese
+ * @since 01.12.2017
  */
 public class GreetingException extends RuntimeException {
     @Serial

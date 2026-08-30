@@ -1,4 +1,3 @@
-// Created: 09.02.2019
 package de.freese.spring.ldap.unboundid;
 
 import org.springframework.boot.SpringApplication;
@@ -10,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * <a href="https://www.baeldung.com/spring-ldap">spring-ldap</a><br>
  *
  * @author Thomas Freese
+ * @since 09.02.2019
  */
 @SpringBootApplication
 // @SuppressWarnings("checkstyle:HideUtilityClassConstructor")

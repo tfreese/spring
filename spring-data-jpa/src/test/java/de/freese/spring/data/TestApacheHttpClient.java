@@ -1,12 +1,8 @@
-// Created: 14.05.2026
 package de.freese.spring.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.security.Principal;
-
 import org.apache.hc.client5.http.auth.BearerToken;
-import org.apache.hc.client5.http.auth.Credentials;
 import org.apache.hc.client5.http.auth.CredentialsProvider;
 import org.apache.hc.client5.http.impl.auth.CredentialsProviderBuilder;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -25,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 14.05.2026
  */
 class TestApacheHttpClient {
     private static final HttpHost HOST = new HttpHost("https", "httpbin.org", 443);
@@ -162,20 +159,10 @@ class TestApacheHttpClient {
 
     @Test
     void testUnsupportedCredentialType() throws Exception {
-        final Credentials unsupportedCredentialType = new Credentials() {
-            @Override
-            public char[] getPassword() {
-                return new char[0];
-            }
-
-            @Override
-            public Principal getUserPrincipal() {
-                return null;
-            }
-        };
+        // final Credentials unsupportedCredentialType = new UsernamePasswordCredentials((String) null, new char[0]);
 
         final CredentialsProvider credentialsProvider = CredentialsProviderBuilder.create()
-                .add(HOST, unsupportedCredentialType)
+                // .add(HOST, unsupportedCredentialType)
                 .build();
 
         try (CloseableHttpClient httpclient = HttpClients.custom()

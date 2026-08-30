@@ -1,4 +1,3 @@
-// Created: 12.09.2018
 package de.freese.spring.web;
 
 import java.awt.Desktop;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
+ * @since 12.09.2018
  */
 @Component
 @Profile({"!test & !shutdown"})
@@ -67,7 +67,8 @@ public class OpenBrowserRunner implements ApplicationRunner {
 
         final boolean sslEnabled = Optional.ofNullable(propertyResolver.getProperty("server.ssl.enabled", boolean.class)).orElse(false);
         final String host = Optional.ofNullable(propertyResolver.getProperty("server.address")).orElse("localhost");
-        final int port = Optional.ofNullable(propertyResolver.getProperty("local.server.port", int.class)).orElse(propertyResolver.getProperty("server.port", int.class, 0));
+        final int port = Optional.ofNullable(propertyResolver.getProperty("local.server.port", int.class))
+                .orElse(propertyResolver.getProperty("server.port", int.class, 0));
         final String contextPath = Optional.ofNullable(propertyResolver.getProperty("server.servlet.context-path")).orElse("");
 
         // final String url = "%s://%s:%d%s/static/index.html".formatted(sslEnabled ? "https" : "http", host, port, contextPath);

@@ -1,4 +1,3 @@
-// Created: 19.10.2019
 package de.freese.spring.autoconfigure.h2server;
 
 import javax.sql.DataSource;
@@ -15,6 +14,7 @@ import de.freese.spring.autoconfigure.TestAutoConfiguration;
 
 /**
  * @author Thomas Freese
+ * @since 19.10.2019
  */
 @SpringBootTest(classes = TestH2Config.class)
 @ActiveProfiles("test")

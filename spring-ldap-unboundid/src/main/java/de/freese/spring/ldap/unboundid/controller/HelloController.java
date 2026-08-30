@@ -1,4 +1,3 @@
-// Created: 17.02.2019
 package de.freese.spring.ldap.unboundid.controller;
 
 import org.springframework.http.MediaType;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Thomas Freese
+ * @since 17.02.2019
  */
 @RestController
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)

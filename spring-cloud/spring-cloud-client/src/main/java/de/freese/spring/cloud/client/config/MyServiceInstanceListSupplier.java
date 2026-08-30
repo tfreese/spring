@@ -1,4 +1,3 @@
-// Created: 10.10.2021
 package de.freese.spring.cloud.client.config;
 
 import java.util.List;
@@ -9,8 +8,10 @@ import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
 import reactor.core.publisher.Flux;
 
 /**
- * @author Thomas Freese
  * <a href="https://www.baeldung.com/spring-cloud-load-balancer">spring-cloud-load-balancer</a>
+ *
+ * @author Thomas Freese
+ * @since 10.10.2021
  */
 class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier {
 

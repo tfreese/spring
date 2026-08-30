@@ -1,4 +1,3 @@
-// Created: 25.03.2026
 package de.spring.proxy;
 
 import java.io.Serial;
@@ -17,6 +16,7 @@ import org.slf4j.LoggerFactory;
  * localhost:7070
  *
  * @author Thomas Freese
+ * @since 25.03.2026
  */
 public final class ProxyApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProxyApplication.class);
@@ -25,7 +25,7 @@ public final class ProxyApplication {
         try {
             initProxy();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }

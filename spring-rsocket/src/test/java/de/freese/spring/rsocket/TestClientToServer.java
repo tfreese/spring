@@ -34,8 +34,8 @@ interface TestClientToServer {
 
     @Test
     default void testChannel() {
-        final Mono<Duration> setting1 = Mono.just(Duration.ofSeconds(3)).delayElement(Duration.ofSeconds(0));
-        final Mono<Duration> setting2 = Mono.just(Duration.ofSeconds(3)).delayElement(Duration.ofSeconds(2));
+        final Mono<Duration> setting1 = Mono.just(Duration.ofSeconds(3L)).delayElement(Duration.ofSeconds(0L));
+        final Mono<Duration> setting2 = Mono.just(Duration.ofSeconds(3L)).delayElement(Duration.ofSeconds(2L));
         final Flux<Duration> settings = Flux.concat(setting1, setting2);
 
         // Send a stream of request messages
@@ -44,10 +44,10 @@ interface TestClientToServer {
         // Verify that the response messages contain the expected data
         StepVerifier.create(result).consumeNextWith(response -> {
             assertEquals("Hello PT3S", response.message());
-            assertEquals(0, response.index());
+            assertEquals(0L, response.index());
         }).consumeNextWith(response -> {
             assertEquals("Hello PT3S", response.message());
-            assertEquals(1, response.index());
+            assertEquals(1L, response.index());
         }).thenCancel().verify();
     }
 
@@ -66,7 +66,7 @@ interface TestClientToServer {
         final Mono<String> result = getRequester().route("invalid").data("anything").retrieveMono(String.class);
 
         // Verify that an error is generated
-        StepVerifier.create(result).expectErrorMessage("No handler for destination 'invalid'").verify(Duration.ofSeconds(5));
+        StepVerifier.create(result).expectErrorMessage("No handler for destination 'invalid'").verify(Duration.ofSeconds(5L));
     }
 
     @Test
@@ -79,7 +79,7 @@ interface TestClientToServer {
         // Verify that the response message contains the expected data
         StepVerifier.create(result).consumeNextWith(response -> {
             assertEquals("Hello " + request.message(), response.message());
-            assertEquals(0, response.index());
+            assertEquals(0L, response.index());
         }).verifyComplete();
     }
 
@@ -93,10 +93,10 @@ interface TestClientToServer {
         // Verify that the response messages contain the expected data
         StepVerifier.create(result).consumeNextWith(response -> {
             assertEquals("Hello " + request.message(), response.message());
-            assertEquals(0, response.index());
-        }).expectNextCount(1).consumeNextWith(response -> {
+            assertEquals(0L, response.index());
+        }).expectNextCount(1L).consumeNextWith(response -> {
             assertEquals("Hello " + request.message(), response.message());
-            assertEquals(2, response.index());
+            assertEquals(2L, response.index());
         }).thenCancel().verify();
     }
 }

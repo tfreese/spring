@@ -1,4 +1,3 @@
-// Created: 12.03.2020
 package de.freese.spring.rsocket.config.server;
 
 import java.text.ParseException;
@@ -42,6 +41,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * @author Thomas Freese
+ * @since 12.03.2020
  */
 @Configuration
 @EnableRSocketSecurity

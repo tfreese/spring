@@ -1,4 +1,3 @@
-// Created: 31.01.2019
 package de.freese.spring.messaging.amqp.qpid;
 
 import org.springframework.amqp.core.Binding;
@@ -14,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 
 /**
  * @author Thomas Freese
+ * @since 31.01.2019
  */
 @SpringBootApplication
 @EnableRabbit

@@ -1,4 +1,3 @@
-// Created: 04.05.2016
 package de.freese.spring.hateoas.model;
 
 import java.util.Objects;
@@ -10,6 +9,7 @@ import org.springframework.hateoas.RepresentationModel;
 
 /**
  * @author Thomas Freese
+ * @since 04.05.2016
  */
 @JsonIgnoreProperties
 public class GreetingRepresentationModel extends RepresentationModel<GreetingRepresentationModel> {

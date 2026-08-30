@@ -1,4 +1,3 @@
-// Created: 09.02.2019
 package de.freese.spring.javafx;
 
 import java.io.IOException;
@@ -19,6 +18,7 @@ import de.freese.spring.javafx.JavaFxApplication.StageReadyEvent;
 
 /**
  * @author Thomas Freese
+ * @since 09.02.2019
  */
 @Component
 public class StageListener implements ApplicationListener<StageReadyEvent> {

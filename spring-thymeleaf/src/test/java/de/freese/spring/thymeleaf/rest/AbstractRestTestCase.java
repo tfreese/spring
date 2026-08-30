@@ -1,4 +1,3 @@
-// Created: 14.09.2018
 package de.freese.spring.thymeleaf.rest;
 
 import jakarta.annotation.Resource;
@@ -14,6 +13,7 @@ import de.freese.spring.thymeleaf.ThymeleafApplication;
 
 /**
  * @author Thomas Freese
+ * @since 14.09.2018
  */
 @SpringBootTest(properties = "server.port=0", webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ThymeleafApplication.class)
 @AutoConfigureMockMvc

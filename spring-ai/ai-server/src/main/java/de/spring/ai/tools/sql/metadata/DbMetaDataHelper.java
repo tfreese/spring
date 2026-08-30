@@ -43,7 +43,7 @@ public final class DbMetaDataHelper {
                     final String tableSchema = tables.getString("TABLE_SCHEM");
 
                     final List<ColumnInfo> columnsInfo = new ArrayList<>();
-                    
+
                     tablesInfo.add(new TableInfo(tableName, tableDescription, tableCatalog, tableSchema, columnsInfo));
 
                     try (ResultSet columns = metadata.getColumns(null, null, tableName, null)) {

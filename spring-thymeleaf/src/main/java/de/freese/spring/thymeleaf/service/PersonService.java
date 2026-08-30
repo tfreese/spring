@@ -1,4 +1,3 @@
-// Created: 04.09.2018
 package de.freese.spring.thymeleaf.service;
 
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import de.freese.spring.thymeleaf.model.Person;
 
 /**
  * @author Thomas Freese
+ * @since 04.09.2018
  */
 @Service
 public class PersonService {
