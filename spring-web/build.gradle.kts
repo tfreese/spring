@@ -31,11 +31,17 @@ dependencies {
 // Logging-EndPoint
     implementation("io.opentelemetry:opentelemetry-exporter-logging-otlp")
 // Eigener EndPoint
-    implementation("io.opentelemetry.proto:opentelemetry-proto:1.7.0-alpha")
+    implementation("io.opentelemetry.proto:opentelemetry-proto:1.7.1-alpha")
 
     // runtimeOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
     runtimeOnly("org.springframework.boot:spring-boot-starter-log4j2")
+
+    // Nur fuer lokale Entwicklung (nicht im produktiven Fat-Jar enthalten):
+    // automatischer Neustart bei Java-Aenderungen + LiveReload-Browser-Refresh.
+    // XHTML-Aenderungen loesen dank joinfaces.faces.facelets-refresh-period=0
+    // (application.properties) ohnehin KEINEN Neustart aus - nur den LiveReload.
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
@@ -71,6 +77,7 @@ tasks.named<ProcessResources>("processResources") {
 
 tasks.register<Copy>("copyLibs") {
     group = "spring-web"
+    description = "Copy all runtime dependencies to build/libs"
 
     println("build " + project.name)
 
