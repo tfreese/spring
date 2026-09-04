@@ -5,7 +5,17 @@ plugins {
 
 description = "Demo für spring-boot-web mit JSF"
 
+// Variante 1.
+// Global aus allen Configurations entfernen.
+// configurations.configureEach {
+//     resolutionStrategy {
+//         exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+//     }
+// }
+
 dependencies {
+    // Variante 2.
+    // "org.springframework.boot:spring-boot-starter-logging" ist immer noch als Dependency in der Gradle-View zu sehen, wird aber nicht verwendet.
     modules {
         module("org.springframework.boot:spring-boot-starter-logging") {
             replacedBy("org.springframework.boot:spring-boot-starter-log4j2", "Use Log4j2 instead of Logback")
@@ -24,14 +34,20 @@ dependencies {
     // runtimeOnly("org.primefaces:primefaces-themes")
     // runtimeOnly("org.primefaces.extensions:primefaces-extensions::jakarta")
 
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
+    // {
+    //     // Variante 3.
+    //     // "spring-boot-starter-logging" ist nun auch nicht mehr in der Gradle-View zu sehen.
+    //     exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+    // }
+
     implementation("software.xdev:chartjs-java-model")
 
     implementation("org.springframework.boot:spring-boot-starter-opentelemetry")
 // Logging-EndPoint
     implementation("io.opentelemetry:opentelemetry-exporter-logging-otlp")
 // Eigener EndPoint
-    implementation("io.opentelemetry.proto:opentelemetry-proto:1.7.1-alpha")
+    implementation("io.opentelemetry.proto:opentelemetry-proto:1.11.0-alpha")
 
     // runtimeOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
