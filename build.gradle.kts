@@ -64,9 +64,9 @@ subprojects {
                 entry("jmh-generator-annprocess")
             }
 
-            dependency("org.primefaces:primefaces:" + property("version_primefaces"))
-            dependency("org.primefaces.extensions:primefaces-extensions:" + property("version_primefacesExtensions"))
-            dependency("org.primefaces:primefaces-themes:" + property("version_primefacesThemes"))
+            // dependency("org.primefaces:primefaces:" + property("version_primefaces"))
+            // dependency("org.primefaces.extensions:primefaces-extensions:" + property("version_primefacesExtensions"))
+            // dependency("org.primefaces:primefaces-themes:" + property("version_primefacesThemes"))
             dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:" + property("version_springDoc"))
 
             dependencySet("org.springframework.cloud:" + property("version_springCloudNetflix")) {
