@@ -8,9 +8,7 @@ description = "Demo für spring-boot-web mit JSF"
 // Variante 1.
 // Global aus allen Configurations entfernen.
 // configurations.configureEach {
-//     resolutionStrategy {
-//         exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
-//     }
+//     exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
 // }
 
 dependencies {
