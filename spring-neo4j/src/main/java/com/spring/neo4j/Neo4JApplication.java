@@ -69,11 +69,51 @@ public class Neo4JApplication {
         System.exit(0);
     }
 
+    // /**
+    //  * org.neo4j.test:neo4j-harness<br>
+    //  * Startet die eingebettete Neo4j-Instanz beim Anwendungsstart.
+    //  */
+    // @Bean(destroyMethod = "close")
+    // public Neo4j embeddedNeo4jServer() {
+    //     return Neo4jBuilders.newInProcessBuilder()
+    //             // .withWorkingDir(Paths.get("/ihr/pfad")) // Optional: Für persistente Daten (Standard ist In-Memory)
+    //             .withDisabledServer() // Deaktiviert die Weboberfläche (Browser-UI), falls nicht benötigt
+    //             .build();
+    // }
+    //
+    // /**
+    //  * org.neo4j.test:neo4j-harness<br>
+    //  * Leitet die Verbindungsdaten automatisch an Spring Data Neo4j weiter.
+    //  */
+    // @Bean
+    // public Neo4jConnectionDetails neo4jConnectionDetails(final Neo4j embeddedNeo4jServer) {
+    //     return new Neo4jConnectionDetails() {
+    //         @Override
+    //         public @NullMarked AuthToken getAuthToken() {
+    //             // Das Neo4j Harness erlaubt im Standard-Setup anonyme Verbindungen,
+    //             // akzeptiert für die Initialisierung des Treibers aber Basic-Auth.
+    //             return AuthTokens.basic("neo4j", "password");
+    //         }
+    //
+    //         @Override
+    //         public @NullMarked URI getUri() {
+    //             // Holt die dynamische Bolt-URI der eingebetteten Instanz (z.B. bolt://localhost:RANDOM_PORT)
+    //             return embeddedNeo4jServer.boltURI();
+    //         }
+    //     };
+    // }
+
+    /**
+     * org.neo4j:neo4
+     */
     @Bean
     Configuration cypherDslConfiguration() {
         return Configuration.newConfig().withDialect(Dialect.NEO4J_5).build();
     }
 
+    /**
+     * org.neo4j:neo4
+     */
     @Bean(destroyMethod = "shutdown")
     DatabaseManagementService databaseManagementService() {
         final Path pathDB = Path.of(System.getProperty("java.io.tmpdir"), GraphDatabaseSettings.DEFAULT_DATABASE_NAME);

@@ -11,12 +11,12 @@ dependencies {
         }
     }
 
+    // implementation("org.neo4j.test:neo4j-harness:2026.08.0")
     implementation("org.neo4j:neo4j") {
         exclude(module = "neo4j-slf4j-provider")
         exclude(module = "commons-logging")
     }
     implementation("org.springframework.boot:spring-boot-starter-data-neo4j")
-
     implementation("org.slf4j:slf4j-simple")
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
