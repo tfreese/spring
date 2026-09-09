@@ -31,7 +31,9 @@ subprojects {
                 entry("jlama-native")
             }
 
-//            dependency("de.javakaffee:kryo-serializers:"+property("version_kryoSerializers"))
+            // dependency("de.javakaffee:kryo-serializers:" + property("version_kryoSerializers"))
+
+            dependency("io.opentelemetry.proto:opentelemetry-proto:" + property("version_opentelemetryProto"))
 
             dependency("jakarta.faces:jakarta.faces-api:" + property("version_jakartaFacesApi"))
             dependency("jakarta.platform:jakarta.jakartaee-api:" + property("version_jakartaApi"))

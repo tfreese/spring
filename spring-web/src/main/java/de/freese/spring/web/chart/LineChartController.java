@@ -4,6 +4,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -97,7 +98,7 @@ public final class LineChartController implements Serializable {
             final Map.Entry<LocalDateTime, Double> entry = chartData.get(i);
             final Map.Entry<LocalDateTime, Double> lastEntry = chartData.get(i - 1);
 
-            final Duration distance = Duration.between(lastEntry.getKey(), entry.getKey());
+            final Duration distance = Duration.between(lastEntry.getKey().atZone(ZoneId.systemDefault()), entry.getKey().atZone(ZoneId.systemDefault()));
             distances.add(distance.toNanos());
         }
 

@@ -32,20 +32,19 @@ dependencies {
     // runtimeOnly("org.primefaces:primefaces-themes")
     // runtimeOnly("org.primefaces.extensions:primefaces-extensions::jakarta")
 
-    implementation("org.springframework.boot:spring-boot-starter-webmvc")
-    // {
-    //     // Variante 3.
-    //     // "spring-boot-starter-logging" ist nun auch nicht mehr in der Gradle-View zu sehen.
-    //     exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
-    // }
+    implementation("org.springframework.boot:spring-boot-starter-webmvc") {
+        //     // Variante 3.
+        //     // "spring-boot-starter-logging" ist nun auch nicht mehr in der Gradle-View zu sehen.
+        //     exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+    }
 
     implementation("software.xdev:chartjs-java-model")
 
     implementation("org.springframework.boot:spring-boot-starter-opentelemetry")
-// Logging-EndPoint
+    // Logging-EndPoint
     implementation("io.opentelemetry:opentelemetry-exporter-logging-otlp")
-// Eigener EndPoint
-    implementation("io.opentelemetry.proto:opentelemetry-proto:1.11.0-alpha")
+    // Eigener EndPoint
+    implementation("io.opentelemetry.proto:opentelemetry-proto")
 
     // runtimeOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
