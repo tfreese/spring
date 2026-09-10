@@ -55,7 +55,6 @@ subprojects {
 
             dependency("org.glassfish:jakarta.faces:" + property("version_glassfishJakartaFaces"))
 
-            dependency("org.jboss.weld.servlet:weld-servlet-core:" + property("version_weld"))
             dependency("org.joinfaces:primefaces-spring-boot-starter:" + property("version_joinfaces"))
 
             dependency("org.neo4j:neo4j:" + property("version_neo4j"))
