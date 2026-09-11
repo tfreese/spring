@@ -85,7 +85,7 @@ public class RunSqlQueryTool implements Function<RunSqlQueryRequest, RunSqlQuery
             throw new IllegalArgumentException(ERROR_UNSAFE_CLAUSE);
         }
 
-        for (String token : tokens) {
+        for (final String token : tokens) {
             if (FORBIDDEN_TOKENS.contains(token)) {
                 throw new IllegalArgumentException(ERROR_UNSAFE_CLAUSE);
             }
@@ -125,17 +125,17 @@ public class RunSqlQueryTool implements Function<RunSqlQueryRequest, RunSqlQuery
 
             return new RunSqlQueryResponse(resultString, null);
         }
-        catch (IllegalArgumentException ex) {
+        catch (final IllegalArgumentException ex) {
             LOGGER.warn("Rejected SQL query: {}", ex.getMessage());
 
             return new RunSqlQueryResponse(null, ex.getMessage());
         }
-        catch (SQLException ex) {
+        catch (final SQLException ex) {
             LOGGER.warn("Failed to execute SQL query", ex);
 
             return new RunSqlQueryResponse(null, "Failed to execute SQL query.");
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.warn("Unexpected SQL tool error", ex);
 
             return new RunSqlQueryResponse(null, "Failed to execute SQL query.");
@@ -190,7 +190,7 @@ public class RunSqlQueryTool implements Function<RunSqlQueryRequest, RunSqlQuery
         final StringBuilder stringBuilder = new StringBuilder();
 
         try (CSVPrinter csvPrinter = csvFormat.print(stringBuilder)) {
-            for (Map<String, Object> row : result) {
+            for (final Map<String, Object> row : result) {
                 csvPrinter.printRecord(fields.stream().map(row::get).toArray());
             }
 
@@ -225,7 +225,7 @@ public class RunSqlQueryTool implements Function<RunSqlQueryRequest, RunSqlQuery
         final StringWriter writer = new StringWriter();
 
         try (SequenceWriter sequenceWriter = objectWriter.writeValues(writer)) {
-            for (Map<String, Object> row : result) {
+            for (final Map<String, Object> row : result) {
                 sequenceWriter.write(row);
             }
 
@@ -241,6 +241,7 @@ public class RunSqlQueryTool implements Function<RunSqlQueryRequest, RunSqlQuery
 
     private String toJson(final List<Map<String, Object>> result) {
         final JsonMapper jsonMapper = JsonMapper.builder()
+                // Don't serialize empty values.
                 .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_EMPTY))
                 .defaultTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()))
                 .enable(SerializationFeature.INDENT_OUTPUT)

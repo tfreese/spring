@@ -158,8 +158,8 @@ public final class LineChartController implements Serializable {
                 );
 
         // final ObjectWriter objectWriter = JsonMapper.builder()
-        //         .changeDefaultPropertyInclusion(v -> v
-        //                 .withValueInclusion(JsonInclude.Include.NON_EMPTY))
+        //         // Don't serialize empty values.
+        //         .changeDefaultPropertyInclusion(v -> v.withValueInclusion(JsonInclude.Include.NON_EMPTY))
         //         .changeDefaultVisibility(vc -> vc
         //                 .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
         //                 .withGetterVisibility(JsonAutoDetect.Visibility.NONE)

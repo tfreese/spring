@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.hateoas.mediatype.hal.forms.HalFormsConfiguration;
@@ -23,6 +24,8 @@ public class HateoasMvcConfig implements WebMvcConfigurer {
     @Override
     public void configureMessageConverters(final HttpMessageConverters.ServerBuilder builder) {
         final JsonMapper jsonMapper = JsonMapper.builder()
+                // Don't serialize empty values.
+                .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_EMPTY))
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .build();
