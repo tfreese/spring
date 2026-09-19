@@ -48,7 +48,7 @@ final class Shutdown {
         final boolean sslEnabled = Optional.ofNullable(properties.apply("server.ssl.enabled")).map(Boolean::parseBoolean).orElse(false);
         final String host = Optional.ofNullable(properties.apply("server.address")).orElse("localhost");
         final String portProperty = Optional.ofNullable(properties.apply("local.server.port")).orElse(properties.apply("server.port"));
-        final int port = portProperty.contains(":") ? Integer.parseInt(portProperty.replace("}", "").split(":")[1]) : Integer.parseInt(portProperty);
+        final int port = Integer.parseInt(portProperty.contains(":") ? portProperty.replace("}", "").split(":")[1] : portProperty);
         final String contextPath = Optional.ofNullable(properties.apply("server.servlet.context-path")).orElse("");
         final String endPointPath = Optional.ofNullable(properties.apply("management.endpoints.web.base-path")).orElse("");
 

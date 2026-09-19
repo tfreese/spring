@@ -7,18 +7,22 @@ description = "Demo für spring-boot-web mit JSF"
 
 // Variante 1.
 // Global aus allen Configurations entfernen.
-// configurations.configureEach {
-//     exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
-// }
+configurations.configureEach {
+    if (name != "mockitoAgent") {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+    }
+}
 
 dependencies {
     // Variante 2.
     // "org.springframework.boot:spring-boot-starter-logging" ist immer noch als Dependency in der Gradle-View zu sehen, wird aber nicht verwendet.
-    modules {
-        module("org.springframework.boot:spring-boot-starter-logging") {
-            replacedBy("org.springframework.boot:spring-boot-starter-log4j2", "Use Log4j2 instead of Logback")
-        }
-    }
+    // modules {
+    //     module("org.springframework.boot:spring-boot-starter-logging") {
+    //         replacedBy("org.springframework.boot:spring-boot-starter-log4j2", "Use Log4j2 instead of Logback")
+    //     }
+    // }
+
+    implementation("org.slf4j:slf4j-api")
 
     // With Joinfaces: 77 Dependencies and 41,81MB.
     implementation("org.joinfaces:primefaces-spring-boot-starter")
@@ -33,7 +37,7 @@ dependencies {
     // runtimeOnly("org.primefaces.extensions:primefaces-extensions::jakarta")
 
     implementation("org.springframework.boot:spring-boot-starter-webmvc") {
-        //     // Variante 3.
+        //     // Variante 3, nur für DIESE Dependency!
         //     // "spring-boot-starter-logging" ist nun auch nicht mehr in der Gradle-View zu sehen.
         //     exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
     }

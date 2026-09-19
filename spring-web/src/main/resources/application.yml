@@ -12,10 +12,10 @@ logging:
         # yyyy-MM-dd
         # %replace(%-35.-35logger{0}){' ', '.'}
         # Logback
-        #console: "%date{HH:mm:ss.SSS} - %clr(%5level){} - [%30.-30thread] - %clr(%-40.-40logger{0}){magenta} - %message%n"
+        #console: "%date{HH:mm:ss.SSS} - %clr(%5level){} - %30.-30thread - %clr(%-40.-40logger{0}){magenta} - %message%n"
         # Log4J
         # %notEmpty{[%X{traceId},%X{spanId}] }
-        console: "%date{HH:mm:ss.SSS} - %clr{%5level}{} - [%30.-30thread] - %clr{%-40.-40logger{0}}{magenta} - %message %notEmpty{[%X{traceId}] }%n"
+        console: "%date{HH:mm:ss.SSS} - %clr{%5level}{} - %30.-30thread - %notEmpty{%X{traceId} - }%clr{%-40.-40logger{0}}{magenta} - %message%n"
     level:
         root: INFO
         org.springframework.core.LocalVariableTableParameterNameDiscoverer: OFF
