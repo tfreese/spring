@@ -9,7 +9,7 @@ import com.netflix.hystrix.HystrixCommandProperties;
 import com.netflix.hystrix.HystrixThreadPoolKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 /**
  * {@link HystrixCommand} mit Fallback über drei Server.<br>
@@ -24,7 +24,7 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
 
     private final int level;
 
-    private RestTemplate restTemplate;
+    private RestClient restClient;
     private List<String> urls;
 
     public SysDateHystrixCommand() {
@@ -46,8 +46,8 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
         this.level = level;
     }
 
-    public void setRestTemplate(final RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public void setRestClient(final RestClient restClient) {
+        this.restClient = restClient;
     }
 
     public void setURLs(final List<String> urls) {
@@ -74,7 +74,7 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
         final List<String> fallbackURLs = urls.subList(1, urls.size());
 
         final SysDateHystrixCommand cmd = new SysDateHystrixCommand(level + 1);
-        cmd.setRestTemplate(restTemplate);
+        cmd.setRestClient(restClient);
         cmd.setURLs(fallbackURLs);
 
         return cmd.execute();
@@ -82,7 +82,11 @@ public class SysDateHystrixCommand extends HystrixCommand<String> {
 
     @Override
     protected String run() {
-        final String result = restTemplate.getForObject(urls.getFirst(), String.class);
+        final String result = restClient.get()
+                .uri(urls.getFirst())
+                .retrieve()
+                .toEntity(String.class)
+                .getBody();
 
         LOGGER.info("level={}: {}", level, result);
 

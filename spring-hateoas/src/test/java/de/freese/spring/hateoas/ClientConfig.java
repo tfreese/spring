@@ -1,11 +1,10 @@
 package de.freese.spring.hateoas;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.restclient.RestTemplateBuilder;
-import org.springframework.boot.restclient.RestTemplateCustomizer;
+import org.springframework.boot.restclient.RestClientCustomizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.hateoas.config.HypermediaRestTemplateConfigurer;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.http.converter.HttpMessageConverters;
+import org.springframework.web.client.RestClient;
 
 /**
  * @author Thomas Freese
@@ -20,24 +19,43 @@ class ClientConfig {
     }
 
     @Bean
-    public RestTemplate restTemplate(final RestTemplateBuilder restTemplateBuilder) {
-        return restTemplateBuilder.build();
+    public RestClient restClient(final RestClient.Builder restClientBuilder) {
+        return restClientBuilder.build();
     }
 
     /**
      * "@Value("${local.server.port}") final int port"
      */
     @Bean
-    RestTemplateBuilder restTemplateBuilder(@Value("${server.address:localhost}") final String host, @Value("${server.port}") final int port,
-                                            @Value("${server.servlet.context-path:}") final String contextPath) {
+    RestClient.Builder restClientBuilder(@Value("${server.address:localhost}") final String host, @Value("${server.port}") final int port,
+                                         @Value("${server.servlet.context-path:}") final String contextPath) {
         // "http://localhost:" + this.port + this.contextPath + "/greeter/"
-        return new RestTemplateBuilder().baseUri("http://" + host + ":" + port + contextPath);
+        return RestClient.builder().baseUrl("http://" + host + ":" + port + contextPath);
     }
 
     @Bean
-    RestTemplateCustomizer restTemplateCustomizer(final HypermediaRestTemplateConfigurer configurer) {
-        return configurer::registerHypermediaTypes;
+    RestClientCustomizer restClientCustomizer(final HttpMessageConverters messageConverters) {
+        return builder -> {
+            // Holt alle registrierten Konverter (inkl. HAL/HATEOAS) und übergibt sie dem RestClient.
+            builder.configureMessageConverters(converters ->
+                    messageConverters.forEach(converters::addCustomConverter)
+            );
+        };
     }
+
+    // @Bean
+    // RestClientCustomizer restClientCustomizer(final HypermediaRestTemplateConfigurer configurer) {
+    //     return restClientBuilder -> {
+    //         // Temporäres RestTemplate erstellen, um die Hypermedia-Konfiguration aufzuprägen.
+    //         final RestTemplate temporaryRestTemplate = new RestTemplate();
+    //         configurer.registerHypermediaTypes(temporaryRestTemplate);
+    //
+    //         // Die registrierten MessageConverter (z. B. für HAL-JSON) in den RestClient-Builder übertragen.
+    //         restClientBuilder.configureMessageConverters(converters ->
+    //                 temporaryRestTemplate.getMessageConverters().forEach(converters::addCustomConverter)
+    //         );
+    //     };
+    // }
 
     // @Bean
     // WebClientCustomizer webClientCustomizer(final HypermediaWebClientConfigurer configurer) {

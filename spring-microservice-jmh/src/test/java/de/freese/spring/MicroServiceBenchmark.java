@@ -20,9 +20,8 @@ import org.openjdk.jmh.infra.Blackhole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.reactive.function.client.WebClient;
 
 /**
@@ -41,14 +40,14 @@ public class MicroServiceBenchmark {
     @State(Scope.Group) // Nur einen SpringContext für alle Benchmarks -> @Group("spring").
     public static class BenchmarkState {
         private final ConfigurableApplicationContext context;
-        private final RestTemplate restTemplate;
+        private final RestClient restClient;
         private final WebClient webClient;
 
         @Value("${server.port}")
         private int port;
 
         @Resource
-        private RestTemplateBuilder restTemplateBuilder;
+        private RestClient.Builder restClientBuilder;
 
         @Resource
         private WebClient.Builder webClientBuilder;
@@ -60,7 +59,7 @@ public class MicroServiceBenchmark {
 
             autowireBean(this);
 
-            restTemplate = restTemplateBuilder.baseUri("http://localhost:" + port).build();
+            restClient = restClientBuilder.baseUrl("http://localhost:" + port).build();
             webClient = webClientBuilder.baseUrl("http://localhost:" + port).build();
         }
 
@@ -78,9 +77,9 @@ public class MicroServiceBenchmark {
     @Benchmark
     @Group("spring") // Nur einen SpringContext für alle Benchmarks.
     public void benchmarkRestTemplate(final Blackhole blackhole, final BenchmarkState state) {
-        final RestTemplate restTemplate = state.restTemplate;
+        final RestClient restClient = state.restClient;
 
-        final String response = restTemplate.getForObject("/", String.class);
+        final String response = restClient.get().uri("/").retrieve().toEntity(String.class).getBody();
 
         blackhole.consume(response);
     }

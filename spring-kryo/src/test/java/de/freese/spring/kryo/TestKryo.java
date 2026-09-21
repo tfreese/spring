@@ -16,7 +16,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -25,25 +25,23 @@ import jakarta.annotation.Resource;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.mock.http.client.MockClientHttpResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.MimeType;
 import org.springframework.web.client.HttpMessageConverterExtractor;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -76,22 +74,17 @@ class TestKryo {
     }
 
     private HttpClient.Builder httpClientbuilder;
-
     @Resource
     private JsonMapper jsonMapper;
-
     @Resource
     private KryoPool kryoPool;
-
     @LocalServerPort
     private int localServerPort;
-
-    // @Resource
-    // private RestTemplateBuilder restTemplateBuilder;
+    private List<HttpMessageConverter<?>> messageConverters;
     @Resource
     private MockMvc mockMvc;
 
-    private RestTemplate restTemplate;
+    private RestClient restClient;
 
     @Resource
     private WebApplicationContext webApplicationContext;
@@ -112,9 +105,9 @@ class TestKryo {
     }
 
     @Test
-    void testRestTemplate() {
-        testRestTemplate("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
-        testRestTemplate("/json", MediaType.APPLICATION_JSON);
+    void testRestClient() {
+        testRestClient("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
+        testRestClient("/json", MediaType.APPLICATION_JSON);
     }
 
     @Test
@@ -133,20 +126,14 @@ class TestKryo {
     protected void setup() {
         final KryoHttpMessageConverter kryoHttpMessageConverter = new KryoHttpMessageConverter(kryoPool);
 
-        restTemplate = new RestTemplateBuilder().baseUri("http://localhost:" + localServerPort)
-                .additionalMessageConverters(kryoHttpMessageConverter, new JacksonJsonHttpMessageConverter()).build();
+        messageConverters = List.of(kryoHttpMessageConverter, new JacksonJsonHttpMessageConverter());
 
-        // restTemplate = restTemplateBuilder.baseUri("http://localhost:" + localServerPort)
-        // .additionalMessageConverters(kryoHttpMessageConverter).build();
-
-        // Throws an UnsupportedMediaTypeException.
-
-        // final ExchangeStrategies strategies = ExchangeStrategies.builder()
-        //       .codecs(configurer -> {
-        //           //configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper, MediaType.APPLICATION_JSON));
-        //           configurer.customCodecs().register(new KryoEncoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
-        //           configurer.customCodecs().register(new KryoDecoder(() -> KryoApplication.KRYO_SERIALIZER.get()));
-        //       }).build();
+        restClient = RestClient.builder().baseUrl("http://localhost:" + localServerPort)
+                .configureMessageConverters(configurer -> configurer
+                        .addCustomConverter(messageConverters.getFirst())
+                        .addCustomConverter(messageConverters.getLast())
+                )
+                .build();
 
         webClientBuilder.baseUrl("http://localhost:" + localServerPort)
                 //.exchangeStrategies(strategies) // Throws an UnsupportedMediaTypeException.
@@ -176,8 +163,7 @@ class TestKryo {
             assertNotNull(response);
             assertTrue(response.headers().firstValue("Content-Type").orElse("").startsWith(mimeType.toString()));
 
-            final HttpMessageConverterExtractor<LocalDateTime> converterExtractor =
-                    new HttpMessageConverterExtractor<>(LocalDateTime.class, restTemplate.getMessageConverters());
+            final HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, messageConverters);
             final MediaType mediaType = MediaType.asMediaType(mimeType);
 
             LocalDateTime localDateTime = null;
@@ -207,8 +193,7 @@ class TestKryo {
                 .andExpect(content().contentTypeCompatibleWith(mediaType)) //  + ";charset=UTF-8"
                 //.andDo(print())
                 .andDo(result -> {
-                    final HttpMessageConverterExtractor<LocalDateTime> converterExtractor =
-                            new HttpMessageConverterExtractor<>(LocalDateTime.class, restTemplate.getMessageConverters());
+                    final HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, messageConverters);
                     final byte[] bytes = result.getResponse().getContentAsByteArray();
 
                     LocalDateTime localDateTime = null;
@@ -226,19 +211,12 @@ class TestKryo {
         validateLocalDateTime(reference.get());
     }
 
-    protected void testRestTemplate(final String path, final MediaType mediaType) {
-        // final RestTemplateBuilder builder = new RestTemplateBuilder()
-        //         .baseUri("http://localhost:" + localServerPort)
-        //         .messageConverters(kryoHttpMessageConverter, new MappingJackson2HttpMessageConverter());
-        //
-        // RestTemplate restTemplate = builder.build();
-
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(mediaType));
-
-        final HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        final ResponseEntity<LocalDateTime> responseEntity = restTemplate.exchange(path, HttpMethod.GET, entity, LocalDateTime.class);
+    protected void testRestClient(final String path, final MediaType mediaType) {
+        final ResponseEntity<LocalDateTime> responseEntity = restClient.get()
+                .uri(path)
+                .accept(mediaType)
+                .retrieve()
+                .toEntity(LocalDateTime.class);
 
         assertTrue(mediaType.isCompatibleWith(responseEntity.getHeaders().getContentType()));
 
@@ -266,7 +244,7 @@ class TestKryo {
 
         assertTrue(connection.getHeaderField("Content-Type").startsWith(mediaType.toString()));
 
-        final HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, restTemplate.getMessageConverters());
+        final HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, messageConverters);
 
         LocalDateTime localDateTime = null;
 

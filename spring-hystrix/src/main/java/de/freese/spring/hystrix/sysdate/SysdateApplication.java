@@ -9,8 +9,7 @@ import com.netflix.config.ConfigurationManager;
 import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
-import org.springframework.boot.restclient.RestTemplateBuilder;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 /**
  * @author Thomas Freese
@@ -41,13 +40,13 @@ public final class SysdateApplication {
         // Server2.main(new String[0]);
         // Server3.main(new String[0]);
 
-        final RestTemplate restTemplate = new RestTemplateBuilder().build();
+        final RestClient restClient = RestClient.builder().build();
         final List<String> urls = List.of("http://localhost:8081/service/sysdate/", "http://localhost:8082/service/sysdate/", "http://localhost:8083/service/sysdate/");
         // System.out.println(restTemplate.getForObject("http://localhost:8081/service/sysdate/", String.class));
 
         while (true) {
             final SysDateHystrixCommand cmd = new SysDateHystrixCommand();
-            cmd.setRestTemplate(restTemplate);
+            cmd.setRestClient(restClient);
             cmd.setURLs(urls);
 
             final String result = cmd.execute();

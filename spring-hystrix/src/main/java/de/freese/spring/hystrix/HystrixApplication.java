@@ -15,12 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 /**
  * <a href="https://github.com/Netflix/Hystrix/tree/master/hystrix-contrib/hystrix-javanica">hystrix-javanica</a><br>
@@ -63,12 +62,12 @@ public class HystrixApplication {
 
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder(HystrixApplication.class).run(args)) {
             final HystrixApplication application = context.getBean(HystrixApplication.class);
-            final RestTemplate restTemplate = context.getBean(RestTemplate.class);
+            final RestClient restClient = context.getBean(RestClient.class);
 
             final String[] urls = new String[]{"http://localhost:8081/service/sysdate", "http://localhost:8082/service/sysdate", "http://localhost:8083/service/sysdate"};
 
             while (true) {
-                final String result = application.getSysdate1(restTemplate, urls);
+                final String result = application.getSysdate1(restClient, urls);
 
                 LOGGER.info(result);
                 // System.out.println(result);
@@ -85,30 +84,30 @@ public class HystrixApplication {
     }
 
     @HystrixCommand(commandKey = "getSysdate1", threadPoolKey = "sysDate", fallbackMethod = "getSysdate2")
-    public String getSysdate1(final RestTemplate restTemplate, final String[] urls) {
+    public String getSysdate1(final RestClient restClient, final String[] urls) {
         LOGGER.info("getSysdate1");
 
-        final String result = restTemplate.getForObject(urls[0], String.class);
+        final String result = restClient.get().uri(urls[0]).retrieve().toEntity(String.class).getBody();
         LOGGER.info(result);
 
         return result;
     }
 
     @HystrixCommand(threadPoolKey = "sysDate", fallbackMethod = "getSysdate3")
-    public String getSysdate2(final RestTemplate restTemplate, final String[] urls) {
+    public String getSysdate2(final RestClient restClient, final String[] urls) {
         LOGGER.info("getSysdate2");
 
-        final String result = restTemplate.getForObject(urls[1], String.class);
+        final String result = restClient.get().uri(urls[1]).retrieve().toEntity(String.class).getBody();
         LOGGER.info(result);
 
         return result;
     }
 
     @HystrixCommand(threadPoolKey = "sysDate", fallbackMethod = "getSysdateFallback")
-    public String getSysdate3(final RestTemplate restTemplate, final String[] urls) {
+    public String getSysdate3(final RestClient restClient, final String[] urls) {
         LOGGER.info("getSysdate3");
 
-        final String result = restTemplate.getForObject(urls[2], String.class);
+        final String result = restClient.get().uri(urls[2]).retrieve().toEntity(String.class).getBody();
         LOGGER.info(result);
 
         return result;
@@ -117,7 +116,7 @@ public class HystrixApplication {
     @HystrixCommand(commandProperties = {
             // Im aktuellen Thread ausführen.
             @HystrixProperty(name = "execution.isolation.strategy", value = "SEMAPHORE")})
-    public String getSysdateFallback(final RestTemplate restTemplate, final String[] urls) {
+    public String getSysdateFallback(final RestClient restClient, final String[] urls) {
         final String result = "fallback";
         LOGGER.info(result);
 
@@ -125,7 +124,7 @@ public class HystrixApplication {
     }
 
     @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplateBuilder().build();
+    public RestClient restClient() {
+        return RestClient.builder().build();
     }
 }

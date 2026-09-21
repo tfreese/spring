@@ -16,7 +16,7 @@ import org.apache.hc.client5.http.ssl.TlsSocketStrategy;
 import org.apache.hc.core5.util.TimeValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.restclient.RestTemplateCustomizer;
+import org.springframework.boot.restclient.RestClientCustomizer;
 import org.springframework.boot.ssl.SslBundles;
 import org.springframework.boot.webclient.WebClientCustomizer;
 import org.springframework.boot.webclient.autoconfigure.WebClientSsl;
@@ -90,10 +90,10 @@ public class ClientConfigSsl {
     }
 
     @Bean
-    public RestTemplateCustomizer restTemplateCustomizer(final HttpClient httpClient) {
+    public RestClientCustomizer restClientCustomizer(final HttpClient httpClient) {
         final HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
 
-        return restTemplate -> restTemplate.setRequestFactory(httpRequestFactory);
+        return builder -> builder.requestFactory(httpRequestFactory);
     }
 
     @Bean

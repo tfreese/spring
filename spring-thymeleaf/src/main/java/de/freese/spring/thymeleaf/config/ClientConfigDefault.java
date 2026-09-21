@@ -11,7 +11,7 @@ import org.apache.hc.client5.http.impl.io.ManagedHttpClientConnectionFactory;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.core5.pool.PoolReusePolicy;
-import org.springframework.boot.restclient.RestTemplateCustomizer;
+import org.springframework.boot.restclient.RestClientCustomizer;
 import org.springframework.boot.webclient.WebClientCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,10 +48,10 @@ public class ClientConfigDefault {
     }
 
     @Bean
-    public RestTemplateCustomizer restTemplateCustomizer(final HttpClient httpClient) {
+    public RestClientCustomizer restClientCustomizer(final HttpClient httpClient) {
         final HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
 
-        return restTemplate -> restTemplate.setRequestFactory(httpRequestFactory);
+        return builder -> builder.requestFactory(httpRequestFactory);
     }
 
     @Bean

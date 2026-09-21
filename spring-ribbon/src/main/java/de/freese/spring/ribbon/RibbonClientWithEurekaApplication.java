@@ -11,7 +11,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 /**
  * Benötigt Dependency: spring-cloud-starter-netflix-eureka-client
@@ -32,10 +32,10 @@ public class RibbonClientWithEurekaApplication {
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder(RibbonClientWithEurekaApplication.class)
                 .profiles("with-eureka")
                 .run(args)) {
-            final RestTemplate restTemplate = context.getBean("restTemplate", RestTemplate.class);
+            final RestClient restClient = context.getBean("restClient", RestClient.class);
 
             while (true) {
-                final String result = restTemplate.getForObject("http://DATE-SERVICE/service/sysdate", String.class);
+                final String result = restClient.get().uri("http://DATE-SERVICE/service/sysdate").retrieve().toEntity(String.class).getBody();
 
                 LOGGER.info(result);
                 // System.out.println(result);
@@ -53,7 +53,7 @@ public class RibbonClientWithEurekaApplication {
 
     @LoadBalanced
     @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
+    public RestClient restClient() {
+        return RestClient.builder().build();
     }
 }

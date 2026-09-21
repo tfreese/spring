@@ -21,13 +21,12 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.support.HttpRequestWrapper;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 /**
  * @author Thomas Freese
@@ -141,7 +140,7 @@ public final class LoadBalancerApplication {
             try {
                 return new URI(url);
             }
-            catch (URISyntaxException ex) {
+            catch (final URISyntaxException ex) {
                 throw new IOException(ex);
             }
         }
@@ -188,7 +187,7 @@ public final class LoadBalancerApplication {
                 try {
                     return intercept(newUri, request, body, execution);
                 }
-                catch (IOException ex) {
+                catch (final IOException ex) {
                     lastException = ex;
                 }
             }
@@ -211,7 +210,7 @@ public final class LoadBalancerApplication {
             try {
                 return new URI(url);
             }
-            catch (URISyntaxException ex) {
+            catch (final URISyntaxException ex) {
                 throw new IOException(ex);
             }
         }
@@ -259,16 +258,14 @@ public final class LoadBalancerApplication {
         // Install with ConfigurationManager so that finalConfig becomes the source of dynamic properties.
         ConfigurationManager.install(finalConfig);
 
-        // final RestTemplate restTemplate = new RestTemplateBuilder()
-        // .additionalInterceptors(new LoadBalancerInterceptor("localhost:65501", "localhost:65502", "localhost:65503")).build();
-        final RestTemplate restTemplate = new RestTemplateBuilder()
-                .additionalInterceptors(new LoadBalancerHystrixInterceptor("localhost:8081", "localhost:8082", "localhost:8083"))
+        final RestClient restClient = RestClient.builder()
+                .requestInterceptor(new LoadBalancerHystrixInterceptor("localhost:8081", "localhost:8082", "localhost:8083"))
                 .build();
 
         final String url = "http://date-service/service/sysdate";
 
         while (true) {
-            final String result = restTemplate.getForObject(url, String.class);
+            final String result = restClient.get().uri(url).retrieve().toEntity(String.class).getBody();
 
             LOGGER.info(result);
 

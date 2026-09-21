@@ -13,7 +13,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 /**
  * @author Thomas Freese
@@ -34,7 +34,7 @@ public class RibbonClientWithoutEurekaApplication {
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder(RibbonClientWithoutEurekaApplication.class)
                 .profiles("without-eureka")
                 .run(args)) {
-            final RestTemplate restTemplate = context.getBean("restTemplate", RestTemplate.class);
+            final RestClient restClient = context.getBean("restClient", RestClient.class);
             final LoadBalancerClient loadBalancer = context.getBean("loadBalancerClient", LoadBalancerClient.class);
 
             final ServiceInstance instance = loadBalancer.choose("date-service");
@@ -42,7 +42,7 @@ public class RibbonClientWithoutEurekaApplication {
             LOGGER.info("manual look,up: {}", serviceUri);
 
             while (true) {
-                final String result = restTemplate.getForObject("http://date-service/service/sysdate", String.class);
+                final String result = restClient.get().uri("http://date-service/service/sysdate").retrieve().toEntity(String.class).getBody();
 
                 LOGGER.info(result);
                 // System.out.println(result);
@@ -60,7 +60,7 @@ public class RibbonClientWithoutEurekaApplication {
 
     @LoadBalanced
     @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
+    public RestClient restClient() {
+        return RestClient.builder().build();
     }
 }

@@ -44,7 +44,7 @@ public class WebConfig {
     @Bean(destroyMethod = "close")
     CloseableHttpClient closeableHttpClient() {
         // return HttpClients.createDefault();
-        return new ApacheHttpClientBuilder().maxRetries(3).retryInterval(Duration.ofSeconds(3)).build();
+        return new ApacheHttpClientBuilder().maxRetries(3).retryInterval(Duration.ofSeconds(3L)).build();
     }
 
     @Bean

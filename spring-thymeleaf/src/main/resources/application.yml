@@ -10,6 +10,12 @@ app:
     message:
         welcome: Hello Tommy
 
+info:
+    app:
+        name: @project_artifactId@
+        description: @project_description@
+        version: @project_version@
+
 # =================================================================================================
 # Spring Properties
 debug: false
@@ -92,12 +98,6 @@ server:
 #</form>
 # curl -X POST -insecure localhost:8443/shutdown
 #
-
-info:
-    app:
-        name: @project_artifactId@
-        description: @project_description@
-        version: @project_version@
 
 management:
     endpoints:

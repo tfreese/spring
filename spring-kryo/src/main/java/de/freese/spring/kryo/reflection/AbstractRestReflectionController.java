@@ -14,7 +14,6 @@ import com.esotericsoftware.kryo.io.Output;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.client.RestTemplate;
 
 import de.freese.spring.kryo.KryoPool;
 import de.freese.spring.kryo.web.KryoHttpMessageConverter;
@@ -65,10 +64,10 @@ public abstract class AbstractRestReflectionController {
                 output.flush();
             }
         }
-        catch (InvocationTargetException ex) {
+        catch (final InvocationTargetException ex) {
             throw (Exception) ex.getCause();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             throw ex;
         }
         finally {
@@ -78,11 +77,8 @@ public abstract class AbstractRestReflectionController {
         return null;
     }
 
-    /**
-     * Funktioniert nur mit {@link RestTemplate}.
-     */
     @PostMapping(path = "/rt/{method}", consumes = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE, produces = KryoHttpMessageConverter.APPLICATION_KRYO_VALUE)
-    public Object invokeFromRestTemplate(@PathVariable("method") final String method, @RequestBody final Object body) throws Exception {
+    public Object invokeFromRestClient(@PathVariable("method") final String method, @RequestBody final Object body) throws Exception {
         // Parameter-Typen und -Argumente auslesen.
         final Object[] paramTypesAndArgs = (Object[]) body;
         final Class<?>[] parameterTypes = (Class<?>[]) paramTypesAndArgs[0];

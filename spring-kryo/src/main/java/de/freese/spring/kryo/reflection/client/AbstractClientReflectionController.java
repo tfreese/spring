@@ -11,6 +11,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -20,10 +21,9 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 import de.freese.spring.kryo.KryoPool;
 import de.freese.spring.kryo.reflection.ReflectionControllerApi;
@@ -142,11 +142,11 @@ public abstract class AbstractClientReflectionController<T> {
                     }
                 }
             }
-            catch (KryoException ex) {
+            catch (final KryoException ex) {
                 // Ignore java.io.IOException: Stream is closed
                 getLogger().debug(null, ex);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 // getLogger().error("HTTP {} - {}", connection.getResponseCode(), connection.getResponseMessage());
                 getLogger().error(uri.toString());
                 // getLogger().error(ex.getMessage(), ex);
@@ -166,15 +166,19 @@ public abstract class AbstractClientReflectionController<T> {
     protected T lookupProxyRestTemplate(final Class<T> fassadeType) {
         final Object proxyObject = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
 
-            final RestTemplate restTemplate = new RestTemplateBuilder()
-                    .baseUri(rootUri)
-                    .interceptors((request, body, execution) -> {
+            final RestClient restClient = RestClient.builder()
+                    .baseUrl(rootUri)
+                    .requestInterceptor((request, body, execution) -> {
                         final HttpHeaders headers = request.getHeaders();
-                        headers.setAccept(Arrays.asList(KryoHttpMessageConverter.APPLICATION_KRYO));
+                        headers.setAccept(List.of(KryoHttpMessageConverter.APPLICATION_KRYO));
                         headers.setContentType(KryoHttpMessageConverter.APPLICATION_KRYO);
                         return execution.execute(request, body);
                     })
-                    .additionalMessageConverters(new KryoHttpMessageConverter(getKryoPool()), new JacksonJsonHttpMessageConverter())
+                    .configureMessageConverters(configurer ->
+                            configurer
+                                    .addCustomConverter(new KryoHttpMessageConverter(getKryoPool()))
+                                    .addCustomConverter(new JacksonJsonHttpMessageConverter())
+                    )
                     .build();
 
             // final String url = "/reflection/" + fassadeType.getSimpleName() + "/" + method.getName();
@@ -203,9 +207,13 @@ public abstract class AbstractClientReflectionController<T> {
                     paramTypes[i] = arg.getClass();
                 }
 
-                return restTemplate.postForObject(url, paramTypesAndArgs, Object.class);
+                return restClient.post()
+                        .uri(url)
+                        .body(paramTypesAndArgs)
+                        .retrieve()
+                        .requiredBody(Object.class);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 getLogger().error(url);
                 // getLogger().error(ex.getMessage(), ex);
 
@@ -240,7 +248,7 @@ public abstract class AbstractClientReflectionController<T> {
                 try {
                     return method.invoke(fassade, args);
                 }
-                catch (InvocationTargetException ex) {
+                catch (final InvocationTargetException ex) {
                     Throwable cause = ex.getCause();
 
                     if (cause instanceof UndeclaredThrowableException) {

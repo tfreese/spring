@@ -16,7 +16,6 @@ import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
-import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -27,7 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.reactive.function.client.WebClient;
 
 /**
@@ -46,7 +45,7 @@ class TestRestService {
     private int port;
 
     @Resource
-    private RestTemplateBuilder restTemplateBuilder;
+    private RestClient.Builder restClientBuilder;
 
     @Resource
     private WebClient.Builder webClientBuilder;
@@ -87,12 +86,10 @@ class TestRestService {
     }
 
     @Test
-    void testRestTemplate() {
-        // Tfinal estRestTemplate restTemplate = new TestRestTemplate(restTemplateBuilder.baseUri("http://localhost:" + port));
-        final RestTemplate restTemplate = restTemplateBuilder.baseUri("http://localhost:" + port).build();
+    void testRestClient() {
+        final RestClient restClient = restClientBuilder.baseUrl("http://localhost:" + port).build();
 
-        // String result = restTemplate.getForObject("/",String.class);
-        final ResponseEntity<String> response = restTemplate.getForEntity("/", String.class);
+        final ResponseEntity<String> response = restClient.get().uri("/").retrieve().toEntity(String.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());

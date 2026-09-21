@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.support.InterceptingHttpAccessor;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 import de.freese.spring.ribbon.myloadbalancer.LoadBalancer;
 import de.freese.spring.ribbon.myloadbalancer.LoadBalancerInterceptor;
@@ -28,15 +28,14 @@ import de.freese.spring.ribbon.myloadbalancer.strategy.LoadBalancerStrategyRound
  * @author Thomas Freese
  * @since 14.02.2017
  */
-public class MyLoadBalancerApplication // implements RestTemplateCustomizer
-{
+public class MyLoadBalancerApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyLoadBalancerApplication.class);
 
     static void main(final String[] args) {
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder(MyLoadBalancerApplication.class)
                 .profiles("my-loadbalancer")
                 .run(args)) {
-            final RestTemplate restTemplate = context.getBean("restTemplate", RestTemplate.class);
+            final RestClient restClient = context.getBean("restClient", RestClient.class);
             final LoadBalancer loadBalancer = context.getBean("loadBalancer", LoadBalancer.class);
 
             final String server = loadBalancer.chooseServer("date-service");
@@ -44,7 +43,11 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
             LOGGER.info("manual look,up: {}", serviceUri);
 
             while (true) {
-                final String result = restTemplate.getForObject("http://date-service/service/sysdate", String.class);
+                final String result = restClient.get()
+                        .uri("http://date-service/service/sysdate")
+                        .retrieve()
+                        .toEntity(String.class)
+                        .getBody();
 
                 LOGGER.info(result);
                 // System.out.println(result);
@@ -98,7 +101,7 @@ public class MyLoadBalancerApplication // implements RestTemplateCustomizer
     }
 
     @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
+    public RestClient restClient() {
+        return RestClient.builder().build();
     }
 }
