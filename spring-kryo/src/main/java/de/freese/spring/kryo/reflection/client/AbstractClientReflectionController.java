@@ -163,7 +163,7 @@ public abstract class AbstractClientReflectionController<T> {
         return fassadeType.cast(proxyObject);
     }
 
-    protected T lookupProxyRestTemplate(final Class<T> fassadeType) {
+    protected T lookupProxyRest(final Class<T> fassadeType) {
         final Object proxyObject = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{fassadeType}, (proxy, method, args) -> {
 
             final RestClient restClient = RestClient.builder()

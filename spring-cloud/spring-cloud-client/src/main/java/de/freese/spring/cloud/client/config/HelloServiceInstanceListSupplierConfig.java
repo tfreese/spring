@@ -24,9 +24,9 @@ public class HelloServiceInstanceListSupplierConfig {
         // return ServiceInstanceListSupplier.builder()
         //         //.withDiscoveryClient()
         //         .withBase(instanceListSupplier)
-        //         //.withBlockingHealthChecks() // RestTemplate muss vorhanden sein !
-        //         //.withHealthChecks() // Funktioniert nicht !
-        //         //.withHealthChecks(webClientBuilder.build()) // Funktioniert nicht !
+        //         //.withBlockingHealthChecks()
+        //         //.withHealthChecks()
+        //         //.withHealthChecks(webClientBuilder.build())
         //         .withCaching()
         //         //.withRequestBasedStickySession()
         //         .build(context)

@@ -150,24 +150,4 @@ public class ClientConfigSsl {
     //             .build()
     //             ;
     // }
-
-    // /**
-    // * @param sslContext {@link SSLContext}
-    // * @return {@link HttpComponentsClientHttpRequestFactory}
-    // * @throws Exception Falls was schief geht.
-    // */
-    // @SuppressWarnings("resource")
-    // public HttpComponentsClientHttpRequestFactory createHttpComponentsClientHttpRequestFactory(final SslBundles sslBundles) throws Exception {
-    // final SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslBundles.getBundle("web-server").createSslContext(), new NoopHostnameVerifier());
-    //
-    // final CloseableHttpClient client = HttpClients.custom().setSSLSocketFactory(sslsf).build();
-    //
-    // final HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
-    // httpRequestFactory.setReadTimeout(3000);
-    // httpRequestFactory.setConnectTimeout(3000);
-    //
-    // // restTemplateBuilder = this.restTemplateBuilder.requestFactory(() -> httpRequestFactory);
-    //
-    // return httpRequestFactory;
-    // }
 }

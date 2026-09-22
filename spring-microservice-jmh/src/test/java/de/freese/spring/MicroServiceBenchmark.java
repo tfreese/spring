@@ -76,7 +76,7 @@ public class MicroServiceBenchmark {
 
     @Benchmark
     @Group("spring") // Nur einen SpringContext für alle Benchmarks.
-    public void benchmarkRestTemplate(final Blackhole blackhole, final BenchmarkState state) {
+    public void benchmarkRestClient(final Blackhole blackhole, final BenchmarkState state) {
         final RestClient restClient = state.restClient;
 
         final String response = restClient.get().uri("/").retrieve().toEntity(String.class).getBody();

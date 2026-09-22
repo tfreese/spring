@@ -133,16 +133,6 @@ class TestRestWithRestClient extends AbstractRestTestCase {
                 })
                 .build();
 
-        // final HttpHeaders headers = new HttpHeaders();
-        // headers.setContentType(MediaType.APPLICATION_JSON);
-
-        // final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
-        // persons = objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<Person>>() {
-        // });
-
-        // final Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
-        // persons = Arrays.asList(personArray);
-
         final ResponseEntity<List<Person>> responseEntity = restClient.get()
                 .uri("/rest/person/personList")
                 .retrieve()
@@ -166,13 +156,6 @@ class TestRestWithRestClient extends AbstractRestTestCase {
                     consumer.add(new HttpHeaderInterceptor("Accept", MediaType.APPLICATION_XML_VALUE + ";charset=UTF-8"));
                 })
                 .build();
-
-        // // final ResponseEntity<String> responseEntity = restTemplate.getForEntity("/rest/person/personList", String.class);
-        // persons = objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<Person>>() {
-        // });
-
-        // final Person[] personArray = restTemplate.getForObject("/rest/person/personList", Person[].class);
-        // persons = Arrays.asList(personArray);
 
         final ResponseEntity<List<Person>> responseEntity = restClient.get()
                 .uri("/rest/person/personList")

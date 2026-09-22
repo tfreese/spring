@@ -42,7 +42,6 @@ public final class SysdateApplication {
 
         final RestClient restClient = RestClient.builder().build();
         final List<String> urls = List.of("http://localhost:8081/service/sysdate/", "http://localhost:8082/service/sysdate/", "http://localhost:8083/service/sysdate/");
-        // System.out.println(restTemplate.getForObject("http://localhost:8081/service/sysdate/", String.class));
 
         while (true) {
             final SysDateHystrixCommand cmd = new SysDateHystrixCommand();

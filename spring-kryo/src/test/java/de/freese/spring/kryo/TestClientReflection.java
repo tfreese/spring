@@ -41,7 +41,7 @@ class TestClientReflection {
     }
 
     @Test
-    void testRestTemplate() {
+    void testRest() {
         final String rootUri = "http://localhost:" + localServerPort;
         final ReflectionControllerApi fassade = new ClientReflectionController(kryoPool, rootUri, ConnectType.REST_TEMPLATE);
 

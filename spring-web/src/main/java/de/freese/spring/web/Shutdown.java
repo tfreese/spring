@@ -149,15 +149,9 @@ final class Shutdown {
             response = httpResponse.body();
         }
 
-        // REST-Template
-        // final HttpHeaders headers = new HttpHeaders();
-        // headers.setContentType(MediaType.APPLICATION_JSON);
-        // final HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        // response = RestClient.builder().build().post().uri(uri).accept(MediaType.APPLICATION_JSON).retrieve().toEntity(String.class).getBody();
         //
-        // response = new RestTemplate().postForEntity(shutdownUri, entity, String.class).getBody();
-        //
-        // PLAIN
-        // final HttpURLConnection connection = (HttpURLConnection) shutdownUri.toURL().openConnection();
+        // final HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
         // connection.setRequestMethod("POST");
         //
         // try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {

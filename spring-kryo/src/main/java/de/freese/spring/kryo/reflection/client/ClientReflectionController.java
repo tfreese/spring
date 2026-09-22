@@ -19,7 +19,7 @@ public class ClientReflectionController extends AbstractClientReflectionControll
             proxy = lookupProxyRetry(lookupProxyHttpConnection());
         }
         else {
-            proxy = lookupProxyRestTemplate(getFassadeType());
+            proxy = lookupProxyRest(getFassadeType());
         }
     }
 

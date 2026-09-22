@@ -6,7 +6,6 @@ import org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient;
 import org.apache.hc.client5.http.impl.async.HttpAsyncClients;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.springframework.boot.restclient.RestClientCustomizer;
-import org.springframework.boot.restclient.RestTemplateCustomizer;
 import org.springframework.boot.webclient.WebClientCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,11 +49,6 @@ public class WebConfig {
     @Bean
     RestClientCustomizer restClientCustomizer(final ClientHttpRequestFactory clientHttpRequestFactory) {
         return restClientBuilder -> restClientBuilder.requestFactory(clientHttpRequestFactory);
-    }
-
-    @Bean
-    RestTemplateCustomizer restTemplateCustomizer(final ClientHttpRequestFactory clientHttpRequestFactory) {
-        return restTemplate -> restTemplate.setRequestFactory(clientHttpRequestFactory);
     }
 
     @Bean
