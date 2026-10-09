@@ -2,9 +2,9 @@ package de.freese.spring.data.jpa.exception;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.jspecify.annotations.NonNull;
@@ -47,8 +47,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return jsonMapper.writeValueAsString(stackTraceList);
     }
 
-    @Resource
-    private JsonMapper jsonMapper;
+    private final JsonMapper jsonMapper;
+
+    public RestExceptionHandler(final JsonMapper jsonMapper) {
+        super();
+
+        this.jsonMapper = Objects.requireNonNull(jsonMapper, "jsonMapper required");
+    }
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(final @NonNull Exception exception,

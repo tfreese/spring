@@ -37,12 +37,9 @@ public class HsqldbServerProperties {
 
         @Override
         public String toString() {
-            final StringBuilder builder = new StringBuilder();
-            builder.append("DB [name=").append(name);
-            builder.append(", path=").append(path);
-            builder.append("]");
-
-            return builder.toString();
+            return "DB [name=" + name
+                    + ", path=" + path
+                    + "]";
         }
     }
 

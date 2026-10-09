@@ -1,8 +1,7 @@
 package de.freese.spring.thymeleaf.facade;
 
 import java.util.List;
-
-import jakarta.annotation.Resource;
+import java.util.Objects;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +19,14 @@ import de.freese.spring.thymeleaf.service.PersonService;
  */
 @ThymeleafController
 public class PersonThymeleafController {
-    @Resource
-    private PersonService service;
+
+    private final PersonService service;
+
+    public PersonThymeleafController(final PersonService service) {
+        super();
+
+        this.service = Objects.requireNonNull(service, "service required");
+    }
 
     @GetMapping("/web/person/personList")
     public String personList(final Model model) {

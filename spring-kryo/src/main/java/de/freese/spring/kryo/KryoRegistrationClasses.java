@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,7 +34,7 @@ public final class KryoRegistrationClasses {
     private static Set<Class<?>> extendWithArrayVariants(final Set<Class<?>> clazzes) {
         final Set<Class<?>> set = HashSet.newHashSet(clazzes.size() * 2);
 
-        for (Class<?> clazz : clazzes) {
+        for (final Class<?> clazz : clazzes) {
             set.add(clazz);
 
             if (!clazz.isArray()) {
@@ -61,7 +62,7 @@ public final class KryoRegistrationClasses {
     private static Set<Class<?>> getRuntimeClasses() {
         return Set.of(
                 java.util.ArrayList.class,
-                java.util.Arrays.asList().getClass(), // java.util.Arrays.ArrayList
+                List.of().getClass(), // java.util.Arrays.ArrayList
                 java.math.BigDecimal.class,
                 java.math.BigInteger.class,
                 java.util.BitSet.class,
@@ -151,7 +152,7 @@ public final class KryoRegistrationClasses {
             Set<Class<?>> clazzes = HashSet.newHashSet(512);
             // clazzes.addAll(ReflectionUtils.getClasses("..."));
 
-            /// spring-context
+            // spring-context
             // ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
             // provider.addIncludeFilter(new RegexPatternTypeFilter(Pattern.compile(".*")));
             // provider.findCandidateComponents("de.freese").forEach(beanDef -> System.out.println(beanDef.getBeanClassName()));

@@ -2,10 +2,9 @@ package de.spring.ai.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
-
-import jakarta.annotation.Resource;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -48,8 +47,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         //         """.formatted(RestExceptionHandler.class.getName());
     }
 
-    @Resource
-    private JsonMapper jsonMapper;
+    private final JsonMapper jsonMapper;
+
+    public RestExceptionHandler(final JsonMapper jsonMapper) {
+        super();
+
+        this.jsonMapper = Objects.requireNonNull(jsonMapper, "jsonMapper required");
+    }
 
     @ExceptionHandler(RuntimeException.class)
     protected ResponseEntity<Object> handleRuntimeException(final RuntimeException exception, final WebRequest webRequest) {

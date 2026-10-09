@@ -19,11 +19,15 @@ import reactor.core.publisher.Mono;
 @Service
 public class FailingService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FailingService.class);
-
+    
+    private final int port;
     private final Random random = new SecureRandom();
 
-    @Value("${server.port}")
-    private int port = -1;
+    public FailingService(@Value("${server.port}") final int port) {
+        super();
+
+        this.port = port;
+    }
 
     public Mono<String> greet(final String name) {
         final long seconds = random.nextLong(4L);

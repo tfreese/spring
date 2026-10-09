@@ -1,8 +1,7 @@
 package de.freese.spring.autoconfigure.hsqldbserver;
 
 import java.util.List;
-
-import jakarta.annotation.Resource;
+import java.util.Objects;
 
 import org.hsqldb.Database;
 import org.hsqldb.server.Server;
@@ -65,8 +64,13 @@ import de.freese.spring.autoconfigure.hsqldbserver.HsqldbServerProperties.DB;
 public class HsqldbServerAutoConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(HsqldbServerAutoConfiguration.class);
 
-    @Resource
-    private HsqldbServerProperties hsqldbServerProperties;
+    private final HsqldbServerProperties hsqldbServerProperties;
+
+    public HsqldbServerAutoConfiguration(final HsqldbServerProperties hsqldbServerProperties) {
+        super();
+
+        this.hsqldbServerProperties = Objects.requireNonNull(hsqldbServerProperties, "hsqldbServerProperties is required");
+    }
 
     @Bean(initMethod = "start", destroyMethod = "shutdown")
     // @Scope(ConfigurableBeanFactory#SCOPE_SINGLETON)
@@ -78,15 +82,14 @@ public class HsqldbServerAutoConfiguration {
         final List<DB> dbs = hsqldbServerProperties.getDb();
 
         if (LOGGER.isInfoEnabled()) {
-            final StringBuilder sb = new StringBuilder();
-            sb.append("Create HsqldbServer with:");
-            sb.append(" port={}");
-            sb.append(", noSystemExit={}");
-            sb.append(", silent={}");
-            sb.append(", trace={}");
-            sb.append(", dataBases={}");
+            final String sb = "Create HsqldbServer with:"
+                    + " port={}"
+                    + ", noSystemExit={}"
+                    + ", silent={}"
+                    + ", trace={}"
+                    + ", dataBases={}";
 
-            LOGGER.info(sb.toString(), port, noSystemExit, silent, trace, dbs);
+            LOGGER.info(sb, port, noSystemExit, silent, trace, dbs);
         }
 
         final Server server = new Server() {

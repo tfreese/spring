@@ -1,6 +1,6 @@
 package de.freese.spring.reactive;
 
-import jakarta.annotation.Resource;
+import java.util.Objects;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -18,9 +18,14 @@ import de.freese.spring.reactive.model.Employee;
 @Component
 @SuppressWarnings("java:S1172")
 public class EmployeeHandler {
-    @Resource
-    private EmployeeService service;
+    private final EmployeeService service;
 
+    public EmployeeHandler(final EmployeeService service) {
+        super();
+
+        this.service = Objects.requireNonNull(service, "service required");
+    }
+    
     // Die REST-Methode 'createNewEmployee' wird im {@link EmployeeRestController} behandelt.
     //
     // public Mono<ServerResponse> createNewEmployee(final ServerRequest request) {

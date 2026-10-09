@@ -1,11 +1,13 @@
 package de.freese.spring.hateoas;
 
 import java.awt.Desktop;
+import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 
 import jakarta.annotation.Resource;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -43,25 +45,25 @@ public class OpenBrowserRunner implements ApplicationRunner {
     /**
      * google-chrome-stable --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media %U
      */
-    private static void openLinuxChrome(final String url) throws Exception {
+    private static void openLinuxChrome(final String url) throws IOException {
         Runtime.getRuntime().exec(new String[]{"/usr/bin/google-chrome-stable", url});
     }
 
     /**
      * chromium %U --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media
      */
-    private static void openLinuxChromium(final String url) throws Exception {
+    private static void openLinuxChromium(final String url) throws IOException {
         Runtime.getRuntime().exec(new String[]{"/usr/bin/chromium", url});
     }
 
-    private static void openLinuxFirefox(final String url) throws Exception {
+    private static void openLinuxFirefox(final String url) throws IOException {
         Runtime.getRuntime().exec(new String[]{"/usr/bin/firefox", "-new-tab", url});
     }
 
     /**
      * Firefox: view-source:URI
      */
-    private static void openWindowsFirefox(final String url) throws Exception {
+    private static void openWindowsFirefox(final String url) throws IOException {
         Runtime.getRuntime().exec(new String[]{"C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", url});
     }
 
@@ -69,7 +71,7 @@ public class OpenBrowserRunner implements ApplicationRunner {
     private PropertyResolver propertyResolver;
 
     @Override
-    public void run(final ApplicationArguments args) throws Exception {
+    public void run(final @NonNull ApplicationArguments args) throws IOException {
         LOGGER.info("");
 
         final String rootUri = getRootUri(propertyResolver);
@@ -78,11 +80,11 @@ public class OpenBrowserRunner implements ApplicationRunner {
         try {
             openLinuxChrome(uri.toString());
         }
-        catch (Exception _) {
+        catch (IOException _) {
             try {
                 openLinuxFirefox(uri.toString());
             }
-            catch (Exception _) {
+            catch (IOException _) {
                 try {
                     openLinuxChromium(uri.toString());
                 }

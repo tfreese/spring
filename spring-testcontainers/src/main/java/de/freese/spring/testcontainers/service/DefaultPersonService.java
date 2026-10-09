@@ -1,8 +1,7 @@
 package de.freese.spring.testcontainers.service;
 
 import java.util.List;
-
-import jakarta.annotation.Resource;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +14,13 @@ import de.freese.spring.testcontainers.repository.PersonRepository;
  */
 @Service
 public class DefaultPersonService implements PersonService {
-    @Resource
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
+
+    public DefaultPersonService(final PersonRepository personRepository) {
+        super();
+
+        this.personRepository = Objects.requireNonNull(personRepository, "personRepository required");
+    }
 
     @Override
     public List<Person> getAll() {

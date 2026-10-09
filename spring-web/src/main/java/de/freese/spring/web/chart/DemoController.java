@@ -5,11 +5,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import jakarta.annotation.Resource;
 import jakarta.faces.view.ViewScoped;
 
 import org.slf4j.Logger;
@@ -28,8 +28,13 @@ public final class DemoController implements Serializable {
     @Serial
     private static final long serialVersionUID = 3966368804680062710L;
 
-    @Resource
-    private transient DataService dataService;
+    private final transient DataService dataService;
+
+    public DemoController(final DataService dataService) {
+        super();
+
+        this.dataService = Objects.requireNonNull(dataService, "dataService required");
+    }
 
     public List<Map.Entry<LocalDateTime, Double>> getData() {
         LOGGER.info("getData");

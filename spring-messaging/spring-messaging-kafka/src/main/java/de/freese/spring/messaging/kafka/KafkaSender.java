@@ -1,5 +1,7 @@
 package de.freese.spring.messaging.kafka;
 
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -18,7 +20,7 @@ public class KafkaSender {
     public KafkaSender(final KafkaTemplate<String, String> kafkaTemplate) {
         super();
 
-        this.kafkaTemplate = kafkaTemplate;
+        this.kafkaTemplate = Objects.requireNonNull(kafkaTemplate, "kafkaTemplate required");
     }
 
     public void send(final String topic, final String payload) {

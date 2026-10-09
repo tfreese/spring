@@ -8,8 +8,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
-
-import jakarta.annotation.Resource;
+import java.util.Objects;
 
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.AvailabilityFilteringRule;
@@ -116,8 +115,13 @@ public class RibbonClientConfiguration {
         }
     }
 
-    @Resource
-    private IClientConfig ribbonClientConfig;
+    private final IClientConfig ribbonClientConfig;
+
+    public RibbonClientConfiguration(final IClientConfig ribbonClientConfig) {
+        super();
+
+        this.ribbonClientConfig = Objects.requireNonNull(ribbonClientConfig, "ribbonClientConfig required");
+    }
 
     @Bean
     public IPing ribbonPing(final IClientConfig config) {

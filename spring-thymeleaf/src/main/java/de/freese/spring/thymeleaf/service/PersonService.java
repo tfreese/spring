@@ -3,6 +3,8 @@ package de.freese.spring.thymeleaf.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.annotation.PostConstruct;
+
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +17,6 @@ import de.freese.spring.thymeleaf.model.Person;
 @Service
 public class PersonService {
     private final List<Person> persons = new ArrayList<>();
-
-    public PersonService() {
-        super();
-
-        persons.add(new Person("Bill", "Gates"));
-        persons.add(new Person("Steve", "Jobs"));
-    }
 
     @Secured("ROLE_ADMIN")
     public void addPerson(final Person newPerson) {
@@ -39,5 +34,11 @@ public class PersonService {
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public List<Person> getPersons() {
         return new ArrayList<>(persons);
+    }
+
+    @PostConstruct
+    public void init() {
+        persons.add(new Person("Bill", "Gates"));
+        persons.add(new Person("Steve", "Jobs"));
     }
 }

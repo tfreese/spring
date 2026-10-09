@@ -1,5 +1,7 @@
 package de.freese.spring.contexts.parent;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -9,8 +11,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public final class ParentBean {
-    @Value("${my.variable}")
-    private String myVariable;
+    private final String myVariable;
+
+    public ParentBean(@Value("${my.variable}") final String myVariable) {
+        super();
+
+        this.myVariable = Objects.requireNonNull(myVariable, "myVariable is required");
+    }
 
     @Override
     public String toString() {

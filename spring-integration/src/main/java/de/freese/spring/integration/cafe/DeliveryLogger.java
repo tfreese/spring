@@ -14,7 +14,7 @@ public class DeliveryLogger {
         LOGGER.info("-----------------------");
         LOGGER.info("Order #{}", delivery.getOrderNumber());
 
-        for (Drink drink : delivery.getDeliveredDrinks()) {
+        for (final Drink drink : delivery.getDeliveredDrinks()) {
             LOGGER.info("{}", drink);
         }
 

@@ -1,6 +1,7 @@
 package de.freese.spring.thymeleaf.exception;
 
-import jakarta.annotation.Resource;
+import java.util.Objects;
+
 import jakarta.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -21,11 +22,15 @@ import de.freese.spring.thymeleaf.ThymeleafController;
 @ControllerAdvice(annotations = ThymeleafController.class)
 // @RestControllerAdvice
 public class ThymeleafControllerExceptionHandler {
-    @Value("${server.error.path:${error.path:/error}}")
-    private String errorPage;
+    private final String errorPage;
+    private final RestControllerExceptionHandler exceptionHandler;
 
-    @Resource
-    private RestControllerExceptionHandler exceptionHandler;
+    public ThymeleafControllerExceptionHandler(final RestControllerExceptionHandler exceptionHandler, @Value("${server.error.path:${error.path:/error}}") final String errorPage) {
+        super();
+
+        this.exceptionHandler = Objects.requireNonNull(exceptionHandler, "exceptionHandler required");
+        this.errorPage = errorPage;
+    }
 
     @ExceptionHandler(value = AccessDeniedException.class)
     protected String handleAccessDeniedException(final Model model, final AccessDeniedException ex, final WebRequest request) {

@@ -25,7 +25,6 @@ import org.jooq.DSLContext;
 public final class SchemaInitializer {
 
     public void initialize(final DSLContext ctx) {
-
         // 1) Schema
         ctx.createSchemaIfNotExists("APP").execute();
 

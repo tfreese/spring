@@ -19,6 +19,7 @@ import com.netflix.hystrix.HystrixThreadPoolKey;
 import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
+import org.jspecify.annotations.NullMarked;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
@@ -86,7 +87,7 @@ public final class LoadBalancerApplication {
 
             final HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request) {
                 @Override
-                public URI getURI() {
+                public @NullMarked URI getURI() {
                     return uri;
                 }
             };
@@ -112,7 +113,7 @@ public final class LoadBalancerApplication {
         }
 
         @Override
-        public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
+        public @NullMarked ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
             final URI originalUri = request.getURI();
 
             final List<URI> uris = new ArrayList<>();
@@ -218,7 +219,7 @@ public final class LoadBalancerApplication {
         private ClientHttpResponse intercept(final URI newUri, final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
             final HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request) {
                 @Override
-                public URI getURI() {
+                public @NullMarked URI getURI() {
                     return newUri;
                 }
             };

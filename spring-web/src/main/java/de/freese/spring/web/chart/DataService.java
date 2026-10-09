@@ -6,9 +6,8 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
-
-import jakarta.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +21,13 @@ import org.springframework.stereotype.Service;
 public final class DataService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataService.class);
 
-    @Resource
-    private Random random;
+    private final Random random;
+
+    public DataService(final Random random) {
+        super();
+
+        this.random = Objects.requireNonNull(random, "random required");
+    }
 
     public List<Map.Entry<LocalDateTime, Double>> getData() {
         LOGGER.info("getData");

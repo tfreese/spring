@@ -1,6 +1,6 @@
 package de.freese.spring.reactive;
 
-import jakarta.annotation.Resource;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +16,13 @@ import de.freese.spring.reactive.repository.EmployeeRepository;
  */
 @Service
 public class EmployeeService {
-    @Resource
-    private EmployeeRepository repository;
+    private final EmployeeRepository repository;
+
+    public EmployeeService(final EmployeeRepository repository) {
+        super();
+
+        this.repository = Objects.requireNonNull(repository, "repository required");
+    }
 
     @Transactional
     public Mono<Employee> createNewEmployee(final Employee newEmployee) {

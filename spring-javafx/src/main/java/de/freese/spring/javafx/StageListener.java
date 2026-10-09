@@ -51,7 +51,7 @@ public class StageListener implements ApplicationListener<StageReadyEvent> {
             stage.setTitle(applicationTitle);
             stage.show();
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new RuntimeException(ex);
         }
     }

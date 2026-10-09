@@ -1,6 +1,7 @@
 package de.freese.spring.cloud.client.config;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.cloud.client.DefaultServiceInstance;
 import org.springframework.cloud.client.ServiceInstance;
@@ -20,7 +21,7 @@ class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier {
     MyServiceInstanceListSupplier(final String serviceId) {
         super();
 
-        this.serviceId = serviceId;
+        this.serviceId = Objects.requireNonNull(serviceId, "serviceId is required");
     }
 
     @Override

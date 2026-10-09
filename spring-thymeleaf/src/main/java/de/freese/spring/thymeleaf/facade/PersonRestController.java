@@ -1,8 +1,7 @@
 package de.freese.spring.thymeleaf.facade;
 
 import java.util.List;
-
-import jakarta.annotation.Resource;
+import java.util.Objects;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +23,13 @@ import de.freese.spring.thymeleaf.service.PersonService;
 // MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE
 // })
 public class PersonRestController {
-    @Resource
-    private PersonService service;
+    private final PersonService service;
+
+    public PersonRestController(final PersonService service) {
+        super();
+
+        this.service = Objects.requireNonNull(service, "service required");
+    }
 
     @GetMapping("/createError")
     public void createError() {

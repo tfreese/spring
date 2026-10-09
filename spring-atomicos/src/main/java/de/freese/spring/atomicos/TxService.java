@@ -6,10 +6,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.sql.DataSource;
-
-import jakarta.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +23,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class TxService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TxService.class);
 
-    @Resource
-    private DataSource dataSourceAddress;
+    private final DataSource dataSourceAddress;
+    private final DataSource dataSourcePerson;
 
-    @Resource
-    private DataSource dataSourcePerson;
+    public TxService(final DataSource dataSourcePerson, final DataSource dataSourceAddress) {
+        super();
+
+        this.dataSourcePerson = Objects.requireNonNull(dataSourcePerson, "dataSourcePerson is required");
+        this.dataSourceAddress = Objects.requireNonNull(dataSourceAddress, "dataSourceAddress is required");
+    }
 
     @Transactional(rollbackFor = Exception.class)
     public void insertData(final String personName, final String city) throws Exception {

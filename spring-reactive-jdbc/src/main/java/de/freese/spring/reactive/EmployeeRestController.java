@@ -1,6 +1,6 @@
 package de.freese.spring.reactive;
 
-import jakarta.annotation.Resource;
+import java.util.Objects;
 
 import org.reactivestreams.Publisher;
 import org.springframework.http.MediaType;
@@ -19,8 +19,13 @@ import de.freese.spring.reactive.model.Employee;
 @RestController
 @RequestMapping(path = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class EmployeeRestController {
-    @Resource
-    private EmployeeService service;
+    private final EmployeeService service;
+
+    public EmployeeRestController(final EmployeeService service) {
+        super();
+
+        this.service = Objects.requireNonNull(service, "service required");
+    }
 
     @PutMapping("employee")
     public Publisher<Employee> createNewEmployee(@RequestBody final Employee newEmployee) {

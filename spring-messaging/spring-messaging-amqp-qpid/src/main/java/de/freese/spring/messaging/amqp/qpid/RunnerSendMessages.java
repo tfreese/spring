@@ -3,8 +3,6 @@ package de.freese.spring.messaging.amqp.qpid;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import jakarta.annotation.Resource;
-
 import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,14 +16,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RunnerSendMessages implements CommandLineRunner {
+    private final ApplicationContext context;
     private final AmqpSender sender;
 
-    @Resource
-    private ApplicationContext context;
-
-    public RunnerSendMessages(final AmqpSender sender) {
+    public RunnerSendMessages(final ApplicationContext context, final AmqpSender sender) {
         super();
 
+        this.context = Objects.requireNonNull(context, "context required");
         this.sender = Objects.requireNonNull(sender, "sender required");
     }
 

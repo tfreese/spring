@@ -3,8 +3,8 @@ package de.freese.spring.thymeleaf.facade;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,15 +40,18 @@ import de.freese.spring.thymeleaf.ThymeleafController;
 public class HomeThymeleafController {
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeThymeleafController.class);
 
-    @Value("${app.message.welcome}")
-    private final String message = "Hello World";
+    private final AuthenticationManager authenticationManager;
+    private final String message;
+    private final UserDetailsService userDetailsService;
 
-    @Resource
-    @Qualifier("authenticationManagerWeb")
-    private AuthenticationManager authenticationManager;
+    public HomeThymeleafController(@Qualifier("authenticationManagerWeb") final AuthenticationManager authenticationManager,
+                                   final UserDetailsService userDetailsService, @Value("${app.message.welcome}") final String message) {
+        super();
 
-    @Resource
-    private UserDetailsService userDetailsService;
+        this.authenticationManager = Objects.requireNonNull(authenticationManager, "authenticationManager required");
+        this.userDetailsService = Objects.requireNonNull(userDetailsService, "userDetailsService required");
+        this.message = Objects.requireNonNull(message, "message required");
+    }
 
     @GetMapping("/createError")
     public void createError() {

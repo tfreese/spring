@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
 import jakarta.faces.view.ViewScoped;
 
 import org.slf4j.Logger;
@@ -45,10 +44,14 @@ public final class LineChartController implements Serializable {
     @Serial
     private static final long serialVersionUID = 7763047176024276034L;
 
-    @Resource
-    private transient DataService dataService;
-
+    private final transient DataService dataService;
     private String lineChartJson;
+
+    public LineChartController(final DataService dataService) {
+        super();
+
+        this.dataService = dataService;
+    }
 
     public String getLineChartJson() {
         LOGGER.info("getLineChartJson");

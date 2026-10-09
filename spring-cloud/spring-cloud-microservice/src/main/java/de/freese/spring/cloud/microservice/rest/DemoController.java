@@ -20,8 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DemoController {
-    @Value("${server.port}")
-    private int port = -1;
+
+    private final int port;
+
+    public DemoController(@Value("${server.port}") final int port) {
+        super();
+
+        this.port = port;
+    }
 
     @GetMapping("/")
     public String hello() throws UnknownHostException {

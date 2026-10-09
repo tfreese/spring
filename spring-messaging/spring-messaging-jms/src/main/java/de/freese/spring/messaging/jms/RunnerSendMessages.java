@@ -3,8 +3,6 @@ package de.freese.spring.messaging.jms;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import jakarta.annotation.Resource;
-
 import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,14 +18,13 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("!test")
 public class RunnerSendMessages implements CommandLineRunner {
+    private final ApplicationContext context;
     private final JmsSender sender;
 
-    @Resource
-    private ApplicationContext context;
-
-    public RunnerSendMessages(final JmsSender sender) {
+    public RunnerSendMessages(final ApplicationContext context, final JmsSender sender) {
         super();
 
+        this.context = Objects.requireNonNull(context, "context required");
         this.sender = Objects.requireNonNull(sender, "sender required");
     }
 

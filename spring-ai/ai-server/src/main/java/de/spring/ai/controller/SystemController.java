@@ -1,6 +1,6 @@
 package de.spring.ai.controller;
 
-import jakarta.annotation.Resource;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class SystemController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SystemController.class);
 
-    @Resource
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
+
+    public SystemController(final ApplicationContext applicationContext) {
+        super();
+
+        this.applicationContext = Objects.requireNonNull(applicationContext, "applicationContext required");
+    }
 
     @GetMapping("/shutdown")
     @ResponseStatus(HttpStatus.OK)

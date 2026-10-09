@@ -2,7 +2,6 @@ package de.freese.spring.data.jpa.infrastructure;
 
 import java.util.Objects;
 
-import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -18,13 +17,12 @@ import org.springframework.stereotype.Repository;
 public class MyHibernateRepository {
 
     private final EntityManagerFactory entityManagerFactory;
+    private final SessionFactory sessionFactory;
 
-    @Resource
-    private SessionFactory sessionFactory;
-
-    public MyHibernateRepository(final EntityManagerFactory entityManagerFactory) {
+    public MyHibernateRepository(final SessionFactory sessionFactory, final EntityManagerFactory entityManagerFactory) {
         super();
 
+        this.sessionFactory = Objects.requireNonNull(sessionFactory, "sessionFactory required");
         this.entityManagerFactory = Objects.requireNonNull(entityManagerFactory, "entityManagerFactory required");
     }
 
