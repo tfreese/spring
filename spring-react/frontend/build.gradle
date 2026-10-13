@@ -1,0 +1,64 @@
+plugins {
+    id("base")
+    id("com.github.node-gradle.node").version("$version_nodeGradlePlugin")
+}
+
+node {
+    download = true
+    version = property("version_node")
+    npmVersion = property("version_npm")
+    nodeProjectDir = layout.projectDirectory
+}
+
+clean {
+    delete("node_modules")
+    delete("dist")
+    delete("package-lock.json")
+    delete("tsconfig.tsbuildinfo")
+}
+
+// Nutzt npm ci, sobald package-lock.json eingecheckt wurde; sonst npm install.
+tasks.register("npmDependencies", NpmTask) {
+    group = "MyTasks"
+    description = "Installs the npm dependencies for the Vite frontend"
+
+    dependsOn(npmSetup)
+
+    def lockFile = layout.projectDirectory.file("package-lock.json")
+    args = lockFile.asFile.exists() ? ["ci"] : ["install"]
+
+    inputs.file("package.json")
+
+    if (lockFile.asFile.exists()) {
+        inputs.file(lockFile)
+    }
+
+    outputs.dir("node_modules")
+}
+
+tasks.register("npmBuild", NpmTask) {
+    group = "MyTasks"
+    description = "Builds the Vite frontend for production"
+
+    dependsOn(npmDependencies)
+
+    args = ["run", "build"]
+
+    inputs.dir("src")
+    inputs.files("index.html", "package.json", "tsconfig.json", "vite.config.ts")
+    outputs.dir("dist")
+}
+
+tasks.register("npmDev", NpmTask) {
+    group = "MyTasks"
+    description = "Starts the Vite development server"
+
+    dependsOn(npmDependencies)
+
+    args = ["run", "dev"]
+}
+
+build {
+    dependsOn(npmBuild)
+}
+

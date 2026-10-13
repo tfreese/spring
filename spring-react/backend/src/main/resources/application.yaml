@@ -1,0 +1,14 @@
+spring:
+    application:
+        name: spring-boot-react
+    web:
+        resources:
+            cache:
+                cachecontrol:
+                    max-age: 1h
+                    cache-public: true
+
+server:
+    port: 8080
+    shutdown: graceful
+

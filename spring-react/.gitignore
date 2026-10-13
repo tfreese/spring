@@ -1,0 +1,11 @@
+.gradle/
+**/build/
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+frontend/node_modules/
+frontend/dist/
+frontend/package-lock.json
+frontend/tsconfig.tsbuildinfo

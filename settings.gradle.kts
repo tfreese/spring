@@ -18,7 +18,10 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    // spring-react:frontend definiert npm-Repository über Plugin.
+    // Deshalb hier umgekehrt.
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+    // repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 
     repositories {
         mavenLocal()
@@ -64,6 +67,8 @@ include("spring-neo4j")
 include("spring-openapi")
 include("spring-proxy")
 include("spring-ott")
+include("spring-react:frontend")
+include("spring-react:backend")
 include("spring-reactive-jdbc")
 include("spring-resilience")
 include("spring-ribbon")

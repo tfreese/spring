@@ -1,0 +1,40 @@
+plugins {
+    id("java")
+    id("org.springframework.boot").version("$version_springBoot")
+}
+
+dependencies {
+    implementation platform("org.springframework.boot:spring-boot-dependencies:" + property("version_springBoot"))
+
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+// java {
+//     toolchain {
+//         languageVersion = JavaLanguageVersion.of(26)
+//     }
+// }
+//
+// test {
+//     useJUnitPlatform()
+// }
+
+// Vite-Ausgabe wird als generierte Resource in das Spring-Boot-JAR übernommen.
+processResources {
+    dependsOn(":spring-react:frontend:npmBuild")
+
+    from(project(":spring-react:frontend").layout.projectDirectory.dir("dist")) {
+        into("static")
+    }
+}
+
+bootJar {
+    archiveFileName = "backend-${version}.jar"
+}
+
