@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 public record CreateTaskRequest(
         @NotBlank(message = "Der Titel darf nicht leer sein")
-        @Size(max = 200, message = "Der Titel darf maximal 200 Zeichen enthalten")
+        @Size(max = 20, message = "Der Titel darf maximal 20 Zeichen enthalten")
         String title
 ) {
 }

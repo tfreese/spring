@@ -22,13 +22,17 @@ public class TaskRepository {
     }
 
     public List<Task> findAll() {
-        if (System.currentTimeMillis() % 2 == 0) {
-            throw new UnsupportedOperationException("Simulated error for testing purposes");
-        }
+        // if (System.currentTimeMillis() % 2 == 0) {
+        //     throw new UnsupportedOperationException("Simulated error for testing purposes");
+        // }
 
         return tasks.values().stream()
                 .sorted(Comparator.comparingLong(Task::id))
                 .toList();
+    }
+
+    public Optional<Task> findById(final long id) {
+        return Optional.ofNullable(tasks.get(id));
     }
 
     @PostConstruct
@@ -44,5 +48,9 @@ public class TaskRepository {
         tasks.put(id, task);
 
         return task;
+    }
+
+    public void update(final Task task) {
+        tasks.put(task.id(), task);
     }
 }

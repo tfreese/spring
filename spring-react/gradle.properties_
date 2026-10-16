@@ -11,13 +11,16 @@ org.gradle.warning.mode = all
 # https://react.dev/learn
 
 # Updates in package.json.
-# Suchen in https://www.npmjs.com/package nach:
+# Suchen in https://www.npmjs.com/package:
 # react
 # react-dom
 # vite
 # @vitejs/plugin-react
 # typescript
+# react-router
+# react-router-dom
 # @types/react
+# @types/react-dom
 # @types/react-dom
 
 # https://nodejs.org/dist/index.json
