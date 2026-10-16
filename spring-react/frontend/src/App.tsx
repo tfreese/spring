@@ -1,4 +1,8 @@
-import {FormEvent, useCallback, useEffect, useState} from 'react'
+// Typen braucht nur der Compiler, nicht React selbst zur Laufzeit.
+import type {SubmitEvent} from 'react'
+
+// Funktionen die zur Laufzeit benötigt werden.
+import {useCallback, useEffect, useState} from 'react'
 
 type Task = {
     id: number
@@ -31,8 +35,10 @@ export default function App() {
         void loadTasks()
     }, [loadTasks])
 
-    async function createTask(event: FormEvent<HTMLFormElement>) {
+    async function createTask(event: SubmitEvent<HTMLFormElement>) {
+        // Disable default Browser workflow (send data, reload page), this is handled by App itself.
         event.preventDefault()
+
         const normalizedTitle = title.trim()
         if (!normalizedTitle) return
 
