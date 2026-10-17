@@ -23,7 +23,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     /**
      * Konfiguriert die Cross-Origin-Resource-Sharing-Regeln für Browser-Clients.
      * <p>
