@@ -86,19 +86,62 @@ input::placeholder {
     color: var(--muted);
 }
 
-.create-form {
+.create-form,
+.task-table {
     background: var(--panel);
     border: 0.0625rem solid var(--border);
     border-radius: 1.125rem;
     box-shadow: 0 0.625rem 1.875rem var(--shadow);
     margin-top: 2.5rem;
+    width: 100%;
+}
+
+.create-form {
     padding: 1.5rem;
+}
+
+.task-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+}
+
+
+.task-table th,
+.task-table td {
+    border-bottom: 0.0625rem solid var(--border);
+    padding: 0.9rem 1rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.task-table th {
+    background: rgba(122, 162, 255, 0.08);
+    color: var(--text);
+    font-weight: 700;
+}
+
+.task-table tbody tr:last-child td {
+    border-bottom: 0;
 }
 
 .create-form label {
     display: block;
     font-weight: 700;
     margin-bottom: 0.625rem;
+}
+
+.form-field {
+    margin-bottom: 1rem;
+}
+
+.form-field input {
+    width: 100%;
+}
+
+.form-actions {
+    justify-content: flex-end;
+    margin-top: 1rem;
 }
 
 .actions {
@@ -111,6 +154,7 @@ input::placeholder {
     color: var(--muted);
     margin-top: 3rem;
     padding-top: 1rem;
+    text-align: right;
 }
 
 .button {
@@ -158,35 +202,23 @@ input::placeholder {
 }
 
 .page {
+    display: flex;
+    flex-direction: column;
     margin: 0 auto;
+    min-height: 100vh;
     padding: 4rem 1.5rem;
     width: min(60rem, 100%);
+    box-sizing: border-box;
+}
+
+.page main {
+    flex: 1;
 }
 
 .secondary {
     background: var(--primary-soft);
     border: 0.0625rem solid rgba(122, 162, 255, 0.35);
     color: var(--text);
-}
-
-.task-list {
-    display: grid;
-    gap: 0.75rem;
-    list-style: none;
-    margin: 1.125rem 0 0;
-    padding: 0;
-}
-
-.task-list li {
-    align-items: center;
-    background: var(--card);
-    border: 0.0625rem solid var(--border);
-    border-radius: 0.875rem;
-    color: var(--text);
-    display: flex;
-    gap: 1.25rem;
-    justify-content: space-between;
-    padding: 1rem 1.125rem;
 }
 
 .toolbar {
@@ -204,11 +236,6 @@ input::placeholder {
 
 @media (max-width: 35rem) {
     .form-row {
-        flex-direction: column;
-    }
-
-    .task-list li {
-        align-items: flex-start;
         flex-direction: column;
     }
 }

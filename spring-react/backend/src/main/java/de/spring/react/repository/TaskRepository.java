@@ -1,5 +1,7 @@
-package de.example.fullstack.api;
+package de.spring.react.repository;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import jakarta.annotation.PostConstruct;
 
+import de.spring.react.model.Task;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -44,7 +47,7 @@ public class TaskRepository {
     public Task save(final String title) {
         final long id = sequence.incrementAndGet();
 
-        final Task task = new Task(id, title.strip());
+        final Task task = new Task(id, title.strip(), LocalDateTime.now(ZoneId.systemDefault()));
         tasks.put(id, task);
 
         return task;

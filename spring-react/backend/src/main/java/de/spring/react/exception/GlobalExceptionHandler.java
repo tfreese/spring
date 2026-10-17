@@ -1,4 +1,4 @@
-package de.example.fullstack.api.exceptions;
+package de.spring.react.exception;
 
 import java.net.URI;
 import java.util.stream.Collectors;
@@ -23,7 +23,7 @@ import org.springframework.web.context.request.WebRequest;
  * @since 16.10.26
  */
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public final class GlobalExceptionHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     private static String lastNode(final Path path) {

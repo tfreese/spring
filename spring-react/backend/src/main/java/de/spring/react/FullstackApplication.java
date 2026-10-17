@@ -1,4 +1,4 @@
-package de.example.fullstack;
+package de.spring.react;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,10 +1,16 @@
+# =================================================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html
+# =================================================================================================
+
+
 logging:
     #   config: classpath:logback.xml
     pattern:
         console: "%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n"
     level:
         org.springframework: WARN
-        
+
 spring:
     application:
         name: spring-boot-react

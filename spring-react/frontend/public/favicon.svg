@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="App favicon">
+  <rect width="64" height="64" rx="14" fill="#dc2626"/>
+  <path d="M20 18h24v8H20zm0 11h24v8H20zm0 11h16v8H20z" fill="#ffffff"/>
+  <circle cx="47" cy="22" r="7" fill="#ffffff" opacity="0.9"/>
+</svg>
+

@@ -1,12 +1,16 @@
-package de.example.fullstack.api;
+package de.spring.react.controller.api;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 import jakarta.validation.Valid;
 
-import de.example.fullstack.api.exceptions.ObjectNotFoundException;
+import de.spring.react.exception.ObjectNotFoundException;
+import de.spring.react.model.CreateTaskRequest;
+import de.spring.react.model.Task;
+import de.spring.react.model.UpdateTaskRequest;
+import de.spring.react.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -26,46 +30,41 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class TaskController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
 
-    private final TaskRepository repository;
+    private final TaskService taskService;
 
-    public TaskController(final TaskRepository repository) {
+    public TaskController(final TaskService taskService) {
         super();
 
-        this.repository = repository;
+        this.taskService = Objects.requireNonNull(taskService, "taskService required");
     }
 
     @PostMapping
-    public ResponseEntity<Task> create(@Valid @RequestBody final CreateTaskRequest request, final UriComponentsBuilder uriBuilder) {
-        LOGGER.info("Received request to create task {}", request);
+    public ResponseEntity<Task> create(@Valid @RequestBody final CreateTaskRequest createTaskRequest, final UriComponentsBuilder uriBuilder) {
+        LOGGER.info("Received request to create task: {}", createTaskRequest);
 
-        final Task created = repository.save(request.title());
+        final Task created = taskService.insert(createTaskRequest);
+
         final URI location = uriBuilder.path("/api/tasks/{id}").build(created.id());
 
         return ResponseEntity.created(location).body(created);
     }
 
     @DeleteMapping("/{id}")
+    // @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Void> delete(@PathVariable final long id) {
-        LOGGER.info("Received request to delete task {}", id);
+        LOGGER.info("Received request to delete task: {}", id);
 
-        return repository.deleteById(id)
-                .map(ignored -> ResponseEntity.ok().<Void>build())
+        return taskService.deleteById(id)
+                .map(ignored -> ResponseEntity.noContent().<Void>build())
                 .orElseThrow(() -> new ObjectNotFoundException(Task.class, id));
     }
 
-    // @GetMapping
-    // @ResponseStatus(HttpStatus.OK)
-    // public List<Task> findAll() {
-    //     LOGGER.info("Received request to find all tasks");
-    //
-    //     return repository.findAll();
-    // }
     @GetMapping
     public ResponseEntity<List<Task>> findAll() {
         LOGGER.info("Received request to find all tasks");
 
         try {
-            return ResponseEntity.ok(repository.findAll());
+            return ResponseEntity.ok(taskService.findAll());
         }
         catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
@@ -75,24 +74,19 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> findById(@PathVariable final long id) {
-        LOGGER.info("Received request to find task {}", id);
+        LOGGER.info("Received request to find task: {}", id);
 
-        return repository.findById(id)
+        return taskService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new ObjectNotFoundException(Task.class, id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable final long id, @Valid @RequestBody final UpdateTaskRequest request) {
-        LOGGER.info("Received request to update task {} - {}", id, request);
+    public ResponseEntity<Void> update(@PathVariable final long id, @Valid @RequestBody final UpdateTaskRequest updateTaskRequest) {
+        LOGGER.info("Received request to update task: {} - {}", id, updateTaskRequest);
 
-        final Optional<Task> task = repository.findById(id);
-
-        if (task.isPresent()) {
-            repository.update(new Task(id, request.title()));
-            return ResponseEntity.ok().build();
-        }
-
-        throw new ObjectNotFoundException(Task.class, id);
+        return taskService.update(id, updateTaskRequest)
+                .map(ignored -> ResponseEntity.ok().<Void>build())
+                .orElseThrow(() -> new ObjectNotFoundException(Task.class, id));
     }
 }

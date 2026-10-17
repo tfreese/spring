@@ -1,4 +1,4 @@
-package de.example.fullstack.api.exceptions;
+package de.spring.react.exception;
 
 import java.io.Serial;
 

@@ -87,7 +87,7 @@ function TaskListPage() {
             void deleteTask(task.id)
         }
     }
-    
+
     async function deleteTask(id: number) {
         setError(undefined)
 
@@ -100,6 +100,22 @@ function TaskListPage() {
         }
     }
 
+    function formatCreatedAt(value: string | null) {
+        if (!value) return '—'
+
+        try {
+            return new Intl.DateTimeFormat('de-DE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+            }).format(new Date(value))
+        } catch {
+            return value
+        }
+    }
+
     return (
         <>
             <h2>Tasks über eine REST-API anlegen, laden und löschen.</h2>
@@ -109,7 +125,7 @@ function TaskListPage() {
                 <div className="form-row">
                     <input
                         id="task-title"
-                        maxLength={21}
+                        maxLength={31}
                         onChange={event => setTitle(event.target.value)}
                         placeholder="Was ist zu erledigen?"
                         value={title}
@@ -127,24 +143,39 @@ function TaskListPage() {
                 </button>
             </div>
 
-
             {!loading && tasks.length === 0 && <p className="empty">Noch keine Tasks vorhanden.</p>}
 
-            <ul className="task-list">
-                {tasks.map(task => (
-                    <li key={task.id}>
-                        <span>{task.id} - {task.title}</span>
-                        <div className="actions">
-                            <Link className="button secondary" to={`/tasks/${task.id}/edit`}>
-                                Bearbeiten
-                            </Link>
-                            <button className="danger" onClick={() => confirmDeleteTask(task)} type="button">
-                                Löschen
-                            </button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+            {!loading && tasks.length > 0 && (
+                <table className="task-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Titel</th>
+                        <th>Erstellt</th>
+                        <th>Aktionen</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {tasks.map(task => (
+                        <tr key={task.id}>
+                            <td>{task.id}</td>
+                            <td>{task.title}</td>
+                            <td>{formatCreatedAt(task.createdAt)}</td>
+                            <td>
+                                <div className="actions">
+                                    <Link className="button secondary" to={`/tasks/${task.id}/edit`}>
+                                        Bearbeiten
+                                    </Link>
+                                    <button className="danger" onClick={() => confirmDeleteTask(task)} type="button">
+                                        Löschen
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            )}
         </>
     )
 }

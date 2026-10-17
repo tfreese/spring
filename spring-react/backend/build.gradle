@@ -4,10 +4,11 @@ plugins {
 }
 
 dependencies {
-    implementation platform("org.springframework.boot:spring-boot-dependencies:" + property("version_springBoot"))
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:" + property("version_springBoot")))
 
-    implementation("org.springframework.boot:spring-boot-starter-webmvc")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
@@ -37,4 +38,3 @@ processResources {
 bootJar {
     archiveFileName = "backend-${version}.jar"
 }
-
