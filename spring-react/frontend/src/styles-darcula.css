@@ -1,18 +1,18 @@
 :root {
-    --bg: #0b1220;
-    --border: #243248;
-    --card: #121b2b;
-    --danger: #ffb4b4;
-    --danger-bg: #3a1d2a;
-    --danger-border: #6d3a4a;
-    --input-bg: #0e1726;
-    --muted: #a7b7d2;
-    --panel: #121f31;
-    --primary: #7aa2ff;
-    --primary-soft: rgba(122, 162, 255, 0.16);
-    --primary-strong: #4d8bff;
-    --shadow: rgba(2, 6, 23, 0.52);
-    --text: #e7edf8;
+    --bg: #1e1f22;
+    --border: #3c3f41;
+    --card: #2b2d30;
+    --danger: #f2c1c1;
+    --danger-bg: #4a2c2d;
+    --danger-border: #774b4c;
+    --input-bg: #232527;
+    --muted: #8b949e;
+    --panel: #2b2d30;
+    --primary: #6ca7ff;
+    --primary-soft: rgba(108, 167, 255, 0.15);
+    --primary-strong: #5b9dff;
+    --shadow: rgba(0, 0, 0, 0.38);
+    --text: #a9b7c6;
 
     background: var(--bg);
     color: var(--text);
@@ -25,7 +25,7 @@
 }
 
 body {
-    background: radial-gradient(circle at top, #12213c 0%, var(--bg) 45%);
+    background: radial-gradient(circle at top, #2d2f33 0%, var(--bg) 42%);
     color: var(--text);
     margin: 0;
     min-height: 100vh;
@@ -41,7 +41,7 @@ button {
     background: var(--primary-strong);
     border: 0;
     border-radius: 0.625rem;
-    color: white;
+    color: #ffffff;
     cursor: pointer;
     font-weight: 700;
     padding: 0.6875rem 1rem;
@@ -54,7 +54,7 @@ button:active:not(:disabled) {
 
 button:disabled {
     cursor: not-allowed;
-    opacity: .55;
+    opacity: 0.55;
 }
 
 button:hover:not(:disabled) {
@@ -106,7 +106,6 @@ input::placeholder {
     overflow: hidden;
 }
 
-
 .task-table th,
 .task-table td {
     border-bottom: 0.0625rem solid var(--border);
@@ -116,7 +115,7 @@ input::placeholder {
 }
 
 .task-table th {
-    background: rgba(122, 162, 255, 0.08);
+    background: rgba(108, 167, 255, 0.08);
     color: var(--text);
     font-weight: 700;
 }
@@ -186,7 +185,7 @@ input::placeholder {
 .eyebrow {
     color: var(--primary);
     font-weight: 700;
-    letter-spacing: .08em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
@@ -217,7 +216,7 @@ input::placeholder {
 
 .secondary {
     background: var(--primary-soft);
-    border: 0.0625rem solid rgba(122, 162, 255, 0.35);
+    border: 0.0625rem solid rgba(108, 167, 255, 0.35);
     color: var(--text);
 }
 
@@ -239,3 +238,4 @@ input::placeholder {
         flex-direction: column;
     }
 }
+

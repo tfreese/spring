@@ -1,0 +1,241 @@
+:root {
+    --bg: #f5f6f7;
+    --border: #d7d9dc;
+    --card: #ffffff;
+    --danger: #9c2b2b;
+    --danger-bg: #fbe9e9;
+    --danger-border: #e8b7b7;
+    --input-bg: #ffffff;
+    --muted: #677489;
+    --panel: #ffffff;
+    --primary: #3d7fe6;
+    --primary-soft: rgba(61, 127, 230, 0.12);
+    --primary-strong: #2f6fe5;
+    --shadow: rgba(15, 23, 42, 0.08);
+    --text: #1f2328;
+
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    font-synthesis: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(180deg, #f8f9fb 0%, var(--bg) 35%);
+    color: var(--text);
+    margin: 0;
+    min-height: 100vh;
+    min-width: 20rem;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    background: var(--primary-strong);
+    border: 0;
+    border-radius: 0.625rem;
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 0.6875rem 1rem;
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+button:active:not(:disabled) {
+    transform: translateY(0.0625rem);
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+button:hover:not(:disabled) {
+    filter: brightness(1.04);
+}
+
+header {
+    max-width: 43.75rem;
+}
+
+h1 {
+    color: var(--text);
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    line-height: 1;
+    margin: 0.5rem 0 1rem;
+}
+
+input {
+    background: var(--input-bg);
+    border: 0.0625rem solid var(--border);
+    border-radius: 0.625rem;
+    color: var(--text);
+    flex: 1;
+    min-width: 0;
+    padding: 0.75rem 0.875rem;
+}
+
+input::placeholder {
+    color: var(--muted);
+}
+
+.create-form,
+.task-table {
+    background: var(--panel);
+    border: 0.0625rem solid var(--border);
+    border-radius: 1.125rem;
+    box-shadow: 0 0.625rem 1.875rem var(--shadow);
+    margin-top: 2.5rem;
+    width: 100%;
+}
+
+.create-form {
+    padding: 1.5rem;
+}
+
+.task-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+}
+
+.task-table th,
+.task-table td {
+    border-bottom: 0.0625rem solid var(--border);
+    padding: 0.9rem 1rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.task-table th {
+    background: rgba(61, 127, 230, 0.06);
+    color: var(--text);
+    font-weight: 700;
+}
+
+.task-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.create-form label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.625rem;
+}
+
+.form-field {
+    margin-bottom: 1rem;
+}
+
+.form-field input {
+    width: 100%;
+}
+
+.form-actions {
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.app-footer {
+    border-top: 0.0625rem solid var(--border);
+    color: var(--muted);
+    margin-top: 3rem;
+    padding-top: 1rem;
+    text-align: right;
+}
+
+.button {
+    border-radius: 0.625rem;
+    display: inline-block;
+    font-weight: 700;
+    padding: 0.6875rem 1rem;
+    text-decoration: none;
+}
+
+.danger {
+    background: var(--danger-bg);
+    border: 0.0625rem solid var(--danger-border);
+    color: var(--danger);
+}
+
+.empty {
+    color: var(--muted);
+}
+
+.error {
+    background: var(--danger-bg);
+    border: 0.0625rem solid var(--danger-border);
+    border-radius: 0.75rem;
+    color: var(--danger);
+    padding: 0.875rem 1.125rem;
+}
+
+.eyebrow {
+    color: var(--primary);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.form-row {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.intro {
+    color: var(--muted);
+    font-size: 1.2rem;
+    line-height: 1.7;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 4rem 1.5rem;
+    width: min(60rem, 100%);
+    box-sizing: border-box;
+}
+
+.page main {
+    flex: 1;
+}
+
+.secondary {
+    background: var(--primary-soft);
+    border: 0.0625rem solid rgba(61, 127, 230, 0.2);
+    color: var(--text);
+}
+
+.toolbar {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-top: 2.625rem;
+}
+
+.toolbar h2 {
+    color: var(--text);
+    margin: 0;
+}
+
+@media (max-width: 35rem) {
+    .form-row {
+        flex-direction: column;
+    }
+}
+
