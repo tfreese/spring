@@ -1,23 +1,17 @@
 package de.spring.react.repository;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
-
-import jakarta.annotation.PostConstruct;
 
 import de.spring.react.model.Task;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TaskRepository {
+public final class TaskRepository {
 
-    private final AtomicLong sequence = new AtomicLong();
     private final Map<Long, Task> tasks = new ConcurrentHashMap<>();
 
     public Optional<Task> deleteById(final long id) {
@@ -38,19 +32,13 @@ public class TaskRepository {
         return Optional.ofNullable(tasks.get(id));
     }
 
-    @PostConstruct
-    public void initializeSampleTasks() {
-        save("Spring-Boot-Backend starten");
-        save("React-Frontend laden");
-    }
+    public Task save(final Task task) {
+        final long id = tasks.size() + 1L;
 
-    public Task save(final String title) {
-        final long id = sequence.incrementAndGet();
+        final Task savedTask = new Task(id, task.title().strip(), task.createdAt());
+        tasks.put(id, savedTask);
 
-        final Task task = new Task(id, title.strip(), LocalDateTime.now(ZoneId.systemDefault()));
-        tasks.put(id, task);
-
-        return task;
+        return savedTask;
     }
 
     public void update(final Task task) {

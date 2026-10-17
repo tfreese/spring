@@ -17,30 +17,34 @@ export default function TaskEditPage() {
     const navigate = useNavigate()
 
     useEffect(() => {
+        setLoading(true)
+        setError(undefined)
+
         const controller = new AbortController()
 
-        async function load() {
-            setLoading(true)
-            setError(undefined)
-
-            try {
-                const response = await fetch(`/api/tasks/${id}`, {signal: controller.signal})
+        fetch(`/api/tasks/${id}`, {signal: controller.signal})
+            .then(async response => {
                 if (!response.ok) throw new Error(`HTTP ${response.status} - ${await response.text()}`)
-                const task = await response.json() as Task
+                if (controller.signal.aborted) return undefined
+                return await response.json() as Task
+            })
+            .then(task => {
+                if (controller.signal.aborted || task === undefined) return
                 setTitle(task.title)
                 setCreatedAt(task.createdAt)
-            } catch (reason) {
-                if (!controller.signal.aborted) setError(String(reason))
-            } finally {
+            })
+            .catch(reason => {
+                if (controller.signal.aborted) return
+                setError(String(reason))
+            })
+            .finally(() => {
                 if (!controller.signal.aborted) setLoading(false)
-            }
-        }
+            })
 
-        void load()
         return () => controller.abort()
     }, [id, setError])
 
-    async function save(event: SubmitEvent<HTMLFormElement>) {
+    function save(event: SubmitEvent<HTMLFormElement>) {
         event.preventDefault()
 
         const normalizedTitle = title.trim()
@@ -50,20 +54,30 @@ export default function TaskEditPage() {
         setSaving(true)
         setError(undefined)
 
-        try {
-            const response = await fetch(`/api/tasks/${id}`, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({title: normalizedTitle, createdAt: normalizedCreatedAt}),
+        const controller = new AbortController()
+
+        fetch(`/api/tasks/${id}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({title: normalizedTitle, createdAt: normalizedCreatedAt}),
+            signal: controller.signal,
+        })
+            .then(async response => {
+                if (!response.ok) throw new Error(`HTTP ${response.status} - ${await response.text()}`)
+
+                return !controller.signal.aborted;
             })
-            if (!response.ok) throw new Error(`HTTP ${response.status} - ${await response.text()}`)
-            // Nach dem erfolgreichen Speichern zur Liste navigieren.
-            void navigate('/')
-        } catch (reason) {
-            setError(String(reason))
-        } finally {
-            setSaving(false)
-        }
+            .then(success => {
+                if (controller.signal.aborted || !success) return
+                void navigate('/')
+            })
+            .catch(reason => {
+                if (controller.signal.aborted) return
+                setError(String(reason))
+            })
+            .finally(() => {
+                if (!controller.signal.aborted) setSaving(false)
+            })
     }
 
     return (

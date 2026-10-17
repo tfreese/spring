@@ -1,9 +1,12 @@
 package de.spring.react.service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import jakarta.annotation.PostConstruct;
 
 import de.spring.react.model.CreateTaskRequest;
 import de.spring.react.model.Task;
@@ -18,7 +21,7 @@ import org.springframework.stereotype.Service;
  * @since 17.10.26
  */
 @Service
-public class TaskService {
+public final class TaskService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskService.class);
 
     private final TaskRepository taskRepository;
@@ -46,7 +49,9 @@ public class TaskService {
     public Task insert(final CreateTaskRequest createTaskRequest) {
         LOGGER.info("Inserting new task: {}", createTaskRequest);
 
-        final Task created = taskRepository.save(createTaskRequest.title());
+        final Task task = new Task(-1L, createTaskRequest.title().strip(), LocalDateTime.now(ZoneId.systemDefault()));
+
+        final Task created = taskRepository.save(task);
 
         LOGGER.info("Task inserted successfully: {}", created);
 
@@ -72,5 +77,14 @@ public class TaskService {
         LOGGER.warn("Task not found: {}", id);
 
         return Optional.empty();
+    }
+
+    @PostConstruct
+    void initSampleTasks() {
+        LOGGER.info("Initializing sample tasks...");
+
+        taskRepository.save(new Task(-1L, "X-Mas", LocalDateTime.of(2026, 12, 24, 0, 0, 0, 0)));
+        taskRepository.save(new Task(-1L, "Dinner", LocalDateTime.of(2026, 12, 25, 12, 30, 0, 0)));
+        taskRepository.save(new Task(-1L, "Sylvester", LocalDateTime.of(2026, 12, 31, 0, 0, 0, 0)));
     }
 }
