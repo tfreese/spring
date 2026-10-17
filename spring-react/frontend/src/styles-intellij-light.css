@@ -239,3 +239,70 @@ input::placeholder {
     }
 }
 
+.theme-toggle {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    display: inline-flex;
+    padding: 0.125rem;
+}
+
+.theme-toggle__track {
+    background: rgba(61, 127, 230, 0.1);
+    border: 0.0625rem solid rgba(61, 127, 230, 0.25);
+    border-radius: 999px;
+    display: inline-block;
+    height: 1.55rem;
+    position: relative;
+    width: 3.05rem;
+}
+
+.theme-toggle__symbol {
+    align-items: center;
+    display: inline-flex;
+    font-size: 0.72rem;
+    height: 100%;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    width: 1.2rem;
+    z-index: 1;
+}
+
+.theme-toggle__symbol--sun {
+    left: 0.15rem;
+}
+
+.theme-toggle__symbol--moon {
+    right: 0.15rem;
+}
+
+.theme-toggle__thumb {
+    background: linear-gradient(135deg, #ffffff, #dbe8ff);
+    border-radius: 50%;
+    box-shadow: 0 0.2rem 0.45rem rgba(15, 23, 42, 0.15);
+    display: block;
+    height: 0.95rem;
+    left: 0.2rem;
+    position: absolute;
+    top: 0.2rem;
+    transition: transform 0.2s ease;
+    width: 0.95rem;
+    z-index: 2;
+}
+
+.theme-toggle.is-light .theme-toggle__thumb {
+    transform: translateX(1.45rem);
+}
+
+.theme-toggle.is-light .theme-toggle__track {
+    background: rgba(61, 127, 230, 0.12);
+    border-color: rgba(61, 127, 230, 0.3);
+}
+
+.theme-toggle:focus-visible {
+    outline: 0.125rem solid rgba(61, 127, 230, 0.7);
+    outline-offset: 0.15rem;
+    border-radius: 999px;
+}
