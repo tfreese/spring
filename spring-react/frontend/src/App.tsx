@@ -81,6 +81,13 @@ function TaskListPage() {
         }
     }
 
+    function confirmDeleteTask(task: Task) {
+        const confirmed = window.confirm(`Task "${task.title}" wirklich löschen?`)
+        if (confirmed) {
+            void deleteTask(task.id)
+        }
+    }
+    
     async function deleteTask(id: number) {
         setError(undefined)
 
@@ -131,7 +138,7 @@ function TaskListPage() {
                             <Link className="button secondary" to={`/tasks/${task.id}/edit`}>
                                 Bearbeiten
                             </Link>
-                            <button className="danger" onClick={() => void deleteTask(task.id)} type="button">
+                            <button className="danger" onClick={() => confirmDeleteTask(task)} type="button">
                                 Löschen
                             </button>
                         </div>
