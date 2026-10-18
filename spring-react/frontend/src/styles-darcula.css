@@ -18,6 +18,8 @@
     color: var(--text);
     font-family: Inter, ui-sans-serif, system-ui, sans-serif;
     font-synthesis: none;
+    /* Browser default font size; do not set explicitly here */
+    /* font-size: 16px; */
 }
 
 * {
@@ -87,7 +89,7 @@ input::placeholder {
 }
 
 .create-form,
-.task-table {
+table {
     background: var(--panel);
     border: 0.0625rem solid var(--border);
     border-radius: 1.125rem;
@@ -100,27 +102,35 @@ input::placeholder {
     padding: 1.5rem;
 }
 
-.task-table {
+table {
     border-collapse: separate;
     border-spacing: 0;
     overflow: hidden;
 }
 
-.task-table th,
-.task-table td {
+table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+table tbody tr:hover td {
+    background: var(--primary-soft);
+}
+
+table th,
+table td {
     border-bottom: 0.0625rem solid var(--border);
     padding: 0.9rem 1rem;
     text-align: left;
     vertical-align: top;
 }
 
-.task-table th {
+table th {
     background: rgba(108, 167, 255, 0.08);
     color: var(--text);
     font-weight: 700;
 }
 
-.task-table tbody tr:last-child td {
+table tbody tr:last-child td {
     border-bottom: 0;
 }
 

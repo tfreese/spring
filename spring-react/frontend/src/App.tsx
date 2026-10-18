@@ -1,7 +1,7 @@
 // Typen braucht nur der Compiler, nicht React selbst zur Laufzeit.
 import type {SubmitEvent} from 'react'
 // Funktionen die zur Laufzeit benötigt werden.
-import {useCallback, useEffect, useMemo, useState} from 'react'
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import {Link, Navigate, Route, Routes} from 'react-router-dom'
 
 import Layout from './Layout'
@@ -42,6 +42,7 @@ function TaskListPage() {
     const [title, setTitle] = useState('')
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
+    const svgRef = useRef<SVGSVGElement | null>(null)
     const {setError} = useLayoutContext()
 
     const chartData = useMemo(() => {
@@ -165,6 +166,22 @@ function TaskListPage() {
             })
     }
 
+    function downloadSvg() {
+        if (!svgRef.current) return
+
+        const svgMarkup = new XMLSerializer().serializeToString(svgRef.current)
+        const blob = new Blob([svgMarkup], {type: 'image/svg+xml;charset=utf-8'})
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+
+        link.href = url
+        link.download = 'tasks-per-day.svg'
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+        URL.revokeObjectURL(url)
+    }
+
     return (
         <>
             <h2>Tasks über eine REST-API anlegen, laden und löschen.</h2>
@@ -196,7 +213,7 @@ function TaskListPage() {
 
             {!loading && tasks.length > 0 && (
                 <>
-                    <table className="task-table">
+                    <table>
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -227,8 +244,20 @@ function TaskListPage() {
                     </table>
 
                     <div style={{marginTop: '2rem'}}>
-                        <h3>Tasks pro Tag</h3>
-                        <svg viewBox="0 0 420 180" width="100%" height="180" role="img" aria-label="Diagramm der Tasks pro Tag">
+                        <div className="toolbar" style={{marginTop: 0, marginBottom: '1rem'}}>
+                            <h3 style={{margin: 0}}>Tasks pro Tag</h3>
+                            <button type="button" onClick={downloadSvg} className="secondary">
+                                SVG herunterladen
+                            </button>
+                        </div>
+                        <svg
+                            ref={svgRef}
+                            viewBox="0 0 420 180"
+                            width="100%"
+                            height="180"
+                            role="img"
+                            aria-label="Diagramm der Tasks pro Tag"
+                        >
                             <g>
                                 {chartData.map((item, index) => {
                                     const barWidth = 32

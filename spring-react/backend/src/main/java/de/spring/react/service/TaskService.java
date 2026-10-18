@@ -85,6 +85,6 @@ public final class TaskService {
 
         taskRepository.save(new Task(-1L, "X-Mas", LocalDateTime.of(2026, 12, 24, 0, 0, 0, 0)));
         taskRepository.save(new Task(-1L, "Dinner", LocalDateTime.of(2026, 12, 25, 12, 30, 0, 0)));
-        taskRepository.save(new Task(-1L, "Sylvester", LocalDateTime.of(2026, 12, 31, 0, 0, 0, 0)));
+        taskRepository.save(new Task(-1L, "New Year", LocalDateTime.of(2026, 12, 31, 23, 59, 59, 999_999_999)));
     }
 }
