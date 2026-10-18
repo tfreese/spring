@@ -2,21 +2,18 @@ import {useState} from 'react'
 import {Outlet} from 'react-router-dom'
 
 import type {LayoutContext} from './layoutContext'
+import {applyTheme, type ThemeName} from './utils/theme'
 
 // Gemeinsamer Rahmen: Header, Fehleranzeige und Footer bleiben stehen, <Outlet/> wird durch die aktive Kindroute ersetzt.
 export default function Layout() {
     const [error, setError] = useState<string>()
-    const [theme, setTheme] = useState<'dark' | 'light'>(() => localStorage.getItem('theme') === 'light' ? 'light' : 'dark')
+    const [theme, setTheme] = useState<ThemeName>(() => localStorage.getItem('theme') === 'light' ? 'light' : 'dark')
     const context: LayoutContext = {setError}
 
     const toggleTheme = () => {
-        const themeLink = document.getElementById('theme-css') as HTMLLinkElement
-        const nextTheme = theme === 'dark' ? 'light' : 'dark'
+        const nextTheme: ThemeName = theme === 'dark' ? 'light' : 'dark'
         setTheme(nextTheme)
-        themeLink.href = nextTheme === 'dark'
-            ? '/src/styles/theme-darcula.css'
-            : '/src/styles/theme-intellij-light.css'
-        localStorage.setItem('theme', nextTheme)
+        applyTheme(nextTheme)
     }
 
     return (

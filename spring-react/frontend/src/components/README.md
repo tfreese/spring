@@ -1,1 +1,0 @@
-Hier kommen eigene Komponenten / UI-Blöcke rein.
