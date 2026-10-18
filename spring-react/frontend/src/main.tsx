@@ -5,7 +5,9 @@ import App from './App'
 
 const themeLink = document.getElementById('theme-css') as HTMLLinkElement
 const savedTheme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark'
-themeLink.href = savedTheme === 'dark' ? '/src/styles-darcula.css' : '/src/styles-intellij-light.css'
+themeLink.href = savedTheme === 'dark'
+    ? '/src/styles/theme-darcula.css'
+    : '/src/styles/theme-intellij-light.css'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>

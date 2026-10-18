@@ -2,11 +2,10 @@ import type {SubmitEvent} from 'react'
 import {useEffect, useState} from 'react'
 import {Link, useNavigate, useParams} from 'react-router-dom'
 
-import {useLayoutContext} from './layoutContext'
-import type {Task} from './models/task'
+import {useLayoutContext} from '../layoutContext'
+import type {Task} from '../models/task'
 
 export default function TaskEditPage() {
-    // Wert des Pfad-Parameters ":id" aus der Route "/tasks/:id/edit".
     const {id} = useParams<{ id: string }>()
 
     const [title, setTitle] = useState('')
@@ -64,8 +63,7 @@ export default function TaskEditPage() {
         })
             .then(async response => {
                 if (!response.ok) throw new Error(`HTTP ${response.status} - ${await response.text()}`)
-
-                return !controller.signal.aborted;
+                return !controller.signal.aborted
             })
             .then(success => {
                 if (controller.signal.aborted || !success) return
@@ -97,7 +95,6 @@ export default function TaskEditPage() {
                         maxLength={31}
                         onChange={event => setTitle(event.target.value)}
                         onKeyDown={event => {
-                            // Enter löst kein Submit mehr aus.
                             if (event.key === 'Enter') {
                                 event.preventDefault()
                             }
@@ -113,7 +110,6 @@ export default function TaskEditPage() {
                         id="edit-created-at"
                         onChange={event => setCreatedAt(event.target.value)}
                         onKeyDown={event => {
-                            // Enter löst kein Submit mehr aus.
                             if (event.key === 'Enter') {
                                 event.preventDefault()
                             }
@@ -135,3 +131,4 @@ export default function TaskEditPage() {
         </>
     )
 }
+

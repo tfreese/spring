@@ -14,8 +14,8 @@ export default function Layout() {
         const nextTheme = theme === 'dark' ? 'light' : 'dark'
         setTheme(nextTheme)
         themeLink.href = nextTheme === 'dark'
-            ? '/src/styles-darcula.css'
-            : '/src/styles-intellij-light.css'
+            ? '/src/styles/theme-darcula.css'
+            : '/src/styles/theme-intellij-light.css'
         localStorage.setItem('theme', nextTheme)
     }
 
