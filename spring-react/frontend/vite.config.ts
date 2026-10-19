@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
     plugins: [react()],
     server: {
+        // Diese Properties sind nur für einen laufenden vite-Server im dev-Mode.
         port: 5173,
         proxy: {
             '/api': {
@@ -11,11 +12,12 @@ export default defineConfig({
                 changeOrigin: true
             }
             // ,
-            // // Admin-API (separates Backend)
-            // '/admin-api': {
-            //     target: 'http://localhost:8081',
+            // '/public-api': {
+            //     // Ziel-Host ohne Pfad; rewrite sorgt dafür, dass
+            //     // /public-api/time > /public/time am Backend wird.
+            //     target: 'http://localhost:8080',
             //     changeOrigin: true,
-            //     rewrite: (path) => path.replace(/^\/admin-api/, '/api')
+            //     rewrite: (path) => path.replace(/^\/public-api/, '/public')
             // }
         }
     },

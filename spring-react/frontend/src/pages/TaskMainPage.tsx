@@ -12,6 +12,9 @@ export default function TaskMainPage() {
     const [title, setTitle] = useState('')
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
+    const [publicTime, setPublicTime] = useState<string | undefined>(undefined)
+    const [publicTimeLoading, setPublicTimeLoading] = useState(true)
+    const [publicTimeError, setPublicTimeError] = useState<string | undefined>(undefined)
     const {setError} = useLayoutContext()
 
     const chartData = useMemo(() => {
@@ -66,6 +69,36 @@ export default function TaskMainPage() {
         loadTasks(controller.signal)
         return () => controller.abort()
     }, [loadTasks])
+
+    // Lade einfachen Text von /public-api/time und zeige ihn unter der Überschrift an.
+    useEffect(() => {
+        const controller = new AbortController()
+        setPublicTimeLoading(true)
+        setPublicTimeError(undefined)
+
+        fetch('/public/time', {signal: controller.signal})
+            .then(async response => {
+                if (!response.ok) throw new Error(`HTTP ${response.status} - ${await response.text()}`)
+                if (controller.signal.aborted) return undefined
+                return await response.text()
+            })
+            .then(text => {
+                if (controller.signal.aborted || text === undefined) return
+                setPublicTime(text)
+            })
+            .catch(reason => {
+                if (controller.signal.aborted) return
+                const msg = String(reason)
+                setPublicTimeError(msg)
+                // auch globales Fehler-UI informieren (optional)
+                setError(msg)
+            })
+            .finally(() => {
+                if (!controller.signal.aborted) setPublicTimeLoading(false)
+            })
+
+        return () => controller.abort()
+    }, [setError])
 
     function createTask(event: SubmitEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -134,6 +167,13 @@ export default function TaskMainPage() {
     return (
         <>
             <h2>Tasks über eine REST-API anlegen, laden und löschen.</h2>
+
+            {/*Anzeige des einfachen Textes von /public-api/time */}
+            {publicTimeLoading && <p className="public-time">Lädt öffentliche Zeit …</p>}
+            {publicTimeError && <p className="public-time error">Fehler beim Laden: {publicTimeError}</p>}
+            {!publicTimeLoading && publicTime !== undefined && (
+                <p className="public-time">Öffentliche Zeit: {formatDateTime(publicTime)}</p>
+            )}
 
             <form className="create-form" onSubmit={createTask}>
                 <label htmlFor="task-title">Neue Aufgabe</label>

@@ -25,3 +25,8 @@ server:
     port: 8080
     shutdown: graceful
 
+app:
+    api:
+        base: http://localhost:8080/api
+    public:
+        base: http://localhost:8080/public
