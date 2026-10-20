@@ -6,7 +6,7 @@ plugins {
 description = "Client mit LoadBalancer"
 
 dependencies {
-    implementation("com.github.ben-manes.caffeine:caffeine")
+    // implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
 
