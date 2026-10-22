@@ -1,7 +1,5 @@
 package de.spring.ai.config.vectorstore;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
@@ -14,8 +12,8 @@ import org.springframework.context.annotation.Profile;
  */
 @Configuration
 @Profile("neo4j")
-public final class DocumentVectorStoreConfigNeo4J {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DocumentVectorStoreConfigNeo4J.class);
+public class DocumentVectorStoreConfigNeo4J {
+    // private static final Logger LOGGER = LoggerFactory.getLogger(DocumentVectorStoreConfigNeo4J.class);
 
     // @Bean
     // @DependsOn({"databaseManagementService"})

@@ -17,7 +17,7 @@ public class GithubController {
 
     private final ChatClient chatClient;
 
-    // public AiController(final ChatClient.Builder chatClientBuilder) {
+    // public GithubController(final ChatClient.Builder chatClientBuilder) {
     //     super();
     //
     //     chatClient = chatClientBuilder

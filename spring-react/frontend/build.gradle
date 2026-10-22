@@ -42,11 +42,11 @@ tasks.register("npmBuild", NpmTask) {
 
     dependsOn(npmDependencies)
 
-    args = ["run", "build"]
-
     inputs.dir("src")
     inputs.files("index.html", "package.json", "tsconfig.json", "vite.config.ts")
     outputs.dir("dist")
+
+    args = ["run", "build"]
 }
 
 tasks.register("npmDev", NpmTask) {
