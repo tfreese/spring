@@ -3,6 +3,7 @@ package de.freese.spring.atomicos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,8 +34,8 @@ public class TxService {
         this.dataSourceAddress = Objects.requireNonNull(dataSourceAddress, "dataSourceAddress is required");
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    public void insertData(final String personName, final String city) throws Exception {
+    @Transactional(rollbackFor = SQLException.class)
+    public void insertData(final String personName, final String city) throws SQLException {
         final long id = System.nanoTime();
 
         final String sqlPerson = """
@@ -67,11 +68,11 @@ public class TxService {
         }
     }
 
-    public void selectAll() throws Exception {
+    public void selectAll() throws SQLException {
         final Map<Long, String> personIdToCity = new HashMap<>();
 
         try (Connection connectionAddress = dataSourceAddress.getConnection();
-             PreparedStatement preparedStatementAddress = connectionAddress.prepareStatement("select * from ADDRESS");
+             PreparedStatement preparedStatementAddress = connectionAddress.prepareStatement("select PERSON_ID, CITY from ADDRESS");
              ResultSet resultSetAddress = preparedStatementAddress.executeQuery()) {
             while (resultSetAddress.next()) {
                 personIdToCity.put(resultSetAddress.getLong("PERSON_ID"), resultSetAddress.getString("CITY"));
@@ -80,7 +81,7 @@ public class TxService {
 
         try (Connection connectionPerson = dataSourcePerson.getConnection();
              Statement statementPerson = connectionPerson.createStatement();
-             ResultSet resultSetPerson = statementPerson.executeQuery("select * from PERSON")) {
+             ResultSet resultSetPerson = statementPerson.executeQuery("select ID, NAME from PERSON")) {
             while (resultSetPerson.next()) {
                 final long personId = resultSetPerson.getLong("ID");
                 final String personName = resultSetPerson.getString("NAME");

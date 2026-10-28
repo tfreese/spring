@@ -57,7 +57,7 @@ import de.freese.spring.autoconfigure.hsqldbserver.HsqldbServerProperties.DB;
  */
 @Configuration
 @ConditionalOnClass(Server.class) // Only when HSQLDB is in Classpath.
-@ConditionalOnMissingBean(Server.class) // Only when Server is not in the SpringContext.
+@ConditionalOnMissingBean(Server.class) // Only when Server is not already in the SpringContext.
 @ConditionalOnProperty(prefix = "hsqldb.server", name = "enabled") // Only if enabled.
 @EnableConfigurationProperties(HsqldbServerProperties.class)
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)

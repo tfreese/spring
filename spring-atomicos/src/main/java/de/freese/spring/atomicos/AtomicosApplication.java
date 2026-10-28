@@ -28,21 +28,21 @@ public final class AtomicosApplication {
             service.insertData("Person2", "City2");
             service.selectAll();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
         try {
             service.insertData("Person3", "EinVielZuLangerStadtName");
         }
-        catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+        catch (final Exception ex) {
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         try {
             service.selectAll();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }

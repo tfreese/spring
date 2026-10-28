@@ -20,7 +20,7 @@ public final class KubernetesApi {
 
             v1Api.listPodForAllNamespaces().execute().getItems().forEach(v1Pod -> LOGGER.info("pod: {}", v1Pod.toJson()));
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }

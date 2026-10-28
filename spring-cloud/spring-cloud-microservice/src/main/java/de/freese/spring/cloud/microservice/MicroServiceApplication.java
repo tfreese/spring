@@ -1,5 +1,6 @@
 package de.freese.spring.cloud.microservice;
 
+import org.jspecify.annotations.NullMarked;
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -12,7 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-public class MicroServiceApplication extends SpringBootServletInitializer {
+public final class MicroServiceApplication extends SpringBootServletInitializer {
     static void main(final String[] args) {
         configureApplication(new SpringApplicationBuilder()).run(args);
 
@@ -33,8 +34,12 @@ public class MicroServiceApplication extends SpringBootServletInitializer {
     // System.setProperty("server.port", Integer.toString(65501));
     // }
 
+    private MicroServiceApplication() {
+        super();
+    }
+
     @Override
-    protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
+    protected @NullMarked SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
         return configureApplication(application);
     }
 }

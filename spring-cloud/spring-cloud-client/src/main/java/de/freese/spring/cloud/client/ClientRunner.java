@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import jakarta.annotation.Resource;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -25,7 +26,7 @@ import reactor.core.publisher.Mono;
 @Component
 //@Order(1)
 @Profile("!test")
-public class ClientRunner implements ApplicationRunner {
+public final class ClientRunner implements ApplicationRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientRunner.class);
 
     @Resource
@@ -42,7 +43,7 @@ public class ClientRunner implements ApplicationRunner {
     private WebClient.Builder webClientBuilderLoadBalanced;
 
     @Override
-    public void run(final ApplicationArguments args) {
+    public void run(final @NonNull ApplicationArguments args) {
         // Die Erzeugung im Konstruktor funktioniert nicht, da dort die WebClient.Builder noch nicht fertig konfiguriert sind.
         final WebClient webClient = webClientBuilder.build();
         final WebClient webClientLoadBalanced = webClientBuilderLoadBalanced.clone().baseUrl("http://CLOUD-HELLO-SERVICE").build();

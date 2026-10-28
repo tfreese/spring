@@ -3,6 +3,7 @@ package de.freese.spring.cloud.client.config;
 import java.util.List;
 import java.util.Objects;
 
+import org.jspecify.annotations.NullMarked;
 import org.springframework.cloud.client.DefaultServiceInstance;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
@@ -34,7 +35,7 @@ class MyServiceInstanceListSupplier implements ServiceInstanceListSupplier {
     }
 
     @Override
-    public String getServiceId() {
+    public @NullMarked String getServiceId() {
         return serviceId;
     }
 }

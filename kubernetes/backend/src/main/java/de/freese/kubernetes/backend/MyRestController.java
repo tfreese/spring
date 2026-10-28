@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Objects;
 
 import org.reactivestreams.Publisher;
@@ -30,14 +31,15 @@ public class MyRestController {
         try {
             hostName = InetAddress.getLocalHost().getHostName();
         }
-        catch (Exception ex) {
-            // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
+        catch (final Exception ex) {
+            // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht!
             LOGGER.error(ex.getMessage(), ex);
         }
 
         if (hostName == null) {
             // Cross Platform (Windows, Linux, Unix, Mac)
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream(), StandardCharsets.UTF_8))) {
+            try (Process process = Runtime.getRuntime().exec(new String[]{"/usr/bin/hostname"});
+                 BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
                 hostName = br.readLine();
             }
             catch (Exception _) {
@@ -68,7 +70,7 @@ public class MyRestController {
 
         return getDbTimestamp()
                 .map(ts -> message + ts)
-                .onErrorReturn(message + LocalTime.now())
+                .onErrorReturn(message + LocalTime.now(ZoneId.systemDefault()))
                 ;
     }
 
