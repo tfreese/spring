@@ -74,7 +74,7 @@ public class LoadBalancerPingUrl implements LoadBalancerPing {
         try {
             final ClientHttpRequest request = httpRequestFactory.createRequest(URI.create(uriStr), HttpMethod.GET);
 
-            String content = null;
+            final String content;
 
             try (ClientHttpResponse response = request.execute()) {
                 isAlive = response.getStatusCode().value() == 200; // 200; HttpStatus.OK.value()

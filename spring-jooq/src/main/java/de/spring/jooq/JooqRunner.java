@@ -11,6 +11,7 @@ import org.jooq.ExecuteType;
 import org.jooq.Result;
 import org.jooq.SelectWhereStep;
 import org.jooq.impl.DSL;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -36,14 +37,14 @@ public class JooqRunner implements CommandLineRunner {
     }
 
     @Override
-    public void run(final String... args) {
+    public void run(final String @NonNull ... args) {
         LOGGER.info("Running JooqRunner...");
 
         try {
             insert();
             queries();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -52,7 +53,7 @@ public class JooqRunner implements CommandLineRunner {
         // final Sequence<BigInteger> sequence = DSL.sequence(DSL.name("CUSTOMER_SEQ"));
         // sequence.nextval();
 
-        for (int i = 1; i <= 1; i++) {
+        for (int i = 1; i < 3; i++) {
             dslContext.insertInto(Tables.CUSTOMER,
                             Tables.CUSTOMER.ID,
                             Tables.CUSTOMER.CUSTOMER_NO,
@@ -113,7 +114,7 @@ public class JooqRunner implements CommandLineRunner {
         LOGGER.info("STATISTICS");
         LOGGER.info("----------");
 
-        for (ExecuteType executeType : ExecuteType.values()) {
+        for (final ExecuteType executeType : ExecuteType.values()) {
             final String statistic = String.format("%-8s: %d executions", executeType.name(), StatisticsListener.getOrDefault(executeType, 0));
             LOGGER.info(statistic);
         }

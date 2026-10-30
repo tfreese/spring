@@ -42,14 +42,14 @@ public abstract class AbstractRestReflectionController {
             Object[] arguments = (Object[]) paramTypesAndArgs[1];
 
             // Streams berücksichtigen.
-            if (Boolean.parseBoolean(request.getHeader(ReflectionControllerApi.INPUTSTREAM_IN_METHOD))) {
+            if (Boolean.parseBoolean(request.getHeader(ReflectionControllerApi.INPUT_STREAM_IN_METHOD))) {
                 // Marker zwischen ParameterTypes/Argumenten und InputStream lesen.
                 kryo.readClassAndObject(inputStream);
 
                 // InputStream als letzten Parameter den Argumenten hinzufügen.
                 arguments = addArgument(arguments, inputStream);
             }
-            else if (Boolean.parseBoolean(request.getHeader(ReflectionControllerApi.OUTPUTSTREAM_IN_METHOD))) {
+            else if (Boolean.parseBoolean(request.getHeader(ReflectionControllerApi.OUTPUT_STREAM_IN_METHOD))) {
                 // OutputStream als letzten Parameter den Argumenten hinzufügen.
                 arguments = addArgument(arguments, response.getOutputStream());
             }
@@ -66,9 +66,6 @@ public abstract class AbstractRestReflectionController {
         }
         catch (final InvocationTargetException ex) {
             throw (Exception) ex.getCause();
-        }
-        catch (final Exception ex) {
-            throw ex;
         }
         finally {
             getKryoPool().returnKryo(kryo);

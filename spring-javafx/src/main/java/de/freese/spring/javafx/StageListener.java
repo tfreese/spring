@@ -1,6 +1,7 @@
 package de.freese.spring.javafx;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URL;
 
 import javafx.fxml.FXMLLoader;
@@ -46,13 +47,13 @@ public class StageListener implements ApplicationListener<StageReadyEvent> {
             fxmlLoader.setControllerFactory(applicationContext::getBean);
 
             final Parent root = fxmlLoader.load();
-            final Scene scene = new Scene(root, 600, 600);
+            final Scene scene = new Scene(root, 600D, 600D);
             stage.setScene(scene);
             stage.setTitle(applicationTitle);
             stage.show();
         }
         catch (final IOException ex) {
-            throw new RuntimeException(ex);
+            throw new UncheckedIOException(ex);
         }
     }
 }

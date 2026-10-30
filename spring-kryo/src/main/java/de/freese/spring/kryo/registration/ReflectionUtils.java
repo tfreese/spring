@@ -39,7 +39,7 @@ public final class ReflectionUtils {
 
         final Set<Class<?>> classes = new HashSet<>();
 
-        for (String fileName : fileNames) {
+        for (final String fileName : fileNames) {
             if (fileName.contains(".jar!")) {
                 final URI jarFileURI = URI.create(fileName.substring(0, fileName.indexOf(".jar!") + 4));
 
@@ -70,7 +70,7 @@ public final class ReflectionUtils {
             return classes;
         }
 
-        for (File file : files) {
+        for (final File file : files) {
             if (file.isDirectory()) {
                 classes.addAll(findClassesInFolder(file, packageName + "." + file.getName()));
             }
@@ -97,7 +97,7 @@ public final class ReflectionUtils {
 
         final Set<Class<?>> classes = new HashSet<>();
 
-        for (String file : files) {
+        for (final String file : files) {
             classes.add(Class.forName(file.substring(0, file.length() - 6)));
         }
 

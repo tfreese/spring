@@ -96,8 +96,8 @@ public abstract class AbstractClientReflectionController<T> {
                 final boolean hasInputStreamArg = args != null && args.length > 0 && args[args.length - 1] instanceof InputStream;
                 final boolean hasOutputStreamArg = args != null && args.length > 0 && args[args.length - 1] instanceof OutputStream;
 
-                connection.setRequestProperty(ReflectionControllerApi.INPUTSTREAM_IN_METHOD, Boolean.toString(hasInputStreamArg));
-                connection.setRequestProperty(ReflectionControllerApi.OUTPUTSTREAM_IN_METHOD, Boolean.toString(hasOutputStreamArg));
+                connection.setRequestProperty(ReflectionControllerApi.INPUT_STREAM_IN_METHOD, Boolean.toString(hasInputStreamArg));
+                connection.setRequestProperty(ReflectionControllerApi.OUTPUT_STREAM_IN_METHOD, Boolean.toString(hasOutputStreamArg));
 
                 connection.connect();
 

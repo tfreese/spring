@@ -9,6 +9,7 @@ import org.jooq.meta.jaxb.Generator;
 import org.jooq.meta.jaxb.Jdbc;
 import org.jooq.meta.jaxb.Logging;
 import org.jooq.meta.jaxb.Target;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,7 +41,7 @@ public class GeneratorRunner implements CommandLineRunner {
     private String username;
 
     @Override
-    public void run(final String... args) throws Exception {
+    public void run(final String @NonNull ... args) throws Exception {
         LOGGER.info("Running GeneratorRunner...");
 
         generateModel();

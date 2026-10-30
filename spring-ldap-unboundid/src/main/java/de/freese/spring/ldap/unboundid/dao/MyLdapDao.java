@@ -9,7 +9,8 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ldap.core.AttributesMapper;
@@ -40,7 +41,7 @@ public class MyLdapDao {
      */
     static final class PersonCommonNameContextMapper implements ContextMapper<String> {
         @Override
-        public String mapFromContext(final @NonNull Object ctx) {
+        public @NullMarked String mapFromContext(final Object ctx) {
             final DirContextAdapter context = (DirContextAdapter) ctx;
 
             // return context.getStringAttribute("entryDN");
@@ -55,7 +56,7 @@ public class MyLdapDao {
      */
     private static final class GroupMemberDirContextMapper extends AbstractContextMapper<String[]> {
         @Override
-        protected String[] doMapFromContext(final DirContextOperations ctx) {
+        protected String @Nullable [] doMapFromContext(final DirContextOperations ctx) {
             return ctx.getStringAttributes("member");
         }
     }
@@ -72,7 +73,7 @@ public class MyLdapDao {
         }
 
         @Override
-        public String mapFromAttributes(final Attributes attributes) throws NamingException {
+        public @Nullable String mapFromAttributes(final Attributes attributes) throws NamingException {
             final Attribute attribute = attributes.get(attributeId);
             String value = null;
 

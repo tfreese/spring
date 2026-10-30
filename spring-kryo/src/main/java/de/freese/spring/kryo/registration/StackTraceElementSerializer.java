@@ -13,7 +13,7 @@ import com.esotericsoftware.kryo.io.Output;
  */
 class StackTraceElementSerializer extends Serializer<StackTraceElement> {
     @Override
-    public java.lang.StackTraceElement read(final Kryo kryo, final Input input, final Class<? extends java.lang.StackTraceElement> type) {
+    public StackTraceElement read(final Kryo kryo, final Input input, final Class<? extends StackTraceElement> type) {
         final String cls = input.readString();
 
         if (cls == null) {
@@ -24,11 +24,11 @@ class StackTraceElementSerializer extends Serializer<StackTraceElement> {
         final String file = input.readString();
         final int line = input.readInt();
 
-        return new java.lang.StackTraceElement(cls, method, file, line);
+        return new StackTraceElement(cls, method, file, line);
     }
 
     @Override
-    public void write(final Kryo kryo, final Output output, final java.lang.StackTraceElement obj) {
+    public void write(final Kryo kryo, final Output output, final StackTraceElement obj) {
         if (obj == null) {
             output.writeString(null);
         }

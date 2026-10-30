@@ -48,7 +48,7 @@ public class KryoHttpMessageConverter extends AbstractHttpMessageConverter<Objec
     @Override
     protected Object readInternal(final Class<? extends Object> clazz, final HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
         final Kryo kryo = kryoPool.getKryo();
-        Object value = null;
+        Object value;
 
         // try (Input input = new ByteBufferInput(inputMessage.getBody(), DEFAULT_BUFFER_SIZE))
         try (Input input = new Input(inputMessage.getBody(), DEFAULT_BUFFER_SIZE)) {
