@@ -10,12 +10,12 @@ import org.springframework.jms.core.JmsTemplate;
  * @author Thomas Freese
  * @since 01.02.2019
  */
-public class JmsSender {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JmsSender.class);
+public class JmsProducer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JmsProducer.class);
 
     private final JmsTemplate jmsTemplate;
 
-    public JmsSender(final JmsTemplate jmsTemplate) {
+    public JmsProducer(final JmsTemplate jmsTemplate) {
         super();
 
         this.jmsTemplate = Objects.requireNonNull(jmsTemplate, "jmsTemplate required");

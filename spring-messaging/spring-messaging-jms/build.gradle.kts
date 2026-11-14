@@ -6,8 +6,7 @@ plugins {
 description = "Messaging with JMS by ActiveMQ"
 
 dependencies {
-    implementation("org.apache.activemq:artemis-server")
-    // implementation("org.apache.activemq:activemq-broker")
+    implementation("org.apache.activemq:artemis-jakarta-server")
     implementation("org.springframework.boot:spring-boot-starter-json")
     implementation("org.springframework.boot:spring-boot-starter-artemis")
 }

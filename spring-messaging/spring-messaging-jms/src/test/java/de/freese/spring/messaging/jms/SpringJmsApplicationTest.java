@@ -41,7 +41,7 @@ class SpringJmsApplicationTest {
     // private JmsReceiver receiver;
 
     @Resource
-    private JmsSender sender;
+    private JmsProducer sender;
 
     @Test
     void testReceive() {

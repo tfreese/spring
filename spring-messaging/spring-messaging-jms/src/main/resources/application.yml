@@ -5,9 +5,15 @@
 
 debug: false
 
-artemis:
-    broker-url: vm://0
-    #broker-url: tcp://localhost:61616
+spring:
+    artemis:
+        #broker-url: vm://0
+        #broker-url: tcp://localhost:61616
+        mode: embedded
+        embedded:
+            enabled: true
+            persistent: false
+            queues: mailbox
 
 logging:
     level:

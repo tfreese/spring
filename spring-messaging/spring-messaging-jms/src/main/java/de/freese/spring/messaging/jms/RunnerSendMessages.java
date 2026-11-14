@@ -19,9 +19,9 @@ import org.springframework.stereotype.Component;
 @Profile("!test")
 public class RunnerSendMessages implements CommandLineRunner {
     private final ApplicationContext context;
-    private final JmsSender sender;
+    private final JmsProducer sender;
 
-    public RunnerSendMessages(final ApplicationContext context, final JmsSender sender) {
+    public RunnerSendMessages(final ApplicationContext context, final JmsProducer sender) {
         super();
 
         this.context = Objects.requireNonNull(context, "context required");
