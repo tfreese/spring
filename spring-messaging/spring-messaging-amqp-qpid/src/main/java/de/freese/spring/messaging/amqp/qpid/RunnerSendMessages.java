@@ -27,7 +27,7 @@ public class RunnerSendMessages implements CommandLineRunner {
     }
 
     @Override
-    public void run(final String @NonNull ... args) throws Exception {
+    public void run(final @NonNull String... args) throws Exception {
         for (int i = 0; i < 5; i++) {
             TimeUnit.MILLISECONDS.sleep(500L);
 

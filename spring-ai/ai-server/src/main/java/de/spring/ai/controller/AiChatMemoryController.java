@@ -10,11 +10,14 @@ import de.spring.ai.tools.DateTimeTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
-import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.memory.ChatMemoryRepository;
-import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.chat.messages.Message;
+import org.springframework.ai.session.DefaultSessionService;
+import org.springframework.ai.session.SessionRepository;
+import org.springframework.ai.session.SessionService;
+import org.springframework.ai.session.advisor.SessionAdvisors;
+import org.springframework.ai.session.advisor.SessionMemoryAdvisor;
+import org.springframework.ai.session.compaction.TurnCountTrigger;
+import org.springframework.ai.session.compaction.WindowCompactionStrategy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -44,24 +47,27 @@ public class AiChatMemoryController {
     }
 
     private final ChatClient chatClient;
-    private final ChatMemoryRepository chatMemoryRepository;
+    private final SessionService sessionService;
 
     public AiChatMemoryController(final ChatClient.Builder chatClientBuilder,
-                                  final ChatMemoryRepository chatMemoryRepository,
+                                  final SessionRepository sessionRepository,
                                   @Value("classpath:prompts/systemprompt_entertaining.st") final Resource systemPrompt) {
         super();
 
-        this.chatMemoryRepository = Objects.requireNonNull(chatMemoryRepository, "chatMemoryRepository required");
+        Objects.requireNonNull(sessionRepository, "sessionRepository required");
 
-        final ChatMemory chatMemory = MessageWindowChatMemory.builder()
-                .maxMessages(de.spring.ai.config.ChatConfig.MEMORY_MAX_MESSAGES)
-                .chatMemoryRepository(chatMemoryRepository)
+        sessionService = DefaultSessionService.builder()
+                .sessionRepository(sessionRepository)
                 .build();
 
         this.chatClient = Objects.requireNonNull(chatClientBuilder, "chatClientBuilder required")
-                .defaultAdvisors(MessageChatMemoryAdvisor
-                        .builder(chatMemory)
-                        .build())
+                .defaultAdvisors(SessionAdvisors.builder(sessionService)
+                        .compaction(
+                                new TurnCountTrigger(20), // Auslöser: ab 20 Turns
+                                WindowCompactionStrategy.builder().lastTurns(10).build() // Strategie: nur die letzten 10 behalten
+                        )
+                        .build()
+                )
                 .defaultSystem(systemPrompt)
                 .defaultTools(new DateTimeTools())
                 // .defaultOptions(chatOptions)
@@ -70,7 +76,7 @@ public class AiChatMemoryController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public MessageResponse chat(@RequestParam(value = "prompt") final String prompt, @RequestParam(value = "id", required = false) final String conversationId) {
+    public MessageResponse chat(@RequestParam(value = "prompt") final String prompt, @RequestParam(value = "id", required = false) final String sessionId) {
         LOGGER.info("Execute Prompt: {}", prompt);
 
         final LocalDateTime start = LocalDateTime.now(ZoneId.systemDefault());
@@ -79,11 +85,11 @@ public class AiChatMemoryController {
         // when there is only one question in the conversation - then they are part of Default ID in the chat memory.
         //
         // UUID.randomUUID().toString()
-        final String currentConversationId = conversationId == null ? RequestContextHolder.currentRequestAttributes().getSessionId() : conversationId;
+        final String currentSessionId = sessionId == null ? RequestContextHolder.currentRequestAttributes().getSessionId() : sessionId;
 
         String content;
 
-        if (conversationId == null) {
+        if (currentSessionId == null) {
             content = chatClient.prompt()
                     .user(prompt)
                     .call()
@@ -91,7 +97,7 @@ public class AiChatMemoryController {
         }
         else {
             content = chatClient.prompt()
-                    .advisors(advisor -> advisor.param(ChatMemory.CONVERSATION_ID, currentConversationId))
+                    .advisors(advisor -> advisor.param(SessionMemoryAdvisor.SESSION_ID_CONTEXT_KEY, currentSessionId))
                     .user(prompt)
                     .call()
                     .content();
@@ -104,21 +110,21 @@ public class AiChatMemoryController {
             content = "no content";
         }
 
-        return new MessageResponse(currentConversationId, prompt, durationString, content);
+        return new MessageResponse(currentSessionId, prompt, durationString, content);
     }
 
-    @DeleteMapping("/history/delete")
-    public void deleteHistory() {
-        findAllConversation().forEach(chatMemoryRepository::deleteByConversationId);
+    @DeleteMapping("/history/delete/{id}")
+    public void deleteHistory(@PathVariable final String sessionId) {
+        sessionService.delete(sessionId);
     }
 
-    @GetMapping("/history")
-    public List<String> findAllConversation() {
-        return chatMemoryRepository.findConversationIds();
-    }
+    // @GetMapping("/history")
+    // public List<String> findAllSessions() {
+    //     return null;
+    // }
 
-    @GetMapping("/history/{id}")
-    public List<Message> findConversationById(@PathVariable final String id) {
-        return chatMemoryRepository.findByConversationId(id);
+    @GetMapping("/history/{sessionId}")
+    public List<Message> findSessionById(@PathVariable final String sessionId) {
+        return sessionService.getMessages(sessionId);
     }
 }

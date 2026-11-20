@@ -1,10 +1,14 @@
 package de.freese.spring.testcontainers.repository;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
 import javax.sql.DataSource;
 
+import org.jspecify.annotations.NonNull;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -52,6 +56,18 @@ public class DefaultPersonRepository implements PersonRepository {
         final String sqlSequence = jdbcDialect.getSequenceNextValString("person_seq");
         final String sql = "insert into person (id, name) values (%s , ?)".formatted(sqlSequence);
 
-        jdbcTemplate.batchUpdate(sql, persons, 10, (ps, person) -> ps.setString(1, person.getName()));
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public int getBatchSize() {
+                return persons.size();
+            }
+
+            @Override
+            public void setValues(final @NonNull PreparedStatement ps, final int i) throws SQLException {
+                final Person person = persons.get(i);
+
+                ps.setString(1, person.getName());
+            }
+        });
     }
 }

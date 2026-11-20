@@ -115,13 +115,13 @@ final class DocumentLoader {
 
         final List<Resource> resources = new ArrayList<>();
 
-        for (String locationPattern : locationPatterns) {
+        for (final String locationPattern : locationPatterns) {
             LOGGER.info("Loading resources from: {}", locationPattern);
 
             try {
                 resources.addAll(Arrays.asList(resourcePatternResolver.getResources(locationPattern)));
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 LOGGER.error(ex.getMessage(), ex.getMessage());
             }
         }
@@ -141,7 +141,7 @@ final class DocumentLoader {
                         // document.getMetadata().put("fileName", resource.getFilename());
                         document.getMetadata().put("priority", isPriority(resource.getFile().getAbsolutePath()));
                     }
-                    catch (Exception ex) {
+                    catch (final Exception ex) {
                         final String message = "Could not read file: %s".formatted(resource.getFilename());
                         LOGGER.error(message, ex.getMessage());
                     }

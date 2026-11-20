@@ -11,7 +11,7 @@ configurations.named(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME) {
 
 dependencies {
     implementation("org.apache.qpid:qpid-broker")
-    implementation("org.springframework.boot:spring-boot-starter-amqp")
+    implementation("org.springframework.boot:spring-boot-starter-rabbitmq")
     implementation("org.springframework.boot:spring-boot-starter-json")
 }
 

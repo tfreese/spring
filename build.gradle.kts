@@ -71,7 +71,6 @@ subprojects {
             dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:" + property("version_springDoc"))
 
             dependencySet("org.springframework.cloud:" + property("version_springCloudNetflix")) {
-                entry("spring-cloud-starter-netflix-ribbon")
                 entry("spring-cloud-starter-netflix-hystrix")
                 entry("spring-cloud-starter-netflix-hystrix-dashboard")
             }

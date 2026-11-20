@@ -14,14 +14,16 @@ import de.spring.ai.tools.DateTimeTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
-import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.memory.ChatMemoryRepository;
-import org.springframework.ai.chat.memory.MessageWindowChatMemory;
-import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.document.Document;
+import org.springframework.ai.session.DefaultSessionService;
+import org.springframework.ai.session.SessionRepository;
+import org.springframework.ai.session.SessionService;
+import org.springframework.ai.session.advisor.SessionAdvisors;
+import org.springframework.ai.session.advisor.SessionMemoryAdvisor;
+import org.springframework.ai.session.compaction.TurnCountTrigger;
+import org.springframework.ai.session.compaction.WindowCompactionStrategy;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
@@ -30,9 +32,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -54,22 +54,20 @@ public class DocumentController {
     private static final boolean WRITE_DATABASE_TO_FILE = false;
 
     private final ChatClient chatClient;
-    private final ChatMemoryRepository chatMemoryRepository;
     private final ChatModel chatModel;
     private final VectorStore vectorStore;
 
     public DocumentController(final ChatClient.Builder chatClientBuilder,
                               final ChatModel chatModel,
-                              final ChatMemoryRepository chatMemoryRepository,
+                              final SessionRepository sessionRepository,
                               final VectorStore vectorStore,
                               @Value("classpath:prompts/systemprompt_entertaining.st") final Resource systemPrompt) {
+        Objects.requireNonNull(sessionRepository, "sessionRepository required");
+
         super();
 
-        this.chatMemoryRepository = Objects.requireNonNull(chatMemoryRepository, "chatMemoryRepository required");
-
-        final ChatMemory chatMemory = MessageWindowChatMemory.builder()
-                .maxMessages(Config.MEMORY_MAX_MESSAGES)
-                .chatMemoryRepository(chatMemoryRepository)
+        final SessionService sessionService = DefaultSessionService.builder()
+                .sessionRepository(sessionRepository)
                 .build();
 
         this.chatModel = Objects.requireNonNull(chatModel, "chatModel required");
@@ -77,12 +75,15 @@ public class DocumentController {
 
         this.chatClient = chatClientBuilder
                 .clone()
-                .defaultAdvisors(MessageChatMemoryAdvisor
-                                .builder(chatMemory)
-                                .order(1)
-                                .build(),
+                .defaultAdvisors(SessionAdvisors.builder(sessionService)
+                        .compaction(
+                                new TurnCountTrigger(20), // Auslöser: ab 20 Turns
+                                WindowCompactionStrategy.builder().lastTurns(10).build() // Strategie: nur die letzten 10 behalten
+                        )
+                        .build())
+                .defaultAdvisors(
                         QuestionAnswerAdvisor.builder(vectorStore)
-                                .order(2)
+                                .order(1)
                                 .searchRequest(SearchRequest.builder()
                                         .similarityThresholdAll()
                                         .topK(Config.RAG_MAX_SIMILARITY_RESULTS)
@@ -91,7 +92,7 @@ public class DocumentController {
                                 )
                                 .build(),
                         QuestionAnswerAdvisor.builder(vectorStore)
-                                .order(3)
+                                .order(2)
                                 .searchRequest(SearchRequest.builder()
                                         .similarityThreshold(Config.RAG_MAX_THRESHOLD)
                                         .topK(Config.RAG_MAX_SIMILARITY_RESULTS)
@@ -105,17 +106,17 @@ public class DocumentController {
 
     @GetMapping("/chat")
     @ResponseStatus(HttpStatus.OK)
-    public String chat(@RequestParam(value = "prompt") final String prompt, @RequestParam(value = "id", required = false) final String conversationId) {
+    public String chat(@RequestParam(value = "prompt") final String prompt, @RequestParam(value = "id", required = false) final String sessionId) {
         LOGGER.info("Execute Prompt: {}", prompt);
 
         final LocalDateTime start = LocalDateTime.now(ZoneId.systemDefault());
 
         // UUID.randomUUID().toString()
-        final String currentConversationId = conversationId == null ? RequestContextHolder.currentRequestAttributes().getSessionId() : conversationId;
+        final String currentSessionId = sessionId == null ? RequestContextHolder.currentRequestAttributes().getSessionId() : sessionId;
 
         String content;
 
-        if (conversationId == null) {
+        if (sessionId == null) {
             content = chatClient.prompt()
                     .user(prompt)
                     .call()
@@ -123,7 +124,7 @@ public class DocumentController {
         }
         else {
             content = chatClient.prompt()
-                    .advisors(advisor -> advisor.param(ChatMemory.CONVERSATION_ID, currentConversationId))
+                    .advisors(advisor -> advisor.param(SessionMemoryAdvisor.SESSION_ID_CONTEXT_KEY, currentSessionId))
                     .user(prompt)
                     .call()
                     .content();
@@ -174,21 +175,6 @@ public class DocumentController {
         final String durationString = "%02d:%02d.%03d".formatted(duration.toMinutes(), duration.toSecondsPart(), duration.toMillisPart());
 
         return "Documents processed and stored in %s.".formatted(durationString);
-    }
-
-    @GetMapping("/chat/history")
-    public List<Message> history() {
-        return chatMemoryRepository.findConversationIds().stream().flatMap(id -> chatMemoryRepository.findByConversationId(id).stream()).toList();
-    }
-
-    @GetMapping("/chat/history/{id}")
-    public List<Message> historyById(@PathVariable("id") final String id) {
-        return chatMemoryRepository.findByConversationId(id);
-    }
-
-    @DeleteMapping("/chat/history/delete")
-    public void historyDelete() {
-        chatMemoryRepository.findConversationIds().forEach(chatMemoryRepository::deleteByConversationId);
     }
 
     /**

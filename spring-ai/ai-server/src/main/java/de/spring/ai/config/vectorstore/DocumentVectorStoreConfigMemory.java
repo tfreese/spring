@@ -1,8 +1,8 @@
 package de.spring.ai.config.vectorstore;
 
-import org.springframework.ai.chat.memory.ChatMemoryRepository;
-import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
 import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.session.InMemorySessionRepository;
+import org.springframework.ai.session.SessionRepository;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +19,8 @@ import org.springframework.context.annotation.Profile;
 @Profile("memory")
 public class DocumentVectorStoreConfigMemory {
     @Bean
-    ChatMemoryRepository chatMemoryRepository() {
-        return new InMemoryChatMemoryRepository();
+    SessionRepository sessionRepository() {
+        return InMemorySessionRepository.builder().build();
     }
 
     @Bean

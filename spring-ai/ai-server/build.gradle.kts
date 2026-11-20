@@ -6,6 +6,7 @@ description = "spring-ai examples"
 
 dependencies {
     implementation("org.springframework.ai:spring-ai-starter-mcp-client-webflux")
+    implementation("org.springframework.ai:spring-ai-session-advisor")
 
     // For Documents
     implementation("org.springframework.ai:spring-ai-vector-store-advisor")
