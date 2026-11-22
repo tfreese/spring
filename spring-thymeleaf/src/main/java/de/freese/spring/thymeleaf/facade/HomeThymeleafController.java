@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,7 +43,7 @@ public class HomeThymeleafController {
     private final String message;
     private final UserDetailsService userDetailsService;
 
-    public HomeThymeleafController(@Qualifier("authenticationManagerWeb") final AuthenticationManager authenticationManager,
+    public HomeThymeleafController(final AuthenticationManager authenticationManager,
                                    final UserDetailsService userDetailsService, @Value("${app.message.welcome}") final String message) {
         super();
 

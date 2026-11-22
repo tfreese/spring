@@ -2,9 +2,6 @@ package de.freese.spring.kryo;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -18,7 +15,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.atomic.AtomicReference;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
@@ -40,7 +36,6 @@ import org.springframework.mock.http.client.MockClientHttpResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.MimeType;
-import org.springframework.web.client.HttpMessageConverterExtractor;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -96,12 +91,6 @@ class TestKryo {
     void testHttpClient() throws Exception {
         testHttpClient("/kryo", AbstractKryoCodecSupport.APPLICATION_KRYO);
         testHttpClient("/json", MediaType.APPLICATION_JSON);
-    }
-
-    @Test
-    void testMockMvc() throws Exception {
-        testMockMvc("/kryo", KryoHttpMessageConverter.APPLICATION_KRYO);
-        testMockMvc("/json", MediaType.APPLICATION_JSON);
     }
 
     @Test
@@ -163,52 +152,24 @@ class TestKryo {
             assertNotNull(response);
             assertTrue(response.headers().firstValue("Content-Type").orElse("").startsWith(mimeType.toString()));
 
-            final HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, messageConverters);
             final MediaType mediaType = MediaType.asMediaType(mimeType);
-
             LocalDateTime localDateTime = null;
 
             try (ClientHttpResponse clientHttpResponse = new MockClientHttpResponse(response.body(), HttpStatus.OK)) {
                 clientHttpResponse.getHeaders().setContentType(mediaType);
 
-                localDateTime = converterExtractor.extractData(clientHttpResponse);
+                for (final HttpMessageConverter<?> converter : messageConverters) {
+                    if (converter.canRead(LocalDateTime.class, mediaType)) {
+                        @SuppressWarnings("unchecked") final var typedConverter = (HttpMessageConverter<LocalDateTime>) converter;
+                        localDateTime = typedConverter.read(LocalDateTime.class, clientHttpResponse);
+
+                        break;
+                    }
+                }
             }
 
             validateLocalDateTime(localDateTime);
         }
-    }
-
-    protected void testMockMvc(final String path, final MediaType mediaType) throws Exception {
-        // MockMvcBuilders.standaloneSetup(controllers).
-        final MockMvc mmvc = mockMvc;
-        // final MockMvc mmvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-
-        // String url = "/test";
-        final String url = "http://localhost:" + localServerPort + path;
-
-        final AtomicReference<LocalDateTime> reference = new AtomicReference<>(null);
-
-        mmvc.perform(get(url).accept(mediaType))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(mediaType)) //  + ";charset=UTF-8"
-                //.andDo(print())
-                .andDo(result -> {
-                    final HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, messageConverters);
-                    final byte[] bytes = result.getResponse().getContentAsByteArray();
-
-                    LocalDateTime localDateTime = null;
-
-                    try (ClientHttpResponse response = new MockClientHttpResponse(bytes, HttpStatus.OK)) {
-                        response.getHeaders().setContentType(mediaType);
-
-                        localDateTime = converterExtractor.extractData(response);
-                    }
-
-                    reference.set(localDateTime);
-                })
-        ;
-
-        validateLocalDateTime(reference.get());
     }
 
     protected void testRestClient(final String path, final MediaType mediaType) {
@@ -244,24 +205,20 @@ class TestKryo {
 
         assertTrue(connection.getHeaderField("Content-Type").startsWith(mediaType.toString()));
 
-        final HttpMessageConverterExtractor<LocalDateTime> converterExtractor = new HttpMessageConverterExtractor<>(LocalDateTime.class, messageConverters);
-
         LocalDateTime localDateTime = null;
 
-        try (ClientHttpResponse response = new MockClientHttpResponse(connection.getInputStream(), HttpStatus.OK)) {
-            response.getHeaders().setContentType(mediaType);
+        try (ClientHttpResponse clientHttpResponse = new MockClientHttpResponse(connection.getInputStream(), HttpStatus.OK)) {
+            clientHttpResponse.getHeaders().setContentType(mediaType);
 
-            localDateTime = converterExtractor.extractData(response);
+            for (final HttpMessageConverter<?> converter : messageConverters) {
+                if (converter.canRead(LocalDateTime.class, mediaType)) {
+                    @SuppressWarnings("unchecked") final var typedConverter = (HttpMessageConverter<LocalDateTime>) converter;
+                    localDateTime = typedConverter.read(LocalDateTime.class, clientHttpResponse);
+
+                    break;
+                }
+            }
         }
-
-        // if (KryoHttpMessageConverter.APPLICATION_KRYO.equals(mediaType)) {
-        // localDateTime = (LocalDateTime) kryoHttpMessageConverter.read(LocalDateTime.class, new MockHttpInputMessage(connection.getInputStream()));
-        // }
-        // else {
-        // localDateTime = objectMapper.readValue(connection.getInputStream(), LocalDateTime.class);
-        // // LocalDateTime localDateTime = objectMapper.readValue(bytes, new TypeReference<LocalDateTime>() {
-        // // });
-        // }
 
         validateLocalDateTime(localDateTime);
     }

@@ -5,6 +5,9 @@ import java.util.Map;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import org.reactivestreams.Publisher;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.codec.DecodingException;
@@ -35,9 +38,12 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
     }
 
     @Override
-    public Object decode(final DataBuffer buffer, final ResolvableType targetType, final MimeType mimeType, final Map<String, Object> hints) throws DecodingException {
+    public Object decode(final DataBuffer buffer,
+                         final @NonNull ResolvableType targetType,
+                         final MimeType mimeType,
+                         final Map<String, Object> hints) throws DecodingException {
         final Kryo kryo = getKryoPool().getKryo();
-        Object value;
+        final Object value;
 
         // try (Input input = new ByteBufferInput(buffer.asInputStream(), DEFAULT_BUFFER_SIZE))
         try (Input input = new Input(buffer.asInputStream(), DEFAULT_BUFFER_SIZE)) {
@@ -51,25 +57,35 @@ public class KryoDecoder extends AbstractKryoCodecSupport implements HttpMessage
     }
 
     @Override
-    public Flux<Object> decode(final Publisher<DataBuffer> inputStream, final ResolvableType elementType, final MimeType mimeType, final Map<String, Object> hints) {
+    public @NullMarked Flux<Object> decode(final Publisher<DataBuffer> inputStream,
+                                           final ResolvableType elementType,
+                                           final @Nullable MimeType mimeType,
+                                           final @Nullable Map<String, Object> hints) {
+
         // return Flux.from(decodeToMono(inputStream, elementType, mimeType, hints));
         return Flux.from(inputStream).map(buffer -> decode(buffer, elementType, mimeType, hints));
     }
 
     @Override
-    public Mono<Object> decodeToMono(final Publisher<DataBuffer> inputStream, final ResolvableType elementType, final MimeType mimeType, final Map<String, Object> hints) {
+    public @NullMarked Mono<Object> decodeToMono(final Publisher<DataBuffer> inputStream,
+                                                 final ResolvableType elementType,
+                                                 final @Nullable MimeType mimeType,
+                                                 final @Nullable Map<String, Object> hints) {
+
         // return DataBufferUtils.join(inputStream).map(dataBuffer -> decode(dataBuffer, elementType, mimeType, hints));
         return Mono.from(inputStream).map(buffer -> decode(buffer, elementType, mimeType, hints));
     }
 
     @Override
-    public List<MimeType> getDecodableMimeTypes() {
+    public @NullMarked List<MimeType> getDecodableMimeTypes() {
         return MIME_TYPES;
     }
 
     @Override
-    public Map<String, Object> getDecodeHints(final ResolvableType actualType, final ResolvableType elementType, final ServerHttpRequest request,
-                                              final ServerHttpResponse response) {
+    public @NullMarked Map<String, Object> getDecodeHints(final ResolvableType actualType,
+                                                          final ResolvableType elementType,
+                                                          final ServerHttpRequest request,
+                                                          final ServerHttpResponse response) {
         return Hints.none();
     }
 }

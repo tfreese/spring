@@ -41,7 +41,7 @@ public class GeneratorRunner implements CommandLineRunner {
     private String username;
 
     @Override
-    public void run(final String @NonNull ... args) throws Exception {
+    public void run(final @NonNull String... args) throws Exception {
         LOGGER.info("Running GeneratorRunner...");
 
         generateModel();

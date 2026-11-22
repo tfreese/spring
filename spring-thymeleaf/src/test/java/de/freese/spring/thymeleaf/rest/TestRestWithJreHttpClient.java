@@ -2,8 +2,8 @@ package de.freese.spring.thymeleaf.rest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.net.Authenticator;
@@ -21,7 +21,6 @@ import java.util.concurrent.ExecutorService;
 
 import jakarta.annotation.Resource;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -207,7 +206,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
     @Override
     @Test
     void testUserWithWrongPass() {
-        final IOException ioException = Assertions.assertThrows(IOException.class, () -> {
+        final IOException ioException = assertThrows(IOException.class, () -> {
             try (HttpClient httpClient = createClientBuilder("user", "pass").build()) {
                 final HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create(rootUri + "/rest/person/personList"))
@@ -215,16 +214,7 @@ class TestRestWithJreHttpClient extends AbstractRestTestCase {
                         .GET()
                         .build();
 
-                try {
-                    // HttpResponse<String> response =
-                    httpClient.send(request, BodyHandlers.ofString());
-                    // Assertions.assertEquals(HttpStatus.UNAUTHORIZED, response.statusCode());
-                    fail("sollte nicht erfolgreich sein");
-                }
-                catch (final Exception ex) {
-                    assertEquals("too many authentication attempts. Limit: 3", ex.getMessage());
-                    throw ex;
-                }
+                httpClient.send(request, BodyHandlers.ofString());
             }
         });
 

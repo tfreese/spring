@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ class TestRestWithRestClientSSL extends AbstractRestTestCase {
 
         restClientBuilder = restClientBuilder
                 .baseUrl(rootUri)
-                .defaultStatusHandler(new NoOpResponseErrorHandler());
+                .defaultStatusHandler(HttpStatusCode::isError, new NoOpResponseErrorHandler());
     }
 
     @Override

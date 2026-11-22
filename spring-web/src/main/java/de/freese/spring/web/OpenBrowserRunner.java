@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import jakarta.annotation.Resource;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -63,7 +64,7 @@ public class OpenBrowserRunner implements ApplicationRunner {
     private PropertyResolver propertyResolver;
 
     @Override
-    public void run(final ApplicationArguments args) throws Exception {
+    public void run(final @NonNull ApplicationArguments args) throws Exception {
         LOGGER.info("open browser");
 
         final boolean sslEnabled = Optional.ofNullable(propertyResolver.getProperty("server.ssl.enabled", boolean.class)).orElse(false);
@@ -81,19 +82,31 @@ public class OpenBrowserRunner implements ApplicationRunner {
             openLinuxChrome(uri.toString());
         }
         catch (Exception _) {
+            // Restore interrupted state.
+            Thread.currentThread().interrupt();
+
             try {
 
                 openLinuxChromium(uri.toString());
             }
             catch (Exception _) {
+                // Restore interrupted state.
+                Thread.currentThread().interrupt();
+
                 try {
                     openLinuxFirefox(uri.toString());
                 }
                 catch (Exception _) {
+                    // Restore interrupted state.
+                    Thread.currentThread().interrupt();
+
                     try {
                         openWindowsFirefox(uri.toString());
                     }
                     catch (Exception _) {
+                        // Restore interrupted state.
+                        Thread.currentThread().interrupt();
+                        
                         // System-Default
                         Desktop.getDesktop().browse(uri);
                     }

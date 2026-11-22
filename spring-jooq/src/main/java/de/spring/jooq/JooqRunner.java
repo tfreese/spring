@@ -37,7 +37,7 @@ public class JooqRunner implements CommandLineRunner {
     }
 
     @Override
-    public void run(final String @NonNull ... args) {
+    public void run(final @NonNull String... args) {
         LOGGER.info("Running JooqRunner...");
 
         try {

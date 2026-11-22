@@ -73,18 +73,30 @@ public class OpenBrowserRunner implements ApplicationRunner {
             openLinuxChrome(uri.toString());
         }
         catch (Exception _) {
+            // Restore interrupted state.
+            Thread.currentThread().interrupt();
+
             try {
                 openLinuxFirefox(uri.toString());
             }
             catch (Exception _) {
+                // Restore interrupted state.
+                Thread.currentThread().interrupt();
+
                 try {
                     openLinuxChromium(uri.toString());
                 }
                 catch (Exception _) {
+                    // Restore interrupted state.
+                    Thread.currentThread().interrupt();
+
                     try {
                         openWindowsFirefox(uri.toString());
                     }
                     catch (Exception _) {
+                        // Restore interrupted state.
+                        Thread.currentThread().interrupt();
+                        
                         // System-Default
                         Desktop.getDesktop().browse(uri);
                     }

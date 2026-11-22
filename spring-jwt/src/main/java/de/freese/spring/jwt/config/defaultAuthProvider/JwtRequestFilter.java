@@ -54,6 +54,8 @@ class JwtRequestFilter extends OncePerRequestFilter {
         try {
             final String bearerToken = bearerTokenResolver.resolve(request);
 
+            assert bearerToken != null;
+            
             final AbstractAuthenticationToken authenticationToken = new BearerTokenAuthenticationToken(bearerToken);
             authenticationToken.setDetails(authenticationDetailsSource.buildDetails(request));
 

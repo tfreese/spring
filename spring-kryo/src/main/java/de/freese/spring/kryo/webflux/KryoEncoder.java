@@ -5,11 +5,13 @@ import java.util.Map;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import org.reactivestreams.Publisher;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
-import org.springframework.core.io.buffer.DataBufferUtils;
+import org.springframework.core.io.buffer.DataBuffers;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.HttpMessageEncoder;
 import org.springframework.util.MimeType;
@@ -22,6 +24,8 @@ import de.freese.spring.kryo.KryoPool;
  * @since 28.01.2020
  */
 public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessageEncoder<Object> {
+    private static final boolean RELEASE_BUFFER = true;
+
     public KryoEncoder(final KryoPool kryoPool) {
         super(kryoPool);
     }
@@ -33,17 +37,22 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
     }
 
     @Override
-    public Flux<DataBuffer> encode(final Publisher<? extends Object> inputStream, final DataBufferFactory bufferFactory, final ResolvableType elementType, final MimeType mimeType,
-                                   final Map<String, Object> hints) {
+    public @NullMarked Flux<DataBuffer> encode(final Publisher<? extends Object> inputStream,
+                                               final DataBufferFactory bufferFactory,
+                                               final ResolvableType elementType,
+                                               final @Nullable MimeType mimeType,
+                                               final @Nullable Map<String, Object> hints) {
         return Flux.from(inputStream).map(message -> encodeValue(message, bufferFactory, elementType, mimeType, hints));
     }
 
     @Override
-    public DataBuffer encodeValue(final Object value, final DataBufferFactory bufferFactory, final ResolvableType valueType, final MimeType mimeType,
-                                  final Map<String, Object> hints) {
+    public @NullMarked DataBuffer encodeValue(final Object value,
+                                              final DataBufferFactory bufferFactory,
+                                              final ResolvableType valueType,
+                                              final @Nullable MimeType mimeType,
+                                              final @Nullable Map<String, Object> hints) {
         final DataBuffer buffer = bufferFactory.allocateBuffer(256);
         final Kryo kryo = getKryoPool().getKryo();
-        final boolean release = true;
 
         // try (Output output = new ByteBufferOutput(buffer.asOutputStream(), DEFAULT_BUFFER_SIZE))
         try (Output output = new Output(buffer.asOutputStream(), DEFAULT_BUFFER_SIZE)) {
@@ -53,8 +62,8 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
         finally {
             getKryoPool().returnKryo(kryo);
 
-            if (release) {
-                DataBufferUtils.release(buffer);
+            if (RELEASE_BUFFER) {
+                DataBuffers.release(buffer);
             }
         }
 
@@ -62,12 +71,12 @@ public class KryoEncoder extends AbstractKryoCodecSupport implements HttpMessage
     }
 
     @Override
-    public List<MimeType> getEncodableMimeTypes() {
+    public @NullMarked List<MimeType> getEncodableMimeTypes() {
         return MIME_TYPES;
     }
 
     @Override
-    public List<MediaType> getStreamingMediaTypes() {
+    public @NullMarked List<MediaType> getStreamingMediaTypes() {
         return MEDIA_TYPES;
     }
 }

@@ -197,7 +197,7 @@ public final class LoadBalancerApplication {
                 throw lastException;
             }
 
-            return null;
+            return intercept(request.getURI(), request, body, execution);
         }
 
         /**

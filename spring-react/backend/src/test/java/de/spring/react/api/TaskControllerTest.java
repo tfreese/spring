@@ -35,13 +35,13 @@ class TaskControllerTest {
                                 """)
                 )
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "http://localhost/api/tasks/3"))
+                .andExpect(header().string("Location", "http://localhost/api/tasks/4"))
                 .andExpect(jsonPath("$.title").value("Demo testen"));
 
-        mockMvc.perform(delete("/api/tasks/3"))
+        mockMvc.perform(delete("/api/tasks/4"))
                 .andExpect(status().isNoContent());
 
-        mockMvc.perform(delete("/api/tasks/3"))
+        mockMvc.perform(delete("/api/tasks/4"))
                 .andExpect(status().isNotFound());
     }
 
@@ -49,7 +49,7 @@ class TaskControllerTest {
     void loadsTasks() throws Exception {
         mockMvc.perform(get("/api/tasks"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)));
+                .andExpect(jsonPath("$", hasSize(3)));
     }
 
     @Test
