@@ -23,7 +23,7 @@ public final class SpringBootWebApplication {
 
     // private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder) {
     //     // headless(false) für Desktop
-    //     return builder.sources(JsfApplication.class).headless(false).registerShutdownHook(true); // .bannerMode(Banner.Mode.OFF);
+    //     return builder.sources(SpringBootWebApplication.class).headless(false).registerShutdownHook(true); // .bannerMode(Banner.Mode.OFF);
     // }
 
     // @Override

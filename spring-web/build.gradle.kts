@@ -81,14 +81,20 @@ sourceSets {
 
 tasks.named<ProcessResources>("processResources") {
     val map = mapOf(
-        "project_description" to project.description, "project_artifactId" to project.name, "project_version" to project.version
+        "@project_description@" to (project.description ?: ""),
+        "@project_artifactId@" to project.name,
+        "@project_version@" to project.version.toString()
     )
 
+    filteringCharset = "UTF-8"
+
     filesMatching("application.yml") {
-        // expand(map)
-        filter(
-            mapOf("tokens" to map), org.apache.tools.ant.filters.ReplaceTokens::class.java
-        )
+        filter { line: String ->
+            line
+                .replace("@project_description@", map.getValue("@project_description@"))
+                .replace("@project_artifactId@", map.getValue("@project_artifactId@"))
+                .replace("@project_version@", map.getValue("@project_version@"))
+        }
     }
 }
 

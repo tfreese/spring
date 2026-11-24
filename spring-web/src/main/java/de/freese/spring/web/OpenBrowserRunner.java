@@ -1,6 +1,7 @@
 package de.freese.spring.web;
 
 import java.awt.Desktop;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
@@ -27,91 +28,86 @@ import org.springframework.stereotype.Component;
 public class OpenBrowserRunner implements ApplicationRunner {
     public static final Logger LOGGER = LoggerFactory.getLogger(OpenBrowserRunner.class);
 
-    /**
-     * google-chrome-stable --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media %U
-     */
-    private static void openLinuxChrome(final String url) throws IOException, InterruptedException {
-        try (Process process = Runtime.getRuntime().exec(new String[]{"/usr/bin/google-chrome-stable", url})) {
-            process.waitFor();
+    private static void openWithDesktop(final URI uri) {
+        if (GraphicsEnvironment.isHeadless() || !Desktop.isDesktopSupported()) {
+            LOGGER.warn("No graphical desktop is available; browser URL: {}", uri);
+            return;
+        }
+
+        final Desktop desktop = Desktop.getDesktop();
+
+        if (!desktop.isSupported(Desktop.Action.BROWSE)) {
+            LOGGER.warn("Desktop BROWSE action is not supported on this platform; browser URL: {}", uri);
+            return;
+        }
+
+        try {
+            desktop.browse(uri);
+        }
+        catch (final IOException | UnsupportedOperationException ex) {
+            LOGGER.warn("Could not open browser URL {}: {}", uri, ex.getMessage());
         }
     }
 
-    /**
-     * chromium %U --disk-cache-dir=/tmp/.chrome/cache --media-cache-dir=/tmp/.chrome/cache_media
-     */
-    private static void openLinuxChromium(final String url) throws IOException, InterruptedException {
-        try (Process process = Runtime.getRuntime().exec(new String[]{"/usr/bin/chromium", url})) {
-            process.waitFor();
-        }
-    }
+    private static boolean openWithProcess(final URI uri) {
+        final String os = System.getProperty("os.name", "").toLowerCase();
 
-    private static void openLinuxFirefox(final String url) throws IOException, InterruptedException {
-        try (Process process = Runtime.getRuntime().exec(new String[]{"/usr/bin/firefox", "-new-tab", url})) {
-            process.waitFor();
-        }
-    }
+        final String[][] commands;
 
-    /**
-     * Firefox: view-source:URI
-     */
-    private static void openWindowsFirefox(final String url) throws IOException, InterruptedException {
-        try (Process process = Runtime.getRuntime().exec(new String[]{"C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", "-new-tab", url})) {
-            process.waitFor();
+        if (os.contains("win")) {
+            commands = new String[][]{{"rundll32", "url.dll,FileProtocolHandler", uri.toString()}};
         }
+        else if (os.contains("mac") || os.contains("darwin")) {
+            commands = new String[][]{{"open", uri.toString()}};
+        }
+        else {
+            commands = new String[][]{
+                    {"xdg-open", uri.toString()},
+                    {"google-chrome-stable", uri.toString()},
+                    {"chromium", uri.toString()},
+                    {"firefox", "-new-tab", uri.toString()}
+            };
+        }
+
+        for (final String[] command : commands) {
+            try {
+                try (Process process = new ProcessBuilder(command)
+                        .redirectErrorStream(true)
+                        .start()) {
+                    process.pid();
+                }
+                
+                return true;
+            }
+            catch (final IOException _) {
+                // Try the next browser/launcher.
+            }
+        }
+
+        return false;
     }
 
     @Resource
     private PropertyResolver propertyResolver;
 
     @Override
-    public void run(final @NonNull ApplicationArguments args) throws Exception {
-        LOGGER.info("open browser");
+    public void run(final @NonNull ApplicationArguments args) {
+        if (Boolean.FALSE.equals(propertyResolver.getProperty("app.open-browser.enabled", boolean.class, true))) {
+            LOGGER.debug("Opening a browser is disabled");
+            return;
+        }
 
         final boolean sslEnabled = Optional.ofNullable(propertyResolver.getProperty("server.ssl.enabled", boolean.class)).orElse(false);
         final String host = Optional.ofNullable(propertyResolver.getProperty("server.address")).orElse("localhost");
         final int port = Optional.ofNullable(propertyResolver.getProperty("local.server.port", int.class))
                 .orElse(propertyResolver.getProperty("server.port", int.class, 0));
         final String contextPath = Optional.ofNullable(propertyResolver.getProperty("server.servlet.context-path")).orElse("");
+        final URI uri = URI.create("%s://%s:%d%s/demo.xhtml".formatted(sslEnabled ? "https" : "http", host, port, contextPath));
 
-        // final String url = "%s://%s:%d%s/static/index.html".formatted(sslEnabled ? "https" : "http", host, port, contextPath);
-        final String url = "%s://%s:%d%s/demo.xhtml".formatted(sslEnabled ? "https" : "http", host, port, contextPath);
+        LOGGER.info("Opening browser URL: {}", uri);
 
-        final URI uri = URI.create(url);
-
-        try {
-            openLinuxChrome(uri.toString());
-        }
-        catch (Exception _) {
-            // Restore interrupted state.
-            Thread.currentThread().interrupt();
-
-            try {
-
-                openLinuxChromium(uri.toString());
-            }
-            catch (Exception _) {
-                // Restore interrupted state.
-                Thread.currentThread().interrupt();
-
-                try {
-                    openLinuxFirefox(uri.toString());
-                }
-                catch (Exception _) {
-                    // Restore interrupted state.
-                    Thread.currentThread().interrupt();
-
-                    try {
-                        openWindowsFirefox(uri.toString());
-                    }
-                    catch (Exception _) {
-                        // Restore interrupted state.
-                        Thread.currentThread().interrupt();
-                        
-                        // System-Default
-                        Desktop.getDesktop().browse(uri);
-                    }
-                }
-            }
+        if (!openWithProcess(uri)) {
+            openWithDesktop(uri);
         }
     }
 }

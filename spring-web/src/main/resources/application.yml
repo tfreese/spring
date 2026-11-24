@@ -4,6 +4,10 @@
 # ===================================================================
 debug: false
 
+app:
+    open-browser:
+        enabled: true
+
 logging:
     # config: classpath:logback.xml
     # file:
