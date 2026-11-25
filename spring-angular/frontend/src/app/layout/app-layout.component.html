@@ -1,0 +1,40 @@
+<a class="skip-link" href="#main-content">Zum Inhalt springen</a>
+
+<header aria-label="Seitenkopf" class="site-header">
+    <div class="shell header-inner">
+        <h1>Spring Boot + Angular Task-Demo</h1>
+
+        <button
+                (click)="toggleTheme()"
+                [attr.aria-checked]="isDarkTheme"
+                [attr.aria-label]="themeAriaLabel"
+                class="theme-toggle"
+                role="switch"
+                type="button"
+        >
+      <span aria-hidden="true" class="theme-toggle-track">
+        <span [class.active]="!isDarkTheme" class="theme-icon sun">☀️</span>
+        <span [class.active]="isDarkTheme" class="theme-icon moon">🌙</span>
+        <span [class.is-dark]="isDarkTheme" class="theme-toggle-thumb"></span>
+      </span>
+        </button>
+    </div>
+</header>
+
+<div aria-label="Kontextleiste" class="top-bar" role="region">
+    <div class="shell">
+        <p>Aufgaben verwalten</p>
+    </div>
+</div>
+
+<main aria-label="Seiteninhalt" class="site-main" id="main-content" tabindex="-1">
+    <div class="shell">
+        <router-outlet></router-outlet>
+    </div>
+</main>
+
+<footer aria-label="Seitenfuss" class="site-footer">
+    <div class="shell">
+        <small>Footer</small>
+    </div>
+</footer>

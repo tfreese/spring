@@ -1,0 +1,22 @@
+/* Dark Theme Tokens (Darcula) */
+:root[data-theme='dark'] {
+    color-scheme: dark;
+
+    --color-bg-page: #2b2b2b;
+    --color-bg-surface: #3c3f41;
+    --color-bg-muted: #313335;
+    --color-text: #a9b7c6;
+    --color-text-muted: #909ba7;
+    --color-border: #4e5254;
+    --color-input-border: #606366;
+    --color-primary: #4a88c7;
+    --color-primary-hover: #5d9ad8;
+    --color-on-primary: #f5f7fa;
+    --color-focus: #f7c84b;
+    --color-danger: #d25252;
+    --color-danger-hover: #e46a6a;
+    --color-success: #74c17b;
+
+    --shadow-sm: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+

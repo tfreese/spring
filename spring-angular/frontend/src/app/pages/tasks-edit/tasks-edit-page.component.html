@@ -1,0 +1,42 @@
+<section aria-labelledby="edit-heading" class="panel">
+    <p><a routerLink="/">Zurück zur Task-Seite</a></p>
+    <h2 id="edit-heading">Task bearbeiten</h2>
+
+    @if (error(); as message) {
+        <p class="state error" role="alert">{{ message }}</p>
+    }
+
+    @if (success(); as message) {
+        <output aria-live="polite" class="state success">{{ message }}</output>
+    }
+
+    @if (loading()) {
+        <p aria-live="polite" class="state">Lade Task...</p>
+    } @else {
+        <form (ngSubmit)="save()" class="edit-form">
+            <label for="taskTitle">Titel</label>
+            <input
+                    (ngModelChange)="title.set($event)"
+                    [disabled]="saving()"
+                    [ngModel]="title()"
+                    id="taskTitle"
+                    maxlength="60"
+                    name="taskTitle"
+                    required
+                    type="text"
+            />
+
+            @if (createdAt(); as created) {
+                <p class="meta">Erstellt: {{ formatCreatedAt(created) }}</p>
+            }
+
+            <div class="actions">
+                <button [disabled]="saving()" type="submit">
+                    {{ saving() ? 'Speichern...' : 'Speichern' }}
+                </button>
+                <a routerLink="/">Abbrechen</a>
+            </div>
+        </form>
+    }
+</section>
+

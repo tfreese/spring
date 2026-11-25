@@ -1,0 +1,70 @@
+plugins {
+    id("base")
+    id("com.github.node-gradle.node").version("$version_nodeGradlePlugin")
+}
+
+node {
+    download = true
+    version = property("version_node")
+    npmVersion = property("version_npm")
+    nodeProjectDir = layout.projectDirectory
+}
+
+clean {
+    delete(".angular")
+    delete(".gradle")
+    delete("dist")
+    delete("node_modules")
+    delete("package-lock.json")
+    delete("tsconfig.tsbuildinfo")
+}
+
+// Nutzt npm ci, sobald package-lock.json eingecheckt wurde; sonst npm install.
+tasks.register("npmDependencies", NpmTask) {
+    group = "MyTasks"
+    description = "Installs the npm dependencies for the Vite frontend"
+
+    dependsOn(npmSetup)
+
+    def lockFile = layout.projectDirectory.file("package-lock.json")
+    args = lockFile.asFile.exists() ? ["ci"] : ["install"]
+
+    inputs.file("package.json")
+
+    if (lockFile.asFile.exists()) {
+        inputs.file(lockFile)
+    }
+
+    outputs.dir("node_modules")
+}
+
+tasks.register("npmBuild", NpmTask) {
+    group = "MyTasks"
+    description = "Builds the Angular frontend"
+
+    dependsOn(npmDependencies)
+
+    args = ["run", "build"]
+
+    inputs.files("package.json", "angular.json", "tsconfig.json", "tsconfig.app.json", "src/index.html")
+    inputs.dir("src")
+    outputs.dir("dist")
+}
+
+tasks.register("npmDev", NpmTask) {
+    group = "MyTasks"
+    description = "Starts Angular dev server"
+
+    dependsOn(npmDependencies)
+
+    args = ["run", "start"]
+}
+
+tasks.named("build") {
+    dependsOn(tasks.named("npmBuild"))
+}
+
+tasks.named("clean", Delete) {
+    delete("dist", "node_modules")
+}
+

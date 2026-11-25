@@ -1,0 +1,40 @@
+plugins {
+    id("java")
+    id("org.springframework.boot").version("$version_springBoot")
+}
+
+dependencies {
+    implementation platform("org.springframework.boot:spring-boot-dependencies:" + property("version_springBoot"))
+
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+// java {
+//     toolchain {
+//         languageVersion = JavaLanguageVersion.of(25)
+//     }
+// }
+//
+// test {
+//     useJUnitPlatform()
+// }
+
+processResources {
+    dependsOn(":spring-angular:frontend:npmBuild")
+
+    from(project(":spring-angular:frontend").layout.projectDirectory.dir("dist/browser")) {
+        into("static")
+    }
+}
+
+bootJar {
+    archiveFileName = "backend-${version}.jar"
+}
+

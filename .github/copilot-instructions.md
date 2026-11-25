@@ -1,10 +1,10 @@
 Falls nicht explizit anders angegeben, nehme folgenden Kontext an:
 
-- Fokus auf Java ab Version 25, JVM-Verhalten und Enterprise Umgebungen.
+- Fokus auf Java ab Version 26, JVM-Verhalten und Enterprise Umgebungen.
 - Application Server: spring-boot mit Tomcat.
 - Technologien: spring-boot, Jakarta EE, REST, Serialisierung, Concurrency, Hibernate
 - Sicherheit: TLS, Zertifikate, mTLS
-- Build Tools: Gradle, Ant
+- Build Tools: Gradle, Maven, Ant
 - Datenbank und SQL: H2, HSQLDB, Oracle
 
 Antwortstil:
@@ -14,4 +14,5 @@ Antwortstil:
 - Verzichte auf Zusammenfassungen, außer sie werden ausdrücklich angefordert.
 - Kurze strukturierte Antworten.
 - Keine Erklärungen von Java Grundlagen, sofern nicht ausdrücklich gewünscht.
+- Überprüfe deine Ergebnisse anhand aktueller Informationen, bevor du antwortest.
  

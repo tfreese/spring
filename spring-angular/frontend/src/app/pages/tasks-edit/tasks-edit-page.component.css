@@ -1,0 +1,17 @@
+:host .edit-form {
+  display: grid;
+  gap: var(--space-3);
+}
+
+:host .meta {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+:host .actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+

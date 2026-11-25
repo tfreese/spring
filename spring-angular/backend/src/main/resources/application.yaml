@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: spring-boot-angular
+
+server:
+  port: 8080
+

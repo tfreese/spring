@@ -1,0 +1,130 @@
+:host .tasks-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+:host .tasks-table .col-id {
+  width: 14.2857%;
+}
+
+:host .tasks-table .col-title {
+  width: 42.8571%;
+}
+
+:host .tasks-table .col-created {
+  width: 28.5714%;
+}
+
+:host .tasks-table .col-actions {
+  width: 14.2857%;
+}
+
+:host .tasks-table th,
+:host .tasks-table td {
+  text-align: left;
+  vertical-align: middle;
+}
+
+:host .tasks-table .sort-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+:host .tasks-table .sort-button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+:host .tasks-table .sort-indicator {
+  font-size: 0.8em;
+}
+
+:host .tasks-table .filters-row th {
+  padding-top: 0.35rem;
+}
+
+:host .tasks-table .column-filter {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+:host .tasks-table .filter-input-wrap {
+  position: relative;
+}
+
+:host .tasks-table .filter-input-wrap .column-filter {
+  padding-right: 1.5rem;
+}
+
+:host .tasks-table .filter-clear-button {
+  position: absolute;
+  right: 0.3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  line-height: 1;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+:host .tasks-table .filter-clear-button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 0.2rem;
+}
+
+:host .tasks-table .column-filter:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+:host .tasks-table .col-actions {
+  white-space: nowrap;
+}
+
+:host .tasks-table th.col-actions {
+  text-align: center;
+}
+
+:host .tasks-table td.col-actions {
+  text-align: right;
+}
+
+:host .actions-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+:host .icon-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  border-radius: 0.25rem;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+:host .icon-action:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}

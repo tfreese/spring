@@ -1,0 +1,7 @@
+plugins {
+    id("base")
+}
+
+tasks.named("clean") {
+    dependsOn(subprojects.collect { it.tasks.named("clean") })
+}

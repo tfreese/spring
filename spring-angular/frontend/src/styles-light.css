@@ -1,0 +1,22 @@
+/* Light Theme Tokens */
+:root {
+    color-scheme: light;
+
+    --color-bg-page: #f5f7fb;
+    --color-bg-surface: #ffffff;
+    --color-bg-muted: #eaf0fa;
+    --color-text: #0a2342;
+    --color-text-muted: #2f4e77;
+    --color-border: #d6dfec;
+    --color-input-border: #7184a5;
+    --color-primary: #1758b5;
+    --color-primary-hover: #134a9a;
+    --color-on-primary: #ffffff;
+    --color-focus: #f6b300;
+    --color-danger: #8f1111;
+    --color-danger-hover: #741010;
+    --color-success: #0f6a2d;
+
+    --shadow-sm: 0 4px 20px rgba(17, 42, 79, 0.08);
+}
+

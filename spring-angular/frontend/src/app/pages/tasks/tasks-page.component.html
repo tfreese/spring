@@ -1,0 +1,185 @@
+<p class="description">Das Angular-Frontend wird im Build ins Spring-Boot-JAR integriert und direkt vom Backend ausgeliefert.</p>
+
+<section class="panel" aria-labelledby="create-heading">
+  <h2 id="create-heading">Task anlegen</h2>
+
+  <form class="row" (ngSubmit)="createTask()">
+    <label class="sr-only" for="taskTitle">Titel</label>
+    <input
+      id="taskTitle"
+      name="taskTitle"
+      [ngModel]="title()"
+      (ngModelChange)="title.set($event)"
+      type="text"
+      maxlength="60"
+      placeholder="Neuer Task"
+      [disabled]="saving()"
+    />
+    <button type="submit" [disabled]="saving()">
+      {{ saving() ? 'Speichern...' : 'Anlegen' }}
+    </button>
+  </form>
+</section>
+
+<section class="panel" aria-labelledby="list-heading">
+  <div class="header-row">
+    <h2 id="list-heading">Tasks</h2>
+    <button type="button" (click)="reload()" [disabled]="loading()">
+      {{ loading() ? 'Lädt...' : 'Neu laden' }}
+    </button>
+  </div>
+
+  @if (error(); as message) {
+    <p class="state error" role="alert">{{ message }}</p>
+  }
+
+  @if (success(); as message) {
+    <p class="state success" role="status">{{ message }}</p>
+  }
+
+  @if (loading()) {
+    <p class="state" aria-live="polite">Lade Tasks...</p>
+  } @else if (tasks().length === 0) {
+    <p class="state" aria-live="polite">Keine Tasks vorhanden.</p>
+  } @else {
+    <table class="tasks-table">
+      <colgroup>
+        <col class="col-id" />
+        <col class="col-title" />
+        <col class="col-created" />
+        <col class="col-actions" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th scope="col" class="col-id" [attr.aria-sort]="ariaSortFor('id')">
+            <button type="button" class="sort-button" (click)="toggleSort('id')">
+              <span>ID</span>
+              <span class="sort-indicator" aria-hidden="true">{{ sortIndicatorFor('id') }}</span>
+            </button>
+          </th>
+          <th scope="col" class="col-title" [attr.aria-sort]="ariaSortFor('title')">
+            <button type="button" class="sort-button" (click)="toggleSort('title')">
+              <span>Titel</span>
+              <span class="sort-indicator" aria-hidden="true">{{ sortIndicatorFor('title') }}</span>
+            </button>
+          </th>
+          <th scope="col" class="col-created" [attr.aria-sort]="ariaSortFor('createdAt')">
+            <button type="button" class="sort-button" (click)="toggleSort('createdAt')">
+              <span>Erstellt</span>
+              <span class="sort-indicator" aria-hidden="true">{{ sortIndicatorFor('createdAt') }}</span>
+            </button>
+          </th>
+          <th scope="col" class="col-actions">Aktionen</th>
+        </tr>
+        <tr class="filters-row">
+          <th scope="col" class="col-id">
+            <label class="sr-only" for="idFilter">Nach ID filtern</label>
+            <div class="filter-input-wrap">
+              <input
+                #idFilterInput
+                id="idFilter"
+                name="idFilter"
+                type="text"
+                class="column-filter"
+                [ngModel]="filters().id"
+                (ngModelChange)="setFilter('id', $event)"
+                placeholder="Filter ID"
+                aria-label="Filter für ID"
+              />
+              @if (filters().id) {
+                <button
+                  type="button"
+                  class="filter-clear-button"
+                  aria-label="ID-Filter leeren"
+                  (click)="clearFilter('id', idFilterInput)"
+                >×</button>
+              }
+            </div>
+          </th>
+          <th scope="col" class="col-title">
+            <label class="sr-only" for="titleFilter">Nach Titel filtern</label>
+            <div class="filter-input-wrap">
+              <input
+                #titleFilterInput
+                id="titleFilter"
+                name="titleFilter"
+                type="text"
+                class="column-filter"
+                [ngModel]="filters().title"
+                (ngModelChange)="setFilter('title', $event)"
+                placeholder="Filter Titel"
+                aria-label="Filter für Titel"
+              />
+              @if (filters().title) {
+                <button
+                  type="button"
+                  class="filter-clear-button"
+                  aria-label="Titel-Filter leeren"
+                  (click)="clearFilter('title', titleFilterInput)"
+                >×</button>
+              }
+            </div>
+          </th>
+          <th scope="col" class="col-created">
+            <label class="sr-only" for="createdAtFilter">Nach Erstelldatum filtern</label>
+            <div class="filter-input-wrap">
+              <input
+                #createdAtFilterInput
+                id="createdAtFilter"
+                name="createdAtFilter"
+                type="text"
+                class="column-filter"
+                [ngModel]="filters().createdAt"
+                (ngModelChange)="setFilter('createdAt', $event)"
+                placeholder="Filter Erstellt"
+                aria-label="Filter für Erstellt"
+              />
+              @if (filters().createdAt) {
+                <button
+                  type="button"
+                  class="filter-clear-button"
+                  aria-label="Erstellt-Filter leeren"
+                  (click)="clearFilter('createdAt', createdAtFilterInput)"
+                >×</button>
+              }
+            </div>
+          </th>
+          <th scope="col" class="col-actions" aria-label="Keine Filter für Aktionen"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (visibleTasks().length === 0) {
+          <tr>
+            <td class="state" colspan="4" aria-live="polite">Keine Tasks passen zu den aktiven Filtern.</td>
+          </tr>
+        } @else {
+          @for (task of visibleTasks(); track task.id) {
+            <tr>
+              <td class="col-id">{{ task.id }}</td>
+              <td class="col-title"><strong>{{ task.title }}</strong></td>
+              <td class="col-created"><span class="date">{{ formatCreatedAt(task.createdAt) }}</span></td>
+              <td class="col-actions">
+                <div class="actions-group">
+                  <a
+                    class="icon-action"
+                    [routerLink]="['/tasks', task.id, 'edit']"
+                    title="Bearbeiten"
+                    [attr.aria-label]="'Task ' + task.title + ' bearbeiten'"
+                  ><span aria-hidden="true">✏️</span></a>
+                  <button
+                    type="button"
+                    class="icon-action danger"
+                    (click)="deleteTask(task.id)"
+                    title="Löschen"
+                    [attr.aria-label]="'Task ' + task.title + ' löschen'"
+                  ><span aria-hidden="true">🗑️</span></button>
+                </div>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  }
+</section>
+

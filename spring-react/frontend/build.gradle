@@ -11,6 +11,7 @@ node {
 }
 
 clean {
+    delete(".gradle")
     delete("node_modules")
     delete("dist")
     delete("package-lock.json")

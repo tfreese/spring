@@ -1,0 +1,21 @@
+projectGroup = de.spring.angular
+projectVersion = 0.0.1-SNAPSHOT
+
+org.gradle.configuration-cache = true
+org.gradle.jvmargs = -Xms1024m -Xmx2048m -Djava.security.egd=file:/dev/./urandom -Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 --sun-misc-unsafe-memory-access=allow --enable-native-access=ALL-UNNAMED
+file.encoding = UTF-8
+org.gradle.warning.mode = all
+
+# https://nodejs.org/dist/index.json
+version_node = 26.11.1
+
+# https://github.com/node-gradle/gradle-node-plugin
+# https://plugins.gradle.org/plugin/com.github.node-gradle.node
+version_nodeGradlePlugin = 7.1.0
+
+# https://registry.npmjs.org/npm
+version_npm = 12.2.2
+
+#G:A org.springframework.boot:spring-boot-dependencies
+version_springBoot = 4.2.0
+
