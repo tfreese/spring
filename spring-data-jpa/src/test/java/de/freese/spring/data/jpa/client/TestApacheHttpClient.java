@@ -71,7 +71,7 @@ class TestApacheHttpClient extends AbstractClientTest {
                 return null;
             });
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
@@ -102,7 +102,7 @@ class TestApacheHttpClient extends AbstractClientTest {
                 return null;
             });
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
@@ -133,7 +133,7 @@ class TestApacheHttpClient extends AbstractClientTest {
                 return null;
             });
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
@@ -150,12 +150,16 @@ class TestApacheHttpClient extends AbstractClientTest {
             httpClient.execute(httpRequest, response -> {
                 assertEquals(HttpStatus.SC_NOT_FOUND, response.getCode());
                 assertEquals("", response.getReasonPhrase());
-                assertTrue(EntityUtils.toString(response.getEntity()).contains("Todo not found by ID:"));
+
+                final String entityString = EntityUtils.toString(response.getEntity());
+
+                assertTrue(entityString.contains("Todo with ID"));
+                assertTrue(entityString.contains("not found."));
 
                 return null;
             });
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
@@ -208,7 +212,7 @@ class TestApacheHttpClient extends AbstractClientTest {
                 return null;
             });
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }

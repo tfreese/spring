@@ -141,7 +141,7 @@ class TestWebTestClient extends AbstractClientTest {
                 .expectBody(String.class).value(value -> {
                     getLogger().info(value);
                     assertNotNull(value);
-                    assertTrue(value.contains("Todo not found by ID:"));
+                    assertTrue(value.contains("Resource not found"));
                 })
         ;
     }
@@ -177,7 +177,7 @@ class TestWebTestClient extends AbstractClientTest {
                         assertEquals("From Server: Hello World", message);
                         getLogger().info(message);
                     }
-                    catch (IOException ex) {
+                    catch (final IOException ex) {
                         throw new UncheckedIOException(ex);
                     }
                 })

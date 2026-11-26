@@ -12,7 +12,6 @@ import de.spring.angular.model.UpdateTaskRequest;
 import de.spring.angular.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,12 +58,7 @@ public class TaskController {
     public ResponseEntity<List<Task>> findAll() {
         LOGGER.info("Received request to find all tasks");
 
-        try {
-            return ResponseEntity.ok(taskService.findAll());
-        } catch (final Exception ex) {
-            LOGGER.error(ex.getMessage(), ex);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        return ResponseEntity.ok(taskService.findAll());
     }
 
     @GetMapping("/{id}")

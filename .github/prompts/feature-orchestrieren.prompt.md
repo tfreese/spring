@@ -4,7 +4,8 @@ description: Startet einen strukturierten Multi-Agenten-Workflow fuer ein Featur
 #agent: Software-Orchestrator
 ---
 
-Verwende den Agenten `Software-Orchestrator` als koordinierende Instanz fuer diese Aufgabe. Waehle ihn in Copilot Chat als aktiven Agenten aus, bevor du diesen Prompt ausfuehrst.
+Verwende den Agenten `Software-Orchestrator` als koordinierende Instanz fuer diese Aufgabe.
+Waehle ihn in Copilot Chat als aktiven Agenten aus, bevor du diesen Prompt ausfuehrst.
 Dieser Prompt allein wechselt den aktiven Agenten nicht.
 
 Bearbeite die folgende Anforderung als koordinierter Softwareentwicklungsprozess:

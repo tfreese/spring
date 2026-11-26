@@ -127,7 +127,10 @@ class TestTodoClient extends AbstractClientTest {
         getLogger().error(exception.getResponseBodyAsString());
 
         assertEquals(HttpStatus.NOT_FOUND.value(), exception.getStatusCode().value());
-        assertTrue(exception.getResponseBodyAsString().contains("Todo not found by ID:"));
+
+        final String entityString = exception.getResponseBodyAsString();
+
+        assertTrue(entityString.contains("Resource not found"));
     }
 
     @Test
@@ -158,7 +161,7 @@ class TestTodoClient extends AbstractClientTest {
                 getLogger().info(message);
             }
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }

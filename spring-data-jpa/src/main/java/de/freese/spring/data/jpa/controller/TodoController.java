@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +30,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 import tools.jackson.databind.json.JsonMapper;
 
 import de.freese.spring.data.jpa.domain.Todo;
-import de.freese.spring.data.jpa.exception.RestExceptionHandler;
+import de.freese.spring.data.jpa.exception.GlobalExceptionHandler;
 import de.freese.spring.data.jpa.infrastructure.TodoService;
 
 /**
@@ -74,20 +73,11 @@ public class TodoController {
 
     @GetMapping(path = "/exception", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getExceptionWithoutRestExceptionHandler() {
-        try {
-            throw new RuntimeException("something went wrong");
-        }
-        catch (final Exception ex) {
-            LOGGER.error(ex.getMessage(), ex);
-
-            final ProblemDetail problemDetail = RestExceptionHandler.createProblemDetail(ex, HttpStatus.INTERNAL_SERVER_ERROR, jsonMapper);
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);
-        }
+        throw new RuntimeException("something went wrong");
     }
 
     /**
-     * Handled by {@link RestExceptionHandler}.
+     * Handled by {@link GlobalExceptionHandler}.
      */
     @GetMapping(path = "/problemDetail", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getProblemDetail() {

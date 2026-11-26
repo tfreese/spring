@@ -14,7 +14,7 @@ public final class ObjectNotFoundException extends RuntimeException {
     }
 
     public ObjectNotFoundException(final String className, final long id) {
-        super(className + " mit ID " + id + " nicht gefunden.");
+        super(className + " with ID " + id + " not found.");
 
         this.className = className;
         this.id = id;

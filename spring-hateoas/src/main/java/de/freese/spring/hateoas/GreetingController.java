@@ -5,7 +5,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +27,7 @@ public class GreetingController {
     private static final String TEMPLATE = "Hello, %s!";
 
     @GetMapping
-    public HttpEntity<GreetingRepresentationModel> greeting(@RequestParam(value = "name", required = false, defaultValue = "World") final String name) {
+    public ResponseEntity<GreetingRepresentationModel> greeting(@RequestParam(value = "name", required = false, defaultValue = "World") final String name) {
         final String message = String.format(TEMPLATE, name);
 
         final GreetingRepresentationModel greetingRepresentationModel = new GreetingRepresentationModel(message);
@@ -43,12 +42,12 @@ public class GreetingController {
     }
 
     @GetMapping("/fail")
-    public HttpEntity<EntityModel<GreetingPojo>> greetingFail() {
+    public ResponseEntity<EntityModel<GreetingPojo>> greetingFail() {
         throw new GreetingException("failed greet");
     }
 
     @GetMapping("/path/{name}")
-    public HttpEntity<EntityModel<GreetingPojo>> greetingPath(@PathVariable(value = "name") final String name) {
+    public ResponseEntity<EntityModel<GreetingPojo>> greetingPath(@PathVariable(value = "name") final String name) {
         final String message = String.format(TEMPLATE, name);
 
         final GreetingPojo pojo = new GreetingPojo(message);
@@ -62,7 +61,7 @@ public class GreetingController {
     }
 
     @GetMapping("/pojo")
-    public HttpEntity<EntityModel<GreetingPojo>> greetingPojo(@RequestParam(value = "name", required = false, defaultValue = "World") final String name) {
+    public ResponseEntity<EntityModel<GreetingPojo>> greetingPojo(@RequestParam(value = "name", required = false, defaultValue = "World") final String name) {
         final String message = String.format(TEMPLATE, name);
 
         final GreetingPojo pojo = new GreetingPojo(message);
@@ -77,9 +76,9 @@ public class GreetingController {
     }
 
     @GetMapping("/simple")
-    public GreetingPojo greetingSimple(@RequestParam(value = "name", required = false, defaultValue = "World") final String name) {
+    public ResponseEntity<GreetingPojo> greetingSimple(@RequestParam(value = "name", required = false, defaultValue = "World") final String name) {
         final String message = String.format(TEMPLATE, name);
 
-        return new GreetingPojo(message);
+        return ResponseEntity.ok(new GreetingPojo(message));
     }
 }
