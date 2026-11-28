@@ -80,20 +80,18 @@ sourceSets {
 }
 
 tasks.named<ProcessResources>("processResources") {
-    val map = mapOf(
-        "@project_description@" to (project.description ?: ""),
-        "@project_artifactId@" to project.name,
-        "@project_version@" to project.version.toString()
-    )
+    val projectDescription = project.description ?: ""
+    val projectArtifactId = project.name
+    val projectVersion = project.version.toString()
 
     filteringCharset = "UTF-8"
 
-    filesMatching("application.yml") {
+    filesMatching(listOf("application*.yml", "application*.yaml", "application*.properties", "bootstrap.yml")) {
         filter { line: String ->
             line
-                .replace("@project_description@", map.getValue("@project_description@"))
-                .replace("@project_artifactId@", map.getValue("@project_artifactId@"))
-                .replace("@project_version@", map.getValue("@project_version@"))
+                .replace("@project_description@", projectDescription)
+                .replace("@project_artifactId@", projectArtifactId)
+                .replace("@project_version@", projectVersion)
         }
     }
 }

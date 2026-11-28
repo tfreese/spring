@@ -9,9 +9,9 @@ debug: false
 
 info:
     app:
-        name: ${project_artifactId}
-        description: ${project_description}
-        version: ${project_version}
+        name: @{ project_artifactId }
+        description: @{ project_description }
+        version: @{ project_version }
 
 my:
     variable: child2Value

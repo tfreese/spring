@@ -15,13 +15,18 @@ dependencies {
 }
 
 tasks.named<ProcessResources>("processResources") {
-    val map = mapOf(
-        "project_description" to (description ?: ""), "project_artifactId" to name, "project_version" to version.toString()
-    )
+    val projectDescription = project.description ?: ""
+    val projectArtifactId = project.name
+    val projectVersion = project.version.toString()
 
-    filesMatching("application.yml") {
-        filter(
-            mapOf("tokens" to map), org.apache.tools.ant.filters.ReplaceTokens::class.java
-        )
+    filteringCharset = "UTF-8"
+
+    filesMatching(listOf("application*.yml", "application*.yaml", "application*.properties", "bootstrap.yml")) {
+        filter { line: String ->
+            line
+                .replace("@project_description@", projectDescription)
+                .replace("@project_artifactId@", projectArtifactId)
+                .replace("@project_version@", projectVersion)
+        }
     }
 }
